@@ -1,0 +1,37 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(powershell -ExecutionPolicy Bypass -File \".specify/scripts/powershell/setup-plan.ps1\" -Json)",
+      "Bash(powershell -ExecutionPolicy Bypass -File \".specify/scripts/powershell/check-prerequisites.ps1\" -Json)",
+      "Bash(find:*)",
+      "Bash(powershell:*)",
+      "Bash(npm test:*)",
+      "Bash(npx vitest:*)",
+      "Bash(npm install:*)",
+      "Bash(node:*)",
+      "Bash(npm ls:*)",
+      "Bash(npm --version:*)",
+      "Bash(pwsh:*)",
+      "Bash(tree:*)",
+      "Bash(for file in src/hooks/*.ts)",
+      "Bash(done)",
+      "Bash(for file in src/types/*.ts)",
+      "Bash(for file in src/contexts/*.tsx)",
+      "Bash(for file in src/lib/*.ts)",
+      "Bash(for file in src/examples/*.tsx src/data/*.ts src/mocks/*.ts)",
+      "Bash(do if [ -f \"$file\" ])",
+      "Bash(fi:*)",
+      "Bash(npm run lint)",
+      "Bash(npm run build:dev:*)",
+      "Bash(npx next:*)",
+      "Bash(echo:*)",
+      "Bash(xargs:*)",
+      "Bash(ls:*)",
+      "Bash(npm run docker:dev:*)",
+      "Bash(docker run:*)",
+      "Bash(docker-compose up:*)",
+      "Bash(docker-compose:*)",
+      "Bash(docker ps:*)"
+    ]
+  }
+}

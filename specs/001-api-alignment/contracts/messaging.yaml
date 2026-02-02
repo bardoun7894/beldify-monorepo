@@ -1,0 +1,186 @@
+openapi: "3.0.3"
+info:
+  title: Messaging API Contracts (Frontend Proxy → Backend)
+  version: "1.0.0"
+  description: |
+    Defines the correct backend endpoints that frontend proxy routes must target.
+    Three domains: buyer, seller (frontend), community.
+
+paths:
+  # === BUYER MESSAGING ===
+  /api/v1/buyer/messages/shops:
+    get:
+      operationId: buyerListConversations
+      summary: List buyer conversations (shops)
+      tags: [Buyer Messaging]
+      security: [{bearerAuth: []}]
+      responses:
+        "200":
+          description: List of shop conversations
+
+  /api/v1/buyer/messages/shops/{shopId}:
+    get:
+      operationId: buyerGetConversation
+      summary: Get messages for a specific shop
+      tags: [Buyer Messaging]
+      security: [{bearerAuth: []}]
+      parameters:
+        - name: shopId
+          in: path
+          required: true
+          schema: {type: integer}
+      responses:
+        "200":
+          description: Conversation messages
+
+  /api/v1/buyer/messages/send:
+    post:
+      operationId: buyerSendMessage
+      summary: Send a buyer message
+      tags: [Buyer Messaging]
+      security: [{bearerAuth: []}]
+      responses:
+        "200":
+          description: Message sent
+
+  /api/v1/buyer/messages/unread-count:
+    get:
+      operationId: buyerUnreadCount
+      summary: Get buyer unread message count
+      tags: [Buyer Messaging]
+      security: [{bearerAuth: []}]
+      responses:
+        "200":
+          description: Unread count
+
+  # === SELLER MESSAGING (frontend namespace) ===
+  /api/v1/frontend/messages/conversations:
+    get:
+      operationId: sellerListConversations
+      summary: List seller conversations
+      tags: [Seller Messaging]
+      security: [{bearerAuth: []}]
+      responses:
+        "200":
+          description: List of conversations
+
+  /api/v1/frontend/messages/conversations/{shopId}:
+    get:
+      operationId: sellerGetConversation
+      summary: Get seller conversation by shop
+      tags: [Seller Messaging]
+      security: [{bearerAuth: []}]
+      parameters:
+        - name: shopId
+          in: path
+          required: true
+          schema: {type: integer}
+      responses:
+        "200":
+          description: Conversation messages
+
+  /api/v1/frontend/messages/send:
+    post:
+      operationId: sellerSendMessage
+      summary: Send a seller message
+      tags: [Seller Messaging]
+      security: [{bearerAuth: []}]
+      responses:
+        "200":
+          description: Message sent
+
+  /api/v1/frontend/messages/mark-read/{messageId}:
+    put:
+      operationId: markMessageRead
+      summary: Mark a specific message as read
+      tags: [Seller Messaging, Buyer Messaging]
+      security: [{bearerAuth: []}]
+      parameters:
+        - name: messageId
+          in: path
+          required: true
+          schema: {type: integer}
+      responses:
+        "200":
+          description: Message marked as read
+
+  /api/v1/frontend/messages/unread-count:
+    get:
+      operationId: sellerUnreadCount
+      summary: Get seller unread message count
+      tags: [Seller Messaging]
+      security: [{bearerAuth: []}]
+      responses:
+        "200":
+          description: Unread count
+
+  # === COMMUNITY MESSAGING ===
+  /api/v1/community/messages/conversations:
+    get:
+      operationId: communityListConversations
+      summary: List community conversations
+      tags: [Community Messaging]
+      security: [{bearerAuth: []}]
+      responses:
+        "200":
+          description: List of conversations
+
+  /api/v1/community/messages/users/{userId}:
+    get:
+      operationId: communityGetUserMessages
+      summary: Get messages with a community user
+      tags: [Community Messaging]
+      security: [{bearerAuth: []}]
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema: {type: integer}
+      responses:
+        "200":
+          description: User messages
+    post:
+      operationId: communitySendToUser
+      summary: Send message to a community user
+      tags: [Community Messaging]
+      security: [{bearerAuth: []}]
+      responses:
+        "200":
+          description: Message sent
+
+  /api/v1/community/messages/users/{userId}/read:
+    post:
+      operationId: communityMarkUserRead
+      summary: Mark community user messages as read
+      tags: [Community Messaging]
+      security: [{bearerAuth: []}]
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema: {type: integer}
+      responses:
+        "200":
+          description: Messages marked read
+
+  /api/v1/community/messages/shops/{shopId}:
+    get:
+      operationId: communityGetShopMessages
+      summary: Get community messages for a shop
+      tags: [Community Messaging]
+      security: [{bearerAuth: []}]
+      parameters:
+        - name: shopId
+          in: path
+          required: true
+          schema: {type: integer}
+      responses:
+        "200":
+          description: Shop messages
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: Sanctum

@@ -1,0 +1,209 @@
+openapi: "3.0.3"
+info:
+  title: Auth, Reviews & Community API Contracts (Frontend Proxy → Backend)
+  version: "1.0.0"
+
+paths:
+  # === AUTH ===
+  /auth/login:
+    post:
+      operationId: login
+      summary: User login
+      tags: [Auth]
+      responses:
+        "200":
+          description: Login successful
+
+  /auth/register:
+    post:
+      operationId: register
+      summary: User registration
+      tags: [Auth]
+      responses:
+        "200":
+          description: Registration successful
+
+  /auth/logout:
+    post:
+      operationId: logout
+      summary: User logout
+      tags: [Auth]
+      security: [{bearerAuth: []}]
+      responses:
+        "200":
+          description: Logout successful
+
+  /user/profile:
+    get:
+      operationId: getProfile
+      summary: Get user profile
+      tags: [Auth]
+      security: [{bearerAuth: []}]
+      responses:
+        "200":
+          description: User profile data
+    post:
+      operationId: updateProfile
+      summary: Update user profile
+      tags: [Auth]
+      security: [{bearerAuth: []}]
+      responses:
+        "200":
+          description: Profile updated
+
+  # === REVIEWS ===
+  /api/products/{id}/reviews:
+    get:
+      operationId: getProductReviews
+      summary: Get reviews for a product
+      tags: [Reviews]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: {type: integer}
+      responses:
+        "200":
+          description: Product reviews
+
+  /api/products/reviews:
+    post:
+      operationId: submitReview
+      summary: Submit a product review
+      tags: [Reviews]
+      security: [{bearerAuth: []}]
+      responses:
+        "200":
+          description: Review submitted
+
+  /api/products/reviews/{reviewId}/reaction:
+    post:
+      operationId: reactToReview
+      summary: React to a review
+      tags: [Reviews]
+      security: [{bearerAuth: []}]
+      parameters:
+        - name: reviewId
+          in: path
+          required: true
+          schema: {type: integer}
+      responses:
+        "200":
+          description: Reaction recorded
+
+  # === COMMUNITY POSTS ===
+  /api/v1/community/posts:
+    get:
+      operationId: listPosts
+      summary: List community posts
+      tags: [Community]
+      responses:
+        "200":
+          description: List of posts
+    post:
+      operationId: createPost
+      summary: Create a community post
+      tags: [Community]
+      security: [{bearerAuth: []}]
+      responses:
+        "200":
+          description: Post created
+
+  /api/v1/community/posts/{post}:
+    get:
+      operationId: getPost
+      summary: Get a community post
+      tags: [Community]
+      parameters:
+        - name: post
+          in: path
+          required: true
+          schema: {type: integer}
+      responses:
+        "200":
+          description: Post details
+    put:
+      operationId: updatePost
+      summary: Update a community post
+      tags: [Community]
+      security: [{bearerAuth: []}]
+      parameters:
+        - name: post
+          in: path
+          required: true
+          schema: {type: integer}
+      responses:
+        "200":
+          description: Post updated
+    delete:
+      operationId: deletePost
+      summary: Delete a community post
+      tags: [Community]
+      security: [{bearerAuth: []}]
+      parameters:
+        - name: post
+          in: path
+          required: true
+          schema: {type: integer}
+      responses:
+        "200":
+          description: Post deleted
+
+  /api/v1/community/posts/{post}/responses:
+    get:
+      operationId: getPostResponses
+      summary: Get responses for a post
+      tags: [Community]
+      parameters:
+        - name: post
+          in: path
+          required: true
+          schema: {type: integer}
+      responses:
+        "200":
+          description: Post responses
+
+  /api/v1/community/posts/{post}/responses/{response}/accept:
+    post:
+      operationId: acceptResponse
+      summary: Accept a post response
+      tags: [Community]
+      security: [{bearerAuth: []}]
+      parameters:
+        - name: post
+          in: path
+          required: true
+          schema: {type: integer}
+        - name: response
+          in: path
+          required: true
+          schema: {type: integer}
+      responses:
+        "200":
+          description: Response accepted
+
+  /api/v1/community/posts/{post}/responses/{response}/reject:
+    post:
+      operationId: rejectResponse
+      summary: Reject a post response
+      tags: [Community]
+      security: [{bearerAuth: []}]
+      parameters:
+        - name: post
+          in: path
+          required: true
+          schema: {type: integer}
+        - name: response
+          in: path
+          required: true
+          schema: {type: integer}
+      responses:
+        "200":
+          description: Response rejected
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: Sanctum

@@ -1,0 +1,159 @@
+openapi: "3.0.3"
+info:
+  title: Cart & Wishlist API Contracts (Frontend Proxy → Backend)
+  version: "1.0.0"
+
+paths:
+  # === CART ===
+  /cart:
+    get:
+      operationId: getCart
+      summary: Get current cart
+      tags: [Cart]
+      security: [{bearerAuth: []}]
+      responses:
+        "200":
+          description: Cart contents
+    delete:
+      operationId: clearCart
+      summary: Clear entire cart
+      tags: [Cart]
+      security: [{bearerAuth: []}]
+      responses:
+        "200":
+          description: Cart cleared
+
+  /cart/items:
+    post:
+      operationId: addCartItem
+      summary: Add item to cart with stock and variant details
+      tags: [Cart]
+      security: [{bearerAuth: []}]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [product_id, quantity]
+              properties:
+                product_id:
+                  type: integer
+                quantity:
+                  type: integer
+                stock_id:
+                  type: integer
+                variant_id:
+                  type: integer
+      responses:
+        "200":
+          description: Item added
+
+  /cart/items/{id}:
+    put:
+      operationId: updateCartItem
+      summary: Update cart item quantity
+      tags: [Cart]
+      security: [{bearerAuth: []}]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: {type: integer}
+      responses:
+        "200":
+          description: Item updated
+    delete:
+      operationId: removeCartItem
+      summary: Remove item from cart
+      tags: [Cart]
+      security: [{bearerAuth: []}]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: {type: integer}
+      responses:
+        "200":
+          description: Item removed
+
+  /cart/apply-coupon:
+    post:
+      operationId: applyCoupon
+      summary: Apply coupon to cart
+      tags: [Cart]
+      security: [{bearerAuth: []}]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [coupon_code]
+              properties:
+                coupon_code:
+                  type: string
+      responses:
+        "200":
+          description: Coupon applied
+
+  /cart/remove-coupon:
+    post:
+      operationId: removeCoupon
+      summary: Remove coupon from cart
+      tags: [Cart]
+      security: [{bearerAuth: []}]
+      responses:
+        "200":
+          description: Coupon removed
+
+  # === WISHLIST ===
+  /wishlist:
+    get:
+      operationId: getWishlist
+      summary: Get wishlist items
+      tags: [Wishlist]
+      security: [{bearerAuth: []}]
+      responses:
+        "200":
+          description: Wishlist items
+    post:
+      operationId: addToWishlist
+      summary: Add product to wishlist
+      tags: [Wishlist]
+      security: [{bearerAuth: []}]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [product_id]
+              properties:
+                product_id:
+                  type: integer
+      responses:
+        "200":
+          description: Product added
+
+  /wishlist/{productId}:
+    delete:
+      operationId: removeFromWishlist
+      summary: Remove product from wishlist
+      tags: [Wishlist]
+      security: [{bearerAuth: []}]
+      parameters:
+        - name: productId
+          in: path
+          required: true
+          schema: {type: integer}
+      responses:
+        "200":
+          description: Product removed
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: Sanctum
