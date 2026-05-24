@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '@/contexts/AuthContext';
 import { useRouter } from 'next/navigation';
 import { useTranslation } from 'react-i18next';
-import { FiUser, FiLock, FiSettings, FiChevronRight, FiArrowLeft } from 'react-icons/fi';
+import { User, Lock, Settings } from 'lucide-react';
 import ProfileHeader from './components/ProfileHeader';
 import ProfileTabs from './components/ProfileTabs';
 import GeneralSettings from './components/GeneralSettings';
@@ -13,9 +13,9 @@ import SecuritySettings from './components/SecuritySettings';
 import PreferencesSettings from './components/PreferencesSettings';
 
 const tabIcons = {
-  general: <FiUser className="mr-2" />,
-  security: <FiLock className="mr-2" />,
-  preferences: <FiSettings className="mr-2" />
+  general: <User className="mr-2 h-5 w-5" />,
+  security: <Lock className="mr-2 h-5 w-5" />,
+  preferences: <Settings className="mr-2 h-5 w-5" />,
 };
 
 export default function ProfilePage() {
@@ -32,8 +32,8 @@ export default function ProfilePage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
-        <div className="flex flex-col items-center gap-4 p-8 bg-white rounded-2xl shadow-xl border border-gray-100">
+      <div className="min-h-screen flex items-center justify-center bg-amber-50">
+        <div className="flex flex-col items-center gap-4 p-8 bg-white rounded-2xl shadow-xl border border-amber-100">
           <div className="relative">
             <div className="w-16 h-16 rounded-full bg-indigo-100 p-1">
               <div className="w-full h-full bg-white rounded-full flex items-center justify-center">
@@ -65,29 +65,29 @@ export default function ProfilePage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-indigo-50 to-white py-8 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-amber-50 py-8 px-4 sm:px-6 lg:px-8">
       <div className="max-w-5xl mx-auto">
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
-          className="bg-white rounded-xl shadow-lg overflow-hidden border border-indigo-100"
+          className="bg-white rounded-2xl shadow-lg overflow-hidden border border-amber-100"
         >
-          {/* Gradient Header */}
-          <div className="h-1.5 bg-gradient-to-r from-indigo-500 to-amber-500 w-full"></div>
-          
+          {/* Atlas amber hairline accent */}
+          <div className="h-1 bg-amber-400 w-full" />
+
           <div className="p-6 sm:p-8">
             <ProfileHeader user={user} />
           </div>
 
           <div className="grid md:grid-cols-12">
             {/* Sidebar Tabs */}
-            <div className="md:col-span-3 bg-gradient-to-b from-indigo-50 to-white p-4 border-r border-indigo-100">
+            <div className="md:col-span-3 bg-amber-50 p-4 border-r border-amber-100">
               <ProfileTabs activeTab={activeTab} onTabChange={setActiveTab} />
             </div>
-            
+
             {/* Vertical Divider */}
-            <div className="hidden md:block w-px bg-gradient-to-b from-indigo-200 to-indigo-50"></div>
+            <div className="hidden md:block w-px bg-amber-100" />
 
             {/* Main Content */}
             <div className="md:col-span-8">
@@ -101,11 +101,16 @@ export default function ProfilePage() {
                   className="p-6 sm:p-8"
                 >
                   <div className="mb-8">
-                    <h2 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-indigo-800 flex items-center">
-                      <span className="text-indigo-600 mr-2">{tabIcons[activeTab as keyof typeof tabIcons]}</span>
+                    <h2
+                      className="text-2xl font-bold text-indigo-900 flex items-center"
+                      style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
+                    >
+                      <span className="text-indigo-700 mr-2">
+                        {tabIcons[activeTab as keyof typeof tabIcons]}
+                      </span>
                       {t(`tabs.${activeTab}`)}
                     </h2>
-                    <div className="mt-2 h-0.5 w-24 bg-gradient-to-r from-indigo-500 to-amber-500 rounded-full"></div>
+                    <div className="mt-2 h-0.5 w-16 bg-amber-400 rounded-full" />
                   </div>
                   {renderTabContent()}
                 </motion.div>
