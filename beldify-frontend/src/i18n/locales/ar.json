@@ -584,10 +584,33 @@
       "processing": "قيد المعالجة",
       "shipped": "تم الشحن",
       "delivered": "تم التوصيل",
-      "cancelled": "ملغي"
+      "cancelled": "ملغي",
+      "filtering_by": "تصفية حسب",
+      "clear": "مسح الفلتر"
     },
     "search": {
-      "placeholder": "البحث في الطلبات..."
+      "placeholder": "البحث في الطلبات...",
+      "filters": "الفلاتر",
+      "all_status": "جميع الحالات",
+      "clear_all": "مسح الكل",
+      "clear": "مسح البحث",
+      "clear_filter": "مسح الفلتر",
+      "popular_searches": "عمليات البحث الشائعة",
+      "quick_filters_label": "فلاتر سريعة:",
+      "custom_date_range": "نطاق تاريخ مخصص",
+      "active_filters": "الفلاتر النشطة:",
+      "filter_tag_search": "البحث",
+      "filter_tag_status": "الحالة",
+      "quick_filters": {
+        "last_7_days": "آخر 7 أيام",
+        "high_value": "قيمة عالية",
+        "with_discount": "بخصم"
+      },
+      "popular": {
+        "last_month": "الشهر الماضي",
+        "pending": "الطلبات قيد الانتظار",
+        "high_priority": "أولوية عالية"
+      }
     },
     "status": {
       "pending": "قيد الانتظار",
@@ -609,7 +632,9 @@
       "shipped_short": "٣",
       "delivered_short": "٤",
       "number": "رقم التتبع",
-      "estimated_delivery": "موعد التسليم المتوقع"
+      "estimated_delivery": "موعد التسليم المتوقع",
+      "current": "الحالي",
+      "current_status": "الحالة الحالية"
     },
     "items": {
       "title": "المنتجات",
@@ -647,7 +672,45 @@
       "items_count_other": "{{count}} منتج",
       "total": "المجموع: {{amount}}",
       "more_items": "و {{count}} منتج آخر",
-      "view_details": "عرض التفاصيل"
+      "view_details": "عرض التفاصيل",
+      "shipping_to": "الشحن إلى"
+    }
+  },
+  "order_confirmation": {
+    "not_found": {
+      "title": "الطلب غير موجود",
+      "description": "لم نتمكن من العثور على الطلب الذي تبحث عنه.",
+      "cta": "العودة إلى الرئيسية"
+    },
+    "success": {
+      "title": "شكراً لطلبك!",
+      "message": "تم تقديم طلبك وهو قيد المعالجة. ستتلقى رسالة تأكيد عبر البريد الإلكتروني قريباً."
+    },
+    "order_number": "رقم الطلب",
+    "status": {
+      "label": "حالة الطلب"
+    },
+    "shipping": {
+      "title": "عنوان التوصيل"
+    },
+    "details": {
+      "title": "تفاصيل الطلب"
+    },
+    "items": {
+      "qty": "الكمية"
+    },
+    "summary": {
+      "subtotal": "المجموع الفرعي",
+      "shipping": "الشحن",
+      "tax": "الضريبة",
+      "total": "المجموع الكلي"
+    },
+    "actions": {
+      "view_status": "عرض حالة الطلب",
+      "continue_shopping": "متابعة التسوق"
+    },
+    "error": {
+      "fetch_failed": "تعذر تحميل تفاصيل الطلب"
     }
   },
   "checkout": {

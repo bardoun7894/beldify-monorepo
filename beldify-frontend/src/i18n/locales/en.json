@@ -599,6 +599,11 @@
       "message": "Sorry, we couldn't find the requested order. Please check the order number and try again"
     },
     "actions": {
+      "try_again": "Try again",
+      "start_shopping": "Start Shopping",
+      "clear_filters": "Clear filters",
+      "back_to_orders": "Back to Orders",
+      "view_details": "View Details",
       "invoice": "Invoice",
       "support": "Support",
       "download_invoice": "Download Invoice",
@@ -611,10 +616,33 @@
       "processing": "Processing",
       "shipped": "Shipped",
       "delivered": "Delivered",
-      "cancelled": "Cancelled"
+      "cancelled": "Cancelled",
+      "filtering_by": "Filtering by",
+      "clear": "Clear filter"
     },
     "search": {
-      "placeholder": "Search orders..."
+      "placeholder": "Search orders...",
+      "filters": "Filters",
+      "all_status": "All Status",
+      "clear_all": "Clear all",
+      "clear": "Clear search",
+      "clear_filter": "Clear filter",
+      "popular_searches": "Popular searches",
+      "quick_filters_label": "Quick filters:",
+      "custom_date_range": "Custom date range",
+      "active_filters": "Active filters:",
+      "filter_tag_search": "Search",
+      "filter_tag_status": "Status",
+      "quick_filters": {
+        "last_7_days": "Last 7 days",
+        "high_value": "High value",
+        "with_discount": "With discount"
+      },
+      "popular": {
+        "last_month": "Last month",
+        "pending": "Pending orders",
+        "high_priority": "High priority"
+      }
     },
     "status": {
       "pending": "Pending",
@@ -636,7 +664,9 @@
       "shipped_short": "3",
       "delivered_short": "4",
       "number": "Tracking Number",
-      "estimated_delivery": "Estimated Delivery Date"
+      "estimated_delivery": "Estimated Delivery Date",
+      "current": "Current",
+      "current_status": "Current Status"
     },
     "items": {
       "title": "Order Items",
@@ -672,7 +702,45 @@
       "items_count_other": "{{count}} items",
       "total": "Total: {{amount}}",
       "more_items": "and {{count}} more item",
-      "view_details": "View Details"
+      "view_details": "View Details",
+      "shipping_to": "Shipping to"
+    }
+  },
+  "order_confirmation": {
+    "not_found": {
+      "title": "Order Not Found",
+      "description": "We couldn't find the order you're looking for.",
+      "cta": "Return to Home"
+    },
+    "success": {
+      "title": "Thank you for your order!",
+      "message": "Your order has been placed and is being processed. You'll receive a confirmation email shortly."
+    },
+    "order_number": "Order Number",
+    "status": {
+      "label": "Order Status"
+    },
+    "shipping": {
+      "title": "Shipping Address"
+    },
+    "details": {
+      "title": "Order Details"
+    },
+    "items": {
+      "qty": "Qty"
+    },
+    "summary": {
+      "subtotal": "Subtotal",
+      "shipping": "Shipping",
+      "tax": "Tax",
+      "total": "Total"
+    },
+    "actions": {
+      "view_status": "View Order Status",
+      "continue_shopping": "Continue Shopping"
+    },
+    "error": {
+      "fetch_failed": "Failed to load order details"
     }
   },
   "checkout": {

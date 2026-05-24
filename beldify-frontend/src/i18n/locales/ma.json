@@ -571,10 +571,33 @@
       "processing": "كتنوجد",
       "shipped": "تسيفطات",
       "delivered": "وصلات",
-      "cancelled": "ملغية"
+      "cancelled": "ملغية",
+      "filtering_by": "كنصفيو حسب",
+      "clear": "امسح لفلتر"
     },
     "search": {
-      "placeholder": "قلّب فلكوموندات..."
+      "placeholder": "قلّب فلكوموندات...",
+      "filters": "لفلاتر",
+      "all_status": "كاع لحالات",
+      "clear_all": "امسح كاع",
+      "clear": "امسح لبحث",
+      "clear_filter": "امسح لفلتر",
+      "popular_searches": "لبحثات لمشهورة",
+      "quick_filters_label": "فلاتر سريعة:",
+      "custom_date_range": "نطاق تاريخ خاص",
+      "active_filters": "لفلاتر لنشطة:",
+      "filter_tag_search": "لبحث",
+      "filter_tag_status": "لحالة",
+      "quick_filters": {
+        "last_7_days": "سبعة أيام الفايتة",
+        "high_value": "قيمة عالية",
+        "with_discount": "بتخفيض"
+      },
+      "popular": {
+        "last_month": "الشهر لفايت",
+        "pending": "لكوموندات لباقية",
+        "high_priority": "أولوية عالية"
+      }
     },
     "status": {
       "pending": "باقي",

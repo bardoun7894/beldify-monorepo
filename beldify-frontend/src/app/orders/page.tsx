@@ -13,22 +13,20 @@ import { OrdersLoadingScreen } from '@/components/ui/LoadingManager';
 import ModernOrderFilters from '@/components/orders/ModernOrderFilters';
 import ModernSearchBar from '@/components/orders/ModernSearchBar';
 import {
-  ShoppingBagIcon,
-  MagnifyingGlassIcon,
-  FunnelIcon,
-  ClockIcon,
-  TruckIcon,
-  CheckCircleIcon,
-  XCircleIcon,
-  EyeIcon,
-  CalendarIcon,
-  CreditCardIcon,
-  MapPinIcon,
-  ArchiveBoxIcon,
-  SparklesIcon,
-  ChevronRightIcon
-} from '@heroicons/react/24/outline';
-import { CheckBadgeIcon } from '@heroicons/react/24/solid';
+  ShoppingBag,
+  Search,
+  Clock,
+  Truck,
+  CheckCircle,
+  XCircle,
+  Eye,
+  Calendar,
+  CreditCard,
+  MapPin,
+  Archive,
+  Sparkles,
+  ChevronRight
+} from 'lucide-react';
 import logger from '@/utils/consoleLogger';
 
 export default function OrdersPage() {
@@ -104,14 +102,14 @@ export default function OrdersPage() {
   // Get status icon
   const getStatusIcon = (status: string) => {
     const icons = {
-      pending: ClockIcon,
-      processing: SparklesIcon,
-      shipped: TruckIcon,
-      delivered: CheckCircleIcon,
-      cancelled: XCircleIcon,
+      pending: Clock,
+      processing: Sparkles,
+      shipped: Truck,
+      delivered: CheckCircle,
+      cancelled: XCircle,
     };
-    const Icon = icons[status.toLowerCase() as keyof typeof icons] || ClockIcon;
-    return <Icon className="w-4 h-4" />;
+    const Icon = icons[status.toLowerCase() as keyof typeof icons] || Clock;
+    return <Icon className="w-4 h-4" strokeWidth={1.5} />;
   };
 
   // Fetch orders
@@ -190,21 +188,21 @@ export default function OrdersPage() {
 
   if (error) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center p-4 bg-red-50">
+      <div className="min-h-screen flex flex-col items-center justify-center p-4 bg-amber-50/40">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="bg-white rounded-2xl shadow-2xl border border-red-100 p-10 max-w-md w-full text-center"
+          className="bg-white rounded-2xl shadow-xl ring-1 ring-rose-100 p-10 max-w-md w-full text-center"
         >
-          <div className="w-20 h-20 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-6">
-            <XCircleIcon className="w-10 h-10 text-red-600" />
+          <div className="w-20 h-20 bg-rose-50 rounded-full flex items-center justify-center mx-auto mb-6">
+            <XCircle className="w-10 h-10 text-rose-700" strokeWidth={1.5} />
           </div>
           <h2 className="text-2xl font-bold text-gray-900 mb-3">{t('orders.error.title')}</h2>
           <p className="text-gray-600 mb-8">{error}</p>
           <button
             onClick={() => window.location.reload()}
-            className="w-full px-6 py-3 bg-red-600 text-white rounded-xl hover:bg-red-700 transition-all duration-300 font-medium shadow-lg hover:shadow-xl transform hover:scale-105"
+            className="w-full px-6 py-3 bg-indigo-700 text-white rounded-2xl hover:bg-indigo-800 transition hover:-translate-y-0.5 hover:shadow-md font-medium"
           >
             {t('orders.actions.try_again')}
           </button>
@@ -215,23 +213,23 @@ export default function OrdersPage() {
 
   if (orders.length === 0) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center p-4 bg-indigo-50">
+      <div className="min-h-screen flex flex-col items-center justify-center p-4 bg-amber-50/40">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="bg-white rounded-2xl shadow-2xl border border-indigo-100 p-10 max-w-md w-full text-center"
+          className="bg-white rounded-2xl shadow-xl ring-1 ring-amber-100 p-10 max-w-md w-full text-center"
         >
-          <div className="w-24 h-24 bg-indigo-100 rounded-full flex items-center justify-center mx-auto mb-6 animate-pulse">
-            <ShoppingBagIcon className="w-12 h-12 text-indigo-600" />
+          <div className="w-24 h-24 bg-indigo-50 rounded-full flex items-center justify-center mx-auto mb-6 animate-pulse">
+            <ShoppingBag className="w-12 h-12 text-indigo-700" strokeWidth={1.5} />
           </div>
           <h2 className="text-3xl font-bold text-gray-900 mb-4">{t('orders.empty.title')}</h2>
           <p className="text-gray-600 mb-8">{t('orders.empty.description')}</p>
           <Link
             href="/products"
-            className="inline-flex items-center justify-center w-full px-6 py-3 bg-indigo-600 text-white rounded-xl hover:bg-indigo-700 transition-all duration-300 font-medium shadow-lg hover:shadow-xl transform hover:scale-105"
+            className="inline-flex items-center justify-center w-full px-6 py-3 bg-indigo-700 text-white rounded-2xl hover:bg-indigo-800 transition hover:-translate-y-0.5 hover:shadow-md font-medium"
           >
-            <ShoppingBagIcon className="w-5 h-5 mr-2" />
+            <ShoppingBag className="w-5 h-5 me-2" strokeWidth={1.5} />
             {t('orders.actions.start_shopping')}
           </Link>
         </motion.div>
@@ -244,7 +242,7 @@ export default function OrdersPage() {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
-      className={`min-h-screen bg-gray-50 ${isRTL ? 'rtl' : 'ltr'}`}
+      className={`min-h-screen bg-amber-50/40 ${isRTL ? 'rtl' : 'ltr'}`}
       dir={isRTL ? 'rtl' : 'ltr'}
     >
       {/* Modern Header with Gradient */}
@@ -257,7 +255,7 @@ export default function OrdersPage() {
                   {t('orders.title')}
                 </h1>
                 <p className="mt-2 text-gray-600 flex items-center gap-2">
-                  <ArchiveBoxIcon className="w-5 h-5 text-indigo-600" />
+                  <Archive className="w-5 h-5 text-indigo-700" strokeWidth={1.5} />
                   {filteredOrders.length} {t('orders.subtitle', { count: filteredOrders.length })}
                 </p>
               </div>
@@ -266,12 +264,12 @@ export default function OrdersPage() {
               <div className="hidden md:flex items-center gap-4">
                 {statusFilter === 'all' && (
                   <div className="flex gap-3">
-                    <div className="px-4 py-2 bg-amber-50 rounded-xl border border-amber-200">
-                      <p className="text-xs text-amber-600 font-medium">Pending</p>
+                    <div className="px-4 py-2 bg-amber-50 rounded-2xl ring-1 ring-amber-200">
+                      <p className="text-xs text-amber-700 font-medium">{t('orders.filter.pending', 'Pending')}</p>
                       <p className="text-lg font-bold text-amber-700">{statusCounts.pending}</p>
                     </div>
-                    <div className="px-4 py-2 bg-emerald-50 rounded-xl border border-emerald-200">
-                      <p className="text-xs text-emerald-600 font-medium">Delivered</p>
+                    <div className="px-4 py-2 bg-emerald-50 rounded-2xl ring-1 ring-emerald-200">
+                      <p className="text-xs text-emerald-700 font-medium">{t('orders.filter.delivered', 'Delivered')}</p>
                       <p className="text-lg font-bold text-emerald-700">{statusCounts.delivered}</p>
                     </div>
                   </div>
@@ -312,9 +310,9 @@ export default function OrdersPage() {
             initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ duration: 0.4 }}
-            className="bg-white rounded-3xl shadow-2xl border border-indigo-100/50 overflow-hidden text-center p-16">
-            <div className="mx-auto w-24 h-24 rounded-full bg-indigo-100 flex items-center justify-center mb-8 animate-pulse">
-              <MagnifyingGlassIcon className="w-12 h-12 text-indigo-600" />
+            className="bg-white rounded-2xl shadow-xl ring-1 ring-amber-100 overflow-hidden text-center p-16">
+            <div className="mx-auto w-24 h-24 rounded-full bg-indigo-50 flex items-center justify-center mb-8 animate-pulse">
+              <Search className="w-12 h-12 text-indigo-700" strokeWidth={1.5} />
             </div>
             <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3">
               {t('orders.no_results.title', { defaultValue: 'No matching orders found' })}
@@ -326,9 +324,9 @@ export default function OrdersPage() {
               <button
                 type="button"
                 onClick={() => { setStatusFilter('all'); setQuery(''); }}
-                className="inline-flex items-center justify-center px-8 py-3 rounded-xl bg-indigo-600 text-white hover:bg-indigo-700 transition-all duration-300 font-medium shadow-lg hover:shadow-xl transform hover:scale-105"
+                className="inline-flex items-center justify-center px-8 py-3 rounded-2xl bg-indigo-700 text-white hover:bg-indigo-800 transition hover:-translate-y-0.5 hover:shadow-md font-medium"
               >
-                <XCircleIcon className="w-5 h-5 mr-2" />
+                <XCircle className="w-5 h-5 me-2" strokeWidth={1.5} />
                 {t('orders.actions.clear_filters', { defaultValue: 'Clear filters' })}
               </button>
             )}
@@ -344,7 +342,7 @@ export default function OrdersPage() {
                 className="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border border-gray-100"
               >
                 {/* Order Header */}
-                <div className="p-6 pb-4 border-b border-gray-100 bg-gray-50">
+                <div className="p-6 pb-4 border-b border-amber-100 bg-amber-50/40">
                   <div className="flex items-start justify-between">
                     <div className="space-y-1">
                       <div className="flex items-center gap-3">
@@ -358,11 +356,11 @@ export default function OrdersPage() {
                       </div>
                       <div className="flex items-center gap-4 text-sm text-gray-500">
                         <span className="flex items-center gap-1">
-                          <CalendarIcon className="w-4 h-4" />
+                          <Calendar className="w-4 h-4" strokeWidth={1.5} />
                           {formatOrderDate(order.created_at)}
                         </span>
                         <span className="flex items-center gap-1">
-                          <CreditCardIcon className="w-4 h-4" />
+                          <CreditCard className="w-4 h-4" strokeWidth={1.5} />
                           {order.payment_method || 'Cash'}
                         </span>
                       </div>
@@ -370,8 +368,8 @@ export default function OrdersPage() {
 
                     {/* Order Total */}
                     <div className="text-right">
-                      <p className="text-xs text-gray-500 mb-1">Total</p>
-                      <p className="text-2xl font-bold text-indigo-600">
+                      <p className="text-xs text-gray-500 mb-1">{t('orders.summary.total', 'Total')}</p>
+                      <p className="text-2xl font-bold text-indigo-700">
                         {formatNumber(order.total_amount)} MAD
                       </p>
                     </div>
@@ -382,8 +380,8 @@ export default function OrdersPage() {
                 <div className="p-6 pb-4">
                   <div className="space-y-3">
                     {(order.items ?? []).slice(0, 3).map((item: OrderItem) => (
-                      <div key={`${order.id}-item-${item.id}`} className="flex items-center gap-4 p-3 rounded-xl bg-gray-50 hover:bg-gray-100 transition-colors">
-                        <div className="relative w-16 h-16 rounded-lg overflow-hidden bg-white shadow-sm flex-shrink-0">
+                      <div key={`${order.id}-item-${item.id}`} className="flex items-center gap-4 p-3 rounded-2xl bg-amber-50/40 hover:bg-amber-50 transition-colors">
+                        <div className="relative w-16 h-16 rounded-2xl overflow-hidden bg-white shadow-sm flex-shrink-0">
                           <Image
                             src={item.primary_image || item.product_image || '/images/placeholder-product.jpg'}
                             alt={item.product_name || 'Product'}
@@ -403,9 +401,9 @@ export default function OrdersPage() {
                           </p>
                           <div className="flex items-center gap-3 mt-1">
                             <span className="text-sm text-gray-500">
-                              Qty: <span className="font-semibold text-gray-700">{item.quantity}</span>
+                              {t('orders.items.qty', 'Qty')}: <span className="font-semibold text-gray-700">{item.quantity}</span>
                             </span>
-                            <span className="text-sm font-semibold text-indigo-600">
+                            <span className="text-sm font-semibold text-indigo-700">
                               {formatNumber(item.unit_price)} MAD
                             </span>
                           </div>
@@ -421,23 +419,23 @@ export default function OrdersPage() {
                 </div>
 
                 {/* Order Actions */}
-                <div className="p-6 pt-4 bg-gray-50 border-t border-gray-100">
+                <div className="p-6 pt-4 bg-amber-50/30 border-t border-amber-100">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2 text-sm text-gray-600">
                       {order.shipping_address && (
                         <span className="flex items-center gap-1">
-                          <MapPinIcon className="w-4 h-4 text-indigo-600" />
-                          Shipping to {order.shipping_address.city}
+                          <MapPin className="w-4 h-4 text-indigo-700" strokeWidth={1.5} />
+                          {t('orders.list.shipping_to', 'Shipping to')} {order.shipping_address.city}
                         </span>
                       )}
                     </div>
                     <Link
                       href={`/orders/${order.order_number}`}
-                      className="inline-flex items-center gap-2 px-5 py-2.5 bg-indigo-600 text-white text-sm font-medium rounded-xl hover:bg-indigo-700 transition-all duration-300 shadow-md hover:shadow-lg transform hover:scale-105"
+                      className="inline-flex items-center gap-2 px-5 py-2.5 bg-indigo-700 text-white text-sm font-medium rounded-2xl hover:bg-indigo-800 transition hover:-translate-y-0.5 hover:shadow-md"
                     >
-                      <EyeIcon className="w-4 h-4" />
+                      <Eye className="w-4 h-4" strokeWidth={1.5} />
                       {t('orders.actions.view_details')}
-                      <ChevronRightIcon className="w-3 h-3" />
+                      <ChevronRight className="w-3 h-3" strokeWidth={1.5} />
                     </Link>
                   </div>
                 </div>

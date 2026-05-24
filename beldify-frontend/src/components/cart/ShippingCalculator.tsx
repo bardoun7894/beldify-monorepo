@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { TruckIcon, MapPinIcon } from '@heroicons/react/24/outline';
+import { Truck, MapPin } from 'lucide-react';
 
 interface ShippingCalculatorProps {
   subtotal: number;
@@ -27,10 +27,8 @@ export default function ShippingCalculator({ subtotal, onCalculate }: ShippingCa
   const calculateShipping = () => {
     const city = CITIES.find(c => c.name === selectedCity);
     if (!city) return 0;
-    
     // Free shipping for orders over 500
     if (subtotal >= 500) return 0;
-    
     return city.rate;
   };
 
@@ -46,35 +44,35 @@ export default function ShippingCalculator({ subtotal, onCalculate }: ShippingCa
     return (
       <button
         onClick={() => setShowCalculator(true)}
-        className="flex items-center gap-2 text-sm text-indigo-600 hover:text-indigo-700 font-medium transition-colors"
+        className="flex items-center gap-2 text-sm text-indigo-700 hover:text-indigo-800 font-medium transition-colors"
       >
-        <TruckIcon className="h-4 w-4" />
+        <Truck className="h-4 w-4" strokeWidth={1.5} />
         {t('cart.shipping.calculate')}
       </button>
     );
   }
 
   return (
-    <div className="bg-indigo-50 rounded-lg p-4 border border-indigo-100">
+    <div className="bg-amber-50 rounded-2xl p-4 ring-1 ring-amber-200">
       <div className="flex items-center gap-2 mb-3">
-        <MapPinIcon className="h-4 w-4 text-indigo-600" />
+        <MapPin className="h-4 w-4 text-indigo-700" strokeWidth={1.5} />
         <span className="text-sm font-medium text-gray-900">
           {t('cart.shipping.enter_location')}
         </span>
       </div>
-      
+
       <select
         value={selectedCity}
         onChange={(e) => {
           setSelectedCity(e.target.value);
           handleCalculate();
         }}
-        className="w-full rounded-lg border-gray-300 text-sm focus:border-indigo-500 focus:ring-indigo-500 mb-3"
+        className="w-full rounded-2xl bg-white ring-1 ring-amber-200 text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none px-3 py-2 mb-3"
       >
         <option value="">{t('cart.shipping.select_city')}</option>
         {CITIES.map((city) => (
           <option key={city.name} value={city.name}>
-            {city.name} - {subtotal >= 500 ? 'Free' : `${city.rate} MAD`}
+            {city.name} - {subtotal >= 500 ? t('cart.shipping.free', 'Free') : `${city.rate} MAD`}
           </option>
         ))}
       </select>
@@ -82,8 +80,8 @@ export default function ShippingCalculator({ subtotal, onCalculate }: ShippingCa
       {selectedCity && (
         <div className="text-sm">
           {subtotal >= 500 ? (
-            <div className="flex items-center gap-2 text-green-600">
-              <TruckIcon className="h-4 w-4" />
+            <div className="flex items-center gap-2 text-amber-700">
+              <Truck className="h-4 w-4" strokeWidth={1.5} />
               <span className="font-medium">{t('cart.shipping.free')}</span>
             </div>
           ) : (

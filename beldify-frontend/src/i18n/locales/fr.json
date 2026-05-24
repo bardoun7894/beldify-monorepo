@@ -490,10 +490,33 @@
       "processing": "En cours",
       "shipped": "Expédiées",
       "delivered": "Livrées",
-      "cancelled": "Annulées"
+      "cancelled": "Annulées",
+      "filtering_by": "Filtrer par",
+      "clear": "Effacer le filtre"
     },
     "search": {
-      "placeholder": "Rechercher des commandes..."
+      "placeholder": "Rechercher des commandes...",
+      "filters": "Filtres",
+      "all_status": "Tous les statuts",
+      "clear_all": "Tout effacer",
+      "clear": "Effacer la recherche",
+      "clear_filter": "Effacer le filtre",
+      "popular_searches": "Recherches populaires",
+      "quick_filters_label": "Filtres rapides :",
+      "custom_date_range": "Plage de dates personnalisée",
+      "active_filters": "Filtres actifs :",
+      "filter_tag_search": "Recherche",
+      "filter_tag_status": "Statut",
+      "quick_filters": {
+        "last_7_days": "7 derniers jours",
+        "high_value": "Valeur élevée",
+        "with_discount": "Avec réduction"
+      },
+      "popular": {
+        "last_month": "Mois dernier",
+        "pending": "Commandes en attente",
+        "high_priority": "Haute priorité"
+      }
     },
     "status": {
       "pending": "En attente",
@@ -515,7 +538,9 @@
       "shipped_short": "3",
       "delivered_short": "4",
       "number": "Numéro de suivi",
-      "estimated_delivery": "Date de livraison estimée"
+      "estimated_delivery": "Date de livraison estimée",
+      "current": "En cours",
+      "current_status": "Statut actuel"
     },
     "items": {
       "title": "Produits",
@@ -555,7 +580,45 @@
       "items_count_other": "{{count}} articles",
       "total": "Total : {{amount}}",
       "more_items": "et {{count}} article supplémentaire",
-      "view_details": "Voir les détails"
+      "view_details": "Voir les détails",
+      "shipping_to": "Livraison à"
+    }
+  },
+  "order_confirmation": {
+    "not_found": {
+      "title": "Commande introuvable",
+      "description": "Nous n'avons pas trouvé la commande que vous cherchez.",
+      "cta": "Retour à l'accueil"
+    },
+    "success": {
+      "title": "Merci pour votre commande !",
+      "message": "Votre commande a été passée et est en cours de traitement. Vous recevrez un e-mail de confirmation sous peu."
+    },
+    "order_number": "Numéro de commande",
+    "status": {
+      "label": "Statut de la commande"
+    },
+    "shipping": {
+      "title": "Adresse de livraison"
+    },
+    "details": {
+      "title": "Détails de la commande"
+    },
+    "items": {
+      "qty": "Qté"
+    },
+    "summary": {
+      "subtotal": "Sous-total",
+      "shipping": "Livraison",
+      "tax": "Taxe",
+      "total": "Total"
+    },
+    "actions": {
+      "view_status": "Voir le statut de la commande",
+      "continue_shopping": "Continuer vos achats"
+    },
+    "error": {
+      "fetch_failed": "Impossible de charger les détails de la commande"
     }
   },
   "checkout": {
