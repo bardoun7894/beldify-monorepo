@@ -113,24 +113,23 @@ const ReviewsSection: React.FC<ReviewsSectionProps> = ({ productId, productName 
   };
 
   return (
-    <section id="product-reviews" className="py-12 md:py-16 bg-gradient-to-b from-white to-gray-50 relative overflow-hidden">
-      {/* Premium design elements */}
-      <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-indigo-600 to-amber-500"></div>
-      <div className="absolute -top-24 -right-24 w-48 h-48 bg-gradient-to-br from-indigo-200 to-indigo-50 rounded-full opacity-30 blur-3xl"></div>
-      <div className="absolute -bottom-24 -left-24 w-48 h-48 bg-gradient-to-tr from-amber-200 to-amber-50 rounded-full opacity-30 blur-3xl"></div>
+    <section id="product-reviews" className="py-12 md:py-16 bg-amber-50/40 relative overflow-hidden">
       
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-10">
-          <h2 className="text-3xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-indigo-700 to-indigo-500 mb-4 sm:mb-0">
+          <h2
+            className="text-3xl font-bold tracking-tight text-gray-900 mb-4 sm:mb-0"
+            style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
+          >
             {t('reviews.customer_reviews_for', { productName })}
           </h2>
           <Button 
             onClick={() => setShowReviewForm(prev => !prev)}
             className={cn(
-              "transition-all duration-300",
-              showReviewForm 
-                ? "bg-gray-100 hover:bg-gray-200 text-gray-800" 
-                : "bg-gradient-to-r from-indigo-600 to-indigo-500 hover:from-indigo-700 hover:to-indigo-600 text-white shadow-md hover:shadow-lg"
+              "transition-all duration-200",
+              showReviewForm
+                ? "bg-gray-100 hover:bg-gray-200 text-gray-800"
+                : "bg-indigo-700 hover:bg-indigo-800 text-white shadow-sm"
             )}
             size="lg"
           >
@@ -151,9 +150,7 @@ const ReviewsSection: React.FC<ReviewsSectionProps> = ({ productId, productName 
         </div>
 
         {showReviewForm && (
-          <div className="mb-10 bg-white rounded-xl shadow-lg p-6 border border-gray-100 relative overflow-hidden">
-            {/* Premium accent for review form */}
-            <div className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-indigo-600 to-amber-500"></div>
+          <div className="mb-10 bg-white rounded-2xl shadow-sm ring-1 ring-amber-200 p-6">
             <ReviewForm
               productId={productId}
               onSubmitSuccess={handleReviewSubmitted}
@@ -164,8 +161,11 @@ const ReviewsSection: React.FC<ReviewsSectionProps> = ({ productId, productName 
         )}
 
         {summary && (
-          <div className="mb-8 bg-white rounded-xl shadow-md p-6 border border-gray-100 transition-all duration-300 hover:shadow-lg">
-            <h3 className="text-xl font-semibold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-indigo-700 to-indigo-500">
+          <div className="mb-8 bg-white rounded-2xl shadow-sm ring-1 ring-amber-200 p-6 transition-all duration-200 hover:shadow-md">
+            <h3
+              className="text-xl font-semibold mb-4 text-gray-900"
+              style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
+            >
               {t('reviews.rating_summary_title')}
             </h3>
             <ReviewSummary 
@@ -177,8 +177,10 @@ const ReviewsSection: React.FC<ReviewsSectionProps> = ({ productId, productName 
         )}
         
         <div className="flex flex-col md:flex-row justify-between items-baseline mb-6 gap-4">
-          <h3 className="text-xl font-semibold text-gray-800 flex items-center">
-            <span className="bg-gradient-to-r from-indigo-600 to-amber-500 h-5 w-1 rounded-full mr-2 inline-block"></span>
+          <h3
+            className="text-xl font-semibold text-gray-900 flex items-center"
+            style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
+          >
             {t('reviews.all_reviews_count', { count: totalReviews || 0 })}
           </h3>
           <div className="flex items-center gap-4">
@@ -214,9 +216,9 @@ const ReviewsSection: React.FC<ReviewsSectionProps> = ({ productId, productName 
                           key={r} 
                           className={cn(
                             "transition-all duration-200",
-                            activeFilters.rating === r 
-                              ? "bg-gradient-to-r from-indigo-600 to-indigo-500 text-white shadow-md" 
-                              : "bg-white border border-gray-200 text-gray-700 hover:border-indigo-300"
+                            activeFilters.rating === r
+                              ? "bg-indigo-700 text-white shadow-sm"
+                              : "bg-white ring-1 ring-amber-200 text-gray-700 hover:ring-amber-300 rounded-full"
                           )}
                           onClick={() => handleRatingFilterChange(activeFilters.rating === r ? null : r)}
                         >
@@ -255,7 +257,7 @@ const ReviewsSection: React.FC<ReviewsSectionProps> = ({ productId, productName 
             <p className="text-red-600 font-medium text-lg">{error}</p>
             <Button 
               onClick={() => fetchReviewsAndSummary(1, activeFilters)}
-              className="mt-4 bg-red-100 hover:bg-red-200 text-red-600 border-none"
+              className="mt-4 bg-rose-50 hover:bg-rose-100 text-rose-700 ring-1 ring-rose-200"
             >
               {t('common.try_again')}
             </Button>
@@ -273,7 +275,7 @@ const ReviewsSection: React.FC<ReviewsSectionProps> = ({ productId, productName 
             <p className="text-gray-500 mt-2">{t('reviews.be_the_first')}</p>
             <Button 
               onClick={() => setShowReviewForm(true)}
-              className="mt-6 bg-gradient-to-r from-indigo-600 to-indigo-500 hover:from-indigo-700 hover:to-indigo-600 text-white shadow-md hover:shadow-lg"
+              className="mt-6 bg-indigo-700 hover:bg-indigo-800 text-white shadow-sm"
               size="lg"
             >
               <PlusCircleIcon className="h-5 w-5 mr-2" />
@@ -294,7 +296,7 @@ const ReviewsSection: React.FC<ReviewsSectionProps> = ({ productId, productName 
           <div className="mt-10 text-center">
             <Button 
               onClick={handleLoadMore} 
-              className="bg-white border border-indigo-200 text-indigo-600 hover:bg-indigo-50 shadow-md hover:shadow-lg transition-all duration-200"
+              className="ring-1 ring-indigo-700 text-indigo-700 rounded-full hover:bg-indigo-50 transition-all duration-200"
               size="lg"
             >
               {t('reviews.load_more_reviews')}

@@ -48,10 +48,10 @@ export default function ShopCard({ shop }: ShopCardProps) {
   const logoUrl = shop.profile?.store_logo || shop.logo;
 
   return (
-    <div className="group relative bg-white rounded-2xl border border-gray-200 hover:shadow-lg transition-all duration-300 w-full overflow-hidden hover:-translate-y-1">
+    <div className="group relative bg-white rounded-2xl ring-1 ring-amber-200 hover:shadow-md transition-all duration-300 w-full overflow-hidden hover:-translate-y-0.5">
       {/* Status Badge */}
       {(shop.status === "suspended" || shop.status === 'suspended' || shop.status?.toString() === 'suspended') && (
-        <div className="absolute top-2 left-2 bg-red-600 text-white text-xs font-medium px-2.5 py-1 rounded-full z-20 shadow-sm">
+        <div className="absolute top-2 left-2 bg-rose-50 text-rose-700 ring-1 ring-rose-200 text-xs font-medium px-2.5 py-1 rounded-full z-20 shadow-sm">
           {t('shop.suspended')}
         </div>
       )}
@@ -72,7 +72,7 @@ export default function ShopCard({ shop }: ShopCardProps) {
           {/* Verified Badge */}
           {shop.profile?.is_verified && (
             <div className="absolute top-3 right-3 z-10">
-              <div className="bg-blue-50 text-blue-700 px-2.5 py-1 rounded-full text-[10px] font-medium shadow-sm">
+              <div className="bg-amber-400 text-gray-900 px-2.5 py-1 rounded-full text-[10px] font-semibold shadow-sm">
                 {t('shop.verified')}
               </div>
             </div>
@@ -116,7 +116,7 @@ export default function ShopCard({ shop }: ShopCardProps) {
         {/* Type & Rating */}
         <div className="flex items-center justify-between gap-2">
           {displayType && (
-            <span className="text-xs font-semibold text-blue-700 bg-blue-50 px-2 py-1 rounded-full shadow-sm truncate">
+            <span className="text-xs font-medium text-amber-700 bg-amber-50 ring-1 ring-amber-200 px-2 py-1 rounded-full shadow-sm truncate">
               {displayType}
             </span>
           )}
@@ -138,7 +138,10 @@ export default function ShopCard({ shop }: ShopCardProps) {
 
         {/* Shop Name */}
         <Link href={`/shops/${shopUrlSlug}`}>
-          <h3 className="text-base sm:text-lg font-bold text-gray-800 line-clamp-2 hover:text-blue-600 transition-colors duration-200 leading-tight">
+          <h3
+            className="text-base sm:text-lg font-bold text-gray-900 line-clamp-2 hover:text-indigo-700 transition-colors duration-200 leading-tight"
+            style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
+          >
             {displayName}
           </h3>
         </Link>

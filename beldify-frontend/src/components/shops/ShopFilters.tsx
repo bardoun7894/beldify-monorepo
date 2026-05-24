@@ -59,17 +59,15 @@ export default function ShopFilters({
               >
                 <Dialog.Panel className="pointer-events-auto w-screen max-w-md">
                   <div className="flex h-full flex-col overflow-y-scroll bg-white shadow-xl">
-                    {/* Header with premium styling */}
+                    {/* Header with Atlas styling */}
                     <div className="relative overflow-hidden">
-                      {/* Premium gradient background */}
-                      <div className="absolute inset-0 bg-gradient-to-r from-indigo-600 to-indigo-800 opacity-90">
-                        <div className="absolute inset-0 opacity-10 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIj48cmVjdCB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iMC4wNSIvPjwvc3ZnPg==')]"></div>
-                        {/* Amber pattern overlay */}
-                        <div className="absolute inset-0 bg-gradient-to-br from-amber-400/20 to-transparent"></div>
+                      <div className="absolute inset-0 bg-indigo-900">
+                        <div
+                          aria-hidden
+                          className="absolute inset-0 opacity-25 bg-[radial-gradient(circle_at_15%_15%,_#f59e0b_0,_transparent_45%),radial-gradient(circle_at_85%_60%,_#6366f1_0,_transparent_50%)]"
+                        />
                       </div>
-                      {/* Amber accent */}
-                      <div className="absolute bottom-0 h-1 w-full bg-gradient-to-r from-amber-400 to-amber-500"></div>
-                      
+
                       <div className="relative flex items-center justify-between px-4 py-6 sm:px-6">
                         <Dialog.Title className="flex items-center text-base font-semibold leading-6 text-white">
                           <div className="rounded-full bg-white/10 p-1 ring-2 ring-amber-300 ring-opacity-70">
@@ -93,18 +91,17 @@ export default function ShopFilters({
                     {/* Content with improved styling */}
                     <div className="p-6">
                       <h3 className="text-sm font-medium text-gray-900 mb-2 flex items-center">
-                        <span className="inline-block w-8 h-0.5 bg-gradient-to-r from-indigo-600 to-indigo-800 mr-2"></span>
-                        <span className="text-amber-600 font-semibold">{t('shops.typeFilter')}</span>
+                        <span className="text-xs uppercase tracking-[0.18em] text-amber-700 font-medium">{t('shops.typeFilter')}</span>
                       </h3>
                       <div className="space-y-2 mt-4">
                         {shopTypes.map((type) => (
                           <Button
                             key={type.value}
                             variant={selectedType === type.value ? 'default' : 'outline'}
-                            className={`w-full justify-start transition-all duration-200 ${
-                              selectedType === type.value 
-                                ? 'bg-gradient-to-r from-indigo-600 to-indigo-800 text-white hover:from-indigo-700 hover:to-indigo-900 shadow-md border-l-4 border-amber-400' 
-                                : 'border-indigo-200 hover:border-indigo-300 hover:bg-indigo-50 text-gray-700 hover:text-amber-700'
+                            className={`w-full justify-start rounded-full transition-all duration-200 ${
+                              selectedType === type.value
+                                ? 'bg-indigo-700 text-white hover:bg-indigo-800 shadow-sm'
+                                : 'ring-1 ring-amber-200 hover:ring-amber-300 hover:bg-amber-50 text-gray-700 hover:text-amber-700'
                             }`}
                             onClick={() => {
                               onTypeChange(type.value);

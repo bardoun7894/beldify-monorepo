@@ -892,7 +892,11 @@
       "products": "Plus de produits"
     },
     "no_shops": "Aucune boutique trouvée",
-    "search_placeholder": "Rechercher des boutiques..."
+    "search_placeholder": "Rechercher des boutiques...",
+    "list": {
+      "eyebrow": "Marketplace",
+      "headline": "Ateliers sélectionnés."
+    }
   },
   "footer": {
     "newsletter": {
@@ -1624,5 +1628,8 @@
   },
   "traditionalWear": {
     "eyebrow": "Artisanat marocain"
+  },
+  "reviews": {
+    "verified_buyer": "Acheteur vérifié"
   }
 }

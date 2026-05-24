@@ -29,8 +29,7 @@ export default function ShopSort({ value, onChange }: ShopSortProps) {
 
   return (
     <div className="flex items-center gap-2">
-      {/* Premium styled sort icon with indigo color and amber border */}
-      <div className="p-1.5 rounded-full bg-gradient-to-br from-indigo-600 to-indigo-800 shadow-sm ring-2 ring-amber-300 ring-opacity-50">
+      <div className="p-1.5 rounded-full bg-indigo-700 shadow-sm">
         <ArrowsUpDownIcon className="h-3.5 w-3.5 text-white" />
       </div>
       
@@ -45,8 +44,6 @@ export default function ShopSort({ value, onChange }: ShopSortProps) {
         <SelectContent 
           className="border-indigo-200 bg-white shadow-lg rounded-lg overflow-hidden border-t-amber-300"
         >
-          <div className="h-0.5 w-full bg-gradient-to-r from-indigo-600 to-indigo-800 mb-1"></div>
-          <div className="h-0.5 w-1/3 mx-auto bg-gradient-to-r from-amber-400 to-amber-500 mb-2 rounded-full"></div>
           {sortOptions.map((option) => (
             <SelectItem 
               key={option.value} 
