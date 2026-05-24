@@ -98,7 +98,10 @@
     "username_generated": "Nombre de usuario generado",
     "registering": "Registrando...",
     "logging_in": "Iniciando sesión...",
-    "login_required": "Por favor inicia sesión para enviar solicitudes personalizadas"
+    "login_required": "Por favor inicia sesión para enviar solicitudes personalizadas",
+    "logo_alt": "Beldify",
+    "sign_in_with_google": "Iniciar sesión con Google",
+    "sign_in_with_apple": "Iniciar sesión con Apple"
   },
   "navigation": {
     "home": "Inicio",
@@ -1696,5 +1699,28 @@
   },
   "traditionalWear": {
     "eyebrow": "Artesanía marroquí"
+  },
+  "wishlist": {
+    "title": "Mi lista de deseos",
+    "empty_title": "Tu lista de deseos está vacía",
+    "empty_description": "Guarda los artículos que te gusten para comprarlos más tarde",
+    "start_shopping": "Empezar a comprar",
+    "removed_success": "Artículo eliminado de la lista",
+    "continue_shopping": "Seguir comprando",
+    "add_to_cart": "Añadir al carrito",
+    "remove": "Eliminar de la lista",
+    "items_count_one": "{{count}} artículo",
+    "items_count_other": "{{count}} artículos"
+  },
+  "account": {
+    "wishlist": {
+      "continue_shopping": "Seguir comprando",
+      "add_to_cart": "Añadir al carrito",
+      "remove": "Eliminar de la lista"
+    },
+    "returns": {
+      "tabs_label": "Navegación devoluciones y reembolsos",
+      "process_illustration_alt": "Ilustración del proceso de devolución"
+    }
   }
 }

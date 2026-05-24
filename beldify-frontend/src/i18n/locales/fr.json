@@ -88,7 +88,10 @@
     "username_generated": "Nom d'utilisateur généré",
     "registering": "Enregistrement...",
     "logging_in": "Connexion...",
-    "login_required": "Veuillez vous connecter pour envoyer des demandes personnalisées"
+    "login_required": "Veuillez vous connecter pour envoyer des demandes personnalisées",
+    "logo_alt": "Beldify",
+    "sign_in_with_google": "Se connecter avec Google",
+    "sign_in_with_apple": "Se connecter avec Apple"
   },
   "navigation": {
     "home": "Accueil",
@@ -1624,5 +1627,28 @@
   },
   "traditionalWear": {
     "eyebrow": "Artisanat marocain"
+  },
+  "wishlist": {
+    "title": "Ma liste de souhaits",
+    "empty_title": "Votre liste est vide",
+    "empty_description": "Sauvegardez les articles que vous aimez pour les acheter plus tard",
+    "start_shopping": "Commencer vos achats",
+    "removed_success": "Article retiré de la liste",
+    "continue_shopping": "Continuer vos achats",
+    "add_to_cart": "Ajouter au panier",
+    "remove": "Retirer de la liste",
+    "items_count_one": "{{count}} article",
+    "items_count_other": "{{count}} articles"
+  },
+  "account": {
+    "wishlist": {
+      "continue_shopping": "Continuer vos achats",
+      "add_to_cart": "Ajouter au panier",
+      "remove": "Retirer de la liste"
+    },
+    "returns": {
+      "tabs_label": "Navigation retours et remboursements",
+      "process_illustration_alt": "Illustration du processus de retour"
+    }
   }
 }

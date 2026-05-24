@@ -114,7 +114,10 @@
     "username_generated": "تم توليد سميت المستخدم: {{username}}",
     "registering": "جاري تسجيل حسابك...",
     "logging_in": "جاري تسجيل الدخول...",
-    "login_required": "خاصك تدخل باش تصيفط لكوموندات لخاصة"
+    "login_required": "خاصك تدخل باش تصيفط لكوموندات لخاصة",
+    "logo_alt": "بلديفاي",
+    "sign_in_with_google": "دخل بـ Google",
+    "sign_in_with_apple": "دخل بـ Apple"
   },
   "navigation": {
     "home": "الرئيسية",
@@ -1628,5 +1631,28 @@
   },
   "traditionalWear": {
     "eyebrow": "الصنعة المغربية"
+  },
+  "wishlist": {
+    "title": "ولاعتي / لمفضلة",
+    "empty_title": "ولاعتك خاوية",
+    "empty_description": "حيّد الحوايج لي كيعجبوك باش تشريهم من بعد",
+    "start_shopping": "بدأ الشراء",
+    "removed_success": "تحيّد المنتج من ولاعتك",
+    "continue_shopping": "كمّل الشراء",
+    "add_to_cart": "زيد للقفة",
+    "remove": "حيّد من ولاعتك",
+    "items_count_one": "حاجة واحدة",
+    "items_count_other": "{{count}} حوايج"
+  },
+  "account": {
+    "wishlist": {
+      "continue_shopping": "كمّل الشراء",
+      "add_to_cart": "زيد للقفة",
+      "remove": "حيّد من ولاعتك"
+    },
+    "returns": {
+      "tabs_label": "سير فالإرجاع والاسترداد",
+      "process_illustration_alt": "صورة توضيحية لعملية الإرجاع"
+    }
   }
 }

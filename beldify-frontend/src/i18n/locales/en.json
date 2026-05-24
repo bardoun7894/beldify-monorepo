@@ -117,7 +117,10 @@
     "sign_in": "Sign In",
     "username_generated": "Username generated",
     "registering": "Registering...",
-    "logging_in": "Signing in..."
+    "logging_in": "Signing in...",
+    "logo_alt": "Beldify",
+    "sign_in_with_google": "Sign in with Google",
+    "sign_in_with_apple": "Sign in with Apple"
   },
   "navigation": {
     "home": "Home",
@@ -2052,5 +2055,28 @@
   },
   "traditionalWear": {
     "eyebrow": "Artisan Craftsmanship"
+  },
+  "wishlist": {
+    "title": "My Wishlist",
+    "empty_title": "Your wishlist is empty",
+    "empty_description": "Save items you love to buy them later",
+    "start_shopping": "Start Shopping",
+    "removed_success": "Item removed from wishlist",
+    "continue_shopping": "Continue Shopping",
+    "add_to_cart": "Add to Cart",
+    "remove": "Remove from Wishlist",
+    "items_count_one": "{{count}} item",
+    "items_count_other": "{{count}} items"
+  },
+  "account": {
+    "wishlist": {
+      "continue_shopping": "Continue Shopping",
+      "add_to_cart": "Add to Cart",
+      "remove": "Remove from Wishlist"
+    },
+    "returns": {
+      "tabs_label": "Returns and refunds navigation",
+      "process_illustration_alt": "Return process illustration"
+    }
   }
 }
