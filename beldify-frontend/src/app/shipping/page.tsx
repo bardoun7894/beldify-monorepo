@@ -1,7 +1,7 @@
 'use client';
 
 import { useTranslation } from 'react-i18next';
-import { TruckIcon, ClockIcon, ShieldCheckIcon, GlobeAltIcon } from '@heroicons/react/24/outline';
+import { Truck, Clock, Globe, ShieldCheck } from 'lucide-react';
 
 export default function ShippingPage() {
   const { t } = useTranslation();
@@ -11,19 +11,19 @@ export default function ShippingPage() {
       name: t('pages.shipping.standardShipping'),
       description: t('pages.shipping.standardDays'),
       price: t('pages.shipping.standardCost'),
-      icon: TruckIcon,
+      icon: Truck,
     },
     {
       name: t('pages.shipping.expressShipping'),
       description: t('pages.shipping.expressDays'),
       price: t('pages.shipping.expressCost'),
-      icon: ClockIcon,
+      icon: Clock,
     },
     {
       name: t('pages.shipping.internationalShipping'),
       description: t('pages.shipping.internationalDays'),
       price: t('pages.shipping.internationalCost'),
-      icon: GlobeAltIcon,
+      icon: Globe,
     },
   ];
 
@@ -57,36 +57,57 @@ export default function ShippingPage() {
 
   return (
     <div className="bg-white">
-      <div className="mx-auto max-w-7xl py-8 px-4 sm:py-12 sm:px-6 lg:py-16 lg:px-8">
-        <div className="text-center">
-          <h1 className="text-2xl md:text-3xl font-bold tracking-tight text-gray-900 lg:text-4xl">{t('pages.shipping.title')}</h1>
-          <p className="mx-auto mt-3 md:mt-4 max-w-3xl text-sm md:text-base text-gray-500">
+      {/* Atlas editorial hero strip */}
+      <div className="relative bg-indigo-900 overflow-hidden">
+        <div
+          className="absolute inset-0 opacity-25"
+          style={{
+            backgroundImage:
+              'radial-gradient(circle at 15% 15%, #f59e0b 0, transparent 45%), radial-gradient(circle at 85% 60%, #6366f1 0, transparent 50%)',
+          }}
+        />
+        <div className="relative mx-auto max-w-7xl px-6 py-16 sm:py-20 text-center">
+          <p className="text-xs uppercase tracking-[0.18em] text-amber-400 font-medium mb-3">
+            {t('pages.shipping.title')}
+          </p>
+          <h1
+            className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white"
+            style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
+          >
+            {t('pages.shipping.title')}
+          </h1>
+          <p className="mx-auto mt-4 max-w-2xl text-base text-indigo-200">
             {t('pages.shipping.subtitle')}
           </p>
         </div>
+      </div>
 
+      <div className="mx-auto max-w-7xl py-12 px-6 lg:py-16 lg:px-8">
         {/* Shipping Options */}
-        <div className="mt-10 md:mt-16">
-          <h2 className="text-xl md:text-2xl font-bold text-gray-900">{t('pages.shipping.deliveryOptions')}</h2>
-          <div className="mt-4 md:mt-6 grid gap-4 md:gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-2">
+          <h2
+            className="text-2xl font-bold text-indigo-900"
+            style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
+          >
+            {t('pages.shipping.deliveryOptions')}
+          </h2>
+          <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {deliveryOptions.map((option) => (
               <div
                 key={option.name}
-                className="relative rounded-lg border border-gray-200 bg-white p-6 shadow-sm focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 hover:border-indigo-400"
+                className="relative rounded-2xl ring-1 ring-amber-200/60 bg-white p-6 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md hover:ring-amber-300"
               >
                 <div>
-                  <span className="inline-flex rounded-lg bg-indigo-50 p-2 md:p-3">
-                    <option.icon className="h-5 w-5 md:h-6 md:w-6 text-indigo-600" aria-hidden="true" />
+                  <span className="inline-flex rounded-xl bg-amber-50 p-3">
+                    <option.icon className="h-6 w-6 text-amber-600" aria-hidden="true" />
                   </span>
                 </div>
-                <div className="mt-3 md:mt-4">
-                  <h3 className="text-base md:text-lg font-medium text-gray-900">
-                    <span className="focus:outline-none">
-                      {option.name}
-                    </span>
+                <div className="mt-4">
+                  <h3 className="text-base font-semibold text-indigo-900">
+                    {option.name}
                   </h3>
-                  <p className="mt-1 md:mt-2 text-xs md:text-sm text-gray-500">{option.description}</p>
-                  <p className="mt-1 md:mt-2 text-xs md:text-sm font-semibold text-indigo-600">{option.price}</p>
+                  <p className="mt-2 text-sm text-gray-500">{option.description}</p>
+                  <p className="mt-2 text-sm font-semibold text-amber-700">{option.price}</p>
                 </div>
               </div>
             ))}
@@ -94,43 +115,57 @@ export default function ShippingPage() {
         </div>
 
         {/* Shipping Policies */}
-        <div className="mt-10 md:mt-16">
-          <h2 className="text-xl md:text-2xl font-bold text-gray-900">{t('pages.shipping.shippingPolicy')}</h2>
-          <div className="mt-4 md:mt-6 rounded-lg bg-gray-50 px-4 py-6 sm:px-6 sm:py-8 md:p-10">
+        <div className="mt-16">
+          <h2
+            className="text-2xl font-bold text-indigo-900"
+            style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
+          >
+            {t('pages.shipping.shippingPolicy')}
+          </h2>
+          <div className="mt-6 rounded-2xl bg-amber-50 px-6 py-8 sm:p-10">
             <div className="flow-root">
-              <ul role="list" className="space-y-4 md:space-y-6">
+              <ul role="list" className="space-y-6">
                 <li className="flex">
-                  <ShieldCheckIcon className="h-5 w-5 md:h-6 md:w-6 flex-shrink-0 text-indigo-500 mt-0.5" aria-hidden="true" />
-                  <span className="ml-3 text-sm md:text-base text-gray-700">
-                    <strong className="font-semibold text-gray-900">{t('pages.shipping.processingTime')}:</strong> {t('pages.shipping.processingText')}
+                  <ShieldCheck className="h-5 w-5 flex-shrink-0 text-amber-600 mt-0.5" aria-hidden="true" />
+                  <span className="ml-3 text-sm text-gray-700">
+                    <strong className="font-semibold text-indigo-900">{t('pages.shipping.processingTime')}:</strong>{' '}
+                    {t('pages.shipping.processingText')}
                   </span>
                 </li>
                 <li className="flex">
-                  <ShieldCheckIcon className="h-6 w-6 flex-shrink-0 text-indigo-500" aria-hidden="true" />
-                  <span className="ml-3 text-base text-gray-700">
-                    <strong className="font-semibold text-gray-900">Shipping Confirmation:</strong> You will receive a
-                    shipping confirmation email with tracking information once your order has been shipped.
+                  <ShieldCheck className="h-5 w-5 flex-shrink-0 text-amber-600 mt-0.5" aria-hidden="true" />
+                  <span className="ml-3 text-sm text-gray-700">
+                    <strong className="font-semibold text-indigo-900">
+                      {t('content.shipping.shippingConfirmation', 'Shipping Confirmation')}:
+                    </strong>{' '}
+                    {t('content.shipping.shippingConfirmationText', 'You will receive a shipping confirmation email with tracking information once your order has been shipped.')}
                   </span>
                 </li>
                 <li className="flex">
-                  <ShieldCheckIcon className="h-6 w-6 flex-shrink-0 text-indigo-500" aria-hidden="true" />
-                  <span className="ml-3 text-base text-gray-700">
-                    <strong className="font-semibold text-gray-900">Delivery Days:</strong> We deliver Monday through
-                    Friday, excluding public holidays.
+                  <ShieldCheck className="h-5 w-5 flex-shrink-0 text-amber-600 mt-0.5" aria-hidden="true" />
+                  <span className="ml-3 text-sm text-gray-700">
+                    <strong className="font-semibold text-indigo-900">
+                      {t('content.shipping.deliveryDays', 'Delivery Days')}:
+                    </strong>{' '}
+                    {t('content.shipping.deliveryDaysText', 'We deliver Monday through Friday, excluding public holidays.')}
                   </span>
                 </li>
                 <li className="flex">
-                  <ShieldCheckIcon className="h-6 w-6 flex-shrink-0 text-indigo-500" aria-hidden="true" />
-                  <span className="ml-3 text-base text-gray-700">
-                    <strong className="font-semibold text-gray-900">Address Changes:</strong> Once an order has been
-                    placed, the shipping address cannot be changed.
+                  <ShieldCheck className="h-5 w-5 flex-shrink-0 text-amber-600 mt-0.5" aria-hidden="true" />
+                  <span className="ml-3 text-sm text-gray-700">
+                    <strong className="font-semibold text-indigo-900">
+                      {t('content.shipping.addressChanges', 'Address Changes')}:
+                    </strong>{' '}
+                    {t('content.shipping.addressChangesText', 'Once an order has been placed, the shipping address cannot be changed.')}
                   </span>
                 </li>
                 <li className="flex">
-                  <ShieldCheckIcon className="h-6 w-6 flex-shrink-0 text-indigo-500" aria-hidden="true" />
-                  <span className="ml-3 text-base text-gray-700">
-                    <strong className="font-semibold text-gray-900">Package Handling:</strong> All packages are handled with
-                    care and are insured against loss or damage during shipping.
+                  <ShieldCheck className="h-5 w-5 flex-shrink-0 text-amber-600 mt-0.5" aria-hidden="true" />
+                  <span className="ml-3 text-sm text-gray-700">
+                    <strong className="font-semibold text-indigo-900">
+                      {t('content.shipping.packageHandling', 'Package Handling')}:
+                    </strong>{' '}
+                    {t('content.shipping.packageHandlingText', 'All packages are handled with care and are insured against loss or damage during shipping.')}
                   </span>
                 </li>
               </ul>
@@ -139,15 +174,20 @@ export default function ShippingPage() {
         </div>
 
         {/* Shipping FAQs */}
-        <div className="mt-10 md:mt-16">
-          <h2 className="text-xl md:text-2xl font-bold text-gray-900">{t('pages.shipping.faqsTitle')}</h2>
-          <div className="mt-4 md:mt-6">
-            <dl className="divide-y divide-gray-200">
+        <div className="mt-16">
+          <h2
+            className="text-2xl font-bold text-indigo-900"
+            style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
+          >
+            {t('pages.shipping.faqsTitle')}
+          </h2>
+          <div className="mt-6">
+            <dl className="divide-y divide-amber-100">
               {shippingFaqs.map((faq) => (
-                <div key={faq.question} className="py-4 md:py-6 md:grid md:grid-cols-12 md:gap-6 lg:gap-8">
-                  <dt className="text-sm md:text-base font-medium text-gray-900 md:col-span-5">{faq.question}</dt>
+                <div key={faq.question} className="py-6 md:grid md:grid-cols-12 md:gap-8">
+                  <dt className="text-sm font-semibold text-indigo-900 md:col-span-5">{faq.question}</dt>
                   <dd className="mt-2 md:mt-0 md:col-span-7">
-                    <p className="text-sm md:text-base text-gray-500">{faq.answer}</p>
+                    <p className="text-sm text-gray-500">{faq.answer}</p>
                   </dd>
                 </div>
               ))}
@@ -156,20 +196,25 @@ export default function ShippingPage() {
         </div>
 
         {/* Contact */}
-        <div className="mt-10 md:mt-16 bg-indigo-50 rounded-lg overflow-hidden shadow">
-          <div className="px-4 py-6 sm:px-6 sm:py-8 md:p-10">
+        <div className="mt-16 rounded-2xl bg-indigo-50 ring-1 ring-indigo-100 overflow-hidden">
+          <div className="px-6 py-8 sm:p-10">
             <div className="max-w-3xl mx-auto">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 md:gap-x-8 gap-y-4 md:gap-y-6 items-center">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
                 <div>
-                  <h3 className="text-lg md:text-xl font-semibold text-gray-900">{t('pages.shipping.needHelp')}</h3>
-                  <p className="mt-2 md:mt-3 text-sm md:text-base text-gray-500">
+                  <h3
+                    className="text-xl font-bold text-indigo-900"
+                    style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
+                  >
+                    {t('pages.shipping.needHelp')}
+                  </h3>
+                  <p className="mt-3 text-sm text-gray-600">
                     {t('pages.shipping.helpText')}
                   </p>
                 </div>
                 <div className="flex md:justify-end">
                   <a
                     href="/contact"
-                    className="inline-flex w-full md:w-auto items-center justify-center px-4 md:px-6 py-2 md:py-3 border border-transparent rounded-md shadow-sm text-sm md:text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                    className="inline-flex w-full md:w-auto items-center justify-center rounded-full px-6 py-3 text-sm font-semibold text-white bg-indigo-700 hover:bg-indigo-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition"
                   >
                     {t('pages.shipping.contactSupport')}
                   </a>

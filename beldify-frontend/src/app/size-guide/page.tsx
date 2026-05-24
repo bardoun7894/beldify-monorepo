@@ -2,15 +2,11 @@
 
 import { useTranslation } from 'react-i18next';
 import { useState } from 'react';
-import {
-  RectangleGroupIcon as GarmentIcon,
-  Square2StackIcon as MeasureIcon,
-} from '@heroicons/react/24/outline';
+import { LayoutGrid, Layers } from 'lucide-react';
 import Image from 'next/image';
 
 type MeasurementType = 'men' | 'women' | 'kids';
 type GarmentType = 'caftan' | 'jabador' | 'kandora';
-type SizeSystem = 'ma' | 'eu' | 'uk' | 'us';
 
 export default function SizeGuidePage() {
   const { t } = useTranslation();
@@ -27,7 +23,7 @@ export default function SizeGuidePage() {
         t('size_guide.measurements.length'),
       ];
     } else {
-      const baseHeaders = [
+      return [
         t('size_guide.measurements.ma_size'),
         measurementType === 'women'
           ? t('size_guide.measurements.bust')
@@ -36,7 +32,6 @@ export default function SizeGuidePage() {
         t('size_guide.measurements.hip'),
         t('size_guide.measurements.length'),
       ];
-      return baseHeaders;
     }
   };
 
@@ -175,285 +170,208 @@ export default function SizeGuidePage() {
     },
   };
 
+  const measurementTypes: { key: MeasurementType; label: string }[] = [
+    { key: 'women', label: t('size_guide.women') },
+    { key: 'men', label: t('size_guide.men') },
+    { key: 'kids', label: t('size_guide.kids') },
+  ];
+
+  const garmentTypes: { key: GarmentType; label: string }[] = [
+    { key: 'caftan', label: t('size_guide.garment_caftan') },
+    { key: 'jabador', label: t('size_guide.garment_jabador') },
+    { key: 'kandora', label: t('size_guide.garment_kandora') },
+  ];
+
+  const SizeTable = ({
+    headers,
+    rows,
+    title,
+  }: {
+    headers: string[];
+    rows: string[][];
+    title: string;
+  }) => (
+    <div className="rounded-2xl ring-1 ring-amber-200/60 bg-white shadow-sm overflow-hidden mb-8">
+      <div className="px-6 py-4 bg-indigo-50 border-b border-amber-100">
+        <h2
+          className="text-xl font-bold text-indigo-900"
+          style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
+        >
+          {title}
+        </h2>
+      </div>
+      <div className="overflow-x-auto">
+        <table className="min-w-full divide-y divide-amber-100">
+          <thead className="bg-amber-50/50">
+            <tr>
+              {headers.map((header, index) => (
+                <th
+                  key={index}
+                  className="px-6 py-4 text-left text-xs font-semibold text-indigo-900 uppercase tracking-wide"
+                >
+                  {header}
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody className="bg-white divide-y divide-amber-50">
+            {rows.map((row, rowIndex) => (
+              <tr key={rowIndex} className="transition hover:bg-amber-50/30">
+                {row.map((cell, cellIndex) => (
+                  <td
+                    key={cellIndex}
+                    className="px-6 py-4 whitespace-nowrap text-sm text-gray-700"
+                  >
+                    {cellIndex === 0 ? (
+                      <span className="inline-flex items-center rounded-full bg-indigo-50 px-3 py-1 text-xs font-semibold text-indigo-700 ring-1 ring-indigo-200/60">
+                        {cell}
+                      </span>
+                    ) : (
+                      cell
+                    )}
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-900">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        {/* Header */}
-        <div className="text-center mb-12">
-          <h1 className="text-3xl font-bold tracking-tight text-indigo-900 dark:text-indigo-100 mb-4">
+    <div className="min-h-screen bg-white">
+      {/* Atlas editorial hero strip */}
+      <div className="relative bg-indigo-900 overflow-hidden">
+        <div
+          className="absolute inset-0 opacity-25"
+          style={{
+            backgroundImage:
+              'radial-gradient(circle at 15% 15%, #f59e0b 0, transparent 45%), radial-gradient(circle at 85% 60%, #6366f1 0, transparent 50%)',
+          }}
+        />
+        <div className="relative mx-auto max-w-7xl px-6 py-16 sm:py-20 text-center">
+          <p className="text-xs uppercase tracking-[0.18em] text-amber-400 font-medium mb-3">
+            {t('size_guide.title')}
+          </p>
+          <h1
+            className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white"
+            style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
+          >
             {t('size_guide.title')}
           </h1>
-          <p className="text-base text-gray-700 dark:text-gray-300 max-w-2xl mx-auto">
+          <p className="mx-auto mt-4 max-w-2xl text-base text-indigo-200">
             {t('size_guide.description')}
           </p>
         </div>
+      </div>
 
+      <div className="max-w-7xl mx-auto px-6 lg:px-8 py-12">
         {/* Type Selectors */}
-        <div className="space-y-8 mb-12">
-          {/* Age Group Selector */}
-          <div className="flex justify-center space-x-6">
-            <button
-              onClick={() => setMeasurementType('women')}
-              className={`flex items-center px-8 py-4 rounded-lg border-2 transition-all ${
-                measurementType === 'women'
-                  ? 'border-indigo-600 text-indigo-600 bg-indigo-50 dark:bg-indigo-900/20'
-                  : 'border-gray-300 text-gray-600 hover:border-indigo-300'
-              }`}
-            >
-              <GarmentIcon className="h-6 w-6 mr-3" />
-              <span className="text-lg font-medium">{t('size_guide.women')}</span>
-            </button>
-            <button
-              onClick={() => setMeasurementType('men')}
-              className={`flex items-center px-8 py-4 rounded-lg border-2 transition-all ${
-                measurementType === 'men'
-                  ? 'border-indigo-600 text-indigo-600 bg-indigo-50 dark:bg-indigo-900/20'
-                  : 'border-gray-300 text-gray-600 hover:border-indigo-300'
-              }`}
-            >
-              <GarmentIcon className="h-6 w-6 mr-3" />
-              <span className="text-lg font-medium">{t('size_guide.men')}</span>
-            </button>
-            <button
-              onClick={() => setMeasurementType('kids')}
-              className={`flex items-center px-8 py-4 rounded-lg border-2 transition-all ${
-                measurementType === 'kids'
-                  ? 'border-indigo-600 text-indigo-600 bg-indigo-50 dark:bg-indigo-900/20'
-                  : 'border-gray-300 text-gray-600 hover:border-indigo-300'
-              }`}
-            >
-              <GarmentIcon className="h-6 w-6 mr-3" />
-              <span className="text-lg font-medium">{t('size_guide.kids')}</span>
-            </button>
+        <div className="space-y-6 mb-12">
+          {/* Age Group Pills */}
+          <div className="flex justify-center gap-3 flex-wrap">
+            {measurementTypes.map(({ key, label }) => (
+              <button
+                key={key}
+                onClick={() => setMeasurementType(key)}
+                className={`flex items-center gap-2 px-6 py-3 rounded-full text-sm font-semibold transition ${
+                  measurementType === key
+                    ? 'bg-indigo-700 text-white shadow-sm'
+                    : 'bg-white text-indigo-700 ring-1 ring-indigo-200 hover:ring-indigo-400'
+                }`}
+              >
+                <LayoutGrid className="h-4 w-4" />
+                {label}
+              </button>
+            ))}
           </div>
 
-          {/* Garment Type Selector */}
-          <div className="flex justify-center space-x-6">
-            <button
-              onClick={() => setGarmentType('caftan')}
-              className={`px-6 py-3 rounded-lg text-sm font-medium transition-all ${
-                garmentType === 'caftan'
-                  ? 'bg-indigo-600 text-white'
-                  : 'text-gray-600 hover:bg-gray-100 dark:hover:bg-gray-800'
-              }`}
-            >
-              {t('size_guide.garment_caftan')}
-            </button>
-            <button
-              onClick={() => setGarmentType('jabador')}
-              className={`px-6 py-3 rounded-lg text-sm font-medium transition-all ${
-                garmentType === 'jabador'
-                  ? 'bg-indigo-600 text-white'
-                  : 'text-gray-600 hover:bg-gray-100 dark:hover:bg-gray-800'
-              }`}
-            >
-              {t('size_guide.garment_jabador')}
-            </button>
-            <button
-              onClick={() => setGarmentType('kandora')}
-              className={`px-6 py-3 rounded-lg text-sm font-medium transition-all ${
-                garmentType === 'kandora'
-                  ? 'bg-indigo-600 text-white'
-                  : 'text-gray-600 hover:bg-gray-100 dark:hover:bg-gray-800'
-              }`}
-            >
-              {t('size_guide.garment_kandora')}
-            </button>
+          {/* Garment Type Pills */}
+          <div className="flex justify-center gap-3 flex-wrap">
+            {garmentTypes.map(({ key, label }) => (
+              <button
+                key={key}
+                onClick={() => setGarmentType(key)}
+                className={`flex items-center gap-2 px-5 py-2 rounded-full text-sm font-medium transition ${
+                  garmentType === key
+                    ? 'bg-amber-500 text-white shadow-sm'
+                    : 'bg-amber-50 text-amber-800 ring-1 ring-amber-200 hover:ring-amber-400'
+                }`}
+              >
+                {label}
+              </button>
+            ))}
           </div>
         </div>
 
         {/* Size Charts */}
         {garmentType === 'jabador' ? (
           <>
-            {/* Jabador Top */}
-            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg mb-8 overflow-hidden">
-              <div className="px-6 py-4 bg-indigo-50 dark:bg-indigo-900/20 border-b border-gray-200 dark:border-gray-700">
-                <h2 className="text-2xl font-semibold text-indigo-800 dark:text-indigo-200">
-                  {t(`size_guide.${measurementType}_jabador_top`)}
-                </h2>
-              </div>
-              <div className="overflow-x-auto">
-                <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-                  <thead className="bg-gray-50 dark:bg-gray-800">
-                    <tr>
-                      {getMeasurementHeaders(measurementType, 'jabador').map((header, index) => (
-                        <th
-                          key={index}
-                          className="px-6 py-4 text-left text-sm font-semibold text-gray-900 dark:text-gray-100"
-                        >
-                          {header}
-                        </th>
-                      ))}
-                    </tr>
-                  </thead>
-                  <tbody className="bg-white dark:bg-gray-900 divide-y divide-gray-200 dark:divide-gray-700">
-                    {sizeCharts[measurementType].jabador.top.rows.map((row, rowIndex) => (
-                      <tr key={rowIndex} className="hover:bg-gray-50 dark:hover:bg-gray-800">
-                        {row.map((cell, cellIndex) => (
-                          <td
-                            key={cellIndex}
-                            className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300"
-                          >
-                            {cell}
-                          </td>
-                        ))}
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-
-            {/* Jabador Pants */}
-            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg mb-12 overflow-hidden">
-              <div className="px-6 py-4 bg-indigo-50 dark:bg-indigo-900/20 border-b border-gray-200 dark:border-gray-700">
-                <h2 className="text-2xl font-semibold text-indigo-800 dark:text-indigo-200">
-                  {t(`size_guide.${measurementType}_jabador_pants`)}
-                </h2>
-              </div>
-              <div className="overflow-x-auto">
-                <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-                  <thead className="bg-gray-50 dark:bg-gray-800">
-                    <tr>
-                      {getMeasurementHeaders(measurementType, 'jabador').map((header, index) => (
-                        <th
-                          key={index}
-                          className="px-6 py-4 text-left text-sm font-semibold text-gray-900 dark:text-gray-100"
-                        >
-                          {header}
-                        </th>
-                      ))}
-                    </tr>
-                  </thead>
-                  <tbody className="bg-white dark:bg-gray-900 divide-y divide-gray-200 dark:divide-gray-700">
-                    {sizeCharts[measurementType].jabador.pants.rows.map((row, rowIndex) => (
-                      <tr key={rowIndex} className="hover:bg-gray-50 dark:hover:bg-gray-800">
-                        {row.map((cell, cellIndex) => (
-                          <td
-                            key={cellIndex}
-                            className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300"
-                          >
-                            {cell}
-                          </td>
-                        ))}
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </div>
+            <SizeTable
+              title={t(`size_guide.${measurementType}_jabador_top`)}
+              headers={getMeasurementHeaders(measurementType, 'jabador')}
+              rows={sizeCharts[measurementType].jabador.top.rows}
+            />
+            <SizeTable
+              title={t(`size_guide.${measurementType}_jabador_pants`)}
+              headers={getMeasurementHeaders(measurementType, 'jabador')}
+              rows={sizeCharts[measurementType].jabador.pants.rows}
+            />
           </>
         ) : garmentType === 'kandora' ? (
-          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg mb-12 overflow-hidden">
-            <div className="px-6 py-4 bg-indigo-50 dark:bg-indigo-900/20 border-b border-gray-200 dark:border-gray-700">
-              <h2 className="text-2xl font-semibold text-indigo-800 dark:text-indigo-200">
-                {t(`size_guide.${measurementType}_kandora`)}
-              </h2>
-            </div>
-            <div className="overflow-x-auto">
-              <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-                <thead className="bg-gray-50 dark:bg-gray-800">
-                  <tr>
-                    {getMeasurementHeaders(measurementType, 'kandora').map((header, index) => (
-                      <th
-                        key={index}
-                        className="px-6 py-4 text-left text-sm font-semibold text-gray-900 dark:text-gray-100"
-                      >
-                        {header}
-                      </th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody className="bg-white dark:bg-gray-900 divide-y divide-gray-200 dark:divide-gray-700">
-                  {sizeCharts[measurementType].kandora.rows.map((row, rowIndex) => (
-                    <tr key={rowIndex} className="hover:bg-gray-50 dark:hover:bg-gray-800">
-                      {row.map((cell, cellIndex) => (
-                        <td
-                          key={cellIndex}
-                          className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300"
-                        >
-                          {cell}
-                        </td>
-                      ))}
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
+          <SizeTable
+            title={t(`size_guide.${measurementType}_kandora`)}
+            headers={getMeasurementHeaders(measurementType, 'kandora')}
+            rows={sizeCharts[measurementType].kandora.rows}
+          />
         ) : sizeCharts[measurementType]?.caftan ? (
-          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg mb-12 overflow-hidden">
-            <div className="px-6 py-4 bg-indigo-50 dark:bg-indigo-900/20 border-b border-gray-200 dark:border-gray-700">
-              <h2 className="text-2xl font-semibold text-indigo-800 dark:text-indigo-200">
-                {measurementType === 'kids'
-                  ? t('size_guide.kids_caftan')
-                  : t('size_guide.garment_caftan')}
-              </h2>
-            </div>
-            <div className="overflow-x-auto">
-              <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-                <thead className="bg-gray-50 dark:bg-gray-800">
-                  <tr>
-                    {getMeasurementHeaders(measurementType, 'caftan').map((header, index) => (
-                      <th
-                        key={index}
-                        className="px-6 py-4 text-left text-sm font-semibold text-gray-900 dark:text-gray-100"
-                      >
-                        {header}
-                      </th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody className="bg-white dark:bg-gray-900 divide-y divide-gray-200 dark:divide-gray-700">
-                  {sizeCharts[measurementType].caftan.rows.map((row, rowIndex) => (
-                    <tr key={rowIndex} className="hover:bg-gray-50 dark:hover:bg-gray-800">
-                      {row.map((cell, cellIndex) => (
-                        <td
-                          key={cellIndex}
-                          className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300"
-                        >
-                          {cell}
-                        </td>
-                      ))}
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
+          <SizeTable
+            title={
+              measurementType === 'kids'
+                ? t('size_guide.kids_caftan')
+                : t('size_guide.garment_caftan')
+            }
+            headers={getMeasurementHeaders(measurementType, 'caftan')}
+            rows={sizeCharts[measurementType].caftan.rows}
+          />
         ) : (
           <div className="text-center py-12">
-            <p className="text-gray-600 dark:text-gray-400">{t('size_guide.no_measurements')}</p>
+            <p className="text-gray-600">{t('size_guide.no_measurements')}</p>
           </div>
         )}
+
         {/* Measurement Instructions */}
-        <div className="grid md:grid-cols-2 gap-8 mb-12">
+        <div className="grid md:grid-cols-2 gap-8 mt-12 mb-12">
           <div className="space-y-6">
-            <h2 className="text-2xl font-semibold text-indigo-800 dark:text-indigo-200">
+            <h2
+              className="text-2xl font-bold text-indigo-900"
+              style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
+            >
               {t('size_guide.how_to_measure')}
             </h2>
             <div className="space-y-4">
               {/* Length Measurement */}
-              <div className="flex items-start p-4 bg-white dark:bg-gray-800 rounded-lg shadow-sm">
-                <MeasureIcon className="h-6 w-6 text-indigo-600 mt-1 mr-3" />
+              <div className="flex items-start p-5 rounded-2xl ring-1 ring-amber-200/60 bg-white shadow-sm">
+                <Layers className="h-5 w-5 text-amber-600 mt-1 mr-3 flex-shrink-0" />
                 <div>
-                  <h3 className="font-medium text-gray-900 dark:text-gray-100">
+                  <h3 className="font-semibold text-indigo-900">
                     {t('size_guide.length')}
                   </h3>
-                  <p className="text-gray-600 dark:text-gray-400">{t('size_guide.length_desc')}</p>
-                  <p className="text-sm text-amber-600 dark:text-amber-400 mt-2">
-                    * {measurementType === 'women' ? 'Caftan' : 'Jabador'} lengths range from 150cm
-                    to 170cm
+                  <p className="text-gray-600 text-sm mt-1">{t('size_guide.length_desc')}</p>
+                  <p className="text-xs text-amber-700 mt-2">
+                    * {t('content.sizeGuide.lengthRange', {
+                      garment: measurementType === 'women' ? 'Caftan' : 'Jabador',
+                    })}
                   </p>
                 </div>
               </div>
-              {/* Other measurements... */}
             </div>
           </div>
-          <div className="relative h-[400px] rounded-xl overflow-hidden">
+          <div className="relative h-[400px] rounded-2xl overflow-hidden ring-1 ring-amber-200/60">
             <Image
               src="/images/measurement-guide.jpg"
-              alt="Measurement Guide"
+              alt={t('content.sizeGuide.measurementGuideAlt', 'Measurement Guide')}
               fill
               className="object-cover"
             />
