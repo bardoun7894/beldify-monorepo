@@ -28,6 +28,8 @@ const SENTENCE = /^[A-Z][\w\s,.!?'"&:;/-]+$/;
 const HAS_VOWEL = /[aeiouAEIOU]/;
 const IGNORE_FILES = /\/(node_modules|\.next|locales|test-utils|__tests__|i18n)\//;
 const STOPWORDS = new Set(["TODO", "FIXME", "API", "URL", "JSON", "HTML", "CSS", "RTL", "LTR", "MAD", "USD", "EUR"]);
+// TS generic type names that match >X< pattern but are types, not JSX text
+const TS_TYPE_WORDS = new Set(["Promise", "Array", "Map", "Set", "Record", "Partial", "Readonly", "Required", "Pick", "Omit", "ReturnType", "Awaited", "Observable", "Subject", "BehaviorSubject", "Ref", "MutableRefObject", "ChangeEvent", "FormEvent", "MouseEvent", "KeyboardEvent", "FocusEvent", "TouchEvent", "DragEvent", "ClipboardEvent", "WheelEvent", "AnimationEvent", "TransitionEvent", "UIEvent", "SyntheticEvent", "Component", "FC", "PropsWithChildren", "ReactNode", "ReactElement", "JSXElementConstructor", "ComponentType", "Dispatch", "SetStateAction", "Action", "Reducer", "Store", "State", "Props"]);
 
 async function walk(dir, out = []) {
   let entries;
@@ -45,13 +47,15 @@ async function walk(dir, out = []) {
   return out;
 }
 
-function looksLikeCopy(s) {
+function looksLikeCopy(s, file) {
   const trimmed = s.trim();
   if (trimmed.length < 3) return false;
   if (STOPWORDS.has(trimmed)) return false;
   if (!SENTENCE.test(trimmed)) return false;
   if (!HAS_VOWEL.test(trimmed)) return false;
   if (/^\{.*\}$/.test(trimmed)) return false;
+  // Filter TS generic types unconditionally — false positives from `=> Promise<void>` etc
+  if (TS_TYPE_WORDS.has(trimmed.split(/\s+/)[0])) return false;
   return true;
 }
 
@@ -69,7 +73,7 @@ function scanFile(file, src) {
     re.lastIndex = 0;
     while ((m = re.exec(src)) !== null) {
       const snippet = m[1];
-      if (!looksLikeCopy(snippet)) continue;
+      if (!looksLikeCopy(snippet, file)) continue;
       const pre = src.slice(0, m.index);
       const lineNum = pre.split("\n").length;
       if (tCalls.has(lineNum)) continue;

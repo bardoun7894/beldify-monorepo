@@ -845,7 +845,25 @@
     "productNotAvailable": "Ce produit n'est actuellement pas disponible",
     "selectAllOptions": "Veuillez sélectionner toutes les options avant d'ajouter au panier",
     "variantNotAvailable": "La combinaison sélectionnée n'est pas disponible",
-    "shop_not_found": "Informations de la boutique non disponibles"
+    "shop_not_found": "Informations de la boutique non disponibles",
+    "boundary": {
+      "title": "Une erreur est survenue",
+      "body": "Nous nous excusons pour la gêne occasionnée. Veuillez actualiser la page.",
+      "devDetails": "Détails de l'erreur (Développement)",
+      "errorLabel": "Erreur :",
+      "retry": "Réessayer",
+      "reload": "Recharger la page"
+    },
+    "api": {
+      "title": "Échec du chargement des données",
+      "fallback": "Une erreur inattendue s'est produite lors du chargement des données.",
+      "retry": "Réessayer"
+    },
+    "component": {
+      "failed": "Ce composant n'a pas pu se charger.",
+      "namedFailed": "Le composant {{name}} n'a pas pu se charger.",
+      "retry": "Réessayer"
+    }
   },
   "notifications": {
     "success": {
@@ -1865,29 +1883,74 @@
     },
     "items": {
       "shipping": {
-        "0": { "question": "Beldify livre-t-il à l'international ?", "answer": "Oui. Beldify livre dans la plupart des pays du monde. Les frais et délais varient selon la destination." },
-        "1": { "question": "Quelles sont les options de livraison au Maroc ?", "answer": "Nous proposons la livraison standard (5–7 jours ouvrables) et express (2–3 jours). Les commandes de plus de 500 MAD bénéficient de la livraison standard gratuite." },
-        "2": { "question": "Comment suivre ma commande ?", "answer": "Dès l'expédition, vous recevrez un e-mail de confirmation avec un lien de suivi." }
+        "0": {
+          "question": "Beldify livre-t-il à l'international ?",
+          "answer": "Oui. Beldify livre dans la plupart des pays du monde. Les frais et délais varient selon la destination."
+        },
+        "1": {
+          "question": "Quelles sont les options de livraison au Maroc ?",
+          "answer": "Nous proposons la livraison standard (5–7 jours ouvrables) et express (2–3 jours). Les commandes de plus de 500 MAD bénéficient de la livraison standard gratuite."
+        },
+        "2": {
+          "question": "Comment suivre ma commande ?",
+          "answer": "Dès l'expédition, vous recevrez un e-mail de confirmation avec un lien de suivi."
+        }
       },
       "returns": {
-        "0": { "question": "Quelle est votre politique de retour ?", "answer": "Nous acceptons les retours dans les 14 jours suivant la livraison pour les articles non portés en état d'origine." },
-        "1": { "question": "Comment initier un retour ?", "answer": "Connectez-vous, allez dans Commandes, sélectionnez la commande concernée et suivez les instructions de retour." },
-        "2": { "question": "Combien de temps prennent les remboursements ?", "answer": "Nous traitons les remboursements dans les 3–5 jours ouvrables suivant la réception du retour." }
+        "0": {
+          "question": "Quelle est votre politique de retour ?",
+          "answer": "Nous acceptons les retours dans les 14 jours suivant la livraison pour les articles non portés en état d'origine."
+        },
+        "1": {
+          "question": "Comment initier un retour ?",
+          "answer": "Connectez-vous, allez dans Commandes, sélectionnez la commande concernée et suivez les instructions de retour."
+        },
+        "2": {
+          "question": "Combien de temps prennent les remboursements ?",
+          "answer": "Nous traitons les remboursements dans les 3–5 jours ouvrables suivant la réception du retour."
+        }
       },
       "tailoring": {
-        "0": { "question": "Comment fonctionne le tailleur sur mesure ?", "answer": "Parcourez les tailleurs vérifiés, sélectionnez-en un, remplissez le formulaire de mesure et confirmez votre commande." },
-        "1": { "question": "Puis-je personnaliser le tissu ou la broderie ?", "answer": "Oui. Chaque page de tailleur liste les options de personnalisation disponibles." },
-        "2": { "question": "Que faire si le vêtement ne convient pas ?", "answer": "Nous offrons une ronde de retouche gratuite sur toutes les commandes sur mesure." }
+        "0": {
+          "question": "Comment fonctionne le tailleur sur mesure ?",
+          "answer": "Parcourez les tailleurs vérifiés, sélectionnez-en un, remplissez le formulaire de mesure et confirmez votre commande."
+        },
+        "1": {
+          "question": "Puis-je personnaliser le tissu ou la broderie ?",
+          "answer": "Oui. Chaque page de tailleur liste les options de personnalisation disponibles."
+        },
+        "2": {
+          "question": "Que faire si le vêtement ne convient pas ?",
+          "answer": "Nous offrons une ronde de retouche gratuite sur toutes les commandes sur mesure."
+        }
       },
       "sellers": {
-        "0": { "question": "Comment devenir vendeur sur Beldify ?", "answer": "Postulez sur beldify.com/seller/register. Nous examinons chaque candidature." },
-        "1": { "question": "Quelle commission Beldify prélève-t-il ?", "answer": "La commission varie de 10 % à 15 % selon la catégorie. Aucun frais d'inscription ni d'abonnement mensuel." },
-        "2": { "question": "Quand les vendeurs sont-ils payés ?", "answer": "Les paiements sont déposés toutes les deux semaines après le délai de retour de 14 jours." }
+        "0": {
+          "question": "Comment devenir vendeur sur Beldify ?",
+          "answer": "Postulez sur beldify.com/seller/register. Nous examinons chaque candidature."
+        },
+        "1": {
+          "question": "Quelle commission Beldify prélève-t-il ?",
+          "answer": "La commission varie de 10 % à 15 % selon la catégorie. Aucun frais d'inscription ni d'abonnement mensuel."
+        },
+        "2": {
+          "question": "Quand les vendeurs sont-ils payés ?",
+          "answer": "Les paiements sont déposés toutes les deux semaines après le délai de retour de 14 jours."
+        }
       },
       "account": {
-        "0": { "question": "Ai-je besoin d'un compte pour acheter ?", "answer": "Non — la commande en tant qu'invité est disponible. Un compte vous permet de suivre vos commandes et d'accéder à votre liste de souhaits." },
-        "1": { "question": "Quels modes de paiement sont acceptés ?", "answer": "Visa, Mastercard, PayPal, Apple Pay, Google Pay et virement bancaire. Paiement à la livraison disponible au Maroc." },
-        "2": { "question": "Comment réinitialiser mon mot de passe ?", "answer": "Cliquez sur « Mot de passe oublié » sur la page de connexion." }
+        "0": {
+          "question": "Ai-je besoin d'un compte pour acheter ?",
+          "answer": "Non — la commande en tant qu'invité est disponible. Un compte vous permet de suivre vos commandes et d'accéder à votre liste de souhaits."
+        },
+        "1": {
+          "question": "Quels modes de paiement sont acceptés ?",
+          "answer": "Visa, Mastercard, PayPal, Apple Pay, Google Pay et virement bancaire. Paiement à la livraison disponible au Maroc."
+        },
+        "2": {
+          "question": "Comment réinitialiser mon mot de passe ?",
+          "answer": "Cliquez sur « Mot de passe oublié » sur la page de connexion."
+        }
       }
     },
     "stillHaveQuestions": "Vous n'avez pas trouvé votre réponse ?",
@@ -1899,9 +1962,19 @@
     "headline": "Nous sommes là pour vous aider.",
     "sub": "Notre équipe répond à chaque message personnellement. Attendez une réponse dans un délai d'un jour ouvrable.",
     "cards": {
-      "email": { "title": "Nous envoyer un email", "sub": "Nous répondons dans les 24 heures." },
-      "phone": { "title": "Nous appeler", "sub": "Lun – Ven, 9h – 18h (Maroc)" },
-      "address": { "title": "Nous rendre visite", "detail": "123, Avenue de la Médina", "sub": "Tétouan, Maroc" }
+      "email": {
+        "title": "Nous envoyer un email",
+        "sub": "Nous répondons dans les 24 heures."
+      },
+      "phone": {
+        "title": "Nous appeler",
+        "sub": "Lun – Ven, 9h – 18h (Maroc)"
+      },
+      "address": {
+        "title": "Nous rendre visite",
+        "detail": "123, Avenue de la Médina",
+        "sub": "Tétouan, Maroc"
+      }
     },
     "form": {
       "heading": "Envoyez-nous un message",
@@ -1925,5 +1998,12 @@
         "messageTooLong": "Le message doit comporter moins de 500 caractères"
       }
     }
+  },
+  "offline": {
+    "title": "Vous êtes hors ligne",
+    "body": "Il semble que vous ayez perdu votre connexion internet. Pas d'inquiétude, vous pouvez toujours consulter du contenu déjà visité.",
+    "retry": "Réessayer",
+    "back": "Retour",
+    "footnote": "Dès votre retour en ligne, toutes les fonctionnalités seront à nouveau disponibles."
   }
 }

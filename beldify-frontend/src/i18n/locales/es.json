@@ -906,7 +906,25 @@
     "productNotAvailable": "Este producto no está disponible actualmente",
     "selectAllOptions": "Por favor selecciona todas las opciones antes de agregar al carrito",
     "variantNotAvailable": "La combinación seleccionada no está disponible",
-    "shop_not_found": "Información de la tienda no disponible"
+    "shop_not_found": "Información de la tienda no disponible",
+    "boundary": {
+      "title": "Algo salió mal",
+      "body": "Lamentamos las molestias. Por favor, actualiza la página.",
+      "devDetails": "Detalles del error (Desarrollo)",
+      "errorLabel": "Error:",
+      "retry": "Reintentar",
+      "reload": "Recargar página"
+    },
+    "api": {
+      "title": "Error al cargar los datos",
+      "fallback": "Se produjo un error inesperado al obtener los datos.",
+      "retry": "Reintentar"
+    },
+    "component": {
+      "failed": "Este componente no pudo cargarse.",
+      "namedFailed": "El componente {{name}} no pudo cargarse.",
+      "retry": "Reintentar"
+    }
   },
   "notifications": {
     "success": {
@@ -1937,29 +1955,74 @@
     },
     "items": {
       "shipping": {
-        "0": { "question": "¿Beldify hace envíos internacionales?", "answer": "Sí. Beldify envía a la mayoría de países del mundo." },
-        "1": { "question": "¿Cuáles son las opciones de envío en Marruecos?", "answer": "Ofrecemos entrega estándar (5–7 días) y express (2–3 días). Pedidos de más de 500 MAD con envío estándar gratuito." },
-        "2": { "question": "¿Cómo puedo rastrear mi pedido?", "answer": "Recibirás un email de confirmación con enlace de seguimiento cuando se envíe tu pedido." }
+        "0": {
+          "question": "¿Beldify hace envíos internacionales?",
+          "answer": "Sí. Beldify envía a la mayoría de países del mundo."
+        },
+        "1": {
+          "question": "¿Cuáles son las opciones de envío en Marruecos?",
+          "answer": "Ofrecemos entrega estándar (5–7 días) y express (2–3 días). Pedidos de más de 500 MAD con envío estándar gratuito."
+        },
+        "2": {
+          "question": "¿Cómo puedo rastrear mi pedido?",
+          "answer": "Recibirás un email de confirmación con enlace de seguimiento cuando se envíe tu pedido."
+        }
       },
       "returns": {
-        "0": { "question": "¿Cuál es su política de devoluciones?", "answer": "Aceptamos devoluciones dentro de los 14 días desde la entrega para artículos no usados." },
-        "1": { "question": "¿Cómo inicio una devolución?", "answer": "Inicia sesión, ve a Pedidos, selecciona el pedido relevante y sigue las instrucciones de devolución." },
-        "2": { "question": "¿Cuánto tardan los reembolsos?", "answer": "Procesamos los reembolsos en 3–5 días hábiles tras recibir la devolución." }
+        "0": {
+          "question": "¿Cuál es su política de devoluciones?",
+          "answer": "Aceptamos devoluciones dentro de los 14 días desde la entrega para artículos no usados."
+        },
+        "1": {
+          "question": "¿Cómo inicio una devolución?",
+          "answer": "Inicia sesión, ve a Pedidos, selecciona el pedido relevante y sigue las instrucciones de devolución."
+        },
+        "2": {
+          "question": "¿Cuánto tardan los reembolsos?",
+          "answer": "Procesamos los reembolsos en 3–5 días hábiles tras recibir la devolución."
+        }
       },
       "tailoring": {
-        "0": { "question": "¿Cómo funciona la sastrería a medida en Beldify?", "answer": "Explora sastres verificados, selecciona uno, rellena el formulario de medidas y confirma tu pedido." },
-        "1": { "question": "¿Puedo personalizar tela, color o bordado?", "answer": "Sí. La mayoría de talleres pueden acomodar cambios de tela y preferencias de bordado." },
-        "2": { "question": "¿Qué pasa si la prenda no queda bien?", "answer": "Ofrecemos una ronda de alteración gratuita en todos los pedidos a medida." }
+        "0": {
+          "question": "¿Cómo funciona la sastrería a medida en Beldify?",
+          "answer": "Explora sastres verificados, selecciona uno, rellena el formulario de medidas y confirma tu pedido."
+        },
+        "1": {
+          "question": "¿Puedo personalizar tela, color o bordado?",
+          "answer": "Sí. La mayoría de talleres pueden acomodar cambios de tela y preferencias de bordado."
+        },
+        "2": {
+          "question": "¿Qué pasa si la prenda no queda bien?",
+          "answer": "Ofrecemos una ronda de alteración gratuita en todos los pedidos a medida."
+        }
       },
       "sellers": {
-        "0": { "question": "¿Cómo me convierto en vendedor en Beldify?", "answer": "Solicítalo en beldify.com/seller/register. Revisamos cada solicitud de calidad artesanal." },
-        "1": { "question": "¿Qué comisión cobra Beldify?", "answer": "La comisión varía del 10 % al 15 % según la categoría. Sin tarifas de listado ni suscripciones." },
-        "2": { "question": "¿Cuándo reciben los pagos los vendedores?", "answer": "Los pagos se depositan quincenalmente tras el período de devolución de 14 días." }
+        "0": {
+          "question": "¿Cómo me convierto en vendedor en Beldify?",
+          "answer": "Solicítalo en beldify.com/seller/register. Revisamos cada solicitud de calidad artesanal."
+        },
+        "1": {
+          "question": "¿Qué comisión cobra Beldify?",
+          "answer": "La comisión varía del 10 % al 15 % según la categoría. Sin tarifas de listado ni suscripciones."
+        },
+        "2": {
+          "question": "¿Cuándo reciben los pagos los vendedores?",
+          "answer": "Los pagos se depositan quincenalmente tras el período de devolución de 14 días."
+        }
       },
       "account": {
-        "0": { "question": "¿Necesito una cuenta para comprar?", "answer": "No, la compra como invitado está disponible. Una cuenta te da historial de pedidos y lista de deseos." },
-        "1": { "question": "¿Qué métodos de pago se aceptan?", "answer": "Visa, Mastercard, PayPal, Apple Pay, Google Pay y transferencia bancaria." },
-        "2": { "question": "¿Cómo restablezco mi contraseña?", "answer": "Haz clic en «Olvidé mi contraseña» en la página de inicio de sesión." }
+        "0": {
+          "question": "¿Necesito una cuenta para comprar?",
+          "answer": "No, la compra como invitado está disponible. Una cuenta te da historial de pedidos y lista de deseos."
+        },
+        "1": {
+          "question": "¿Qué métodos de pago se aceptan?",
+          "answer": "Visa, Mastercard, PayPal, Apple Pay, Google Pay y transferencia bancaria."
+        },
+        "2": {
+          "question": "¿Cómo restablezco mi contraseña?",
+          "answer": "Haz clic en «Olvidé mi contraseña» en la página de inicio de sesión."
+        }
       }
     },
     "stillHaveQuestions": "¿No encontraste tu respuesta?",
@@ -1971,9 +2034,19 @@
     "headline": "Estamos aquí para ayudarte.",
     "sub": "Nuestro equipo responde cada mensaje personalmente. Espera una respuesta en un día hábil.",
     "cards": {
-      "email": { "title": "Envíanos un email", "sub": "Respondemos en 24 horas." },
-      "phone": { "title": "Llámanos", "sub": "Lun – Vie, 9 am – 6 pm (Marruecos)" },
-      "address": { "title": "Visítanos", "detail": "123, Avenida de la Médina", "sub": "Tetuán, Marruecos" }
+      "email": {
+        "title": "Envíanos un email",
+        "sub": "Respondemos en 24 horas."
+      },
+      "phone": {
+        "title": "Llámanos",
+        "sub": "Lun – Vie, 9 am – 6 pm (Marruecos)"
+      },
+      "address": {
+        "title": "Visítanos",
+        "detail": "123, Avenida de la Médina",
+        "sub": "Tetuán, Marruecos"
+      }
     },
     "form": {
       "heading": "Envíanos un mensaje",
@@ -1997,5 +2070,12 @@
         "messageTooLong": "El mensaje debe tener menos de 500 caracteres"
       }
     }
+  },
+  "offline": {
+    "title": "Estás sin conexión",
+    "body": "Parece que has perdido tu conexión a internet. No te preocupes, aún puedes navegar por contenido visto anteriormente.",
+    "retry": "Reintentar",
+    "back": "Atrás",
+    "footnote": "Cuando vuelvas a estar en línea, todas las funciones estarán disponibles de nuevo."
   }
 }

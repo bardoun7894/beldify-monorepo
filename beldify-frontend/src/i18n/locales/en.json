@@ -972,7 +972,25 @@
     "productNotAvailable": "This product is currently unavailable",
     "selectAllOptions": "Please select all options before adding to cart",
     "variantNotAvailable": "Selected combination is not available",
-    "shop_not_found": "Shop information not available"
+    "shop_not_found": "Shop information not available",
+    "boundary": {
+      "title": "Something went wrong",
+      "body": "We apologize for the inconvenience. Please try refreshing the page.",
+      "devDetails": "Error Details (Development)",
+      "errorLabel": "Error:",
+      "retry": "Try Again",
+      "reload": "Reload Page"
+    },
+    "api": {
+      "title": "Failed to load data",
+      "fallback": "An unexpected error occurred while fetching data.",
+      "retry": "Try again"
+    },
+    "component": {
+      "failed": "This component failed to load.",
+      "namedFailed": "The {{name}} component failed to load.",
+      "retry": "Retry"
+    }
   },
   "notifications": {
     "success": {
@@ -2402,5 +2420,12 @@
         "messageTooLong": "Message must be under 500 characters"
       }
     }
+  },
+  "offline": {
+    "title": "You're Offline",
+    "body": "It looks like you've lost your internet connection. Don't worry, you can still browse some previously viewed content.",
+    "retry": "Try Again",
+    "back": "Go Back",
+    "footnote": "Once you're back online, all features will be available again."
   }
 }
