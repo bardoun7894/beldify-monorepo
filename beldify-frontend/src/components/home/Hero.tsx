@@ -74,12 +74,12 @@ export default function Hero() {
   const isRTL = i18n.language === 'ar';
 
   return (
-    <div className="bg-gray-100 py-6">
+    <div className="bg-amber-50/40 py-6">
       <div className="container mx-auto px-4">
         {/* Main Banner */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-6">
           <div className="lg:col-span-2">
-            <div className="relative aspect-[21/9] rounded-lg overflow-hidden">
+            <div className="relative aspect-[21/9] rounded-2xl overflow-hidden">
               <Image
                 src="/images/banners/main-banner.jpg"
                 alt="Caftan Collection"
@@ -88,13 +88,18 @@ export default function Hero() {
               />
               <div className="absolute inset-0 bg-gradient-to-r from-black/50 to-transparent flex items-center">
                 <div className="p-8 text-white">
-                  <h1 className="text-4xl font-bold mb-2">Luxury Caftans</h1>
-                  <p className="text-xl mb-4">Discover our exclusive collection</p>
+                  <h1
+                    className="text-4xl font-bold mb-2"
+                    style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
+                  >
+                    {t('hero.luxuryCaftans', 'Luxury Caftans')}
+                  </h1>
+                  <p className="text-xl mb-4">{t('hero.discoverCollection', 'Discover our exclusive collection')}</p>
                   <Link
                     href="/category/luxury-caftans"
-                    className="bg-white text-black px-6 py-2 rounded-full font-medium hover:bg-gray-100 transition-colors"
+                    className="bg-white text-indigo-700 px-6 py-2 rounded-full font-medium hover:bg-amber-50 transition-colors duration-[220ms]"
                   >
-                    Shop Now
+                    {t('hero.shopNow', 'Shop Now')}
                   </Link>
                 </div>
               </div>
@@ -103,11 +108,16 @@ export default function Hero() {
           <div className="grid grid-rows-2 gap-4">
             {deals.map((deal) => (
               <Link key={deal.id} href={deal.link}>
-                <div className="relative aspect-[16/9] rounded-lg overflow-hidden">
+                <div className="relative aspect-[16/9] rounded-2xl overflow-hidden">
                   <Image src={deal.image} alt={deal.title} fill className="object-cover" />
                   <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
                     <div className="text-center text-white">
-                      <h3 className="text-xl font-bold">{deal.title}</h3>
+                      <h3
+                        className="text-xl font-bold"
+                        style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
+                      >
+                        {deal.title}
+                      </h3>
                       <p className="text-sm">{deal.description}</p>
                     </div>
                   </div>

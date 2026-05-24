@@ -38,7 +38,10 @@ export default function FeaturedProducts() {
     <div className="bg-white">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="mx-auto max-w-2xl lg:max-w-none">
-          <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+          <h2
+            className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl"
+            style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
+          >
             Featured Products
           </h2>
           <p className="mt-4 text-lg text-gray-500">
@@ -47,13 +50,13 @@ export default function FeaturedProducts() {
 
           <div className="mt-16 space-y-12 lg:grid lg:grid-cols-4 lg:gap-x-8 lg:space-y-0">
             {products.map((product) => (
-              <Link key={product.id} href={product.href} className="group">
-                <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-100 group-hover:opacity-75">
+              <Link key={product.id} href={product.href} className="group transition hover:-translate-y-0.5 hover:shadow-md duration-[220ms] ease-[cubic-bezier(0.33,1,0.68,1)] rounded-2xl overflow-hidden block">
+                <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-2xl bg-amber-50/40">
                   <div className="h-full w-full object-cover object-center" />
                 </div>
-                <h3 className="mt-4 text-lg font-semibold text-gray-900">{product.name}</h3>
+                <h3 className="mt-4 text-lg font-semibold text-gray-900 group-hover:text-indigo-700 transition-colors duration-[220ms]">{product.name}</h3>
                 <p className="mt-1 text-sm text-gray-500">{product.description}</p>
-                <p className="mt-2 text-lg font-medium text-gray-900">{product.price}</p>
+                <p className="mt-2 text-lg font-medium text-indigo-700">{product.price}</p>
               </Link>
             ))}
           </div>

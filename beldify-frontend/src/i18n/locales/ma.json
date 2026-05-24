@@ -159,7 +159,15 @@
     "off": "خصم",
     "addToCart": "زيد فلقفة",
     "noOffers": "ما كاين حتى عرض دابا",
-    "comingSoon": "عروض جداد غادي تجي قريبا!"
+    "comingSoon": "عروض جداد غادي تجي قريبا!",
+    "eyebrow": "كوليكسيونات مميزة",
+    "upTo70Off": "ستي بالميا فريانة",
+    "daysLeft": "أيام بقاو",
+    "viewCollection": "شوف الكوليكسيون",
+    "moreItems": "حاجة خرى",
+    "viewAllCollections": "شوف كل الكوليكسيونات",
+    "hot": "مشهور",
+    "loadError": "ما قدرناش نحملو العروض"
   },
   "bestSellers": {
     "title": "لمبيعات",
@@ -172,18 +180,8 @@
     "ranking": "#{{number}}"
   },
   "featuredSections": {
-    "bestSellers": {
-      "title": "لمبيعات",
-      "viewAll": "شوف كولشي",
-      "rating": "تقييم",
-      "bestSellersDesc": "اكتشف مجموعتنا من الملابس التقليدية الأصيلة الأكثر مبيعاً"
-    },
-    "newArrivals": {
-      "title": "جديد",
-      "viewAll": "شوف كولشي",
-      "newBadge": "جديد",
-      "newArrivalsDesc": "اكتشف مجموعتنا من الملابس التقليدية الأصيلة الجديدة"
-    },
+    "bestSellers": "الأكثر مبيعاً",
+    "newArrivals": "وصل حديثاً",
     "mensTraditional": {
       "title": "لباس تقليدي رجالي",
       "viewAll": "شوف كولشي",
@@ -203,7 +201,26 @@
       "title": "المحلات المميزة",
       "viewAll": "شوف كولشي",
       "featuredStoresDesc": "اكتشف متاجرنا الأعلى تقييماً والموثقة التي تقدم منتجات عالية الجودة"
-    }
+    },
+    "browseAll": "شوف كامل",
+    "restocking": "الأتيليه كيجدد الستوك",
+    "restockingDesc": "قطع من أتيليهات تطوان وفاس كيتختاروا. ارجع قريب.",
+    "postBrief": "دير طلب",
+    "newBadge": "جديد",
+    "reviews": "تعليقات",
+    "editorial": "بلديفاي تحريري",
+    "offer1Title": "الأناقة التقليدية",
+    "offer1Description": "اكتشف أجمل مجموعتنا ديال الجلابة والقفطان",
+    "offer1Cta": "شري الكوليكسيون",
+    "offer2Title": "كوليكسيون العيد",
+    "offer2Description": "مزيان للمناسبات الخاصة والأعياد",
+    "offer2Cta": "استكشف دابا",
+    "recommendedTailors": "الخياطة الموصى بهم",
+    "recommendedSellers": "البائعين الموصى بهم",
+    "topBrands": "أحسن الماركات",
+    "loadError": "ما قدرناش نحملو الأقسام المميزة.",
+    "bestSellersDesc": "أكثر الجلاليب والقفاطين مبيعاً",
+    "newArrivalsDesc": "آخر ما وصل للمجموعة"
   },
   "product": {
     "product_add_to_cart": "زيد فلقفة",
@@ -1331,7 +1348,8 @@
     "title": "بقا متبعنا",
     "subtitle": "شارك فنشرتنا الإخبارية باش توصلك عروض خاصة، وصولات جداد، وأفكار على لموضة المغربية التقليدية.",
     "placeholder": "دخل لإيمايل ديالك",
-    "button": "شارك"
+    "button": "شارك",
+    "eyebrow": "ابقى على اطلاع"
   },
   "returns": {
     "title": "لرجاع و التبديل",
@@ -1433,7 +1451,10 @@
     "titleLine2": "بالأزياء المغربية الأصيلة",
     "description": "تصفح تشكيلتنا المختارة بعناية من الملابس المغربية التقليدية والعصرية، مصممة خصيصاً للعيد ومصنوعة بأيدي أمهر الحرفيين.",
     "shopButton": "تسوق الآن",
-    "learnMoreButton": "اعرف المزيد"
+    "learnMoreButton": "اعرف المزيد",
+    "luxuryCaftans": "قفاطين راقية",
+    "discoverCollection": "اكتشف كوليكسيوننا الحصري",
+    "shopNow": "تسوق دابا"
   },
   "sellers": {
     "title": "ولي بائع",
@@ -1557,5 +1578,14 @@
     "breadcrumbs": {
       "label": "مسار التنقل"
     }
+  },
+  "heroSlider": {
+    "loadError": "خطأ فتحميل البانرات",
+    "prevSlide": "السابق",
+    "nextSlide": "الجاي",
+    "goToSlide": "روح للسليد"
+  },
+  "traditionalWear": {
+    "eyebrow": "الصنعة المغربية"
   }
 }
