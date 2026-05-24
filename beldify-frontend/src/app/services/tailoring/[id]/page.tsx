@@ -4,14 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
-import {
-  StarIcon,
-  MapPinIcon,
-  CalendarIcon,
-  ClockIcon,
-  ChatBubbleLeftIcon,
-  CheckBadgeIcon,
-} from '@heroicons/react/24/solid';
+import { Star, MapPin, Calendar, Clock, MessageCircle, BadgeCheck } from 'lucide-react';
 import { Dialog } from '@headlessui/react';
 import tailorService, { Tailor, TimeSlot } from '@/services/tailorService';
 import toast from '@/utils/toast';
@@ -119,9 +112,9 @@ export default function TailorProfilePage({ params }: { params: { id: string } }
 
   const renderStars = (rating: number) => {
     return Array.from({ length: 5 }).map((_, index) => (
-      <StarIcon
+      <Star
         key={index}
-        className={`w-5 h-5 ${index < rating ? 'text-amber-400' : 'text-gray-300'}`}
+        className={`w-5 h-5 ${index < rating ? 'fill-amber-400 text-amber-400' : 'text-gray-200'}`}
       />
     ));
   };
@@ -185,11 +178,11 @@ export default function TailorProfilePage({ params }: { params: { id: string } }
               </div>
               <div className="flex flex-wrap items-center justify-center md:justify-start gap-4">
                 <div className="flex items-center">
-                  <MapPinIcon className="w-5 h-5 mr-2" />
+                  <MapPin className="w-5 h-5 mr-2" />
                   {tailor.user.city}
                 </div>
                 <div className="flex items-center">
-                  <CheckBadgeIcon className="w-5 h-5 mr-2" />
+                  <BadgeCheck className="w-5 h-5 mr-2" />
                   {tailor.experience_years} {t('tailoring.tailors.years')}
                 </div>
               </div>
@@ -203,7 +196,7 @@ export default function TailorProfilePage({ params }: { params: { id: string } }
           {/* Main Content */}
           <div className="lg:col-span-2 space-y-8">
             {/* About Section */}
-            <section className="bg-white rounded-xl p-6 shadow-sm">
+            <section className="bg-white rounded-2xl ring-1 ring-amber-200/60 p-6 shadow-sm">
               <h2 className="text-2xl font-semibold text-indigo-800 mb-4">
                 {t('tailoring.profile.about')}
               </h2>
@@ -226,13 +219,13 @@ export default function TailorProfilePage({ params }: { params: { id: string } }
             </section>
 
             {/* Portfolio Section */}
-            <section className="bg-white rounded-xl p-6 shadow-sm">
+            <section className="bg-white rounded-2xl ring-1 ring-amber-200/60 p-6 shadow-sm">
               <h2 className="text-2xl font-semibold text-indigo-800 mb-4">
                 {t('tailoring.profile.portfolio')}
               </h2>
               <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                 {tailor.portfolio_images.map((image, index) => (
-                  <div key={index} className="relative aspect-square rounded-lg overflow-hidden">
+                  <div key={index} className="relative aspect-square rounded-2xl overflow-hidden ring-1 ring-amber-200/60">
                     <Image
                       src={image}
                       alt={`Portfolio ${index + 1}`}
@@ -245,7 +238,7 @@ export default function TailorProfilePage({ params }: { params: { id: string } }
             </section>
 
             {/* Reviews Section */}
-            <section className="bg-white rounded-xl p-6 shadow-sm">
+            <section className="bg-white rounded-2xl ring-1 ring-amber-200/60 p-6 shadow-sm">
               <h2 className="text-2xl font-semibold text-indigo-800 mb-4">
                 {t('tailoring.profile.reviews')}
               </h2>
@@ -274,7 +267,7 @@ export default function TailorProfilePage({ params }: { params: { id: string } }
 
           {/* Booking Sidebar */}
           <div className="lg:col-span-1">
-            <div className="bg-white rounded-xl p-6 shadow-sm sticky top-4">
+            <div className="bg-white rounded-2xl ring-1 ring-amber-200/60 p-6 shadow-sm sticky top-4">
               <h2 className="text-xl font-semibold text-indigo-800 mb-4">
                 {t('tailoring.booking.title')}
               </h2>
@@ -285,7 +278,7 @@ export default function TailorProfilePage({ params }: { params: { id: string } }
                   {t('tailoring.booking.select_service')}
                 </label>
                 <select
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500"
+                  className="w-full px-4 py-2 border border-amber-200 rounded-xl focus:ring-2 focus:ring-indigo-500"
                   value={selectedService || ''}
                   onChange={(e) => setSelectedService(e.target.value)}
                 >
@@ -305,7 +298,7 @@ export default function TailorProfilePage({ params }: { params: { id: string } }
                 </label>
                 <input
                   type="date"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500"
+                  className="w-full px-4 py-2 border border-amber-200 rounded-xl focus:ring-2 focus:ring-indigo-500"
                   onChange={(e) => setSelectedDate(e.target.value)}
                   min={new Date().toISOString().split('T')[0]}
                 />
@@ -324,8 +317,8 @@ export default function TailorProfilePage({ params }: { params: { id: string } }
                         className={`px-4 py-2 rounded-lg text-sm ${
                           slot.available
                             ? selectedTimeSlot === slot.time
-                              ? 'bg-indigo-600 text-white'
-                              : 'border border-gray-300 hover:border-indigo-500'
+                              ? 'bg-indigo-700 text-white'
+                              : 'ring-1 ring-amber-200 hover:ring-indigo-400'
                             : 'bg-gray-100 text-gray-400 cursor-not-allowed'
                         }`}
                         onClick={() => setSelectedTimeSlot(slot.time)}
@@ -339,10 +332,10 @@ export default function TailorProfilePage({ params }: { params: { id: string } }
               )}
 
               <button
-                className={`w-full px-4 py-2 rounded-lg transition-colors ${
+                className={`w-full px-4 py-2 rounded-full transition-colors ${
                   !selectedService || !selectedDate || !selectedTimeSlot
-                    ? 'bg-gray-300 cursor-not-allowed'
-                    : 'bg-indigo-600 hover:bg-indigo-700 text-white'
+                    ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
+                    : 'bg-indigo-700 hover:bg-indigo-800 text-white'
                 }`}
                 onClick={() => setIsBookingModalOpen(true)}
                 disabled={!selectedService || !selectedDate || !selectedTimeSlot}
@@ -362,7 +355,7 @@ export default function TailorProfilePage({ params }: { params: { id: string } }
       >
         <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
         <div className="fixed inset-0 flex items-center justify-center p-4">
-          <Dialog.Panel className="bg-white rounded-xl p-6 max-w-md w-full">
+          <Dialog.Panel className="bg-white rounded-2xl p-6 max-w-md w-full">
             <Dialog.Title className="text-xl font-semibold text-indigo-800 mb-4">
               {t('tailoring.booking.confirm_title')}
             </Dialog.Title>
@@ -372,14 +365,14 @@ export default function TailorProfilePage({ params }: { params: { id: string } }
               </p>
               <div className="flex justify-end gap-4">
                 <button
-                  className="px-4 py-2 border-2 border-indigo-600 text-indigo-600 hover:bg-indigo-50 rounded-lg disabled:opacity-50"
+                  className="px-4 py-2 ring-2 ring-indigo-600 text-indigo-700 hover:bg-indigo-50 rounded-full disabled:opacity-50"
                   onClick={() => setIsBookingModalOpen(false)}
                   disabled={bookingLoading}
                 >
                   {t('common.cancel')}
                 </button>
                 <button
-                  className={`px-4 py-2 bg-indigo-600 text-white rounded-lg ${
+                  className={`px-4 py-2 bg-indigo-700 text-white rounded-full ${
                     bookingLoading ? 'opacity-50 cursor-wait' : 'hover:bg-indigo-700'
                   }`}
                   onClick={handleBooking}
