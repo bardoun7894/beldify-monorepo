@@ -2,257 +2,318 @@
 
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { CheckCircleIcon, XCircleIcon, ArrowPathIcon } from '@heroicons/react/24/outline';
+import { CheckCircle2, XCircle, RefreshCw, Link as LinkIcon } from 'lucide-react';
+import Link from 'next/link';
 
 export default function ReturnsPage() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [activeTab, setActiveTab] = useState('returns');
+  const isRTL = i18n.language === 'ar' || i18n.language === 'ma';
 
   const steps = [
     {
       id: 1,
-      name: t('pages.returns.steps.step1.name'),
-      description: t('pages.returns.steps.step1.description'),
+      name: t('pages.returns.steps.step1.name', 'Initiate Return'),
+      description: t('pages.returns.steps.step1.description', 'Start your return through our online portal'),
     },
     {
       id: 2,
-      name: t('pages.returns.steps.step2.name'),
-      description: t('pages.returns.steps.step2.description'),
+      name: t('pages.returns.steps.step2.name', 'Package Items'),
+      description: t('pages.returns.steps.step2.description', 'Securely pack your items with original packaging'),
     },
     {
       id: 3,
-      name: t('pages.returns.steps.step3.name'),
-      description: t('pages.returns.steps.step3.description'),
+      name: t('pages.returns.steps.step3.name', 'Ship Back'),
+      description: t('pages.returns.steps.step3.description', 'Use our prepaid return label to send items back'),
     },
     {
       id: 4,
-      name: t('pages.returns.steps.step4.name'),
-      description: t('pages.returns.steps.step4.description'),
+      name: t('pages.returns.steps.step4.name', 'Get Refunded'),
+      description: t('pages.returns.steps.step4.description', 'Receive your refund once we process the return'),
     },
   ];
 
-  // Returnable and non-returnable items
   const returnableItems = [
-    t('pages.returns.returnableItems.item1'),
-    t('pages.returns.returnableItems.item2'),
-    t('pages.returns.returnableItems.item3'),
-    t('pages.returns.returnableItems.item4'),
-    t('pages.returns.returnableItems.item5')
+    t('pages.returns.returnableItems.item1', 'Unworn, unwashed clothing with tags attached'),
+    t('pages.returns.returnableItems.item2', 'Unused accessories with original packaging'),
+    t('pages.returns.returnableItems.item3', 'Unopened beauty and personal care items'),
+    t('pages.returns.returnableItems.item4', 'Faulty items (within warranty period)'),
+    t('pages.returns.returnableItems.item5', 'Items in original condition with all parts included'),
   ];
 
   const nonReturnableItems = [
-    t('pages.returns.nonReturnableItems.item1'),
-    t('pages.returns.nonReturnableItems.item2'),
-    t('pages.returns.nonReturnableItems.item3'),
-    t('pages.returns.nonReturnableItems.item4'),
-    t('pages.returns.nonReturnableItems.item5'),
-    t('pages.returns.nonReturnableItems.item6')
+    t('pages.returns.nonReturnableItems.item1', 'Custom-made or personalized items'),
+    t('pages.returns.nonReturnableItems.item2', 'Intimate apparel (underwear, swimwear, hosiery)'),
+    t('pages.returns.nonReturnableItems.item3', "Items marked as 'Final Sale' or clearance"),
+    t('pages.returns.nonReturnableItems.item4', 'Items without original packaging or tags'),
+    t('pages.returns.nonReturnableItems.item5', 'Used or damaged items'),
+    t('pages.returns.nonReturnableItems.item6', 'Gift cards and digital products'),
+  ];
+
+  const tabs = [
+    { id: 'returns', label: t('pages.returns.tabs.returnsPolicy', 'Returns Policy') },
+    { id: 'exchanges', label: t('pages.returns.tabs.exchanges', 'Exchanges') },
+    { id: 'process', label: t('pages.returns.tabs.returnProcess', 'Return Process') },
   ];
 
   return (
-    <div className="bg-white">
-      <div className="mx-auto max-w-7xl py-8 px-4 sm:py-12 sm:px-6 lg:py-16 lg:px-8">
-        <div className="text-center">
-          <h1 className="text-2xl md:text-3xl font-bold tracking-tight text-gray-900 lg:text-4xl">{t('pages.returns.title')}</h1>
-          <p className="mx-auto mt-3 md:mt-4 max-w-3xl text-sm md:text-base text-gray-500">
-            {t('pages.returns.subtitle')}
+    <div className="min-h-screen bg-amber-50 py-16 sm:py-20" dir={isRTL ? 'rtl' : 'ltr'}>
+      <div className="max-w-7xl mx-auto px-6">
+        {/* Page header */}
+        <div className="text-center mb-12">
+          <p className="text-xs uppercase tracking-[0.18em] text-amber-700 font-medium mb-3">
+            {t('navigation.account', 'My Account')}
+          </p>
+          <h1
+            className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4"
+            style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
+          >
+            {isRTL
+              ? t('pages.returns.title', 'الإرجاع والاسترداد')
+              : t('pages.returns.title', 'Returns & Refunds')}
+          </h1>
+          <p className="max-w-2xl mx-auto text-gray-500 text-sm sm:text-base">
+            {t('pages.returns.subtitle', 'Our policy and process for returns and exchanges')}
           </p>
         </div>
 
         {/* Tab navigation */}
-        <div className="mt-8 sm:mt-12 flex justify-center border-b border-gray-200">
-          <nav className="-mb-px flex space-x-4 md:space-x-8 overflow-x-auto" aria-label="Tabs">
+        <nav
+          className="flex justify-center mb-10 gap-1 bg-white rounded-2xl p-1.5 max-w-xl mx-auto shadow-sm ring-1 ring-amber-200"
+          aria-label={t('account.returns.tabs_label', 'Returns and refunds navigation')}
+        >
+          {tabs.map((tab) => (
             <button
-              onClick={() => setActiveTab('returns')}
-              className={`${
-                activeTab === 'returns'
-                  ? 'border-indigo-600 text-indigo-600'
-                  : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700'
-              } whitespace-nowrap border-b-2 py-3 md:py-4 px-1 text-xs md:text-sm font-medium`}
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id)}
+              className={`flex-1 py-2.5 px-3 rounded-xl text-xs sm:text-sm font-medium transition-all duration-200 ${
+                activeTab === tab.id
+                  ? 'bg-indigo-700 text-white shadow-sm'
+                  : 'text-gray-500 hover:text-gray-700 hover:bg-amber-50'
+              }`}
             >
-              {t('pages.returns.tabs.returnsPolicy')}
+              {tab.label}
             </button>
-            <button
-              onClick={() => setActiveTab('exchanges')}
-              className={`${
-                activeTab === 'exchanges'
-                  ? 'border-indigo-600 text-indigo-600'
-                  : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700'
-              } whitespace-nowrap border-b-2 py-3 md:py-4 px-1 text-xs md:text-sm font-medium`}
-            >
-              {t('pages.returns.tabs.exchanges')}
-            </button>
-            <button
-              onClick={() => setActiveTab('process')}
-              className={`${
-                activeTab === 'process'
-                  ? 'border-indigo-600 text-indigo-600'
-                  : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700'
-              } whitespace-nowrap border-b-2 py-3 md:py-4 px-1 text-xs md:text-sm font-medium`}
-            >
-              {t('pages.returns.tabs.returnProcess')}
-            </button>
-          </nav>
-        </div>
+          ))}
+        </nav>
 
         {/* Tab content */}
-        <div className="mt-10">
+        <div className="max-w-4xl mx-auto">
           {/* Returns Policy Tab */}
           {activeTab === 'returns' && (
-            <div>
-              <div className="prose prose-indigo mx-auto">
-                <h2>{t('pages.returns.returnsPolicy.title')}</h2>
-                <p className="text-sm md:text-base">
-                  {t('pages.returns.returnsPolicy.policy1')}
+            <div className="space-y-6">
+              <div className="bg-white rounded-2xl p-6 sm:p-8 shadow-sm ring-1 ring-amber-200">
+                <h2
+                  className="text-xl font-bold text-gray-900 mb-4"
+                  style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
+                >
+                  {t('pages.returns.returnsPolicy.title', 'Returns Policy')}
+                </h2>
+                <p className="text-sm text-gray-600 mb-3">
+                  {t('pages.returns.returnsPolicy.policy1', 'We want you to be completely satisfied with your purchase.')}
                 </p>
-                <p className="text-sm md:text-base">
-                  {t('pages.returns.returnsPolicy.policy2')}
+                <p className="text-sm text-gray-600">
+                  {t('pages.returns.returnsPolicy.policy2', 'To be eligible for a return, your item must be unused and in the same condition.')}
                 </p>
+              </div>
 
-                <h3 className="text-base md:text-lg">{t('pages.returns.refunds.title')}</h3>
-                <p className="text-sm md:text-base">
-                  {t('pages.returns.refunds.description')}
+              <div className="bg-white rounded-2xl p-6 sm:p-8 shadow-sm ring-1 ring-amber-200">
+                <h3
+                  className="text-base font-semibold text-gray-900 mb-2"
+                  style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
+                >
+                  {t('pages.returns.refunds.title', 'Refunds')}
+                </h3>
+                <p className="text-sm text-gray-600">
+                  {t('pages.returns.refunds.description', 'Once we receive your return, we will inspect it and notify you.')}
                 </p>
+              </div>
 
-                <h3 className="text-base md:text-lg">{t('pages.returns.returnShipping.title')}</h3>
-                <p className="text-sm md:text-base">
-                  {t('pages.returns.returnShipping.description')}
+              <div className="bg-white rounded-2xl p-6 sm:p-8 shadow-sm ring-1 ring-amber-200">
+                <h3
+                  className="text-base font-semibold text-gray-900 mb-2"
+                  style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
+                >
+                  {t('pages.returns.returnShipping.title', 'Return Shipping')}
+                </h3>
+                <p className="text-sm text-gray-600">
+                  {t('pages.returns.returnShipping.description', 'Return shipping costs may apply depending on your location.')}
                 </p>
+              </div>
 
-                <h3 className="mt-6 md:mt-8 text-base md:text-lg">{t('pages.returns.returnableItems.title')}</h3>
-                <ul>
-                  {returnableItems.map((item, index) => (
-                    <li key={index} className="flex items-start mb-2">
-                      <CheckCircleIcon className="h-5 w-5 text-green-500 mr-2 flex-shrink-0 mt-0.5" />
-                      <span>{item}</span>
-                    </li>
-                  ))}
-                </ul>
+              {/* Returnable / Non-returnable grids */}
+              <div className="grid sm:grid-cols-2 gap-6">
+                <div className="bg-white rounded-2xl p-6 shadow-sm ring-1 ring-amber-200">
+                  <h3
+                    className="text-base font-semibold text-gray-900 mb-4"
+                    style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
+                  >
+                    {t('pages.returns.returnableItems.title', 'Eligible for Return')}
+                  </h3>
+                  <ul className="space-y-2.5">
+                    {returnableItems.map((item, index) => (
+                      <li key={index} className="flex items-start gap-2.5">
+                        <CheckCircle2 className="h-4 w-4 text-emerald-600 flex-shrink-0 mt-0.5" />
+                        <span className="text-sm text-gray-600">{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
 
-                <h3 className="mt-6 md:mt-8 text-base md:text-lg">{t('pages.returns.nonReturnableItems.title')}</h3>
-                <ul>
-                  {nonReturnableItems.map((item, index) => (
-                    <li key={index} className="flex items-start mb-2">
-                      <XCircleIcon className="h-5 w-5 text-red-500 mr-2 flex-shrink-0 mt-0.5" />
-                      <span>{item}</span>
-                    </li>
-                  ))}
-                </ul>
+                <div className="bg-white rounded-2xl p-6 shadow-sm ring-1 ring-amber-200">
+                  <h3
+                    className="text-base font-semibold text-gray-900 mb-4"
+                    style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
+                  >
+                    {t('pages.returns.nonReturnableItems.title', 'Not Eligible for Return')}
+                  </h3>
+                  <ul className="space-y-2.5">
+                    {nonReturnableItems.map((item, index) => (
+                      <li key={index} className="flex items-start gap-2.5">
+                        <XCircle className="h-4 w-4 text-rose-700 flex-shrink-0 mt-0.5" />
+                        <span className="text-sm text-gray-600">{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               </div>
             </div>
           )}
 
           {/* Exchanges Tab */}
           {activeTab === 'exchanges' && (
-            <div>
-              <div className="prose prose-indigo mx-auto">
-                <h2>{t('pages.returns.exchanges.title')}</h2>
-                <p className="text-sm md:text-base">
-                  {t('pages.returns.exchanges.description')}
+            <div className="space-y-6">
+              <div className="bg-white rounded-2xl p-6 sm:p-8 shadow-sm ring-1 ring-amber-200">
+                <h2
+                  className="text-xl font-bold text-gray-900 mb-4"
+                  style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
+                >
+                  {t('pages.returns.exchanges.title', 'Exchanges')}
+                </h2>
+                <p className="text-sm text-gray-600 mb-6">
+                  {t('pages.returns.exchanges.description', 'We\'re happy to help you exchange items for a different size or color.')}
                 </p>
 
-                <h3 className="text-base md:text-lg">{t('pages.returns.exchanges.requestTitle')}</h3>
-                <p className="text-sm md:text-base">
-                  {t('pages.returns.exchanges.requestDescription')}
+                <h3 className="text-sm font-semibold text-gray-900 mb-3">
+                  {t('pages.returns.exchanges.requestTitle', 'How to Request an Exchange')}
+                </h3>
+                <p className="text-sm text-gray-600 mb-3">
+                  {t('pages.returns.exchanges.requestDescription', 'Follow these steps to exchange an item:')}
                 </p>
-                <ol className="text-sm md:text-base">
-                  <li>{t('pages.returns.exchanges.step1')}</li>
-                  <li>{t('pages.returns.exchanges.step2')}</li>
-                  <li>{t('pages.returns.exchanges.step3')}</li>
-                  <li>{t('pages.returns.exchanges.step4')}</li>
-                  <li>{t('pages.returns.exchanges.step5')}</li>
+                <ol className="space-y-2 mb-6">
+                  {[1, 2, 3, 4, 5].map((n) => (
+                    <li key={n} className="flex items-start gap-3 text-sm text-gray-600">
+                      <span className="flex-shrink-0 w-5 h-5 rounded-full bg-indigo-100 text-indigo-700 flex items-center justify-center text-xs font-semibold">
+                        {n}
+                      </span>
+                      {t(`pages.returns.exchanges.step${n}`, `Step ${n}`)}
+                    </li>
+                  ))}
                 </ol>
 
-                <p className="text-sm md:text-base">
-                  {t('pages.returns.exchanges.processDescription')}
+                <p className="text-sm text-gray-600">
+                  {t('pages.returns.exchanges.processDescription', 'Please note that exchanges are subject to stock availability.')}
                 </p>
+              </div>
 
-                <h3 className="text-base md:text-lg">{t('pages.returns.exchanges.eligibilityTitle')}</h3>
-                <p className="text-sm md:text-base">
-                  {t('pages.returns.exchanges.eligibilityDescription')}
+              <div className="bg-white rounded-2xl p-6 sm:p-8 shadow-sm ring-1 ring-amber-200">
+                <h3
+                  className="text-base font-semibold text-gray-900 mb-3"
+                  style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
+                >
+                  {t('pages.returns.exchanges.eligibilityTitle', 'Exchange Eligibility')}
+                </h3>
+                <p className="text-sm text-gray-600 mb-3">
+                  {t('pages.returns.exchanges.eligibilityDescription', 'To be eligible for an exchange, your item must meet the following criteria:')}
                 </p>
-                <ul className="text-sm md:text-base">
-                  <li>{t('pages.returns.exchanges.eligibility1')}</li>
-                  <li>{t('pages.returns.exchanges.eligibility2')}</li>
-                  <li>{t('pages.returns.exchanges.eligibility3')}</li>
-                  <li>{t('pages.returns.exchanges.eligibility4')}</li>
+                <ul className="space-y-2">
+                  {[1, 2, 3, 4].map((n) => (
+                    <li key={n} className="flex items-start gap-2.5 text-sm text-gray-600">
+                      <CheckCircle2 className="h-4 w-4 text-emerald-600 flex-shrink-0 mt-0.5" />
+                      {t(`pages.returns.exchanges.eligibility${n}`, `Criteria ${n}`)}
+                    </li>
+                  ))}
                 </ul>
+              </div>
 
-                <h3 className="text-base md:text-lg">{t('pages.returns.exchanges.priceDiffTitle')}</h3>
-                <p className="text-sm md:text-base">
-                  {t('pages.returns.exchanges.priceDiffDescription')}
-                </p>
-
-                <h3 className="text-base md:text-lg">{t('pages.returns.exchanges.internationalTitle')}</h3>
-                <p className="text-sm md:text-base">
-                  {t('pages.returns.exchanges.internationalDescription')}
-                </p>
+              <div className="grid sm:grid-cols-2 gap-6">
+                <div className="bg-white rounded-2xl p-6 shadow-sm ring-1 ring-amber-200">
+                  <h3 className="text-sm font-semibold text-gray-900 mb-2">
+                    {t('pages.returns.exchanges.priceDiffTitle', 'Price Differences')}
+                  </h3>
+                  <p className="text-sm text-gray-600">
+                    {t('pages.returns.exchanges.priceDiffDescription', 'If the replacement item is more expensive, you\'ll be charged the difference.')}
+                  </p>
+                </div>
+                <div className="bg-white rounded-2xl p-6 shadow-sm ring-1 ring-amber-200">
+                  <h3 className="text-sm font-semibold text-gray-900 mb-2">
+                    {t('pages.returns.exchanges.internationalTitle', 'International Exchanges')}
+                  </h3>
+                  <p className="text-sm text-gray-600">
+                    {t('pages.returns.exchanges.internationalDescription', 'International customers are responsible for return shipping costs.')}
+                  </p>
+                </div>
               </div>
             </div>
           )}
 
           {/* Return Process Tab */}
           {activeTab === 'process' && (
-            <div>
-              <h2 className="text-lg md:text-xl font-semibold text-gray-900 mb-6 md:mb-8">{t('pages.returns.process.title')}</h2>
+            <div className="space-y-8">
+              <h2
+                className="text-xl font-bold text-gray-900"
+                style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
+              >
+                {t('pages.returns.process.title', 'Our Return Process')}
+              </h2>
 
-              <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 lg:gap-8">
-                <div className="space-y-6 sm:space-y-8">
-                  {steps.slice(0, 2).map((step) => (
-                    <div key={step.id} className="relative">
-                      <div className="relative flex h-10 w-10 items-center justify-center rounded-full bg-indigo-600 text-white">
-                        {step.id}
-                      </div>
-                      <div className="mt-3">
-                        <h3 className="text-lg font-medium text-gray-900">{step.name}</h3>
-                        <p className="mt-2 text-sm text-gray-500">{step.description}</p>
-                      </div>
+              {/* Steps grid */}
+              <div className="grid sm:grid-cols-2 gap-6">
+                {steps.map((step) => (
+                  <div
+                    key={step.id}
+                    className="bg-white rounded-2xl p-6 shadow-sm ring-1 ring-amber-200 flex gap-4"
+                  >
+                    <div className="flex-shrink-0 w-10 h-10 rounded-full bg-indigo-700 text-white flex items-center justify-center text-sm font-semibold">
+                      {step.id}
                     </div>
-                  ))}
-                </div>
-
-                <div className="mt-6 md:mt-8 lg:mt-0 flex justify-center">
-                  <img
-                    src="https://eu2.contabostorage.com/c7737d32901c47be91e8263ad074fd38:beldify1storage/assets/return-process.svg"
-                    alt="Return process illustration"
-                    className="mx-auto h-48 w-auto"
-                  />
-                </div>
-
-                <div className="mt-6 md:mt-8 space-y-6 sm:space-y-8 lg:mt-0">
-                  {steps.slice(2, 4).map((step) => (
-                    <div key={step.id} className="relative">
-                      <div className="relative flex h-10 w-10 items-center justify-center rounded-full bg-indigo-600 text-white">
-                        {step.id}
-                      </div>
-                      <div className="mt-3">
-                        <h3 className="text-lg font-medium text-gray-900">{step.name}</h3>
-                        <p className="mt-2 text-sm text-gray-500">{step.description}</p>
-                      </div>
+                    <div>
+                      <h3 className="text-sm font-semibold text-gray-900 mb-1">{step.name}</h3>
+                      <p className="text-sm text-gray-500">{step.description}</p>
                     </div>
-                  ))}
-                </div>
+                  </div>
+                ))}
               </div>
 
-              <div className="mt-10 md:mt-16 rounded-md bg-indigo-50 p-4 md:p-6">
-                <div className="md:flex md:items-center md:justify-between">
-                  <div className="flex md:flex-shrink-0">
-                    <ArrowPathIcon className="h-6 w-6 text-indigo-600 mr-3" />
+              {/* Process illustration */}
+              <div className="flex justify-center">
+                <img
+                  src="https://eu2.contabostorage.com/c7737d32901c47be91e8263ad074fd38:beldify1storage/assets/return-process.svg"
+                  alt={t('account.returns.process_illustration_alt', 'Return process illustration')}
+                  className="h-40 w-auto"
+                />
+              </div>
+
+              {/* Help callout */}
+              <div className="bg-indigo-700 rounded-2xl p-6 sm:p-8 text-white">
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                  <div className="flex items-start gap-3">
+                    <RefreshCw className="h-6 w-6 text-amber-300 flex-shrink-0 mt-0.5" />
                     <div>
-                      <h3 className="text-base md:text-lg font-medium text-indigo-900">{t('pages.returns.process.needHelp')}</h3>
-                      <p className="mt-1 md:mt-2 text-xs md:text-sm text-indigo-700">
-                        {t('pages.returns.process.helpDescription')}
+                      <h3 className="font-semibold text-white text-base mb-1">
+                        {t('pages.returns.process.needHelp', 'Need Help?')}
+                      </h3>
+                      <p className="text-indigo-200 text-sm">
+                        {t('pages.returns.process.helpDescription', 'Our support team is ready to assist with your return.')}
                       </p>
                     </div>
                   </div>
-                  <div className="mt-4 md:ml-6 md:mt-0">
-                    <a
-                      href="/contact"
-                      className="inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-4 md:px-6 py-2 md:py-3 text-sm md:text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                    >
-                      {t('pages.returns.process.contactSupport')}
-                    </a>
-                  </div>
+                  <Link
+                    href="/contact"
+                    className="flex-shrink-0 inline-flex items-center justify-center px-5 py-2.5 rounded-full bg-amber-400 text-gray-900 text-sm font-semibold hover:bg-amber-300 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-indigo-700 focus:ring-amber-400"
+                  >
+                    {t('pages.returns.process.contactSupport', 'Contact Support')}
+                  </Link>
                 </div>
               </div>
             </div>
