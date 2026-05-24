@@ -117,7 +117,9 @@
     "login_required": "خاصك تدخل باش تصيفط لكوموندات لخاصة",
     "logo_alt": "بلديفاي",
     "sign_in_with_google": "دخل بـ Google",
-    "sign_in_with_apple": "دخل بـ Apple"
+    "sign_in_with_apple": "دخل بـ Apple",
+    "provider_google": "Google",
+    "provider_apple": "Apple"
   },
   "navigation": {
     "home": "الرئيسية",

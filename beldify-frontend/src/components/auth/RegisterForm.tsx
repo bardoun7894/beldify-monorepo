@@ -74,7 +74,7 @@ export default function RegisterForm() {
               className="text-xl font-bold text-white tracking-tight"
               style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
             >
-              Beldify
+              {t('brand.name', 'Beldify')}
             </span>
           </Link>
           <h1

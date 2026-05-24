@@ -91,7 +91,9 @@
     "login_required": "Veuillez vous connecter pour envoyer des demandes personnalisées",
     "logo_alt": "Beldify",
     "sign_in_with_google": "Se connecter avec Google",
-    "sign_in_with_apple": "Se connecter avec Apple"
+    "sign_in_with_apple": "Se connecter avec Apple",
+    "provider_google": "Google",
+    "provider_apple": "Apple"
   },
   "navigation": {
     "home": "Accueil",

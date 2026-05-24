@@ -101,7 +101,9 @@
     "login_required": "Por favor inicia sesión para enviar solicitudes personalizadas",
     "logo_alt": "Beldify",
     "sign_in_with_google": "Iniciar sesión con Google",
-    "sign_in_with_apple": "Iniciar sesión con Apple"
+    "sign_in_with_apple": "Iniciar sesión con Apple",
+    "provider_google": "Google",
+    "provider_apple": "Apple"
   },
   "navigation": {
     "home": "Inicio",

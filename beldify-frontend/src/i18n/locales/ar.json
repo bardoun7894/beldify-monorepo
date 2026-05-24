@@ -108,7 +108,9 @@
     "login_required": "يرجى تسجيل الدخول لإرسال الطلبات الخاصة",
     "logo_alt": "بلديفاي",
     "sign_in_with_google": "تسجيل الدخول عبر Google",
-    "sign_in_with_apple": "تسجيل الدخول عبر Apple"
+    "sign_in_with_apple": "تسجيل الدخول عبر Apple",
+    "provider_google": "Google",
+    "provider_apple": "Apple"
   },
   "navigation": {
     "home": "الرئيسية",

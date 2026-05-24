@@ -120,7 +120,9 @@
     "logging_in": "Signing in...",
     "logo_alt": "Beldify",
     "sign_in_with_google": "Sign in with Google",
-    "sign_in_with_apple": "Sign in with Apple"
+    "sign_in_with_apple": "Sign in with Apple",
+    "provider_google": "Google",
+    "provider_apple": "Apple"
   },
   "navigation": {
     "home": "Home",
