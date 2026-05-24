@@ -1936,5 +1936,23 @@
     "helperStep4": "Set your timeline",
     "helperStep5": "Publish and ateliers will message you with offers",
     "helperTip": "Tip: the more detail you give, the better the offers you'll receive."
+  },
+  "catalog": {
+    "categories": {
+      "eyebrow": "Browse",
+      "headline": "The souk, room by room.",
+      "error_description": "We couldn't load the categories. Please try again."
+    },
+    "products": {
+      "eyebrow": "Marketplace",
+      "headline": "The Beldify catalog."
+    },
+    "pdp": {
+      "breadcrumb_label": "Breadcrumb",
+      "sku": "SKU"
+    },
+    "product": {
+      "out_of_stock": "Out of stock"
+    }
   }
 }

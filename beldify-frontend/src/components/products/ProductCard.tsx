@@ -10,18 +10,16 @@ import { getImageUrl, DEFAULT_PLACEHOLDER_IMAGE } from '@/utils/imageUtils';
 import { useDirection } from '@/hooks/useDirection';
 import toast from '@/utils/toast';
 import {
-  ShoppingCartIcon,
-  BoltIcon,
-  PhotoIcon,
-  EyeIcon,
-  HeartIcon,
-  HeartIcon as HeartSolidIcon,
-  CheckIcon,
-  ArrowsPointingOutIcon,
-  XCircleIcon,
-  CheckCircleIcon,
-} from '@heroicons/react/24/outline';
-import { HeartIcon as HeartFilledIcon } from '@heroicons/react/24/solid';
+  ShoppingCart,
+  Zap,
+  ImageIcon,
+  Eye,
+  Heart,
+  Check,
+  Maximize2,
+  XCircle,
+  CheckCircle,
+} from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
 // Dynamic import for ProductQuickView to reduce initial bundle size
@@ -87,7 +85,7 @@ const ProductCard = memo(function ProductCard({
   // Stock status indicator based on quantity
   const getStockStatusColor = () => {
     // Red if 0 or less, green otherwise
-    return stock_quantity <= 0 ? 'bg-red-500' : 'bg-green-500';
+    return stock_quantity <= 0 ? 'bg-rose-700' : 'bg-green-600';
   };
 
   const getStockStatusText = () => {
@@ -175,7 +173,7 @@ const ProductCard = memo(function ProductCard({
           {showExpressDelivery && (
             <div className="absolute top-3 left-3 z-10">
               <div className="badge-express flex items-center gap-1">
-                <BoltIcon className="h-3 w-3" />
+                <Zap className="h-3 w-3" />
                 {t('product.express')}
               </div>
             </div>
@@ -198,7 +196,7 @@ const ProductCard = memo(function ProductCard({
                   <div className="flex items-center justify-center w-full h-full">
                     <div className="text-center">
                       <div className="image-placeholder">
-                        <PhotoIcon className="h-10 w-10 text-gray-400" />
+                        <ImageIcon className="h-10 w-10 text-gray-400" />
                       </div>
                       <span className="text-sm text-gray-500 mt-3 block font-medium">
                         {t('product.no_image')}
@@ -212,7 +210,7 @@ const ProductCard = memo(function ProductCard({
                       alt={altText} // Use the calculated altText
                       fill
                       sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
-                      className="object-cover transition-all duration-500 group-hover:scale-110 group-hover:brightness-105 will-change-transform"
+                      className="object-cover transition-all duration-500 group-hover:scale-105 group-hover:brightness-105 will-change-transform"
                       priority={priority}
                       
                     />
@@ -234,9 +232,9 @@ const ProductCard = memo(function ProductCard({
               aria-label={isWishlisted ? t('wishlist.remove') : t('wishlist.add')}
             >
               {isWishlisted ? (
-                <HeartFilledIcon className="h-4 w-4" aria-hidden="true" />
+                <Heart className="h-4 w-4 fill-current" aria-hidden="true" />
               ) : (
-                <HeartIcon className="h-4 w-4" aria-hidden="true" />
+                <Heart className="h-4 w-4" aria-hidden="true" />
               )}
             </button>
             <button
@@ -244,7 +242,7 @@ const ProductCard = memo(function ProductCard({
               className="btn-action btn-action-default"
               aria-label={t('product.quickView')}
             >
-              <ArrowsPointingOutIcon className="h-4 w-4" aria-hidden="true" />
+              <Maximize2 className="h-4 w-4" aria-hidden="true" />
             </button>
           </div>
 
@@ -252,7 +250,7 @@ const ProductCard = memo(function ProductCard({
           {stock_quantity <= 0 && (
             <div className="absolute bottom-3 left-3 z-10">
               <div className="badge-stock badge-stock-out flex items-center gap-1">
-                <XCircleIcon className="h-3 w-3" role="img" aria-label="Out of stock" />
+                <XCircle className="h-3 w-3" aria-hidden="true" />
                 {getStockStatusText()}
               </div>
             </div>
@@ -295,9 +293,9 @@ const ProductCard = memo(function ProductCard({
             </div>
              {/* Stock Text - Only show "Out of Stock" when quantity is 0 or less */}
              {stock_quantity <= 0 && (
-               <span className="text-xs text-red-500 font-bold mt-1 bg-red-50/50 px-2 py-0.5 rounded inline-block w-fit flex items-center gap-1">
-                 <XCircleIcon className="h-3 w-3" role="img" aria-label="Out of stock" />
-                 {t('stock.out_of_stock')}
+               <span className="text-xs text-rose-700 font-bold mt-1 bg-rose-50/50 px-2 py-0.5 rounded inline-block w-fit flex items-center gap-1">
+                 <XCircle className="h-3 w-3" aria-hidden="true" />
+                 {t('catalog.product.out_of_stock', 'Out of stock')}
                </span>
              )}
           </div>
@@ -311,9 +309,9 @@ const ProductCard = memo(function ProductCard({
               aria-label={t('product.addToCart')}
             >
               <div className={`absolute inset-0 flex items-center justify-center bg-gradient-to-r from-green-500 to-emerald-500 transition-transform duration-500 ${isAddingToCart ? 'translate-y-0' : 'translate-y-full'}`}>
-                <CheckIcon className="h-4 w-4 text-white" />
+                <Check className="h-4 w-4 text-white" />
               </div>
-              <ShoppingCartIcon className={`h-4 w-4 transition-all duration-300 ${isAddingToCart ? 'opacity-0 scale-75' : 'opacity-100 scale-100'}`} />
+              <ShoppingCart className={`h-4 w-4 transition-all duration-300 ${isAddingToCart ? 'opacity-0 scale-75' : 'opacity-100 scale-100'}`} />
             </button>
           )}
         </div>

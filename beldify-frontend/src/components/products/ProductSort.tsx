@@ -3,13 +3,13 @@
 import { Fragment } from 'react';
 import { Menu, Transition } from '@headlessui/react';
 import {
-  ChevronDownIcon,
-  ArrowsUpDownIcon,
-  ArrowUpIcon,
-  ArrowDownIcon,
-  FireIcon,
-  SparklesIcon,
-} from '@heroicons/react/24/outline';
+  ChevronDown,
+  ArrowUpDown,
+  ArrowUp,
+  ArrowDown,
+  Flame,
+  Sparkles,
+} from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 interface ProductSortProps {
@@ -21,22 +21,22 @@ const sortOptions = [
   {
     value: 'newest',
     label: 'sort.newest',
-    icon: SparklesIcon,
+    icon: Sparkles,
   },
   {
     value: 'price-low-high',
     label: 'sort.price_low_high',
-    icon: ArrowDownIcon,
+    icon: ArrowDown,
   },
   {
     value: 'price-high-low',
     label: 'sort.price_high_low',
-    icon: ArrowUpIcon,
+    icon: ArrowUp,
   },
   {
     value: 'popular',
     label: 'sort.popular',
-    icon: FireIcon,
+    icon: Flame,
   },
 ];
 
@@ -47,10 +47,10 @@ export default function ProductSort({ value, onChange }: ProductSortProps) {
 
   const SortMenu = ({ className = '' }) => (
     <Menu as="div" className={`relative inline-block text-left ${className}`}>
-      <Menu.Button className="inline-flex items-center gap-2 px-3 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500/20">
+      <Menu.Button className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-amber-200 rounded-full hover:border-amber-300 hover:bg-amber-50 focus:outline-none focus:ring-2 focus:ring-indigo-700/20">
         <Icon className="h-5 w-5 text-gray-500" />
         <span>{t(selectedOption.label)}</span>
-        <ChevronDownIcon className="h-5 w-5 text-gray-500" />
+        <ChevronDown className="h-5 w-5 text-gray-500" />
       </Menu.Button>
 
       <Transition
@@ -62,7 +62,7 @@ export default function ProductSort({ value, onChange }: ProductSortProps) {
         leaveFrom="transform opacity-100 scale-100"
         leaveTo="transform opacity-0 scale-95"
       >
-        <Menu.Items className="absolute right-0 z-50 mt-2 w-56 origin-top-right rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+        <Menu.Items className="absolute right-0 z-50 mt-2 w-56 origin-top-right rounded-2xl bg-white shadow-lg ring-1 ring-amber-200 focus:outline-none">
           <div className="py-1">
             {sortOptions.map((option) => {
               const OptionIcon = option.icon;
@@ -73,14 +73,14 @@ export default function ProductSort({ value, onChange }: ProductSortProps) {
                       onClick={() => onChange(option.value)}
                       className={`
                         ${active ? 'bg-gray-50 text-gray-900' : 'text-gray-700'}
-                        ${value === option.value ? 'bg-indigo-50 text-indigo-600' : ''}
+                        ${value === option.value ? 'bg-indigo-50 text-indigo-700' : ''}
                         group flex w-full items-center px-4 py-2 text-sm
                       `}
                     >
                       <OptionIcon
                         className={`
                           mr-3 h-5 w-5
-                          ${value === option.value ? 'text-indigo-600' : 'text-gray-400'}
+                          ${value === option.value ? 'text-indigo-700' : 'text-gray-400'}
                           ${active ? 'text-gray-500' : ''}
                         `}
                       />

@@ -1581,5 +1581,23 @@
     "breadcrumbs": {
       "label": "Ruta de navegación"
     }
+  },
+  "catalog": {
+    "categories": {
+      "eyebrow": "Explorar",
+      "headline": "El zoco, sala por sala.",
+      "error_description": "No pudimos cargar las categorías. Por favor, inténtalo de nuevo."
+    },
+    "products": {
+      "eyebrow": "Mercado",
+      "headline": "El catálogo Beldify."
+    },
+    "pdp": {
+      "breadcrumb_label": "Ruta de navegación",
+      "sku": "SKU"
+    },
+    "product": {
+      "out_of_stock": "Agotado"
+    }
   }
 }

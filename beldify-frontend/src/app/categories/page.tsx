@@ -65,7 +65,7 @@ export default function CategoriesPage() {
         <div className="bg-white border border-amber-200 rounded-2xl p-8 max-w-md w-full text-center shadow-sm">
           <div className="text-red-500 mb-4 text-base font-medium">{error}</div>
           <p className="text-gray-500 mb-6 text-sm">
-            We couldn&apos;t load the categories. Please try again.
+            {t('catalog.categories.error_description', "We couldn't load the categories. Please try again.")}
           </p>
           <button
             onClick={() => window.location.reload()}
@@ -88,13 +88,13 @@ export default function CategoriesPage() {
         />
         <div className="relative mx-auto max-w-7xl px-6 py-14 lg:py-20">
           <p className="text-xs sm:text-sm uppercase tracking-[0.18em] text-amber-300 font-medium">
-            BROWSE
+            {t('catalog.categories.eyebrow', 'Browse')}
           </p>
           <h1
             className="mt-2 text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight"
             style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
           >
-            The souk, room by room.
+            {t('catalog.categories.headline', 'The souk, room by room.')}
           </h1>
           <p className="mt-4 text-indigo-100 max-w-lg text-base sm:text-lg">
             Explore caftans, djellabas, and bespoke tailoring — organised by tradition, gender, and craft.

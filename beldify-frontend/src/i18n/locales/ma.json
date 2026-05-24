@@ -1557,5 +1557,23 @@
     "breadcrumbs": {
       "label": "مسار التنقل"
     }
+  },
+  "catalog": {
+    "categories": {
+      "eyebrow": "شوف",
+      "headline": "السوق، بيت بيت.",
+      "error_description": "ما قدرناش نحملو الأصناف. عاود حاول."
+    },
+    "products": {
+      "eyebrow": "السوق",
+      "headline": "كتالوج بلديفاي."
+    },
+    "pdp": {
+      "breadcrumb_label": "مسار التنقل",
+      "sku": "رمز السلعة"
+    },
+    "product": {
+      "out_of_stock": "خلص المخزون"
+    }
   }
 }

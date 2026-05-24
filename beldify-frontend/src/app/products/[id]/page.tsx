@@ -1165,7 +1165,7 @@ export default function ProductDetailsPage() {
     <div className="bg-amber-50 min-h-screen pb-16">
     <main className="max-w-7xl mx-auto" role="main">
       {/* ── 1. Breadcrumb strip ── */}
-      <nav className="px-6 py-4 text-sm text-gray-500" aria-label="Breadcrumb">
+      <nav className="px-6 py-4 text-sm text-gray-500" aria-label={t('catalog.pdp.breadcrumb_label', 'Breadcrumb')}>
         <ol className="flex items-center gap-1.5 flex-wrap">
           <li>
             <Link href="/" className="hover:text-indigo-700 transition-colors">
@@ -1603,7 +1603,7 @@ export default function ProductDetailsPage() {
                 <p><span className="font-medium text-gray-900">{t('product.category', 'Category')}:</span> {displayCategory}</p>
               )}
               {selectedVariant?.sku && (
-                <p><span className="font-medium text-gray-900">SKU:</span> {selectedVariant.sku}</p>
+                <p><span className="font-medium text-gray-900">{t('catalog.pdp.sku', 'SKU')}:</span> {selectedVariant.sku}</p>
               )}
               {availableFabrics.length > 0 && (
                 <p><span className="font-medium text-gray-900">{t('product.fabric', 'Fabric')}:</span> {availableFabrics.map(f => f.name).join(', ')}</p>

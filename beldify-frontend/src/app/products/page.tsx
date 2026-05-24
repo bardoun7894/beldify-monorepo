@@ -10,7 +10,7 @@ import FilterChips from '@/components/products/FilterChips';
 import NoSearchResults from '@/components/search/NoSearchResults';
 import { Product } from '@/lib/types';
 import { useTranslation } from 'react-i18next';
-import { FunnelIcon, AdjustmentsHorizontalIcon, ArrowPathIcon } from '@heroicons/react/24/outline';
+import { Filter, SlidersHorizontal, RefreshCw } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
 import logger from '@/utils/consoleLogger';
 import { API_BASE_URL } from '@/config/constants';
@@ -233,13 +233,13 @@ export default function ProductsPage() {
         />
         <div className="relative mx-auto max-w-7xl px-6 py-14 lg:py-20">
           <p className="text-xs sm:text-sm uppercase tracking-[0.18em] text-amber-300 font-medium">
-            MARKETPLACE
+            {t('catalog.products.eyebrow', 'Marketplace')}
           </p>
           <h1
             className="mt-2 text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight"
             style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
           >
-            The Beldify catalog.
+            {t('catalog.products.headline', 'The Beldify catalog.')}
           </h1>
           <p className="mt-4 text-indigo-100 max-w-lg text-base sm:text-lg">
             Caftans, djellabas, and hand-tailored pieces — sourced directly from verified ateliers across Morocco.
@@ -261,7 +261,7 @@ export default function ProductsPage() {
               <div className="h-1 bg-indigo-700 w-full" />
               <div className="p-4">
                 <h2 className="text-base font-semibold text-indigo-900 flex items-center mb-4">
-                  <AdjustmentsHorizontalIcon className="h-5 w-5 mr-2" />
+                  <SlidersHorizontal className="h-5 w-5 mr-2" />
                   {t('filters.title')}
                 </h2>
                 <ProductFilters
@@ -293,7 +293,7 @@ export default function ProductsPage() {
                     className="md:hidden flex items-center gap-2 px-4 py-2 text-sm font-medium text-indigo-700 bg-indigo-50 border border-indigo-200 rounded-full hover:bg-indigo-100 transition-colors"
                     onClick={() => setIsMobileFiltersOpen(true)}
                   >
-                    <FunnelIcon className="h-5 w-5" />
+                    <Filter className="h-5 w-5" />
                     {t('filters.title')}
                   </button>
 
@@ -301,7 +301,7 @@ export default function ProductsPage() {
                   <div className="text-gray-600 font-medium">
                     {isLoading ? (
                       <span className="flex items-center">
-                        <ArrowPathIcon className="h-4 w-4 mr-2 animate-spin" />
+                        <RefreshCw className="h-4 w-4 mr-2 animate-spin" />
                         {t('products.loading')}
                       </span>
                     ) : products.length === 0 ? (

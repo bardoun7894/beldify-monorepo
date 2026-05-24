@@ -1832,5 +1832,23 @@
     "breadcrumbs": {
       "label": "مسار التنقل"
     }
+  },
+  "catalog": {
+    "categories": {
+      "eyebrow": "تصفح",
+      "headline": "السوق، غرفة بغرفة.",
+      "error_description": "تعذّر تحميل الفئات. يرجى المحاولة مرة أخرى."
+    },
+    "products": {
+      "eyebrow": "السوق",
+      "headline": "كتالوج بلديفاي."
+    },
+    "pdp": {
+      "breadcrumb_label": "مسار التنقل",
+      "sku": "رمز المنتج"
+    },
+    "product": {
+      "out_of_stock": "نفد المخزون"
+    }
   }
 }
