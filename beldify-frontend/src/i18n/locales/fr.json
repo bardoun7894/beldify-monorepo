@@ -140,20 +140,8 @@
     "ranking": "#{{number}}"
   },
   "featuredSections": {
-    "bestSellers": {
-      "title": "Meilleures ventes",
-      "viewAll": "Voir tout",
-      "rating": "Note",
-      "bestSellersDesc": "Découvrez nos produits traditionnels les plus vendus",
-      "view_all": "Voir tout Meilleures ventes"
-    },
-    "newArrivals": {
-      "title": "Nouveautés",
-      "viewAll": "Voir tout",
-      "newBadge": "Nouveau",
-      "newArrivalsDesc": "Découvrez nos nouveautés de produits traditionnels",
-      "view_all": "Voir tout Nouveautés"
-    },
+    "bestSellers": "Meilleures ventes",
+    "newArrivals": "Nouveautés",
     "mensTraditional": {
       "title": "Vêtements traditionnels masculins",
       "viewAll": "Voir tout",
@@ -176,7 +164,26 @@
       "title": "Boutiques en vedette",
       "viewAll": "Voir tout",
       "featuredStoresDesc": "Découvrez nos boutiques les mieux notées et vérifiées proposant des produits de qualité"
-    }
+    },
+    "browseAll": "Voir tout",
+    "restocking": "L'atelier se réapprovisionne",
+    "restockingDesc": "Des pièces des ateliers de Tétouan et Fès sont en cours de sélection. Revenez bientôt.",
+    "postBrief": "Publier une demande",
+    "newBadge": "Nouveau",
+    "reviews": "avis",
+    "editorial": "Beldify Éditorial",
+    "offer1Title": "Élégance traditionnelle",
+    "offer1Description": "Découvrez notre plus belle collection de vêtements marocains authentiques",
+    "offer1Cta": "Voir la collection",
+    "offer2Title": "Collection festive",
+    "offer2Description": "Parfait pour les occasions spéciales et les célébrations",
+    "offer2Cta": "Explorer maintenant",
+    "recommendedTailors": "Tailleurs recommandés",
+    "recommendedSellers": "Vendeurs recommandés",
+    "topBrands": "Meilleures marques",
+    "loadError": "Impossible de charger les sections en vedette.",
+    "bestSellersDesc": "Nos vêtements marocains traditionnels les plus populaires",
+    "newArrivalsDesc": "Les dernières additions à notre collection"
   },
   "product": {
     "express_delivery": "Livraison express",
@@ -1516,7 +1523,10 @@
   "hero": {
     "exclusive_collection": "Collection Exclusive",
     "handcrafted": "Fabriqué avec des matériaux premium",
-    "discover": "Découvrir"
+    "discover": "Découvrir",
+    "luxuryCaftans": "Caftans de luxe",
+    "discoverCollection": "Découvrez notre collection exclusive",
+    "shopNow": "Acheter maintenant"
   },
   "mega_offers": {
     "title": "MÉGA OFFRES",
@@ -1592,5 +1602,27 @@
     "product": {
       "out_of_stock": "Rupture de stock"
     }
+  },
+  "megaOffers": {
+    "eyebrow": "Collections spéciales",
+    "upTo70Off": "JUSQU'À 70% DE RÉDUCTION",
+    "daysLeft": "jours restants",
+    "viewCollection": "Voir la collection",
+    "moreItems": "articles supplémentaires",
+    "viewAllCollections": "Voir toutes les collections",
+    "hot": "TENDANCE",
+    "loadError": "Impossible de charger les offres"
+  },
+  "newsletter": {
+    "eyebrow": "Restez informé"
+  },
+  "heroSlider": {
+    "loadError": "Erreur de chargement des bannières",
+    "prevSlide": "Diapositive précédente",
+    "nextSlide": "Diapositive suivante",
+    "goToSlide": "Aller à la diapositive"
+  },
+  "traditionalWear": {
+    "eyebrow": "Artisanat marocain"
   }
 }

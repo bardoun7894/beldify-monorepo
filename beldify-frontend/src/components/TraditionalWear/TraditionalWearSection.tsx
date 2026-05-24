@@ -12,7 +12,7 @@ interface TraditionalWearSectionProps {
   title?: string;
 }
 
-const TraditionalWearSection: React.FC<TraditionalWearSectionProps> = ({ 
+const TraditionalWearSection: React.FC<TraditionalWearSectionProps> = ({
   category,
   title
 }) => {
@@ -25,10 +25,10 @@ const TraditionalWearSection: React.FC<TraditionalWearSectionProps> = ({
   const fetchProducts = async () => {
     setLoading(true);
     setError(null);
-    
+
     try {
       let response;
-      
+
       switch (category) {
         case 'men':
           response = await traditionalWearService.getMensTraditionalWear(currentLanguage);
@@ -42,11 +42,11 @@ const TraditionalWearSection: React.FC<TraditionalWearSectionProps> = ({
         default:
           throw new Error('Invalid category');
       }
-      
+
       if (response.error) {
         throw new Error(response.error);
       }
-      
+
       setProducts(response.data);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to fetch products');
@@ -54,14 +54,14 @@ const TraditionalWearSection: React.FC<TraditionalWearSectionProps> = ({
       setLoading(false);
     }
   };
-  
+
   useEffect(() => {
     fetchProducts();
   }, [category, currentLanguage]);
 
   // Generate section title if not provided
   const sectionTitle = title || (
-    category === 'men' 
+    category === 'men'
       ? t('mens_traditional_wear')
       : category === 'women'
         ? t('womens_traditional_wear')
@@ -73,15 +73,29 @@ const TraditionalWearSection: React.FC<TraditionalWearSectionProps> = ({
   const noImageText = t('no_image_available');
 
   return (
-    <section className="py-8">
+    <section className="py-16 sm:py-20">
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-bold">{sectionTitle}</h2>
-          <a href={`/category/${category}`} className="text-primary hover:underline">
+          <div>
+            {/* Eyebrow */}
+            <span className="block text-xs font-medium uppercase tracking-[0.18em] text-amber-700 mb-2">
+              {t('traditionalWear.eyebrow', 'Artisan Craftsmanship')}
+            </span>
+            <h2
+              className="text-2xl font-bold text-indigo-700"
+              style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
+            >
+              {sectionTitle}
+            </h2>
+          </div>
+          <a
+            href={`/category/${category}`}
+            className="text-indigo-700 hover:text-indigo-800 font-medium text-sm transition-colors duration-[220ms] ease-[cubic-bezier(0.33,1,0.68,1)]"
+          >
             {viewAllText}
           </a>
         </div>
-        
+
         {loading ? (
           <div className="flex justify-center py-12">
             <LoadingSpinner />
@@ -94,17 +108,17 @@ const TraditionalWearSection: React.FC<TraditionalWearSectionProps> = ({
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {products.map((product) => (
-              <ProductCard 
-                key={product.id} 
-                product={product} 
+              <ProductCard
+                key={product.id}
+                product={product}
                 fastDeliveryText={fastDeliveryText}
                 noImageText={noImageText}
               />
             ))}
-            
+
             {products.length === 0 && (
               <div className="col-span-full text-center py-12">
-                <p>{t('no_products_found')}</p>
+                <p className="text-gray-500">{t('no_products_found')}</p>
               </div>
             )}
           </div>

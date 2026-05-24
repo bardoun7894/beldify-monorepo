@@ -150,18 +150,8 @@
     "ranking": "#{{number}}"
   },
   "featuredSections": {
-    "bestSellers": {
-      "title": "Más vendidos",
-      "viewAll": "Ver todo",
-      "rating": "Calificación",
-      "bestSellersDesc": "Descubre nuestros productos tradicionales más vendidos"
-    },
-    "newArrivals": {
-      "title": "Novedades",
-      "viewAll": "Ver todo",
-      "newBadge": "Nuevo",
-      "newArrivalsDesc": "Descubre nuestras novedades de productos tradicionales"
-    },
+    "bestSellers": "Más vendidos",
+    "newArrivals": "Novedades",
     "mensTraditional": {
       "title": "Ropa tradicional masculina",
       "viewAll": "Ver todo",
@@ -181,7 +171,26 @@
       "title": "Tiendas destacadas",
       "viewAll": "Ver todo",
       "featuredStoresDesc": "Descubre nuestras tiendas mejor valoradas y verificadas que ofrecen productos de calidad"
-    }
+    },
+    "browseAll": "Ver todo",
+    "restocking": "El atelier está reabasteciendo",
+    "restockingDesc": "Piezas de los talleres de Tetuán y Fez están siendo seleccionadas. Vuelve pronto.",
+    "postBrief": "Publicar una solicitud",
+    "newBadge": "Nuevo",
+    "reviews": "reseñas",
+    "editorial": "Editorial Beldify",
+    "offer1Title": "Elegancia tradicional",
+    "offer1Description": "Descubre nuestra mejor colección de ropa marroquí auténtica",
+    "offer1Cta": "Ver colección",
+    "offer2Title": "Colección festiva",
+    "offer2Description": "Perfecto para ocasiones especiales y celebraciones",
+    "offer2Cta": "Explorar ahora",
+    "recommendedTailors": "Sastres recomendados",
+    "recommendedSellers": "Vendedores recomendados",
+    "topBrands": "Mejores marcas",
+    "loadError": "Error al cargar las secciones destacadas.",
+    "bestSellersDesc": "Nuestra ropa tradicional marroquí más popular",
+    "newArrivalsDesc": "Últimas incorporaciones a nuestra colección"
   },
   "product": {
     "product_add_to_cart": "Agregar al carrito",
@@ -1431,7 +1440,10 @@
     "titleLine2": "con la moda marroquí auténtica",
     "description": "Explora nuestra colección cuidadosamente seleccionada de ropa tradicional y moderna marroquí, especialmente diseñada para el Eid y elaborada por los artesanos más hábiles.",
     "shopButton": "Comprar ahora",
-    "learnMoreButton": "Saber más"
+    "learnMoreButton": "Saber más",
+    "luxuryCaftans": "Caftanes de lujo",
+    "discoverCollection": "Descubre nuestra colección exclusiva",
+    "shopNow": "Comprar ahora"
   },
   "community": {
     "verified_seller": "Vendedor verificado",
@@ -1662,5 +1674,27 @@
     "product": {
       "out_of_stock": "Agotado"
     }
+  },
+  "megaOffers": {
+    "eyebrow": "Colecciones especiales",
+    "upTo70Off": "HASTA 70% DE DESCUENTO",
+    "daysLeft": "días restantes",
+    "viewCollection": "Ver colección",
+    "moreItems": "artículos más",
+    "viewAllCollections": "Ver todas las colecciones",
+    "hot": "TENDENCIA",
+    "loadError": "Error al cargar las ofertas"
+  },
+  "newsletter": {
+    "eyebrow": "Mantente informado"
+  },
+  "heroSlider": {
+    "loadError": "Error al cargar los banners",
+    "prevSlide": "Diapositiva anterior",
+    "nextSlide": "Siguiente diapositiva",
+    "goToSlide": "Ir a la diapositiva"
+  },
+  "traditionalWear": {
+    "eyebrow": "Artesanía marroquí"
   }
 }

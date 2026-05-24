@@ -185,21 +185,19 @@
     "off": "OFF",
     "addToCart": "Add to Cart",
     "noOffers": "No mega offers available at the moment.",
-    "comingSoon": "New offers coming soon!"
+    "comingSoon": "New offers coming soon!",
+    "eyebrow": "Special Collections",
+    "upTo70Off": "UP TO 70% OFF",
+    "daysLeft": "days left",
+    "viewCollection": "View Collection",
+    "moreItems": "more items",
+    "viewAllCollections": "View All Collections",
+    "hot": "HOT",
+    "loadError": "Failed to load mega offers"
   },
   "featuredSections": {
-    "bestSellers": {
-      "title": "Best Sellers",
-      "viewAll": "View All",
-      "rating": "Rating",
-      "bestSellersDesc": "Discover our best selling traditional products"
-    },
-    "newArrivals": {
-      "title": "New Arrivals",
-      "viewAll": "View All",
-      "newBadge": "New",
-      "newArrivalsDesc": "Discover our new arrivals of traditional products"
-    },
+    "bestSellers": "Best Sellers",
+    "newArrivals": "New Arrivals",
     "mensTraditional": {
       "title": "Men's Traditional Wear",
       "viewAll": "View All",
@@ -219,7 +217,26 @@
       "title": "Featured Stores",
       "viewAll": "View All",
       "featuredStoresDesc": "Discover our top-rated and verified stores offering quality products"
-    }
+    },
+    "browseAll": "Browse all",
+    "restocking": "The atelier is restocking",
+    "restockingDesc": "Pieces from Tetouani and Fes ateliers are being curated. Check back shortly — or post a brief in the Open Souk and ateliers will come to you.",
+    "postBrief": "Post a brief",
+    "newBadge": "New",
+    "reviews": "reviews",
+    "editorial": "Beldify Editorial",
+    "offer1Title": "Traditional Elegance",
+    "offer1Description": "Discover our finest collection of authentic Moroccan wear",
+    "offer1Cta": "Shop Collection",
+    "offer2Title": "Festive Collection",
+    "offer2Description": "Perfect for special occasions and celebrations",
+    "offer2Cta": "Explore Now",
+    "recommendedTailors": "Recommended Tailors",
+    "recommendedSellers": "Recommended Sellers",
+    "topBrands": "Top Brands",
+    "loadError": "Failed to load featured sections. Please try again later.",
+    "bestSellersDesc": "Our most popular traditional Moroccan wear",
+    "newArrivalsDesc": "Latest additions to our collection"
   },
   "product": {
     "product_add_to_cart": "Add to Cart",
@@ -1447,7 +1464,8 @@
     "title": "Stay Updated",
     "subtitle": "Subscribe to our newsletter for exclusive offers, new arrivals, and traditional Moroccan fashion inspiration.",
     "placeholder": "Enter your email",
-    "button": "Subscribe"
+    "button": "Subscribe",
+    "eyebrow": "Stay in the loop"
   },
   "footer": {
     "description": "Discover the finest Moroccan fashion and handicrafts. Beldify connects you with authentic Moroccan artisans and designers.",
@@ -1637,7 +1655,10 @@
     "body": "Discover caftans, djellabas, and tailoring from Morocco's finest ateliers — delivered worldwide.",
     "ctaPrimary": "Shop the marketplace",
     "ctaGhost": "Meet the tailors",
-    "aiChip": "AI styled for you"
+    "aiChip": "AI styled for you",
+    "luxuryCaftans": "Luxury Caftans",
+    "discoverCollection": "Discover our exclusive collection",
+    "shopNow": "Shop Now"
   },
   "verification": {
     "verify_phone": "Verify Your Phone",
@@ -2022,5 +2043,14 @@
     "product": {
       "out_of_stock": "Out of stock"
     }
+  },
+  "heroSlider": {
+    "loadError": "Error loading banner data",
+    "prevSlide": "Previous slide",
+    "nextSlide": "Next slide",
+    "goToSlide": "Go to slide"
+  },
+  "traditionalWear": {
+    "eyebrow": "Artisan Craftsmanship"
   }
 }
