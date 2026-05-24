@@ -3,24 +3,35 @@
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
-import { CheckCircleIcon, TruckIcon, ClockIcon } from '@heroicons/react/24/outline';
+import { CheckCircle, Truck, Clock } from 'lucide-react';
 import { orderService, Order, OrderItem } from '@/services/orderService';
 import { useTranslation } from 'react-i18next';
 import toast from '@/utils/toast';
 import logger from '@/utils/consoleLogger';
 import { usePWATriggers } from '@/hooks/usePWATriggers';
+
+const playfair = { fontFamily: '"Playfair Display", ui-serif, Georgia, serif' };
+
 export default function OrderConfirmationPage() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const searchParams = useSearchParams();
   const orderId = searchParams ? searchParams.get('orderId') : null;
   const [order, setOrder] = useState<Order | null>(null);
   const [loading, setLoading] = useState(true);
   const { triggerOnOrderComplete } = usePWATriggers();
+  const isRTL = i18n.language === 'ar';
+
+  const formatAmount = (amount: number) =>
+    new Intl.NumberFormat(i18n.language, {
+      style: 'decimal',
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    }).format(amount);
 
   useEffect(() => {
     const fetchOrder = async () => {
       if (!orderId) {
-          logger.log('No order ID found');
+        logger.log('No order ID found');
         setLoading(false);
         return;
       }
@@ -32,7 +43,7 @@ export default function OrderConfirmationPage() {
         triggerOnOrderComplete();
       } catch (error) {
         logger.error('Error fetching order:', error);
-        toast.error('Failed to load order details');
+        toast.error(t('order_confirmation.error.fetch_failed', 'Failed to load order details'));
       } finally {
         setLoading(false);
       }
@@ -43,25 +54,32 @@ export default function OrderConfirmationPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-amber-600"></div>
+      <div className="min-h-screen bg-amber-50/40 flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-700" />
       </div>
     );
   }
 
   if (!orderId || !order) {
     return (
-      <div className="min-h-screen bg-gray-50 py-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="min-h-screen bg-amber-50/40 py-12">
+        <div className="max-w-7xl mx-auto px-6">
           <div className="max-w-2xl mx-auto text-center">
-            <div className="bg-white rounded-lg shadow-sm p-8">
-              <h1 className="text-2xl font-bold text-gray-900 mb-4">Order Not Found</h1>
-              <p className="text-gray-600 mb-6">We couldn't find the order you're looking for.</p>
+            <div className="bg-white rounded-2xl shadow-sm p-8">
+              <h1
+                className="text-2xl font-bold text-gray-900 mb-4"
+                style={playfair}
+              >
+                {t('order_confirmation.not_found.title', 'Order Not Found')}
+              </h1>
+              <p className="text-gray-600 mb-6">
+                {t('order_confirmation.not_found.description', "We couldn't find the order you're looking for.")}
+              </p>
               <Link
                 href="/"
-                className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-amber-600 hover:bg-amber-700"
+                className="inline-flex items-center px-6 py-3 text-sm font-medium rounded-2xl text-white bg-indigo-700 hover:bg-indigo-800 transition hover:-translate-y-0.5 hover:shadow-md"
               >
-                Return to Home
+                {t('order_confirmation.not_found.cta', 'Return to Home')}
               </Link>
             </div>
           </div>
@@ -70,41 +88,65 @@ export default function OrderConfirmationPage() {
     );
   }
 
+  const itemsSubtotal = order.items.reduce(
+    (acc, item) => acc + item.unit_price * item.quantity,
+    0
+  );
+
   return (
-    <div className="min-h-screen bg-gray-50 py-12">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div
+      className={`min-h-screen bg-amber-50/40 py-12 ${isRTL ? 'rtl' : 'ltr'}`}
+      dir={isRTL ? 'rtl' : 'ltr'}
+    >
+      <div className="max-w-7xl mx-auto px-6">
         <div className="max-w-3xl mx-auto">
-          <div className="bg-white rounded-lg shadow-sm p-8">
-            {/* Order Status Icon */}
+          <div className="bg-white rounded-2xl shadow-sm p-8">
+            {/* Success Icon */}
             <div className="flex justify-center mb-6">
-              <CheckCircleIcon className="h-16 w-16 text-green-500" />
+              <div className="w-20 h-20 rounded-full bg-indigo-50 flex items-center justify-center">
+                <CheckCircle className="h-10 w-10 text-indigo-700" strokeWidth={1.5} />
+              </div>
             </div>
 
             <div className="text-center mb-8">
-              <h1 className="text-2xl font-semibold text-gray-900 mb-4">
-                {t('Thank you for your order!')}
+              <h1
+                className="text-2xl font-semibold text-gray-900 mb-4"
+                style={playfair}
+              >
+                {t('order_confirmation.success.title', 'Thank you for your order!')}
               </h1>
               <p className="text-gray-600">
-                {t("Your order has been placed and is being processed. You'll")}{' '}
-                {t('receive a confirmation email shortly.')}
+                {t(
+                  'order_confirmation.success.message',
+                  "Your order has been placed and is being processed. You'll receive a confirmation email shortly."
+                )}
               </p>
               <p className="text-gray-600 mt-4">
-                {t('Order Number')}: <span className="font-medium">{order?.order_number}</span>
+                {t('order_confirmation.order_number', 'Order Number')}:{' '}
+                <span className="font-medium text-indigo-700">{order?.order_number}</span>
               </p>
             </div>
 
             {/* Order Status */}
-            <div className="bg-amber-50 rounded-lg p-6 mb-8">
-              <div className="flex items-center space-x-3 mb-4">
-                <ClockIcon className="h-6 w-6 text-amber-600" />
-                <h2 className="text-lg font-medium text-gray-900">Order Status: {order?.status}</h2>
+            <div className="bg-amber-50 rounded-2xl p-6 mb-8 ring-1 ring-amber-200">
+              <div className="flex items-center gap-3 mb-4">
+                <Clock className="h-6 w-6 text-amber-600" strokeWidth={1.5} />
+                <h2
+                  className="text-lg font-medium text-gray-900"
+                  style={playfair}
+                >
+                  {t('order_confirmation.status.label', 'Order Status')}:{' '}
+                  <span className="text-indigo-700">{order?.status}</span>
+                </h2>
               </div>
-              <div className="flex items-start space-x-3">
-                <TruckIcon className="h-6 w-6 text-amber-600 mt-0.5" />
+              <div className="flex items-start gap-3">
+                <Truck className="h-6 w-6 text-amber-600 mt-0.5 flex-shrink-0" strokeWidth={1.5} />
                 <div>
-                  <h3 className="font-medium text-gray-900">Shipping Address:</h3>
-                  <p className="text-gray-600">
-                     {order?.shipping_info?.first_name} {order?.shipping_info?.last_name}
+                  <h3 className="font-medium text-gray-900 mb-1">
+                    {t('order_confirmation.shipping.title', 'Shipping Address')}
+                  </h3>
+                  <p className="text-gray-600 text-sm leading-relaxed">
+                    {order?.shipping_info?.first_name} {order?.shipping_info?.last_name}
                     <br />
                     {order?.shipping_info?.address}
                     <br />
@@ -118,61 +160,85 @@ export default function OrderConfirmationPage() {
             </div>
 
             {/* Order Details */}
-            <div className="border rounded-lg p-6 mb-8">
-              <h2 className="text-lg font-medium text-gray-900 mb-4">Order Details</h2>
+            <div className="rounded-2xl ring-1 ring-gray-200 p-6 mb-8">
+              <h2
+                className="text-lg font-medium text-gray-900 mb-4"
+                style={playfair}
+              >
+                {t('order_confirmation.details.title', 'Order Details')}
+              </h2>
               <div className="space-y-4">
                 {order.items.map((item: OrderItem) => (
                   <div
-                    key={item.id} // Use the OrderItem's own unique ID for the key
-                    className="flex justify-between"
+                    key={item.id}
+                    className="flex justify-between items-start gap-4"
                   >
-                    <div className="flex-1">
-                      <p className="text-gray-900">
-                        {item.product_name || item.product?.name || 'Unknown Product'} {item.variant?.color && `- ${item.variant.color}`}{' '}
-                        {item.variant?.size && `- ${item.variant.size}`}
+                    <div className="flex-1 min-w-0">
+                      <p className="text-gray-900 truncate">
+                        {item.product_name || item.product?.name || 'Unknown Product'}
+                        {item.variant?.color && ` - ${item.variant.color}`}
+                        {item.variant?.size && ` - ${item.variant.size}`}
                       </p>
-                      <p className="text-sm text-gray-500">Qty: {item.quantity}</p>
+                      <p className="text-sm text-gray-500 mt-0.5">
+                        {t('order_confirmation.items.qty', 'Qty')}: {item.quantity}
+                      </p>
                     </div>
-                    <p className="text-gray-900">${(item.unit_price * item.quantity).toFixed(2)}</p>
+                    <p className="text-gray-900 font-medium tabular-nums whitespace-nowrap">
+                      {formatAmount(item.unit_price * item.quantity)} MAD
+                    </p>
                   </div>
                 ))}
 
-                <div className="border-t pt-4 mt-4">
+                <div className="border-t border-amber-100 pt-4 mt-4 space-y-2">
                   <div className="flex justify-between text-sm">
-                    <span className="text-gray-600">Subtotal</span>
-                    <span className="text-gray-900">
-                      ${order.items.reduce((acc, item) => acc + item.unit_price * item.quantity, 0).toFixed(2)}
+                    <span className="text-gray-600">
+                      {t('order_confirmation.summary.subtotal', 'Subtotal')}
+                    </span>
+                    <span className="text-gray-900 tabular-nums">
+                      {formatAmount(itemsSubtotal)} MAD
                     </span>
                   </div>
-                  <div className="flex justify-between text-sm mt-2">
-                    <span className="text-gray-600">Shipping</span>
-                    <span className="text-gray-900">${(order.shipping_amount ?? 0).toFixed(2)}</span>
+                  <div className="flex justify-between text-sm">
+                    <span className="text-gray-600">
+                      {t('order_confirmation.summary.shipping', 'Shipping')}
+                    </span>
+                    <span className="text-gray-900 tabular-nums">
+                      {formatAmount(order.shipping_amount ?? 0)} MAD
+                    </span>
                   </div>
-                  <div className="flex justify-between text-sm mt-2">
-                    <span className="text-gray-600">Tax</span>
-                    <span className="text-gray-900">${(order.tax_amount ?? 0).toFixed(2)}</span>
+                  <div className="flex justify-between text-sm">
+                    <span className="text-gray-600">
+                      {t('order_confirmation.summary.tax', 'Tax')}
+                    </span>
+                    <span className="text-gray-900 tabular-nums">
+                      {formatAmount(order.tax_amount ?? 0)} MAD
+                    </span>
                   </div>
-                  <div className="flex justify-between font-medium mt-4 pt-4 border-t">
-                    <span className="text-gray-900">Total</span>
-                    <span className="text-gray-900">${order.total_amount.toFixed(2)}</span>
+                  <div className="flex justify-between font-semibold mt-4 pt-4 border-t border-amber-100">
+                    <span className="text-gray-900">
+                      {t('order_confirmation.summary.total', 'Total')}
+                    </span>
+                    <span className="text-indigo-700 tabular-nums">
+                      {formatAmount(order.total_amount)} MAD
+                    </span>
                   </div>
                 </div>
               </div>
             </div>
 
-            <div className="space-y-4">
+            <div className="space-y-3">
               <Link
                 href="/orders"
-                className="block w-full bg-amber-600 text-white text-center py-3 px-4 rounded-md hover:bg-amber-700 transition-colors duration-200"
+                className="block w-full bg-indigo-700 text-white text-center py-3 px-4 rounded-2xl hover:bg-indigo-800 transition hover:-translate-y-0.5 hover:shadow-md font-medium"
               >
-                View Order Status
+                {t('order_confirmation.actions.view_status', 'View Order Status')}
               </Link>
 
               <Link
                 href="/"
-                className="block w-full bg-gray-100 text-gray-700 text-center py-3 px-4 rounded-md hover:bg-gray-200 transition-colors duration-200"
+                className="block w-full bg-amber-50 text-indigo-700 text-center py-3 px-4 rounded-2xl ring-1 ring-amber-200 hover:bg-amber-100 transition hover:-translate-y-0.5 font-medium"
               >
-                Continue Shopping
+                {t('order_confirmation.actions.continue_shopping', 'Continue Shopping')}
               </Link>
             </div>
           </div>

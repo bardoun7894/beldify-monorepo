@@ -12,16 +12,16 @@ import PlaceholderImage from '@/components/PlaceholderImage';
 import { useParams, useSearchParams } from 'next/navigation';
 import { syncUrlLocale } from '@/i18n/config';
 import {
-  ShoppingBagIcon,
-  TruckIcon,
-  CheckCircleIcon,
-  ClockIcon,
-  ChevronLeftIcon,
-  MapPinIcon,
-  CreditCardIcon,
-  DocumentTextIcon,
-  ChatBubbleLeftIcon,
-} from '@heroicons/react/24/outline';
+  ShoppingBag,
+  Truck,
+  CheckCircle,
+  Clock,
+  ChevronLeft,
+  MapPin,
+  CreditCard,
+  FileText,
+  MessageSquare,
+} from 'lucide-react';
 import logger from '@/utils/consoleLogger';
 
 export default function OrderDetailsPage() {
@@ -115,17 +115,18 @@ export default function OrderDetailsPage() {
   }, [orderNumber]);
 
   const getStatusIcon = (status: string, size: string = 'w-6 h-6') => {
+    const props = { className: size, strokeWidth: 1.5 };
     switch (status) {
       case 'order_placed':
-        return <ShoppingBagIcon className={size} />;
+        return <ShoppingBag {...props} />;
       case 'processing':
-        return <ClockIcon className={size} />;
+        return <Clock {...props} />;
       case 'shipped':
-        return <TruckIcon className={size} />;
+        return <Truck {...props} />;
       case 'delivered':
-        return <CheckCircleIcon className={size} />;
+        return <CheckCircle {...props} />;
       default:
-        return <ClockIcon className={size} />;
+        return <Clock {...props} />;
     }
   };
 
@@ -137,7 +138,7 @@ export default function OrderDetailsPage() {
     if (currentIndex === -1 || thisIndex === -1) return 'bg-gray-100 text-gray-400 border-gray-200';
 
     // Color all steps up to and including current status
-    if (thisIndex <= currentIndex) return 'bg-indigo-600 text-white border-indigo-600';
+    if (thisIndex <= currentIndex) return 'bg-indigo-700 text-white border-indigo-700';
     return 'bg-gray-100 text-gray-400 border-gray-200';
   };
 
@@ -148,7 +149,7 @@ export default function OrderDetailsPage() {
     if (currentIndex === -1) return 'bg-gray-200';
 
     // Color all lines up to current status - using indigo theme
-    return index < currentIndex ? 'bg-indigo-600' : 'bg-gray-200';
+    return index < currentIndex ? 'bg-indigo-700' : 'bg-gray-200';
   };
 
   if (loading) {
@@ -165,7 +166,7 @@ export default function OrderDetailsPage() {
       <motion.div 
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        className={`min-h-screen bg-gray-50 ${isRTL ? 'rtl' : 'ltr'}`}
+        className={`min-h-screen bg-amber-50/40 ${isRTL ? 'rtl' : 'ltr'}`}
         dir={isRTL ? 'rtl' : 'ltr'}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
@@ -173,10 +174,10 @@ export default function OrderDetailsPage() {
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ duration: 0.5 }}
-            className="bg-white rounded-xl shadow-lg border border-red-100 p-12 text-center"
+            className="bg-white rounded-2xl shadow-lg ring-1 ring-rose-100 p-12 text-center"
           >
-            <div className="w-16 h-16 bg-red-500 rounded-full flex items-center justify-center mx-auto mb-6">
-              <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div className="w-16 h-16 bg-rose-50 rounded-full flex items-center justify-center mx-auto mb-6">
+              <svg className="w-8 h-8 text-rose-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
               </svg>
             </div>
@@ -184,9 +185,9 @@ export default function OrderDetailsPage() {
             <p className="text-gray-600 mb-6">{error}</p>
             <Link
               href="/orders"
-              className="inline-flex items-center px-6 py-3 border border-transparent text-sm font-medium rounded-lg text-white bg-indigo-600 hover:bg-indigo-700 transition-all duration-300 shadow-lg hover:shadow-xl"
+              className="inline-flex items-center px-6 py-3 text-sm font-medium rounded-2xl text-white bg-indigo-700 hover:bg-indigo-800 transition hover:-translate-y-0.5 hover:shadow-md"
             >
-              <ChevronLeftIcon className="w-4 h-4 mr-2" />
+              <ChevronLeft className="w-4 h-4 me-2" strokeWidth={1.5} />
               {t('orders.actions.back_to_orders')}
             </Link>
           </motion.div>
@@ -200,7 +201,7 @@ export default function OrderDetailsPage() {
       <motion.div 
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        className={`min-h-screen bg-gray-50 ${isRTL ? 'rtl' : 'ltr'}`}
+        className={`min-h-screen bg-amber-50/40 ${isRTL ? 'rtl' : 'ltr'}`}
         dir={isRTL ? 'rtl' : 'ltr'}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
@@ -208,10 +209,10 @@ export default function OrderDetailsPage() {
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ duration: 0.5 }}
-            className="bg-white rounded-xl shadow-lg border border-amber-100 p-12 text-center"
+            className="bg-white rounded-2xl shadow-lg ring-1 ring-amber-100 p-12 text-center"
           >
-            <div className="w-16 h-16 bg-amber-500 rounded-full flex items-center justify-center mx-auto mb-6">
-              <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div className="w-16 h-16 bg-amber-50 rounded-full flex items-center justify-center mx-auto mb-6">
+              <svg className="w-8 h-8 text-amber-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.172 16.172a4 4 0 015.656 0M9 12h6m-6-4h6m2 5.291A7.962 7.962 0 0112 15c-2.34 0-4.29-1.009-5.624-2.57M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
               </svg>
             </div>
@@ -219,9 +220,9 @@ export default function OrderDetailsPage() {
             <p className="text-gray-600 mb-6">{t('orders.not_found.message')}</p>
             <Link
               href="/orders"
-              className="inline-flex items-center px-6 py-3 border border-transparent text-sm font-medium rounded-lg text-white bg-indigo-600 hover:bg-indigo-700 transition-all duration-300 shadow-lg hover:shadow-xl"
+              className="inline-flex items-center px-6 py-3 text-sm font-medium rounded-2xl text-white bg-indigo-700 hover:bg-indigo-800 transition hover:-translate-y-0.5 hover:shadow-md"
             >
-              <ChevronLeftIcon className="w-4 h-4 mr-2" />
+              <ChevronLeft className="w-4 h-4 me-2" strokeWidth={1.5} />
               {t('orders.actions.back_to_orders')}
             </Link>
           </motion.div>
@@ -235,35 +236,35 @@ export default function OrderDetailsPage() {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
-      className={`min-h-screen bg-gray-50 ${isRTL ? 'rtl' : 'ltr'}`}
+      className={`min-h-screen bg-amber-50/40 ${isRTL ? 'rtl' : 'ltr'}`}
       dir={isRTL ? 'rtl' : 'ltr'}
     >
       {/* Clean Navigation Bar */}
-      <div className="bg-white border-b border-gray-200 sticky top-0 z-20">
+      <div className="bg-white border-b border-amber-100 sticky top-0 z-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between py-4">
             <div className="flex items-center space-x-3">
-              <Link href="/orders" className="p-2 hover:bg-gray-100 rounded-lg transition-colors">
-                <ChevronLeftIcon className="w-5 h-5 text-gray-600" />
+              <Link href="/orders" className="p-2 hover:bg-amber-50 rounded-2xl transition-colors">
+                <ChevronLeft className="w-5 h-5 text-gray-600" strokeWidth={1.5} />
               </Link>
               <div>
                 <h1 className="text-lg font-semibold text-gray-900">
-                  Order #{order.order_number}
+                  {t('orders.list.order_number', { orderNumber: order.order_number, defaultValue: `Order #${order.order_number}` })}
                 </h1>
                 <p className="text-xs text-gray-500">
                   {t('orders.placed_on')} {formatDate(order.created_at)}
                 </p>
               </div>
             </div>
-            
+
             {/* Quick Actions for Desktop */}
             <div className="hidden md:flex items-center space-x-3">
-              <button className="px-4 py-2 text-sm text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors">
-                <DocumentTextIcon className="w-4 h-4 inline mr-1" />
+              <button className="px-4 py-2 text-sm text-gray-700 bg-amber-50 rounded-2xl ring-1 ring-amber-200 hover:bg-amber-100 transition-colors flex items-center gap-1.5">
+                <FileText className="w-4 h-4" strokeWidth={1.5} />
                 {t('orders.actions.invoice')}
               </button>
-              <button className="px-4 py-2 text-sm text-indigo-600 bg-indigo-50 rounded-lg hover:bg-indigo-100 transition-colors">
-                <ChatBubbleLeftIcon className="w-4 h-4 inline mr-1" />
+              <button className="px-4 py-2 text-sm text-indigo-700 bg-indigo-50 rounded-2xl ring-1 ring-indigo-200 hover:bg-indigo-100 transition-colors flex items-center gap-1.5">
+                <MessageSquare className="w-4 h-4" strokeWidth={1.5} />
                 {t('orders.actions.support')}
               </button>
             </div>
@@ -280,7 +281,7 @@ export default function OrderDetailsPage() {
               initial={{ y: 20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 0.5 }}
-              className="bg-white rounded-lg border border-gray-200 p-6"
+              className="bg-white rounded-2xl ring-1 ring-amber-100 p-6"
             >
               <h2 className="text-lg font-semibold text-gray-900 mb-6">{t('orders.tracking.title')}</h2>
               
@@ -292,14 +293,14 @@ export default function OrderDetailsPage() {
                     <div key={status} className="flex items-start space-x-4">
                       <div className="relative">
                         <div className={`w-10 h-10 rounded-full border-2 flex items-center justify-center ${
-                          isActive ? 'bg-indigo-600 border-indigo-600 text-white' : 'bg-white border-gray-300 text-gray-400'
+                          isActive ? 'bg-indigo-700 border-indigo-700 text-white' : 'bg-white border-gray-300 text-gray-400'
                         }`}>
                           {getStatusIcon(status, 'w-5 h-5')}
                         </div>
                         {index < 3 && (
                           <div className={`absolute left-5 top-10 w-0.5 h-8 -ml-px ${
                             isActive && ['order_placed', 'processing', 'shipped', 'delivered'].indexOf(order.status.toLowerCase()) > index
-                              ? 'bg-indigo-600' : 'bg-gray-300'
+                              ? 'bg-indigo-700' : 'bg-gray-300'
                           }`} />
                         )}
                       </div>
@@ -315,7 +316,7 @@ export default function OrderDetailsPage() {
                           </p>
                         )}
                         {order.status.toLowerCase() === status && (
-                          <p className="text-xs text-indigo-600 font-medium mt-1">{t('orders.tracking.current_status')}</p>
+                          <p className="text-xs text-indigo-700 font-medium mt-1">{t('orders.tracking.current_status')}</p>
                         )}
                       </div>
                     </div>
@@ -332,7 +333,7 @@ export default function OrderDetailsPage() {
                       return (
                         <div key={status} className="flex flex-col items-center relative flex-1">
                           <div className={`w-12 h-12 rounded-full border-2 flex items-center justify-center z-10 bg-white ${
-                            isActive ? 'border-indigo-600 text-indigo-600' : 'border-gray-300 text-gray-400'
+                            isActive ? 'border-indigo-700 text-indigo-700' : 'border-gray-300 text-gray-400'
                           }`}>
                             {getStatusIcon(status, 'w-6 h-6')}
                           </div>
@@ -347,7 +348,7 @@ export default function OrderDetailsPage() {
                             </p>
                           )}
                           {order.status.toLowerCase() === status && (
-                            <p className="text-xs text-indigo-600 font-medium mt-1">{t('orders.tracking.current')}</p>
+                            <p className="text-xs text-indigo-700 font-medium mt-1">{t('orders.tracking.current')}</p>
                           )}
                           
                           {/* Progress Line */}
@@ -355,7 +356,7 @@ export default function OrderDetailsPage() {
                             <div className="absolute left-1/2 top-6 w-full h-0.5 -z-10">
                               <div className={`h-full ${
                                 isActive && ['order_placed', 'processing', 'shipped', 'delivered'].indexOf(order.status.toLowerCase()) > index
-                                  ? 'bg-indigo-600' : 'bg-gray-300'
+                                  ? 'bg-indigo-700' : 'bg-gray-300'
                               }`} />
                             </div>
                           )}
@@ -368,7 +369,7 @@ export default function OrderDetailsPage() {
 
               {/* Tracking Info */}
               {(order.tracking_number || order.estimated_delivery) && (
-                <div className="mt-6 pt-6 border-t border-gray-200 space-y-3">
+                <div className="mt-6 pt-6 border-t border-amber-100 space-y-3">
                   {order.tracking_number && (
                     <div className="flex items-center justify-between">
                       <span className="text-sm text-gray-600">{t('orders.tracking.number')}</span>
@@ -390,16 +391,16 @@ export default function OrderDetailsPage() {
               initial={{ y: 20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 0.5, delay: 0.2 }}
-              className="bg-white rounded-lg border border-gray-200"
+              className="bg-white rounded-2xl ring-1 ring-amber-100"
             >
-              <div className="p-6 border-b border-gray-200">
+              <div className="p-6 border-b border-amber-100">
                 <h2 className="text-lg font-semibold text-gray-900">{t('orders.items.title')} ({order.items.length})</h2>
               </div>
               <div className="divide-y divide-gray-200">
                 {order.items.map((item) => (
                   <div key={item.id} className="p-6">
                     <div className="flex items-start space-x-4">
-                      <div className="relative w-20 h-20 rounded-lg overflow-hidden bg-gray-100 flex-shrink-0">
+                      <div className="relative w-20 h-20 rounded-2xl overflow-hidden bg-gray-50 flex-shrink-0">
                         <Image
                           src={item.primary_image || item.product_image || '/images/placeholder-product.jpg'}
                           alt={item.product_name || 'Unknown Product'}
@@ -444,7 +445,7 @@ export default function OrderDetailsPage() {
               </div>
 
               {/* Order Summary */}
-              <div className="p-6 bg-gray-50 border-t border-gray-200">
+              <div className="p-6 bg-amber-50/30 border-t border-amber-100">
                 <div className="space-y-2">
                   <div className="flex justify-between text-sm">
                     <span className="text-gray-600">{t('orders.summary.subtotal')}</span>
@@ -452,9 +453,9 @@ export default function OrderDetailsPage() {
                   </div>
                   <div className="flex justify-between text-sm">
                     <span className="text-gray-600">{t('orders.summary.shipping')}</span>
-                    <span className="font-medium text-green-600">{t('orders.summary.free')}</span>
+                    <span className="font-medium text-amber-700">{t('orders.summary.free')}</span>
                   </div>
-                  <div className="pt-2 border-t border-gray-200">
+                  <div className="pt-2 border-t border-amber-100">
                     <div className="flex justify-between">
                       <span className="text-base font-medium text-gray-900">{t('orders.summary.total')}</span>
                       <span className="text-base font-bold text-gray-900">{formatAmount(order.total_amount)}</span>
@@ -473,7 +474,7 @@ export default function OrderDetailsPage() {
                 initial={{ y: 20, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ duration: 0.5, delay: 0.2 }}
-                className="bg-white rounded-lg border border-gray-200 p-6"
+                className="bg-white rounded-2xl ring-1 ring-amber-100 p-6"
               >
                 <h3 className="text-lg font-semibold text-gray-900 mb-4">{t('orders.shipping.title')}</h3>
                 <div className="space-y-4">
@@ -502,14 +503,14 @@ export default function OrderDetailsPage() {
               initial={{ y: 20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 0.5, delay: 0.3 }}
-              className="bg-white rounded-lg border border-gray-200 p-6 sticky top-24"
+              className="bg-white rounded-2xl ring-1 ring-amber-100 p-6 sticky top-24"
             >
               <h3 className="text-lg font-semibold text-gray-900 mb-4">{t('orders.summary.title')}</h3>
               
               {/* Status Badge */}
               <div className="mb-4">
                 <div className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-sm font-medium ${
-                  order.status === 'delivered' ? 'bg-green-100 text-green-700' :
+                  order.status === 'delivered' ? 'bg-emerald-50 text-emerald-700' :
                   order.status === 'shipped' ? 'bg-blue-100 text-blue-700' :
                   order.status === 'processing' ? 'bg-yellow-100 text-yellow-700' :
                   'bg-gray-100 text-gray-700'
@@ -520,28 +521,28 @@ export default function OrderDetailsPage() {
               </div>
 
               <div className="space-y-3">
-                <div className="pb-3 border-b border-gray-200">
+                <div className="pb-3 border-b border-amber-100">
                   <div className="flex justify-between text-sm">
                     <span className="text-gray-600">{t('orders.summary.order_number')}</span>
                     <span className="font-medium text-gray-900">#{order.order_number}</span>
                   </div>
                 </div>
                 
-                <div className="pb-3 border-b border-gray-200">
+                <div className="pb-3 border-b border-amber-100">
                   <div className="flex justify-between text-sm">
                     <span className="text-gray-600">{t('orders.summary.order_date')}</span>
                     <span className="font-medium text-gray-900">{formatDate(order.created_at)}</span>
                   </div>
                 </div>
 
-                <div className="pb-3 border-b border-gray-200">
+                <div className="pb-3 border-b border-amber-100">
                   <div className="flex justify-between text-sm">
                     <span className="text-gray-600">{t('orders.summary.items')}</span>
                     <span className="font-medium text-gray-900">{order.items?.length || 0}</span>
                   </div>
                 </div>
 
-                <div className="pb-3 border-b border-gray-200">
+                <div className="pb-3 border-b border-amber-100">
                   <div className="flex justify-between text-sm">
                     <span className="text-gray-600">{t('orders.summary.payment_status')}</span>
                     <span className="font-medium text-gray-900">
@@ -553,23 +554,23 @@ export default function OrderDetailsPage() {
                 <div className="pt-3">
                   <div className="flex justify-between">
                     <span className="text-base font-medium text-gray-900">{t('orders.summary.total_amount')}</span>
-                    <span className="text-lg font-bold text-indigo-600">{formatAmount(order.total_amount)}</span>
+                    <span className="text-lg font-bold text-indigo-700">{formatAmount(order.total_amount)}</span>
                   </div>
                 </div>
               </div>
 
               {/* Action Buttons */}
               <div className="mt-6 space-y-3">
-                <button className="w-full px-4 py-2 bg-indigo-600 text-white text-sm font-medium rounded-lg hover:bg-indigo-700 transition-colors">
-                  <DocumentTextIcon className="w-4 h-4 inline mr-2" />
+                <button className="w-full px-4 py-2 bg-indigo-700 text-white text-sm font-medium rounded-2xl hover:bg-indigo-800 transition-colors">
+                  <FileText className="w-4 h-4 inline mr-2" />
                   {t('orders.actions.download_invoice')}
                 </button>
-                <button className="w-full px-4 py-2 bg-gray-100 text-gray-700 text-sm font-medium rounded-lg hover:bg-gray-200 transition-colors">
-                  <ChatBubbleLeftIcon className="w-4 h-4 inline mr-2" />
+                <button className="w-full px-4 py-2 bg-gray-100 text-gray-700 text-sm font-medium rounded-2xl hover:bg-gray-100 transition-colors">
+                  <MessageSquare className="w-4 h-4 inline mr-2" />
                   {t('orders.actions.contact_support')}
                 </button>
                 {order.status === 'delivered' && (
-                  <button className="w-full px-4 py-2 border border-indigo-600 text-indigo-600 text-sm font-medium rounded-lg hover:bg-indigo-50 transition-colors">
+                  <button className="w-full px-4 py-2 border border-indigo-700 text-indigo-700 text-sm font-medium rounded-2xl hover:bg-indigo-50 transition-colors">
                     {t('orders.actions.write_review')}
                   </button>
                 )}
@@ -577,14 +578,14 @@ export default function OrderDetailsPage() {
             </motion.div>
 
             {/* Mobile Quick Actions - Fixed Bottom */}
-            <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-4 z-10">
+            <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-amber-100 p-4 z-10">
               <div className="grid grid-cols-2 gap-3">
-                <button className="px-4 py-2.5 bg-gray-100 text-gray-700 text-sm font-medium rounded-lg">
-                  <DocumentTextIcon className="w-4 h-4 inline mr-1" />
+                <button className="px-4 py-2.5 bg-gray-100 text-gray-700 text-sm font-medium rounded-2xl">
+                  <FileText className="w-4 h-4 inline mr-1" />
                   {t('orders.actions.invoice')}
                 </button>
-                <button className="px-4 py-2.5 bg-indigo-600 text-white text-sm font-medium rounded-lg">
-                  <ChatBubbleLeftIcon className="w-4 h-4 inline mr-1" />
+                <button className="px-4 py-2.5 bg-indigo-700 text-white text-sm font-medium rounded-2xl">
+                  <MessageSquare className="w-4 h-4 inline mr-1" />
                   {t('orders.actions.support')}
                 </button>
               </div>
