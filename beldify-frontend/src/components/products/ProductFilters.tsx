@@ -3,13 +3,13 @@
 import { useTranslation } from 'react-i18next';
 import { Switch } from '@headlessui/react';
 import {
-  MinusIcon,
-  PlusIcon,
-  FunnelIcon,
-  XMarkIcon,
-  ChevronDownIcon,
-  ChevronUpIcon,
-} from '@heroicons/react/24/outline';
+  Minus,
+  Plus,
+  Filter,
+  X,
+  ChevronDown,
+  ChevronUp,
+} from 'lucide-react';
 import { useState, Fragment } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 
@@ -45,16 +45,16 @@ function FilterSection({ title, children, defaultOpen = true }: FilterSectionPro
   const [isOpen, setIsOpen] = useState(defaultOpen);
 
   return (
-    <div className="border-b border-gray-200 last:border-none">
+    <div className="border-b border-amber-100 last:border-none">
       <button
-        className="flex w-full items-center justify-between py-4 text-sm font-semibold text-gray-700 hover:text-indigo-500"
+        className="flex w-full items-center justify-between py-4 text-sm font-semibold text-gray-700 hover:text-indigo-700"
         onClick={() => setIsOpen(!isOpen)}
       >
         {title}
         {isOpen ? (
-          <MinusIcon className="h-5 w-5 text-gray-400" />
+          <Minus className="h-5 w-5 text-gray-400" />
         ) : (
-          <PlusIcon className="h-5 w-5 text-gray-400" />
+          <Plus className="h-5 w-5 text-gray-400" />
         )}
       </button>
       {isOpen && <div className="pb-4">{children}</div>}
@@ -171,7 +171,7 @@ export default function ProductFilters({
                   minPrice: e.target.value ? Number(e.target.value) : undefined,
                 })
               }
-              className="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 text-lg"
+              className="w-full px-4 py-2.5 rounded-lg border border-amber-200 focus:ring-2 focus:ring-indigo-700/20 focus:border-indigo-700 text-lg"
               placeholder="0"
               style={{ direction: 'ltr' }} // Force left-to-right for numbers even in RTL layout
             />
@@ -190,7 +190,7 @@ export default function ProductFilters({
                   maxPrice: e.target.value ? Number(e.target.value) : undefined,
                 })
               }
-              className="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 text-lg"
+              className="w-full px-4 py-2.5 rounded-lg border border-amber-200 focus:ring-2 focus:ring-indigo-700/20 focus:border-indigo-700 text-lg"
               placeholder="1000"
               style={{ direction: 'ltr' }} // Force left-to-right for numbers even in RTL layout
             />
@@ -207,8 +207,8 @@ export default function ProductFilters({
                 className={`w-full aspect-square rounded-full border-2 transition-all duration-300
                   ${
                     filters.colors.includes(color.id)
-                      ? 'border-indigo-500 ring-2 ring-indigo-500/20 scale-110'
-                      : 'border-gray-200 hover:border-indigo-400 hover:scale-105'
+                      ? 'border-indigo-700 ring-2 ring-indigo-700/20 scale-105'
+                      : 'border-amber-200 hover:border-indigo-500 hover:scale-105'
                   }`}
                 style={{
                   backgroundColor: color.id,
@@ -235,7 +235,7 @@ export default function ProductFilters({
               onClick={() => toggleFilter('sizes', size)}
               className={`px-4 py-3 min-h-[44px] text-sm font-medium rounded-lg transition-all duration-200 touch-manipulation ${
                 filters.sizes.includes(size)
-                  ? 'bg-indigo-500 text-white shadow-sm hover:bg-indigo-600'
+                  ? 'bg-indigo-700 text-white shadow-sm hover:bg-indigo-800'
                   : 'bg-gray-50 text-gray-600 hover:bg-gray-100 hover:text-gray-900'
               }`}
             >
@@ -253,7 +253,7 @@ export default function ProductFilters({
                 type="checkbox"
                 checked={filters.fabrics?.includes(fabric) || false}
                 onChange={() => toggleFilter('fabrics', fabric)}
-                className="w-5 h-5 rounded text-indigo-500 border-gray-300 focus:ring-indigo-500/20"
+                className="w-5 h-5 rounded text-indigo-700 border-amber-200 focus:ring-indigo-700/20"
               />
               <span className="ml-3 text-sm text-gray-600 group-hover:text-gray-900">{fabric}</span>
             </label>
@@ -271,8 +271,8 @@ export default function ProductFilters({
               checked={filters.inStock || false}
               onChange={(value) => onChange({ ...filters, inStock: value })}
               className={`${
-                filters.inStock ? 'bg-indigo-500' : 'bg-gray-200'
-              } relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500/20`}
+                filters.inStock ? 'bg-indigo-700' : 'bg-gray-200'
+              } relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-700/20`}
             >
               <span
                 className={`${
@@ -290,8 +290,8 @@ export default function ProductFilters({
               checked={filters.customizable || false}
               onChange={(value) => onChange({ ...filters, customizable: value })}
               className={`${
-                filters.customizable ? 'bg-indigo-500' : 'bg-gray-200'
-              } relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500/20`}
+                filters.customizable ? 'bg-indigo-700' : 'bg-gray-200'
+              } relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-700/20`}
             >
               <span
                 className={`${
@@ -307,11 +307,11 @@ export default function ProductFilters({
 
   // Desktop view
   const DesktopFilters = () => (
-    <div className="hidden md:block bg-white rounded-2xl shadow-lg divide-y divide-gray-100">
-      <div className="p-4 bg-gray-50 rounded-t-2xl">
+    <div className="hidden md:block bg-white rounded-2xl ring-1 ring-amber-200 divide-y divide-amber-100">
+      <div className="p-4 bg-amber-50/40 rounded-t-2xl">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <FunnelIcon className="h-5 w-5 text-indigo-500" />
+            <Filter className="h-5 w-5 text-indigo-700" />
             <h3 className="text-lg font-semibold text-gray-800">{t('filters.title')}</h3>
           </div>
           <button
@@ -326,7 +326,7 @@ export default function ProductFilters({
                 maxPrice: undefined,
               })
             }
-            className="text-sm font-medium text-indigo-500 hover:text-indigo-600 hover:underline"
+            className="text-sm font-medium text-indigo-700 hover:text-indigo-800 hover:underline"
           >
             {t('filters.clear_all')}
           </button>
@@ -379,7 +379,7 @@ export default function ProductFilters({
                         className="rounded-md text-gray-400 hover:text-gray-500"
                         onClick={onMobileClose}
                       >
-                        <XMarkIcon className="h-6 w-6" />
+                        <X className="h-6 w-6" />
                       </button>
                     </div>
                     <div className="p-4">
@@ -397,7 +397,7 @@ export default function ProductFilters({
                                   onClick={() => removeBadge(badge)}
                                   className="ml-1 p-1 min-w-[32px] min-h-[32px] flex items-center justify-center text-gray-500 hover:text-gray-700 hover:bg-gray-200 rounded-full touch-manipulation"
                                 >
-                                  <XMarkIcon className="h-4 w-4" />
+                                  <X className="h-4 w-4" />
                                 </button>
                               </span>
                             ))}
@@ -409,7 +409,7 @@ export default function ProductFilters({
                     <div className="sticky bottom-0 border-t bg-white p-4">
                       <button
                         onClick={onMobileClose}
-                        className="w-full bg-indigo-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-indigo-700"
+                        className="w-full bg-indigo-700 text-white py-3 px-4 rounded-lg font-medium hover:bg-indigo-800"
                       >
                         {t('filters.apply')}
                       </button>
@@ -436,7 +436,7 @@ export default function ProductFilters({
           hover:bg-gray-50 shadow-sm"
         onClick={() => onMobileClose?.()}
       >
-        <FunnelIcon className="h-5 w-5" />
+        <Filter className="h-5 w-5" />
         {t('filters.apply')}
       </button> */}
 
@@ -456,7 +456,7 @@ export default function ProductFilters({
                   onClick={() => removeBadge(badge)}
                   className="ml-1 p-1 min-w-[32px] min-h-[32px] flex items-center justify-center text-gray-500 hover:text-gray-700 hover:bg-gray-200 rounded-full touch-manipulation"
                 >
-                  <XMarkIcon className="h-4 w-4" />
+                  <X className="h-4 w-4" />
                 </button>
               </span>
             ))}

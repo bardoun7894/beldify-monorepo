@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { XMarkIcon } from '@heroicons/react/24/outline';
+import { X } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 interface FilterChip {
@@ -27,21 +27,9 @@ export default function FilterChips({
 
   if (chips.length === 0) return null;
 
-  const getChipColor = (type: FilterChip['type']) => {
-    switch (type) {
-      case 'color':
-        return 'bg-purple-50 text-purple-700 border-purple-200';
-      case 'size':
-        return 'bg-blue-50 text-blue-700 border-blue-200';
-      case 'fabric':
-        return 'bg-green-50 text-green-700 border-green-200';
-      case 'price':
-        return 'bg-amber-50 text-amber-700 border-amber-200';
-      case 'category':
-        return 'bg-indigo-50 text-indigo-700 border-indigo-200';
-      default:
-        return 'bg-gray-50 text-gray-700 border-gray-200';
-    }
+  const getChipColor = (_type: FilterChip['type']) => {
+    // Atlas §8: single-palette chips — amber for active filters
+    return 'bg-amber-50 text-amber-700 border-amber-200';
   };
 
   return (
@@ -57,7 +45,7 @@ export default function FilterChips({
             className="hover:bg-black/10 rounded-full p-0.5 transition-colors"
             aria-label={`Remove ${chip.label} filter`}
           >
-            <XMarkIcon className="h-3.5 w-3.5" />
+            <X className="h-3.5 w-3.5" />
           </button>
         </span>
       ))}

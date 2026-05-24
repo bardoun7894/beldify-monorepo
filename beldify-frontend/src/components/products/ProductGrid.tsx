@@ -61,7 +61,7 @@ export default function ProductGrid({ products }: ProductGridProps) {
       {products.map((product) => (
         <div
           key={product.id}
-          className="group bg-white rounded-lg shadow-sm overflow-hidden hover:shadow-lg transition-all duration-300"
+          className="group bg-white rounded-2xl ring-1 ring-amber-200 overflow-hidden hover:shadow-md hover:-translate-y-0.5 transition-all duration-300"
         >
           <Link href={`/products/${product.id}`}>
             <div className="relative aspect-square">
@@ -69,10 +69,10 @@ export default function ProductGrid({ products }: ProductGridProps) {
                 src={product.image}
                 alt={isRTL ? product.name_ar || product.name : product.name}
                 fill
-                className="object-contain p-4 group-hover:scale-105 transition-transform duration-300"
+                className="object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
               />
               {isDiscountValid(product) && product.price && product.discount_price && (
-                <div className="absolute top-2 left-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full">
+                <div className="absolute top-2 left-2 bg-rose-700 text-white text-xs font-bold px-2 py-1 rounded-full">
                   {calculateDiscount(product.price, product.discount_price)}% {t('product.off')}
                 </div>
               )}

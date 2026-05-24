@@ -1511,5 +1511,23 @@
     "breadcrumbs": {
       "label": "Fil d'Ariane"
     }
+  },
+  "catalog": {
+    "categories": {
+      "eyebrow": "Parcourir",
+      "headline": "Le souk, pièce par pièce.",
+      "error_description": "Nous n'avons pas pu charger les catégories. Veuillez réessayer."
+    },
+    "products": {
+      "eyebrow": "Marché",
+      "headline": "Le catalogue Beldify."
+    },
+    "pdp": {
+      "breadcrumb_label": "Fil d'Ariane",
+      "sku": "Référence"
+    },
+    "product": {
+      "out_of_stock": "Rupture de stock"
+    }
   }
 }
