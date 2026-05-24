@@ -1753,6 +1753,177 @@
       "reviews": "avis",
       "viewProfile": "Voir le profil",
       "viewDetails": "Voir les détails"
+    },
+    "tailorDetail": {
+      "breadcrumbLabel": "Fil d'Ariane",
+      "breadcrumbHome": "Accueil",
+      "breadcrumbTailoring": "Tailleur",
+      "breadcrumbTailors": "Tailleurs",
+      "specialty": "Costumes sur mesure & vêtements traditionnels",
+      "location": "Casablanca, Quartier Anfa",
+      "description": "Fort de plus de 15 ans d'expérience, nous sommes spécialisés dans la création de vêtements sur mesure qui s'adaptent parfaitement à votre style et à votre silhouette.",
+      "reviews": "avis",
+      "aboutHeading": "À propos",
+      "instagram": "Instagram",
+      "facebook": "Facebook",
+      "website": "Site web",
+      "languagesSpoken": "Langues parlées",
+      "workingHours": "Heures de travail",
+      "workingHoursValue": "Lun-Ven : 9h00 - 18h00, Sam : 10h00 - 16h00",
+      "paymentMethods": "Modes de paiement",
+      "langArabic": "Arabe",
+      "langFrench": "Français",
+      "langEnglish": "Anglais",
+      "paymentCash": "Espèces",
+      "paymentCard": "Carte de crédit",
+      "paymentTransfer": "Virement bancaire",
+      "address": "123 Rue Mohammed V, Quartier Anfa, Casablanca",
+      "servicesOffered": "Services proposés",
+      "tableService": "Service",
+      "tablePriceRange": "Fourchette de prix",
+      "tableEstTime": "Délai estimé",
+      "service1Name": "Création de vêtement sur mesure",
+      "service2Name": "Retouches",
+      "service3Name": "Tenue de mariage",
+      "service4Name": "Vêtements traditionnels marocains",
+      "portfolio": "Portfolio",
+      "portfolioAlt": "Image du portfolio",
+      "customerReviews": "Avis clients",
+      "review1Comment": "Un savoir-faire exceptionnel et une attention aux détails.",
+      "review2Comment": "Un travail de grande qualité et un service professionnel.",
+      "viewAllReviews": "Voir les",
+      "contactInformation": "Informations de contact",
+      "phone": "Téléphone",
+      "emailLabel": "Email",
+      "websiteLabel": "Site web",
+      "visitWebsite": "Visiter le site",
+      "addressLabel": "Adresse",
+      "viewOnMaps": "Voir sur Google Maps",
+      "bookAppointment": "Prendre rendez-vous",
+      "contactWhatsApp": "Contacter via WhatsApp",
+      "callDirectly": "Appeler directement",
+      "businessHours": "Heures d'ouverture",
+      "monFri": "Lundi - Vendredi",
+      "saturday": "Samedi",
+      "sunday": "Dimanche",
+      "closed": "Fermé",
+      "locationLabel": "Emplacement",
+      "mobileCallLabel": "Appeler",
+      "mobileWhatsAppLabel": "WhatsApp",
+      "mobileBookLabel": "Prendre RDV"
+    }
+  },
+  "about": {
+    "eyebrow": "NOTRE HISTOIRE",
+    "headline": "Fabriqué au Maroc,",
+    "headlineLine2": "porté partout.",
+    "sub": "Beldify a été fondé par une petite équipe profondément enracinée dans les communautés artisanales du Maroc. Notre mission : rendre la mode marocaine authentique accessible au monde entier.",
+    "stats": {
+      "cities": "villes",
+      "ateliers": "ateliers",
+      "returns": "retours"
+    },
+    "values": {
+      "craftsmanship": {
+        "title": "L'artisanat avant tout",
+        "body": "Chaque pièce sur Beldify est finie à la main par un artisan marocain vérifié.",
+        "imageAlt": "Un tailleur travaillant sur une djellaba dans un atelier de Fès"
+      },
+      "fairTrade": {
+        "title": "Commerce équitable, prix transparents",
+        "body": "Nous publions nos taux de commission ouvertement (10–15 %) et payons les vendeurs tous les quinze jours.",
+        "imageAlt": "Un vendeur examinant une commande sur un téléphone"
+      },
+      "tailoring": {
+        "title": "Tailleur sur mesure, simplifié",
+        "body": "Notre formulaire de mesure guidé et l'option d'appel vidéo vous permettent d'obtenir une pièce parfaitement ajustée sans vous déplacer.",
+        "imageAlt": "Ruban à mesurer sur un tissu caftan"
+      },
+      "community": {
+        "title": "Une communauté, pas seulement une place de marché",
+        "body": "Beldify a commencé comme un groupe WhatsApp entre trois amis. Aujourd'hui, nous sommes une plateforme reliant plus de 120 ateliers à des acheteurs dans 23 villes du monde.",
+        "imageAlt": "Communauté d'artisans marocains"
+      }
+    },
+    "cta": {
+      "headline": "Prêt à explorer ?",
+      "sub": "Parcourez les ateliers vérifiés, découvrez les nouveautés ou lancez une commande de tailleur sur mesure dès aujourd'hui.",
+      "shop": "Visiter la boutique",
+      "ateliers": "Rencontrer les ateliers"
+    }
+  },
+  "faqs": {
+    "eyebrow": "AIDE",
+    "headline": "Questions fréquentes.",
+    "sub": "Réponses rapides — ou écrivez-nous si vous ne trouvez pas la vôtre.",
+    "groups": {
+      "shipping": "Livraison",
+      "returns": "Retours",
+      "tailoring": "Tailleur",
+      "sellers": "Vendeurs",
+      "account": "Compte"
+    },
+    "items": {
+      "shipping": {
+        "0": { "question": "Beldify livre-t-il à l'international ?", "answer": "Oui. Beldify livre dans la plupart des pays du monde. Les frais et délais varient selon la destination." },
+        "1": { "question": "Quelles sont les options de livraison au Maroc ?", "answer": "Nous proposons la livraison standard (5–7 jours ouvrables) et express (2–3 jours). Les commandes de plus de 500 MAD bénéficient de la livraison standard gratuite." },
+        "2": { "question": "Comment suivre ma commande ?", "answer": "Dès l'expédition, vous recevrez un e-mail de confirmation avec un lien de suivi." }
+      },
+      "returns": {
+        "0": { "question": "Quelle est votre politique de retour ?", "answer": "Nous acceptons les retours dans les 14 jours suivant la livraison pour les articles non portés en état d'origine." },
+        "1": { "question": "Comment initier un retour ?", "answer": "Connectez-vous, allez dans Commandes, sélectionnez la commande concernée et suivez les instructions de retour." },
+        "2": { "question": "Combien de temps prennent les remboursements ?", "answer": "Nous traitons les remboursements dans les 3–5 jours ouvrables suivant la réception du retour." }
+      },
+      "tailoring": {
+        "0": { "question": "Comment fonctionne le tailleur sur mesure ?", "answer": "Parcourez les tailleurs vérifiés, sélectionnez-en un, remplissez le formulaire de mesure et confirmez votre commande." },
+        "1": { "question": "Puis-je personnaliser le tissu ou la broderie ?", "answer": "Oui. Chaque page de tailleur liste les options de personnalisation disponibles." },
+        "2": { "question": "Que faire si le vêtement ne convient pas ?", "answer": "Nous offrons une ronde de retouche gratuite sur toutes les commandes sur mesure." }
+      },
+      "sellers": {
+        "0": { "question": "Comment devenir vendeur sur Beldify ?", "answer": "Postulez sur beldify.com/seller/register. Nous examinons chaque candidature." },
+        "1": { "question": "Quelle commission Beldify prélève-t-il ?", "answer": "La commission varie de 10 % à 15 % selon la catégorie. Aucun frais d'inscription ni d'abonnement mensuel." },
+        "2": { "question": "Quand les vendeurs sont-ils payés ?", "answer": "Les paiements sont déposés toutes les deux semaines après le délai de retour de 14 jours." }
+      },
+      "account": {
+        "0": { "question": "Ai-je besoin d'un compte pour acheter ?", "answer": "Non — la commande en tant qu'invité est disponible. Un compte vous permet de suivre vos commandes et d'accéder à votre liste de souhaits." },
+        "1": { "question": "Quels modes de paiement sont acceptés ?", "answer": "Visa, Mastercard, PayPal, Apple Pay, Google Pay et virement bancaire. Paiement à la livraison disponible au Maroc." },
+        "2": { "question": "Comment réinitialiser mon mot de passe ?", "answer": "Cliquez sur « Mot de passe oublié » sur la page de connexion." }
+      }
+    },
+    "stillHaveQuestions": "Vous n'avez pas trouvé votre réponse ?",
+    "contactText": "Notre équipe est à portée d'un message.",
+    "contactUs": "Nous écrire"
+  },
+  "contact": {
+    "eyebrow": "DITES BONJOUR",
+    "headline": "Nous sommes là pour vous aider.",
+    "sub": "Notre équipe répond à chaque message personnellement. Attendez une réponse dans un délai d'un jour ouvrable.",
+    "cards": {
+      "email": { "title": "Nous envoyer un email", "sub": "Nous répondons dans les 24 heures." },
+      "phone": { "title": "Nous appeler", "sub": "Lun – Ven, 9h – 18h (Maroc)" },
+      "address": { "title": "Nous rendre visite", "detail": "123, Avenue de la Médina", "sub": "Tétouan, Maroc" }
+    },
+    "form": {
+      "heading": "Envoyez-nous un message",
+      "firstName": "Prénom",
+      "lastName": "Nom",
+      "email": "Adresse e-mail",
+      "phone": "Téléphone (facultatif)",
+      "subject": "Objet",
+      "message": "Message",
+      "maxChars": "max 500 caractères",
+      "send": "Envoyer le message",
+      "sending": "Envoi en cours…",
+      "thankYou": "Merci — nous vous répondrons bientôt !",
+      "validation": {
+        "firstNameRequired": "Le prénom est requis",
+        "lastNameRequired": "Le nom est requis",
+        "emailRequired": "L'e-mail est requis",
+        "emailInvalid": "Entrez une adresse e-mail valide",
+        "subjectRequired": "L'objet est requis",
+        "messageRequired": "Le message est requis",
+        "messageTooLong": "Le message doit comporter moins de 500 caractères"
+      }
     }
   }
 }

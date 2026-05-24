@@ -1825,6 +1825,177 @@
       "reviews": "reseñas",
       "viewProfile": "Ver perfil",
       "viewDetails": "Ver detalles"
+    },
+    "tailorDetail": {
+      "breadcrumbLabel": "Ruta de navegación",
+      "breadcrumbHome": "Inicio",
+      "breadcrumbTailoring": "Sastrería",
+      "breadcrumbTailors": "Sastres",
+      "specialty": "Trajes a medida y ropa tradicional",
+      "location": "Casablanca, Distrito Anfa",
+      "description": "Con más de 15 años de experiencia, nos especializamos en crear prendas a medida que se adaptan perfectamente a tu estilo y físico.",
+      "reviews": "reseñas",
+      "aboutHeading": "Acerca de",
+      "instagram": "Instagram",
+      "facebook": "Facebook",
+      "website": "Sitio web",
+      "languagesSpoken": "Idiomas hablados",
+      "workingHours": "Horario de trabajo",
+      "workingHoursValue": "Lun-Vie: 9:00 - 18:00, Sáb: 10:00 - 16:00",
+      "paymentMethods": "Métodos de pago",
+      "langArabic": "Árabe",
+      "langFrench": "Francés",
+      "langEnglish": "Inglés",
+      "paymentCash": "Efectivo",
+      "paymentCard": "Tarjeta de crédito",
+      "paymentTransfer": "Transferencia bancaria",
+      "address": "123 Calle Mohammed V, Barrio Anfa, Casablanca",
+      "servicesOffered": "Servicios ofrecidos",
+      "tableService": "Servicio",
+      "tablePriceRange": "Rango de precios",
+      "tableEstTime": "Tiempo estimado",
+      "service1Name": "Diseño de prenda personalizada",
+      "service2Name": "Alteraciones",
+      "service3Name": "Ropa de boda",
+      "service4Name": "Ropa tradicional marroquí",
+      "portfolio": "Portafolio",
+      "portfolioAlt": "Imagen del portafolio",
+      "customerReviews": "Reseñas de clientes",
+      "review1Comment": "Artesanía excepcional y atención al detalle.",
+      "review2Comment": "Trabajo de gran calidad y servicio profesional.",
+      "viewAllReviews": "Ver todas las",
+      "contactInformation": "Información de contacto",
+      "phone": "Teléfono",
+      "emailLabel": "Correo electrónico",
+      "websiteLabel": "Sitio web",
+      "visitWebsite": "Visitar el sitio web",
+      "addressLabel": "Dirección",
+      "viewOnMaps": "Ver en Google Maps",
+      "bookAppointment": "Reservar una cita",
+      "contactWhatsApp": "Contactar por WhatsApp",
+      "callDirectly": "Llamar directamente",
+      "businessHours": "Horario comercial",
+      "monFri": "Lunes - Viernes",
+      "saturday": "Sábado",
+      "sunday": "Domingo",
+      "closed": "Cerrado",
+      "locationLabel": "Ubicación",
+      "mobileCallLabel": "Llamar",
+      "mobileWhatsAppLabel": "WhatsApp",
+      "mobileBookLabel": "Reservar cita"
+    }
+  },
+  "about": {
+    "eyebrow": "NUESTRA HISTORIA",
+    "headline": "Hecho en Marruecos,",
+    "headlineLine2": "llevado en todo el mundo.",
+    "sub": "Beldify fue fundado por un pequeño equipo con profundas raíces en las comunidades artesanas de Marruecos.",
+    "stats": {
+      "cities": "ciudades",
+      "ateliers": "talleres",
+      "returns": "devoluciones"
+    },
+    "values": {
+      "craftsmanship": {
+        "title": "La artesanía primero",
+        "body": "Cada pieza en Beldify es acabada a mano por un artesano marroquí verificado.",
+        "imageAlt": "Un sastre trabajando en una djellaba en un taller de Fez"
+      },
+      "fairTrade": {
+        "title": "Comercio justo, precios transparentes",
+        "body": "Publicamos nuestras tasas de comisión abiertamente (10–15 %) y pagamos a los vendedores quincenalmente.",
+        "imageAlt": "Un vendedor revisando un pedido en un teléfono"
+      },
+      "tailoring": {
+        "title": "Sastrería a medida, simplificada",
+        "body": "Nuestro formulario de medidas guiado te permite obtener una prenda perfectamente ajustada.",
+        "imageAlt": "Cinta métrica sobre tela de caftán"
+      },
+      "community": {
+        "title": "Una comunidad, no solo un mercado",
+        "body": "Beldify comenzó como un grupo de WhatsApp entre tres amigos. Hoy somos una plataforma que conecta más de 120 talleres con compradores en 23 ciudades.",
+        "imageAlt": "Comunidad de artesanos marroquíes"
+      }
+    },
+    "cta": {
+      "headline": "¿Listo para explorar?",
+      "sub": "Explora talleres verificados, descubre novedades o inicia un pedido de sastrería a medida hoy.",
+      "shop": "Visitar el mercado",
+      "ateliers": "Conocer los talleres"
+    }
+  },
+  "faqs": {
+    "eyebrow": "AYUDA",
+    "headline": "Preguntas frecuentes.",
+    "sub": "Respuestas rápidas — o escríbenos si no encuentras la tuya.",
+    "groups": {
+      "shipping": "Envíos",
+      "returns": "Devoluciones",
+      "tailoring": "Sastrería",
+      "sellers": "Vendedores",
+      "account": "Cuenta"
+    },
+    "items": {
+      "shipping": {
+        "0": { "question": "¿Beldify hace envíos internacionales?", "answer": "Sí. Beldify envía a la mayoría de países del mundo." },
+        "1": { "question": "¿Cuáles son las opciones de envío en Marruecos?", "answer": "Ofrecemos entrega estándar (5–7 días) y express (2–3 días). Pedidos de más de 500 MAD con envío estándar gratuito." },
+        "2": { "question": "¿Cómo puedo rastrear mi pedido?", "answer": "Recibirás un email de confirmación con enlace de seguimiento cuando se envíe tu pedido." }
+      },
+      "returns": {
+        "0": { "question": "¿Cuál es su política de devoluciones?", "answer": "Aceptamos devoluciones dentro de los 14 días desde la entrega para artículos no usados." },
+        "1": { "question": "¿Cómo inicio una devolución?", "answer": "Inicia sesión, ve a Pedidos, selecciona el pedido relevante y sigue las instrucciones de devolución." },
+        "2": { "question": "¿Cuánto tardan los reembolsos?", "answer": "Procesamos los reembolsos en 3–5 días hábiles tras recibir la devolución." }
+      },
+      "tailoring": {
+        "0": { "question": "¿Cómo funciona la sastrería a medida en Beldify?", "answer": "Explora sastres verificados, selecciona uno, rellena el formulario de medidas y confirma tu pedido." },
+        "1": { "question": "¿Puedo personalizar tela, color o bordado?", "answer": "Sí. La mayoría de talleres pueden acomodar cambios de tela y preferencias de bordado." },
+        "2": { "question": "¿Qué pasa si la prenda no queda bien?", "answer": "Ofrecemos una ronda de alteración gratuita en todos los pedidos a medida." }
+      },
+      "sellers": {
+        "0": { "question": "¿Cómo me convierto en vendedor en Beldify?", "answer": "Solicítalo en beldify.com/seller/register. Revisamos cada solicitud de calidad artesanal." },
+        "1": { "question": "¿Qué comisión cobra Beldify?", "answer": "La comisión varía del 10 % al 15 % según la categoría. Sin tarifas de listado ni suscripciones." },
+        "2": { "question": "¿Cuándo reciben los pagos los vendedores?", "answer": "Los pagos se depositan quincenalmente tras el período de devolución de 14 días." }
+      },
+      "account": {
+        "0": { "question": "¿Necesito una cuenta para comprar?", "answer": "No, la compra como invitado está disponible. Una cuenta te da historial de pedidos y lista de deseos." },
+        "1": { "question": "¿Qué métodos de pago se aceptan?", "answer": "Visa, Mastercard, PayPal, Apple Pay, Google Pay y transferencia bancaria." },
+        "2": { "question": "¿Cómo restablezco mi contraseña?", "answer": "Haz clic en «Olvidé mi contraseña» en la página de inicio de sesión." }
+      }
+    },
+    "stillHaveQuestions": "¿No encontraste tu respuesta?",
+    "contactText": "Nuestro equipo está a un mensaje de distancia.",
+    "contactUs": "Escríbenos"
+  },
+  "contact": {
+    "eyebrow": "DI HOLA",
+    "headline": "Estamos aquí para ayudarte.",
+    "sub": "Nuestro equipo responde cada mensaje personalmente. Espera una respuesta en un día hábil.",
+    "cards": {
+      "email": { "title": "Envíanos un email", "sub": "Respondemos en 24 horas." },
+      "phone": { "title": "Llámanos", "sub": "Lun – Vie, 9 am – 6 pm (Marruecos)" },
+      "address": { "title": "Visítanos", "detail": "123, Avenida de la Médina", "sub": "Tetuán, Marruecos" }
+    },
+    "form": {
+      "heading": "Envíanos un mensaje",
+      "firstName": "Nombre",
+      "lastName": "Apellido",
+      "email": "Correo electrónico",
+      "phone": "Teléfono (opcional)",
+      "subject": "Asunto",
+      "message": "Mensaje",
+      "maxChars": "máx. 500 caracteres",
+      "send": "Enviar mensaje",
+      "sending": "Enviando…",
+      "thankYou": "Gracias — ¡nos pondremos en contacto pronto!",
+      "validation": {
+        "firstNameRequired": "El nombre es obligatorio",
+        "lastNameRequired": "El apellido es obligatorio",
+        "emailRequired": "El correo es obligatorio",
+        "emailInvalid": "Introduce un correo electrónico válido",
+        "subjectRequired": "El asunto es obligatorio",
+        "messageRequired": "El mensaje es obligatorio",
+        "messageTooLong": "El mensaje debe tener menos de 500 caracteres"
+      }
     }
   }
 }
