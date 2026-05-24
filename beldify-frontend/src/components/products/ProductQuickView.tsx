@@ -328,10 +328,10 @@ export default function ProductQuickView({
                           <button
                             onClick={handleAddToCart}
                             disabled={isAddingToCart}
-                            className={`flex-1 flex items-center justify-center gap-2 py-3 px-6 rounded-xl font-semibold transition-all duration-300 ${
+                            className={`flex-1 flex items-center justify-center gap-2 py-3 px-6 rounded-2xl font-semibold transition ${
                               isAddingToCart
-                                ? 'bg-green-600 text-white'
-                                : 'bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white'
+                                ? 'bg-emerald-600 text-white'
+                                : 'bg-indigo-700 hover:bg-indigo-800 text-white'
                             }`}
                           >
                             {isAddingToCart ? (

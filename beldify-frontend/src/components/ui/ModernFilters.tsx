@@ -83,8 +83,8 @@ export default function ModernFilters({
                 relative flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium
                 transition-all duration-300 border-2
                 ${isActive
-                  ? `bg-gradient-to-r from-indigo-500 to-purple-500 text-white border-transparent shadow-lg`
-                  : `bg-white text-gray-700 border-gray-200 hover:border-gray-300 hover:shadow-md`
+                  ? `bg-indigo-700 text-white border-transparent shadow-md`
+                  : `bg-white text-gray-700 border-amber-200 hover:border-amber-300 hover:shadow-md`
                 }
               `}
             >
@@ -157,8 +157,8 @@ export default function ModernFilters({
               className={`
                 relative p-4 rounded-2xl border-2 transition-all duration-300
                 ${isActive
-                  ? `bg-gradient-to-br from-indigo-500 to-purple-600 text-white border-transparent shadow-xl`
-                  : `bg-white text-gray-700 border-gray-200 hover:border-indigo-300 hover:shadow-lg`
+                  ? `bg-indigo-700 text-white border-transparent shadow-md`
+                  : `bg-white text-gray-700 border-amber-200 hover:border-amber-300 hover:shadow-md`
                 }
               `}
             >
@@ -270,7 +270,7 @@ export default function ModernFilters({
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className="flex items-center justify-between p-4 bg-gradient-to-r from-indigo-50 to-purple-50 rounded-xl border border-indigo-200"
+            className="flex items-center justify-between p-4 bg-amber-50 rounded-2xl border border-amber-200"
           >
             <div className="flex flex-wrap items-center gap-2">
               <span className="text-sm font-medium text-gray-700">Active filters:</span>
@@ -306,12 +306,12 @@ export default function ModernFilters({
                   return option ? (
                     <span
                       key={groupId}
-                      className="inline-flex items-center gap-1 px-2 py-1 bg-purple-100 text-purple-700 rounded-full text-xs font-medium"
+                      className="inline-flex items-center gap-1 px-2 py-1 bg-amber-100 text-amber-800 rounded-full text-xs font-medium"
                     >
                       {option.label}
                       <button
                         onClick={() => onFilterChange(groupId, null)}
-                        className="hover:text-purple-900"
+                        className="hover:text-amber-900"
                       >
                         <XMarkIcon className="w-3 h-3" />
                       </button>

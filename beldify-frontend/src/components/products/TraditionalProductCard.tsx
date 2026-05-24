@@ -293,7 +293,7 @@ export default function TraditionalProductCard({
             <button 
               onClick={handleAddToCart}
               disabled={isAddingToCart}
-              className={`p-2 rounded-xl ${isAddingToCart ? 'bg-gradient-to-r from-green-500 to-emerald-500 text-white' : 'bg-gradient-to-r from-indigo-500 to-purple-600 text-white hover:from-indigo-600 hover:to-purple-700'} transition-all duration-300 active:scale-95 hover:scale-105 relative overflow-hidden shadow-lg hover:shadow-xl backdrop-blur-sm`}
+              className={`p-2 rounded-2xl ${isAddingToCart ? 'bg-emerald-600 text-white' : 'bg-indigo-700 text-white hover:bg-indigo-800'} transition active:scale-95 relative overflow-hidden shadow-sm hover:shadow-md`}
               aria-label={t('product.addToCart')}
             >
               <div className={`absolute inset-0 flex items-center justify-center bg-gradient-to-r from-green-500 to-emerald-500 transition-transform duration-500 ${isAddingToCart ? 'translate-y-0' : 'translate-y-full'}`}>
