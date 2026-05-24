@@ -924,7 +924,11 @@
     "featuredStores": "المحلات المميزة",
     "featuredStoresDescription": "اكتشف متاجرنا الأعلى تقييماً والموثقة التي تقدم منتجات عالية الجودة",
     "noShopsFound": "ما لقينا حتى محل",
-    "checkBackSoon": "ارجعوا غادي!"
+    "checkBackSoon": "ارجعوا غادي!",
+    "list": {
+      "eyebrow": "السوق",
+      "headline": "أتيليهات مختارة."
+    }
   },
   "product_categories": {
     "djellaba": "جلابة",
@@ -1628,5 +1632,8 @@
   },
   "traditionalWear": {
     "eyebrow": "الصنعة المغربية"
+  },
+  "reviews": {
+    "verified_buyer": "شري موثوق"
   }
 }

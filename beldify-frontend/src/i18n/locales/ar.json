@@ -1178,6 +1178,10 @@
       "quality_guarantee": "ضمان الجودة",
       "quality_guarantee_desc": "منتجات تقليدية 100% مصنوعة يدويا",
       "customer_support": "خدمة العملاء"
+    },
+    "list": {
+      "eyebrow": "السوق",
+      "headline": "أتيليهات مختارة بعناية."
     }
   },
   "newsletter": {
@@ -1621,7 +1625,8 @@
     "be_the_first": "شارك تجربتك مع هذا المنتج",
     "fetch_error": "خطأ في تحميل التقييمات. يرجى المحاولة مرة أخرى.",
     "sort_by_placeholder": "ترتيب حسب",
-    "filter_reviews_by_rating": "تصفية حسب التقييم"
+    "filter_reviews_by_rating": "تصفية حسب التقييم",
+    "verified_buyer": "مشترٍ موثق"
   },
   "community": {
     "verified_seller": "بائع موثق",

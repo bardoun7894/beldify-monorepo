@@ -596,6 +596,9 @@ export default function ShopPage() {
                   </div>
                   <span className="ml-auto text-xs text-gray-400">{rev.city}</span>
                 </div>
+                <p className="text-xs uppercase tracking-[0.18em] text-amber-700 font-medium mb-2">
+                  {t('reviews.verified_buyer', 'Verified buyer')}
+                </p>
                 <p className="text-gray-600 text-sm leading-relaxed italic">{rev.text}</p>
               </div>
             ))}

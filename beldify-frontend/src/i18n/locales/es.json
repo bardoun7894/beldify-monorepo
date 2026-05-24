@@ -939,7 +939,11 @@
     "featuredStores": "Tiendas destacadas",
     "featuredStoresDescription": "Descubre nuestras tiendas mejor valoradas y verificadas que ofrecen productos de calidad",
     "noShopsFound": "No se encontraron tiendas",
-    "checkBackSoon": "¡Vuelve pronto!"
+    "checkBackSoon": "¡Vuelve pronto!",
+    "list": {
+      "eyebrow": "Mercado",
+      "headline": "Talleres seleccionados."
+    }
   },
   "footer": {
     "titles": {
@@ -1696,5 +1700,8 @@
   },
   "traditionalWear": {
     "eyebrow": "Artesanía marroquí"
+  },
+  "reviews": {
+    "verified_buyer": "Comprador verificado"
   }
 }

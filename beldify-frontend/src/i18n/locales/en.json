@@ -1005,7 +1005,11 @@
     "featuredStores": "Featured Stores",
     "featuredStoresDescription": "Discover our top-rated and verified stores offering quality products",
     "noShopsFound": "No shops found",
-    "checkBackSoon": "Check back soon!"
+    "checkBackSoon": "Check back soon!",
+    "list": {
+      "eyebrow": "Marketplace",
+      "headline": "Hand-picked ateliers."
+    }
   },
   "sort": {
     "title": "Sort by",
@@ -1732,7 +1736,8 @@
     "sort_by_placeholder": "Sort by",
     "stars": "Stars",
     "filter_reviews_by_rating": "Filter by Rating",
-    "rating_summary": "Rating Summary"
+    "rating_summary": "Rating Summary",
+    "verified_buyer": "Verified buyer"
   },
   "community": {
     "verified_seller": "Verified Seller",

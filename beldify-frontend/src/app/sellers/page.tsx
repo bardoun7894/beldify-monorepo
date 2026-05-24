@@ -138,7 +138,7 @@ export default function SellersPage() {
           </div>
           <Link
             href="/seller/register"
-            className="shrink-0 inline-flex items-center gap-2 rounded-full bg-indigo-600 px-6 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-700"
+            className="shrink-0 inline-flex items-center gap-2 rounded-full bg-indigo-700 px-6 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-800"
           >
             {t('sellers.commission.cta', 'Apply to sell')}
           </Link>
