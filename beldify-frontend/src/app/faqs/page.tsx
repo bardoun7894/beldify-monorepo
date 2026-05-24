@@ -118,10 +118,7 @@ export default function FAQsPage() {
             {t('faqs.headline', 'Frequently asked.')}
           </h1>
           <p className="mt-5 text-indigo-100 max-w-xl text-base sm:text-lg leading-relaxed">
-            {t(
-              'faqs.sub',
-              "Quick answers — or write us if you don't find yours."
-            )}
+            {t('faqs.sub', "Quick answers — or write us if you don't find yours.")}
           </p>
         </div>
       </section>
@@ -130,19 +127,17 @@ export default function FAQsPage() {
       <section className="mx-auto max-w-3xl px-6 py-16 space-y-12">
         {faqGroups.map(({ heading, key, faqs }) => (
           <div key={key}>
-            <h2
-              className="text-xs uppercase tracking-[0.18em] text-amber-700 font-medium mb-5"
-            >
+            <h2 className="text-xs uppercase tracking-[0.18em] text-amber-700 font-medium mb-5">
               {t(`faqs.groups.${key}`, heading)}
             </h2>
             <div className="space-y-2">
-              {faqs.map(({ q, a }) => (
+              {faqs.map(({ q, a }, index) => (
                 <details
-                  key={q}
+                  key={index}
                   className="group rounded-2xl bg-white ring-1 ring-amber-200/60 shadow-sm overflow-hidden"
                 >
                   <summary className="flex cursor-pointer select-none items-center justify-between gap-4 px-5 py-4 text-sm font-medium text-gray-900 hover:bg-amber-50/60 transition list-none [&::-webkit-details-marker]:hidden">
-                    <span>{q}</span>
+                    <span>{t(`faqs.items.${key}.${index}.question`, q)}</span>
                     {/* chevron */}
                     <svg
                       className="h-5 w-5 shrink-0 text-amber-500 transition-transform duration-200 group-open:rotate-180"
@@ -157,7 +152,7 @@ export default function FAQsPage() {
                     </svg>
                   </summary>
                   <div className="px-5 pb-5 pt-1 text-sm leading-relaxed text-gray-600 border-t border-amber-100">
-                    {a}
+                    {t(`faqs.items.${key}.${index}.answer`, a)}
                   </div>
                 </details>
               ))}
@@ -178,7 +173,7 @@ export default function FAQsPage() {
           </p>
           <Link
             href="/contact"
-            className="mt-5 inline-flex items-center gap-2 rounded-full bg-indigo-600 px-6 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-700"
+            className="mt-5 inline-flex items-center gap-2 rounded-full bg-indigo-700 px-6 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-800"
           >
             {t('faqs.contactUs', 'Write to us')}
           </Link>

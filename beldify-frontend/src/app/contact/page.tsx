@@ -124,10 +124,10 @@ export default function ContactPage() {
                   id="firstName"
                   type="text"
                   autoComplete="given-name"
-                  className="block w-full rounded-lg border border-amber-200 bg-white px-4 py-2.5 text-sm text-gray-900 placeholder-gray-400 shadow-sm transition focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20"
+                  className="block w-full rounded-2xl border border-amber-200 bg-white px-4 py-2.5 text-sm text-gray-900 placeholder-gray-400 shadow-sm transition focus:border-amber-500 focus:outline-none focus:ring-2 focus:ring-amber-500/20"
                 />
                 {errors.firstName && (
-                  <p className="mt-1 text-xs text-red-600">{errors.firstName.message as string}</p>
+                  <p className="mt-1 text-xs text-rose-700">{errors.firstName.message as string}</p>
                 )}
               </div>
               <div>
@@ -141,10 +141,10 @@ export default function ContactPage() {
                   id="lastName"
                   type="text"
                   autoComplete="family-name"
-                  className="block w-full rounded-lg border border-amber-200 bg-white px-4 py-2.5 text-sm text-gray-900 placeholder-gray-400 shadow-sm transition focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20"
+                  className="block w-full rounded-2xl border border-amber-200 bg-white px-4 py-2.5 text-sm text-gray-900 placeholder-gray-400 shadow-sm transition focus:border-amber-500 focus:outline-none focus:ring-2 focus:ring-amber-500/20"
                 />
                 {errors.lastName && (
-                  <p className="mt-1 text-xs text-red-600">{errors.lastName.message as string}</p>
+                  <p className="mt-1 text-xs text-rose-700">{errors.lastName.message as string}</p>
                 )}
               </div>
             </div>
@@ -164,10 +164,10 @@ export default function ContactPage() {
                 id="email"
                 type="email"
                 autoComplete="email"
-                className="block w-full rounded-lg border border-amber-200 bg-white px-4 py-2.5 text-sm text-gray-900 placeholder-gray-400 shadow-sm transition focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20"
+                className="block w-full rounded-2xl border border-amber-200 bg-white px-4 py-2.5 text-sm text-gray-900 placeholder-gray-400 shadow-sm transition focus:border-amber-500 focus:outline-none focus:ring-2 focus:ring-amber-500/20"
               />
               {errors.email && (
-                <p className="mt-1 text-xs text-red-600">{errors.email.message as string}</p>
+                <p className="mt-1 text-xs text-rose-700">{errors.email.message as string}</p>
               )}
             </div>
 
@@ -181,7 +181,7 @@ export default function ContactPage() {
                 type="tel"
                 autoComplete="tel"
                 placeholder="+212 (0) 7 XX XX XX XX"
-                className="block w-full rounded-lg border border-amber-200 bg-white px-4 py-2.5 text-sm text-gray-900 placeholder-gray-400 shadow-sm transition focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20"
+                className="block w-full rounded-2xl border border-amber-200 bg-white px-4 py-2.5 text-sm text-gray-900 placeholder-gray-400 shadow-sm transition focus:border-amber-500 focus:outline-none focus:ring-2 focus:ring-amber-500/20"
               />
             </div>
 
@@ -195,10 +195,10 @@ export default function ContactPage() {
                 })}
                 id="subject"
                 type="text"
-                className="block w-full rounded-lg border border-amber-200 bg-white px-4 py-2.5 text-sm text-gray-900 placeholder-gray-400 shadow-sm transition focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20"
+                className="block w-full rounded-2xl border border-amber-200 bg-white px-4 py-2.5 text-sm text-gray-900 placeholder-gray-400 shadow-sm transition focus:border-amber-500 focus:outline-none focus:ring-2 focus:ring-amber-500/20"
               />
               {errors.subject && (
-                <p className="mt-1 text-xs text-red-600">{errors.subject.message as string}</p>
+                <p className="mt-1 text-xs text-rose-700">{errors.subject.message as string}</p>
               )}
             </div>
 
@@ -219,17 +219,17 @@ export default function ContactPage() {
                 })}
                 id="message"
                 rows={5}
-                className="block w-full rounded-lg border border-amber-200 bg-white px-4 py-2.5 text-sm text-gray-900 placeholder-gray-400 shadow-sm transition focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 resize-none"
+                className="block w-full rounded-2xl border border-amber-200 bg-white px-4 py-2.5 text-sm text-gray-900 placeholder-gray-400 shadow-sm transition focus:border-amber-500 focus:outline-none focus:ring-2 focus:ring-amber-500/20 resize-none"
               />
               {errors.message && (
-                <p className="mt-1 text-xs text-red-600">{errors.message.message as string}</p>
+                <p className="mt-1 text-xs text-rose-700">{errors.message.message as string}</p>
               )}
             </div>
 
             <button
               type="submit"
               disabled={isSubmitting}
-              className="inline-flex w-full items-center justify-center rounded-full bg-indigo-600 px-6 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-70"
+              className="inline-flex w-full items-center justify-center rounded-full bg-indigo-700 px-6 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-70"
             >
               {isSubmitting
                 ? t('contact.form.sending', 'Sending…')

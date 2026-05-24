@@ -8,6 +8,56 @@ const pageSrc = readFileSync(
 );
 
 describe('services/tailoring/tailors/[id]/page.tsx — Atlas compliance', () => {
+  // ── i18n wiring (TDD red) ──────────────────────────────────────────────────
+  it('is a client component (required for useTranslation)', () => {
+    expect(pageSrc).toMatch(/'use client'/);
+  });
+
+  it('imports useTranslation from react-i18next', () => {
+    expect(pageSrc).toContain('useTranslation');
+  });
+
+  it('wires breadcrumb "Home" through t()', () => {
+    expect(pageSrc).toContain("t('content.tailorDetail.breadcrumbHome'");
+  });
+
+  it('wires "Languages Spoken" heading through t()', () => {
+    expect(pageSrc).toContain("t('content.tailorDetail.languagesSpoken'");
+  });
+
+  it('wires "Working Hours" heading through t()', () => {
+    expect(pageSrc).toContain("t('content.tailorDetail.workingHours'");
+  });
+
+  it('wires "Services Offered" heading through t()', () => {
+    expect(pageSrc).toContain("t('content.tailorDetail.servicesOffered'");
+  });
+
+  it('wires "Book an Appointment" CTA through t()', () => {
+    expect(pageSrc).toContain("t('content.tailorDetail.bookAppointment'");
+  });
+
+  it('wires "Contact via WhatsApp" through t()', () => {
+    expect(pageSrc).toContain("t('content.tailorDetail.contactWhatsApp'");
+  });
+
+  it('wires "Contact Information" sidebar heading through t()', () => {
+    expect(pageSrc).toContain("t('content.tailorDetail.contactInformation'");
+  });
+
+  it('wires "Business Hours" through t()', () => {
+    expect(pageSrc).toContain("t('content.tailorDetail.businessHours'");
+  });
+
+  it('wires "Customer Reviews" heading through t()', () => {
+    expect(pageSrc).toContain("t('content.tailorDetail.customerReviews'");
+  });
+
+  it('wires "Portfolio" heading through t()', () => {
+    expect(pageSrc).toContain("t('content.tailorDetail.portfolio'");
+  });
+
+  // ── Atlas design tokens ────────────────────────────────────────────────────
   it('does not import from @heroicons', () => {
     expect(pageSrc).not.toContain('@heroicons');
   });

@@ -2175,6 +2175,232 @@
       "reviews": "reviews",
       "viewProfile": "View Profile",
       "viewDetails": "View Details"
+    },
+    "tailorDetail": {
+      "breadcrumbLabel": "Breadcrumb",
+      "breadcrumbHome": "Home",
+      "breadcrumbTailoring": "Tailoring",
+      "breadcrumbTailors": "Tailors",
+      "specialty": "Bespoke Suits & Traditional Wear",
+      "location": "Casablanca, Anfa District",
+      "description": "With over 15 years of experience, we specialize in creating bespoke garments that perfectly fit your style and physique. Our commitment to quality and traditional techniques ensures every piece is a masterpiece.",
+      "reviews": "reviews",
+      "aboutHeading": "About",
+      "instagram": "Instagram",
+      "facebook": "Facebook",
+      "website": "Website",
+      "languagesSpoken": "Languages Spoken",
+      "workingHours": "Working Hours",
+      "workingHoursValue": "Mon-Fri: 9:00 - 18:00, Sat: 10:00 - 16:00",
+      "paymentMethods": "Payment Methods",
+      "langArabic": "Arabic",
+      "langFrench": "French",
+      "langEnglish": "English",
+      "paymentCash": "Cash",
+      "paymentCard": "Credit Card",
+      "paymentTransfer": "Bank Transfer",
+      "address": "123 Rue Mohammed V, Quartier Anfa, Casablanca",
+      "servicesOffered": "Services Offered",
+      "tableService": "Service",
+      "tablePriceRange": "Price Range",
+      "tableEstTime": "Estimated Time",
+      "service1Name": "Custom Garment Design",
+      "service2Name": "Alterations",
+      "service3Name": "Wedding Attire",
+      "service4Name": "Traditional Moroccan Wear",
+      "portfolio": "Portfolio",
+      "portfolioAlt": "Portfolio image",
+      "customerReviews": "Customer Reviews",
+      "review1Comment": "Exceptional craftsmanship and attention to detail.",
+      "review2Comment": "Great quality work and professional service.",
+      "viewAllReviews": "View all",
+      "contactInformation": "Contact Information",
+      "phone": "Phone",
+      "emailLabel": "Email",
+      "websiteLabel": "Website",
+      "visitWebsite": "Visit Website",
+      "addressLabel": "Address",
+      "viewOnMaps": "View on Google Maps",
+      "bookAppointment": "Book an Appointment",
+      "contactWhatsApp": "Contact via WhatsApp",
+      "callDirectly": "Call Directly",
+      "businessHours": "Business Hours",
+      "monFri": "Monday - Friday",
+      "saturday": "Saturday",
+      "sunday": "Sunday",
+      "closed": "Closed",
+      "locationLabel": "Location",
+      "mobileCallLabel": "Call",
+      "mobileWhatsAppLabel": "WhatsApp",
+      "mobileBookLabel": "Book Appointment"
+    }
+  },
+  "about": {
+    "eyebrow": "OUR STORY",
+    "headline": "Crafted in Morocco,",
+    "headlineLine2": "worn anywhere.",
+    "sub": "Beldify was founded by a small team with deep roots in Morocco's artisan communities. Our mission: make authentic Moroccan tailoring and fashion accessible to the world — fairly, beautifully, without compromise.",
+    "stats": {
+      "cities": "cities",
+      "ateliers": "ateliers",
+      "returns": "returns"
+    },
+    "values": {
+      "craftsmanship": {
+        "title": "Craftsmanship first",
+        "body": "Every piece on Beldify is hand-finished by a verified Moroccan artisan. We work directly with ateliers in Fez, Marrakech, Casablanca and Tetouan to ensure the traditions of zellige stitching, brocade weaving and hand-embroidery survive another generation.",
+        "imageAlt": "A tailor working on a djellaba in a Fez atelier"
+      },
+      "fairTrade": {
+        "title": "Fair trade, transparent prices",
+        "body": "We publish our commission rates openly (10–15 %) and pay sellers bi-weekly. No hidden fees, no race to the bottom on price. When you buy on Beldify, the artisan receives a living wage and keeps full creative control.",
+        "imageAlt": "A seller reviewing an order on a phone"
+      },
+      "tailoring": {
+        "title": "Bespoke tailoring, made simple",
+        "body": "Our guided measurement form and video call option mean you never need to set foot in a medina to get a piece fitted perfectly. Pick your tailor, share your measurements, receive your garment in 2–4 weeks.",
+        "imageAlt": "Measuring tape on a caftan fabric"
+      },
+      "community": {
+        "title": "A community, not just a marketplace",
+        "body": "Beldify started as a WhatsApp group between three friends who were tired of seeing their grandmothers' atelier struggle to reach customers abroad. Today we are a platform connecting 120+ ateliers with shoppers in 23 cities worldwide — and growing.",
+        "imageAlt": "Community of Moroccan artisans"
+      }
+    },
+    "cta": {
+      "headline": "Ready to explore?",
+      "sub": "Browse verified ateliers, discover new arrivals, or start a bespoke tailoring order today.",
+      "shop": "Shop the marketplace",
+      "ateliers": "Meet the ateliers"
+    }
+  },
+  "faqs": {
+    "eyebrow": "HELP",
+    "headline": "Frequently asked.",
+    "sub": "Quick answers — or write us if you don't find yours.",
+    "groups": {
+      "shipping": "Shipping",
+      "returns": "Returns",
+      "tailoring": "Tailoring",
+      "sellers": "Sellers",
+      "account": "Account"
+    },
+    "items": {
+      "shipping": {
+        "0": {
+          "question": "Does Beldify ship internationally?",
+          "answer": "Yes. Beldify ships to most countries worldwide. Shipping costs and delivery times vary by destination. Standard international delivery takes 7–14 business days."
+        },
+        "1": {
+          "question": "What are the shipping options within Morocco?",
+          "answer": "We offer standard delivery (5–7 business days) and express delivery (2–3 business days) within Morocco. Orders over 500 MAD qualify for free standard shipping."
+        },
+        "2": {
+          "question": "How do I track my order?",
+          "answer": "Once your order ships, you'll receive a confirmation email with a tracking link. You can also check your order status in the Orders section of your account."
+        }
+      },
+      "returns": {
+        "0": {
+          "question": "What is your return policy?",
+          "answer": "We accept returns within 14 days of delivery for unworn items in original condition with tags attached. Custom-made pieces cannot be returned unless there is a manufacturing defect."
+        },
+        "1": {
+          "question": "How do I start a return?",
+          "answer": "Log in, go to Orders, select the relevant order and follow the return instructions. Our team will issue a return label or reimburse reasonable return shipping costs for defective items."
+        },
+        "2": {
+          "question": "How long do refunds take?",
+          "answer": "We process refunds within 3–5 business days of receiving the return. Allow an additional 3–10 business days for your bank to reflect the credit."
+        }
+      },
+      "tailoring": {
+        "0": {
+          "question": "How does bespoke tailoring work on Beldify?",
+          "answer": "Browse verified tailors, select one, fill in our guided measurement form (or book a video call), and confirm your order. Expect delivery in 2–4 weeks."
+        },
+        "1": {
+          "question": "Can I customise fabric, colour, or embroidery?",
+          "answer": "Yes. Each tailor page lists customisation options. Availability and pricing vary; most ateliers can accommodate fabric swaps and embroidery preferences."
+        },
+        "2": {
+          "question": "What if the garment does not fit?",
+          "answer": "We offer one free alteration round on all bespoke orders. Contact us within 7 days of delivery and we will coordinate with the tailor."
+        }
+      },
+      "sellers": {
+        "0": {
+          "question": "How do I become a seller on Beldify?",
+          "answer": "Apply at beldify.com/seller/register. We review each application for authenticity and craft quality, then onboard accepted sellers within 3–5 business days."
+        },
+        "1": {
+          "question": "What commission does Beldify charge?",
+          "answer": "Commission ranges from 10% to 15% depending on product category. There are no listing fees, setup fees, or monthly subscriptions."
+        },
+        "2": {
+          "question": "When do sellers get paid?",
+          "answer": "Payments are deposited bi-weekly after accounting for the 14-day return window. We support bank transfers and mobile money."
+        }
+      },
+      "account": {
+        "0": {
+          "question": "Do I need an account to buy?",
+          "answer": "No — guest checkout is available. Creating an account gives you order history, faster checkout, saved addresses, and wishlist access."
+        },
+        "1": {
+          "question": "What payment methods are accepted?",
+          "answer": "Visa, Mastercard, PayPal, Apple Pay, Google Pay, and bank transfer. Cash on delivery is available for certain areas within Morocco."
+        },
+        "2": {
+          "question": "How do I reset my password?",
+          "answer": "Click \"Forgot password\" on the login page. We will email you a reset link that is valid for 30 minutes."
+        }
+      }
+    },
+    "stillHaveQuestions": "Didn't find your answer?",
+    "contactText": "Our team is one message away.",
+    "contactUs": "Write to us"
+  },
+  "contact": {
+    "eyebrow": "SAY HELLO",
+    "headline": "We're here to help.",
+    "sub": "Our team answers every message personally. Expect a reply within one business day.",
+    "cards": {
+      "email": {
+        "title": "Email us",
+        "sub": "We reply within 24 hours."
+      },
+      "phone": {
+        "title": "Call us",
+        "sub": "Mon – Fri, 9 am – 6 pm (Morocco)"
+      },
+      "address": {
+        "title": "Visit us",
+        "detail": "123, Avenue de la Médina",
+        "sub": "Tétouan, Morocco"
+      }
+    },
+    "form": {
+      "heading": "Send us a message",
+      "firstName": "First name",
+      "lastName": "Last name",
+      "email": "Email address",
+      "phone": "Phone (optional)",
+      "subject": "Subject",
+      "message": "Message",
+      "maxChars": "max 500 chars",
+      "send": "Send message",
+      "sending": "Sending…",
+      "thankYou": "Thank you — we'll be in touch soon!",
+      "validation": {
+        "firstNameRequired": "First name is required",
+        "lastNameRequired": "Last name is required",
+        "emailRequired": "Email is required",
+        "emailInvalid": "Enter a valid email address",
+        "subjectRequired": "Subject is required",
+        "messageRequired": "Message is required",
+        "messageTooLong": "Message must be under 500 characters"
+      }
     }
   }
 }
