@@ -47,7 +47,7 @@ export default function ShopFilterBar({
   };
 
   return (
-    <div className="relative flex items-center bg-white border-b border-gray-200 py-2 sm:py-3">
+    <div className="relative flex items-center bg-white border-b border-amber-200/60 py-2 sm:py-3">
       {/* Left scroll button with indigo and amber accents */}
       <button
         onClick={() => scroll('left')}
@@ -68,7 +68,7 @@ export default function ShopFilterBar({
           onClick={onOpenFilters}
           className="flex items-center gap-1 sm:gap-1.5 whitespace-nowrap border-indigo-200 hover:border-indigo-300 hover:bg-indigo-50 shadow-sm text-xs sm:text-sm px-2 sm:px-3 py-1.5 sm:py-2"
         >
-          <div className="p-0.5 sm:p-1 rounded-full bg-gradient-to-br from-indigo-600 to-indigo-800 flex items-center justify-center ring-1 sm:ring-2 ring-amber-300 ring-opacity-60">
+          <div className="p-0.5 sm:p-1 rounded-full bg-indigo-700 flex items-center justify-center">
             <AdjustmentsHorizontalIcon className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-white" />
           </div>
           <span className="text-gray-800 hidden sm:inline">{t('common.actions.filters')}</span>
@@ -85,8 +85,8 @@ export default function ShopFilterBar({
               className={cn(
                 'flex items-center gap-1 sm:gap-1.5 whitespace-nowrap shadow-sm transition-all duration-200 text-xs sm:text-sm px-2 sm:px-3 py-1.5 sm:py-2',
                 selectedType === filter.id
-                  ? 'bg-gradient-to-r from-indigo-600 to-indigo-800 text-white hover:from-indigo-700 hover:to-indigo-900 border-indigo-600 ring-1 sm:ring-2 ring-amber-300 ring-opacity-60'
-                  : 'border-indigo-200 hover:border-indigo-300 hover:bg-indigo-50 hover:border-amber-300'
+                  ? 'bg-indigo-700 text-white hover:bg-indigo-800 border-indigo-700 rounded-full'
+                  : 'border-amber-200/60 hover:border-amber-300 hover:bg-amber-50 rounded-full'
               )}
             >
               <Icon className="w-3 h-3 sm:w-4 sm:h-4" />
