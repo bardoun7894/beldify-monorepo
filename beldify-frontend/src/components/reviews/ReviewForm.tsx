@@ -136,10 +136,7 @@ export const ReviewForm: React.FC<ReviewFormProps> = ({
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6 bg-white p-6 md:p-8 rounded-lg shadow-lg border border-gray-200 relative overflow-hidden">
-      {/* Premium design elements */}
-      <div className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-indigo-600 to-amber-500"></div>
-      <div className="absolute -top-24 -right-24 w-48 h-48 bg-gradient-to-br from-indigo-200 to-indigo-50 rounded-full opacity-20 blur-3xl"></div>
+    <form onSubmit={handleSubmit} className="space-y-6 bg-white p-6 md:p-8 rounded-2xl shadow-sm ring-1 ring-amber-200 relative overflow-hidden">
       
       <div>
         <Label htmlFor="rating" className="block text-sm font-medium text-gray-700 mb-2">
@@ -218,7 +215,7 @@ export const ReviewForm: React.FC<ReviewFormProps> = ({
             </div>
           ))}
           {images.length < MAX_IMAGES && (
-            <label htmlFor="review-images" className="cursor-pointer w-24 h-24 flex flex-col items-center justify-center border-2 border-dashed border-gray-300 rounded-lg hover:border-indigo-500 transition-all duration-200 text-gray-500 hover:text-indigo-600 hover:shadow-md">
+            <label htmlFor="review-images" className="cursor-pointer w-24 h-24 flex flex-col items-center justify-center border-2 border-dashed border-gray-300 rounded-lg hover:border-amber-400 transition-all duration-200 text-gray-500 hover:text-amber-700 hover:shadow-md">
               <CameraIcon className="h-8 w-8" />
               <span className="mt-1 text-xs text-center">{t('reviews.form.upload_image')}</span>
               <input
@@ -254,9 +251,9 @@ export const ReviewForm: React.FC<ReviewFormProps> = ({
           disabled={isSubmitting} 
           className={cn(
             "w-full sm:w-auto transition-all duration-300",
-            isSubmitting 
-              ? "bg-gray-400" 
-              : "bg-gradient-to-r from-indigo-600 to-indigo-500 hover:from-indigo-700 hover:to-indigo-600 text-white shadow-md hover:shadow-lg"
+            isSubmitting
+              ? "bg-gray-400"
+              : "bg-indigo-700 hover:bg-indigo-800 text-white shadow-sm"
           )}
         >
           {isSubmitting ? t('reviews.uploading') : t('reviews.form.submit_review')}
