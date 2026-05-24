@@ -117,7 +117,12 @@
     "sign_in": "Sign In",
     "username_generated": "Username generated",
     "registering": "Registering...",
-    "logging_in": "Signing in..."
+    "logging_in": "Signing in...",
+    "logo_alt": "Beldify",
+    "sign_in_with_google": "Sign in with Google",
+    "sign_in_with_apple": "Sign in with Apple",
+    "provider_google": "Google",
+    "provider_apple": "Apple"
   },
   "navigation": {
     "home": "Home",
@@ -1277,8 +1282,8 @@
       ]
     },
     "returns": {
-      "title": "Returns & Exchanges",
-      "subtitle": "Our policy and process for returns and exchanges",
+      "title": "Returns & Refunds",
+      "subtitle": "Our policy and process for returns and refunds",
       "returnsPolicy": {
         "title": "Returns Policy",
         "policy1": "We want you to be completely satisfied with your purchase. If you're not satisfied, you may return most items within 30 days of delivery for a full refund or exchange.",
@@ -2057,5 +2062,28 @@
   },
   "traditionalWear": {
     "eyebrow": "Artisan Craftsmanship"
+  },
+  "wishlist": {
+    "title": "My Wishlist",
+    "empty_title": "Your wishlist is empty",
+    "empty_description": "Save items you love to buy them later",
+    "start_shopping": "Start Shopping",
+    "removed_success": "Item removed from wishlist",
+    "continue_shopping": "Continue Shopping",
+    "add_to_cart": "Add to Cart",
+    "remove": "Remove from Wishlist",
+    "items_count_one": "{{count}} item",
+    "items_count_other": "{{count}} items"
+  },
+  "account": {
+    "wishlist": {
+      "continue_shopping": "Continue Shopping",
+      "add_to_cart": "Add to Cart",
+      "remove": "Remove from Wishlist"
+    },
+    "returns": {
+      "tabs_label": "Returns and refunds navigation",
+      "process_illustration_alt": "Return process illustration"
+    }
   }
 }

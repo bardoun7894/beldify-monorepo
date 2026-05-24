@@ -105,7 +105,12 @@
     "username_generated": "تم إنشاء اسم المستخدم",
     "registering": "جاري تسجيل حسابك...",
     "logging_in": "جاري تسجيل الدخول...",
-    "login_required": "يرجى تسجيل الدخول لإرسال الطلبات الخاصة"
+    "login_required": "يرجى تسجيل الدخول لإرسال الطلبات الخاصة",
+    "logo_alt": "بلديفاي",
+    "sign_in_with_google": "تسجيل الدخول عبر Google",
+    "sign_in_with_apple": "تسجيل الدخول عبر Apple",
+    "provider_google": "Google",
+    "provider_apple": "Apple"
   },
   "navigation": {
     "home": "الرئيسية",
@@ -1103,6 +1108,10 @@
       "needHelp": "بحاجة إلى مساعدة مع الشحن؟",
       "helpText": "فريق خدمة العملاء لدينا مستعد لمساعدتك في أي أسئلة حول شحنتك.",
       "contactSupport": "اتصل بالدعم"
+    },
+    "returns": {
+      "title": "الإرجاع والاسترداد",
+      "subtitle": "سياستنا وإجراءاتنا للإرجاع والاسترداد"
     }
   },
   "countries": {
@@ -1216,8 +1225,8 @@
       "returnsExchanges": "المرتجلات والاستبدال"
     },
     "returns": {
-      "title": "سياسة الإرجاع والاستبدال",
-      "subtitle": "سياستنا وإجراءاتنا للإرجاع والاستبدال",
+      "title": "الإرجاع والاسترداد",
+      "subtitle": "سياستنا وإجراءاتنا للإرجاع والاسترداد",
       "returnsPolicy": {
         "title": "سياسة الإرجاع",
         "policy1": "نريدك أن تكون راضيًا تمامًا عن مشترياتك. إذا لم تكن راضيًا، يمكنك إرجاع معظم العناصر خلال 30 يومًا من تاريخ التسليم لاسترداد المبلغ بالكامل أو استبدالها.",
@@ -1948,5 +1957,28 @@
   },
   "traditionalWear": {
     "eyebrow": "الحرف اليدوية"
+  },
+  "wishlist": {
+    "title": "ولاعتي / المفضلة",
+    "empty_title": "قائمة المفضلة فارغة",
+    "empty_description": "احفظ العناصر التي تعجبك لشرائها لاحقاً",
+    "start_shopping": "ابدأ التسوق",
+    "removed_success": "تم حذف المنتج من المفضلة",
+    "continue_shopping": "مواصلة التسوق",
+    "add_to_cart": "أضف إلى السلة",
+    "remove": "إزالة من المفضلة",
+    "items_count_one": "منتج واحد",
+    "items_count_other": "{{count}} منتجات"
+  },
+  "account": {
+    "wishlist": {
+      "continue_shopping": "مواصلة التسوق",
+      "add_to_cart": "أضف إلى السلة",
+      "remove": "إزالة من المفضلة"
+    },
+    "returns": {
+      "tabs_label": "تصفح الإرجاع والاسترداد",
+      "process_illustration_alt": "توضيح عملية الإرجاع"
+    }
   }
 }
