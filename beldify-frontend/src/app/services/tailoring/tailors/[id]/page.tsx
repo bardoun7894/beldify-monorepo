@@ -219,7 +219,7 @@ const TailorDetailsPage = ({ params }: TailorDetailsPageProps) => {
                       target="_blank"
                       rel="noopener noreferrer"
                       className="inline-flex items-center gap-1.5 rounded-full bg-gradient-to-br from-purple-600 to-pink-500 text-white px-4 py-1.5 text-xs font-semibold hover:opacity-90 transition"
-                      aria-label="Instagram"
+                      aria-label={t('content.tailorDetail.instagram', 'Instagram')}
                     >
                       {t('content.tailorDetail.instagram', 'Instagram')}
                       <ExternalLink className="h-3 w-3" />
@@ -231,7 +231,7 @@ const TailorDetailsPage = ({ params }: TailorDetailsPageProps) => {
                       target="_blank"
                       rel="noopener noreferrer"
                       className="inline-flex items-center gap-1.5 rounded-full bg-blue-600 text-white px-4 py-1.5 text-xs font-semibold hover:opacity-90 transition"
-                      aria-label="Facebook"
+                      aria-label={t('content.tailorDetail.facebook', 'Facebook')}
                     >
                       {t('content.tailorDetail.facebook', 'Facebook')}
                       <ExternalLink className="h-3 w-3" />
@@ -243,7 +243,7 @@ const TailorDetailsPage = ({ params }: TailorDetailsPageProps) => {
                       target="_blank"
                       rel="noopener noreferrer"
                       className="inline-flex items-center gap-1.5 rounded-full ring-1 ring-amber-200 text-indigo-700 px-4 py-1.5 text-xs font-semibold hover:bg-amber-50 transition"
-                      aria-label="Website"
+                      aria-label={t('content.tailorDetail.website', 'Website')}
                     >
                       <Globe className="h-3 w-3" />
                       {t('content.tailorDetail.website', 'Website')}
