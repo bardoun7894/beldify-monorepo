@@ -1,0 +1,267 @@
+import React, { useState, ChangeEvent, FormEvent, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
+import { StarIcon } from '@heroicons/react/24/solid';
+import { StarIcon as StarIconOutline } from '@heroicons/react/24/outline';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea'; 
+import { Label } from '@/components/ui/label';
+import { CreateReviewRequest } from '@/types/review';
+import { CameraIcon, XCircleIcon } from '@heroicons/react/24/outline';
+import { cn } from '@/utils/classNames';
+
+interface ReviewFormProps {
+  productId: string;
+  onSubmitSuccess: (newReview: any) => void; // Callback after successful submission
+  onCancel?: () => void;
+  // Service to create review, could be mock or real
+  createReviewService: (productId: string, data: CreateReviewRequest) => Promise<any>; 
+}
+
+const MAX_IMAGES = 5;
+const MAX_IMAGE_SIZE_MB = 5;
+
+export const ReviewForm: React.FC<ReviewFormProps> = ({
+  productId,
+  onSubmitSuccess,
+  onCancel,
+  createReviewService,
+}) => {
+  const { t } = useTranslation();
+  const [rating, setRating] = useState<number>(0);
+  const [hoverRating, setHoverRating] = useState<number>(0);
+  const [title, setTitle] = useState<string>('');
+  const [content, setContent] = useState<string>('');
+  const [images, setImages] = useState<File[]>([]);
+  const [imagePreviews, setImagePreviews] = useState<string[]>([]);
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
+  const [formError, setFormError] = useState<string | null>(null);
+
+  useEffect(() => {
+    // Clean up object URLs on unmount
+    return () => {
+      imagePreviews.forEach(url => URL.revokeObjectURL(url));
+    };
+  }, [imagePreviews]);
+
+  const handleRatingChange = (newRating: number) => {
+    setRating(newRating);
+    if (formError && newRating > 0) setFormError(null); 
+  };
+
+  const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setError(null);
+    const files = Array.from(event.target.files || []);
+    if (!files.length) return;
+
+    const newImages: File[] = [];
+    const newPreviews: string[] = [];
+
+    for (const file of files) {
+      if (images.length + newImages.length >= MAX_IMAGES) {
+        setError(t('reviews.form.max_images_reached', { count: MAX_IMAGES }));
+        break;
+      }
+      if (file.size > MAX_IMAGE_SIZE_MB * 1024 * 1024) {
+        setError(t('reviews.form.image_too_large', { size: MAX_IMAGE_SIZE_MB }));
+        continue;
+      }
+      newImages.push(file);
+      newPreviews.push(URL.createObjectURL(file));
+    }
+
+    setImages(prev => [...prev, ...newImages]);
+    setImagePreviews(prev => [...prev, ...newPreviews]);
+  };
+
+  const handleRemoveImage = (index: number) => {
+    URL.revokeObjectURL(imagePreviews[index]);
+    setImages(prev => prev.filter((_, i) => i !== index));
+    setImagePreviews(prev => prev.filter((_, i) => i !== index));
+    if (images.length -1 < MAX_IMAGES) setError(null); 
+  };
+
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setFormError(null);
+
+    if (rating === 0) {
+      setFormError(t('reviews.form.rating_required'));
+      return;
+    }
+    if (!content.trim()) {
+      setFormError(t('reviews.form.content_required'));
+      return;
+    }
+
+    setIsSubmitting(true);
+    setError(null);
+
+    try {
+      // In a real app, you'd upload images to a service (e.g., Contabo S3)
+      // and get back URLs to send with the review data.
+      // For this mock, we'll just pass placeholder image paths.
+      // In a real app, 'images' (File[]) would be uploaded here, and 'uploadedImagePaths' (string[]) would be the URLs returned from the upload service.
+      // For mock, we'll simulate this by creating pseudo-URLs. This matches CreateReviewRequest.images as string[].
+      const uploadedImagePaths = images.map(file => `/mock/user_uploads/${productId}/${file.name}`);
+
+      const reviewData: CreateReviewRequest = {
+        productId, // Add the productId to fix the lint error
+        rating,
+        title,
+        content,
+        images: uploadedImagePaths, // Or actual URLs from upload service
+        // Assuming userName and userAvatar would be sourced from auth context in a real app
+        userName: 'Current User', 
+        userAvatar: '/images/avatars/avatar-placeholder.jpg',
+        verified: true, // Mocking as verified for now
+      };
+
+      const newReview = await createReviewService(productId, reviewData);
+      onSubmitSuccess(newReview);
+      // Reset form
+      setRating(0);
+      setTitle('');
+      setContent('');
+      setImages([]);
+      imagePreviews.forEach(url => URL.revokeObjectURL(url));
+      setImagePreviews([]);
+    } catch (err) {
+      console.error('Review submission error:', err);
+      setError(t('reviews.form.submit_error'));
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  return (
+    <form onSubmit={handleSubmit} className="space-y-6 bg-white p-6 md:p-8 rounded-lg shadow-lg border border-gray-200 relative overflow-hidden">
+      {/* Premium design elements */}
+      <div className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-indigo-600 to-amber-500"></div>
+      <div className="absolute -top-24 -right-24 w-48 h-48 bg-gradient-to-br from-indigo-200 to-indigo-50 rounded-full opacity-20 blur-3xl"></div>
+      
+      <div>
+        <Label htmlFor="rating" className="block text-sm font-medium text-gray-700 mb-2">
+          {t('reviews.form.your_rating')} <span className="text-red-500">*</span>
+        </Label>
+        <div className="flex items-center space-x-2">
+          {[1, 2, 3, 4, 5].map((star) => (
+            <button
+              key={star}
+              type="button"
+              onMouseEnter={() => setHoverRating(star)}
+              onMouseLeave={() => setHoverRating(0)}
+              onClick={() => handleRatingChange(star)}
+              className={cn(
+                "focus:outline-none transition-transform hover:scale-110",
+                (hoverRating || rating) >= star ? "text-amber-400" : "text-gray-300"
+              )}
+              aria-label={`${star} star rating`}
+            >
+              {(hoverRating || rating) >= star ? (
+                <StarIcon className="h-9 w-9 drop-shadow-md" />
+              ) : (
+                <StarIconOutline className="h-9 w-9" />
+              )}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <div>
+        <Label htmlFor="review-title" className="block text-sm font-medium text-gray-700 mb-1">
+          {t('reviews.form.title_label')}
+        </Label>
+        <Input
+          id="review-title"
+          type="text"
+          value={title}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setTitle(e.target.value)}
+          placeholder={t('reviews.form.title_placeholder')}
+          className="mt-1 w-full border-gray-300 focus:border-indigo-400 focus:ring-indigo-300 shadow-sm"
+          maxLength={100}
+        />
+      </div>
+
+      <div>
+        <Label htmlFor="review-content" className="block text-sm font-medium text-gray-700 mb-1">
+          {t('reviews.form.content_label')} <span className="text-red-500">*</span>
+        </Label>
+        <Textarea
+          id="review-content"
+          value={content}
+          onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setContent(e.target.value)}
+          placeholder={t('reviews.form.content_placeholder')}
+          className="mt-1 w-full border-gray-300 focus:border-indigo-400 focus:ring-indigo-300 shadow-sm"
+          rows={4}
+          required
+        />
+      </div>
+
+      <div>
+        <Label className="block text-sm font-medium text-gray-700 mb-2">
+          {t('reviews.form.add_photos_label')} ({images.length}/{MAX_IMAGES})
+        </Label>
+        <div className="mt-2 flex items-center flex-wrap gap-4">
+          {imagePreviews.map((previewUrl, index) => (
+            <div key={index} className="relative w-24 h-24 border border-gray-200 rounded-lg overflow-hidden group shadow-md transition-all duration-200 hover:shadow-lg">
+              <img src={previewUrl} alt={t('reviews.review_image')} className="w-full h-full object-cover" />
+              <button
+                type="button"
+                onClick={() => handleRemoveImage(index)}
+                className="absolute top-1 right-1 bg-black bg-opacity-60 text-white rounded-full p-0.5 hover:bg-opacity-80 transition-all opacity-0 group-hover:opacity-100"
+                aria-label={t('common.remove')}
+              >
+                <XCircleIcon className="h-5 w-5" />
+              </button>
+            </div>
+          ))}
+          {images.length < MAX_IMAGES && (
+            <label htmlFor="review-images" className="cursor-pointer w-24 h-24 flex flex-col items-center justify-center border-2 border-dashed border-gray-300 rounded-lg hover:border-indigo-500 transition-all duration-200 text-gray-500 hover:text-indigo-600 hover:shadow-md">
+              <CameraIcon className="h-8 w-8" />
+              <span className="mt-1 text-xs text-center">{t('reviews.form.upload_image')}</span>
+              <input
+                id="review-images"
+                type="file"
+                multiple
+                accept="image/jpeg, image/png, image/webp"
+                onChange={handleImageChange}
+                className="sr-only"
+                disabled={images.length >= MAX_IMAGES}
+              />
+            </label>
+          )}
+        </div>
+        {error && <p className="mt-2 text-sm text-red-600 font-medium">{error}</p>}
+      </div>
+
+      {formError && <p className="text-sm text-red-600 font-medium bg-red-50 p-2 rounded-md">{formError}</p>}
+
+      <div className="flex flex-col sm:flex-row sm:justify-end sm:items-center gap-3 pt-4 border-t border-gray-100">
+        {onCancel && (
+          <Button 
+            type="button" 
+            onClick={onCancel} 
+            disabled={isSubmitting}
+            className="bg-gray-100 hover:bg-gray-200 text-gray-700 border-none"
+          >
+            {t('common.cancel')}
+          </Button>
+        )}
+        <Button 
+          type="submit" 
+          disabled={isSubmitting} 
+          className={cn(
+            "w-full sm:w-auto transition-all duration-300",
+            isSubmitting 
+              ? "bg-gray-400" 
+              : "bg-gradient-to-r from-indigo-600 to-indigo-500 hover:from-indigo-700 hover:to-indigo-600 text-white shadow-md hover:shadow-lg"
+          )}
+        >
+          {isSubmitting ? t('reviews.uploading') : t('reviews.form.submit_review')}
+        </Button>
+      </div>
+    </form>
+  );
+};

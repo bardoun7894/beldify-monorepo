@@ -1,0 +1,1940 @@
+{
+  "common": {
+    "search": "Search for products...",
+    "filter": "Filter",
+    "noResults": "No results found",
+    "openMenu": "Open main menu",
+    "closeMenu": "Close menu",
+    "viewAll": "View all",
+    "sort": "Sort by",
+    "price": "Price",
+    "currency": "MAD",
+    "more": "more",
+    "select_option": "Select an option",
+    "traditional_wear": "Traditional Wear",
+    "mens_traditional_wear": "Men's Traditional Wear",
+    "womens_traditional_wear": "Women's Traditional Wear",
+    "childrens_traditional_wear": "Children's Traditional Wear",
+    "traditional_wear_description": "Discover authentic traditional wear for all occasions",
+    "mens_traditional_wear_description": "Explore our collection of authentic men's traditional clothing",
+    "womens_traditional_wear_description": "Browse our selection of elegant women's traditional attire",
+    "childrens_traditional_wear_description": "Find beautiful traditional clothing for children of all ages",
+    "fast_delivery": "Fast Delivery",
+    "no_image_available": "No image available",
+    "no_products_found": "No products found",
+    "view_all": "View All",
+    "checkBackSoon": "Check back soon!",
+    "item": "item",
+    "items": "items",
+    "actions": {
+      "save_changes": "Save changes",
+      "tryAgain": "Try again",
+      "search": "Search",
+      "clearFilters": "Clear Filters",
+      "filters": "Filters"
+    },
+    "notifications": {
+      "changes_saved": "Changes saved successfully",
+      "error_saving": "Error saving changes"
+    },
+    "try_again": "Try again",
+    "loading": "Loading...",
+    "loading_experience": "Loading your experience...",
+    "loading_more": "Loading more...",
+    "error": "An error occurred",
+    "success": "Operation successful",
+    "cancel": "Cancel",
+    "save": "Save",
+    "edit": "Edit",
+    "delete": "Delete",
+    "view": "View",
+    "close": "Close",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "or": "or",
+    "currency_labels": {
+      "moroccan_dirham": "MAD"
+    },
+    "required_fields": "* Required fields",
+    "required": "Required",
+    "refresh": "Refresh",
+    "online": "Online",
+    "offline": "Offline",
+    "last_seen": "Last seen {{time}}",
+    "just_now": "Just now",
+    "minutes_ago": "{{count}} minute(s) ago",
+    "hours_ago": "{{count}} hour(s) ago",
+    "days_ago": "{{count}} day(s) ago",
+    "yesterday": "Yesterday",
+    "today": "Today"
+  },
+  "validation": {
+    "required": "This field is required",
+    "email": "Please enter a valid email",
+    "minLength": "Must be at least {{count}} characters",
+    "maxLength": "Must not exceed {{count}} characters"
+  },
+  "categories": {
+    "browse": "Browse Categories",
+    "title": "Explore Our Categories",
+    "description": "Discover our wide range of traditional and modern Moroccan fashion categories",
+    "available": "categories available",
+    "shop_by_category": "Shop by category",
+    "product_count": "{{count}} products",
+    "explore": "Explore Category",
+    "no_categories_title": "No Categories Found",
+    "no_categories_found": "We couldn't find any categories at the moment. Please check back later.",
+    "featured": {
+      "title": "Featured Categories",
+      "description": "Discover our most popular product categories"
+    },
+    "more": "more",
+    "shopNow": "Shop Now"
+  },
+  "auth": {
+    "logout": "Logout",
+    "register": "Register",
+    "username": "Username",
+    "forgotPassword": "Forgot password?",
+    "email": "Email",
+    "password": "Password",
+    "login": "Login",
+    "login_title": "Welcome Back",
+    "register_title": "Join Beldify Today",
+    "or_continue_with": "Or continue with email",
+    "login_required": "Please login to send custom requests",
+    "remember_me": "Remember me",
+    "forgot_password": "Forgot password?",
+    "dont_have_account": "Don't have an account?",
+    "create_account": "Create account",
+    "full_name": "Full Name",
+    "first_name": "First Name",
+    "last_name": "Last Name",
+    "contact_number": "Contact Number",
+    "password_confirmation": "Confirm Password",
+    "already_have_account": "Already have an account?",
+    "sign_in": "Sign In",
+    "username_generated": "Username generated",
+    "registering": "Registering...",
+    "logging_in": "Signing in..."
+  },
+  "navigation": {
+    "home": "Home",
+    "categories": "Categories",
+    "wishlist": "Wishlist",
+    "cart": "Cart",
+    "profile": "Profile",
+    "shopping_cart": "Shopping Cart",
+    "shop": "Shop",
+    "bestSellers": "Best Sellers",
+    "newArrivals": "New Arrivals",
+    "deals": "Deals",
+    "search": "Search for products...",
+    "featuredCategories": "Featured Categories",
+    "tailors": "Tailors",
+    "stores": "Stores",
+    "community": "Open Souk",
+    "dashboard": "Dashboard",
+    "settings": "Settings",
+    "orders": "Orders",
+    "account": "My Account",
+    "logout": "Logout",
+    "login": "Login",
+    "subcategories": "Subcategories",
+    "featuredProducts": "Featured Products",
+    "language": "Language",
+    "languages": {
+      "en": "English",
+      "ar": "Arabic",
+      "fr": "French",
+      "es": "Spanish",
+      "ma": "Darija",
+      "de": "German"
+    }
+  },
+  "category": {
+    "popularCategories": "Popular Categories",
+    "viewAll": "View All",
+    "items": "items",
+    "noCategories": "No categories found",
+    "topCategories": "Top Categories",
+    "trending": "Trending",
+    "discoverMostPopular": "Discover the most popular categories loved by our customers",
+    "exploreAllCategories": "Explore All Categories",
+    "discoverMore": "Discover thousands of products across all categories",
+    "comingSoon": "Coming Soon",
+    "featured": "Featured"
+  },
+  "bestSellers": {
+    "title": "Best Sellers",
+    "noBestSellers": "No best selling products found",
+    "loadingError": "Failed to load best selling products",
+    "discount": "Discount",
+    "previousButton": "Previous products",
+    "nextButton": "Next products",
+    "goToSlide": "Go to slide {{number}}",
+    "ranking": "#{{number}}"
+  },
+  "megaOffers": {
+    "title": "Mega Offers",
+    "subtitle": "Exclusive Deals You Can't Miss",
+    "viewAll": "View All Offers",
+    "limitedTime": "Limited Time",
+    "exclusive": "Exclusive",
+    "off": "OFF",
+    "addToCart": "Add to Cart",
+    "noOffers": "No mega offers available at the moment.",
+    "comingSoon": "New offers coming soon!"
+  },
+  "featuredSections": {
+    "bestSellers": {
+      "title": "Best Sellers",
+      "viewAll": "View All",
+      "rating": "Rating",
+      "bestSellersDesc": "Discover our best selling traditional products"
+    },
+    "newArrivals": {
+      "title": "New Arrivals",
+      "viewAll": "View All",
+      "newBadge": "New",
+      "newArrivalsDesc": "Discover our new arrivals of traditional products"
+    },
+    "mensTraditional": {
+      "title": "Men's Traditional Wear",
+      "viewAll": "View All",
+      "mensTraditionalDesc": "Discover our collection of authentic men's traditional clothing"
+    },
+    "womensTraditional": {
+      "title": "Women's Traditional Wear",
+      "viewAll": "View All",
+      "womensTraditionalDesc": "Discover our collection of authentic women's traditional clothing"
+    },
+    "childrensTraditional": {
+      "title": "Children's Traditional Wear",
+      "viewAll": "View All",
+      "childrensTraditionalDesc": "Discover our collection of authentic children's traditional clothing"
+    },
+    "featuredStores": {
+      "title": "Featured Stores",
+      "viewAll": "View All",
+      "featuredStoresDesc": "Discover our top-rated and verified stores offering quality products"
+    }
+  },
+  "product": {
+    "product_add_to_cart": "Add to Cart",
+    "product_buy_now": "Buy Now",
+    "product_arrives_tomorrow": "Arrives Tomorrow",
+    "product_express": "Express Delivery",
+    "product_out_of_stock": "Out of Stock",
+    "product_added_to_cart": "Added to Cart",
+    "product_remove_from_cart": "Remove from Cart",
+    "product_view_cart": "View Cart",
+    "product_checkout": "Checkout",
+    "addToCart": "Add to Cart",
+    "addedToCart": "Added to Cart",
+    "addingToCart": "Adding to Cart...",
+    "like": "Like",
+    "liked": "Liked",
+    "review": "Review",
+    "reviews_label": "Reviews",
+    "quickView": "Quick View",
+    "outOfStock": "Out of Stock",
+    "inStock": "In Stock",
+    "newBadge": "New",
+    "saveAmount": "Save {{amount}} MAD",
+    "addToWishlist": "Add to Wishlist",
+    "description": "Product Description",
+    "size": "Size",
+    "color": "Color",
+    "fabric": "Fabric",
+    "quantity": "Quantity",
+    "sku": "SKU",
+    "price": "Price",
+    "total": "Total",
+    "selectSize": "Select Size",
+    "selectColor": "Select Color",
+    "selectFabric": "Select Fabric",
+    "variant_price": "Variant Price",
+    "express": "Express Delivery",
+    "arrives_tomorrow": "Arrives Tomorrow",
+    "buy_now": "Buy Now",
+    "no_image": "No Image Available",
+    "shop_name": "Shop",
+    "explore_shop": "Explore Shop",
+    "rating_label": "Rating",
+    "reviews_product": "Reviews",
+    "add_to_cart_button": "Add to Cart",
+    "rating_stars": "%{rating} ★",
+    "reviews_count": "(%{count})",
+    "price_percentage": "%{price} MAD",
+    "currency": "MAD",
+    "price_unavailable": "Price unavailable",
+    "discount_percent": "%{percent}% off",
+    "off": "off",
+    "visit_store": "Visit Store",
+    "products": "Products",
+    "product_information": "Product Information",
+    "free_delivery": "Free Delivery",
+    "delivery_estimate": "Estimated delivery within 2-4 business days",
+    "secure_transaction": "Secure Transaction",
+    "money_back_guarantee": "Money-back guarantee if you are not satisfied",
+    "about_this_item": "About This Item",
+    "specifications": "Specifications",
+    "select_options": "Select Options",
+    "additional_info": "Additional Information",
+    "delivery_estimate_detail": "Fast shipping with tracking. Delivery times vary by location.",
+    "money_back_guarantee_detail": "Secure transactions with money-back guarantee for eligible items.",
+    "related_products": "Related Products",
+    "add_to_cart": "Add to Cart",
+    "purchase_now": "Purchase Now",
+    "select_options_prompt": "Select product options to check availability",
+    "options_affect_availability": "Color, size, and fabric affect product availability",
+    "select_quantity_prompt": "Select the quantity you wish to purchase",
+    "select_options_required": "Please select all required options to add this product to cart.",
+    "color_images_available": "Images for {{colorGroup}} are available",
+    "size_not_available_for_color": "{{sizeName}} - Not available for this color",
+    "image_alt": "Product image",
+    "discount_badge": "{{discountPercentage}}% discount",
+    "stock": {
+      "in_stock": "{{count}} items in stock",
+      "low_stock": "Only {{count}} left!",
+      "out_of_stock": "Out of stock",
+      "exceeded": "Cannot exceed available stock",
+      "available": "Available",
+      "max_reached": "Maximum quantity reached ({{max}})",
+      "selected": "Selected",
+      "decrease_quantity": "Decrease quantity",
+      "increase_quantity": "Increase quantity",
+      "ready_to_ship": "Ready to ship today"
+    },
+    "added": "Added!",
+    "viewFullDetails": "View Full Details",
+    "request_custom_product": "Request Custom Product",
+    "custom_product_description": "Can't find what you're looking for? Create a custom request and connect with sellers who can make it for you.",
+    "custom_request_message": "Hi! I'm interested in a custom version of this product. Could you help me with a personalized design?",
+    "url": "Product URL"
+  },
+  "stock": {
+    "in_stock": "In stock ({{count}})",
+    "out_of_stock": "Out of stock",
+    "unavailable_short": "N/A",
+    "exceeded": "Exceeded available quantity",
+    "checking": "Checking stock...",
+    "ready_to_ship": "Ready to ship",
+    "decrease_quantity": "Decrease quantity",
+    "increase_quantity": "Increase quantity",
+    "max_reached": "Maximum quantity reached ({{max}})",
+    "selected": "Selected",
+    "available": "Available",
+    "remaining": "Remaining",
+    "unavailable": "Unavailable",
+    "select_options_for_availability": "Select options to check availability"
+  },
+  "success": {
+    "addedToCart": "Product successfully added to cart"
+  },
+  "cart": {
+    "title": "Shopping Cart",
+    "empty": {
+      "title": "Your cart is empty",
+      "description": "You haven't added any products to your cart yet",
+      "cta": "Browse Products"
+    },
+    "items": {
+      "product": "Product",
+      "price": "Price",
+      "price_with_currency": "Price: {{price}} MAD",
+      "quantity": "Quantity",
+      "total": "Total",
+      "remove": "Remove",
+      "update": "Update"
+    },
+    "summary": {
+      "title": "Order Summary",
+      "subtotal": "Subtotal",
+      "shipping": "Shipping",
+      "discount": "Discount",
+      "tax": "Tax",
+      "total": "Total",
+      "proceed_to_checkout": "Proceed to Checkout",
+      "checkout": "Checkout",
+      "continue_shopping": "Continue Shopping"
+    },
+    "coupon": {
+      "label": "Promo code",
+      "placeholder": "Enter coupon code",
+      "apply": "Apply",
+      "remove": "Remove",
+      "applied": "Coupon applied: {{code}}",
+      "removed": "Coupon removed",
+      "invalid": "Invalid coupon code",
+      "enter_code": "Please enter a coupon code"
+    },
+    "quantity": {
+      "increase": "Increase quantity",
+      "decrease": "Decrease quantity",
+      "max_limit": "Maximum available quantity is {{max}}"
+    },
+    "stock": {
+      "level": "Stock Level",
+      "warning": "Only {{count}} left in stock",
+      "max_reached": "Maximum stock reached",
+      "available": "{{count}} available"
+    },
+    "notifications": {
+      "removed": "Product removed from cart",
+      "updated": "Quantity updated",
+      "error": "An error occurred. Please try again"
+    },
+    "confirmation": {
+      "remove": {
+        "title": "Remove Product",
+        "message": "Are you sure you want to remove this product from your cart?",
+        "confirm": "Yes, Remove",
+        "cancel": "Cancel"
+      }
+    },
+    "error_fetching": "Error fetching cart",
+    "error_adding": "Error adding product to cart",
+    "error_removing": "Error removing product from cart",
+    "error_updating": "Error updating cart",
+    "error_clearing": "Error clearing cart",
+    "network_error": "A network error occurred. Please check your connection",
+    "unknown_error": "An unknown error occurred",
+    "added_successfully": "Product added to cart",
+    "removed_successfully": "Product removed from cart",
+    "updated_successfully": "Cart updated successfully",
+    "cleared_successfully": "Cart cleared successfully"
+  },
+  "products": {
+    "title": "Products",
+    "results": "{{count}} product",
+    "no_results": "No products found",
+    "add_to_cart": "Add to Cart",
+    "customize": "Customize",
+    "quick_view": "Quick View",
+    "out_of_stock": "Out of Stock",
+    "in_stock": "In Stock",
+    "sale": "Sale",
+    "search": "Search for products...",
+    "results_plural": "products",
+    "loading": "Loading...",
+    "error": {
+      "fetch": "Error loading products",
+      "general": "An unexpected error occurred"
+    },
+    "results_count": "{{count}} product",
+    "express": "Express Delivery",
+    "arrives_tomorrow": "Arrives Tomorrow",
+    "buy_now": "Buy Now",
+    "no_image": "No image available",
+    "rating": "{{rating}} ★",
+    "reviews": "({{count}} review)",
+    "reviews_plural": "({{count}} reviews)",
+    "price": "{{price}} MAD",
+    "original_price": "{{price}} MAD",
+    "discount": "{{discount}}% off",
+    "sort": {
+      "title": "Sort by",
+      "newest": "Newest Products",
+      "price_low_high": "Price: Low to High",
+      "price_high_low": "Price: High to Low",
+      "popular": "Most Popular"
+    },
+    "filters": {
+      "price_range": "Price Range",
+      "min_price": "Minimum Price",
+      "max_price": "Maximum Price",
+      "colors": "Colors",
+      "color_black": "Black",
+      "color_white": "White",
+      "color_red": "Red",
+      "color_blue": "Blue",
+      "color_green": "Green",
+      "color_yellow": "Yellow",
+      "color_purple": "Purple",
+      "color_pink": "Pink",
+      "color_brown": "Brown",
+      "color_gray": "Gray",
+      "color_orange": "Orange",
+      "color_gold": "Gold",
+      "color_silver": "Silver",
+      "color_multicolor": "Multicolor",
+      "sizes": "Sizes",
+      "size_xs": "XS",
+      "size_s": "S",
+      "size_m": "M",
+      "size_l": "L",
+      "size_xl": "XL",
+      "size_xxl": "XXL",
+      "fabrics": "Fabrics",
+      "fabric_brocade": "Brocade",
+      "fabric_silk": "Silk",
+      "fabric_cotton": "Cotton",
+      "fabric_wool": "Wool",
+      "fabric_linen": "Linen",
+      "fabric_polyester": "Polyester",
+      "additional": "Additional Options",
+      "in_stock": "In Stock",
+      "customizable": "Customizable",
+      "on_sale": "On Sale",
+      "new_arrivals": "New Arrivals",
+      "sort": "Sort by",
+      "sort_newest": "Newest",
+      "sort_price_low_high": "Price: Low to High",
+      "sort_price_high_low": "Price: High to Low",
+      "sort_popularity": "Popularity",
+      "sort_rating": "Rating",
+      "clear_all": "Clear All",
+      "apply": "Apply"
+    },
+    "card": {
+      "add_to_cart": "Add to Cart",
+      "out_of_stock": "Out of Stock",
+      "sale": "Sale",
+      "new": "New",
+      "discount_percent": "{{percent}}% off",
+      "rating": "{{rating}} ★",
+      "reviews": "({{count}} review)",
+      "reviews_plural": "({{count}} reviews)",
+      "starting_price": "Starting from",
+      "product_names": {
+        "classic_jeans": "Classic Jeans",
+        "running_shoes": "Running Shoes",
+        "premium_tshirt": "Premium T-Shirt",
+        "kamison": "Kamison",
+        "brocade_fassi": "Fassi Brocade",
+        "silk_fassi": "Fassi Silk",
+        "traditional_caftan": "Traditional Caftan",
+        "luxury_takchita": "Luxury Takchita",
+        "moroccan_djellaba": "Moroccan Djellaba",
+        "embroidered_jabador": "Embroidered Jabador"
+      }
+    },
+    "actions": {
+      "add_to_cart": "Add to Cart",
+      "buy_now": "Buy Now",
+      "arrives_tomorrow": "Arrives Tomorrow",
+      "express": "Express Delivery",
+      "out_of_stock": "Out of Stock",
+      "added_to_cart": "Added to Cart",
+      "remove_from_cart": "Remove from Cart",
+      "view_cart": "View Cart",
+      "checkout": "Checkout"
+    }
+  },
+  "order": {
+    "title": "Order #{{orderNumber}}",
+    "placed_on": "Placed on {{date}}",
+    "status": {
+      "pending": "Pending",
+      "processing": "Processing",
+      "shipped": "Shipped",
+      "delivered": "Delivered",
+      "cancelled": "Cancelled"
+    },
+    "current_status": "Current Status",
+    "current": "Current",
+    "progress": {
+      "order_placed": "Order Placed",
+      "processing": "Processing",
+      "shipped": "Shipped",
+      "delivered": "Delivered",
+      "in_progress": "In Progress",
+      "completed": "Completed",
+      "pending": "Pending",
+      "in_transit": "In Transit"
+    },
+    "payment": {
+      "title": "Payment Status",
+      "status": {
+        "paid": "Payment processed successfully",
+        "pending": "Awaiting payment confirmation",
+        "failed": "Payment failed or declined"
+      }
+    },
+    "items": {
+      "title": "Ordered Items",
+      "quantity": "Quantity: {{count}}",
+      "unit_price": "{{price}} MAD each",
+      "color": "Color: {{color}}",
+      "size": "Size: {{size}}",
+      "product": "Product",
+      "product_image": "Product Image",
+      "each": "each"
+    },
+    "shipping": {
+      "title": "Shipping Information",
+      "contact": "Contact Information",
+      "address": "Address"
+    },
+    "summary": {
+      "title": "Order Summary",
+      "subtotal": "Subtotal",
+      "shipping": "Shipping",
+      "tax": "Tax",
+      "total": "Total",
+      "payment_method": "Payment Method",
+      "payment_status": "Payment Status"
+    }
+  },
+  "orders": {
+    "title": "My Orders",
+    "loading": {
+      "title": "Loading Order Details",
+      "message": "Please wait while we fetch your order information..."
+    },
+    "loading_message": "Loading orders...",
+    "empty": {
+      "title": "No orders found",
+      "description": "You haven't placed any orders yet. Browse our store and discover our amazing products"
+    },
+    "error": {
+      "title": "Sorry!",
+      "description": "There was a problem loading your orders. Please try again"
+    },
+    "not_found": {
+      "title": "Order not found",
+      "message": "Sorry, we couldn't find the requested order. Please check the order number and try again"
+    },
+    "actions": {
+      "invoice": "Invoice",
+      "support": "Support",
+      "download_invoice": "Download Invoice",
+      "contact_support": "Contact Support",
+      "write_review": "Write Review"
+    },
+    "filter": {
+      "all": "All Orders",
+      "pending": "Pending",
+      "processing": "Processing",
+      "shipped": "Shipped",
+      "delivered": "Delivered",
+      "cancelled": "Cancelled"
+    },
+    "search": {
+      "placeholder": "Search orders..."
+    },
+    "status": {
+      "pending": "Pending",
+      "processing": "Processing",
+      "shipped": "Shipped",
+      "delivered": "Delivered",
+      "cancelled": "Cancelled",
+      "order_placed": "Order Confirmed",
+      "completed": "Order Completed"
+    },
+    "tracking": {
+      "title": "Order Tracking",
+      "order_placed": "Order Confirmed",
+      "processing": "Processing",
+      "shipped": "Shipped",
+      "delivered": "Delivered",
+      "order_placed_short": "1",
+      "processing_short": "2",
+      "shipped_short": "3",
+      "delivered_short": "4",
+      "number": "Tracking Number",
+      "estimated_delivery": "Estimated Delivery Date"
+    },
+    "items": {
+      "title": "Order Items",
+      "quantity": "Quantity: {{count}}",
+      "color": "Color",
+      "size": "Size",
+      "qty": "Qty",
+      "each": "each"
+    },
+    "summary": {
+      "title": "Order Summary",
+      "subtotal": "Subtotal",
+      "shipping": "Shipping",
+      "free": "Free",
+      "total": "Total"
+    },
+    "payment_status": "Payment Status",
+    "placed_on": "Order Date",
+    "order_number": "Order Number",
+    "items_count": "Items",
+    "total_amount": "Total Amount",
+    "list": {
+      "order_number": "Order #{{orderNumber}}",
+      "date": "{{date}}",
+      "product": "Product",
+      "product_image": "Product Image",
+      "quantity_price": "{{quantity}} × {{price}}",
+      "items_count_zero": "No items",
+      "items_count_one": "1 item",
+      "items_count_two": "2 items",
+      "items_count_few": "{{count}} items",
+      "items_count_many": "{{count}} items",
+      "items_count_other": "{{count}} items",
+      "total": "Total: {{amount}}",
+      "more_items": "and {{count}} more item",
+      "view_details": "View Details"
+    }
+  },
+  "checkout": {
+    "title": "Checkout",
+    "personal": {
+      "title": "Personal Information",
+      "description": "Information for order confirmation and delivery updates",
+      "first_name": "First Name",
+      "last_name": "Last Name",
+      "full_name": "Full Name",
+      "full_name_placeholder": "Enter your full name",
+      "full_name_help": "We'll use this for shipping and order updates",
+      "email": "Email",
+      "phone": "Phone Number",
+      "optional": "Optional"
+    },
+    "shipping": {
+      "title": "Shipping Information",
+      "address_mode": {
+        "edit": "Edit",
+        "detected": "Detected Location",
+        "manual": "Enter Address Manually",
+        "location": "Use Current Location"
+      },
+      "form": {
+        "address": "Street Address",
+        "apartment": "Apartment, Suite, etc. (optional)",
+        "city": "City",
+        "state": "State / Province",
+        "postal_code": "Postal Code",
+        "postal_code_placeholder": "Optional",
+        "country": "Country",
+        "use_location": "Use My Location",
+        "detecting_location": "Detecting your location..."
+      }
+    },
+    "payment": {
+      "title": "Payment Method",
+      "methods": {
+        "cod": {
+          "title": "Cash on Delivery",
+          "description": "Pay when you receive your order"
+        },
+        "paypal": {
+          "title": "PayPal",
+          "description": "Coming Soon - Pay securely with PayPal"
+        },
+        "card": {
+          "title": "Credit Card",
+          "description": "Coming Soon - Pay with Visa, Mastercard, or other cards"
+        }
+      },
+      "form": {
+        "card_number": "Card Number",
+        "card_holder": "Cardholder Name",
+        "expiry_date": "Expiry Date",
+        "cvv": "CVV"
+      }
+    },
+    "order_summary": {
+      "title": "Order Summary",
+      "subtotal": "Subtotal",
+      "shipping": "Shipping",
+      "tax": "Tax",
+      "total": "Total",
+      "items": "{{count}} items"
+    },
+    "actions": {
+      "next": "Next",
+      "continue": "Continue",
+      "back": "Back",
+      "place_order": "Place Order",
+      "processing": "Processing..."
+    },
+    "validation": {
+      "required": "This field is required",
+      "invalid_email": "Please enter a valid email",
+      "invalid_phone": "Please enter a valid phone number",
+      "location_error": "Failed to detect your location. Please try again or enter address manually"
+    },
+    "errors": {
+      "shipping_info_incomplete": "Please fill in all required shipping information",
+      "payment_info_incomplete": "Please fill in all required payment information",
+      "invalid_email": "Please enter a valid email address",
+      "invalid_phone": "Please enter a valid phone number",
+      "invalid_card": "Please enter valid card details",
+      "processing_failed": "Order processing failed. Please try again",
+      "cart_empty": "Cart is empty. Please add products before checkout",
+      "invalid_address": "Please enter a valid shipping address",
+      "invalid_zip": "Please enter a valid ZIP code",
+      "country_required": "Please select your country",
+      "auth_required": "Please log in to continue with your order",
+      "shipping_info_required": "Shipping information is required to proceed"
+    },
+    "success": {
+      "order_placed": "Order placed successfully! Thank you for your purchase."
+    }
+  },
+  "profile": {
+    "page": {
+      "loading": "Loading...",
+      "default_user_name": "Anonymous User",
+      "no_email": "No email provided",
+      "member_since": "Member since ",
+      "roles": {
+        "user": "User",
+        "admin": "System Admin",
+        "manager": "Manager"
+      }
+    },
+    "tabs": {
+      "general": "General",
+      "security": "Security",
+      "preferences": "Preferences"
+    },
+    "default_user_name": "User",
+    "title": "Profile",
+    "member_since": "Member since ",
+    "no_email": "No email specified",
+    "personal_info": "Personal Information",
+    "fields": {
+      "full_name": "Full Name",
+      "username": "Username",
+      "email": "Email",
+      "email_help": "Your email will not be displayed publicly",
+      "phone": "Phone Number",
+      "phone_help": "Your phone number will not be displayed publicly",
+      "billing_address": "Billing Address",
+      "address": "Address",
+      "shipping_info": "Shipping Information",
+      "shipping_address": "Shipping Address",
+      "city": "City",
+      "state": "State/Province",
+      "postal_code": "Postal Code",
+      "country": "Country",
+      "select_country": "Select Country"
+    },
+    "actions": {
+      "save_changes": "Save Changes",
+      "edit": "Edit",
+      "cancel": "Cancel"
+    },
+    "notifications": {
+      "changes_saved": "Changes saved successfully",
+      "error_saving": "Error saving changes"
+    },
+    "validation": {
+      "required": "This field is required",
+      "invalid_email": "Invalid email",
+      "invalid_phone": "Invalid phone number"
+    },
+    "security": {
+      "change_password": "Change Password",
+      "current_password": "Current Password",
+      "new_password": "New Password",
+      "confirm_password": "Confirm New Password",
+      "password_help": "Password must be at least 8 characters",
+      "password_mismatch": "New passwords do not match",
+      "success_message": "Password updated successfully",
+      "error_message": "Failed to update password"
+    },
+    "preferences": {
+      "title": "Preferences",
+      "notification_settings": "Notification Settings",
+      "email_notifications": {
+        "title": "Email Notifications",
+        "description": "Receive notifications about your account activity"
+      },
+      "marketing_emails": {
+        "title": "Marketing Emails",
+        "description": "Receive emails about new products and offers"
+      },
+      "order_updates": {
+        "title": "Order Updates",
+        "description": "Get notifications about your order status"
+      },
+      "newsletter": {
+        "title": "Newsletter",
+        "description": "Subscribe to our weekly newsletter"
+      },
+      "language_settings": "Language Settings",
+      "language": {
+        "title": "Language",
+        "description": "Choose your preferred language"
+      },
+      "timezone": {
+        "title": "Timezone",
+        "description": "Choose your timezone"
+      },
+      "success_message": "Preferences updated successfully",
+      "error_message": "Failed to update preferences"
+    }
+  },
+  "errors": {
+    "general": "An error occurred",
+    "network": "Connection error",
+    "validation": "Please check your information",
+    "required": "This field is required",
+    "invalid_email": "Invalid email",
+    "invalid_phone": "Invalid phone number",
+    "session_expired": "Your session has expired",
+    "unauthorized": "Unauthorized",
+    "not_found": "Page not found",
+    "server_error": "Server error",
+    "failedToLoadProduct": "Failed to load product",
+    "productNotFound": "Product not found",
+    "productNotAvailable": "This product is currently unavailable",
+    "selectAllOptions": "Please select all options before adding to cart",
+    "variantNotAvailable": "Selected combination is not available",
+    "shop_not_found": "Shop information not available"
+  },
+  "notifications": {
+    "success": {
+      "added_to_cart": "Product added to cart",
+      "removed_from_cart": "Product removed from cart",
+      "order_placed": "Order placed successfully",
+      "profile_updated": "Profile updated",
+      "address_saved": "Address saved"
+    },
+    "error": {
+      "add_to_cart": "Failed to add to cart",
+      "remove_from_cart": "Failed to remove from cart",
+      "place_order": "Failed to place order",
+      "update_profile": "Failed to update profile",
+      "save_address": "Failed to save address"
+    }
+  },
+  "filters": {
+    "title": "Filter",
+    "clear_all": "Clear All",
+    "price_range": "Price Range",
+    "min": "Min",
+    "max": "Max",
+    "colors": "Colors",
+    "sizes": "Sizes",
+    "fabrics": "Fabrics",
+    "additional": "Additional Options",
+    "in_stock": "In Stock",
+    "customizable": "Customizable",
+    "on_sale": "On Sale",
+    "new_arrivals": "New Arrivals"
+  },
+  "shops": {
+    "title": "SHOPS",
+    "featuredStores": "Featured Stores",
+    "featuredStoresDescription": "Discover our top-rated and verified stores offering quality products",
+    "noShopsFound": "No shops found",
+    "checkBackSoon": "Check back soon!"
+  },
+  "sort": {
+    "title": "Sort by",
+    "newest": "Newest Products",
+    "price_low_high": "Price: Low to High",
+    "price_high_low": "Price: High to Low",
+    "popular": "Most Popular"
+  },
+  "pages": {
+    "privacyPolicy": {
+      "title": "Privacy Policy",
+      "lastUpdated": "Last updated",
+      "yourPrivacyMatters": "Your Privacy Matters",
+      "contactUs": "Contact Us",
+      "questions": "Have questions about your privacy?",
+      "committed": "We're committed to protecting your personal information. If you have any questions or concerns, our dedicated privacy team is here to help.",
+      "sections": {
+        "intro": "At Beldify, we take your privacy very seriously. This Privacy Policy explains how we collect, use, disclose, and protect your information when you visit our website at www.beldify.com, including any other media format, media channel, mobile website, or mobile application related or connected to Beldify.",
+        "infoWeCollect": "Information We Collect",
+        "infoWeCollectDescription": "We collect information you provide directly, information we collect automatically when you interact with our website, and information from third-party sources.",
+        "personalData": "Personal Data",
+        "personalDataDescription": "When you register an account, request a product, or participate in our community, we may collect:",
+        "personalDataItems": [
+          "Your name, address, and phone number",
+          "Your credit card information (securely stored)",
+          "Your account information (password, security code, etc.)",
+          "Your profile information (photo, description, etc.)"
+        ],
+        "usageData": "Usage Data",
+        "usageDataDescription": "We collect information about how you use our website, including:",
+        "usageDataItems": [
+          "Browsing data (pages visited, links clicked)",
+          "Device information (type, model, operating system)",
+          "Your IP address and location data",
+          "Cookies and tracking data"
+        ],
+        "howWeUse": "How We Use Your Information",
+        "howWeUseDescription": "We use your information to:",
+        "howWeUseItems": [
+          "Provide and improve our services",
+          "Communicate with you about your orders",
+          "Send special offers and news",
+          "Enhance your user experience"
+        ],
+        "authServices": "Authentication Services",
+        "authServicesDescription": "We use third-party services for login (such as Google, Facebook). These services collect your information according to their privacy policies.",
+        "dataStorage": "Data Storage and Security",
+        "dataStorageDescription": "We use security measures to protect your data, but no system is 100% secure. We use SSL encryption and follow industry security standards.",
+        "infoSharing": "Information Sharing",
+        "infoSharingDescription": "We do not sell or give your information to third parties except in the following cases:",
+        "infoSharingItems": [
+          "With service providers who help us provide our services",
+          "To comply with the law or a court order",
+          "In case of a merger or acquisition",
+          "To protect our legal rights"
+        ],
+        "cookies": "Cookies and Tracking Technologies",
+        "cookiesDescription": "We use cookies and tracking technologies to improve your experience and analyze website usage. You can control your settings through your browser.",
+        "yourRights": "Your Rights",
+        "yourRightsDescription": "You have the right to:",
+        "yourRightsItems": [
+          "Access your information",
+          "Correct incomplete or incorrect information",
+          "Delete your data",
+          "Object to the processing of your data",
+          "Request the transfer of your data"
+        ],
+        "yourRightsContact": "To exercise these rights, please contact us through our Contact Us page.",
+        "childrenPrivacy": "Children's Privacy",
+        "childrenPrivacyDescription": "Our services are not directed at children under 16. We do not knowingly collect personal information from children. If you are a parent or guardian and believe your child has provided us with personal information, please contact us.",
+        "internationalTransfers": "International Data Transfers",
+        "internationalTransfersDescription": "Your information may be transferred to and stored in countries other than your own. When your information is transferred internationally, we use appropriate safeguards to protect it in accordance with this Privacy Policy and applicable law.",
+        "changes": "Changes to This Privacy Policy",
+        "changesDescription": "We may update our Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page and updating the 'Last updated' date. We encourage you to review our Privacy Policy regularly.",
+        "contactInfo": "Contact Us",
+        "contactInfoDescription": "If you have any questions about our Privacy Policy, you can contact us at:",
+        "contactDetails": [
+          "Email: privacy@beldify.com",
+          "Phone: +212 708150351",
+          "Address: 123 Medina Street, Tetouan, Morocco"
+        ]
+      }
+    },
+    "termsOfService": {
+      "title": "Terms of Service",
+      "lastUpdated": "Last updated",
+      "userAgreement": "Beldify User Agreement",
+      "legalAssistance": "Need legal assistance?",
+      "clarification": "If you have any questions about our terms or need clarification on any policy, our customer support team is available to assist you."
+    },
+    "contact": {
+      "title": "Contact Us",
+      "info": "Contact information",
+      "customerService": "Our customer service team is here to help. Reach out to us with any questions or concerns.",
+      "address": "123 Medina Street, Tetouan, Morocco",
+      "phone": "+212 (0) 7 08 15 03 51",
+      "email": "contact@beldify.com",
+      "sendMessage": "Send us a message",
+      "thankYou": "Thank you! Your message has been sent successfully.",
+      "firstName": "First name",
+      "lastName": "Last name",
+      "emailAddress": "Email",
+      "phoneNumber": "Phone",
+      "subject": "Subject",
+      "message": "Message",
+      "maxChars": "Max. 500 characters",
+      "sending": "Sending...",
+      "send": "Send Message",
+      "validation": {
+        "firstNameRequired": "First name is required",
+        "lastNameRequired": "Last name is required",
+        "emailRequired": "Email is required",
+        "emailInvalid": "Invalid email address",
+        "subjectRequired": "Subject is required",
+        "messageRequired": "Message is required",
+        "messageTooLong": "Message cannot exceed 500 characters"
+      }
+    },
+    "shipping": {
+      "title": "Shipping Information",
+      "subtitle": "Everything you need to know about shipping your order",
+      "deliveryOptions": "Delivery Options",
+      "standardShipping": "Standard Shipping",
+      "standardDays": "3-5 business days",
+      "standardCost": "Free for orders over 500 MAD",
+      "expressShipping": "Express Shipping",
+      "expressDays": "1-2 business days",
+      "expressCost": "30 MAD fee",
+      "internationalShipping": "International Shipping",
+      "internationalDays": "7-14 business days",
+      "internationalCost": "Calculated at checkout",
+      "trackingInfo": "Tracking Information",
+      "trackingText": "Once your order ships, you will receive a confirmation email with your tracking number and a link to track your package.",
+      "orderUpdates": "You can also view order updates in your account under 'Order History'.",
+      "shippingPolicy": "Shipping Policy",
+      "processingTime": "Order Processing Time",
+      "processingText": "Orders are processed within 1-2 business days after payment confirmation.",
+      "backorderedItems": "Backordered items will be shipped separately when they become available.",
+      "deliveryEstimates": "Delivery Estimates",
+      "estimatesText": "Delivery times are estimates and begin from the date of shipping, not the date of order.",
+      "delaysText": "Delivery times may be affected by customs processing for international shipments.",
+      "faqsTitle": "Shipping FAQs",
+      "questions": [
+        {
+          "question": "How can I track my order?",
+          "answer": "You will receive a tracking number via email once your order has shipped. You can also track your order in your account under 'Order History'."
+        },
+        {
+          "question": "Do you ship internationally?",
+          "answer": "Yes, we ship to most countries. International shipping costs and delivery times vary by location."
+        },
+        {
+          "question": "Can I change my shipping address after placing an order?",
+          "answer": "Address changes can only be accommodated if the order has not yet been processed. Please contact our customer service team immediately if you need to change your shipping address."
+        },
+        {
+          "question": "What if my package is lost or damaged?",
+          "answer": "If your package is lost or arrives damaged, please contact our customer service team within 48 hours of the delivery date for assistance."
+        }
+      ],
+      "needHelp": "Need Help With Your Shipping?",
+      "helpText": "Our customer service team is ready to assist you with any questions about your shipment.",
+      "contactSupport": "Contact Support"
+    },
+    "faqs": {
+      "title": "Frequently Asked Questions",
+      "subtitle": "Find answers to common questions about our products and services",
+      "generalTitle": "General Questions",
+      "accountTitle": "Account & Orders",
+      "productsTitle": "Products & Sizing",
+      "paymentsTitle": "Payments & Security",
+      "returnsTitle": "Returns & Exchanges",
+      "stillHaveQuestions": "Still have questions?",
+      "contactText": "If you couldn't find the answer to your question, our support team is always ready to help.",
+      "contactUs": "Contact Us",
+      "general": [
+        {
+          "question": "What is Beldify?",
+          "answer": "Beldify is an online marketplace specializing in traditional and modern Moroccan fashion and accessories. We connect artisans and designers with customers around the world, offering authentic, high-quality products."
+        },
+        {
+          "question": "Where are you located?",
+          "answer": "Our headquarters are in Tetouan, Morocco, but we ship to customers worldwide."
+        },
+        {
+          "question": "How do I contact customer service?",
+          "answer": "You can reach our customer service team by email at support@beldify.com, by phone at +212 (0) 7 08 15 03 51, or through our Contact page."
+        },
+        {
+          "question": "What languages do you support?",
+          "answer": "Our website is available in English and Arabic. Our customer service team speaks English, Arabic, and French."
+        }
+      ],
+      "account": [
+        {
+          "question": "How do I create an account?",
+          "answer": "You can create an account by clicking on the 'Register' button in the top right corner of our website. You'll need to provide your email address and create a password, or you can sign up using your Google account."
+        },
+        {
+          "question": "Can I shop without creating an account?",
+          "answer": "Yes, you can browse and shop as a guest. However, creating an account allows you to track orders, save favorite products, and enjoy a faster checkout process."
+        },
+        {
+          "question": "How can I track my order?",
+          "answer": "Once your order is shipped, you'll receive a confirmation email with tracking information. You can also view your order status in your account under 'Order History'."
+        },
+        {
+          "question": "How do I reset my password?",
+          "answer": "You can reset your password by clicking on 'Forgot Password' on the login page. We'll send you an email with instructions to create a new password."
+        }
+      ],
+      "products": [
+        {
+          "question": "How can I find my size?",
+          "answer": "We provide detailed size guides for all our clothing items. You can find the size guide link on each product page. For traditional Moroccan clothing, we recommend checking our comprehensive Size Guide page."
+        },
+        {
+          "question": "Are your products handmade?",
+          "answer": "Many of our products are handmade by skilled Moroccan artisans. Each product description specifies whether the item is handmade or machine-made."
+        },
+        {
+          "question": "Can I request custom measurements?",
+          "answer": "Yes, for many traditional garments, we offer custom tailoring services. Look for the 'Custom Size' option on eligible product pages, or contact us for more information."
+        },
+        {
+          "question": "What materials are used in your products?",
+          "answer": "We use a variety of traditional and modern materials. Each product description includes detailed information about the materials used."
+        }
+      ],
+      "payments": [
+        {
+          "question": "What payment methods do you accept?",
+          "answer": "We accept credit/debit cards (Visa, Mastercard, American Express), PayPal, and local payment options for customers in Morocco."
+        },
+        {
+          "question": "Is it safe to use my credit card on your website?",
+          "answer": "Yes, our website uses SSL encryption to protect your payment information. We do not store your full credit card details on our servers."
+        },
+        {
+          "question": "When will I be charged for my order?",
+          "answer": "Your payment is processed immediately when you place your order."
+        },
+        {
+          "question": "Do you offer installment payment options?",
+          "answer": "Currently, we do not offer installment payment options, but we're working on adding this feature in the future."
+        }
+      ],
+      "returns": [
+        {
+          "question": "What is your return policy?",
+          "answer": "We offer a 30-day return policy for most items. Custom-made and personalized items cannot be returned unless there is a manufacturing defect. Please see our Returns page for complete details."
+        },
+        {
+          "question": "How do I initiate a return?",
+          "answer": "To initiate a return, go to your account, find the order, and select 'Return Items'. Follow the instructions to generate a return shipping label and return authorization."
+        },
+        {
+          "question": "Who pays for return shipping?",
+          "answer": "Return shipping costs are the responsibility of the customer, except in cases of defective items or shipping errors on our part."
+        },
+        {
+          "question": "How long does it take to process a refund?",
+          "answer": "Once we receive your return, it typically takes 5-7 business days to process and issue a refund to your original payment method."
+        }
+      ]
+    },
+    "returns": {
+      "title": "Returns & Exchanges",
+      "subtitle": "Our policy and process for returns and exchanges",
+      "returnsPolicy": {
+        "title": "Returns Policy",
+        "policy1": "We want you to be completely satisfied with your purchase. If you're not satisfied, you may return most items within 30 days of delivery for a full refund or exchange.",
+        "policy2": "To be eligible for a return, your item must be unused and in the same condition that you received it. It must also be in the original packaging with all tags attached."
+      },
+      "refunds": {
+        "title": "Refunds",
+        "description": "Once we receive your return, we will inspect it and notify you that we have received your returned item. We will immediately notify you on the status of your refund after inspecting the item.",
+        "timeline": "Refunds will be processed within 3-5 business days after we receive your return. The refund will be credited to your original method of payment."
+      },
+      "returnPolicy": "Return Policy",
+      "eligibility": "Return Eligibility",
+      "eligibleItems": "Eligible Items",
+      "standardItems": "Standard products may be returned within 30 days of delivery, provided they are unused, unworn, and in their original packaging with all tags attached.",
+      "ineligibleItems": "Ineligible Items",
+      "customItems": "Custom-made or personalized items",
+      "intimateItems": "Intimate apparel, undergarments, and swimwear (for hygiene reasons)",
+      "saleItems": "Items marked as 'Final Sale' or purchased at a significant discount (over 50%)",
+      "giftCards": "Gift cards and digital products",
+      "processTitle": "Return Process",
+      "initiateReturn": "How to Initiate a Return",
+      "step1": "1. Log in to your account and navigate to 'Order History'.",
+      "step2": "2. Find the order containing the item(s) you wish to return and click 'Return Items'.",
+      "step3": "3. Select the items you want to return and the reason for your return.",
+      "step4": "4. Print the return shipping label and return authorization form.",
+      "step5": "5. Pack the item(s) securely in their original packaging, if possible.",
+      "step6": "6. Attach the shipping label to the package and drop it off at the specified carrier location.",
+      "notLoggedIn": "If you checked out as a guest, please contact our customer service with your order number to initiate a return.",
+      "refundTitle": "Refund Process",
+      "inspectionText": "Once we receive your return, we'll inspect the item(s) to ensure they meet our return eligibility requirements.",
+      "refundTimeText": "Approved refunds will be processed within 5-7 business days and issued to your original payment method.",
+      "shippingCostText": "Original shipping costs are non-refundable unless the return is due to our error (defective item, wrong item shipped, etc.).",
+      "exchangeTitle": "Exchanges",
+      "sizeExchange": "Size or Color Exchanges",
+      "exchangeProcess": "To exchange an item for a different size or color, please follow the same process as returns, but select 'Exchange' instead of 'Return' and specify your preferred replacement.",
+      "availabilityText": "Exchanges are subject to availability. If your preferred replacement is unavailable, we'll issue a refund instead.",
+      "defectiveTitle": "Defective Items",
+      "defectiveProcess": "If you receive a defective or damaged item, please contact us within 48 hours of delivery with photos of the defect/damage.",
+      "defectiveReturn": "We will provide a prepaid return shipping label for defective items, and you can choose between a replacement or a full refund, including original shipping costs.",
+      "internationalTitle": "International Returns",
+      "internationalText": "International customers are responsible for return shipping costs and any applicable customs duties or taxes incurred during the return process.",
+      "internationalProcess": "Please contact our customer service team for guidance on international returns before shipping any items back to us.",
+      "questionsTitle": "Return Questions?",
+      "contactText": "If you have any questions about returns or exchanges, our customer service team is here to help.",
+      "contactSupport": "Contact Support",
+      "tabs": {
+        "returnsPolicy": "Returns Policy",
+        "exchanges": "Exchanges",
+        "returnProcess": "Return Process"
+      },
+      "steps": {
+        "step1": {
+          "name": "Initiate Return",
+          "description": "Start your return through our online portal"
+        },
+        "step2": {
+          "name": "Package Items",
+          "description": "Securely pack your items with original packaging"
+        },
+        "step3": {
+          "name": "Ship Back",
+          "description": "Use our prepaid return label to send items back"
+        },
+        "step4": {
+          "name": "Get Refunded",
+          "description": "Receive your refund once we process the return"
+        }
+      },
+      "returnableItems": {
+        "title": "Eligible for Return",
+        "item1": "Unworn, unwashed clothing with tags attached",
+        "item2": "Unused accessories with original packaging",
+        "item3": "Unopened beauty and personal care items",
+        "item4": "Faulty items (within warranty period)",
+        "item5": "Items in original condition with all parts included"
+      },
+      "nonReturnableItems": {
+        "title": "Not Eligible for Return",
+        "item1": "Custom-made or personalized items",
+        "item2": "Intimate apparel (underwear, swimwear, hosiery)",
+        "item3": "Items marked as 'Final Sale' or clearance",
+        "item4": "Items without original packaging or tags",
+        "item5": "Used or damaged items",
+        "item6": "Gift cards and digital products"
+      },
+      "exchanges": {
+        "title": "Exchanges",
+        "description": "We're happy to help you exchange items for a different size or color, subject to availability.",
+        "requestTitle": "How to Request an Exchange",
+        "requestDescription": "Follow these steps to exchange an item:",
+        "step1": "Log in to your account and go to 'Order History'",
+        "step2": "Select the item you want to exchange and choose 'Exchange' as the return reason",
+        "step3": "Select your preferred replacement item",
+        "step4": "Print the return label and send back the original item",
+        "step5": "Once we receive your return, we'll ship your replacement",
+        "processDescription": "Please note that exchanges are subject to stock availability. If your preferred replacement is not available, we'll issue a refund instead.",
+        "eligibilityTitle": "Exchange Eligibility",
+        "eligibilityDescription": "To be eligible for an exchange, your item must meet the following criteria:",
+        "eligibility1": "Item must be unused, unworn, and in original condition with all tags attached",
+        "eligibility2": "Original packaging must be included",
+        "eligibility3": "Exchange must be requested within 14 days of delivery",
+        "eligibility4": "Item must be in stock for exchange",
+        "priceDiffTitle": "Price Differences",
+        "priceDiffDescription": "If the replacement item is more expensive, you'll be charged the difference. If it's less expensive, we'll refund the difference to your original payment method.",
+        "internationalTitle": "International Exchanges",
+        "internationalDescription": "International customers are responsible for return shipping costs and any applicable customs duties or taxes for the returned item. We'll cover the cost of shipping the replacement item to you."
+      },
+      "process": {
+        "title": "Our Return Process",
+        "timelineTitle": "Return Timeline",
+        "timeline1": "Day 1-2: Initiate return and receive return label",
+        "timeline2": "Day 3-5: Package and ship your return",
+        "timeline3": "Day 6-10: We receive and inspect your return",
+        "timeline4": "Day 11-14: Refund is processed",
+        "shippingTitle": "Return Shipping",
+        "shippingText1": "We provide a prepaid return label for US returns. International customers are responsible for return shipping costs.",
+        "shippingText2": "For your protection, we recommend using a trackable shipping service and purchasing shipping insurance.",
+        "refundTitle": "Refund Information",
+        "refundText1": "Refunds are processed within 3-5 business days after we receive your return.",
+        "refundText2": "The refund will be credited to your original method of payment.",
+        "refundText3": "Please allow additional time for your bank or credit card company to process the refund.",
+        "helpTitle": "Need Help?",
+        "helpText": "If you have any questions about our return process, please contact our customer service team.",
+        "contactButton": "Contact Support"
+      }
+    },
+    "sellers": {
+      "title": "Become a Seller",
+      "subtitle": "Join our marketplace and showcase your products to customers worldwide",
+      "heroTitle": "Expand Your Business with Beldify",
+      "heroText": "Connect with customers around the world and grow your business on our trusted platform for Moroccan fashion and handicrafts.",
+      "registerCTA": "Register as a Seller",
+      "learnMore": "Learn More",
+      "benefitsTitle": "Benefits of Selling with Us",
+      "benefit1Title": "Global Reach",
+      "benefit1Text": "Access customers worldwide with our international shipping and multi-language support.",
+      "benefit2Title": "Easy Setup",
+      "benefit2Text": "Create your seller profile and list products quickly with our intuitive dashboard.",
+      "benefit3Title": "Secure Payments",
+      "benefit3Text": "Receive payments securely with our trusted payment processing system.",
+      "benefit4Title": "Seller Support",
+      "benefit4Text": "Get dedicated support for all your selling needs, from product listings to shipping assistance.",
+      "howItWorksTitle": "How It Works",
+      "step1Title": "Create an Account",
+      "step1Text": "Register for a seller account on pro.beldify.com and complete your profile with your business information.",
+      "step2Title": "List Your Products",
+      "step2Text": "Upload your product catalog with photos, descriptions, pricing, and inventory information.",
+      "step3Title": "Receive Orders",
+      "step3Text": "Get notified when customers place orders for your products.",
+      "step4Title": "Ship and Get Paid",
+      "step4Text": "Ship orders to customers and receive payments directly to your account.",
+      "testimonialsTitle": "Seller Success Stories",
+      "testimonial1Name": "Fatima L.",
+      "testimonial1Business": "Traditional Caftan Boutique",
+      "testimonial1Text": "Since joining Beldify, my caftan sales have increased by 70%. The platform has helped me reach customers in Europe and the Middle East that I couldn't access before.",
+      "testimonial2Name": "Karim M.",
+      "testimonial2Business": "Artisanal Leather Goods",
+      "testimonial2Text": "The seller dashboard makes it easy for me to manage my inventory and track orders. The support team has been incredibly helpful with all my questions.",
+      "testimonial3Name": "Amina R.",
+      "testimonial3Business": "Modern Moroccan Fashion",
+      "testimonial3Text": "Beldify has transformed my small business into an international brand. The exposure to global customers has been invaluable for growth.",
+      "faqsTitle": "Seller FAQs",
+      "sellerFaqs": [
+        {
+          "question": "How much does it cost to sell on Beldify?",
+          "answer": "Registration is free. We charge a 10% commission on each sale, which includes payment processing. There are no monthly fees or listing fees."
+        },
+        {
+          "question": "How and when do I get paid?",
+          "answer": "Payments are processed every two weeks for all completed orders. You can receive payments via bank transfer or other supported payment methods in your country."
+        },
+        {
+          "question": "Do I need to handle shipping?",
+          "answer": "Yes, sellers are responsible for shipping their products. We provide shipping guidelines and integration with major carriers to make the process easier."
+        },
+        {
+          "question": "What products can I sell on Beldify?",
+          "answer": "We focus on Moroccan fashion, accessories, home décor, and handicrafts. All products must be authentic and comply with our marketplace standards."
+        }
+      ],
+      "readyToSell": "Ready to Start Selling?",
+      "registerText": "Join thousands of successful sellers on our platform and take your business to the next level.",
+      "registerNow": "Register Now on pro.beldify.com"
+    }
+  },
+  "newsletter": {
+    "title": "Stay Updated",
+    "subtitle": "Subscribe to our newsletter for exclusive offers, new arrivals, and traditional Moroccan fashion inspiration.",
+    "placeholder": "Enter your email",
+    "button": "Subscribe"
+  },
+  "footer": {
+    "description": "Discover the finest Moroccan fashion and handicrafts. Beldify connects you with authentic Moroccan artisans and designers.",
+    "contact": {
+      "address": "123 Medina Street, Tetouan, Morocco"
+    },
+    "titles": {
+      "footer": "Footer",
+      "quickLinks": "Quick Links",
+      "support": "Support",
+      "sellers": "Sellers",
+      "company": "Company"
+    },
+    "quickLinks": {
+      "home": "Home",
+      "products": "Products",
+      "categories": "Categories",
+      "community": "Open Souk"
+    },
+    "support": {
+      "contactUs": "Contact Us",
+      "faqs": "FAQs",
+      "shippingInfo": "Shipping Info",
+      "returnsExchanges": "Returns & Exchanges"
+    },
+    "sellers": {
+      "becomeSeller": "Become a Seller",
+      "sellerDashboard": "Seller Dashboard",
+      "sellerSupport": "Seller Support"
+    },
+    "company": {
+      "aboutUs": "About Us",
+      "privacyPolicy": "Privacy Policy",
+      "termsOfService": "Terms of Service"
+    },
+    "social": {
+      "facebook": "Facebook",
+      "instagram": "Instagram",
+      "twitter": "Twitter"
+    },
+    "rights": "All rights reserved.",
+    "handcrafted": "Handcrafted with pride in Morocco",
+    "shop": "Shop",
+    "women": "Women",
+    "men": "Men",
+    "kids": "Kids",
+    "tailoring": "Tailoring",
+    "newArrivals": "New arrivals",
+    "headingSellers": "Sellers",
+    "becomeSeller": "Become a seller",
+    "sellerDashboard": "Seller dashboard",
+    "sellerSupport": "Seller support",
+    "commissions": "Commissions",
+    "headingCompany": "Company",
+    "about": "About Beldify",
+    "journal": "Journal",
+    "careers": "Careers",
+    "press": "Press",
+    "headingHelp": "Help",
+    "contactLink": "Contact",
+    "faq": "FAQ",
+    "shipping": "Shipping",
+    "returns": "Returns",
+    "privacy": "Privacy",
+    "rightsReserved": "Crafted with care in Morocco."
+  },
+  "countries": {
+    "ma": "Morocco",
+    "sa": "Saudi Arabia",
+    "ae": "United Arab Emirates",
+    "qa": "Qatar",
+    "kw": "Kuwait",
+    "bh": "Bahrain",
+    "om": "Oman"
+  },
+  "size_guide": {
+    "title": "Size Guide for Traditional Moroccan Clothing",
+    "description": "Find your perfect fit for caftans, jabadors, and other traditional Moroccan garments",
+    "men": "Men's Wear",
+    "women": "Women's Wear",
+    "kids": "Kids' Wear",
+    "garment_caftan": "Caftan",
+    "garment_jabador": "Jabador",
+    "garment_kandora": "Kandora",
+    "men_jabador_top": "Men's Jabador Top",
+    "men_jabador_pants": "Men's Jabador Pants",
+    "women_jabador_top": "Women's Jabador Top",
+    "women_jabador_pants": "Women's Jabador Pants",
+    "kids_jabador_top": "Kids' Jabador Top",
+    "kids_jabador_pants": "Kids' Jabador Pants",
+    "kids_caftan": "Kids' Caftan",
+    "men_kandora": "Men's Kandora",
+    "women_kandora": "Women's Kandora",
+    "kids_kandora": "Kids' Kandora",
+    "how_to_measure": "How to Measure",
+    "measurements": {
+      "age": "Age",
+      "height": "Height (cm)",
+      "chest": "Chest (cm)",
+      "bust": "Bust (cm)",
+      "waist": "Waist (cm)",
+      "hip": "Hip (cm)",
+      "length": "Length (cm)",
+      "ma_size": "MA Size",
+      "shoulder": "Shoulder (cm)",
+      "inseam": "Inseam (cm)"
+    },
+    "chest_bust": "Chest/Bust",
+    "chest_bust_desc": "Measure around the fullest part of your chest/bust, keeping the tape parallel to the ground",
+    "waist": "Waist",
+    "waist_desc": "Measure around your natural waistline, at the smallest part of your waist",
+    "hip": "Hip",
+    "hip_desc": "Measure around the fullest part of your hips, keeping the tape parallel to the ground",
+    "shoulder": "Shoulder Width",
+    "shoulder_desc": "Measure across the back from shoulder point to shoulder point",
+    "top_length": "Top Length",
+    "top_length_desc": "Measure from the shoulder to the desired length of the Jabador top",
+    "inseam": "Inseam Length",
+    "inseam_desc": "Measure from the crotch to the bottom of the ankle",
+    "pants_length": "Pants Length",
+    "pants_length_desc": "Measure from the waist to the bottom of the ankle",
+    "length": "Garment Length",
+    "length_desc": "For caftans and jabadors, measure from the shoulder to the desired length. Traditional lengths vary by garment type",
+    "length_note_caftan": "* Caftan lengths typically range from 150cm to 170cm for adults, and 85cm to 130cm for kids",
+    "length_note_jabador": "* Jabador comes in two pieces with varying lengths based on age and gender",
+    "length_note_kandora": {
+      "men": "* Men's Kandora lengths typically range from 130cm to 150cm",
+      "women": "* Women's Kandora lengths typically range from 130cm to 150cm",
+      "kids": "* Kids' Kandora lengths range from 80cm to 105cm based on age"
+    },
+    "sleeve": "Sleeve Length",
+    "sleeve_desc": "Measure from shoulder to wrist with arm slightly bent",
+    "size_conversion": "Size Conversion Chart",
+    "measurement_tips": "Tips for Traditional Wear",
+    "tip_1": "Traditional Moroccan clothing is typically loose-fitting for comfort",
+    "tip_2": "For Jabador, ensure both top and pants measurements for the perfect fit",
+    "tip_3": "Allow room for layering with traditional undergarments",
+    "tip_4": "For kids' sizes, consider growth room when choosing measurements",
+    "need_help": "Need Custom Sizing?",
+    "contact_support": "Contact our expert tailors for custom measurements and alterations",
+    "no_measurements": "No measurements available for this garment type",
+    "garment_description": {
+      "caftan": "Traditional floor-length garment with elegant flowing design",
+      "jabador": "Two-piece traditional outfit with a top and pants",
+      "kandora": "Traditional ankle-length garment, shorter than a caftan"
+    }
+  },
+  "product_categories": {
+    "djellaba": "Djellaba",
+    "caftan": "Caftan",
+    "takchita": "Takchita",
+    "jabador": "Jabador",
+    "accessories": "Accessories",
+    "traditional": "Traditional",
+    "modern": "Modern",
+    "wedding": "Wedding",
+    "casual": "Casual"
+  },
+  "product_details": {
+    "fabric": "Fabric",
+    "style": "Style",
+    "size": "Size",
+    "color": "Color",
+    "handmade": "Handmade",
+    "customizable": "Customizable",
+    "delivery_time": "Delivery Time",
+    "in_stock": "In Stock",
+    "out_of_stock": "Out of Stock",
+    "made_in": "Made In",
+    "shipping_from": "Shipping From",
+    "fast_delivery": "Fast Delivery",
+    "easy_returns": "Easy Returns",
+    "visit_website": "Visit Website"
+  },
+  "trust_badges": {
+    "verified": "Verified Store",
+    "quality": "Quality Guaranteed",
+    "shipping": "Fast Shipping",
+    "support": "Live Support",
+    "payment": "Secure Payment",
+    "return": "Free Returns"
+  },
+  "hero": {
+    "eyebrow": "Authentic Moroccan craftsmanship",
+    "headline": "Worn for centuries.",
+    "headlineAccent": "Made for today.",
+    "body": "Discover caftans, djellabas, and tailoring from Morocco's finest ateliers — delivered worldwide.",
+    "ctaPrimary": "Shop the marketplace",
+    "ctaGhost": "Meet the tailors",
+    "aiChip": "AI styled for you"
+  },
+  "verification": {
+    "verify_phone": "Verify Your Phone",
+    "add_phone_description": "Add your phone number to secure your account. Click \"Send Verification Code\" to verify your phone!",
+    "phone_placeholder": "Enter your phone number",
+    "code_placeholder": "Enter verification code",
+    "send_code": "Send Verification Code",
+    "verify": "Verify",
+    "skip": "Skip",
+    "code_sent": "Verification code sent to your phone",
+    "send_failed": "Failed to send verification code. Please try again.",
+    "success": "Phone number verified successfully",
+    "failed": "Phone verification failed. Please try again.",
+    "invalid_code": "Invalid verification code. Please try again.",
+    "why_verify": "Your phone number will be used for order updates and account security."
+  },
+  "reviews": {
+    "customer_reviews_for": "Customer Reviews for {{productName}}",
+    "write_review_button": "Write a Review",
+    "based_on": "Based on",
+    "reviews": "reviews",
+    "verified": "verified",
+    "with_images": "with images",
+    "all_reviews_count": "All Reviews ({{count}})",
+    "verified_purchase": "Verified Purchase",
+    "helpful": "Helpful",
+    "not_helpful": "Not Helpful",
+    "read_more": "Read more",
+    "write_review_form": "Write a Review",
+    "your_rating": "Your Rating",
+    "review_title": "Review Title",
+    "review_content": "Your Review",
+    "add_photos": "Add Photos",
+    "submit_review": "Submit Review",
+    "form": {
+      "your_rating": "Your Rating",
+      "title_label": "Review Title",
+      "title_placeholder": "Enter a title for your review",
+      "content_label": "Your Review",
+      "content_placeholder": "Share your experience with this product",
+      "add_photos_label": "Add Photos",
+      "upload_image": "Upload Image",
+      "submit_review": "Submit Review"
+    },
+    "review_submitted": "Thank you for your review!",
+    "review_error": "Error submitting review. Please try again.",
+    "filter_reviews_label": "Filter Reviews",
+    "show_all": "Show All",
+    "verified_only": "Verified Only",
+    "with_images_only": "With Images",
+    "sort_options": {
+      "label": "Sort by",
+      "newest": "Newest First",
+      "oldest": "Oldest First",
+      "highest_rating": "Highest Rating",
+      "lowest_rating": "Lowest Rating",
+      "most_helpful": "Most Helpful"
+    },
+    "rating_summary_title": "Rating Summary",
+    "upload_images": "Upload Images",
+    "drag_drop": "Drag and drop images here, or click to select files",
+    "max_images": "Maximum 5 images (2MB each)",
+    "uploading": "Uploading...",
+    "no_reviews_yet": "No reviews yet. Be the first to review this product!",
+    "review_image": "Review image",
+    "loading_reviews": "Loading reviews...",
+    "loading_more": "Loading more reviews...",
+    "load_more_reviews": "Load More Reviews",
+    "be_the_first": "Share your experience with this product",
+    "fetch_error": "Error loading reviews. Please try again.",
+    "sort_by_placeholder": "Sort by",
+    "stars": "Stars",
+    "filter_reviews_by_rating": "Filter by Rating",
+    "rating_summary": "Rating Summary"
+  },
+  "community": {
+    "verified_seller": "Verified Seller",
+    "seller_response_description": "To respond to this post as a seller, use the button below",
+    "view_shop": "View Shop",
+    "respond_to_post": "Respond to Post",
+    "back_to_messages": "Back to Messages",
+    "back_to_post": "Back to Post",
+    "regarding_post": "Regarding Post",
+    "title": "Custom Requests",
+    "create_post": "Post a New Request",
+    "whats_on_mind": "What's on your mind?",
+    "share_your_idea": "Share your idea",
+    "add_photos_first": "Add photos to show what you're looking for",
+    "photos_catch_attention": "Photos catch more attention!",
+    "drag_photos_here": "Drag photos here",
+    "or_click_to_add": "or click to add",
+    "make_it_attractive": "Make it attractive!",
+    "tell_us_more": "Tell us more",
+    "what_do_you_need": "What exactly do you need?",
+    "describe_your_dream": "Describe your dream",
+    "be_specific": "Be specific",
+    "choose_category": "What type of item?",
+    "pick_category": "Pick a category",
+    "whats_your_budget": "What's your budget?",
+    "budget_helps_sellers": "Budget helps sellers understand your needs",
+    "from_price": "From",
+    "to_price": "To",
+    "when_do_you_need": "When do you need it?",
+    "timeline_helps": "Timeline helps sellers plan",
+    "sellers_will_contact": "Sellers will contact you",
+    "get_best_offers": "Get the best offers",
+    "post_title": "Post Title",
+    "post_title_placeholder": "Enter a title for your post",
+    "messages": {
+      "title": "Messages",
+      "subtitle": "Stay connected with shops and sellers",
+      "your_conversations": "Your Conversations",
+      "no_conversations": "You don't have any conversations yet",
+      "start_conversation": "Start a conversation by messaging a shop or seller",
+      "conversation": "conversation",
+      "conversations": "conversations",
+      "new_message": "new message",
+      "new_messages": "new messages",
+      "unknown_shop": "Unknown Shop",
+      "no_messages": "No messages yet",
+      "sending_custom_request": "Sending custom request...",
+      "custom_request_sent": "Custom request sent successfully!",
+      "custom_request_error": "Failed to send custom request"
+    },
+    "loading_messages": "Loading messages...",
+    "error_loading_messages": "Error loading messages",
+    "back_to_community_page": "Back to Requests",
+    "back_to_post_page": "Back to Post",
+    "start_conversation": "Start a conversation",
+    "no_messages_yet": "No messages yet. Send a message to get started.",
+    "type_message": "Type your message...",
+    "sending": "Sending...",
+    "error_sending_message": "Error sending message. Please try again.",
+    "new_message_received": "New message received!",
+    "verified_seller_badge": "Verified Seller",
+    "view_shop_button": "View Shop",
+    "file_too_large": "File is too large (max 10MB)",
+    "invalid_file_type": "Invalid file type",
+    "view_attachment": "View Attachment",
+    "download_attachment": "Download",
+    "messages_tab": "Messages",
+    "new_message_button": "New Message",
+    "unread": "Unread",
+    "load_more": "Load More",
+    "comments": "Comments",
+    "post_description": "Post Description",
+    "post_description_placeholder": "Provide a detailed description of what you're looking for",
+    "post_category": "Category",
+    "select_category": "Select a category",
+    "add_budget": "Add Budget",
+    "budget_details": "Budget Details",
+    "min_price": "Minimum Price",
+    "max_price": "Maximum Price",
+    "currency": "Currency",
+    "budget_label": "Budget",
+    "budget_min": "Min Budget",
+    "budget_max": "Max Budget",
+    "budget_range": "Budget Range",
+    "post_images": "Post Images",
+    "click_to_upload": "Click to upload",
+    "image_formats_old": "JPG, PNG, GIF accepted (max 2MB)",
+    "publish_post": "Publish Post",
+    "submit_post": "Submit Post",
+    "back_to": "Back to",
+    "error_title_required": "Post title is required",
+    "error_description_required": "Post description is required",
+    "error_invalid_budget": "Please enter a valid budget range",
+    "error_creating_post": "Error creating post",
+    "error_loading_categories": "Error loading categories",
+    "error_fetching_post": "Error fetching post",
+    "post_not_found": "Post Not Found",
+    "post_may_not_exist": "The post you're looking for may not exist or has been removed",
+    "uploaded_images": "Uploaded Images",
+    "product_specifications": "Product Specifications",
+    "product_specifications_label": "Product Specifications",
+    "product_specifications_placeholder": "Type and press Enter to add",
+    "required_skills": "Required Skills",
+    "required_skills_label": "Required Skills",
+    "required_skills_placeholder": "Type and press Enter to add",
+    "colors_label": "Preferred Colors",
+    "colors_placeholder": "Type a color and press Enter",
+    "styles_label": "Preferred Styles",
+    "styles_placeholder": "Type a style and press Enter",
+    "timeline_label": "Timeline",
+    "timeline_placeholder": "Enter expected timeline",
+    "timeline_days": "Days",
+    "timeline_weeks": "Weeks",
+    "timeline_months": "Months",
+    "timeline_helper": "Expected completion time:",
+    "expected_delivery": "Expected Delivery Time",
+    "additional_details": "Additional Details",
+    "your_response": "Your Response",
+    "respond_as_seller": "Respond as Seller",
+    "seller_response_info": "To respond to this post as a seller, please use the button below",
+    "seller_response_note": "You'll be able to provide details about your offer and product specifications",
+    "responses_title": "Responses",
+    "responses_count": "{{count}} responses",
+    "no_responses_yet": "No responses yet",
+    "be_first_to_respond": "Be the first to respond to this post",
+    "not_authorized": "You are not authorized to perform this action",
+    "error_accepting_response": "Error accepting response",
+    "error_rejecting_response": "Error rejecting response",
+    "error_submitting_response": "Error submitting response",
+    "about_responses": "About Seller Responses",
+    "how_responses_work": "How Responses Work",
+    "seller_notification_info": "Verified sellers will be notified of your request and can respond with offers through their professional dashboard.",
+    "email_notification_info": "You'll receive an email notification when a seller responds to your request.",
+    "review_responses_info": "When you receive responses, you can review them, ask for more information, or accept an offer to proceed with your order",
+    "contact_seller": "Contact Seller",
+    "seller_shop": "Seller Shop",
+    "verified_seller_badge_footer": "Verified Seller",
+    "view_shop_button_footer": "View Shop",
+    "view_images": "View Images",
+    "hide_images": "Hide Images",
+    "accept_offer": "Accept Offer",
+    "reject_offer": "Reject Offer",
+    "response_status": {
+      "pending": "Pending",
+      "accepted": "Accepted",
+      "rejected": "Rejected"
+    },
+    "status": {
+      "open": "Open",
+      "in_progress": "In Progress",
+      "closed": "Closed"
+    },
+    "your_posts": "Your Posts",
+    "no_user_posts": "You haven't created any posts yet",
+    "your_post": "Your Post",
+    "all_posts": "All Request Posts",
+    "search_placeholder": "Search",
+    "showing_results": "Showing Results",
+    "responses": "Responses",
+    "no_image": "No Image",
+    "community_hub": "Community Hub",
+    "filters": "Filters",
+    "your_requests": "Your Requests",
+    "Create New": "Create New",
+    "no_posts_yet": "You haven't created any requests yet",
+    "start_first_post": "Click Create New to start your first custom request",
+    "how_to_create_request": "How to Create a Custom Request",
+    "create_request_step1": "Click the Create New button",
+    "create_request_step2": "Give your request a title and detailed description",
+    "create_request_step3": "Add photos to help sellers understand exactly what you want",
+    "create_request_step4": "Set your budget and timeline",
+    "create_request_step5": "Publish your request and sellers will contact you",
+    "help_tip": "Tip: Be clear and specific in your description to get the best offers",
+    "what_is_custom_request": "What is a Custom Request?",
+    "custom_request_explanation": "A custom request allows you to ask for something not available on the site or customized to your specifications",
+    "how_sellers_respond": "Sellers who can fulfill your request will contact you with offers",
+    "viewing_responses_help": "When you receive an offer, you'll get a notification and can view details on your request page",
+    "description": "description",
+    "add_images": "Add Images",
+    "drag_drop_images": "Drag and drop images here",
+    "or_click_to_select": "or click to browse your files",
+    "select_files": "Select Files",
+    "image_formats": "JPG, PNG, GIF, and WebP accepted (max 5MB)",
+    "image_selected": "image selected",
+    "images_selected": "images selected",
+    "error_image_size": "Image size must be less than 5MB",
+    "error_image_type": "Only JPG, PNG, GIF and WebP images are allowed",
+    "please_fix_errors": "Please fix the following errors:"
+  },
+  "pwa": {
+    "banner": {
+      "title": "Install Beldify App for a better experience",
+      "ios_instruction": "Tap Share → Add to Home Screen in Safari",
+      "benefits": "Fast, offline access & push notifications",
+      "install_button": "Install",
+      "learn_how_button": "Learn How"
+    },
+    "prompt": {
+      "title": "Install Beldify App",
+      "subtitle": "Get the best shopping experience",
+      "why_install": "Why install our app?",
+      "benefits": {
+        "faster": "🚀 Faster loading and smoother experience",
+        "offline": "📱 Works offline - browse products anytime",
+        "notifications": "🔔 Get notified about new arrivals & offers",
+        "home_screen": "🏠 Easy access from your home screen",
+        "lightning_fast": "Lightning fast loading",
+        "save_favorites": "Save your favorites offline",
+        "exclusive_deals": "Get exclusive deal alerts",
+        "one_tap": "One-tap access from home"
+      },
+      "ios_title": "Install on iPhone/iPad:",
+      "ios_steps": {
+        "step1": "1. Tap the Share button in Safari",
+        "step2": "2. Scroll down and tap \"Add to Home Screen\"",
+        "step3": "3. Tap \"Add\" to install the app"
+      },
+      "install_now": "Install now:",
+      "install_description": "Click the install button below to add Beldify to your device!",
+      "install_button": "Install App",
+      "got_it_button": "Got It!",
+      "remind_later": "Remind Later"
+    },
+    "button": {
+      "install_app": "Install App",
+      "get_app": "Get App",
+      "title": "Install Beldify app for a better experience"
+    },
+    "modern": {
+      "title": "Shop Smarter, Faster",
+      "subtitle": "Install our app for the best shopping experience",
+      "trusted": "Trusted by 50,000+ shoppers",
+      "ios_hint": "iOS Quick Install:",
+      "ios_instruction": "Tap the share button and select \"Add to Home Screen\"",
+      "install_now": "Install Now - It's Free!",
+      "got_it": "Got it!",
+      "maybe_later": "Maybe Later",
+      "no_download": "No app store needed • Installs in seconds"
+    },
+    "success": {
+      "title": "Successfully Installed!",
+      "message": "You can now access our app from your home screen"
+    },
+    "reminder": {
+      "title": "Use Our App for Better Experience!",
+      "message": "You have our app installed. Open it for faster browsing and exclusive features.",
+      "faster": "2x Faster",
+      "offline": "Works Offline",
+      "deals": "Exclusive Deals",
+      "open_app": "Open App",
+      "continue_browser": "Stay Here"
+    },
+    "minimal_reminder": "Get a better experience with our app!",
+    "open": "Open App"
+  },
+  "brand": {
+    "name": "Beldify",
+    "etymologySubtitle": "beldi (بلدي) — local, artisan, of the country"
+  },
+  "chrome": {
+    "navbar": {
+      "brandHome": "Beldify home",
+      "changeLanguage": "Change language",
+      "userMenu": "User menu",
+      "openMenu": "Open main menu",
+      "closeMenu": "Close menu",
+      "mainMenu": "Main menu"
+    },
+    "bottomNav": {
+      "label": "Mobile bottom navigation"
+    },
+    "breadcrumbs": {
+      "label": "Breadcrumb"
+    }
+  },
+  "openSouk": {
+    "brand": "Open Souk",
+    "eyebrow": "OPEN SOUK",
+    "headline": "Post your brief. Ateliers come to you.",
+    "subtitle": "A reverse marketplace where Tetouani ateliers compete to make your piece.",
+    "aiTranslateChip": "AI translates your brief to AR · EN · FR",
+    "postCta": "Post to the Open Souk",
+    "feedEmptyTitle": "The souk is open",
+    "feedEmptyBody": "Be the first to post a brief — ateliers are watching.",
+    "helperTitle": "What is the Open Souk?",
+    "helperBody": "A reverse marketplace where you post a tailoring brief and ateliers send you offers. AI translates everything to the right language.",
+    "helperStep1": "Tap the \"Post\" button",
+    "helperStep2": "Add a title, description, and budget",
+    "helperStep3": "Add reference photos so ateliers know what you want",
+    "helperStep4": "Set your timeline",
+    "helperStep5": "Publish and ateliers will message you with offers",
+    "helperTip": "Tip: the more detail you give, the better the offers you'll receive."
+  }
+}

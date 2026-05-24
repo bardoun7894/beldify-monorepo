@@ -1,0 +1,120 @@
+'use client';
+
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { useCart } from '@/contexts/CartContext';
+import { useAuth } from '@/contexts/AuthContext';
+import { useMessaging } from '@/contexts/MessagingContext';
+import { useTranslation } from 'react-i18next';
+import { cn } from '@/lib/utils';
+import {
+  Home,
+  Search,
+  ShoppingCart,
+  User,
+} from 'lucide-react';
+
+interface MobileBottomNavProps {
+  onSearchClick?: () => void;
+}
+
+export default function MobileBottomNav({ onSearchClick }: MobileBottomNavProps) {
+  const pathname = usePathname();
+  const { cartItemCount } = useCart();
+  const { isAuthenticated } = useAuth();
+  const { unreadCount } = useMessaging();
+  const { t } = useTranslation();
+
+  const navItems = [
+    {
+      name: t('navigation.home', 'Home'),
+      href: '/',
+      icon: Home,
+      iconSolid: Home,
+    },
+    {
+      name: t('nav.search', 'Search'),
+      href: '#',
+      icon: Search,
+      iconSolid: Search,
+      onClick: onSearchClick,
+    },
+    {
+      name: t('navigation.cart', 'Cart'),
+      href: '/cart',
+      icon: ShoppingCart,
+      iconSolid: ShoppingCart,
+      badge: cartItemCount > 0 ? cartItemCount : null,
+    },
+    {
+      name: t('navigation.profile', 'Profile'),
+      href: isAuthenticated ? '/profile' : '/login',
+      icon: User,
+      iconSolid: User,
+    },
+  ];
+
+  const isActive = (href: string) => {
+    if (href === '/') {
+      return pathname === '/';
+    }
+    return pathname.startsWith(href);
+  };
+
+  return (
+    <nav
+      className="fixed bottom-0 start-0 end-0 z-40 bg-white border-t border-amber-200/60 md:hidden safe-bottom"
+      aria-label={t('chrome.bottomNav.label', 'Mobile bottom navigation')}
+    >
+      <div className="flex items-center justify-around h-16 px-2 pb-safe">
+        {navItems.map((item) => {
+          const active = isActive(item.href);
+          const Icon = active ? item.iconSolid : item.icon;
+
+          const content = (
+            <div className={cn(
+              "flex flex-col items-center justify-center w-full h-full min-h-[44px] min-w-[44px] rounded-lg transition-colors",
+              active ? "text-indigo-700" : "text-gray-500 hover:text-gray-700"
+            )}>
+              <div className="relative">
+                <Icon className="h-6 w-6" aria-hidden="true" />
+                {item.badge && (
+                  <span className="absolute -top-2 -end-2 h-5 w-5 rounded-full bg-amber-500 text-white text-xs font-medium flex items-center justify-center shadow-md border border-white">
+                    {item.badge > 99 ? '99+' : item.badge}
+                  </span>
+                )}
+              </div>
+              <span className="text-xs mt-1 font-medium">{item.name}</span>
+            </div>
+          );
+
+          if (item.onClick) {
+            return (
+              <button
+                key={item.name}
+                onClick={item.onClick}
+                className="flex-1 flex items-center justify-center touch-manipulation"
+                aria-label={item.name}
+              >
+                {content}
+              </button>
+            );
+          }
+
+          return (
+            <Link
+              key={item.name}
+              href={item.href}
+              prefetch={true}
+              className="flex-1 flex items-center justify-center touch-manipulation"
+              aria-label={item.name}
+              aria-current={active ? 'page' : undefined}
+            >
+              {content}
+            </Link>
+          );
+        })}
+      </div>
+    </nav>
+  );
+}

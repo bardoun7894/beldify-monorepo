@@ -1,0 +1,1585 @@
+{
+  "common": {
+    "search": "Buscar productos...",
+    "filter": "Filtrar",
+    "noResults": "No se encontraron resultados",
+    "openMenu": "Abrir menú principal",
+    "closeMenu": "Cerrar menú",
+    "viewAll": "Ver todo",
+    "sort": "Ordenar por",
+    "price": "Precio",
+    "currency": "MAD",
+    "select_option": "Seleccione una opción",
+    "actions": {
+      "save_changes": "Guardar cambios",
+      "tryAgain": "Intentar de nuevo",
+      "search": "Buscar",
+      "clearFilters": "Limpiar filtros",
+      "filters": "Filtrar"
+    },
+    "notifications": {
+      "changes_saved": "Cambios guardados exitosamente",
+      "error_saving": "Error al guardar cambios"
+    },
+    "try_again": "Intentar de nuevo",
+    "loading": "Cargando...",
+    "loading_experience": "Cargando tu experiencia...",
+    "error": "Ocurrió un error",
+    "success": "Operación exitosa",
+    "cancel": "Cancelar",
+    "save": "Guardar",
+    "edit": "Editar",
+    "delete": "Eliminar",
+    "view": "Ver",
+    "close": "Cerrar",
+    "back": "Atrás",
+    "next": "Siguiente",
+    "previous": "Anterior",
+    "or": "o",
+    "required_fields": "* Campos obligatorios",
+    "required": "Obligatorio",
+    "checkBackSoon": "¡Vuelve pronto!",
+    "item": "artículo",
+    "items": "artículos"
+  },
+  "validation": {
+    "required": "Este campo es obligatorio",
+    "email": "Por favor ingrese un correo válido",
+    "minLength": "Debe tener al menos {{count}} caracteres",
+    "maxLength": "No debe exceder {{count}} caracteres"
+  },
+  "categories": {
+    "kaftan": {
+      "name": "Caftanes",
+      "description": "Vestidos marroquíes tradicionales para ocasiones especiales"
+    },
+    "djellaba": {
+      "name": "Djellabas",
+      "description": "Ropa tradicional cómoda para uso diario"
+    },
+    "takchita": {
+      "name": "Takchitas",
+      "description": "Vestidos ceremoniales elegantes de dos piezas"
+    },
+    "jabador": {
+      "name": "Jabadors",
+      "description": "Ropa masculina marroquí moderna"
+    },
+    "accessories": {
+      "name": "Accesorios",
+      "description": "Joyas y accesorios tradicionales"
+    },
+    "shoes": {
+      "name": "Zapatos Tradicionales",
+      "description": "Zapatos y pantuflas de cuero hechos a mano"
+    }
+  },
+  "auth": {
+    "login": "Iniciar sesión",
+    "logout": "Cerrar sesión",
+    "register": "Registrarse",
+    "forgotPassword": "¿Olvidó su contraseña?",
+    "email": "Correo electrónico",
+    "password": "Contraseña",
+    "login_title": "Bienvenido de Nuevo",
+    "register_title": "Únete a Beldify Hoy",
+    "or_continue_with": "O continuar con correo electrónico",
+    "remember_me": "Recordarme",
+    "forgot_password": "¿Olvidaste tu contraseña?",
+    "dont_have_account": "¿No tienes una cuenta?",
+    "create_account": "Crear cuenta",
+    "full_name": "Nombre completo",
+    "first_name": "Nombre",
+    "last_name": "Apellido",
+    "contact_number": "Número de contacto",
+    "password_confirmation": "Confirmar contraseña",
+    "already_have_account": "¿Ya tienes una cuenta?",
+    "sign_in": "Iniciar sesión",
+    "username_generated": "Nombre de usuario generado",
+    "registering": "Registrando...",
+    "logging_in": "Iniciando sesión...",
+    "login_required": "Por favor inicia sesión para enviar solicitudes personalizadas"
+  },
+  "navigation": {
+    "home": "Inicio",
+    "categories": "Categorías",
+    "wishlist": "Lista de deseos",
+    "cart": "Carrito",
+    "profile": "Perfil",
+    "shopping_cart": "Carrito de compras",
+    "shop": "Tienda",
+    "bestSellers": "Más vendidos",
+    "newArrivals": "Novedades",
+    "deals": "Ofertas",
+    "search": "Buscar productos...",
+    "featuredCategories": "Categorías destacadas",
+    "tailors": "Sastres",
+    "stores": "Tiendas",
+    "dashboard": "Panel de control",
+    "settings": "Configuración",
+    "orders": "Pedidos",
+    "account": "Mi cuenta",
+    "logout": "Cerrar sesión",
+    "subcategories": "Subcategorías",
+    "featuredProducts": "Productos destacados",
+    "language": "Idioma",
+    "languages": {
+      "en": "Inglés",
+      "ar": "Árabe",
+      "fr": "Francés",
+      "es": "Español",
+      "ma": "Dariya",
+      "de": "Alemán"
+    }
+  },
+  "category": {
+    "popularCategories": "Categorías populares",
+    "viewAll": "Ver todo",
+    "items": "artículo",
+    "noCategories": "No se encontraron categorías",
+    "topCategories": "Categorías principales"
+  },
+  "bestSellers": {
+    "title": "Más vendidos",
+    "noBestSellers": "No se encontraron productos más vendidos",
+    "loadingError": "Error al cargar los productos más vendidos",
+    "discount": "Descuento",
+    "previousButton": "Productos anteriores",
+    "nextButton": "Siguientes productos",
+    "goToSlide": "Ir a diapositiva {{number}}",
+    "ranking": "#{{number}}"
+  },
+  "featuredSections": {
+    "bestSellers": {
+      "title": "Más vendidos",
+      "viewAll": "Ver todo",
+      "rating": "Calificación",
+      "bestSellersDesc": "Descubre nuestros productos tradicionales más vendidos"
+    },
+    "newArrivals": {
+      "title": "Novedades",
+      "viewAll": "Ver todo",
+      "newBadge": "Nuevo",
+      "newArrivalsDesc": "Descubre nuestras novedades de productos tradicionales"
+    },
+    "mensTraditional": {
+      "title": "Ropa tradicional masculina",
+      "viewAll": "Ver todo",
+      "mensTraditionalDesc": "Descubre nuestra colección de ropa tradicional masculina auténtica"
+    },
+    "womensTraditional": {
+      "title": "Ropa tradicional femenina",
+      "viewAll": "Ver todo",
+      "womensTraditionalDesc": "Descubre nuestra colección de ropa tradicional femenina auténtica"
+    },
+    "childrensTraditional": {
+      "title": "Ropa tradicional infantil",
+      "viewAll": "Ver todo",
+      "childrensTraditionalDesc": "Descubre nuestra colección de ropa tradicional infantil auténtica"
+    },
+    "featuredStores": {
+      "title": "Tiendas destacadas",
+      "viewAll": "Ver todo",
+      "featuredStoresDesc": "Descubre nuestras tiendas mejor valoradas y verificadas que ofrecen productos de calidad"
+    }
+  },
+  "product": {
+    "product_add_to_cart": "Agregar al carrito",
+    "product_buy_now": "Comprar ahora",
+    "product_arrives_tomorrow": "Llega mañana",
+    "product_express": "Entrega express",
+    "product_out_of_stock": "Agotado",
+    "product_added_to_cart": "Agregado al carrito",
+    "product_remove_from_cart": "Quitar del carrito",
+    "product_view_cart": "Ver carrito",
+    "product_checkout": "Finalizar compra",
+    "addToCart": "Agregar al carrito",
+    "addedToCart": "Agregado al carrito",
+    "addingToCart": "Agregando al carrito...",
+    "like": "Me gusta",
+    "liked": "Me gustó",
+    "review": "Reseña",
+    "reviews": "Reseñas",
+    "quickView": "Vista rápida",
+    "outOfStock": "Agotado",
+    "inStock": "En stock",
+    "newBadge": "Nuevo",
+    "saveAmount": "Ahorra {{amount}} MAD",
+    "addToWishlist": "Agregar a lista de deseos",
+    "description": "Descripción del producto",
+    "size": "Talla",
+    "color": "Color",
+    "fabric": "Tela",
+    "variant_price": "Precio de variant",
+    "quantity": "Cantidad",
+    "sku": "SKU",
+    "price": "Precio",
+    "total": "Total",
+    "selectSize": "Seleccionar talla",
+    "selectColor": "Seleccionar color",
+    "selectFabric": "Seleccionar tela",
+    "express": "Entrega express",
+    "add_to_cart": "Agregar al carrito",
+    "buy_now": "Comprar ahora",
+    "arrives_tomorrow": "Llega mañana",
+    "no_image": "Imagen no disponible",
+    "rating": "%{rating} ★",
+    "reviews_count": "(%{count})",
+    "price_percentage": "%{price} MAD",
+    "currency": "MAD",
+    "price_unavailable": "Precio no disponible",
+    "discount_percent": "%{percent}% de descuento",
+    "off": "descuento",
+    "visit_store": "Visitar tienda",
+    "visit_external_website": "Visitar sitio web externo",
+    "products": "Productos",
+    "product_information": "Información del producto",
+    "free_delivery": "Envío gratis",
+    "delivery_estimate": "Entrega estimada en 2-4 días hábiles",
+    "secure_transaction": "Transacción segura",
+    "money_back_guarantee": "Garantía de devolución de dinero si no está satisfecho",
+    "about_this_item": "Sobre este artículo",
+    "specifications": "Especificaciones",
+    "select_options": "Seleccionar opciones",
+    "purchase_now": "Comprar ahora",
+    "select_options_prompt": "Seleccione las opciones del producto para verificar la disponibilidad",
+    "options_affect_availability": "El color, la talla y la tela afectan la disponibilidad del producto",
+    "select_quantity_prompt": "Seleccione la cantidad que desea comprar",
+    "select_options_required": "Por favor, seleccione todas las opciones requeridas para agregar este producto al carrito.",
+    "color_images_available": "Imágenes para el grupo de colores {{colorGroup}} están disponibles",
+    "size_not_available_for_color": "{{sizeName}} - No disponible para este color",
+    "image_alt": "Imagen del producto",
+    "discount_badge": "{{discountPercentage}}% de descuento",
+    "added": "Agregado",
+    "viewFullDetails": "Ver detalles completos",
+    "request_custom_product": "Solicitar Producto Personalizado",
+    "custom_product_description": "¿No encuentras lo que buscas? Crea una solicitud personalizada y conéctate con vendedores que puedan fabricarlo para ti.",
+    "custom_request_message": "¡Hola! Estoy interesado en una versión personalizada de este producto. ¿Podrías ayudarme con un diseño personalizado?",
+    "url": "URL del Producto"
+  },
+  "stock": {
+    "in_stock": "En stock ({{count}})",
+    "out_of_stock": "Agotado",
+    "unavailable_short": "N/D",
+    "exceeded": "Cantidad disponible excedida",
+    "checking": "Comprobando stock...",
+    "ready_to_ship": "Listo para enviar",
+    "decrease_quantity": "Disminuir cantidad",
+    "increase_quantity": "Aumentar cantidad",
+    "max_reached": "Cantidad máxima alcanzada ({{max}})",
+    "selected": "Seleccionado",
+    "available": "Disponible",
+    "remaining": "Restante",
+    "unavailable": "Indisponible",
+    "select_options_for_availability": "Seleccione opciones para verificar disponibilidad"
+  },
+  "success": {
+    "addedToCart": "Producto agregado exitosamente al carrito"
+  },
+  "cart": {
+    "title": "Carrito de compras",
+    "empty": {
+      "title": "Tu carrito está vacío",
+      "description": "Aún no has agregado productos a tu carrito",
+      "cta": "Explorar productos"
+    },
+    "items": {
+      "product": "Producto",
+      "price": "Precio",
+      "price_with_currency": "Precio: {{price}} MAD",
+      "quantity": "Cantidad",
+      "total": "Total",
+      "remove": "Eliminar",
+      "update": "Actualizar"
+    },
+    "summary": {
+      "title": "Resumen del pedido",
+      "subtotal": "Subtotal",
+      "shipping": "Envío",
+      "tax": "Impuestos",
+      "discount": "Descuento",
+      "total": "Total",
+      "proceed_to_checkout": "Proceder al pago",
+      "checkout": "Finalizar compra",
+      "continue_shopping": "Continuar comprando"
+    },
+    "coupon": {
+      "label": "Cupón",
+      "placeholder": "Introduce tu cupón",
+      "apply": "Aplicar",
+      "remove": "Eliminar",
+      "applied": "Cupón '{{code}}' aplicado",
+      "removed": "Cupón eliminado",
+      "invalid": "Cupón inválido",
+      "enter_code": "Por favor introduce un código de cupón"
+    },
+    "quantity": {
+      "increase": "Aumentar cantidad",
+      "decrease": "Disminuir cantidad",
+      "max_limit": "La cantidad máxima disponible es {{max}}"
+    },
+    "notifications": {
+      "removed": "Producto eliminado del carrito",
+      "updated": "Cantidad actualizada",
+      "error": "Ocurrió un error. Por favor intenta de nuevo"
+    },
+    "confirmation": {
+      "remove": {
+        "title": "Eliminar producto",
+        "message": "¿Estás seguro de que deseas eliminar este producto del carrito?",
+        "confirm": "Sí, eliminar",
+        "cancel": "Cancelar"
+      }
+    },
+    "error_fetching": "Error al obtener el carrito",
+    "error_adding": "Error al agregar producto al carrito",
+    "error_removing": "Error al eliminar producto del carrito",
+    "error_updating": "Error al actualizar el carrito",
+    "error_clearing": "Error al vaciar el carrito",
+    "network_error": "Ocurrió un error de red. Por favor verifica tu conexión",
+    "unknown_error": "Ocurrió un error desconocido",
+    "added_successfully": "Producto agregado al carrito",
+    "removed_successfully": "Producto eliminado del carrito",
+    "updated_successfully": "Carrito actualizado exitosamente",
+    "cleared_successfully": "Carrito vaciado exitosamente"
+  },
+  "products": {
+    "title": "Productos",
+    "results": "{{count}} producto",
+    "no_results": "No se encontraron productos",
+    "add_to_cart": "Agregar al carrito",
+    "customize": "Personalizar",
+    "quick_view": "Vista rápida",
+    "out_of_stock": "Agotado",
+    "in_stock": "En stock",
+    "sale": "Oferta",
+    "search": "Buscar productos...",
+    "results_plural": "productos",
+    "loading": "Cargando...",
+    "error": {
+      "fetch": "Error al cargar productos",
+      "general": "Ocurrió un error inesperado"
+    },
+    "results_count": "{{count}} producto",
+    "express": "Entrega express",
+    "arrives_tomorrow": "Llega mañana",
+    "buy_now": "Comprar ahora",
+    "no_image": "Imagen no disponible",
+    "rating": "{{rating}} ★",
+    "reviews": "({{count}} reseña)",
+    "reviews_plural": "({{count}} reseñas)",
+    "price": "{{price}} MAD",
+    "original_price": "{{price}} MAD",
+    "discount": "{{discount}}% de descuento",
+    "sort": {
+      "title": "Ordenar por",
+      "newest": "Productos más nuevos",
+      "price_low_high": "Precio: Menor a mayor",
+      "price_high_low": "Precio: Mayor a menor",
+      "popular": "Más populares"
+    },
+    "filters": {
+      "price_range": "Rango de precio",
+      "min_price": "Precio mínimo",
+      "max_price": "Máximo",
+      "colors": "Colores",
+      "color_black": "Negro",
+      "color_white": "Blanco",
+      "color_red": "Rojo",
+      "color_blue": "Azul",
+      "color_green": "Verde",
+      "color_yellow": "Amarillo",
+      "color_purple": "Morado",
+      "color_pink": "Rosa",
+      "color_brown": "Marrón",
+      "color_gray": "Gris",
+      "color_orange": "Naranja",
+      "color_gold": "Dorado",
+      "color_silver": "Plateado",
+      "color_multicolor": "Multicolor",
+      "sizes": "Tallas",
+      "size_xs": "XS",
+      "size_s": "S",
+      "size_m": "M",
+      "size_l": "L",
+      "size_xl": "XL",
+      "size_xxl": "XXL",
+      "fabrics": "Telas",
+      "fabric_brocade": "Brocado",
+      "fabric_silk": "Seda",
+      "fabric_cotton": "Algodón",
+      "fabric_wool": "Lana",
+      "fabric_linen": "Lino",
+      "fabric_polyester": "Poliéster",
+      "additional": "Opciones adicionales",
+      "in_stock": "En stock",
+      "customizable": "Personalizable",
+      "on_sale": "En oferta",
+      "new_arrivals": "Novedades",
+      "sort": "Ordenar por",
+      "sort_newest": "Más nuevos",
+      "sort_price_low_high": "Precio: Menor a mayor",
+      "sort_price_high_low": "Precio: Mayor a menor",
+      "sort_popularity": "Popularidad",
+      "sort_rating": "Calificación",
+      "clear_all": "Limpiar todo",
+      "apply": "Aplicar"
+    },
+    "card": {
+      "add_to_cart": "Agregar al carrito",
+      "out_of_stock": "Agotado",
+      "sale": "Oferta",
+      "new": "Nuevo",
+      "discount_percent": "{{percent}}% de descuento",
+      "rating": "{{rating}} ★",
+      "reviews": "({{count}} reseña)",
+      "reviews_plural": "({{count}} reseñas)",
+      "starting_price": "Desde",
+      "product_names": {
+        "classic_jeans": "Jeans clásicos",
+        "running_shoes": "Zapatillas deportivas",
+        "premium_tshirt": "Camiseta premium",
+        "kamison": "Kamison",
+        "brocade_fassi": "Brocado Fassi",
+        "silk_fassi": "Seda Fassi",
+        "traditional_caftan": "Caftán tradicional",
+        "luxury_takchita": "Takchita de lujo",
+        "moroccan_djellaba": "Djellaba marroquí",
+        "embroidered_jabador": "Jabador bordado"
+      }
+    },
+    "actions": {
+      "add_to_cart": "Agregar al carrito",
+      "buy_now": "Comprar ahora",
+      "arrives_tomorrow": "Llega mañana",
+      "express": "Entrega express",
+      "out_of_stock": "Agotado",
+      "added_to_cart": "Agregado al carrito",
+      "remove_from_cart": "Quitar del carrito",
+      "view_cart": "Ver carrito",
+      "checkout": "Finalizar compra"
+    }
+  },
+  "order": {
+    "title": "Pedido #{{orderNumber}}",
+    "placed_on": "Realizado el {{date}}",
+    "status": {
+      "pending": "Pendiente",
+      "processing": "Procesando",
+      "shipped": "Enviado",
+      "delivered": "Entregado",
+      "cancelled": "Cancelado"
+    },
+    "progress": {
+      "order_placed": "Pedido realizado",
+      "processing": "Procesando",
+      "shipped": "Enviado",
+      "delivered": "Entregado",
+      "in_progress": "En progreso",
+      "completed": "Completado",
+      "pending": "Pendiente",
+      "in_transit": "En tránsito"
+    },
+    "payment": {
+      "title": "Estado del pago",
+      "status": {
+        "paid": "Pago procesado exitosamente",
+        "pending": "Esperando confirmación del pago",
+        "failed": "Pago fallido o rechazado"
+      }
+    },
+    "items": {
+      "title": "Artículos pedidos",
+      "quantity": "Cantidad: {{count}}",
+      "unit_price": "{{price}} MAD cada uno",
+      "color": "Color: {{color}}",
+      "size": "Talla: {{size}}",
+      "product": "Producto",
+      "product_image": "Imagen del producto",
+      "each": "cada uno"
+    },
+    "shipping": {
+      "title": "Información de envío",
+      "contact": "Información de contacto",
+      "address": "Dirección"
+    },
+    "summary": {
+      "title": "Resumen del pedido",
+      "subtotal": "Subtotal",
+      "shipping": "Envío",
+      "tax": "Impuestos",
+      "total": "Total",
+      "payment_method": "Método de pago",
+      "payment_status": "Estado del pago"
+    }
+  },
+  "orders": {
+    "title": "Mis pedidos",
+    "loading": {
+      "title": "Cargando detalles del pedido",
+      "message": "Por favor espere mientras obtenemos la información de su pedido..."
+    },
+    "loading_message": "Cargando pedidos...",
+    "empty": {
+      "title": "No se encontraron pedidos",
+      "description": "Aún no has realizado ningún pedido. Explora nuestra tienda y descubre nuestros increíbles productos"
+    },
+    "error": {
+      "title": "¡Lo sentimos!",
+      "description": "Hubo un problema al cargar tus pedidos. Por favor intenta de nuevo"
+    },
+    "not_found": {
+      "title": "Pedido no encontrado",
+      "message": "Lo sentimos, no pudimos encontrar el pedido solicitado. Por favor verifica el número de pedido e intenta de nuevo"
+    },
+    "actions": {
+      "try_again": "Intentar de nuevo",
+      "start_shopping": "Comenzar a comprar",
+      "view_details": "Ver detalles",
+      "back_to_orders": "Volver a pedidos",
+      "contact_seller": "Contactar vendedor",
+      "contact_support": "Contactar soporte",
+      "write_review": "Escribir reseña",
+      "download_invoice": "Descargar factura"
+    },
+    "filter": {
+      "all": "Todos los pedidos",
+      "pending": "Pendientes",
+      "processing": "Procesando",
+      "shipped": "Enviados",
+      "delivered": "Entregados",
+      "cancelled": "Cancelados"
+    },
+    "search": {
+      "placeholder": "Buscar pedidos..."
+    },
+    "status": {
+      "pending": "Pendiente",
+      "processing": "Procesando",
+      "shipped": "Enviado",
+      "delivered": "Entregado",
+      "cancelled": "Cancelado",
+      "order_placed": "Pedido confirmado",
+      "completed": "Completado"
+    },
+    "tracking": {
+      "title": "Rastrear pedido",
+      "order_placed": "Pedido confirmado",
+      "processing": "Procesando",
+      "shipped": "Enviado",
+      "delivered": "Entregado",
+      "order_placed_short": "1",
+      "processing_short": "2",
+      "shipped_short": "3",
+      "delivered_short": "4",
+      "number": "Número de seguimiento",
+      "estimated_delivery": "Fecha estimada de entrega"
+    },
+    "items": {
+      "title": "Artículos pedidos",
+      "quantity": "Cantidad: {{count}}",
+      "unit_price": "{{price}} MAD cada uno",
+      "color": "Color: {{color}}",
+      "size": "Talla: {{size}}",
+      "product": "Producto",
+      "product_image": "Imagen del producto",
+      "each": "cada uno"
+    },
+    "summary": {
+      "title": "Resumen del pedido",
+      "subtotal": "Subtotal",
+      "shipping": "Envío",
+      "free": "Gratis",
+      "total": "Total"
+    },
+    "payment_status": {
+      "paid": "Pagado",
+      "pending": "Pago pendiente",
+      "failed": "Pago fallido",
+      "refunded": "Reembolsado",
+      "completed": "Completado"
+    },
+    "placed_on": "Fecha del pedido",
+    "list": {
+      "order_number": "Pedido #{{orderNumber}}",
+      "date": "{{date}}",
+      "product": "Producto",
+      "product_image": "Imagen del producto",
+      "quantity_price": "{{quantity}} × {{price}}",
+      "items_count_zero": "Sin artículos",
+      "items_count_one": "1 artículo",
+      "items_count_two": "2 artículos",
+      "items_count_few": "{{count}} artículos",
+      "items_count_many": "{{count}} artículos",
+      "items_count_other": "{{count}} artículos",
+      "total": "Total: {{amount}}",
+      "more_items": "y {{count}} artículo más",
+      "view_details": "Ver detalles"
+    }
+  },
+  "checkout": {
+    "title": "Finalizar compra",
+    "steps": {
+      "shipping": "Envío",
+      "payment": "Pago",
+      "review": "Revisión"
+    },
+    "personal": {
+      "title": "Información personal",
+      "description": "Información para la confirmación del pedido y actualizaciones de entrega",
+      "first_name": "Nombre",
+      "last_name": "Apellido",
+      "full_name": "Nombre completo",
+      "full_name_placeholder": "Ingresa tu nombre completo",
+      "full_name_help": "Usaremos esto para el envío y actualizaciones del pedido",
+      "email": "Correo electrónico",
+      "phone": "Número de teléfono",
+      "optional": "Opcional"
+    },
+    "shipping": {
+      "title": "Información de envío",
+      "address_mode": {
+        "manual": "Ingresar dirección manualmente",
+        "location": "Usar ubicación actual"
+      },
+      "form": {
+        "first_name": "Nombre",
+        "last_name": "Apellido",
+        "email": "Correo electrónico",
+        "phone": "Teléfono",
+        "address": "Dirección",
+        "city": "Ciudad",
+        "state": "Estado/Provincia",
+        "zip_code": "Código postal",
+        "country": "País",
+        "use_location": "Usar mi ubicación",
+        "detecting_location": "Detectando tu ubicación..."
+      }
+    },
+    "payment": {
+      "title": "Método de pago",
+      "methods": {
+        "cod": {
+          "title": "Pago contra entrega",
+          "description": "Paga cuando recibas tu pedido"
+        },
+        "paypal": {
+          "title": "PayPal",
+          "description": "Próximamente - Paga de forma segura con PayPal"
+        },
+        "card": {
+          "title": "Tarjeta de crédito",
+          "description": "Próximamente - Paga con Visa, Mastercard u otras tarjetas"
+        }
+      },
+      "form": {
+        "card_number": "Número de tarjeta",
+        "card_holder": "Nombre del titular",
+        "expiry_date": "Fecha de vencimiento",
+        "cvv": "CVV"
+      }
+    },
+    "order_summary": {
+      "title": "Resumen del pedido",
+      "subtotal": "Subtotal",
+      "shipping": "Envío",
+      "tax": "Impuestos",
+      "total": "Total",
+      "items": "{{count}} artículos"
+    },
+    "actions": {
+      "next": "Siguiente",
+      "continue": "Continuar",
+      "back": "Volver",
+      "place_order": "Realizar pedido",
+      "processing": "Procesando..."
+    },
+    "validation": {
+      "required": "Este campo es obligatorio",
+      "invalid_email": "Por favor ingresa un correo válido",
+      "invalid_phone": "Por favor ingresa un número de teléfono válido",
+      "location_error": "No se pudo detectar tu ubicación. Por favor intenta de nuevo o ingresa la dirección manualmente"
+    },
+    "errors": {
+      "shipping_info_incomplete": "Por favor completa toda la información de envío requerida",
+      "payment_info_incomplete": "Por favor completa toda la información de pago requerida",
+      "invalid_email": "Por favor ingresa una dirección de correo válida",
+      "invalid_phone": "Por favor ingresa un número de teléfono válido",
+      "invalid_card": "Por favor ingresa datos válidos de la tarjeta",
+      "processing_failed": "El procesamiento del pedido falló. Por favor intenta de nuevo",
+      "cart_empty": "El carrito está vacío. Por favor agrega productos antes de finalizar la compra",
+      "invalid_address": "Por favor ingresa una dirección de envío válida",
+      "invalid_zip": "Por favor ingresa un código postal válido",
+      "country_required": "Por favor selecciona tu país",
+      "auth_required": "Necesitas iniciar sesión para continuar",
+      "shipping_info_required": "Se requiere información de envío para continuar"
+    },
+    "success": {
+      "order_placed": "¡Tu pedido ha sido realizado exitosamente!"
+    }
+  },
+  "profile": {
+    "page": {
+      "loading": "Cargando...",
+      "default_user_name": "Usuario anónimo",
+      "no_email": "Sin correo electrónico",
+      "member_since": "Miembro desde ",
+      "roles": {
+        "user": "Usuario",
+        "admin": "Administrador del sistema",
+        "manager": "Gerente"
+      }
+    },
+    "tabs": {
+      "general": "General",
+      "security": "Seguridad",
+      "preferences": "Preferencias"
+    },
+    "default_user_name": "Usuario",
+    "title": "Perfil",
+    "member_since": "Miembro desde ",
+    "no_email": "Sin correo electrónico especificado",
+    "personal_info": "Información personal",
+    "fields": {
+      "full_name": "Nombre completo",
+      "username": "Nombre de usuario",
+      "email": "Correo electrónico",
+      "email_help": "Tu correo no será mostrado públicamente",
+      "phone": "Número de teléfono",
+      "phone_help": "Tu número de teléfono no será mostrado públicamente",
+      "billing_address": "Dirección de facturación",
+      "address": "Dirección",
+      "shipping_info": "Información de envío",
+      "shipping_address": "Dirección de envío",
+      "city": "Ciudad",
+      "state": "Estado/Provincia",
+      "zip_code": "Código postal",
+      "country": "País",
+      "select_country": "Seleccionar país"
+    },
+    "actions": {
+      "save_changes": "Guardar cambios",
+      "edit": "Editar",
+      "cancel": "Cancelar"
+    },
+    "notifications": {
+      "changes_saved": "Cambios guardados exitosamente",
+      "error_saving": "Error al guardar cambios"
+    },
+    "validation": {
+      "required": "Este campo es obligatorio",
+      "invalid_email": "Correo electrónico inválido",
+      "invalid_phone": "Número de teléfono inválido"
+    },
+    "security": {
+      "change_password": "Cambiar contraseña",
+      "current_password": "Contraseña actual",
+      "new_password": "Nueva contraseña",
+      "confirm_password": "Confirmar nueva contraseña",
+      "password_help": "La contraseña debe tener al menos 8 caracteres",
+      "password_mismatch": "Las nuevas contraseñas no coinciden",
+      "success_message": "Contraseña actualizada exitosamente",
+      "error_message": "Error al actualizar la contraseña"
+    },
+    "preferences": {
+      "title": "Preferencias",
+      "notification_settings": "Configuración de notificaciones",
+      "email_notifications": {
+        "title": "Notificaciones por correo",
+        "description": "Recibe notificaciones sobre la actividad de tu cuenta"
+      },
+      "marketing_emails": {
+        "title": "Correos de marketing",
+        "description": "Recibe correos sobre nuevos productos y ofertas"
+      },
+      "order_updates": {
+        "title": "Actualizaciones de pedidos",
+        "description": "Recibe notificaciones sobre el estado de tus pedidos"
+      },
+      "newsletter": {
+        "title": "Boletín informativo",
+        "description": "Suscríbete a nuestro boletín semanal"
+      },
+      "language_settings": "Configuración de idioma",
+      "language": {
+        "title": "Idioma",
+        "description": "Elige tu idioma preferido"
+      },
+      "timezone": {
+        "title": "Zona horaria",
+        "description": "Elige tu zona horaria"
+      },
+      "success_message": "Preferencias actualizadas exitosamente",
+      "error_message": "Error al actualizar preferencias"
+    }
+  },
+  "errors": {
+    "general": "Ocurrió un error",
+    "network": "Error de conexión",
+    "validation": "Por favor verifica tu información",
+    "required": "Este campo es obligatorio",
+    "invalid_email": "Correo electrónico inválido",
+    "invalid_phone": "Número de teléfono inválido",
+    "session_expired": "Tu sesión ha expirado",
+    "unauthorized": "No autorizado",
+    "not_found": "Página no encontrada",
+    "server_error": "Error del servidor",
+    "failedToLoadProduct": "Error al cargar el producto",
+    "productNotFound": "Producto no encontrado",
+    "productNotAvailable": "Este producto no está disponible actualmente",
+    "selectAllOptions": "Por favor selecciona todas las opciones antes de agregar al carrito",
+    "variantNotAvailable": "La combinación seleccionada no está disponible",
+    "shop_not_found": "Información de la tienda no disponible"
+  },
+  "notifications": {
+    "success": {
+      "added_to_cart": "Producto agregado al carrito",
+      "removed_from_cart": "Producto eliminado del carrito",
+      "order_placed": "Pedido realizado exitosamente",
+      "profile_updated": "Perfil actualizado",
+      "address_saved": "Dirección guardada"
+    },
+    "error": {
+      "add_to_cart": "Error al agregar al carrito",
+      "remove_from_cart": "Error al eliminar del carrito",
+      "place_order": "Error al realizar el pedido",
+      "update_profile": "Error al actualizar el perfil",
+      "save_address": "Error al guardar la dirección"
+    }
+  },
+  "filters": {
+    "title": "Filtrar",
+    "clear_all": "Limpiar todo",
+    "price_range": "Rango de precio",
+    "min": "Mínimo",
+    "max": "Máximo",
+    "colors": "Colores",
+    "sizes": "Tallas",
+    "fabrics": "Telas",
+    "additional": "Opciones adicionales",
+    "in_stock": "En stock",
+    "customizable": "Personalizable",
+    "on_sale": "En oferta",
+    "new_arrivals": "Novedades"
+  },
+  "shops": {
+    "title": "TIENDAS",
+    "featuredStores": "Tiendas destacadas",
+    "featuredStoresDescription": "Descubre nuestras tiendas mejor valoradas y verificadas que ofrecen productos de calidad",
+    "noShopsFound": "No se encontraron tiendas",
+    "checkBackSoon": "¡Vuelve pronto!"
+  },
+  "footer": {
+    "titles": {
+      "shop": "Tienda",
+      "services": "Servicios",
+      "support": "Soporte",
+      "company": "Empresa",
+      "help": "Ayuda"
+    },
+    "shop": {
+      "traditionalDresses": "Vestidos tradicionales",
+      "kaftans": "Caftanes",
+      "djellabas": "Djellabas",
+      "accessories": "Accesorios",
+      "newArrivals": "Novedades"
+    },
+    "services": {
+      "customTailoring": "Sastrería personalizada",
+      "alterations": "Alteraciones",
+      "measurements": "Medidas",
+      "consultation": "Consultoría",
+      "consultations": "Consultorías"
+    },
+    "support": {
+      "support": "Soporte",
+      "contactUs": "Contáctanos",
+      "faqs": "Preguntas frecuentes",
+      "shippingInfo": "Información de envío",
+      "returnsExchanges": "Devoluciones y cambios",
+      "sizeGuide": "Guía de tallas"
+    },
+    "company": {
+      "aboutUs": "Sobre nosotros",
+      "ourArtisans": "Nuestros artesanos",
+      "careers": "Empleo",
+      "blog": "Blog",
+      "press": "Prensa"
+    },
+    "newsletter": "Boletín informativo",
+    "rights": "Todos los derechos reservados",
+    "description": "Ofrecemos la mejor moda marroquí tradicional y moderna",
+    "social": {
+      "facebook": "Facebook",
+      "instagram": "Instagram",
+      "twitter": "Twitter"
+    },
+    "copyright": "© 2025 Beldify. Todos los derechos reservados"
+  },
+  "sort": {
+    "title": "Ordenar por",
+    "newest": "Productos más nuevos",
+    "price_low_high": "Precio: Menor a mayor",
+    "price_high_low": "Precio: Mayor a menor",
+    "popular": "Más populares"
+  },
+  "countries": {
+    "ma": "Marruecos",
+    "sa": "Arabia Saudita",
+    "ae": "Emiratos Árabes Unidos",
+    "qa": "Qatar",
+    "kw": "Kuwait",
+    "bh": "Bahrein",
+    "om": "Omán"
+  },
+  "size_guide": {
+    "title": "Guía de tallas para ropa tradicional marroquí",
+    "description": "Encuentra tu talla perfecta para caftanes, jabadors y otras prendas tradicionales marroquíes",
+    "men": "Ropa de hombre",
+    "women": "Ropa de mujer",
+    "kids": "Ropa de niños",
+    "garment_caftan": "Caftán",
+    "garment_jabador": "Jabador",
+    "garment_kandora": "Kandora",
+    "men_jabador_top": "Parte superior de Jabador para hombre",
+    "men_jabador_pants": "Pantalones de Jabador para hombre",
+    "women_jabador_top": "Parte superior de Jabador para mujer",
+    "women_jabador_pants": "Pantalones de Jabador para mujer",
+    "kids_jabador_top": "Parte superior de Jabador para niños",
+    "kids_jabador_pants": "Pantalones de Jabador para niños",
+    "kids_caftan": "Caftán para niños",
+    "men_kandora": "Kandora para hombre",
+    "women_kandora": "Kandora para mujer",
+    "kids_kandora": "Kandora para niños",
+    "how_to_measure": "Cómo medir",
+    "measurements": {
+      "age": "Edad",
+      "height": "Altura (cm)",
+      "chest": "Pecho (cm)",
+      "bust": "Busto (cm)",
+      "waist": "Cintura (cm)",
+      "hip": "Cadera (cm)",
+      "length": "Largo (cm)",
+      "ma_size": "Talla MA",
+      "shoulder": "Hombro (cm)",
+      "inseam": "Entrepierna (cm)"
+    },
+    "chest_bust": "Pecho/Busto",
+    "chest_bust_desc": "Mide alrededor de la parte más completa de tu pecho/busto, manteniendo la cinta paralela al suelo",
+    "waist": "Cintura",
+    "waist_desc": "Mide alrededor de tu cintura natural, en la parte más estrecha de tu cintura",
+    "hip": "Cadera",
+    "hip_desc": "Mide alrededor de la parte más completa de tus caderas, manteniendo la cinta paralela al suelo",
+    "shoulder": "Ancho de hombros",
+    "shoulder_desc": "Mide a través de la espalda de punto de hombro a punto de hombro",
+    "top_length": "Largo de la parte superior",
+    "top_length_desc": "Mide desde el hombro hasta el largo deseado de la parte superior del Jabador",
+    "inseam": "Largo de entrepierna",
+    "inseam_desc": "Mide desde la entrepierna hasta la parte inferior del tobillo",
+    "pants_length": "Largo de pantalones",
+    "pants_length_desc": "Mide desde la cintura hasta la parte inferior del tobillo",
+    "length": "Largo de la prenda",
+    "length_desc": "Para caftanes y jabadors, mide desde el hombro hasta el largo deseado. Los largos tradicionales varían según el tipo de prenda",
+    "length_note_caftan": "* Los largos de caftán suelen variar de 150cm a 170cm para adultos, y de 85cm a 130cm para niños",
+    "length_note_jabador": "* El Jabador viene en dos piezas con largos variables según la edad y el género",
+    "length_note_kandora": {
+      "men": "* Los largos de Kandora para hombre suelen variar de 130cm a 150cm",
+      "women": "* Los largos de Kandora para mujer suelen variar de 130cm a 150cm",
+      "kids": "* Los largos de Kandora para niños varían de 80cm a 105cm según la edad"
+    },
+    "sleeve": "Largo de manga",
+    "sleeve_desc": "Mide desde el hombro hasta la muñeca con el brazo ligeramente doblado",
+    "size_conversion": "Tabla de conversión de tallas",
+    "measurement_tips": "Consejos para ropa tradicional",
+    "tip_1": "La ropa tradicional marroquí suele ser holgada para mayor comodidad",
+    "tip_2": "Para el Jabador, asegúrate de tomar las medidas tanto de la parte superior como de los pantalones para un ajuste perfecto",
+    "tip_3": "Deja espacio para las capas interiores tradicionales",
+    "tip_4": "Para tallas de niños, considera espacio para el crecimiento al elegir las medidas",
+    "need_help": "¿Necesitas tallas personalizadas?",
+    "contact_support": "Contacta a nuestros sastres expertos para medidas y alteraciones personalizadas",
+    "no_measurements": "No hay medidas disponibles para este tipo de prenda",
+    "garment_description": {
+      "caftan": "Prenda tradicional hasta el suelo con un diseño elegante y fluido",
+      "jabador": "Conjunto tradicional de dos piezas con una parte superior y pantalones",
+      "kandora": "Prenda tradicional hasta el tobillo, más corta que un caftán"
+    }
+  },
+  "product_categories": {
+    "djellaba": "Djellaba",
+    "caftan": "Caftán",
+    "takchita": "Takchita",
+    "jabador": "Jabador",
+    "accessories": "Accesorios",
+    "traditional": "Tradicional",
+    "modern": "Moderno",
+    "wedding": "Boda",
+    "casual": "Casual"
+  },
+  "pages": {
+    "privacyPolicy": {
+      "title": "Política de Privacidad",
+      "lastUpdated": "Última actualización",
+      "yourPrivacyMatters": "Tu Privacidad es Importante",
+      "contactUs": "Contáctanos",
+      "questions": "¿Tienes preguntas sobre tu privacidad?",
+      "committed": "Estamos comprometidos a proteger tu información personal. Si tienes alguna pregunta o inquietud, nuestro equipo dedicado a la privacidad está aquí para ayudarte.",
+      "sections": {
+        "intro": "En Beldify, nos tomamos tu privacidad en serio porque es importante para nosotros. Esta política de privacidad explica cómo recopilamos, utilizamos, compartimos y protegemos tu información cuando visitas nuestro sitio web www.beldify.com, o cualquier otro canal, ya sea un medio de comunicación, un sitio móvil, una aplicación móvil o cualquier otro medio asociado con Beldify.",
+        "infoWeCollect": "Información que recopilamos",
+        "infoWeCollectDescription": "Recopilamos la información que proporcionas directamente, la información que recopilamos automáticamente cuando interactúas con nuestro sitio web, y la información de fuentes de terceros.",
+        "personalData": "Datos personales",
+        "personalDataDescription": "Cuando creas una cuenta, realizas un pedido o participas en nuestras funciones comunitarias, podemos recopilar:",
+        "personalDataItems": [
+          "Información de contacto (nombre, dirección de correo electrónico, número de teléfono, dirección de envío y facturación)",
+          "Credenciales de la cuenta (nombre de usuario y contraseña)",
+          "Información de pago (procesada de forma segura a través de nuestros procesadores de pago)",
+          "Información de transacciones (productos comprados, fecha, método de pago)",
+          "Contenido comunitario (publicaciones, comentarios, imágenes que subas)",
+          "Preferencias de comunicación",
+          "Respuestas a encuestas y comentarios"
+        ],
+        "usageData": "Datos de uso",
+        "usageDataDescription": "Recopilamos automáticamente cierta información cuando visitas nuestro sitio web, como por ejemplo:",
+        "usageDataItems": [
+          "Dirección IP e información del dispositivo",
+          "Tipo y configuración del navegador",
+          "Sistema operativo",
+          "URL de referencia",
+          "Páginas visitadas y acciones realizadas en nuestro sitio web",
+          "Tiempo dedicado a las páginas",
+          "Fecha y hora de las visitas",
+          "Preferencias de idioma"
+        ],
+        "howWeUse": "Cómo utilizamos tu información",
+        "howWeUseDescription": "Utilizamos la información que recopilamos para diversos fines, entre ellos:",
+        "howWeUseItems": [
+          "Proporcionar, mantener y mejorar nuestros servicios",
+          "Procesar y completar tus pedidos",
+          "Comunicarnos contigo sobre tu cuenta, pedidos y productos",
+          "Personalizar tu experiencia de compra",
+          "Gestionar nuestras funciones comunitarias",
+          "Responder a tus consultas y brindar soporte al cliente",
+          "Enviar comunicaciones de marketing (con tu consentimiento)",
+          "Detectar, prevenir y abordar problemas técnicos y riesgos de seguridad",
+          "Cumplir con obligaciones legales"
+        ],
+        "authServices": "Servicios de autenticación",
+        "authServicesDescription": "Ofrecemos autenticación a través de Google Sign-In. Cuando eliges iniciar sesión con Google, recibimos información básica de perfil de Google. Consulta la política de privacidad de Google para comprender cómo manejan tus datos. Solo utilizamos esta información para autenticar tu cuenta y brindar nuestros servicios.",
+        "dataStorage": "Almacenamiento y seguridad de datos",
+        "dataStorageDescription": "Utilizamos Contabo S3 para alojar imágenes y otro contenido. Todos los datos se almacenan de forma segura con las medidas técnicas apropiadas para proteger contra el acceso no autorizado, la alteración, divulgación o destrucción de tu información personal.",
+        "infoSharing": "Compartición de información",
+        "infoSharingDescription": "Podemos compartir tu información con:",
+        "infoSharingItems": [
+          "Proveedores de servicios que realizan servicios en nuestro nombre (procesadores de pago, empresas de envío, proveedores de almacenamiento en la nube)",
+          "Asesores profesionales (legales, contables, de seguros)",
+          "Socios comerciales con tu consentimiento",
+          "Otros usuarios cuando utilizas funciones comunitarias (limitado a la información que elijas compartir)",
+          "Autoridades policiales o reguladoras cuando lo exija la ley"
+        ],
+        "cookies": "Cookies y tecnologías de seguimiento",
+        "cookiesDescription": "Utilizamos cookies y tecnologías de seguimiento similares para recopilar información sobre tus actividades de navegación. Estas tecnologías nos ayudan a analizar el tráfico del sitio web, personalizar el contenido y mejorar tu experiencia. Puedes controlar las cookies a través de la configuración de tu navegador.",
+        "yourRights": "Tus derechos",
+        "yourRightsDescription": "Dependiendo de tu ubicación, puedes tener ciertos derechos con respecto a tu información personal, como por ejemplo:",
+        "yourRightsItems": [
+          "Acceso a tus datos personales",
+          "Corrección de datos inexactos",
+          "Eliminación de tus datos",
+          "Limitación del tratamiento",
+          "Portabilidad de datos",
+          "Oposición al tratamiento",
+          "Retirada del consentimiento"
+        ],
+        "yourRightsContact": "Para ejercer estos derechos, contáctanos en privacy@beldify.com.",
+        "childrenPrivacy": "Privacidad de los niños",
+        "childrenPrivacyDescription": "Nuestros servicios no están dirigidos a menores de 16 años. No recopilamos intencionalmente información personal de niños. Si eres padre o tutor y crees que tu hijo nos ha proporcionado información personal, por favor contáctanos.",
+        "internationalTransfers": "Transferencias internacionales de datos",
+        "internationalTransfersDescription": "Tu información puede ser transferida, almacenada y procesada en países distintos a tu país de residencia. Cuando transferimos tu información personal internacionalmente, tomamos las medidas de protección adecuadas para proteger tu información de acuerdo con esta Política de Privacidad y la legislación aplicable.",
+        "changes": "Cambios en esta política de privacidad",
+        "changesDescription": "Podemos actualizar esta Política de Privacidad periódicamente. Te notificaremos de cualquier cambio publicando la nueva Política de Privacidad en esta página y actualizando la fecha de \"Última actualización\". Te recomendamos que revises esta Política de Privacidad periódicamente.",
+        "contactInfo": "Contáctanos",
+        "contactInfoDescription": "Si tienes preguntas o inquietudes sobre esta Política de Privacidad o nuestras prácticas, contáctanos en:",
+        "contactDetails": [
+          "Correo electrónico: privacy@beldify.com",
+          "Teléfono: +212 (0) 7 08 15 03 51",
+          "Dirección postal: 123 Calle Medina, Tetuán, Marruecos"
+        ]
+      }
+    },
+    "termsOfService": {
+      "title": "Términos de Servicio",
+      "lastUpdated": "Última actualización",
+      "userAgreement": "Acuerdo de Usuario de Beldify",
+      "legalAssistance": "¿Necesitas asistencia legal?",
+      "clarification": "Si tienes alguna pregunta sobre nuestros términos o necesitas aclaración sobre alguna política, nuestro equipo de atención al cliente está disponible para ayudarte."
+    },
+    "contact": {
+      "title": "Contáctanos",
+      "info": "Información de contacto",
+      "customerService": "Nuestro equipo de servicio al cliente está aquí para ayudarte. Comunícate con nosotros con cualquier pregunta o inquietud.",
+      "address": "Calle Medina 123, Tetuán, Marruecos",
+      "phone": "+212 (0) 7 08 15 03 51",
+      "email": "contact@beldify.com",
+      "sendMessage": "Envíanos un mensaje",
+      "thankYou": "¡Gracias! Tu mensaje ha sido enviado con éxito.",
+      "firstName": "Nombre",
+      "lastName": "Apellido",
+      "emailAddress": "Correo electrónico",
+      "phoneNumber": "Teléfono",
+      "subject": "Asunto",
+      "message": "Mensaje",
+      "maxChars": "Máx. 500 caracteres",
+      "sending": "Enviando...",
+      "send": "Enviar Mensaje",
+      "validation": {
+        "firstNameRequired": "El nombre es obligatorio",
+        "lastNameRequired": "El apellido es obligatorio",
+        "emailRequired": "El correo electrónico es obligatorio",
+        "emailInvalid": "Dirección de correo electrónico inválida",
+        "subjectRequired": "El asunto es obligatorio",
+        "messageRequired": "El mensaje es obligatorio",
+        "messageTooLong": "El mensaje no puede exceder los 500 caracteres"
+      }
+    },
+    "shipping": {
+      "title": "Información de Envío",
+      "subtitle": "Todo lo que necesitas saber sobre el envío de tu pedido",
+      "deliveryOptions": "Opciones de Entrega",
+      "standardShipping": "Envío Estándar",
+      "standardDays": "3-5 días hábiles",
+      "standardCost": "Gratis para pedidos superiores a 500 MAD",
+      "expressShipping": "Envío Express",
+      "expressDays": "1-2 días hábiles",
+      "expressCost": "Cargo de 30 MAD",
+      "internationalShipping": "Envío Internacional",
+      "internationalDays": "7-14 días hábiles",
+      "internationalCost": "Calculado al finalizar la compra",
+      "trackingInfo": "Información de Seguimiento",
+      "trackingText": "Una vez que tu pedido sea enviado, recibirás un correo electrónico de confirmación con tu número de seguimiento y un enlace para rastrear tu paquete.",
+      "orderUpdates": "También puedes ver las actualizaciones del pedido en tu cuenta bajo 'Historial de Pedidos'.",
+      "shippingPolicy": "Política de Envío",
+      "processingTime": "Tiempo de Procesamiento de Pedidos",
+      "processingText": "Los pedidos se procesan dentro de 1-2 días hábiles después de la confirmación del pago.",
+      "backorderedItems": "Los artículos en espera se enviarán por separado cuando estén disponibles.",
+      "deliveryEstimates": "Estimaciones de Entrega",
+      "estimatesText": "Los tiempos de entrega son estimaciones y comienzan desde la fecha de envío, no desde la fecha del pedido.",
+      "delaysText": "Los tiempos de entrega pueden verse afectados por el procesamiento aduanero para envíos internacionales.",
+      "faqsTitle": "Preguntas Frecuentes sobre Envíos",
+      "questions": [
+        {
+          "question": "¿Cómo puedo rastrear mi pedido?",
+          "answer": "Recibirás un número de seguimiento por correo electrónico una vez que tu pedido haya sido enviado. También puedes rastrear tu pedido en tu cuenta bajo 'Historial de Pedidos'."
+        },
+        {
+          "question": "¿Realizan envíos internacionales?",
+          "answer": "Sí, enviamos a la mayoría de los países. Los costos y tiempos de envío internacional varían según la ubicación."
+        },
+        {
+          "question": "¿Puedo cambiar mi dirección de envío después de realizar un pedido?",
+          "answer": "Los cambios de dirección solo pueden ser atendidos si el pedido aún no ha sido procesado. Por favor, contacta a nuestro equipo de servicio al cliente inmediatamente si necesitas cambiar tu dirección de envío."
+        },
+        {
+          "question": "¿Qué sucede si mi paquete se pierde o llega dañado?",
+          "answer": "Si tu paquete se pierde o llega dañado, por favor contacta a nuestro equipo de servicio al cliente dentro de las 48 horas posteriores a la fecha de entrega para obtener asistencia."
+        }
+      ],
+      "needHelp": "¿Necesitas Ayuda con tu Envío?",
+      "helpText": "Nuestro equipo de servicio al cliente está listo para ayudarte con cualquier pregunta sobre tu envío."
+    }
+  },
+  "returns": {
+    "title": "Devoluciones y Cambios",
+    "subtitle": "Nuestra política y proceso para devoluciones y cambios",
+    "returnsPolicy": {
+      "title": "Política de Devoluciones",
+      "policy1": "Queremos que estés completamente satisfecho con tu compra. Si no estás satisfecho, puedes devolver la mayoría de los artículos dentro de los 30 días posteriores a la entrega para un reembolso completo o cambio.",
+      "policy2": "Para ser elegible para una devolución, tu artículo debe estar sin usar y en las mismas condiciones en que lo recibiste. También debe estar en el embalaje original con todas las etiquetas adjuntas."
+    },
+    "refunds": {
+      "title": "Reembolsos",
+      "description": "Una vez que recibamos tu devolución, la inspeccionaremos y te notificaremos que hemos recibido tu artículo devuelto. Te notificaremos inmediatamente sobre el estado de tu reembolso después de inspeccionar el artículo.",
+      "timeline": "Los reembolsos se procesarán dentro de 3-5 días hábiles después de recibir tu devolución. El reembolso se acreditará en tu método de pago original."
+    },
+    "tabs": {
+      "returnsPolicy": "Política de Devoluciones",
+      "exchanges": "Cambios",
+      "returnProcess": "Proceso de Devolución"
+    },
+    "steps": {
+      "step1": {
+        "name": "Iniciar Devolución",
+        "description": "Comienza tu devolución a través de nuestro portal en línea"
+      },
+      "step2": {
+        "name": "Empaquetar Artículos",
+        "description": "Empaqueta tus artículos de forma segura con el embalaje original"
+      },
+      "step3": {
+        "name": "Enviar de Vuelta",
+        "description": "Usa nuestra etiqueta de devolución prepagada para enviar los artículos de vuelta"
+      },
+      "step4": {
+        "name": "Recibir Reembolso",
+        "description": "Recibe tu reembolso una vez que procesemos la devolución"
+      }
+    },
+    "returnableItems": {
+      "title": "Elegible para Devolución",
+      "item1": "Ropa sin usar, sin lavar con etiquetas adjuntas",
+      "item2": "Accesorios sin usar con embalaje original",
+      "item3": "Productos de belleza y cuidado personal sin abrir",
+      "item4": "Artículos defectuosos (dentro del período de garantía)",
+      "item5": "Artículos en condición original con todas las partes incluidas"
+    },
+    "nonReturnableItems": {
+      "title": "No Elegible para Devolución",
+      "item1": "Artículos hechos a medida o personalizados",
+      "item2": "Ropa interior (ropa interior, trajes de baño, medias)",
+      "item3": "Artículos marcados como 'Venta Final' o liquidación",
+      "item4": "Artículos sin embalaje original o etiquetas",
+      "item5": "Artículos usados o dañados",
+      "item6": "Tarjetas de regalo y productos digitales"
+    },
+    "exchanges": {
+      "title": "Cambios",
+      "description": "Nos complace ayudarte a cambiar artículos por un tamaño o color diferente, sujeto a disponibilidad.",
+      "requestTitle": "Cómo Solicitar un Cambio",
+      "requestDescription": "Sigue estos pasos para cambiar un artículo:",
+      "step1": "Inicia sesión en tu cuenta y ve a 'Historial de Pedidos'",
+      "step2": "Selecciona el artículo que deseas cambiar y elige 'Cambio' como motivo de devolución",
+      "step3": "Selecciona tu artículo de reemplazo preferido",
+      "step4": "Imprime la etiqueta de devolución y envía de vuelta el artículo original",
+      "step5": "Una vez que recibamos tu devolución, enviaremos tu reemplazo",
+      "processDescription": "Ten en cuenta que los cambios están sujetos a disponibilidad de stock. Si tu reemplazo preferido no está disponible, emitiremos un reembolso a tu método de pago original.",
+      "eligibilityTitle": "Elegibilidad para Cambios",
+      "eligibilityDescription": "Para ser elegible para un cambio, tu artículo debe cumplir con los siguientes criterios:",
+      "eligibility1": "El artículo debe estar sin usar, sin ponerse y en condición original con todas las etiquetas adjuntas",
+      "eligibility2": "El embalaje original debe estar incluido",
+      "eligibility3": "El cambio debe solicitarse dentro de los 14 días posteriores a la entrega",
+      "eligibility4": "El artículo debe estar en stock para el cambio",
+      "priceDiffTitle": "Diferencias de Precio",
+      "priceDiffDescription": "Si el artículo de reemplazo es más caro, se te cobrará la diferencia. Si es menos caro, reembolsaremos la diferencia a tu método de pago original.",
+      "internationalTitle": "Cambios Internacionales",
+      "internationalDescription": "Los clientes internacionales son responsables de los costos de envío de devolución y cualquier impuesto de aduana o impuestos aplicables para el artículo devuelto. Cubriremos el costo de envío del artículo de reemplazo para ti."
+    },
+    "process": {
+      "title": "Nuestro Proceso de Devolución",
+      "timelineTitle": "Cronograma de Devolución",
+      "timeline1": "Día 1-2: Iniciar devolución y recibir etiqueta de devolución",
+      "timeline2": "Día 3-5: Empaquetar y enviar tu devolución",
+      "timeline3": "Día 6-10: Recibimos e inspeccionamos tu devolución",
+      "timeline4": "Día 11-14: Se procesa el reembolso",
+      "shippingTitle": "Envío de Devolución",
+      "shippingText1": "Proporcionamos una etiqueta de devolución prepagada para devoluciones en España y Marruecos. Los clientes internacionales son responsables de los costos de envío de devolución.",
+      "shippingText2": "Para tu protección, recomendamos usar un servicio de envío rastreable y comprar seguro de envío.",
+      "refundTitle": "Información de Reembolso",
+      "refundText1": "Los reembolsos se procesan dentro de 3-5 días hábiles después de recibir tu devolución.",
+      "refundText2": "El reembolso se acreditará en tu método de pago original.",
+      "refundText3": "Por favor, permite tiempo adicional para que tu banco o compañía de tarjeta de crédito procese el reembolso.",
+      "helpTitle": "¿Necesitas Ayuda?",
+      "helpText": "Si tienes alguna pregunta sobre nuestro proceso de devolución, por favor contacta a nuestro equipo de servicio al cliente.",
+      "contactButton": "Contactar Soporte"
+    }
+  },
+  "product_details": {
+    "fabric": "Tela",
+    "style": "Estilo",
+    "size": "Talla",
+    "color": "Color",
+    "handmade": "Hecho a mano",
+    "customizable": "Personalizable",
+    "delivery_time": "Tiempo de entrega",
+    "in_stock": "En stock",
+    "out_of_stock": "Agotado",
+    "made_in": "Hecho en",
+    "shipping_from": "Envío desde",
+    "fast_delivery": "Entrega rápida",
+    "easy_returns": "Devoluciones fáciles",
+    "visit_website": "Visitar sitio web"
+  },
+  "sellers": {
+    "title": "Conviértete en Vendedor",
+    "subtitle": "Únete a nuestro mercado y muestra tus productos a clientes de todo el mundo",
+    "heroTitle": "Expande tu Negocio con Beldify",
+    "heroText": "Conéctate con clientes de todo el mundo y haz crecer tu negocio en nuestra plataforma de confianza para moda y artesanía marroquí.",
+    "registerCTA": "Regístrate como Vendedor",
+    "learnMore": "Saber más",
+    "benefitsTitle": "Beneficios de Vender con Nosotros",
+    "benefit1Title": "Alcance Global",
+    "benefit1Text": "Accede a clientes de todo el mundo con nuestro envío internacional y soporte multi-idioma.",
+    "benefit2Title": "Configuración Fácil",
+    "benefit2Text": "Crea tu perfil de vendedor y lista productos rápidamente con nuestro panel de control intuitivo.",
+    "benefit3Title": "Pagos Seguros",
+    "benefit3Text": "Recibe pagos de forma segura con nuestro sistema de procesamiento de pagos de confianza.",
+    "benefit4Title": "Soporte para Vendedores",
+    "benefit4Text": "Obtén soporte dedicado para todas tus necesidades de venta, desde listados de productos hasta asistencia de envío.",
+    "howItWorksTitle": "Cómo Funciona",
+    "step1Title": "Crea una Cuenta",
+    "step1Text": "Regístrate para obtener una cuenta de vendedor en pro.beldify.com y completa tu perfil con la información de tu negocio.",
+    "step2Title": "Lista tus Productos",
+    "step2Text": "Sube tu catálogo de productos con fotos, descripciones, precios e información de inventario.",
+    "step3Title": "Recibe Pedidos",
+    "step3Text": "Recibe notificaciones cuando los clientes realicen pedidos de tus productos.",
+    "step4Title": "Envía y Cobra",
+    "step4Text": "Envía pedidos a los clientes y recibe pagos directamente en tu cuenta.",
+    "testimonialsTitle": "Historias de Éxito de Vendedores",
+    "testimonial1Name": "Fatima L.",
+    "testimonial1Business": "Boutique de Caftán Tradicional",
+    "testimonial1Text": "Desde que me uní a Beldify, mis ventas de caftanes han aumentado un 70%. La plataforma me ha ayudado a llegar a clientes en Europa y Oriente Medio a los que no podía acceder antes.",
+    "testimonial2Name": "Karim M.",
+    "testimonial2Business": "Artículos de Cuero Artesanal",
+    "testimonial2Text": "El panel de vendedor facilita la gestión de mi inventario y el seguimiento de pedidos. El equipo de soporte ha sido increíblemente útil con todas mis preguntas.",
+    "testimonial3Name": "Amina R.",
+    "testimonial3Business": "Moda Marroquí Moderna",
+    "testimonial3Text": "Beldify ha transformado mi pequeño negocio en una marca internacional. La exposición a clientes globales ha sido invaluable para el crecimiento.",
+    "faqsTitle": "Preguntas Frecuentes para Vendedores",
+    "sellerFaqs": [
+      {
+        "question": "¿Cuánto cuesta vender en Beldify?",
+        "answer": "El registro es gratuito. Cobramos una comisión del 10% por cada venta, que incluye el procesamiento de pagos. No hay tarifas mensuales ni tarifas por listar productos."
+      },
+      {
+        "question": "¿Cómo y cuándo recibo el pago?",
+        "answer": "Los pagos se procesan cada dos semanas para todos los pedidos completados. Puedes recibir pagos mediante transferencia bancaria u otros métodos de pago compatibles en tu país."
+      },
+      {
+        "question": "¿Necesito gestionar el envío?",
+        "answer": "Sí, los vendedores son responsables de enviar sus productos. Proporcionamos guías de envío e integración con los principales transportistas para facilitar el proceso."
+      },
+      {
+        "question": "¿Qué productos puedo vender en Beldify?",
+        "answer": "Nos centramos en moda marroquí, accesorios, decoración del hogar y artesanía. Todos los productos deben ser auténticos y cumplir con los estándares de nuestro mercado."
+      }
+    ],
+    "readyToSell": "¿Listo para Empezar a Vender?",
+    "registerText": "Únete a miles de vendedores exitosos en nuestra plataforma y lleva tu negocio al siguiente nivel.",
+    "registerNow": "Regístrate Ahora en pro.beldify.com"
+  },
+  "trust_badges": {
+    "verified": "Tienda verificada",
+    "quality": "Calidad garantizada",
+    "shipping": "Envío rápido",
+    "support": "Soporte en vivo",
+    "payment": "Pago seguro",
+    "return": "Devoluciones gratuitas"
+  },
+  "hero": {
+    "welcomeBadge": "🌙 ¡Eid Mubarak Said en nuestro mercado!",
+    "titleLine1": "Descubre la elegancia del Eid",
+    "titleLine2": "con la moda marroquí auténtica",
+    "description": "Explora nuestra colección cuidadosamente seleccionada de ropa tradicional y moderna marroquí, especialmente diseñada para el Eid y elaborada por los artesanos más hábiles.",
+    "shopButton": "Comprar ahora",
+    "learnMoreButton": "Saber más"
+  },
+  "community": {
+    "verified_seller": "Vendedor verificado",
+    "seller_response_description": "Para responder a esta publicación como vendedor, utilice el botón a continuación",
+    "view_shop": "Ver tienda",
+    "respond_to_post": "Responder a la publicación",
+    "back_to_messages": "Volver a las conversaciones",
+    "back_to_post": "Volver a la publicación",
+    "regarding_post": "Acerca de la publicación",
+    "title": "Solicitudes Personalizadas",
+    "create_post": "Crear nueva solicitud",
+    "whats_on_mind": "¿Qué tienes en mente?",
+    "share_your_idea": "Comparte tu idea",
+    "add_photos_first": "Añade fotos para mostrar lo que buscas",
+    "photos_catch_attention": "¡Las fotos llaman más la atención!",
+    "drag_photos_here": "Arrastra las fotos aquí",
+    "or_click_to_add": "o haz clic para añadir",
+    "make_it_attractive": "¡Hazlo atractivo!",
+    "tell_us_more": "Cuéntanos más",
+    "what_do_you_need": "¿Qué necesitas exactamente?",
+    "describe_your_dream": "Describe tu sueño",
+    "be_specific": "Sé específico",
+    "choose_category": "¿Qué tipo de artículo?",
+    "pick_category": "Elige una categoría",
+    "whats_your_budget": "¿Cuál es tu presupuesto?",
+    "budget_helps_sellers": "El presupuesto ayuda a los vendedores a entender tus necesidades",
+    "from_price": "Desde",
+    "to_price": "Hasta",
+    "when_do_you_need": "¿Cuándo lo necesitas?",
+    "timeline_helps": "El plazo ayuda a los vendedores a planificar",
+    "sellers_will_contact": "Los vendedores te contactarán",
+    "get_best_offers": "Recibe las mejores ofertas",
+    "post_title": "Título de la publicación",
+    "post_title_placeholder": "Ingrese un título para su publicación",
+    "post_description": "Descripción de la publicación",
+    "post_description_placeholder": "Proporcione una descripción detallada de lo que está buscando",
+    "post_category": "Categoría",
+    "select_category": "Seleccione una categoría",
+    "add_budget": "Añadir presupuesto",
+    "budget_details": "Detalles del presupuesto",
+    "min_price": "Precio mínimo",
+    "max_price": "Precio máximo",
+    "currency": "Moneda",
+    "post_images": "Imágenes de la publicación",
+    "click_to_upload": "Haga clic para subir",
+    "image_formats": "Se aceptan JPG, PNG, GIF (máx. 2MB)",
+    "publish_post": "Publicar",
+    "submit_post": "Enviar publicación",
+    "back_to": "Volver a",
+    "back_to_community": "Volver a la comunidad",
+    "error_title_required": "El título de la publicación es obligatorio",
+    "error_description_required": "La descripción de la publicación es obligatoria",
+    "error_invalid_budget": "Por favor, ingrese un rango de presupuesto válido",
+    "error_creating_post": "Error al crear la publicación",
+    "error_loading_categories": "Error al cargar las categorías",
+    "error_fetching_post": "Error al obtener la publicación",
+    "post_not_found": "Publicación no encontrada",
+    "post_may_not_exist": "La publicación que está buscando puede no existir o ha sido eliminada",
+    "uploaded_images": "Imágenes subidas",
+    "product_specifications": "Especificaciones del producto",
+    "product_specifications_label": "Especificaciones del producto",
+    "product_specifications_placeholder": "Escriba y presione Enter para añadir",
+    "required_skills": "Habilidades requeridas",
+    "required_skills_label": "Habilidades requeridas",
+    "required_skills_placeholder": "Escriba y presione Enter para añadir",
+    "colors_label": "Colores preferidos",
+    "colors_placeholder": "Escriba un color y presione Enter",
+    "styles_label": "Estilos preferidos",
+    "styles_placeholder": "Escriba un estilo y presione Enter",
+    "timeline_label": "Cronograma",
+    "timeline_placeholder": "Ingrese el cronograma esperado",
+    "timeline_days": "Días",
+    "timeline_weeks": "Semanas",
+    "timeline_months": "Meses",
+    "timeline_helper": "Tiempo de finalización esperado:",
+    "expected_delivery": "Tiempo de entrega esperado",
+    "additional_details": "Detalles adicionales",
+    "your_response": "Su respuesta",
+    "respond_as_seller": "Responder como vendedor",
+    "seller_response_info": "Para responder a esta publicación como vendedor, utilice el botón a continuación",
+    "seller_response_note": "Podrá proporcionar detalles sobre su oferta y las especificaciones del producto",
+    "responses_title": "Respuestas",
+    "responses_count": "{{count}} respuestas",
+    "no_responses_yet": "Aún no hay respuestas",
+    "be_first_to_respond": "Sea el primero en responder a esta publicación",
+    "not_authorized": "No está autorizado para realizar esta acción",
+    "error_accepting_response": "Error al aceptar la respuesta",
+    "error_rejecting_response": "Error al rechazar la respuesta",
+    "error_submitting_response": "Error al enviar la respuesta",
+    "about_responses": "Acerca de las respuestas de los vendedores",
+    "how_responses_work": "Cómo funcionan las respuestas",
+    "seller_notification_info": "Los vendedores verificados serán notificados de su solicitud y podrán responder con ofertas a través de su panel de control profesional",
+    "email_notification_info": "Recibirá una notificación por correo electrónico cuando un vendedor responda a su solicitud",
+    "review_responses_info": "Cuando reciba respuestas, puede revisarlas, solicitar más información o aceptar una oferta para proceder con su pedido",
+    "status": {
+      "open": "Abierto",
+      "in_progress": "En progreso",
+      "closed": "Cerrado"
+    },
+    "search_placeholder": "Buscar",
+    "showing_results": "Mostrando resultados",
+    "responses": "Respuestas",
+    "no_image": "Sin imagen",
+    "community_hub": "Centro de Solicitudes",
+    "filters": "Filtros",
+    "your_requests": "Tus Solicitudes",
+    "create_new": "Crear Nuevo",
+    "no_posts_yet": "Aún no has creado ninguna solicitud",
+    "start_first_post": "Haz clic en Crear Nuevo para iniciar tu primera solicitud personalizada",
+    "how_to_create_request": "Cómo Crear una Solicitud Personalizada",
+    "create_request_step1": "Haz clic en el botón Crear Nuevo",
+    "create_request_step2": "Da un título y una descripción detallada a tu solicitud",
+    "create_request_step3": "Añade fotos para ayudar a los vendedores a entender exactamente lo que quieres",
+    "create_request_step4": "Establece tu presupuesto y plazo",
+    "create_request_step5": "Publica tu solicitud y los vendedores se pondrán en contacto contigo",
+    "help_tip": "Consejo: Sé claro y específico en tu descripción para obtener las mejores ofertas",
+    "what_is_custom_request": "¿Qué es una Solicitud Personalizada?",
+    "custom_request_explanation": "Una solicitud personalizada te permite pedir algo que no está disponible en el sitio o personalizado según tus especificaciones",
+    "how_sellers_respond": "Los vendedores que puedan satisfacer tu solicitud se pondrán en contacto contigo con ofertas",
+    "viewing_responses_help": "Cuando recibas una oferta, recibirás una notificación y podrás ver los detalles en la página de tu solicitud",
+    "all_posts": "Todas las Solicitudes",
+    "description": "Descripción",
+    "messages": {
+      "sending_custom_request": "Enviando solicitud personalizada...",
+      "custom_request_sent": "¡Solicitud personalizada enviada con éxito!",
+      "custom_request_error": "Error al enviar la solicitud personalizada"
+    }
+  },
+  "pwa": {
+    "banner": {
+      "title": "Instala la aplicación Beldify para una mejor experiencia",
+      "ios_instruction": "Toca Compartir → Añadir a la pantalla de inicio en Safari",
+      "benefits": "Acceso rápido, trabajo sin conexión y notificaciones",
+      "install_button": "Instalar",
+      "learn_how_button": "Aprender Cómo"
+    },
+    "prompt": {
+      "title": "Instalar la aplicación Beldify",
+      "subtitle": "Obtén la mejor experiencia de compra",
+      "why_install": "¿Por qué instalar nuestra aplicación?",
+      "benefits": {
+        "faster": "🚀 Carga más rápida y experiencia más fluida",
+        "offline": "📱 Funciona sin conexión - navega productos en cualquier momento",
+        "notifications": "🔔 Recibe notificaciones sobre nuevas llegadas y ofertas",
+        "home_screen": "🏠 Acceso fácil desde tu pantalla de inicio",
+        "lightning_fast": "Carga ultrarrápida",
+        "save_favorites": "Guarda tus favoritos sin conexión",
+        "exclusive_deals": "Recibe alertas de ofertas exclusivas",
+        "one_tap": "Acceso de un toque desde el inicio"
+      },
+      "ios_title": "Instalar en iPhone/iPad:",
+      "ios_steps": {
+        "step1": "1. Toca el botón Compartir en Safari",
+        "step2": "2. Desplázate hacia abajo y toca \"Añadir a la pantalla de inicio\"",
+        "step3": "3. Toca \"Añadir\" para instalar la aplicación"
+      },
+      "install_now": "Instalar ahora:",
+      "install_description": "¡Haz clic en el botón de instalación de abajo para añadir Beldify a tu dispositivo!",
+      "install_button": "Instalar aplicación",
+      "got_it_button": "¡Entendido!",
+      "remind_later": "Recordar más tarde"
+    },
+    "button": {
+      "install_app": "Instalar aplicación",
+      "get_app": "Obtener aplicación",
+      "title": "Instala la aplicación Beldify para una mejor experiencia"
+    },
+    "modern": {
+      "title": "Compra más inteligente, más rápido",
+      "subtitle": "Instala nuestra aplicación para la mejor experiencia de compra",
+      "trusted": "Confiado por más de 50,000 compradores",
+      "ios_hint": "Instalación rápida iOS:",
+      "ios_instruction": "Toca el botón compartir y selecciona \"Añadir a la pantalla de inicio\"",
+      "install_now": "Instalar ahora - ¡Es gratis!",
+      "got_it": "¡Entendido!",
+      "maybe_later": "Tal vez más tarde",
+      "no_download": "No necesita App Store • Se instala en segundos"
+    },
+    "success": {
+      "title": "¡Instalado con éxito!",
+      "message": "Ahora puedes acceder a nuestra aplicación desde tu pantalla de inicio"
+    },
+    "reminder": {
+      "title": "¡Usa nuestra aplicación para una mejor experiencia!",
+      "message": "Tienes nuestra aplicación instalada. Ábrela para navegación más rápida y funciones exclusivas.",
+      "faster": "2x Más rápido",
+      "offline": "Funciona sin conexión",
+      "deals": "Ofertas exclusivas",
+      "open_app": "Abrir aplicación",
+      "continue_browser": "Quedarse aquí"
+    },
+    "minimal_reminder": "¡Obtén una mejor experiencia con nuestra aplicación!",
+    "open": "Abrir aplicación"
+  },
+  "brand": {
+    "name": "Beldify"
+  },
+  "chrome": {
+    "navbar": {
+      "brandHome": "Inicio de Beldify",
+      "changeLanguage": "Cambiar idioma",
+      "userMenu": "Menú de usuario",
+      "openMenu": "Abrir menú principal",
+      "closeMenu": "Cerrar menú",
+      "mainMenu": "Menú principal"
+    },
+    "bottomNav": {
+      "label": "Navegación móvil inferior"
+    },
+    "breadcrumbs": {
+      "label": "Ruta de navegación"
+    }
+  }
+}

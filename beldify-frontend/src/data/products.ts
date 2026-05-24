@@ -1,0 +1,203 @@
+import { Product } from '@/types/product';
+
+export const categories = [
+  {
+    id: 'kaftan',
+    nameKey: 'categories.kaftan.name',
+    descriptionKey: 'categories.kaftan.description',
+    image: '/images/categories/kaftan.jpg',
+    itemCount: 24,
+  },
+  {
+    id: 'djellaba',
+    nameKey: 'categories.djellaba.name',
+    descriptionKey: 'categories.djellaba.description',
+    image: '/images/categories/djellaba.jpg',
+    itemCount: 18,
+  },
+  {
+    id: 'takchita',
+    nameKey: 'categories.takchita.name',
+    descriptionKey: 'categories.takchita.description',
+    image: '/images/categories/takchita.jpg',
+    itemCount: 15,
+  },
+  {
+    id: 'jabador',
+    nameKey: 'categories.jabador.name',
+    descriptionKey: 'categories.jabador.description',
+    image: '/images/categories/jabador.jpg',
+    itemCount: 12,
+  },
+  {
+    id: 'accessories',
+    nameKey: 'categories.accessories.name',
+    descriptionKey: 'categories.accessories.description',
+    image: '/images/categories/accessories.jpg',
+    itemCount: 30,
+  },
+  {
+    id: 'shoes',
+    nameKey: 'categories.shoes.name',
+    descriptionKey: 'categories.shoes.description',
+    image: '/images/categories/shoes.jpg',
+    itemCount: 16,
+  },
+];
+
+export const products: Product[] = [
+  {
+    id: 1,
+    name: 'Royal Blue Wedding Kaftan',
+    description:
+      'Luxurious hand-embroidered kaftan in royal blue with gold threading, perfect for wedding ceremonies.',
+    price: 599.99,
+    images: [
+      '/images/products/kaftan-blue-1.jpg',
+      '/images/products/kaftan-blue-2.jpg',
+      '/images/products/kaftan-blue-3.jpg',
+    ],
+    category: 'kaftan',
+    stock: 5,
+    customizable: true,
+    styles: [
+      {
+        id: 1,
+        name: 'Custom Embroidery',
+        description: 'Add personalized embroidery patterns',
+        base_price: 50,
+        estimated_days: 5,
+        measurement_requirements: ['shoulder', 'chest', 'waist', 'hips', 'length'],
+      },
+    ],
+    created_at: '2024-01-15T10:00:00Z',
+    updated_at: '2024-01-15T10:00:00Z',
+  },
+  {
+    id: 2,
+    name: 'Emerald Green Takchita',
+    description: 'Two-piece ceremonial dress in emerald green with intricate beadwork.',
+    price: 449.99,
+    images: ['/images/products/takchita-green-1.jpg', '/images/products/takchita-green-2.jpg'],
+    category: 'takchita',
+    stock: 3,
+    customizable: true,
+    created_at: '2024-01-10T15:30:00Z',
+    updated_at: '2024-01-10T15:30:00Z',
+  },
+  {
+    id: 3,
+    name: 'Classic Brown Djellaba',
+    description: 'Comfortable everyday djellaba in rich brown with subtle embroidery.',
+    price: 199.99,
+    images: ['/images/products/djellaba-brown-1.jpg', '/images/products/djellaba-brown-2.jpg'],
+    category: 'djellaba',
+    stock: 15,
+    customizable: false,
+    created_at: '2024-01-05T09:15:00Z',
+    updated_at: '2024-01-05T09:15:00Z',
+  },
+  {
+    id: 4,
+    name: 'Navy Blue Jabador',
+    description: "Modern men's jabador suit in navy blue with traditional details.",
+    price: 299.99,
+    images: ['/images/products/jabador-navy-1.jpg', '/images/products/jabador-navy-2.jpg'],
+    category: 'jabador',
+    stock: 8,
+    customizable: true,
+    created_at: '2024-01-20T11:45:00Z',
+    updated_at: '2024-01-20T11:45:00Z',
+  },
+  {
+    id: 5,
+    name: 'Burgundy Velvet Kaftan',
+    description: 'Luxurious velvet kaftan in deep burgundy with crystal embellishments.',
+    price: 749.99,
+    images: [
+      '/images/products/kaftan-burgundy-1.jpg',
+      '/images/products/kaftan-burgundy-2.jpg',
+      '/images/products/kaftan-burgundy-3.jpg',
+    ],
+    category: 'kaftan',
+    stock: 2,
+    customizable: true,
+    created_at: '2024-01-25T14:20:00Z',
+    updated_at: '2024-01-25T14:20:00Z',
+  },
+  {
+    id: 6,
+    name: 'Pearl White Wedding Takchita',
+    description: 'Elegant white takchita with pearl embellishments, perfect for brides.',
+    price: 899.99,
+    images: ['/images/products/takchita-white-1.jpg', '/images/products/takchita-white-2.jpg'],
+    category: 'takchita',
+    stock: 4,
+    customizable: true,
+    created_at: '2024-02-01T16:10:00Z',
+    updated_at: '2024-02-01T16:10:00Z',
+  },
+];
+
+export const featuredCollections = [
+  {
+    id: 'wedding',
+    name: 'Wedding Collection',
+    description: 'Luxurious pieces for your special day',
+    image: '/images/collections/wedding.jpg',
+    products: [1, 6, 5], // Product IDs
+  },
+  {
+    id: 'ramadan',
+    name: 'Ramadan Collection',
+    description: 'Elegant comfort for the holy month',
+    image: '/images/collections/ramadan.jpg',
+    products: [3, 4, 2], // Product IDs
+  },
+];
+
+export const popularStyles = [
+  {
+    id: 'modern',
+    name: 'Modern Fusion',
+    description: 'Contemporary takes on traditional designs',
+    image: '/images/styles/modern.jpg',
+  },
+  {
+    id: 'traditional',
+    name: 'Traditional Classic',
+    description: 'Timeless Moroccan craftsmanship',
+    image: '/images/styles/traditional.jpg',
+  },
+  {
+    id: 'bridal',
+    name: 'Bridal Luxury',
+    description: 'Exquisite pieces for the bride',
+    image: '/images/styles/bridal.jpg',
+  },
+];
+
+export const accessories = [
+  {
+    id: 101,
+    name: 'Traditional Belt',
+    description: 'Hand-crafted metallic belt with gems',
+    price: 149.99,
+    images: ['/images/accessories/belt-1.jpg'],
+    category: 'accessories',
+    stock: 10,
+    created_at: '2024-01-28T13:00:00Z',
+    updated_at: '2024-01-28T13:00:00Z',
+  },
+  {
+    id: 102,
+    name: 'Moroccan Slippers',
+    description: 'Leather babouches with embroidery',
+    price: 79.99,
+    images: ['/images/accessories/slippers-1.jpg'],
+    category: 'shoes',
+    stock: 25,
+    created_at: '2024-01-29T13:00:00Z',
+    updated_at: '2024-01-29T13:00:00Z',
+  },
+];

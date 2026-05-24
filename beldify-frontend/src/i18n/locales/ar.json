@@ -1,0 +1,1836 @@
+{
+  "common": {
+    "search": "ابحث عن المنتجات...",
+    "filter": "تصفية",
+    "noResults": "لا توجد نتائج",
+    "openMenu": "فتح القائمة الرئيسية",
+    "closeMenu": "إغلاق القائمة",
+    "viewAll": "اظهار الكل",
+    "sort": "ترتيب حسب",
+    "price": "السعر",
+    "currency": "د.م",
+    "more": "المزيد",
+    "currency_labels": {
+      "moroccan_dirham": "د.م"
+    },
+    "select_option": "اختر خيار",
+    "traditional_wear": "الملابس التقليدية",
+    "mens_traditional_wear": "ملابس رجالية تقليدية",
+    "womens_traditional_wear": "ملابس نسائية تقليدية",
+    "childrens_traditional_wear": "ملابس أطفال تقليدية",
+    "traditional_wear_description": "اكتشف الملابس التقليدية الأصيلة لجميع المناسبات",
+    "mens_traditional_wear_description": "استكشف مجموعتنا من الملابس التقليدية الأصيلة للرجال",
+    "womens_traditional_wear_description": "تصفح مجموعتنا من الأزياء التقليدية الأنيقة للنساء",
+    "childrens_traditional_wear_description": "اعثر على ملابس تقليدية جميلة للأطفال من جميع الأعمار",
+    "fast_delivery": "ليفريزون سريع",
+    "no_image_available": "ما كاين تصويرة",
+    "no_products_found": "لا توجد منتجات",
+    "view_all": "شوف كولشي",
+    "checkBackSoon": "عودوا قريباً!",
+    "item": "عنصر",
+    "items": "عناصر",
+    "actions": {
+      "save_changes": "حفظ التغييرات",
+      "tryAgain": "حاول مرة أخرى",
+      "search": "بحث",
+      "clearFilters": "مسح التصفية",
+      "filters": "تصفية"
+    },
+    "notifications": {
+      "changes_saved": "تم حفظ التغييرات بنجاح",
+      "error_saving": "حدث خطأ أثناء حفظ التغييرات"
+    },
+    "try_again": "حاول مرة أخرى",
+    "loading": "جاري التحميل...",
+    "loading_experience": "جاري تحسين تجربتك...",
+    "error": "حدث خطأ",
+    "success": "تمت العملية بنجاح",
+    "cancel": "إلغاء",
+    "save": "حفظ",
+    "edit": "تعديل",
+    "delete": "حذف",
+    "view": "عرض",
+    "close": "إغلاق",
+    "back": "رجوع",
+    "next": "التالي",
+    "previous": "السابق",
+    "or": "أو",
+    "required_fields": "* الحقول المطلوبة",
+    "required": "مطلوب"
+  },
+  "validation": {
+    "required": "هذا الحقل مطلوب",
+    "email": "الرجاء إدخال بريد إلكتروني صحيح",
+    "minLength": "يجب أن يكون على الأقل {{count}} أحرف",
+    "maxLength": "يجب ألا يزيد عن {{count}} حرفًا"
+  },
+  "categories": {
+    "browse": "تصفح الفئات",
+    "title": "استكشف فئاتنا",
+    "description": "اكتشف مجموعتنا الواسعة من فئات الأزياء المغربية التقليدية والعصرية",
+    "available": "فئة متاحة",
+    "shop_by_category": "تسوق حسب الفئة",
+    "product_count": "{{count}} منتج",
+    "explore": "استكشف الفئة",
+    "no_categories_title": "لم يتم العثور على فئات",
+    "no_categories_found": "لم نتمكن من العثور على أي فئات في الوقت الحالي. يرجى المحاولة مرة أخرى لاحقاً.",
+    "featured": {
+      "title": "الفئات المميزة",
+      "description": "اكتشف فئات منتجاتنا الأكثر شعبية"
+    },
+    "more": "المزيد",
+    "shopNow": "تسوق الآن"
+  },
+  "auth": {
+    "login": "تسجيل الدخول",
+    "logout": "تسجيل الخروج",
+    "register": "تسجيل",
+    "forgotPassword": "نسيت كلمة المرور؟",
+    "email": "البريد الإلكتروني",
+    "password": "كلمة المرور",
+    "login_title": "مرحباً بعودتك",
+    "register_title": "انضم إلى بلديفاي اليوم",
+    "or_continue_with": "أو الاستمرار باستخدام البريد الإلكتروني",
+    "remember_me": "تذكرني",
+    "forgot_password": "نسيت كلمة المرور؟",
+    "dont_have_account": "ليس لديك حساب؟",
+    "create_account": "إنشاء حساب",
+    "full_name": "الاسم الكامل",
+    "first_name": "الاسم الأول",
+    "last_name": "الاسم الأخير",
+    "contact_number": "رقم الهاتف",
+    "password_confirmation": "تأكيد كلمة المرور",
+    "already_have_account": "لديك حساب بالفعل؟",
+    "sign_in": "تسجيل الدخول",
+    "username_generated": "تم إنشاء اسم المستخدم",
+    "registering": "جاري تسجيل حسابك...",
+    "logging_in": "جاري تسجيل الدخول...",
+    "login_required": "يرجى تسجيل الدخول لإرسال الطلبات الخاصة"
+  },
+  "navigation": {
+    "home": "الرئيسية",
+    "community": "السوق المفتوح",
+    "categories": "الفئات",
+    "wishlist": "المفضلة",
+    "cart": "السلة",
+    "profile": "الملف الشخصي",
+    "shopping_cart": "سلة التسوق",
+    "shop": "الحانوت",
+    "bestSellers": "الأكثر مبيعاً",
+    "newArrivals": "وصل حديث",
+    "deals": "العروض",
+    "search": "ابحث عن المنتجات...",
+    "featuredCategories": "الفئات المميزة",
+    "tailors": "الخياطين",
+    "stores": "المحلات",
+    "dashboard": "لوحة التحكم",
+    "settings": "الإعدادات",
+    "orders": "الطلبات",
+    "account": "حسابي",
+    "logout": "تسجيل الخروج",
+    "subcategories": "التصنيفات الفرعية",
+    "featuredProducts": "المنتجات المميزة",
+    "language": "اللغة",
+    "languages": {
+      "en": "الإنجليزية",
+      "ar": "العربية",
+      "fr": "الفرنسية",
+      "es": "الإسبانية",
+      "ma": "الدارجة",
+      "de": "الألمانية"
+    }
+  },
+  "category": {
+    "popularCategories": "الفئات الشائعة",
+    "viewAll": "عرض الكل",
+    "items": "منتجات",
+    "noCategories": "لا توجد فئات",
+    "topCategories": "أهم الفئات",
+    "all_categories": "جميع الفئات",
+    "featured": "الفئات المميزة",
+    "view_all": "عرض جميع الفئات",
+    "not_found": "لم يتم العثور على الفئة",
+    "empty": "لا توجد فئات لعرضها",
+    "loadMore": "تحميل المزيد من الفئات",
+    "subcategories": "الفئات الفرعية",
+    "trending": "الرائجة",
+    "discoverMostPopular": "اكتشف الفئات الأكثر شعبية التي يحبها عملاؤنا",
+    "exploreAllCategories": "استكشف جميع الفئات",
+    "discoverMore": "اكتشف آلاف المنتجات عبر جميع الفئات",
+    "comingSoon": "قريباً"
+  },
+  "megaOffers": {
+    "title": "عروض ضخمة",
+    "subtitle": "صفقات حصرية لا يمكنك تفويتها",
+    "viewAll": "عرض جميع العروض",
+    "limitedTime": "لوقت محدود",
+    "exclusive": "حصري",
+    "off": "خصم",
+    "addToCart": "أضف إلى السلة",
+    "noOffers": "لا توجد عروض ضخمة متاحة حالياً",
+    "comingSoon": "عروض جديدة قريباً!"
+  },
+  "bestSellers": {
+    "title": "الأكثر مبيعاً",
+    "noBestSellers": "لا توجد منتجات الأكثر مبيعاً",
+    "loadingError": "فشل في تحميل المنتجات الأكثر مبيعاً",
+    "discount": "خصم",
+    "previousButton": "المنتجات السابقة",
+    "nextButton": "المنتجات التالية",
+    "goToSlide": "الانتقال إلى الشريحة {{number}}",
+    "ranking": "#{{number}}"
+  },
+  "featuredSections": {
+    "bestSellers": {
+      "title": "الأكثر مبيعاً",
+      "viewAll": "عرض الكل",
+      "rating": "التقييم",
+      "bestSellersDesc": "اكتشف مجموعتنا من الملابس التقليدية الأصيلة الأكثر مبيعاً"
+    },
+    "newArrivals": {
+      "title": "وصل حديث",
+      "viewAll": "عرض الكل",
+      "newBadge": "جديد",
+      "newArrivalsDesc": "اكتشف مجموعتنا من الملابس التقليدية الأصيلة الجديدة"
+    },
+    "mensTraditional": {
+      "mensTraditionalDesc": "اكتشف مجموعتنا من الملابس التقليدية الأصيلة للرجال",
+      "title": "أزياء رجالية تقليدية",
+      "viewAll": "عرض الكل"
+    },
+    "womensTraditional": {
+      "womensTraditionalDesc": "اكتشف مجموعتنا من الملابس التقليدية الأصيلة للنساء",
+      "title": "أزياء نسائية تقليدية",
+      "viewAll": "عرض الكل"
+    },
+    "childrensTraditional": {
+      "childrensTraditionalDesc": "اكتشف مجموعتنا من الملابس التقليدية الأصيلة للأطفال",
+      "title": "أزياء أطفال تقليدية",
+      "viewAll": "عرض الكل"
+    },
+    "featuredStores": {
+      "title": "المحلات المميزة",
+      "viewAll": "عرض الكل",
+      "featuredStoresDesc": "اكتشف متاجرنا الأعلى تقييماً والموثقة التي تقدم منتجات عالية الجودة"
+    }
+  },
+  "product": {
+    "product_add_to_cart": "أضف إلى السلة",
+    "product_buy_now": "اشترِ الآن",
+    "product_arrives_tomorrow": "يصل غداً",
+    "product_express": "توصيل سريع",
+    "product_out_of_stock": "نفذ من المخزون",
+    "product_added_to_cart": "تمت الإضافة إلى السلة",
+    "product_remove_from_cart": "إزالة من السلة",
+    "product_view_cart": "عرض السلة",
+    "product_checkout": "إتمام الشراء",
+    "addToCart": "إضافة إلى السلة",
+    "addedToCart": "تمت الإضافة إلى السلة",
+    "addingToCart": "جاري الإضافة إلى السلة...",
+    "like": "إعجاب",
+    "liked": "معجب",
+    "review": "تقييم",
+    "reviews_label": "تقييمات",
+    "quickView": "نظرة سريعة",
+    "outOfStock": "نفذت الكمية",
+    "inStock": "متوفر",
+    "newBadge": "جديد",
+    "saveAmount": "وفر {{amount}} د.م",
+    "addToWishlist": "إضافة إلى المفضلة",
+    "description": "وصف المنتج",
+    "size": "المقاس",
+    "color": "اللون",
+    "fabric": "القماش",
+    "quantity": "الكمية",
+    "sku": "رقم المنتج",
+    "price": "السعر",
+    "total": "المجموع",
+    "selectSize": "اختر المقاس",
+    "selectColor": "اختر اللون",
+    "selectFabric": "اختر القماش",
+    "variant_price": "السعر بناء على اللون او المقاس",
+    "express": "توصيل سريع",
+    "arrives_tomorrow": "يصل غداً",
+    "no_image": "لا تتوفر صورة",
+    "shop_name": "المتجر",
+    "explore_shop": "استكشف المتجر",
+    "rating_label": "التقييم",
+    "reviews_product": "التقييمات",
+    "add_to_cart_button": "أضف إلى السلة",
+    "buy_now": "اشتري الآن",
+    "price_percentage": "%{price} درهم",
+    "currency": "درهم",
+    "price_unavailable": "السعر غير متوفر",
+    "discount_percent": "%{percent}% خصم",
+    "off": "خصم",
+    "visit_store": "زيارة المتجر",
+    "visit_external_website": "زيارة الموقع الإلكتروني",
+    "products": "المنتجات",
+    "product_information": "معلومات المنتج",
+    "free_delivery": "توصيل مجاني",
+    "delivery_estimate": "التوصيل المتوقع خلال 2-4 أيام عمل",
+    "secure_transaction": "معاملة آمنة",
+    "money_back_guarantee": "ضمان استرداد الأموال إذا لم تكن راضي",
+    "about_this_item": "حول هذا المنتج",
+    "specifications": "المواصفات",
+    "select_options": "اختر الخيارات",
+    "additional_info": "معلومات إضافية",
+    "delivery_estimate_detail": "شحن سريع مع تتبع الطلب. تختلف مواعيد التسليم حسب الموقع.",
+    "money_back_guarantee_detail": "معاملات آمنة مع ضمان استرداد الأموال للمنتجات المؤهلة.",
+    "related_products": "منتجات ذات صلة",
+    "purchase_now": "اشتري الآن",
+    "select_options_prompt": "اختر مواصفات المنتج لمعرفة التوفر",
+    "options_affect_availability": "اللون، المقاس، والقماش يؤثرون على توفر المنتج",
+    "select_quantity_prompt": "اختر الكمية التي ترغب في شرائها",
+    "select_options_required": "الرجاء اختيار جميع المواصفات المطلوبة لإضافة هذا المنتج إلى السلة.",
+    "color_images_available": "صور لمجموعة الألوان {{colorGroup}} متوفرة",
+    "size_not_available_for_color": "{{sizeName}} - غير متوفر لهذا اللون",
+    "image_alt": "صورة المنتج",
+    "discount_badge": "%{{discountPercentage}} خصم"
+  },
+  "stock": {
+    "in_stock": "متوفر في المخزون ({{count}})",
+    "out_of_stock": "نفذ من المخزون",
+    "unavailable_short": "غ/م",
+    "exceeded": "تجاوزت الكمية المتوفرة",
+    "checking": "جاري التحقق من المخزون...",
+    "ready_to_ship": "جاهز للشحن",
+    "decrease_quantity": "تقليل الكمية",
+    "increase_quantity": "زيادة الكمية",
+    "max_reached": "وصلت إلى الحد الأقصى ({{max}})",
+    "selected": "محدد",
+    "available": "متوفر",
+    "remaining": "متبقي",
+    "unavailable": "غير متوفر",
+    "select_options_for_availability": "حدد الخيارات للتحقق من التوفر",
+    "added": "تمت الإضافة!",
+    "viewFullDetails": "عرض التفاصيل الكاملة",
+    "request_custom_product": "طلب منتج مخصص",
+    "custom_product_description": "لا تجد ما تبحث عنه؟ قم بإنشاء طلب مخصص وتواصل مع البائعين الذين يمكنهم صنعه لك.",
+    "custom_request_message": "مرحباً! أنا مهتم بنسخة مخصصة من هذا المنتج. هل يمكنك مساعدتي في تصميم شخصي؟",
+    "url": "رابط المنتج"
+  },
+  "success": {
+    "addedToCart": "تمت إضافة المنتج إلى السلة بنجاح"
+  },
+  "cart": {
+    "title": "سلة التسوق",
+    "empty": {
+      "title": "سلة التسوق فارغة",
+      "description": "لم تقم بإضافة أي منتجات إلى سلة التسوق بعد",
+      "cta": "تصفح المنتجات"
+    },
+    "items": {
+      "product": "المنتج",
+      "price": "السعر",
+      "price_with_currency": "السعر: {{price}} د.م",
+      "quantity": "الكمية",
+      "total": "المجموع",
+      "remove": "إزالة",
+      "update": "تحديث"
+    },
+    "summary": {
+      "title": "ملخص الطلب",
+      "subtotal": "المجموع الفرعي",
+      "shipping": "الشحن",
+      "discount": "الخصم",
+      "tax": "الضريبة",
+      "total": "المجموع الكلي",
+      "proceed_to_checkout": "المتابعة للدفع",
+      "checkout": "إتمام الشراء",
+      "continue_shopping": "متابعة التسوق"
+    },
+    "coupon": {
+      "label": "رمز الخصم",
+      "placeholder": "أدخل رمز القسيمة",
+      "apply": "تطبيق",
+      "remove": "إزالة",
+      "applied": "تم تطبيق القسيمة: {{code}}",
+      "removed": "تم إزالة القسيمة",
+      "invalid": "رمز القسيمة غير صالح",
+      "enter_code": "يرجى إدخال رمز القسيمة"
+    },
+    "quantity": {
+      "increase": "زيادة الكمية",
+      "decrease": "تقليل الكمية",
+      "max_limit": "الحد الأقصى المتاح هو {{max}}"
+    },
+    "notifications": {
+      "removed": "تمت إزالة المنتج من السلة",
+      "updated": "تم تحديث الكمية",
+      "error": "حدث خطأ. يرجى المحاولة مرة أخرى"
+    },
+    "confirmation": {
+      "remove": {
+        "title": "إزالة المنتج",
+        "message": "هل أنت متأكد من رغبتك في إزالة هذا المنتج من السلة؟",
+        "confirm": "نعم، إزالة",
+        "cancel": "إلغاء"
+      }
+    },
+    "error_fetching": "خطأ في جلب السلة",
+    "error_adding": "خطأ في إضافة المنتج إلى السلة",
+    "error_removing": "خطأ في إزالة المنتج من السلة",
+    "error_updating": "خطأ في تحديث السلة",
+    "error_clearing": "خطأ في مسح السلة",
+    "network_error": "حدث خطأ في الشبكة. يرجى التحقق من اتصالك",
+    "unknown_error": "حدث خطأ غير معروف",
+    "added_successfully": "تمت إضافة المنتج إلى السلة",
+    "removed_successfully": "تمت إزالة المنتج من السلة",
+    "updated_successfully": "تم تحديث السلة بنجاح",
+    "cleared_successfully": "تم مسح السلة بنجاح"
+  },
+  "products": {
+    "title": "المنتجات",
+    "results": "{{count}} منتج",
+    "no_results": "لم يتم العثور على منتجات",
+    "add_to_cart": "أضف إلى السلة",
+    "customize": "تخصيص",
+    "quick_view": "نظرة سريعة",
+    "out_of_stock": "غير متوفر",
+    "in_stock": "متوفر",
+    "sale": "تخفيض",
+    "search": "ابحث عن المنتجات...",
+    "results_plural": "منتجات",
+    "loading": "جاري التحميل...",
+    "error": {
+      "fetch": "حدث خطأ أثناء تحميل المنتجات",
+      "general": "حدث خطأ غير متوقع"
+    },
+    "results_count": "{{count}} منتج",
+    "express": "توصيل سريع",
+    "arrives_tomorrow": "يصل غداً",
+    "buy_now": "اشترِ الآن",
+    "no_image": "لا توجد صورة",
+    "rating": "{{rating}} ★",
+    "reviews": "({{count}} تقييم)",
+    "reviews_plural": "({{count}} تقييمات)",
+    "price": "{{price}} درهم",
+    "original_price": "{{price}} درهم",
+    "discount": "{{discount}}% تخفيض",
+    "sort": {
+      "title": "ترتيب حسب",
+      "newest": "أحدث المنتجات",
+      "price_low_high": "السعر: من الأقل إلى الأعلى",
+      "price_high_low": "السعر: من الأعلى إلى الأقل",
+      "popular": "الأكثر شعبية"
+    },
+    "filters": {
+      "price_range": "نطاق السعر",
+      "min_price": "السعر الأدنى",
+      "max_price": "السعر الأقصى",
+      "colors": "الألوان",
+      "color_black": "أسود",
+      "color_white": "أبيض",
+      "color_red": "أحمر",
+      "color_blue": "أزرق",
+      "color_green": "أخضر",
+      "color_yellow": "أصفر",
+      "color_purple": "بنفسجي",
+      "color_pink": "وردي",
+      "color_brown": "بني",
+      "color_gray": "رمادي",
+      "color_orange": "برتقالي",
+      "color_gold": "ذهبي",
+      "color_silver": "فضي",
+      "color_multicolor": "متعدد الألوان",
+      "sizes": "المقاسات",
+      "size_xs": "XS",
+      "size_s": "S",
+      "size_m": "M",
+      "size_l": "L",
+      "size_xl": "XL",
+      "size_xxl": "XXL",
+      "fabrics": "الأقمشة",
+      "fabric_brocade": "البروكار",
+      "fabric_silk": "الحرير",
+      "fabric_cotton": "القطن",
+      "fabric_wool": "الصوف",
+      "fabric_linen": "الكتان",
+      "fabric_polyester": "البوليستر",
+      "additional": "خيارات إضافية",
+      "in_stock": "متوفر في المخزون",
+      "customizable": "قابل للتخصيص",
+      "on_sale": "تخفيضات",
+      "new_arrivals": "وصل حديث",
+      "sort": "ترتيب حسب",
+      "sort_newest": "الأحدث",
+      "sort_price_low_high": "السعر: من الأقل إلى الأعلى",
+      "sort_price_high_low": "السعر: من الأعلى إلى الأقل",
+      "sort_popularity": "الأكثر شعبية",
+      "sort_rating": "التقييم",
+      "clear_all": "مسح الكل",
+      "apply": "تطبيق"
+    },
+    "card": {
+      "add_to_cart": "أضف إلى السلة",
+      "out_of_stock": "نفذ من المخزون",
+      "sale": "تخفيض",
+      "new": "جديد",
+      "discount_percent": "{{percent}}% خصم",
+      "rating": "{{rating}} ★",
+      "reviews": "({{count}} تقييم)",
+      "reviews_plural": "({{count}} تقييمات)",
+      "starting_price": "يبدأ من",
+      "product_names": {
+        "classic_jeans": "جينز كلاسيكي",
+        "running_shoes": "حذاء رياضي",
+        "premium_tshirt": "تيشيرت فاخر",
+        "kamison": "قميص",
+        "brocade_fassi": "قماش البروكار الفاسي",
+        "silk_fassi": "حرير فاسي",
+        "traditional_caftan": "قفطان تقليدي",
+        "luxury_takchita": "تكشيطة فاخرة",
+        "moroccan_djellaba": "جلابة مغربية",
+        "embroidered_jabador": "جبدور مطرز"
+      }
+    },
+    "actions": {
+      "add_to_cart": "أضف إلى السلة",
+      "buy_now": "اشترِ الآن",
+      "arrives_tomorrow": "يصل غداً",
+      "express": "توصيل سريع",
+      "out_of_stock": "نفذ من المخزون",
+      "added_to_cart": "تمت الإضافة إلى السلة",
+      "remove_from_cart": "إزالة من السلة",
+      "view_cart": "عرض السلة",
+      "checkout": "إتمام الشراء"
+    }
+  },
+  "order": {
+    "title": "طلب رقم {{orderNumber}}",
+    "placed_on": "تم الطلب في {{date}}",
+    "status": {
+      "pending": "قيد الانتظار",
+      "processing": "قيد المعالجة",
+      "shipped": "تم الشحن",
+      "delivered": "تم التوصيل",
+      "cancelled": "ملغي"
+    },
+    "progress": {
+      "order_placed": "تم تقديم الطلب",
+      "processing": "قيد المعالجة",
+      "shipped": "تم الشحن",
+      "delivered": "تم التوصيل",
+      "in_progress": "قيد التنفيذ",
+      "completed": "مكتمل",
+      "pending": "قيد الانتظار",
+      "in_transit": "في الطريق"
+    },
+    "payment": {
+      "title": "حالة الدفع",
+      "status": {
+        "paid": "تم معالجة الدفع بنجاح",
+        "pending": "في انتظار تأكيد الدفع",
+        "failed": "فشل الدفع أو تم رفضه"
+      }
+    },
+    "items": {
+      "title": "المنتجات المطلوبة",
+      "quantity": "الكمية: {{count}}",
+      "unit_price": "{{price}} د.م للقطعة",
+      "color": "اللون: {{color}}",
+      "size": "المقاس: {{size}}",
+      "product": "المنتج",
+      "product_image": "صورة المنتج",
+      "each": "للقطعة"
+    },
+    "shipping": {
+      "title": "معلومات الشحن",
+      "contact": "معلومات الاتصال",
+      "address": "العنوان"
+    },
+    "summary": {
+      "title": "ملخص الطلب",
+      "subtotal": "المجموع الفرعي",
+      "shipping": "الشحن",
+      "tax": "الضريبة",
+      "total": "المجموع الكلي",
+      "payment_method": "طريقة الدفع",
+      "payment_status": "حالة الدفع"
+    }
+  },
+  "orders": {
+    "title": "طلباتي",
+    "loading": {
+      "title": "جاري تحميل تفاصيل الطلب",
+      "message": "يرجى الانتظار بينما نجلب معلومات طلبك..."
+    },
+    "empty": {
+      "title": "لا توجد طلبات",
+      "description": "لم تقم بإجراء أي طلبات بعد. تصفح متجرنا واكتشف منتجاتنا الرائعة"
+    },
+    "error": {
+      "title": "عذراً!",
+      "description": "حدثت مشكلة أثناء تحميل طلباتك. يرجى المحاولة مرة أخرى"
+    },
+    "not_found": {
+      "title": "لم يتم العثور على الطلب",
+      "message": "عذراً، لم نتمكن من العثور على الطلب المطلوب. يرجى التحقق من رقم الطلب والمحاولة مرة أخرى"
+    },
+    "actions": {
+      "try_again": "حاول مرة أخرى",
+      "start_shopping": "ابدأ التسوق",
+      "view_details": "عرض التفاصيل",
+      "back_to_orders": "العودة إلى الطلبات",
+      "contact_seller": "تواصل مع البائع",
+      "contact_support": "تواصل مع الدعم",
+      "write_review": "اكتب تقييماً",
+      "download_invoice": "تحميل الفاتورة"
+    },
+    "filter": {
+      "all": "جميع الطلبات",
+      "pending": "قيد الانتظار",
+      "processing": "قيد المعالجة",
+      "shipped": "تم الشحن",
+      "delivered": "تم التوصيل",
+      "cancelled": "ملغي"
+    },
+    "search": {
+      "placeholder": "البحث في الطلبات..."
+    },
+    "status": {
+      "pending": "قيد الانتظار",
+      "processing": "قيد المعالجة",
+      "shipped": "تم الشحن",
+      "delivered": "تم التوصيل",
+      "cancelled": "ملغي",
+      "order_placed": "تم تأكيد الطلب",
+      "completed": "الطلب مكتمل"
+    },
+    "tracking": {
+      "title": "تتبع الطلب",
+      "order_placed": "تم تأكيد الطلب",
+      "processing": "قيد المعالجة",
+      "shipped": "تم الشحن",
+      "delivered": "تم التوصيل",
+      "order_placed_short": "١",
+      "processing_short": "٢",
+      "shipped_short": "٣",
+      "delivered_short": "٤",
+      "number": "رقم التتبع",
+      "estimated_delivery": "موعد التسليم المتوقع"
+    },
+    "items": {
+      "title": "المنتجات",
+      "quantity": "الكمية: {{count}}",
+      "color": "اللون: {{color}}",
+      "size": "المقاس: {{size}}",
+      "each": "للقطعة"
+    },
+    "summary": {
+      "title": "ملخص الطلب",
+      "subtotal": "المجموع الفرعي",
+      "shipping": "الشحن",
+      "free": "مجاني",
+      "total": "المجموع الكلي"
+    },
+    "payment_status": {
+      "paid": "تم الدفع",
+      "pending": "في انتظار الدفع",
+      "failed": "فشل الدفع",
+      "refunded": "تم الاسترجاع",
+      "completed": "مكتمل"
+    },
+    "placed_on": "تاريخ الطلب",
+    "list": {
+      "order_number": "طلب رقم {{orderNumber}}",
+      "date": "{{date}}",
+      "product": "المنتج",
+      "product_image": "صورة المنتج",
+      "quantity_price": "{{quantity}} × {{price}}",
+      "items_count_zero": "لا توجد منتجات",
+      "items_count_one": "منتج واحد",
+      "items_count_two": "منتجان",
+      "items_count_few": "{{count}} منتجات",
+      "items_count_many": "{{count}} منتج",
+      "items_count_other": "{{count}} منتج",
+      "total": "المجموع: {{amount}}",
+      "more_items": "و {{count}} منتج آخر",
+      "view_details": "عرض التفاصيل"
+    }
+  },
+  "checkout": {
+    "title": "الدفع",
+    "steps": {
+      "shipping": "الشحن",
+      "payment": "الدفع",
+      "review": "المراجعة"
+    },
+    "personal": {
+      "title": "المعلومات الشخصية",
+      "description": "معلومات لتأكيد الطلب وتحديثات التوصيل",
+      "first_name": "الاسم الأول",
+      "last_name": "اسم العائلة",
+      "full_name": "الاسم الكامل",
+      "full_name_placeholder": "أدخل اسمك الكامل",
+      "full_name_help": "سنستخدم هذا للشحن وتحديثات الطلب",
+      "email": "البريد الإلكتروني",
+      "phone": "رقم الهاتف",
+      "optional": "اختياري"
+    },
+    "shipping": {
+      "title": "معلومات الشحن",
+      "address_mode": {
+        "edit": "تعديل",
+        "detected": "تم تحديد الموقع",
+        "manual": "إدخال العنوان يدوياً",
+        "location": "استخدام الموقع الحالي"
+      },
+      "form": {
+        "address": "عنوان الشارع",
+        "apartment": "شقة، جناح، إلخ. (اختياري)",
+        "city": "المدينة",
+        "state": "المنطقة / المحافظة",
+        "postal_code": "الرمز البريدي",
+        "postal_code_placeholder": "اختياري",
+        "country": "البلد",
+        "use_location": "استخدم موقعي",
+        "detecting_location": "جاري تحديد موقعك..."
+      }
+    },
+    "payment": {
+      "title": "طريقة الدفع",
+      "methods": {
+        "cod": "الدفع عند الاستلام",
+        "paypal": "باي بال",
+        "card": "بطاقة ائتمان"
+      },
+      "descriptions": {
+        "cod": "ادفع عند استلام طلبك",
+        "paypal": "قريباً - ادفع بأمان عبر باي بال",
+        "card": "قريباً - ادفع بأمان ببطاقتك"
+      },
+      "coming_soon": "قريباً"
+    },
+    "order_summary": {
+      "title": "ملخص الطلب",
+      "subtotal": "المجموع الفرعي",
+      "shipping": "الشحن",
+      "tax": "الضريبة",
+      "total": "المجموع الكلي",
+      "items": "{{count}} منتجات"
+    },
+    "actions": {
+      "next": "التالي",
+      "continue": "متابعة",
+      "back": "رجوع",
+      "place_order": "تأكيد الطلب",
+      "processing": "جاري المعالجة..."
+    },
+    "validation": {
+      "required": "هذا الحقل مطلوب",
+      "invalid_email": "يرجى إدخال بريد إلكتروني صحيح",
+      "invalid_phone": "يرجى إدخال رقم هاتف صحيح",
+      "location_error": "فشل في تحديد موقعك. يرجى المحاولة مرة أخرى أو إدخال العنوان يدوياً"
+    },
+    "errors": {
+      "shipping_info_incomplete": "يرجى ملء جميع معلومات الشحن المطلوبة",
+      "payment_info_incomplete": "يرجى ملء جميع معلومات الدفع المطلوبة",
+      "invalid_email": "يرجى إدخال عنوان بريد إلكتروني صحيح",
+      "invalid_phone": "يرجى إدخال رقم هاتف صحيح",
+      "invalid_card": "يرجى إدخال تفاصيل بطاقة صحيحة",
+      "processing_failed": "فشلت معالجة الطلب. يرجى المحاولة مرة أخرى",
+      "cart_empty": "سلة التسوق فارغة. يرجى إضافة منتجات قبل الدفع",
+      "invalid_address": "يرجى إدخال عنوان شحن صحيح",
+      "invalid_zip": "يرجى إدخال رمز بريدي صحيح",
+      "country_required": "يرجى اختيار بلدك",
+      "auth_required": "يرجى تسجيل الدخول للمتابعة في إتمام الطلب",
+      "shipping_info_required": "مطلوب معلومات الشحن للمتابعة"
+    },
+    "success": {
+      "order_placed": "تم تقديم الطلب بنجاح! شكرًا لشرائك."
+    }
+  },
+  "profile": {
+    "page": {
+      "loading": "جاري التحميل...",
+      "default_user_name": "مستخدم مجهول",
+      "no_email": "لم يتم تقديم البريد الإلكتروني",
+      "member_since": "عضو منذ ",
+      "roles": {
+        "user": "مستخدم",
+        "admin": "مدير النظام",
+        "manager": "مدير"
+      }
+    },
+    "tabs": {
+      "general": "عام",
+      "security": "الأمان",
+      "preferences": "التفضيلات"
+    },
+    "default_user_name": "المستخدم",
+    "title": "الملف الشخصي",
+    "member_since": "عضو منذ ",
+    "no_email": "لم يتم تحديد البريد الإلكتروني",
+    "personal_info": "المعلومات الشخصية",
+    "fields": {
+      "full_name": "الاسم الكامل",
+      "username": "اسم المستخدم",
+      "email": "البريد الإلكتروني",
+      "email_help": "لن يتم عرض بريدك الإلكتروني للعامة",
+      "phone": "رقم الهاتف",
+      "phone_help": "لن يتم عرض رقم هاتفك للعامة",
+      "billing_address": "عنوان الفواتير",
+      "address": "العنوان",
+      "shipping_info": "معلومات الشحن",
+      "shipping_address": "عنوان الشحن",
+      "city": "المدينة",
+      "state": "المنطقة/المحافظة",
+      "postal_code": "الرمز البريدي",
+      "country": "البلد",
+      "select_country": "اختر البلد"
+    },
+    "actions": {
+      "save_changes": "حفظ التغييرات",
+      "edit": "تعديل",
+      "cancel": "إلغاء"
+    },
+    "notifications": {
+      "changes_saved": "تم حفظ التغييرات بنجاح",
+      "error_saving": "حدث خطأ أثناء حفظ التغييرات"
+    },
+    "validation": {
+      "required": "هذا الحقل مطلوب",
+      "invalid_email": "البريد الإلكتروني غير صالح",
+      "invalid_phone": "رقم الهاتف غير صالح"
+    },
+    "security": {
+      "change_password": "تغيير كلمة المرور",
+      "current_password": "كلمة المرور الحالية",
+      "new_password": "كلمة المرور الجديدة",
+      "confirm_password": "تأكيد كلمة المرور الجديدة",
+      "password_help": "يجب أن تحتوي كلمة المرور على 8 أحرف على الأقل",
+      "password_mismatch": "كلمات المرور الجديدة غير متطابقة",
+      "success_message": "تم تحديث كلمة المرور بنجاح",
+      "error_message": "فشل تحديث كلمة المرور"
+    },
+    "preferences": {
+      "title": "التفضيلات",
+      "notification_settings": "إعدادات الإشعارات",
+      "email_notifications": {
+        "title": "إشعارات البريد الإلكتروني",
+        "description": "استلام إشعارات حول نشاط حسابك"
+      },
+      "marketing_emails": {
+        "title": "رسائل تسويقية",
+        "description": "استلام رسائل حول المنتجات والعروض الجديدة"
+      },
+      "order_updates": {
+        "title": "تحديثات الطلبات",
+        "description": "الحصول على إشعارات حول حالة طلبك"
+      },
+      "newsletter": {
+        "title": "النشرة الإخبارية",
+        "description": "اشترك في نشرتنا الأسبوعية"
+      },
+      "language_settings": "إعدادات اللغة",
+      "language": {
+        "title": "اللغة",
+        "description": "اختر لغتك المفضلة"
+      },
+      "timezone": {
+        "title": "المنطقة الزمنية",
+        "description": "اختر منطقتك الزمنية"
+      },
+      "success_message": "تم تحديث التفضيلات بنجاح",
+      "error_message": "فشل تحديث التفضيلات"
+    }
+  },
+  "errors": {
+    "general": "حدث خطأ",
+    "network": "خطأ في الاتصال",
+    "validation": "يرجى التحقق من المعلومات",
+    "required": "هذا الحقل مطلوب",
+    "invalid_email": "البريد الإلكتروني غير صالح",
+    "invalid_phone": "رقم الهاتف غير صالح",
+    "session_expired": "انتهت جلستك",
+    "unauthorized": "غير مصرح به",
+    "not_found": "الصفحة غير موجودة",
+    "server_error": "خطأ في الخادم",
+    "failedToLoadProduct": "فشل في تحميل المنتج",
+    "productNotFound": "المنتج غير موجود",
+    "productNotAvailable": "هذا المنتج غير متوفر حالياً",
+    "selectAllOptions": "الرجاء اختيار جميع الخيارات قبل الإضافة إلى السلة",
+    "variantNotAvailable": "التركيبة المختارة غير متوفرة",
+    "shop_not_found": "معلومات المتجر غير متوفرة"
+  },
+  "notifications": {
+    "success": {
+      "added_to_cart": "تمت إضافة المنتج إلى السلة",
+      "removed_from_cart": "تمت إزالة المنتج من السلة",
+      "order_placed": "تم تقديم الطلب بنجاح",
+      "profile_updated": "تم تحديث الملف الشخصي",
+      "address_saved": "تم حفظ العنوان"
+    },
+    "error": {
+      "add_to_cart": "تعذر الإضافة إلى السلة",
+      "remove_from_cart": "تعذر الإزالة من السلة",
+      "place_order": "تعذر تقديم الطلب",
+      "update_profile": "تعذر تحديث الملف الشخصي",
+      "save_address": "تعذر حفظ العنوان"
+    }
+  },
+  "filters": {
+    "title": "فيلتراج",
+    "clear_all": "مسح الكل",
+    "price_range": "نطاق السعر",
+    "min": "الحد الأدنى",
+    "max": "الحد الأقصى",
+    "colors": "الألوان",
+    "sizes": "المقاسات",
+    "fabrics": "الأقمشة",
+    "additional": "خيارات إضافية",
+    "in_stock": "متوفر في المخزون",
+    "customizable": "قابل للتخصيص",
+    "on_sale": "تخفيضات",
+    "new_arrivals": "وصل حديث",
+    "apply": "تطبيق"
+  },
+  "sort": {
+    "title": "ترتيب حسب",
+    "newest": "أحدث المنتجات",
+    "price_low_high": "السعر: من الأقل إلى الأعلى",
+    "price_high_low": "السعر: من الأعلى إلى الأقل",
+    "popular": "الأكثر شعبية"
+  },
+  "pages": {
+    "privacyPolicy": {
+      "title": "سياسة الخصوصية",
+      "lastUpdated": "آخر تحديث",
+      "yourPrivacyMatters": "خصوصيتك مهمة لنا",
+      "contactUs": "اتصل بنا",
+      "questions": "هل لديك أسئلة حول خصوصيتك؟",
+      "committed": "نحن ملتزمون بحماية معلوماتك الشخصية. إذا كانت لديك أي أسئلة أو مخاوف، فإن فريق الخصوصية المخصص لدينا موجود لمساعدتك.",
+      "sections": {
+        "infoWeCollect": "المعلومات التي نجمعها",
+        "infoWeCollectDescription": "نجمع المعلومات التي تقدمها مباشرة، والمعلومات التي نجمعها تلقائيًا عند تفاعلك مع موقعنا، والمعلومات من مصادر الأطراف الثالثة.",
+        "personalData": "البيانات الشخصية",
+        "personalDataDescription": "عند إنشاء حساب أو طلب منتج أو المشاركة في مجتمعنا، قد نقوم بجمع:",
+        "personalDataItems": [
+          "الاسم والعنوان ورقم الهاتف",
+          "معلومات بطاقة الائتمان (يتم تخزينها بشكل آمن)",
+          "معلومات الحساب (كلمة المرور، الرمز السري، إلخ)",
+          "معلومات الملف الشخصي (الصورة، الوصف، إلخ)"
+        ],
+        "usageData": "بيانات الاستخدام",
+        "usageDataDescription": "نجمع معلومات حول كيفية استخدامك لموقعنا، بما في ذلك:",
+        "usageDataItems": [
+          "بيانات التصفح (الصفحات التي تمت زيارتها، الروابط التي تم النقر عليها)",
+          "معلومات الجهاز (النوع، الطراز، نظام التشغيل)",
+          "عنوان IP وبيانات الموقع",
+          "ملفات تعريف الارتباط وبيانات التتبع"
+        ],
+        "howWeUse": "كيف نستخدم معلوماتك",
+        "howWeUseDescription": "نستخدم معلوماتك من أجل:",
+        "howWeUseItems": [
+          "تقديم خدماتنا وتحسينها",
+          "التواصل معك بشأن طلباتك",
+          "إرسال العروض والأخبار لك",
+          "تحسين تجربة المستخدم لديك"
+        ],
+        "authServices": "خدمات المصادقة",
+        "authServicesDescription": "نستخدم خدمات خارجية لتسجيل الدخول (مثل جوجل، فيسبوك). تقوم هذه الخدمات بجمع معلوماتك وفقًا لسياسة الخصوصية الخاصة بها.",
+        "dataStorage": "تخزين البيانات وأمنها",
+        "dataStorageDescription": "نستخدم إجراءات أمنية لحماية بياناتك، ولكن لا يوجد نظام آمن بنسبة 100٪. نستخدم تشفير SSL ونتبع معايير الصناعة.",
+        "infoSharing": "مشاركة المعلومات",
+        "infoSharingDescription": "لا نقوم ببيع أو مشاركة معلوماتك مع أطراف ثالثة، إلا في الحالات التالية:",
+        "infoSharingItems": [
+          "مع مقدمي الخدمات الذين يساعدوننا في تقديم خدماتنا",
+          "للامتثال للقانون أو أمر قضائي",
+          "في حالة الاندماج أو الاستحواذ",
+          "لحماية حقوقنا القانونية"
+        ],
+        "cookies": "ملفات تعريف الارتباط وتقنيات التتبع",
+        "cookiesDescription": "نستخدم ملفات تعريف الارتباط وتقنيات التتبع لتحسين تجربتك وتحليل استخدام الموقع. يمكنك إدارة إعداداتك من خلال متصفحك.",
+        "yourRights": "حقوقك",
+        "yourRightsDescription": "لديك الحق في:",
+        "yourRightsItems": [
+          "الوصول إلى معلوماتك",
+          "تصحيح المعلومات غير المكتملة أو غير الدقيقة",
+          "حذف بياناتك",
+          "الاعتراض على معالجة بياناتك",
+          "طلب نقل بياناتك"
+        ],
+        "yourRightsContact": "لممارسة هذه الحقوق، يمكنك الاتصال بنا من خلال صفحة اتصل بنا.",
+        "childrenPrivacy": "خصوصية الأطفال",
+        "childrenPrivacyDescription": "لا تقدم خدماتنا للأشخاص الذين تقل أعمارهم عن 16 عامًا. نحن لا نجمع معلومات شخصية من الأطفال عن قصد. إذا كنت أحد الوالدين أو الوصي وتعرف أن طفلك قد زودنا بمعلومات شخصية، يرجى الاتصال بنا.",
+        "internationalTransfers": "نقل البيانات دوليًا",
+        "internationalTransfersDescription": "قد يتم نقل معلوماتك وتخزينها في بلدان أخرى غير بلدك. عندما ننقل معلوماتك دوليًا، نتخذ تدابير مناسبة لحمايتها وفقًا لسياسة الخصوصية هذه والتشريع الساري.",
+        "changes": "التغييرات في سياسة الخصوصية هذه",
+        "changesDescription": "قد نقوم بتحديث سياسة الخصوصية الخاصة بنا من وقت لآخر. سنخطرك بأي تغييرات من خلال نشر سياسة الخصوصية الجديدة على هذه الصفحة وتحديث تاريخ \"آخر تحديث\". نشجعك على مراجعة سياسة الخصوصية الخاصة بنا بانتظام.",
+        "contactInfo": "اتصل بنا",
+        "contactInfoDescription": "إذا كانت لديك أي أسئلة حول سياسة الخصوصية الخاصة بنا، يمكنك الاتصال بنا عبر:",
+        "contactDetails": [
+          "البريد الإلكتروني: privacy@beldify.com",
+          "الهاتف: 708150351+",
+          "العنوان: 123 زنقة المدينة، تطوان، المغرب"
+        ]
+      }
+    },
+    "termsOfService": {
+      "title": "شروط الخدمة",
+      "lastUpdated": "آخر تحديث",
+      "userAgreement": "اتفاقية مستخدم بلديفاي",
+      "legalAssistance": "هل تحتاج إلى مساعدة قانونية؟",
+      "clarification": "إذا كانت لديك أي أسئلة حول شروطنا أو تحتاج إلى توضيح بشأن أي سياسة، فإن فريق دعم العملاء لدينا متاح لمساعدتك."
+    },
+    "contact": {
+      "title": "اتصل بنا",
+      "info": "معلومات الاتصال",
+      "customerService": "فريق خدمة العملاء لدينا هنا للمساعدة. تواصل معنا بأي أسئلة أو استفسارات.",
+      "address": "شارع المدينة رقم 123، تطوان، المغرب",
+      "phone": "+212 (0) 7 08 15 03 51",
+      "email": "contact@beldify.com",
+      "sendMessage": "أرسل لنا رسالة",
+      "thankYou": "شكرا لك! تم إرسال رسالتك بنجاح.",
+      "firstName": "الاسم الأول",
+      "lastName": "الاسم الأخير",
+      "emailAddress": "البريد الإلكتروني",
+      "phoneNumber": "رقم الهاتف",
+      "subject": "الموضوع",
+      "message": "الرسالة",
+      "maxChars": "الحد الأقصى 500 حرف",
+      "sending": "جاري الإرسال...",
+      "send": "إرسال الرسالة",
+      "validation": {
+        "firstNameRequired": "الاسم الأول مطلوب",
+        "lastNameRequired": "الاسم الأخير مطلوب",
+        "emailRequired": "البريد الإلكتروني مطلوب",
+        "emailInvalid": "بريد إلكتروني غير صالح",
+        "subjectRequired": "الموضوع مطلوب",
+        "messageRequired": "الرسالة مطلوبة",
+        "messageTooLong": "لا يمكن أن تتجاوز الرسالة 500 حرف"
+      }
+    },
+    "shipping": {
+      "title": "معلومات الشحن",
+      "subtitle": "كل ما تحتاج معرفته عن شحن طلبك",
+      "deliveryOptions": "خيارات التوصيل",
+      "standardShipping": "الشحن القياسي",
+      "standardDays": "3-5 أيام عمل",
+      "standardCost": "مجاني للطلبات التي تزيد عن 500 درهم",
+      "expressShipping": "الشحن السريع",
+      "expressDays": "1-2 يوم عمل",
+      "expressCost": "رسوم 30 درهم",
+      "internationalShipping": "الشحن الدولي",
+      "internationalDays": "7-14 يوم عمل",
+      "internationalCost": "يتم احتسابها عند الدفع",
+      "trackingInfo": "معلومات التتبع",
+      "trackingText": "بمجرد شحن طلبك، ستتلقى بريدًا إلكترونيًا للتأكيد مع رقم التتبع ورابط لتتبع طلبك.",
+      "orderUpdates": "يمكنك أيضًا عرض تحديثات الطلب في حسابك ضمن 'سجل الطلبات'.",
+      "shippingPolicy": "سياسة الشحن",
+      "needHelp": "بحاجة إلى مساعدة مع الشحن؟",
+      "helpText": "فريق خدمة العملاء لدينا مستعد لمساعدتك في أي أسئلة حول شحنتك.",
+      "contactSupport": "اتصل بالدعم"
+    }
+  },
+  "countries": {
+    "ma": "المغرب",
+    "sa": "المملكة العربية السعودية",
+    "ae": "الإمارات العربية المتحدة",
+    "qa": "قطر",
+    "kw": "الكويت",
+    "bh": "البحرين",
+    "om": "عمان"
+  },
+  "shops": {
+    "title": "المتاجر",
+    "featuredStores": "المحلات المميزة",
+    "featuredStoresDescription": "اكتشف متاجرنا الأعلى تقييماً والموثقة التي تقدم منتجات عالية الجودة",
+    "noResults": "لم يتم العثور على متاجر",
+    "noShopsFound": "لم يتم العثور على أي متجر",
+    "tryDifferentSearch": "حاول تعديل البحث أو الفلاتر للعثور على ما تبحث عنه",
+    "noImage": "لا تتوفر صورة",
+    "featured": "مميز",
+    "verified": "موثق",
+    "nearby": "قريب",
+    "all": "جميع المتاجر",
+    "products_count": "{{count}} منتج",
+    "reviews_count": "{{count}} تقييم",
+    "filters": {
+      "title": "الفلاتر",
+      "clear": "مسح الفلاتر",
+      "apply": "تطبيق الفلاتر",
+      "categories": "الفئات",
+      "rating": "التقييم",
+      "location": "الموقع",
+      "price_range": "نطاق السعر",
+      "sort": {
+        "label": "ترتيب حسب",
+        "options": {
+          "latest": "الأحدث",
+          "name_asc": "الاسم (أ-ي)",
+          "name_desc": "الاسم (ي-أ)",
+          "products": "الأكثر منتجات"
+        }
+      }
+    },
+    "search": {
+      "placeholder": "ابحث عن المتاجر...",
+      "button": "بحث",
+      "results": "تم العثور على {{count}} نتيجة"
+    },
+    "pagination": {
+      "previous": "السابق",
+      "next": "التالي",
+      "page": "صفحة {{current}} من {{total}}"
+    },
+    "shop": {
+      "follow": "متابعة",
+      "following": "تتابع",
+      "contact": "تواصل",
+      "visit": "زيارة المتجر",
+      "share": "مشاركة",
+      "report": "إبلاغ",
+      "products": "المنتجات",
+      "reviews": "التقييمات",
+      "about": "عن المتجر",
+      "location": "الموقع",
+      "joinedDate": "انضم في {{date}}",
+      "followers": "{{count}} متابع",
+      "response_rate": "معدل الرد {{rate}}%",
+      "response_time": "يرد خلال {{time}}",
+      "verified_seller": "بائع موثوق",
+      "verified_seller_desc": "هذا البائع موثوق ومعتمد",
+      "fast_shipping": "شحن سريع",
+      "fast_shipping_desc": "التوصيل من 2 إلى 4 أيام مع التتبع",
+      "quality_guarantee": "ضمان الجودة",
+      "quality_guarantee_desc": "منتجات تقليدية 100% مصنوعة يدويا",
+      "customer_support": "خدمة العملاء"
+    }
+  },
+  "newsletter": {
+    "title": "ابق على اطلاع",
+    "subtitle": "اشترك في نشرتنا الإخبارية للحصول على عروض حصرية ووصول جديد وإلهام للأزياء المغربية التقليدية.",
+    "placeholder": "أدخل بريدك الإلكتروني",
+    "button": "اشتراك"
+  },
+  "footer": {
+    "description": "اكتشف أجمل الأزياء والحرف اليدوية المغربية. يربطك بلديفاي مع الحرفيين والمصممين المغاربة الأصليين.",
+    "contact": {
+      "address": "123 شارع المدينة، تطوان، المغرب"
+    },
+    "titles": {
+      "footer": "تذييل الصفحة",
+      "quickLinks": "روابط سريعة",
+      "support": "الدعم",
+      "sellers": "البائعين",
+      "company": "الشركة"
+    },
+    "quickLinks": {
+      "home": "الرئيسية",
+      "products": "المنتجات",
+      "categories": "الفئات",
+      "community": "السوق المفتوح"
+    },
+    "support": {
+      "contactUs": "اتصل بنا",
+      "faqs": "الأسئلة الشائعة",
+      "shippingInfo": "معلومات الشحن",
+      "returnsExchanges": "المرتجلات والاستبدال"
+    },
+    "returns": {
+      "title": "سياسة الإرجاع والاستبدال",
+      "subtitle": "سياستنا وإجراءاتنا للإرجاع والاستبدال",
+      "returnsPolicy": {
+        "title": "سياسة الإرجاع",
+        "policy1": "نريدك أن تكون راضيًا تمامًا عن مشترياتك. إذا لم تكن راضيًا، يمكنك إرجاع معظم العناصر خلال 30 يومًا من تاريخ التسليم لاسترداد المبلغ بالكامل أو استبدالها.",
+        "policy2": "لكي يكون الإرجاع مؤهلاً، يجب أن يكون العنصر غير مستخدم وبالحالة نفسها التي استلمته بها. يجب أيضًا أن يكون في العبوة الأصلية مع جميع العلامات المرتبطة به."
+      },
+      "refunds": {
+        "title": "المبالغ المستردة",
+        "description": "بمجرد استلامنا الإرجاع الخاص بك، سنقوم بفحصه وإخطارك بأننا تلقينا العنصر المرتجع. سنقوم بإخطارك فورًا بحالة المبلغ المسترد بعد فحص العنصر.",
+        "timeline": "سيتم معالجة المبالغ المستردة خلال 3-5 أيام عمل من استلام إرجاعك. سيتم رد المبلغ إلى طريقة الدفع الأصلية.",
+        "refundText1": "سيتم رد المبلغ إلى طريقة الدفع الأصلية.",
+        "refundText2": "يرجى السماح بوقت إضافي لمعالجة البنك أو شركة البطاقة الائتمانية للاسترداد.",
+        "refundText3": "يرجى ملاحظة أن المبالغ المستردة قد تتأخر قليلاً بسبب إجراءات البنك."
+      },
+      "tabs": {
+        "returnsPolicy": "سياسة الإرجاع",
+        "exchanges": "الاستبدال",
+        "returnProcess": "عملية الإرجاع"
+      },
+      "steps": {
+        "step1": {
+          "name": "بدء عملية الإرجاع",
+          "description": "ابدأ إرجاعك من خلال بوابتنا الإلكترونية"
+        },
+        "step2": {
+          "name": "تغليف العناصر",
+          "description": "قم بتغليف العناصر بشكل آمن مع تغليفها الأصلي"
+        },
+        "step3": {
+          "name": "إعادة الشحن",
+          "description": "استخدم ملصق الإرجاع المدفوع مسبقًا لإعادة العناصر"
+        },
+        "step4": {
+          "name": "استرداد المبلغ",
+          "description": "استلم استرداد أموالك بعد معالجة الإرجاع"
+        }
+      },
+      "returnableItems": {
+        "title": "الأهلية للإرجاع",
+        "item1": "الملابس غير المستخدمة وغير المغسولة مع وجود البطاقات عليها",
+        "item2": "الاكسسوارات غير المستخدمة مع التغليف الأصلي",
+        "item3": "منتجات التجميل والعناية الشخصية غير المفتوحة",
+        "item4": "العناصر المعيبة (خلال فترة الضمان)",
+        "item5": "العناصر بحالتها الأصلية مع جميع الأجزاء المرفقة"
+      },
+      "nonReturnableItems": {
+        "title": "غير مؤهلة للإرجاع",
+        "item1": "العناصر المصنوعة حسب الطلب أو المخصصة",
+        "item2": "الملابس الداخلية (ملابس داخلية، ملابس سباحة، جوارب)",
+        "item3": "العناصر المعلمة بـ 'بيع نهائي' أو التخفيضات",
+        "item4": "العناصر بدون تغليف أو بطاقات أصلية",
+        "item5": "العناصر المستخدمة أو التالفة",
+        "item6": "بطاقات الهدايا والمنتجات الرقمية"
+      },
+      "exchanges": {
+        "title": "الاستبدال",
+        "description": "يسعدنا مساعدتك في استبدال العناصر بحجم أو لون مختلف، حسب التوفر.",
+        "requestTitle": "كيفية طلب استبدال",
+        "requestDescription": "اتبع هذه الخطوات لاستبدال عنصر:",
+        "step1": "سجل الدخول إلى حسابك وانتقل إلى 'سجل الطلبات'",
+        "step2": "حدد العنصر الذي تريد استبداله واختر 'استبدال' كسبب الإرجاع",
+        "step3": "حدد العنصر البديل المفضل لديك",
+        "step4": "اطبع ملصق الإرجاع وأعد إرسال العنصر الأصلي",
+        "step5": "بمجرد استلام إرجاعك، سنقوم بشحن البديل",
+        "processDescription": "يرجى ملاحظة أن عمليات الاستبدال تخضع لتوفر المخزون. إذا لم يكن البديل المفضل لديك متاحًا، فسنقوم بإصدار رد المبلغ إلى طريقة الدفع الأصلية.",
+        "eligibilityTitle": "أهلية الاستبدال",
+        "eligibilityDescription": "لكي يكون العنصر مؤهلاً للاستبدال، يجب أن يستوفي المعايير التالية:",
+        "eligibility1": "يجب أن يكون العنصر غير مستخدم وغير مرتدي وبحالته الأصلية مع جميع البطاقات المرفقة",
+        "eligibility2": "يجب تضمين التغليف الأصلي",
+        "eligibility3": "يجب طلب الاستبدال خلال 14 يومًا من تاريخ التسليم",
+        "eligibility4": "يجب أن يكون العنصر متوفرًا في المخزون للاستبدال",
+        "priceDiffTitle": "فروق الأسعار",
+        "priceDiffDescription": "إذا كان العنصر البديل أغلى سعرًا، سيتم تحصيل الفرق منك. إذا كان أقل سعرًا، سنقوم برد الفرق إلى طريقة الدفع الأصلية.",
+        "internationalTitle": "عمليات الاستبدال الدولية",
+        "internationalDescription": "يتحمل العملاء الدوليون تكاليف شحن الإرجاع وأي رسوم جمركية أو ضرائب مستحقة على العنصر المرتجع. سنغطي تكلفة شحن العنصر البديل إليك."
+      },
+      "process": {
+        "title": "عملية الإرجاع الخاصة بنا",
+        "timelineTitle": "الجدول الزمني للإرجاع",
+        "timeline1": "اليوم 1-2: بدء الإرجاع واستلام ملصق الإرجاع",
+        "timeline2": "اليوم 3-5: تغليف وشحن الإرجاع",
+        "timeline3": "اليوم 6-10: نستلم ونتحقق من الإرجاع",
+        "timeline4": "اليوم 11-14: معالجة الاسترداد",
+        "shippingTitle": "شحن الإرجاع",
+        "shippingText1": "نوفر ملصق إرجاع مدفوع مسبقًا للعملاء في المغرب. يتحمل العملاء الدوليون تكاليف شحن الإرجاع.",
+        "shippingText2": "لحمايتك، نوصي باستخدام خدمة شحن قابلة للتتبع وشراء تأمين الشحن.",
+        "refundTitle": "معلومات الاسترداد",
+        "refundText1": "يتم معالجة المبالغ المستردة خلال 3-5 أيام عمل من استلام إرجاعك.",
+        "refundText2": "سيتم رد المبلغ إلى طريقة الدفع الأصلية.",
+        "refundText3": "يرجى السماح بوقت إضافي لمعالجة البنك أو شركة البطاقة الائتمانية للاسترداد.",
+        "helpTitle": "بحاجة إلى مساعدة؟",
+        "helpText": "إذا كان لديك أي أسئلة حول عملية الإرجاع الخاصة بنا، يرجى الاتصال بفريق خدمة العملاء.",
+        "contactSupport": "اتصل بالدعم"
+      }
+    },
+    "sellers": {
+      "becomeSeller": "كن بائعاً",
+      "sellerDashboard": "لوحة تحكم البائع",
+      "sellerSupport": "دعم البائعين"
+    },
+    "company": {
+      "aboutUs": "من نحن",
+      "privacyPolicy": "سياسة الخصوصية",
+      "termsOfService": "شروط الخدمة"
+    },
+    "social": {
+      "facebook": "فيسبوك",
+      "instagram": "انستغرام",
+      "twitter": "تويتر"
+    },
+    "rights": "جميع الحقوق محفوظة.",
+    "handcrafted": "مصنوع بفخر في المغرب",
+    "shop": "تسوّق",
+    "women": "نساء",
+    "men": "رجال",
+    "kids": "أطفال",
+    "tailoring": "الخياطة",
+    "newArrivals": "وصل حديثاً",
+    "headingSellers": "البائعون",
+    "becomeSeller": "كن بائعاً",
+    "sellerDashboard": "لوحة تحكم البائع",
+    "sellerSupport": "دعم البائعين",
+    "commissions": "العمولات",
+    "headingCompany": "الشركة",
+    "about": "عن بلديفاي",
+    "journal": "المجلّة",
+    "careers": "الوظائف",
+    "press": "الصحافة",
+    "headingHelp": "المساعدة",
+    "contactLink": "اتصل بنا",
+    "faq": "الأسئلة الشائعة",
+    "shipping": "الشحن",
+    "privacy": "الخصوصية",
+    "rightsReserved": "صُنع بحبّ في المغرب."
+  },
+  "sellers": {
+    "title": "كن بائعاً",
+    "subtitle": "انضم إلى سوقنا وعرض منتجاتك للعملاء في جميع أنحاء العالم",
+    "heroTitle": "وسع نشاطك التجاري مع بلديفاي",
+    "heroText": "تواصل مع العملاء في جميع أنحاء العالم ونمّ نشاطك التجاري على منصتنا الموثوقة للأزياء والحرف اليدوية المغربية.",
+    "registerCTA": "سجل كبائع",
+    "learnMore": "اعرف المزيد",
+    "benefitsTitle": "مزايا البيع معنا",
+    "benefit1Title": "الوصول العالمي",
+    "benefit1Text": "الوصول إلى العملاء في جميع أنحاء العالم مع شحننا الدولي ودعم اللغات المتعددة.",
+    "benefit2Title": "إعداد سهل",
+    "benefit2Text": "أنشئ ملف تعريف البائع الخاص بك وأدرج المنتجات بسرعة باستخدام لوحة المعلومات الحدسية لدينا.",
+    "benefit3Title": "مدفوعات آمنة",
+    "benefit3Text": "استلم المدفوعات بأمان مع نظام معالجة المدفوعات الموثوق لدينا.",
+    "benefit4Title": "دعم البائع",
+    "benefit4Text": "احصل على دعم مخصص لجميع احتياجات البيع الخاصة بك، من قوائم المنتجات إلى مساعدة الشحن.",
+    "howItWorksTitle": "كيف يعمل",
+    "step1Title": "إنشاء حساب",
+    "step1Text": "سجل للحصول على حساب بائع على pro.beldify.com وأكمل ملفك الشخصي بمعلومات نشاطك التجاري.",
+    "step2Title": "أدرج منتجاتك",
+    "step2Text": "قم بتحميل كتالوج منتجاتك مع الصور والأوصاف والأسعار ومعلومات المخزون.",
+    "step3Title": "استلام الطلبات",
+    "step3Text": "تلقى إشعارات عندما يقوم العملاء بطلب منتجاتك.",
+    "step4Title": "الشحن والدفع",
+    "step4Text": "قم بشحن الطلبات للعملاء واستلم المدفوعات مباشرة إلى حسابك.",
+    "testimonialsTitle": "قصص نجاح البائعين",
+    "testimonial1Name": "فاطمة ل.",
+    "testimonial1Business": "بوتيك القفطان التقليدي",
+    "testimonial1Text": "منذ انضمامي إلى بلديفاي، زادت مبيعات القفطان لدي بنسبة 70%. ساعدتني المنصة على الوصول إلى العملاء في أوروبا والشرق الأوسط الذين لم أستطع الوصول إليهم من قبل.",
+    "testimonial2Name": "كريم م.",
+    "testimonial2Business": "سلع جلدية حرفية",
+    "testimonial2Text": "تسهل لوحة معلومات البائع إدارة مخزوني وتتبع الطلبات. كان فريق الدعم مفيدًا للغاية مع جميع أسئلتي.",
+    "testimonial3Name": "أمينة ر.",
+    "testimonial3Business": "الأزياء المغربية العصرية",
+    "testimonial3Text": "حولت بلديفاي عملي الصغير إلى علامة تجارية عالمية. كان التواجد مع العملاء العالميين لا يقدر بثمن للنمو.",
+    "faqsTitle": "الأسئلة الشائعة للبائعين",
+    "sellerFaqs": [
+      {
+        "question": "كم يكلف البيع على بلديفاي؟",
+        "answer": "التسجيل مجاني. نفرض عمولة بنسبة 10% على كل عملية بيع، والتي تشمل معالجة المدفوعات. لا توجد رسوم شهرية أو رسوم إدراج."
+      },
+      {
+        "question": "كيف ومتى أتلقى المدفوعات؟",
+        "answer": "تتم معالجة المدفوعات كل أسبوعين لجميع الطلبات المكتملة. يمكنك استلام المدفوعات عبر التحويل المصرفي أو طرق الدفع الأخرى المدعومة في بلدك."
+      },
+      {
+        "question": "هل أحتاج إلى التعامل مع الشحن؟",
+        "answer": "نعم، البائعون مسؤولون عن شحن منتجاتهم. نقدم إرشادات للشحن وتكامل مع شركات النقل الرئيسية لتسهيل العملية."
+      },
+      {
+        "question": "ما هي المنتجات التي يمكنني بيعها على بلديفاي؟",
+        "answer": "نحن نركز على الأزياء المغربية، والإكسسوارات، وديكور المنزل، والحرف اليدوية. يجب أن تكون جميع المنتجات أصلية وتتوافق مع معايير سوقنا."
+      }
+    ],
+    "readyToSell": "مستعد لبدء البيع؟",
+    "registerText": "انضم إلى آلاف البائعين الناجحين على منصتنا وانقل نشاطك التجاري إلى المستوى التالي.",
+    "registerNow": "سجل الآن على pro.beldify.com"
+  },
+  "size_guide": {
+    "title": "دليل المقاسات للملابس المغربية التقليدية",
+    "description": "اعثر على المقاس المثالي للقفطان والجبادور والملابس المغربية التقليدية الأخرى",
+    "men": "ملابس الرجال",
+    "women": "ملابس النساء",
+    "kids": "ملابس الأطفال",
+    "garment_caftan": "قفطان",
+    "garment_jabador": "جبادور",
+    "garment_kandora": "كندورة",
+    "men_jabador_top": "الجزء العلوي للجبادور رجالي",
+    "men_jabador_pants": "سروال الجبادور رجالي",
+    "women_jabador_top": "الجزء العلوي للجبادور نسائي",
+    "women_jabador_pants": "سروال الجبادور نسائي",
+    "kids_jabador_top": "الجزء العلوي للجبادور أطفال",
+    "kids_jabador_pants": "سروال الجبادور أطفال",
+    "kids_caftan": "قفطان أطفال",
+    "men_kandora": "كندورة رجالي",
+    "women_kandora": "كندورة نسائي",
+    "kids_kandora": "كندورة أطفال",
+    "length_note_kandora": {
+      "men": "* طول الكندورة للرجال عادة يتراوح من 130 سم إلى 150 سم",
+      "women": "* طول الكندورة للنساء عادة يتراوح من 130 سم إلى 150 سم",
+      "kids": "* طول الكندورة للأطفال يتراوح من 80 سم إلى 105 سم حسب العمر"
+    },
+    "garment_description": {
+      "caftan": "ثوب تقليدي طويل بتصميم أنيق",
+      "jabador": "زي تقليدي من قطعتين يتكون من جزء علوي وسروال",
+      "kandora": "ثوب تقليدي يصل إلى الكاحل، أقصر من القفطان"
+    },
+    "how_to_measure": "كيفية أخذ المقاسات",
+    "measurements": {
+      "age": "العمر",
+      "height": "الطول (سم)",
+      "chest": "محيط الصدر (سم)",
+      "bust": "محيط الصدر (سم)",
+      "waist": "محيط الخصر (سم)",
+      "hip": "محيط الورك (سم)",
+      "length": "الطول الكلي (سم)",
+      "ma_size": "المقاس المغربي",
+      "shoulder": "عرض الكتف (سم)",
+      "inseam": "طول الساق الداخلي (سم)"
+    },
+    "chest_bust": "الصدر",
+    "chest_bust_desc": "قم بالقياس حول أكمل جزء من صدرك، مع إبقاء شريط القياس موازٍ للأرض",
+    "waist": "الخصر",
+    "waist_desc": "قم بالقياس حول خصرك الطبيعي، عند أصغر جزء من خصرك",
+    "hip": "الورك",
+    "hip_desc": "قم بالقياس حول أكمل جزء من وركك، مع إبقاء شريط القياس موازٍ للأرض",
+    "shoulder": "عرض الكتف",
+    "shoulder_desc": "قم بالقياس عبر الظهر من نقطة الكتف إلى نقطة الكتف الأخرى",
+    "top_length": "طول الجزء العلوي",
+    "top_length_desc": "قم بالقياس من الكتف إلى الطول المطلوب للجزء العلوي من الجبادور",
+    "inseam": "طول الساق الداخلي",
+    "inseam_desc": "قم بالقياس من المنطقة الداخلية للساق إلى الكاحل",
+    "pants_length": "طول السروال",
+    "pants_length_desc": "قم بالقياس من الخصر إلى الكاحل",
+    "length": "طول الثوب",
+    "length_desc": "للقفطان والجبادور، قم بالقياس من الكتف إلى الطول المطلوب. الأطوال التقليدية تختلف حسب نوع الثوب",
+    "length_note_caftan": "* أطوال القفطان عادة تتراوح من 150 سم إلى 170 سم للكبار، و85 سم إلى 130 سم للأطفال",
+    "length_note_jabador": "* الجبادور يتكون من قطعتين بأطوال مختلفة حسب العمر والجنس",
+    "sleeve": "طول الكم",
+    "sleeve_desc": "قم بالقياس من الكتف إلى المعصم مع ثني الذراع قليلاً",
+    "size_conversion": "جدول تحويل المقاسات",
+    "measurement_tips": "نصائح للملابس التقليدية",
+    "tip_1": "الملابس المغربية التقليدية عادة تكون فضفاضة للراحة",
+    "tip_2": "للجبادور، تأكد من أخذ مقاسات كل من الجزء العلوي والسروال للحصول على المقاس المثالي",
+    "tip_3": "اترك مساحة للطبقات الداخلية التقليدية",
+    "tip_4": "لمقاسات الأطفال، خذ بعين الاعتبار مساحة للنمو عند اختيار المقاسات",
+    "need_help": "تحتاج مقاسات مخصصة؟",
+    "contact_support": "اتصل بخياطينا المحترفين للحصول على قياسات وتعديلات مخصصة",
+    "no_measurements": "لا تتوفر مقاسات لهذا النوع من الملابس"
+  },
+  "tailoring": {
+    "page_title": "خدمات الخياطة المخصصة",
+    "page_description": "اختبر المقاس المثالي مع خدمات الخياطة المتخصصة لدينا",
+    "services": {
+      "custom_suits": {
+        "title": "بدل مخصصة",
+        "description": "بدل مصنوعة باحترافية ومفصلة حسب قياساتك الدقيقة",
+        "price": "تبدأ من 599 د.م"
+      },
+      "alterations": {
+        "title": "تعديلات",
+        "description": "تعديلات احترافية للملابس للحصول على مقاس مثالي",
+        "price": "تبدأ من 49 د.م"
+      },
+      "traditional": {
+        "title": "الملابس التقليدية",
+        "description": "ملابس مغربية تقليدية مخصصة بلمسات عصرية",
+        "price": "تبدأ من 299 د.م"
+      }
+    },
+    "book_appointment": "حجز موعد",
+    "why_choose_us": {
+      "title": "لماذا تختار خدمات الخياطة لدينا",
+      "features": {
+        "craftsmanship": {
+          "title": "حرفية متخصصة",
+          "description": "سنوات من الخبرة في الخياطة الراقية"
+        },
+        "materials": {
+          "title": "مواد فاخرة",
+          "description": "أفخر الأقمشة من جميع أنحاء العالم"
+        },
+        "guarantee": {
+          "title": "ضمان المقاس المثالي",
+          "description": "تعديلات حتى تكون راضي تمام"
+        }
+      }
+    },
+    "tailors": {
+      "title": "خياطونا المحترفون",
+      "description": "تواصل مع خياطينا ذوي الخبرة لتلبية احتياجاتك من الملابس المخصصة",
+      "reviews": "تقييم",
+      "experience": "الخبرة",
+      "years": "سنة",
+      "availability": {
+        "available": "احجز موعد",
+        "busy": "انضم لقائمة الانتظار",
+        "unavailable": "غير متاح"
+      }
+    },
+    "filters": {
+      "all_locations": "جميع المواقع",
+      "all_specialties": "جميع التخصصات"
+    },
+    "profile": {
+      "about": "نبذة عن",
+      "specialties": "التخصصات",
+      "portfolio": "معرض الأعمال",
+      "reviews": "التقييمات",
+      "bio": "مع أكثر من 15 عام من الخبرة في الخياطة المغربية التقليدية، أتخصص في صنع الملابس المخصصة التي تجمع بين الحرفية التقليدية والأسلوب العصري"
+    },
+    "booking": {
+      "title": "حجز موعد",
+      "select_service": "اختر الخدمة",
+      "choose_service": "اختر خدمة",
+      "select_date": "اختر التاريخ",
+      "select_time": "اختر الوقت",
+      "book_now": "احجز الآن",
+      "confirm_title": "تأكيد الحجز",
+      "confirm_message": "هل تريد تأكيد موعدك مع",
+      "confirm": "تأكيد"
+    }
+  },
+  "verification": {
+    "verify_phone": "تحقق من هاتفك",
+    "add_phone_description": "أضف رقم هاتفك لتأمين حسابك. انقر على \"إرسال رمز التحقق\" للتحقق من هاتفك!",
+    "phone_placeholder": "أدخل رقم هاتفك",
+    "code_placeholder": "أدخل رمز التحقق",
+    "send_code": "إرسال رمز التحقق",
+    "verify": "تحقق",
+    "skip": "تخطي",
+    "code_sent": "تم إرسال رمز التحقق إلى هاتفك",
+    "send_failed": "فشل إرسال رمز التحقق. يرجى المحاولة مرة أخرى.",
+    "success": "تم التحقق من رقم الهاتف بنجاح",
+    "failed": "فشل التحقق من الهاتف. يرجى المحاولة مرة أخرى.",
+    "invalid_code": "رمز التحقق غير صالح. يرجى المحاولة مرة أخرى.",
+    "why_verify": "سيتم استخدام رقم هاتفك لتحديثات الطلبات وأمان الحساب."
+  },
+  "reviews": {
+    "customer_reviews_for": "تقييمات العملاء لـ {{productName}}",
+    "write_review_button": "كتابة تقييم",
+    "based_on": "بناءً على",
+    "reviews": "تقييمات",
+    "verified": "موثق",
+    "with_images": "مع صور",
+    "all_reviews_count": "جميع التقييمات ({{count}})",
+    "verified_purchase": "شراء موثق",
+    "helpful": "مفيد",
+    "not_helpful": "غير مفيد",
+    "read_more": "قراءة المزيد",
+    "write_review_form": "كتابة تقييم",
+    "your_rating": "تقييمك",
+    "review_title": "عنوان التقييم",
+    "review_content": "تقييمك",
+    "add_photos": "إضافة صور",
+    "submit_review": "إرسال التقييم",
+    "form": {
+      "your_rating": "تقييمك",
+      "title_label": "عنوان التقييم",
+      "title_placeholder": "أدخل عنواناً لتقييمك",
+      "content_label": "تقييمك",
+      "content_placeholder": "شارك تجربتك مع هذا المنتج",
+      "add_photos_label": "إضافة صور",
+      "upload_image": "رفع صورة",
+      "submit_review": "إرسال التقييم"
+    },
+    "review_submitted": "شكراً على تقييمك!",
+    "review_error": "حدث خطأ أثناء إرسال التقييم. يرجى المحاولة مرة أخرى.",
+    "filter_reviews_label": "تصفية التقييمات",
+    "show_all": "عرض الكل",
+    "verified_only": "الموثقة فقط",
+    "with_images_only": "مع صور فقط",
+    "sort_options": {
+      "label": "ترتيب حسب",
+      "newest": "الأحدث أولاً",
+      "oldest": "الأقدم أولاً",
+      "highest_rating": "التقييم الأعلى",
+      "lowest_rating": "التقييم الأدنى",
+      "most_helpful": "الأكثر فائدة"
+    },
+    "rating_summary_title": "ملخص التقييمات",
+    "upload_images": "رفع الصور",
+    "drag_drop": "اسحب وأفلت الصور هنا، أو انقر لاختيار الملفات",
+    "max_images": "الحد الأقصى 5 صور (2 ميجابايت لكل صورة)",
+    "uploading": "جاري الرفع...",
+    "no_reviews_yet": "لا توجد تقييمات بعد. كن أول من يقيم هذا المنتج!",
+    "review_image": "صورة التقييم",
+    "loading_reviews": "جاري تحميل التقييمات...",
+    "loading_more": "جاري تحميل المزيد من التقييمات...",
+    "load_more_reviews": "تحميل المزيد من التقييمات",
+    "be_the_first": "شارك تجربتك مع هذا المنتج",
+    "fetch_error": "خطأ في تحميل التقييمات. يرجى المحاولة مرة أخرى.",
+    "sort_by_placeholder": "ترتيب حسب",
+    "filter_reviews_by_rating": "تصفية حسب التقييم"
+  },
+  "community": {
+    "verified_seller": "بائع موثق",
+    "seller_response_description": "للرد على هذا الطلب كبائع، استخدم الزر أدناه",
+    "view_shop": "شوف المتجر",
+    "respond_to_post": "الرد على الطلب",
+    "back_to_messages": "العودة إلى الرسائل",
+    "back_to_post": "العودة إلى الطلب",
+    "regarding_post": "بخصوص الطلب",
+    "title": "طلبات خاصة",
+    "create_post": "إضافة طلب جديد",
+    "post_title": "عنوان الطلب",
+    "post_title_placeholder": "أدخل عنواناً لطلبك",
+    "timeline_section": "الوقت الذي تحتاجه فيه",
+    "timeline_estimate": "كم من الوقت تحتاجه كي يكتمل ؟",
+    "budget_guidance": "ما هي الميزانية التقريبية لهذا المشروع؟",
+    "your_posts": "طلباتك",
+    "pick_category": "اختر الفئة",
+    "category": "الفئة",
+    "no_user_posts": "لم تقم بإنشاء طلبات بعد",
+    "your_post": "طلبك",
+    "all_posts": "جميع طلبات المجتمع",
+    "post_description": "وصف الطلب",
+    "post_description_placeholder": "قدم وصفاً مفصلاً لما تبحث عنه",
+    "post_category": "الفئة",
+    "share_request": "شارك الطلب",
+    "sellers_will_contact": "سيتواصل البائعين معاك",
+    "select_category": "اختر فئة",
+    "add_budget": "إضافة ميزانية",
+    "budget_label": "الميزانية",
+    "budget_min": "الحد الأدنى للميزانية",
+    "budget_max": "الحد الأقصى للميزانية",
+    "budget_range": "نطاق الميزانية",
+    "comments": "تعليقات",
+    "budget_details": "تفاصيل الميزانية",
+    "min_price": "الحد الأدنى للسعر",
+    "max_price": "الحد الأقصى للسعر",
+    "currency": "العملة",
+    "post_images": "صور الطلب",
+    "click_to_upload": "انقر للتحميل",
+    "image_formats_old": "يتم قبول JPG ، PNG ، GIF (الحد الأقصى 2 ميجابايت)",
+    "publish_post": "نشر الطلب",
+    "submit_post": "تقديم الطلب",
+    "back_to": "العودة إلى",
+    "back_to_community_page": "العودة إلى الطلبات",
+    "error_title_required": "عنوان الطلب مطلوب",
+    "error_description_required": "وصف الطلب مطلوب",
+    "error_invalid_budget": "يرجى إدخال نطاق ميزانية صحيح",
+    "error_creating_post": "خطأ في إنشاء الطلب",
+    "error_loading_categories": "خطأ في تحميل الفئات",
+    "error_fetching_post": "خطأ في جلب الطلب",
+    "uploaded_images": "الصور المحملة",
+    "product_specifications": "مواصفات المنتج",
+    "product_specifications_label": "مواصفات المنتج",
+    "product_specifications_placeholder": "اكتب واضغط على Enter للإضافة",
+    "required_skills": "المهارات المطلوبة",
+    "required_skills_label": "المهارات المطلوبة",
+    "required_skills_placeholder": "اكتب واضغط على Enter للإضافة",
+    "colors_label": "الألوان المفضلة",
+    "colors_placeholder": "اكتب لونًا واضغط على Enter",
+    "styles_label": "الأنماط المفضلة",
+    "styles_placeholder": "اكتب نمطًا واضغط على Enter",
+    "timeline_label": "الجدول الزمني",
+    "timeline_placeholder": "أدخل الجدول الزمني المتوقع",
+    "timeline_days": "يوم",
+    "timeline_weeks": "أسبوع",
+    "timeline_months": "شهر",
+    "timeline_helper": "وقت الإنجاز المتوقع:",
+    "expected_delivery": "وقت التسليم المتوقع",
+    "post_not_found": "المنشور غير موجود",
+    "post_may_not_exist": "المنشور الذي تبحث عنه قد لا يكون موجودًا أو تمت إزالته",
+    "additional_details": "تفاصيل إضافية",
+    "your_response": "ردك",
+    "respond_as_seller": "الرد كبائع",
+    "seller_response_info": "للرد على هذا المنشور كبائع، يرجى استخدام الزر أدناه",
+    "seller_response_note": "ستتمكن من تقديم تفاصيل حول عرضك ومواصفات المنتج",
+    "responses_title": "الردود",
+    "responses_count": "{{count}} ردود",
+    "no_responses_yet": "لا توجد ردود حتى الآن",
+    "be_first_to_respond": "كن أول من يرد على هذا المنشور",
+    "not_authorized": "غير مصرح لك بتنفيذ هذا الإجراء",
+    "error_accepting_response": "خطأ في قبول الرد",
+    "error_rejecting_response": "خطأ في رفض الرد",
+    "error_submitting_response": "خطأ في إرسال الرد",
+    "about_responses": "حول ردود البائعين",
+    "how_responses_work": "كيف تعمل الردود",
+    "seller_notification_info": "سيتم إخطار البائعين المعتمدين بطلبك ويمكنهم الرد بعروض من خلال لوحة تحكم البائع الخاصة بهم",
+    "email_notification_info": "ستتلقى إشعارًا بالبريد الإلكتروني عندما يرد بائع على طلبك",
+    "review_responses_info": "عند تلقي الردود، يمكنك مراجعتها وطلب المزيد من المعلومات أو قبول عرض للمتابعة مع طلبك",
+    "status": {
+      "open": "مفتوح",
+      "in_progress": "قيد التنفيذ",
+      "closed": "مغلق"
+    },
+    "loading_messages": "جاري تحميل الرسائل...",
+    "error_loading_messages": "خطأ في تحميل الرسائل",
+    "back_to_post_page": "العودة إلى صفحة المنشور",
+    "start_conversation": "بدء محادثة",
+    "no_messages_yet": "لا توجد رسائل بعد. أرسل رسالة للبدء.",
+    "type_message": "اكتب رسالتك...",
+    "sending": "جاري الإرسال...",
+    "error_sending_message": "خطأ في إرسال الرسالة. يرجى المحاولة مرة أخرى.",
+    "messages": {
+      "title": "الرسائل",
+      "subtitle": "ابق على تواصل مع المتاجر والبائعين",
+      "your_conversations": "محادثاتك",
+      "no_conversations": "ليس لديك أي محادثات بعد",
+      "start_conversation": "ابدأ محادثة عن طريق مراسلة متجر أو بائع",
+      "conversation": "محادثة",
+      "conversations": "محادثات",
+      "new_message": "رسالة جديدة",
+      "new_messages": "رسائل جديدة",
+      "unknown_shop": "متجر غير معروف",
+      "no_messages": "لا توجد رسائل بعد",
+      "online_now": "متصل الآن",
+      "offline": "غير متصل",
+      "last_seen": "آخر ظهور: {{time}}",
+      "shop": "متجر",
+      "reviews": "تقييمات",
+      "sending_custom_request": "جاري إرسال الطلب الخاص...",
+      "custom_request_sent": "تم إرسال الطلب الخاص بنجاح!",
+      "custom_request_error": "فشل في إرسال الطلب الخاص"
+    },
+    "new_message_received": "تم استلام رسالة جديدة!",
+    "search_placeholder": "بحث",
+    "showing_results": "نتائج البحث",
+    "responses": "الردود",
+    "no_image": "لا صورة",
+    "community_hub": "مركز الطلبات",
+    "filters": "فيلتراج",
+    "your_requests": "طلباتك",
+    "create_new": "إنشاء جديد",
+    "no_posts_yet": "لم تقم بإنشاء أي طلبات بعد",
+    "start_first_post": "انقر على إنشاء جديد لبدء طلبك المخصص الأول",
+    "how_to_create_request": "كيفية إنشاء طلب مخصص",
+    "create_request_step1": "انقر على زر إنشاء جديد",
+    "create_request_step2": "ضع عنوانًا ووصفًا مفصلاً لطلبك",
+    "create_request_step3": "أضف صورًا لمساعدة البائعين على فهم ما تريد بالضبط",
+    "create_request_step4": "حدد ميزانيتك والإطار الزمني",
+    "create_request_step5": "انشر طلبك وسيتواصل معك البائعون",
+    "help_tip": "نصيحة: كن واضحًا ومحددًا في وصفك للحصول على أفضل العروض",
+    "what_is_custom_request": "ما هو الطلب المخصص؟",
+    "custom_request_explanation": "يتيح لك الطلب المخصص طلب شيء غير متوفر في الموقع أو مخصص حسب مواصفاتك",
+    "how_sellers_respond": "سيتواصل معك البائعون القادرون على تلبية طلبك بعروض",
+    "viewing_responses_help": "عندما تتلقى عرضًا، ستتلقى إشعارًا ويمكنك عرض التفاصيل على صفحة طلبك",
+    "description": "الوصف",
+    "add_images": "إضافة صور",
+    "drag_drop_images": "اسحب وأسقط الصور هنا",
+    "or_click_to_select": "أو انقر لاستعراض ملفاتك",
+    "select_files": "اختيار الملفات",
+    "image_formats": "يتم قبول JPG و PNG و GIF و WebP (الحد الأقصى 5 ميجابايت)",
+    "image_selected": "صورة محددة",
+    "images_selected": "صور محددة",
+    "error_image_size": "يجب أن يكون حجم الصورة أقل من 5 ميجابايت",
+    "error_image_type": "يسمح فقط بصور JPG و PNG و GIF و WebP",
+    "please_fix_errors": "يرجى إصلاح الأخطاء التالية:"
+  },
+  "hero": {
+    "welcomeBadge": "🌙 عيد مبارك سعيد في سوقنا!",
+    "titleLine1": "اكتشف أناقة العيد",
+    "titleLine2": "مع الأزياء المغربية الأصيلة",
+    "description": "تصفح مجموعتنا المختارة بعناية من الملابس المغربية التقليدية والعصرية، المصممة خصيصاً للعيد والمصنوعة من قبل أمهر الحرفيين.",
+    "shopButton": "تسوق الآن",
+    "learnMoreButton": "اعرف المزيد",
+    "slide1": {
+      "title": "تجربة تسوق متكاملة",
+      "subtitle": "اكتشف أحدث صيحات الموضة",
+      "description": "مجموعة واسعة من المنتجات عالية الجودة بأفضل الأسعار",
+      "button": "تسوق الآن"
+    },
+    "slide2": {
+      "title": "خصومات هائلة",
+      "subtitle": "وفر حتى 70% على المنتجات المختارة",
+      "description": "لا تفوت فرصة الحصول على أفضل العروض والخصومات الحصرية",
+      "button": "استكشف العروض"
+    },
+    "slide3": {
+      "title": "منتجات حصرية",
+      "subtitle": "تشكيلة فريدة من نوعها",
+      "description": "اكتشف مجموعتنا الحصرية من المنتجات المميزة والمصممة خصيصاً لك",
+      "button": "اكتشف المزيد"
+    }
+  },
+  "pwa": {
+    "banner": {
+      "title": "ثبت تطبيق بلديفاي لتجربة أفضل",
+      "ios_instruction": "انقر على المشاركة → أضف إلى الشاشة الرئيسية في Safari",
+      "benefits": "وصول سريع، عمل بدون اتصال، وإشعارات فورية",
+      "install_button": "تثبيت",
+      "learn_how_button": "تعلم الطريقة"
+    },
+    "prompt": {
+      "title": "ثبت تطبيق بلديفاي",
+      "subtitle": "احصل على أفضل تجربة تسوق",
+      "why_install": "لماذا تثبت تطبيقنا؟",
+      "benefits": {
+        "faster": "🚀 تحميل أسرع وتجربة أكثر سلاسة",
+        "offline": "📱 يعمل بدون اتصال - تصفح المنتجات في أي وقت",
+        "notifications": "🔔 احصل على إشعارات حول الوصولات الجديدة والعروض",
+        "home_screen": "🏠 وصول سهل من شاشتك الرئيسية",
+        "lightning_fast": "تحميل سريع كالبرق",
+        "save_favorites": "احفظ المفضلات بدون اتصال",
+        "exclusive_deals": "احصل على تنبيهات العروض الحصرية",
+        "one_tap": "وصول بضغطة واحدة من الرئيسية"
+      },
+      "ios_title": "تثبيت على iPhone/iPad:",
+      "ios_steps": {
+        "step1": "1. انقر على زر المشاركة في Safari",
+        "step2": "2. مرر لأسفل وانقر على \"أضف إلى الشاشة الرئيسية\"",
+        "step3": "3. انقر على \"إضافة\" لتثبيت التطبيق"
+      },
+      "install_now": "ثبت الآن:",
+      "install_description": "انقر على زر التثبيت أدناه لإضافة بلديفاي إلى جهازك!",
+      "install_button": "ثبت التطبيق",
+      "got_it_button": "فهمت!",
+      "remind_later": "ذكرني لاحقاً"
+    },
+    "button": {
+      "install_app": "ثبت التطبيق",
+      "get_app": "احصل على التطبيق",
+      "title": "ثبت تطبيق بلديفاي لتجربة أفضل"
+    },
+    "modern": {
+      "title": "تسوق بذكاء وسرعة أكبر",
+      "subtitle": "ثبت تطبيقنا لأفضل تجربة تسوق",
+      "trusted": "يثق به أكثر من 50,000 متسوق",
+      "ios_hint": "تثبيت سريع لـ iOS:",
+      "ios_instruction": "اضغط على زر المشاركة واختر \"أضف إلى الشاشة الرئيسية\"",
+      "install_now": "ثبت الآن - مجاناً!",
+      "got_it": "فهمت!",
+      "maybe_later": "ربما لاحقاً",
+      "no_download": "لا حاجة لمتجر التطبيقات • يُثبت في ثوانٍ"
+    },
+    "success": {
+      "title": "تم التثبيت بنجاح!",
+      "message": "يمكنك الآن الوصول لتطبيقنا من شاشتك الرئيسية"
+    },
+    "benefits": {
+      "lightning_fast": "⚡ تحميل فائق السرعة",
+      "save_favorites": "❤️ احفظ مفضلاتك بدون اتصال",
+      "exclusive_deals": "🔔 تنبيهات العروض الحصرية",
+      "one_tap": "✨ وصول بنقرة واحدة من الشاشة الرئيسية"
+    },
+    "reminder": {
+      "title": "استخدم تطبيقنا لتجربة أفضل!",
+      "message": "لديك تطبيقنا مثبت. افتحه للتصفح الأسرع والمميزات الحصرية.",
+      "faster": "أسرع ×2",
+      "offline": "يعمل بدون اتصال",
+      "deals": "عروض حصرية",
+      "open_app": "افتح التطبيق",
+      "continue_browser": "ابق هنا"
+    },
+    "minimal_reminder": "احصل على تجربة أفضل مع تطبيقنا!",
+    "open": "افتح التطبيق"
+  },
+  "openSouk": {
+    "brand": "السوق المفتوح",
+    "eyebrow": "السوق المفتوح",
+    "headline": "انشر طلبك. الأتيليهات تجيك.",
+    "subtitle": "سوق معكوس فين أتيليهات تطوان كيتنافسو باش يديرولك القطعة ديالك.",
+    "aiTranslateChip": "الذكاء الصناعي كيترجم طلبك للعربية · الإنجليزية · الفرنسية",
+    "postCta": "بَلِّغ في السوق المفتوح",
+    "feedEmptyTitle": "السوق مفتوح",
+    "feedEmptyBody": "كن أول واحد ينشر طلب — الأتيليهات كتشوف.",
+    "helperTitle": "شنو هو السوق المفتوح؟",
+    "helperBody": "سوق معكوس — كتنشر طلب الخياطة، والأتيليهات كيبعتو ليك العروض. الذكاء الصناعي كيترجم كل شي.",
+    "helperStep1": "اضغط على زر \"النشر\"",
+    "helperStep2": "عطي عنوان، وصف، وميزانية",
+    "helperStep3": "زيد تصاور باش الأتيليهات يعرفو أش بغيتي",
+    "helperStep4": "حدد الوقت اللي عندك",
+    "helperStep5": "انشر والأتيليهات غادي يتواصلو معاك بالعروض",
+    "helperTip": "نصيحة: ما تنسى تعطي تفاصيل واضحة باش يجيوك عروض حلوة."
+  },
+  "brand": {
+    "name": "بيلديفاي"
+  },
+  "chrome": {
+    "navbar": {
+      "brandHome": "الصفحة الرئيسية لبيلديفاي",
+      "changeLanguage": "تغيير اللغة",
+      "userMenu": "قائمة المستخدم",
+      "openMenu": "فتح القائمة الرئيسية",
+      "closeMenu": "إغلاق القائمة",
+      "mainMenu": "القائمة الرئيسية"
+    },
+    "bottomNav": {
+      "label": "التنقل السفلي للهاتف"
+    },
+    "breadcrumbs": {
+      "label": "مسار التنقل"
+    }
+  }
+}
