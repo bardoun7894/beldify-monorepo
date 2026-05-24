@@ -1261,6 +1261,10 @@
       ],
       "needHelp": "¿Necesitas Ayuda con tu Envío?",
       "helpText": "Nuestro equipo de servicio al cliente está listo para ayudarte con cualquier pregunta sobre tu envío."
+    },
+    "returns": {
+      "title": "Devoluciones y Reembolsos",
+      "subtitle": "Nuestra política y proceso para devoluciones y reembolsos"
     }
   },
   "returns": {

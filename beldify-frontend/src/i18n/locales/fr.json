@@ -1200,6 +1200,10 @@
       ],
       "needHelp": "Besoin d'Aide pour Votre Livraison ?",
       "helpText": "Notre équipe du service client est prête à vous aider pour toute question concernant votre expédition."
+    },
+    "returns": {
+      "title": "Retours et remboursements",
+      "subtitle": "Notre politique et processus pour les retours et remboursements"
     }
   },
   "returns": {
