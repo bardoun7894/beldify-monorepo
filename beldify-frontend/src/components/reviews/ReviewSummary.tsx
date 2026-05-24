@@ -51,7 +51,7 @@ const ReviewSummary: React.FC<ReviewSummaryProps> = ({
   };
 
   return (
-    <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-100">
+    <div className="bg-white rounded-2xl p-6 shadow-sm ring-1 ring-amber-200">
       <div className="flex flex-col md:flex-row gap-8">
         {/* Left column - Average rating */}
         <div className="flex flex-col items-center justify-center md:w-1/3">
@@ -65,7 +65,7 @@ const ReviewSummary: React.FC<ReviewSummaryProps> = ({
             {t('reviews.based_on')} {summary.totalReviews} {t('reviews.reviews')}
           </div>
           <div className="mt-3 flex flex-wrap gap-2">
-            <div className="text-xs bg-indigo-100 text-indigo-800 px-2 py-1 rounded-full">
+            <div className="text-xs bg-amber-50 text-amber-700 ring-1 ring-amber-200 px-2 py-1 rounded-full">
               {summary.verifiedPurchases} {t('reviews.verified')}
             </div>
             <div className="text-xs bg-amber-100 text-amber-800 px-2 py-1 rounded-full">
@@ -88,7 +88,7 @@ const ReviewSummary: React.FC<ReviewSummaryProps> = ({
                 <span className="text-sm font-medium">{star}</span>
                 <StarIcon className="h-4 w-4 text-amber-400" />
               </div>
-              <div className="flex-1 h-2 bg-gray-200 rounded-full overflow-hidden">
+              <div className="flex-1 h-2 bg-amber-100 rounded-full overflow-hidden">
                 <div 
                   className="h-full bg-amber-400 rounded-full"
                   style={{ width: `${calculatePercentage(summary.ratingDistribution[star as keyof typeof summary.ratingDistribution])}%` }}

@@ -82,14 +82,12 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ review, onReactionUpdate }) => 
   };
 
   return (
-    <div className="relative bg-white rounded-lg p-5 shadow-lg border border-gray-100 mb-6 overflow-hidden transition-all duration-300 hover:shadow-xl">
-      {/* Premium accent line */}
-      <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-indigo-600 to-amber-500"></div>
+    <div className="relative bg-white rounded-2xl p-5 shadow-sm ring-1 ring-amber-200 mb-6 overflow-hidden transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md">
       
       {/* Review Header */}
       <div className="flex items-start justify-between mb-4">
         <div className="flex items-center">
-          <div className="relative h-12 w-12 rounded-full overflow-hidden bg-gray-200 mr-3 ring-2 ring-indigo-100 shadow-md">
+          <div className="relative h-12 w-12 rounded-full overflow-hidden bg-gray-200 mr-3 ring-2 ring-amber-300 shadow-md">
             {review.userAvatar ? (
               <Image
                 src={getImageUrl(review.userAvatar)}
@@ -98,7 +96,7 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ review, onReactionUpdate }) => 
                 className="object-cover"
               />
             ) : (
-              <div className="flex items-center justify-center h-full w-full bg-gradient-to-br from-indigo-500 to-indigo-700 text-white font-medium text-lg">
+              <div className="flex items-center justify-center h-full w-full bg-indigo-700 text-white font-medium text-lg">
                 {review.userName.charAt(0).toUpperCase()}
               </div>
             )}
@@ -109,14 +107,11 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ review, onReactionUpdate }) => 
           </div>
         </div>
         
-        {/* Verified badge */}
+        {/* Verified badge — Atlas eyebrow style §6.7 */}
         {review.verified && (
-          <div className="bg-gradient-to-r from-green-500 to-emerald-600 text-white text-xs px-3 py-1 rounded-full flex items-center shadow-sm">
-            <svg className="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-            </svg>
-            {t('reviews.verified_purchase')}
-          </div>
+          <p className="text-xs uppercase tracking-[0.18em] text-amber-700 font-medium">
+            {t('reviews.verified_buyer', 'Verified buyer')}
+          </p>
         )}
       </div>
       
@@ -138,13 +133,16 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ review, onReactionUpdate }) => 
             {review.rating}/5
           </span>
         </div>
-        <h3 className="text-lg font-semibold bg-clip-text text-transparent bg-gradient-to-r from-indigo-800 to-indigo-600">
+        <h3
+          className="text-lg font-semibold text-gray-900"
+          style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
+        >
           {review.title}
         </h3>
       </div>
       
       {/* Review content */}
-      <div className="text-gray-700 mb-4 bg-gray-50 p-3 rounded-md">
+      <div className="text-gray-700 mb-4 bg-amber-50/60 p-3 rounded-2xl ring-1 ring-amber-100">
         <p className="leading-relaxed">{truncatedContent}</p>
         {shouldTruncate && (
           <button
