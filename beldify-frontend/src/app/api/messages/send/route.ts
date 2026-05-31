@@ -40,8 +40,13 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    // Prepare the request body for the backend
+    // Prepare the request body for the backend.
+    // The buyer endpoint (/v1/buyer/messages/send) is shop-centric and requires
+    // `shop_id` — on this buyer→shop route the conversation id IS the shop id, so
+    // forward it as shop_id (the backend resolves the seller/recipient from it).
+    // recipient_id is kept for backward compatibility / logging on the backend.
     const requestBody = {
+      shop_id: recipientId,
       recipient_id: recipientId,
       content: messageContent,
       ...(postId && { post_id: postId })
