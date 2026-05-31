@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Poppins, Montserrat, Rubik, Playfair_Display } from 'next/font/google';
+import { Poppins, Montserrat, Rubik, Playfair_Display, IBM_Plex_Sans_Arabic } from 'next/font/google';
 import './globals.css';
 import ClientProvider from '@/providers/ClientProvider';
 import MobileBottomNav from '@/components/layout/MobileBottomNav';
@@ -39,6 +39,15 @@ const playfair = Playfair_Display({
   variable: '--font-playfair',
   display: 'swap',
   preload: true,
+  adjustFontFallback: false,
+});
+
+const ibmPlexArabic = IBM_Plex_Sans_Arabic({
+  subsets: ['arabic'],
+  weight: ['400', '500', '600', '700'],
+  variable: '--font-ibm-plex-arabic',
+  display: 'swap',
+  preload: false,
   adjustFontFallback: false,
 });
 
@@ -103,7 +112,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       lang="ma"
       dir="rtl"
       suppressHydrationWarning
-      className={`${poppins.variable} ${montserrat.variable} ${rubik.variable} ${playfair.variable}`}
+      className={`${poppins.variable} ${montserrat.variable} ${rubik.variable} ${playfair.variable} ${ibmPlexArabic.variable}`}
     >
       <body suppressHydrationWarning>
         <a

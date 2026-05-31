@@ -98,26 +98,26 @@ export default function CartPage() {
       <div className="min-h-screen bg-amber-50/40">
         <div className="max-w-7xl mx-auto px-6 py-16">
           <div className="animate-pulse space-y-6">
-            <div className="h-6 bg-amber-100 rounded-full w-32" />
-            <div className="h-10 bg-amber-100 rounded-2xl w-56" />
-            <div className="h-5 bg-amber-100 rounded-full w-40" />
+            <div className="h-6 bg-indigo-100 rounded-full w-32" />
+            <div className="h-10 bg-indigo-100 rounded-2xl w-56" />
+            <div className="h-5 bg-indigo-100 rounded-full w-40" />
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-8">
               <div className="lg:col-span-2 space-y-4">
                 {[1, 2, 3].map((i) => (
                   <div
                     key={i}
-                    className="flex gap-4 bg-white ring-1 ring-amber-200 rounded-2xl p-4"
+                    className="flex gap-4 bg-white ring-1 ring-indigo-100 rounded-2xl p-4 shadow-sm"
                   >
-                    <div className="w-24 h-24 bg-amber-100 rounded-xl flex-shrink-0" />
+                    <div className="w-24 h-24 bg-indigo-50 rounded-xl flex-shrink-0" />
                     <div className="flex-1 space-y-3">
-                      <div className="h-5 bg-amber-100 rounded w-3/4" />
-                      <div className="h-4 bg-amber-100 rounded w-1/2" />
-                      <div className="h-4 bg-amber-100 rounded w-1/3" />
+                      <div className="h-5 bg-indigo-50 rounded w-3/4" />
+                      <div className="h-4 bg-indigo-50 rounded w-1/2" />
+                      <div className="h-4 bg-indigo-50 rounded w-1/3" />
                     </div>
                   </div>
                 ))}
               </div>
-              <div className="bg-white ring-1 ring-amber-200 rounded-2xl p-6 h-64" />
+              <div className="bg-white ring-1 ring-indigo-100 rounded-2xl p-6 h-64 shadow-sm" />
             </div>
           </div>
         </div>
@@ -131,21 +131,21 @@ export default function CartPage() {
       <div className={`min-h-screen bg-amber-50/40 ${isRTL ? 'rtl' : 'ltr'}`}>
         {/* Empty hero */}
         <div className="max-w-7xl mx-auto px-6 py-20 text-center">
-          <div className="inline-flex items-center justify-center w-24 h-24 rounded-full bg-amber-50 ring-2 ring-amber-200 mb-8">
-            <ShoppingBag className="w-10 h-10 text-amber-500" />
+          <div className="inline-flex items-center justify-center w-24 h-24 rounded-full bg-indigo-50 ring-2 ring-indigo-100 mb-8">
+            <ShoppingBag className="w-10 h-10 text-indigo-700" />
           </div>
           <h2
-            className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4"
+            className="text-3xl sm:text-4xl font-bold text-indigo-950 mb-4"
             style={playfair}
           >
             {t('cart.empty.heading', 'Your bag is empty.')}
           </h2>
-          <p className="text-gray-500 mb-8 max-w-sm mx-auto">
+          <p className="text-indigo-400 mb-8 max-w-sm mx-auto">
             {t('cart.empty.subtitle', 'Find something timeless to wear.')}
           </p>
           <Link
             href="/categories"
-            className="inline-flex items-center gap-2 bg-indigo-700 hover:bg-indigo-800 text-white rounded-full py-3 px-8 text-sm font-semibold transition-colors"
+            className="inline-flex items-center gap-2 bg-amber-500 hover:bg-amber-400 text-amber-950 rounded-full py-3 px-8 text-sm font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-400"
           >
             {t('cart.empty.cta', 'Browse the souk')}
             <ArrowRight className="w-4 h-4" />
@@ -175,24 +175,24 @@ export default function CartPage() {
     <div className={`min-h-screen bg-amber-50/40 ${isRTL ? 'rtl' : 'ltr'}`}>
 
       {/* ── Page header strip ───────────────────────────────────────────────── */}
-      <header className="bg-amber-50/40 border-b border-amber-200/60 pt-8 pb-10 px-6">
+      <header className="bg-amber-50/60 border-b border-indigo-100 pt-8 pb-10 px-6">
         <div className="max-w-7xl mx-auto">
           {/* Breadcrumb */}
-          <nav className="flex items-center gap-2 text-sm text-gray-500 mb-6">
+          <nav className="flex items-center gap-2 text-sm text-indigo-400 mb-6">
             <Link href="/" className="hover:text-indigo-700 transition-colors">
               {t('nav.home', 'Home')}
             </Link>
             <span>/</span>
-            <span className="text-gray-900 font-medium">{t('nav.cart', 'Cart')}</span>
+            <span className="text-indigo-900 font-medium">{t('nav.cart', 'Cart')}</span>
           </nav>
 
           <h1
-            className="text-3xl sm:text-4xl font-bold text-gray-900 mb-2"
+            className="text-3xl sm:text-4xl font-bold text-indigo-950 mb-2"
             style={playfair}
           >
             {t('cart.heading', 'Your bag')}
           </h1>
-          <p className="text-gray-500 text-base">
+          <p className="text-indigo-400 text-base">
             {t('cart.subtitle', `${itemCount} items · ready when you are`, { count: itemCount })}
           </p>
         </div>
@@ -215,11 +215,11 @@ export default function CartPage() {
               return (
                 <article
                   key={item.id}
-                  className="bg-white ring-1 ring-amber-200 rounded-2xl p-4 hover:shadow-md transition-shadow"
+                  className="bg-white ring-1 ring-indigo-100 rounded-2xl p-4 shadow-sm hover:shadow-md transition-shadow duration-200"
                 >
                   <div className="flex gap-4">
                     {/* Product image */}
-                    <div className="relative w-24 h-24 flex-shrink-0 rounded-xl ring-1 ring-amber-200 overflow-hidden bg-amber-50">
+                    <div className="relative w-24 h-24 flex-shrink-0 rounded-xl ring-1 ring-indigo-100 overflow-hidden bg-indigo-50/40">
                       <Image
                         src={getImageUrl(item.product.image_url, '/placeholder.png')}
                         alt={productName}
@@ -236,8 +236,8 @@ export default function CartPage() {
                           {/* Name */}
                           <Link href={`/products/${item.product.id}`}>
                             <h3
-                              className="text-lg font-semibold text-gray-900 hover:text-indigo-700 transition-colors leading-tight truncate"
-                              style={playfair}
+                              className={`text-lg font-semibold text-indigo-950 hover:text-indigo-700 transition-colors leading-tight truncate${isRTL ? ' font-arabic' : ''}`}
+                              style={isRTL ? undefined : playfair}
                             >
                               {productName}
                             </h3>
@@ -245,7 +245,7 @@ export default function CartPage() {
 
                           {/* Size + color */}
                           {(item.product.color || item.product.size) && (
-                            <p className="text-sm text-gray-500 mt-0.5">
+                            <p className="text-sm text-indigo-400 mt-0.5">
                               {[item.product.color, item.product.size]
                                 .filter(Boolean)
                                 .join(' · ')}
@@ -254,7 +254,7 @@ export default function CartPage() {
 
                           {/* Seller chip */}
                           {item.store?.name && (
-                            <span className="inline-flex items-center gap-1 mt-2 bg-amber-50 ring-1 ring-amber-200 rounded-full px-3 py-1 text-xs text-amber-700 font-medium">
+                            <span className="inline-flex items-center gap-1 mt-2 bg-indigo-50 ring-1 ring-indigo-100 rounded-full px-3 py-1 text-xs text-indigo-700 font-medium">
                               <BadgeCheck className="w-3 h-3" />
                               {item.store.name}
                             </span>
@@ -264,17 +264,17 @@ export default function CartPage() {
                         {/* Price block + remove */}
                         <div className="flex flex-col items-end gap-1 flex-shrink-0">
                           {hasDiscount && (
-                            <span className="text-xs text-gray-400 line-through">
+                            <span className="text-xs text-indigo-300 line-through">
                               {item.product.price.toFixed(2)} MAD
                             </span>
                           )}
-                          <span className="text-base font-semibold text-indigo-700">
+                          <span className="text-base font-semibold text-indigo-900">
                             {lineTotal} MAD
                           </span>
                           <button
                             onClick={() => removeFromCart(item.id)}
                             aria-label={t('cart.items.remove', 'Remove item')}
-                            className="mt-1 p-1.5 text-gray-400 hover:text-rose-600 transition-colors rounded-lg hover:bg-rose-50"
+                            className="mt-1 p-1.5 text-indigo-400 hover:text-rose-600 transition-colors rounded-lg hover:bg-rose-50"
                           >
                             <Trash2 className="w-4 h-4" />
                           </button>
@@ -283,17 +283,17 @@ export default function CartPage() {
 
                       {/* Quantity stepper */}
                       <div className="mt-3 flex items-center gap-3">
-                        <div className="inline-flex items-center bg-amber-50 rounded-full px-1 py-1 gap-1">
+                        <div className="inline-flex items-center bg-indigo-50 rounded-full px-1 py-1 gap-1">
                           <button
                             onClick={() =>
                               handleQuantityChange(item.id, item.quantity - 1)
                             }
                             aria-label={t('cart.quantity.decrease', 'Decrease quantity')}
-                            className="w-7 h-7 flex items-center justify-center text-gray-600 hover:text-indigo-700 transition-colors rounded-full hover:bg-white"
+                            className="w-7 h-7 flex items-center justify-center text-indigo-500 hover:text-indigo-700 transition-colors rounded-full hover:bg-white"
                           >
                             <Minus className="w-3 h-3" />
                           </button>
-                          <span className="w-8 text-center text-sm font-semibold text-gray-900">
+                          <span className="w-8 text-center text-sm font-semibold text-indigo-950">
                             {item.quantity}
                           </span>
                           <button
@@ -305,7 +305,7 @@ export default function CartPage() {
                               item.quantity >= item.product.stock_quantity
                             }
                             aria-label={t('cart.quantity.increase', 'Increase quantity')}
-                            className="w-7 h-7 flex items-center justify-center text-gray-600 hover:text-indigo-700 transition-colors rounded-full hover:bg-white disabled:opacity-40 disabled:cursor-not-allowed"
+                            className="w-7 h-7 flex items-center justify-center text-indigo-500 hover:text-indigo-700 transition-colors rounded-full hover:bg-white disabled:opacity-40 disabled:cursor-not-allowed"
                           >
                             <Plus className="w-3 h-3" />
                           </button>
@@ -341,7 +341,7 @@ export default function CartPage() {
             <div className="pt-2">
               <Link
                 href="/products"
-                className="inline-flex items-center gap-2 text-sm font-medium text-indigo-700 hover:text-indigo-900 transition-colors group"
+                className="inline-flex items-center gap-2 text-sm font-medium text-indigo-600 hover:text-indigo-900 transition-colors group"
               >
                 <ArrowLeft className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" />
                 {t('cart.continue_shopping', 'Continue shopping')}
@@ -351,46 +351,46 @@ export default function CartPage() {
 
           {/* ── Right col: order summary ──────────────────────────────────── */}
           <div className="lg:col-span-1">
-            <div className="bg-white ring-1 ring-amber-200 rounded-2xl p-6 lg:sticky lg:top-24">
+            <div className="bg-white ring-1 ring-indigo-100 rounded-2xl p-6 shadow-sm lg:sticky lg:top-24">
               {/* Kicker */}
-              <p className="text-xs uppercase tracking-[0.18em] text-amber-700 font-medium mb-4">
+              <p className="text-xs uppercase tracking-[0.18em] text-indigo-400 font-medium mb-4">
                 {t('cart.summary.kicker', 'Order Summary')}
               </p>
 
               {/* Price rows */}
               <div className="space-y-3 text-sm">
                 <div className="flex justify-between">
-                  <span className="text-gray-600">
+                  <span className="text-indigo-500">
                     {t('cart.summary.subtotal', 'Subtotal')}
                   </span>
-                  <span className="text-gray-900 font-medium">
+                  <span className="text-indigo-950 font-medium">
                     {subtotal.toFixed(2)} MAD
                   </span>
                 </div>
 
                 <div className="flex justify-between">
-                  <span className="text-gray-600">
+                  <span className="text-indigo-500">
                     {t('cart.summary.shipping', 'Shipping')}
                   </span>
                   {shippingAmount > 0 ? (
-                    <span className="text-gray-900 font-medium">
+                    <span className="text-indigo-950 font-medium">
                       {shippingAmount.toFixed(2)} MAD
                     </span>
                   ) : subtotal >= 500 ? (
-                    <span className="text-amber-600 font-medium">
+                    <span className="text-[#855300] font-medium">
                       {t('cart.summary.free', 'Free')}
                     </span>
                   ) : (
-                    <span className="text-gray-400">—</span>
+                    <span className="text-indigo-300">—</span>
                   )}
                 </div>
 
                 {taxAmount > 0 && (
                   <div className="flex justify-between">
-                    <span className="text-gray-600">
+                    <span className="text-indigo-500">
                       {t('cart.summary.tax', 'Tax')}
                     </span>
-                    <span className="text-gray-900 font-medium">
+                    <span className="text-indigo-950 font-medium">
                       {taxAmount.toFixed(2)} MAD
                     </span>
                   </div>
@@ -398,25 +398,25 @@ export default function CartPage() {
 
                 {discountAmount > 0 && (
                   <div className="flex justify-between">
-                    <span className="text-gray-600">
+                    <span className="text-indigo-500">
                       {t('cart.summary.discount', 'Discount')}
                     </span>
-                    <span className="text-amber-600 font-medium">
+                    <span className="text-[#855300] font-medium">
                       -{discountAmount.toFixed(2)} MAD
                     </span>
                   </div>
                 )}
               </div>
 
-              <div className="border-t border-amber-200 my-4" />
+              <div className="border-t border-indigo-100 my-4" />
 
-              {/* Total */}
+              {/* Total — price-display token: 22px bold */}
               <div className="flex justify-between items-baseline mb-6">
-                <span className="text-gray-700 font-medium text-sm">
+                <span className="text-indigo-600 font-medium text-sm">
                   {t('cart.summary.total', 'Total')}
                 </span>
                 <span
-                  className="text-2xl font-bold text-indigo-700"
+                  className="text-[1.375rem] font-bold text-indigo-950 leading-tight"
                   style={playfair}
                 >
                   {totalAmount.toFixed(2)} MAD
@@ -432,19 +432,19 @@ export default function CartPage() {
                     onChange={(e) => setCouponCode(e.target.value)}
                     onKeyDown={(e) => e.key === 'Enter' && handleApplyCoupon()}
                     placeholder={t('cart.coupon.placeholder', 'Promo code')}
-                    className="flex-1 rounded-full bg-amber-50 ring-1 ring-amber-200 px-4 py-2 text-sm focus:outline-none focus:ring-amber-400 transition"
+                    className="flex-1 rounded-full bg-indigo-50/60 ring-1 ring-indigo-100 px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-300 transition text-indigo-950 placeholder:text-indigo-300"
                   />
                   <button
                     onClick={handleApplyCoupon}
                     disabled={loading || !couponCode.trim()}
-                    className="rounded-full bg-white ring-1 ring-amber-400 text-amber-700 px-4 py-2 text-sm font-semibold hover:bg-amber-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                    className="rounded-full bg-white ring-1 ring-indigo-200 text-indigo-700 px-4 py-2 text-sm font-semibold hover:bg-indigo-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                   >
                     {t('cart.coupon.apply', 'Apply')}
                   </button>
                 </div>
               ) : (
-                <div className="flex items-center justify-between p-3 rounded-2xl bg-amber-50 ring-1 ring-amber-200 mb-4">
-                  <span className="text-sm text-amber-700 font-medium">
+                <div className="flex items-center justify-between p-3 rounded-2xl bg-indigo-50 ring-1 ring-indigo-100 mb-4">
+                  <span className="text-sm text-indigo-700 font-medium">
                     {state.coupon_code}{' '}
                     {t('cart.coupon.applied_label', 'applied')}
                   </span>
@@ -463,29 +463,29 @@ export default function CartPage() {
                 <ShippingCalculator subtotal={subtotal} />
               </div>
 
-              {/* Checkout CTA */}
+              {/* Checkout CTA — Atlas secondary-container (amber) with dark text for AA contrast */}
               <button
                 onClick={handleCheckout}
-                className="w-full bg-indigo-700 hover:bg-indigo-800 text-white rounded-full py-3 text-sm font-semibold inline-flex items-center justify-center gap-2 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                className="w-full bg-amber-500 hover:bg-amber-400 text-amber-950 rounded-full py-3 text-sm font-semibold inline-flex items-center justify-center gap-2 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-400"
               >
                 {t('cart.summary.checkout', 'Checkout')}
                 <ArrowRight className="w-4 h-4" />
               </button>
 
               {/* Trust micro-row */}
-              <div className="flex justify-center gap-3 mt-4">
-                <span className="inline-flex items-center gap-1.5 text-xs text-gray-600 bg-amber-50 ring-1 ring-amber-200 rounded-full px-3 py-1.5">
-                  <ShieldCheck className="w-3.5 h-3.5 text-amber-600" />
+              <div className="flex justify-center gap-3 mt-4 flex-wrap">
+                <span className="inline-flex items-center gap-1.5 text-xs text-indigo-600 bg-indigo-50 ring-1 ring-indigo-100 rounded-full px-3 py-1.5">
+                  <ShieldCheck className="w-3.5 h-3.5 text-indigo-500" />
                   {t('cart.trust.secure', 'Secure payments')}
                 </span>
-                <span className="inline-flex items-center gap-1.5 text-xs text-gray-600 bg-amber-50 ring-1 ring-amber-200 rounded-full px-3 py-1.5">
-                  <RotateCcw className="w-3.5 h-3.5 text-amber-600" />
+                <span className="inline-flex items-center gap-1.5 text-xs text-indigo-600 bg-indigo-50 ring-1 ring-indigo-100 rounded-full px-3 py-1.5">
+                  <RotateCcw className="w-3.5 h-3.5 text-indigo-500" />
                   {t('cart.trust.returns', 'Free 14-day returns')}
                 </span>
               </div>
 
               {/* Payment methods footer */}
-              <p className="text-center text-xs text-gray-400 mt-3">
+              <p className="text-center text-xs text-indigo-300 mt-3">
                 {t(
                   'cart.payment_methods',
                   'We accept Visa · Mastercard · Cash on Delivery',
@@ -509,7 +509,7 @@ export default function CartPage() {
           </span>
         </div>
         <h2
-          className="text-2xl sm:text-3xl font-bold text-gray-900 mb-8"
+          className="text-2xl sm:text-3xl font-bold text-indigo-950 mb-8"
           style={playfair}
         >
           {t('cart.also_like', 'You might also like')}
@@ -523,7 +523,7 @@ export default function CartPage() {
           className="absolute inset-0 opacity-25"
           style={{
             background:
-              'radial-gradient(circle at 20% 20%, #f59e0b 0, transparent 45%), radial-gradient(circle at 80% 60%, #6366f1 0, transparent 50%)',
+              'radial-gradient(circle at 20% 20%, #f59e0b 0, transparent 45%), radial-gradient(circle at 80% 60%, #3b3b6d 0, transparent 50%)',
           }}
         />
         <div className="relative z-10 max-w-7xl mx-auto px-6 text-center flex flex-col md:flex-row items-center justify-center gap-8">
@@ -535,7 +535,7 @@ export default function CartPage() {
           </h2>
           <Link
             href="/bespoke"
-            className="inline-flex items-center justify-center px-8 py-3 bg-amber-400 hover:bg-amber-300 text-gray-900 font-bold rounded-full transition-colors text-sm"
+            className="inline-flex items-center justify-center px-8 py-3 bg-amber-500 hover:bg-amber-400 text-amber-950 font-bold rounded-full transition-colors text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-400"
           >
             {t('cart.bespoke.cta', 'Book a consultation')}
           </Link>
@@ -549,32 +549,32 @@ export default function CartPage() {
 function ReassuranceStrip({ t }: { t: (key: string, fallback: string) => string }) {
   const items = [
     {
-      icon: <ShieldCheck className="w-8 h-8 text-amber-500" />,
+      icon: <ShieldCheck className="w-8 h-8 text-indigo-600" />,
       label: t('cart.reassurance.verified', 'Verified Sellers'),
     },
     {
-      icon: <RotateCcw className="w-8 h-8 text-amber-500" />,
+      icon: <RotateCcw className="w-8 h-8 text-indigo-600" />,
       label: t('cart.reassurance.returns', 'Free Returns'),
     },
     {
-      icon: <BadgeCheck className="w-8 h-8 text-amber-500" />,
+      icon: <BadgeCheck className="w-8 h-8 text-indigo-600" />,
       label: t('cart.reassurance.authentic', 'Authentic Moroccan craft'),
     },
     {
-      icon: <Headphones className="w-8 h-8 text-amber-500" />,
+      icon: <Headphones className="w-8 h-8 text-indigo-600" />,
       label: t('cart.reassurance.support', 'Support AR/FR/EN'),
     },
   ];
 
   return (
-    <section className="bg-amber-50/60 border-y border-amber-200/50 py-12 px-6">
+    <section className="bg-indigo-50/40 border-y border-indigo-100 py-12 px-6">
       <div className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8">
         {items.map(({ icon, label }) => (
           <div key={label} className="flex flex-col items-center text-center gap-3">
-            <div className="w-14 h-14 flex items-center justify-center rounded-full bg-amber-100 ring-1 ring-amber-200">
+            <div className="w-14 h-14 flex items-center justify-center rounded-full bg-indigo-100 ring-1 ring-indigo-200">
               {icon}
             </div>
-            <p className="text-sm font-medium text-gray-700">{label}</p>
+            <p className="text-sm font-medium text-indigo-800">{label}</p>
           </div>
         ))}
       </div>

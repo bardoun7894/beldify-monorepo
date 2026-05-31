@@ -279,10 +279,14 @@ export default function ShopPage() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-amber-50/40">
+      <div className="min-h-screen flex items-center justify-center bg-[hsl(var(--accent))]">
         <div className="flex flex-col items-center gap-4">
-          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-700" />
-          <p className="text-sm text-gray-500 tracking-wide">{t('common.loading', 'Loading…')}</p>
+          <div
+            className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[hsl(var(--primary))]"
+            role="status"
+            aria-label={t('common.loading', 'Loading…')}
+          />
+          <p className="text-sm text-[hsl(var(--muted-foreground))] tracking-wide">{t('common.loading', 'Loading…')}</p>
         </div>
       </div>
     );
@@ -290,20 +294,19 @@ export default function ShopPage() {
 
   if (error || !shop) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center bg-amber-50/40 gap-4">
+      <div className="min-h-screen flex flex-col items-center justify-center bg-[hsl(var(--accent))] gap-4 px-6">
         <div
-          className="text-5xl font-bold text-indigo-950"
-          style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
+          className="text-5xl font-bold text-[hsl(var(--primary))] font-heading"
         >
           404
         </div>
-        <p className="text-xl font-semibold text-gray-800">{error || t('shops.not_found', 'Shop not found')}</p>
-        <p className="text-gray-500 text-sm">{t('shops.try_again', 'Please try again later')}</p>
+        <p className="text-xl font-semibold text-[hsl(var(--foreground))]">{error || t('shops.not_found', 'Shop not found')}</p>
+        <p className="text-[hsl(var(--muted-foreground))] text-sm">{t('shops.try_again', 'Please try again later')}</p>
         <Link
           href="/shops"
-          className="mt-4 inline-flex items-center gap-2 rounded-full bg-indigo-700 px-6 py-2.5 text-sm font-semibold text-white hover:bg-indigo-800 transition"
+          className="mt-4 inline-flex items-center gap-2 rounded-full bg-[hsl(var(--primary))] px-6 py-2.5 text-sm font-semibold text-white hover:opacity-90 transition focus-visible:ring-2 focus-visible:ring-[hsl(var(--primary))] focus-visible:ring-offset-2"
         >
-          {t('shops.browse', 'Browse ateliers')} <ArrowRight className="h-4 w-4" />
+          {t('shops.browse', 'Browse ateliers')} <ArrowRight className="h-4 w-4" aria-hidden="true" />
         </Link>
       </div>
     );
@@ -314,10 +317,10 @@ export default function ShopPage() {
   // ── render ─────────────────────────────────────────────────────────────────
 
   return (
-    <div className="bg-amber-50/40 min-h-screen">
+    <div className="bg-[hsl(var(--accent))] min-h-screen">
 
       {/* ── 1. Cover Hero ──────────────────────────────────────────────────── */}
-      <section className="relative h-72 sm:h-[28rem] overflow-hidden bg-indigo-950">
+      <section className="relative h-72 sm:h-[28rem] overflow-hidden bg-[hsl(var(--indigo-950))]">
         <Image
           src={getImageUrl(shop.cover_image || shop.profile?.cover_image, '/images/hero-atelier.jpg')}
           alt={t('shop.cover_alt', 'Atelier cover — {{name}}', { name: shop.name })}
@@ -327,28 +330,32 @@ export default function ShopPage() {
           className="object-cover"
           onError={handleImageError}
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-indigo-950/85 via-indigo-900/40 to-transparent" />
+        {/* Indigo gradient overlay — from-[hsl(var(--indigo-950))]/85 is safe (no internal slash in arbitrary) */}
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background: 'linear-gradient(to top, hsl(246 50% 21% / 0.88) 0%, hsl(243 47% 34% / 0.45) 50%, transparent 100%)',
+          }}
+          aria-hidden="true"
+        />
 
-        {/* Verified pill — top right */}
+        {/* Verified pill — top end (RTL-safe) */}
         {isVerified && (
-          <div className="absolute top-6 right-6 z-10">
+          <div className="absolute top-6 end-6 z-10">
             <span className="inline-flex items-center gap-1.5 rounded-full bg-amber-400 px-3 py-1 text-[11px] font-bold uppercase tracking-wide text-gray-900 shadow-sm">
-              <BadgeCheck className="h-3.5 w-3.5" />
+              <BadgeCheck className="h-3.5 w-3.5" aria-hidden="true" />
               {t('shop.verified', '✓ VERIFIED BY BELDIFY')}
             </span>
           </div>
         )}
 
-        {/* Bottom-left content */}
+        {/* Bottom content */}
         <div className="absolute inset-x-0 bottom-0 z-10">
           <div className="max-w-7xl mx-auto px-6 pb-8">
             <span className="text-xs uppercase tracking-[0.18em] text-amber-300 font-medium block mb-3">
               {t('shop.kicker', 'ATELIER · {{city}}', { city })}
             </span>
-            <h1
-              className="text-white text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight drop-shadow-md"
-              style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
-            >
+            <h1 className="font-heading text-white text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight drop-shadow-md">
               {shop.name}
             </h1>
             <p className="mt-2 text-indigo-100 text-base sm:text-lg max-w-xl">
@@ -360,18 +367,15 @@ export default function ShopPage() {
 
       {/* ── 2. Stats Card ──────────────────────────────────────────────────── */}
       <div className="max-w-7xl mx-auto px-6 -mt-12 sm:-mt-16 relative z-10">
-        <div className="bg-white ring-1 ring-amber-200 rounded-2xl p-6 shadow-sm">
+        <div className="bg-white ring-1 ring-amber-200 rounded-2xl p-6 editorial-shadow">
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 divide-x divide-amber-100">
             {/* Rating */}
             <div className="text-center px-2">
-              <div
-                className="text-3xl font-bold text-gray-900"
-                style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
-              >
+              <div className="font-heading text-3xl font-bold text-[hsl(var(--foreground))]">
                 {rating > 0 ? rating.toFixed(1) : '—'}{' '}
-                <span className="text-amber-500 text-2xl">★</span>
+                <span className="text-amber-500 text-2xl" aria-hidden="true">★</span>
               </div>
-              <div className="mt-1 text-xs uppercase tracking-wide text-amber-700 font-medium">
+              <div className="mt-1 text-xs uppercase tracking-wide text-[hsl(var(--accent-foreground))] font-medium">
                 {reviewsCount > 0
                   ? t('shop.stats.reviews', '{{count}} reviews', { count: reviewsCount })
                   : t('shop.stats.no_reviews', 'No reviews yet')}
@@ -379,37 +383,28 @@ export default function ShopPage() {
             </div>
             {/* Products */}
             <div className="text-center px-2">
-              <div
-                className="text-3xl font-bold text-gray-900"
-                style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
-              >
+              <div className="font-heading text-3xl font-bold text-[hsl(var(--foreground))]">
                 {productsCount || '—'}
               </div>
-              <div className="mt-1 text-xs uppercase tracking-wide text-amber-700 font-medium">
+              <div className="mt-1 text-xs uppercase tracking-wide text-[hsl(var(--accent-foreground))] font-medium">
                 {t('shop.stats.products', 'Products')}
               </div>
             </div>
             {/* Years */}
             <div className="text-center px-2">
-              <div
-                className="text-3xl font-bold text-gray-900"
-                style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
-              >
+              <div className="font-heading text-3xl font-bold text-[hsl(var(--foreground))]">
                 {years}
               </div>
-              <div className="mt-1 text-xs uppercase tracking-wide text-amber-700 font-medium">
+              <div className="mt-1 text-xs uppercase tracking-wide text-[hsl(var(--accent-foreground))] font-medium">
                 {t('shop.stats.years', 'Years on Beldify')}
               </div>
             </div>
             {/* Response */}
             <div className="text-center px-2">
-              <div
-                className="text-3xl font-bold text-gray-900"
-                style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
-              >
+              <div className="font-heading text-3xl font-bold text-[hsl(var(--foreground))]">
                 24h
               </div>
-              <div className="mt-1 text-xs uppercase tracking-wide text-amber-700 font-medium">
+              <div className="mt-1 text-xs uppercase tracking-wide text-[hsl(var(--accent-foreground))] font-medium">
                 {t('shop.stats.response', 'Response time')}
               </div>
             </div>
@@ -421,18 +416,15 @@ export default function ShopPage() {
       <section className="max-w-7xl mx-auto px-6 py-16 grid lg:grid-cols-2 gap-12 items-start">
         {/* Left: text */}
         <div>
-          <span className="text-xs uppercase tracking-[0.18em] text-amber-700 font-medium">
+          <span className="text-xs uppercase tracking-[0.18em] text-[hsl(var(--accent-foreground))] font-medium">
             {t('shop.about_kicker', 'OUR STORY')}
           </span>
-          <h2
-            className="mt-3 text-3xl sm:text-4xl font-bold text-gray-900"
-            style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
-          >
+          <h2 className="font-heading mt-3 text-3xl sm:text-4xl font-bold text-[hsl(var(--foreground))]">
             {t('shop.about_heading', 'Inside {{name}}', { name: shop.name })}
           </h2>
           <div className="mt-6 space-y-4">
             {descParagraphs.map((para, i) => (
-              <p key={i} className="text-gray-600 leading-relaxed">
+              <p key={i} className="text-[hsl(var(--muted-foreground))] leading-relaxed">
                 {para}
               </p>
             ))}
@@ -441,13 +433,21 @@ export default function ShopPage() {
           <button
             onClick={handleFollow}
             disabled={isFollowActionLoading}
-            className={`mt-8 inline-flex items-center gap-2 rounded-full px-6 py-2.5 text-sm font-semibold transition disabled:opacity-50 ${
+            aria-pressed={isFollowing}
+            aria-label={
+              isFollowActionLoading
+                ? t('common.loading', 'Loading…')
+                : isFollowing
+                  ? t('shops.shop.following', 'Following this atelier')
+                  : t('shops.shop.follow', 'Follow this atelier')
+            }
+            className={`mt-8 inline-flex items-center gap-2 rounded-full px-6 py-2.5 text-sm font-semibold transition disabled:opacity-50 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[hsl(var(--primary))] ${
               isFollowing
-                ? 'bg-white ring-1 ring-amber-200 text-gray-700 hover:bg-amber-50'
-                : 'bg-indigo-700 text-white hover:bg-indigo-800'
+                ? 'bg-white ring-1 ring-amber-200 text-[hsl(var(--foreground))] hover:bg-amber-50'
+                : 'bg-[hsl(var(--primary))] text-white hover:opacity-90'
             }`}
           >
-            <Heart className={`h-4 w-4 ${isFollowing ? 'fill-red-500 text-red-500' : ''}`} />
+            <Heart className={`h-4 w-4 ${isFollowing ? 'fill-red-500 text-red-500' : ''}`} aria-hidden="true" />
             {isFollowActionLoading
               ? t('common.loading', 'Loading…')
               : isFollowing
@@ -480,16 +480,22 @@ export default function ShopPage() {
       </section>
 
       {/* ── 4. Tabs strip ──────────────────────────────────────────────────── */}
-      <div className="sticky top-16 z-30 bg-amber-50/95 backdrop-blur border-y border-amber-200/60">
+      <div
+        className="sticky top-16 z-30 bg-[hsl(var(--accent))]/95 backdrop-blur border-y border-amber-200/60"
+        role="tablist"
+        aria-label={t('shop.tabs_label', 'Product categories')}
+      >
         <div className="max-w-7xl mx-auto px-6 flex gap-2 overflow-x-auto scrollbar-hide">
           {TABS.map((tab) => (
             <button
               key={tab.id}
+              role="tab"
+              aria-selected={activeTab === tab.id}
               onClick={() => { setActiveTab(tab.id); setVisibleCount(8); }}
-              className={`whitespace-nowrap text-sm pb-3 -mb-px pt-3 px-2 transition font-medium ${
+              className={`whitespace-nowrap text-sm pb-3 -mb-px pt-3 px-2 transition font-medium focus-visible:ring-2 focus-visible:ring-[hsl(var(--primary))] focus-visible:rounded-sm ${
                 activeTab === tab.id
-                  ? 'text-indigo-700 border-b-2 border-indigo-700 font-semibold'
-                  : 'text-gray-600 hover:text-gray-900'
+                  ? 'text-[hsl(var(--primary))] border-b-2 border-[hsl(var(--primary))] font-semibold'
+                  : 'text-[hsl(var(--muted-foreground))] hover:text-[hsl(var(--foreground))]'
               }`}
             >
               {t(`shop.tab.${tab.id}`, tab.label)}
@@ -502,15 +508,16 @@ export default function ShopPage() {
       {activeTab !== 'reviews' && (
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between gap-4">
           <div className="flex items-center gap-2 overflow-x-auto scrollbar-hide">
-            <Filter className="h-4 w-4 text-amber-700 shrink-0" />
+            <Filter className="h-4 w-4 text-[hsl(var(--accent-foreground))] shrink-0" aria-hidden="true" />
             {FILTER_PILLS.map((pill) => (
               <button
                 key={pill.id}
                 onClick={() => toggleFilter(pill.id)}
-                className={`whitespace-nowrap rounded-full px-4 py-1.5 text-sm transition font-medium ${
+                aria-pressed={activeFilters.has(pill.id)}
+                className={`whitespace-nowrap rounded-full px-4 py-1.5 text-sm transition font-medium focus-visible:ring-2 focus-visible:ring-[hsl(var(--primary))] focus-visible:ring-offset-1 ${
                   activeFilters.has(pill.id)
-                    ? 'bg-indigo-700 text-white'
-                    : 'bg-amber-50 ring-1 ring-amber-200 text-gray-700 hover:bg-amber-100'
+                    ? 'bg-[hsl(var(--primary))] text-white'
+                    : 'bg-amber-50 ring-1 ring-amber-200 text-[hsl(var(--foreground))] hover:bg-amber-100'
                 }`}
               >
                 {t(`shop.filter.${pill.id}`, pill.label)}
@@ -518,7 +525,7 @@ export default function ShopPage() {
             ))}
           </div>
           <select
-            className="shrink-0 rounded-full bg-white ring-1 ring-amber-200 px-4 py-2 text-sm text-gray-700 focus:outline-none"
+            className="shrink-0 rounded-full bg-white ring-1 ring-amber-200 px-4 py-2 text-sm text-[hsl(var(--foreground))] focus:outline-none focus:ring-2 focus:ring-[hsl(var(--primary))]"
             aria-label={t('shop.sort_label', 'Sort products')}
           >
             <option value="featured">{t('shop.sort.featured', 'Featured')}</option>
@@ -539,8 +546,8 @@ export default function ShopPage() {
               ))}
             </div>
           ) : (
-            <div className="text-center py-20 bg-white ring-1 ring-amber-200 rounded-2xl">
-              <p className="text-gray-500 text-sm">
+            <div className="text-center py-20 bg-white ring-1 ring-amber-200 rounded-2xl editorial-shadow">
+              <p className="text-[hsl(var(--muted-foreground))] text-sm">
                 {t('shop.no_products_found', 'No products found in this category.')}
               </p>
             </div>
@@ -551,7 +558,7 @@ export default function ShopPage() {
             <div className="mt-10 flex justify-center">
               <button
                 onClick={() => setVisibleCount((c) => c + 8)}
-                className="rounded-full bg-white ring-1 ring-indigo-700 text-indigo-700 px-8 py-3 text-sm font-semibold hover:bg-indigo-50 transition"
+                className="rounded-full bg-white ring-1 ring-[hsl(var(--primary))] text-[hsl(var(--primary))] px-8 py-3 text-sm font-semibold hover:bg-indigo-50 transition focus-visible:ring-2 focus-visible:ring-[hsl(var(--primary))] focus-visible:ring-offset-2"
               >
                 {t('shop.load_more', 'Load more')}
               </button>
@@ -564,14 +571,15 @@ export default function ShopPage() {
       <section
         id="reviews"
         className="bg-white border-y border-amber-200/60 py-16"
+        aria-labelledby="reviews-heading"
       >
         <div className="max-w-7xl mx-auto px-6">
-          <span className="text-xs uppercase tracking-[0.18em] text-amber-700 font-medium">
+          <span className="text-xs uppercase tracking-[0.18em] text-[hsl(var(--accent-foreground))] font-medium">
             {t('shop.reviews_kicker', 'WHAT SHOPPERS SAY')}
           </span>
           <h2
-            className="mt-3 text-3xl sm:text-4xl font-bold text-gray-900"
-            style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
+            id="reviews-heading"
+            className="font-heading mt-3 text-3xl sm:text-4xl font-bold text-[hsl(var(--foreground))]"
           >
             {t('shop.reviews_heading', 'Voices from our shoppers')}
           </h2>
@@ -583,23 +591,26 @@ export default function ShopPage() {
                 className="bg-amber-50/60 ring-1 ring-amber-200 rounded-2xl p-6 transition hover:-translate-y-0.5 hover:shadow-md"
               >
                 <div className="flex items-center gap-3 mb-4">
-                  <div className="h-10 w-10 rounded-full bg-amber-100 ring-1 ring-amber-200 flex items-center justify-center text-amber-800 font-semibold text-sm shrink-0">
+                  <div
+                    className="h-10 w-10 rounded-full bg-amber-100 ring-1 ring-amber-200 flex items-center justify-center text-[hsl(var(--accent-foreground))] font-semibold text-sm shrink-0"
+                    aria-hidden="true"
+                  >
                     {rev.initial}
                   </div>
                   <div>
-                    <div className="text-sm font-semibold text-gray-900">{rev.name}</div>
-                    <div className="flex gap-0.5 mt-0.5">
+                    <div className="text-sm font-semibold text-[hsl(var(--foreground))]">{rev.name}</div>
+                    <div className="flex gap-0.5 mt-0.5" aria-label="5 stars">
                       {[...Array(5)].map((_, j) => (
-                        <Star key={j} className="h-3.5 w-3.5 fill-amber-500 text-amber-500" />
+                        <Star key={j} className="h-3.5 w-3.5 fill-amber-500 text-amber-500" aria-hidden="true" />
                       ))}
                     </div>
                   </div>
-                  <span className="ml-auto text-xs text-gray-400">{rev.city}</span>
+                  <span className="ms-auto text-xs text-[hsl(var(--muted-foreground))]">{rev.city}</span>
                 </div>
-                <p className="text-xs uppercase tracking-[0.18em] text-amber-700 font-medium mb-2">
+                <p className="text-xs uppercase tracking-[0.18em] text-[hsl(var(--accent-foreground))] font-medium mb-2">
                   {t('reviews.verified_buyer', 'Verified buyer')}
                 </p>
-                <p className="text-gray-600 text-sm leading-relaxed italic">{rev.text}</p>
+                <p className="text-[hsl(var(--muted-foreground))] text-sm leading-relaxed italic">{rev.text}</p>
               </div>
             ))}
           </div>
@@ -608,10 +619,10 @@ export default function ShopPage() {
             <div className="mt-8 text-center">
               <a
                 href="#reviews"
-                className="inline-flex items-center gap-1.5 text-indigo-700 text-sm font-semibold hover:underline"
+                className="inline-flex items-center gap-1.5 text-[hsl(var(--primary))] text-sm font-semibold hover:underline focus-visible:ring-2 focus-visible:ring-[hsl(var(--primary))] focus-visible:rounded-sm"
               >
                 {t('shop.all_reviews', 'Read all {{count}} reviews', { count: reviewsCount })}
-                <ArrowRight className="h-4 w-4" />
+                <ArrowRight className="h-4 w-4" aria-hidden="true" />
               </a>
             </div>
           )}
@@ -619,21 +630,26 @@ export default function ShopPage() {
       </section>
 
       {/* ── 9. Bespoke / contact strip ────────────────────────────────────── */}
-      <section className="relative overflow-hidden bg-indigo-900 py-16">
-        {/* Radial amber overlay */}
+      <section
+        className="relative overflow-hidden py-16"
+        style={{ backgroundColor: 'hsl(var(--indigo-900))' }}
+        aria-labelledby="bespoke-heading"
+      >
+        {/* Radial amber/indigo overlay */}
         <div
           className="absolute inset-0 opacity-25 pointer-events-none"
           style={{
             background:
-              'radial-gradient(circle at 20% 20%, #f59e0b 0, transparent 45%), radial-gradient(circle at 80% 60%, #6366f1 0, transparent 50%)',
+              'radial-gradient(circle at 20% 20%, #f59e0b 0, transparent 45%), radial-gradient(circle at 80% 60%, #3b3b6d 0, transparent 50%)',
           }}
+          aria-hidden="true"
         />
         <div className="relative z-10 max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
           {/* Left: CTA */}
           <div>
             <h2
-              className="text-3xl sm:text-4xl font-bold text-white"
-              style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
+              id="bespoke-heading"
+              className="font-heading text-3xl sm:text-4xl font-bold text-white"
             >
               {t('shop.bespoke_heading', 'Have something specific in mind?')}
             </h2>
@@ -645,15 +661,15 @@ export default function ShopPage() {
             </p>
             <Link
               href={shopId ? `/messages/new?shop=${shopId}` : '/contact'}
-              className="mt-8 inline-flex items-center gap-2 rounded-full bg-amber-400 px-8 py-3.5 text-sm font-bold text-gray-900 hover:bg-amber-300 transition"
+              className="mt-8 inline-flex items-center gap-2 rounded-full bg-amber-400 px-8 py-3.5 text-sm font-bold text-gray-900 hover:bg-amber-300 transition focus-visible:ring-2 focus-visible:ring-amber-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[hsl(var(--indigo-900))]"
             >
-              <MessageCircle className="h-4 w-4" />
+              <MessageCircle className="h-4 w-4" aria-hidden="true" />
               {t('shop.message_atelier', 'Message the atelier')}
             </Link>
           </div>
 
           {/* Right: 3-step explainer */}
-          <div className="border-t md:border-t-0 md:border-l border-white/20 pt-8 md:pt-0 md:pl-12 space-y-6">
+          <div className="border-t md:border-t-0 md:border-s border-white/20 pt-8 md:pt-0 md:ps-12 space-y-6">
             {[
               {
                 n: '01',
@@ -672,7 +688,7 @@ export default function ShopPage() {
               },
             ].map((step) => (
               <div key={step.n} className="flex gap-4">
-                <span className="text-2xl font-bold text-amber-400/50 leading-none shrink-0">
+                <span className="text-2xl font-bold text-amber-400/50 leading-none shrink-0" aria-hidden="true">
                   {step.n}
                 </span>
                 <div>
@@ -685,11 +701,11 @@ export default function ShopPage() {
         </div>
       </section>
 
-      {/* ── 10. You might also love ────────────────────────────────────────── */}
-      <section className="max-w-7xl mx-auto px-6 py-16">
+      {/* ── 10. Discover more ateliers ─────────────────────────────────────── */}
+      <section className="max-w-7xl mx-auto px-6 py-16" aria-labelledby="discover-heading">
         <h2
-          className="text-3xl sm:text-4xl font-bold text-gray-900 mb-8"
-          style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
+          id="discover-heading"
+          className="font-heading text-3xl sm:text-4xl font-bold text-[hsl(var(--foreground))] mb-8"
         >
           {t('shop.discover_more', 'Discover more ateliers')}
         </h2>
@@ -698,20 +714,20 @@ export default function ShopPage() {
             <Link
               key={atelier.slug}
               href={`/shops/${atelier.slug}`}
-              className="group bg-white ring-1 ring-amber-200 rounded-2xl p-4 text-center hover:-translate-y-0.5 hover:shadow-md transition"
+              className="group bg-white ring-1 ring-amber-200 rounded-2xl p-4 text-center hover:-translate-y-0.5 hover:shadow-md transition editorial-shadow focus-visible:ring-2 focus-visible:ring-[hsl(var(--primary))] focus-visible:ring-offset-2"
             >
-              <div className="h-14 w-14 rounded-full bg-amber-100 ring-1 ring-amber-200 mx-auto mb-3 flex items-center justify-center">
-                <span className="text-lg font-bold text-amber-800">
+              <div
+                className="h-14 w-14 rounded-full bg-amber-100 ring-1 ring-amber-200 mx-auto mb-3 flex items-center justify-center"
+                aria-hidden="true"
+              >
+                <span className="text-lg font-bold text-[hsl(var(--accent-foreground))]">
                   {atelier.name.charAt(0)}
                 </span>
               </div>
-              <h4
-                className="text-sm font-semibold text-gray-900 group-hover:text-indigo-700 transition"
-                style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
-              >
+              <h4 className="font-heading text-sm font-semibold text-[hsl(var(--foreground))] group-hover:text-[hsl(var(--primary))] transition">
                 {atelier.name}
               </h4>
-              <p className="mt-1 text-xs text-gray-500">{atelier.subtitle}</p>
+              <p className="mt-1 text-xs text-[hsl(var(--muted-foreground))]">{atelier.subtitle}</p>
             </Link>
           ))}
         </div>

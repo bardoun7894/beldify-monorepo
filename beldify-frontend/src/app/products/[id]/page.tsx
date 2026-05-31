@@ -1022,16 +1022,21 @@ export default function ProductDetailsPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-gray-900"></div>
+      <div className="min-h-screen flex items-center justify-center bg-amber-50">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-700"></div>
       </div>
     );
   }
 
   if (error || !product) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-red-600">{error || 'Product not found'}</div>
+      <div className="min-h-screen flex items-center justify-center bg-amber-50">
+        <div className="flex flex-col items-center gap-3 text-center px-6">
+          <p className="text-rose-700 font-medium">{error || t('errors.productNotFound', 'Product not found')}</p>
+          <Link href="/products" className="text-sm text-indigo-700 underline underline-offset-2 hover:text-indigo-900">
+            {t('navigation.backToProducts', 'Back to products')}
+          </Link>
+        </div>
       </div>
     );
   }
@@ -1172,7 +1177,7 @@ export default function ProductDetailsPage() {
               {t('navigation.home', 'Home')}
             </Link>
           </li>
-          <li><span className="text-gray-400">/</span></li>
+          <li><span className="text-gray-500">/</span></li>
           {displayCategory && (
             <>
               <li>
@@ -1183,7 +1188,7 @@ export default function ProductDetailsPage() {
                   {displayCategory}
                 </Link>
               </li>
-              <li><span className="text-gray-400">/</span></li>
+              <li><span className="text-gray-500">/</span></li>
             </>
           )}
           <li>
@@ -1201,8 +1206,8 @@ export default function ProductDetailsPage() {
 
         {/* ── Left: Image gallery ── */}
         <div className="flex flex-col gap-4">
-          {/* Main image — 4:5 aspect, amber-200 ring */}
-          <div className="relative w-full aspect-[4/5] rounded-2xl overflow-hidden ring-1 ring-amber-200 bg-amber-50">
+          {/* Main image — 4:5 aspect, amber-200 ring, Atlas rounded-lg (16px) */}
+          <div className="relative w-full aspect-[4/5] rounded-lg overflow-hidden ring-1 ring-amber-200 bg-amber-50">
             {getCurrentImageUrl() ? (
               <Image
                 src={getCurrentImageUrl()}
@@ -1217,11 +1222,11 @@ export default function ProductDetailsPage() {
                 <span className="text-amber-400 text-sm">{displayName}</span>
               </div>
             )}
-            {/* Wishlist pill top-right */}
+            {/* Wishlist pill top-end (RTL-safe logical positioning) */}
             <button
               onClick={handleWishlistToggle}
               aria-label={wishlisted ? t('wishlist.remove', 'Remove from wishlist') : t('wishlist.add', 'Add to wishlist')}
-              className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm rounded-full p-2.5 shadow-sm hover:bg-white transition-colors"
+              className="absolute top-4 end-4 bg-white/90 backdrop-blur-sm rounded-full p-2.5 shadow-sm hover:bg-white transition-colors"
             >
               <Heart
                 className={cn('h-5 w-5', wishlisted ? 'fill-indigo-700 text-indigo-700' : 'text-gray-500')}
@@ -1260,7 +1265,7 @@ export default function ProductDetailsPage() {
         </div>
 
         {/* ── Right: Info pane on sand background ── */}
-        <div className="bg-amber-50 ring-1 ring-amber-200 rounded-2xl p-8 flex flex-col gap-5">
+        <div className="bg-white ring-1 ring-amber-200 rounded-lg p-8 flex flex-col gap-5 shadow-atlas-sm">
 
           {/* Kicker */}
           {kickerLabel && (
@@ -1271,8 +1276,8 @@ export default function ProductDetailsPage() {
 
           {/* Product name */}
           <h1
-            className="text-3xl sm:text-4xl font-bold text-gray-900 leading-tight"
-            style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
+            className={cn('text-3xl sm:text-4xl font-bold text-gray-900 leading-tight', isRTL ? 'font-arabic' : '')}
+            style={isRTL ? undefined : { fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
           >
             {displayName}
           </h1>
@@ -1280,7 +1285,7 @@ export default function ProductDetailsPage() {
           {/* Price line */}
           <div className="flex items-baseline gap-3 flex-wrap">
             {hasDiscount && (
-              <span className="text-base text-gray-400 line-through">
+              <span className="text-base text-gray-500 line-through">
                 {formatPrice(product.price)}
               </span>
             )}
@@ -1319,7 +1324,7 @@ export default function ProductDetailsPage() {
           {/* Rating row */}
           {product.rating != null && (
             <div className="flex items-center gap-2 text-sm">
-              <span className="flex items-center gap-0.5">
+              <span className="flex items-center gap-0.5" aria-hidden="true">
                 {[1,2,3,4,5].map(i => (
                   <Star
                     key={i}
@@ -1593,7 +1598,7 @@ export default function ProductDetailsPage() {
                     {t('product.read_journal', 'Read the journal entry')}
                   </p>
                 </div>
-                <ArrowRight className="h-5 w-5 text-indigo-700 group-hover:translate-x-0.5 transition-transform" />
+                <ArrowRight className="h-5 w-5 text-indigo-700 group-hover:translate-x-0.5 transition-transform rtl:rotate-180" />
               </Link>
             </div>
           )}
@@ -1628,7 +1633,7 @@ export default function ProductDetailsPage() {
       <section className="relative isolate overflow-hidden bg-indigo-900 text-white py-16 px-6 mb-16">
         <div
           aria-hidden
-          className="absolute inset-0 opacity-30 bg-[radial-gradient(circle_at_20%_20%,_#f59e0b_0,_transparent_45%),radial-gradient(circle_at_80%_60%,_#6366f1_0,_transparent_50%)]"
+          className="absolute inset-0 opacity-30 bg-[radial-gradient(circle_at_20%_20%,_#f59e0b_0,_transparent_45%),radial-gradient(circle_at_80%_60%,_#3b3b6d_0,_transparent_50%)]"
         />
         <div className="relative max-w-4xl mx-auto text-center flex flex-col items-center gap-6">
           <p className="text-xs uppercase tracking-[0.18em] text-amber-300 font-medium">
@@ -1648,7 +1653,7 @@ export default function ProductDetailsPage() {
             className="inline-flex items-center gap-2 rounded-full bg-amber-400 px-8 py-3 text-sm font-semibold text-gray-900 hover:bg-amber-300 transition-colors"
           >
             {t('bespoke.cta', 'Start a tailoring order')}
-            <ArrowRight className="h-4 w-4" aria-hidden />
+            <ArrowRight className="h-4 w-4 rtl:rotate-180" aria-hidden />
           </Link>
         </div>
       </section>

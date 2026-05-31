@@ -23,118 +23,205 @@
 /* Focus visible styles for keyboard navigation */
 @layer base {
   *:focus-visible {
-    @apply outline-none ring-2 ring-indigo-500 ring-offset-2;
+    @apply outline-none ring-2 ring-offset-2;
+    ring-color: hsl(var(--ring));
   }
-  
+
   button:focus-visible,
   a:focus-visible,
   input:focus-visible,
   select:focus-visible,
   textarea:focus-visible {
-    @apply ring-2 ring-indigo-500 ring-offset-2;
+    @apply ring-2 ring-offset-2;
+    ring-color: hsl(var(--ring));
   }
 }
 
 @layer base {
   :root {
-    /* Brand Colors — Atlas tokens per DESIGN.md (HSL triplets so hsl(var(--token)) resolves correctly) */
+    /* ============================================================
+       ATLAS DESIGN TOKENS — per DESIGN.md (HSL triplets for hsl(var()))
+       Primary = Deep Indigo #252555  |  Accent = Saffron Amber #fea619
+       Surface = Parchment #fbf9f4    |  Card = White #ffffff
+       ============================================================ */
+
+    /* --- Atlas Primary Scale (Deep Indigo) --- */
+    --atlas-primary:           240 39% 24%;   /* #252555 — nav, headers, primary actions */
+    --atlas-primary-container: 240 30% 33%;   /* #3b3b6d */
+    --atlas-on-primary-container: 241 49% 77%; /* #a8a7e1 */
+    --atlas-primary-foreground: 0 0% 100%;    /* white on indigo */
+
+    /* --- Atlas Secondary/Accent Scale (Saffron Amber) --- */
+    --atlas-secondary:         37 99% 55%;    /* #fea619 — badges, CTAs, positive deltas */
+    --atlas-on-secondary:      37 100% 26%;   /* #855300 — text on amber */
+
+    /* --- Atlas Surface Scale --- */
+    --atlas-surface:           43 47% 97%;    /* #fbf9f4 — parchment background */
+    --atlas-card:              0 0% 100%;     /* #ffffff */
+    --atlas-on-surface:        80 6% 10%;     /* #1b1c19 — ink */
+    --atlas-on-surface-variant: 247 6% 29%;  /* #47464f — muted body copy */
+    --atlas-outline:           246 4% 48%;    /* #777680 — borders, dividers */
+    --atlas-error:             0 75% 42%;     /* #ba1a1a */
+
+    /* --- Legacy Indigo palette (kept for existing secondary-* utility consumers) --- */
     --indigo-50:  226 100% 97%;  /* #eef2ff */
     --indigo-100: 226 100% 94%;  /* #e0e7ff */
     --indigo-400: 234 89% 74%;   /* #818cf8 */
     --indigo-500: 239 84% 67%;   /* #6366f1 */
     --indigo-600: 244 75% 59%;   /* #4f46e5 */
-    --indigo-700: 243 75% 51%;   /* #4338ca — Atlas Indigo */
+    --indigo-700: 243 75% 51%;   /* #4338ca */
     --indigo-800: 244 55% 41%;   /* #3730a3 */
     --indigo-900: 243 47% 34%;   /* #312e81 */
     --indigo-950: 246 50% 21%;   /* #1e1b4b */
 
+    /* --- Legacy Amber palette (kept for existing primary-* utility consumers) --- */
     --amber-50:  48 100% 96%;    /* #fffbeb */
     --amber-100: 48 96% 89%;     /* #fef3c7 */
     --amber-300: 46 97% 65%;     /* #fcd34d */
     --amber-400: 43 96% 56%;     /* #fbbf24 */
-    --amber-500: 38 92% 50%;     /* #f59e0b — Saffron Amber */
+    --amber-500: 38 92% 50%;     /* #f59e0b */
     --amber-600: 32 95% 44%;     /* #d97706 */
     --amber-700: 26 90% 37%;     /* #b45309 */
     --amber-900: 22 78% 26%;     /* #78350f */
     --amber-950: 21 92% 14%;     /* #451a03 */
 
-    --rose-700:  347 77% 41%;    /* #be123c — Tetouani Garnet (sale tags / errors only) */
-
-    /* System Colors */
-    --background: 0 0% 100%;
-    --foreground: 224 71.4% 4.1%;
-    --card: 0 0% 100%;
-    --card-foreground: 224 71.4% 4.1%;
+    /* --- System Colors (semantic aliases wired to Atlas) --- */
+    --background: 43 47% 97%;    /* Atlas parchment #fbf9f4 */
+    --foreground: 80 6% 10%;     /* Atlas ink #1b1c19 */
+    --card: 0 0% 100%;           /* white */
+    --card-foreground: 80 6% 10%;
     --popover: 0 0% 100%;
-    --popover-foreground: 224 71.4% 4.1%;
+    --popover-foreground: 80 6% 10%;
 
-    /* Primary & Secondary Colors — semantic aliases per DESIGN.md §2 */
-    --primary: var(--indigo-700);            /* Atlas Indigo for CTA */
+    /* Primary = Atlas deep indigo (nav, headers, CTAs) */
+    --primary: 240 39% 24%;      /* #252555 */
     --primary-foreground: 0 0% 100%;
-    --secondary: var(--amber-500);           /* Saffron Amber */
-    --secondary-foreground: 0 0% 100%;
+    --primary-container: 240 30% 33%; /* #3b3b6d */
+    --on-primary-container: 241 49% 77%; /* #a8a7e1 */
+
+    /* Secondary = Atlas saffron amber (badges, positive deltas) */
+    --secondary: 37 99% 55%;     /* #fea619 */
+    --secondary-foreground: 37 100% 26%; /* #855300 */
 
     /* UI States */
-    --muted: 220 14.3% 95.9%;
-    --muted-foreground: 220 8.9% 46.1%;
-    --accent: var(--amber-50);               /* Amber Sand soft surface */
-    --accent-foreground: var(--amber-900);
-    --destructive: var(--rose-700);          /* Tetouani Garnet */
-    --destructive-foreground: 210 20% 98%;
+    --muted: 247 6% 93%;         /* very light indigo-tinted surface */
+    --muted-foreground: 247 6% 29%; /* #47464f */
+    --accent: 43 47% 97%;        /* parchment surface for cards */
+    --accent-foreground: 80 6% 10%;
+    --destructive: 0 75% 42%;    /* #ba1a1a — Atlas error */
+    --destructive-foreground: 0 0% 100%;
 
     /* Form Elements */
-    --border: 220 13% 91%;
-    --input: 220 13% 91%;
-    --ring: var(--indigo-500);
-    --radius: 1rem;                          /* 16px = rounded-2xl per DESIGN.md §4 */
+    --border: 246 4% 48%;        /* #777680 — Atlas outline */
+    --input: 246 4% 48%;
+    --ring: 240 39% 24%;         /* Atlas primary for focus rings */
+    --radius: 1rem;              /* 16px cards/hero; buttons use calc(var(--radius) - 4px) = 12px */
 
-    /* Typography per DESIGN.md §3 */
-    --font-sans: var(--font-poppins), "SF Pro Display", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
-    --font-arabic: var(--font-rubik), "SF Pro Display", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+    /* On-surface variants for status pills and muted text */
+    --on-secondary: 37 100% 26%; /* #855300 */
+    --on-surface: 80 6% 10%;     /* #1b1c19 — ink; mirrors --foreground */
+    --on-surface-variant: 247 6% 29%; /* #47464f */
+    --outline: 246 4% 48%;       /* #777680 */
+
+    /* Typography
+       NOTE: IBM Plex Sans Arabic is the Atlas target font but requires
+       layout.tsx changes (next/font load) which are out of scope for
+       this token-alignment pass. Fallback strings include it so the
+       browser will use it if the user has it installed or it's added later.
+    */
+    --font-sans: var(--font-poppins), "IBM Plex Sans Arabic", "Cairo", "Rubik", "SF Pro Display", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+    --font-arabic: var(--font-ibm-plex-arabic), var(--font-rubik), "IBM Plex Sans Arabic", "Cairo", "SF Pro Display", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
     --font-heading: var(--font-playfair), "Playfair Display", ui-serif, Georgia, serif;
     --font-decorative: var(--font-playfair), "Playfair Display", ui-serif, Georgia, serif;
   }
 
   .dark {
-    --background: 224 71.4% 4.1%;
-    --foreground: 210 20% 98%;
-    --card: 224 71.4% 4.1%;
-    --card-foreground: 210 20% 98%;
-    --popover: 224 71.4% 4.1%;
-    --popover-foreground: 210 20% 98%;
+    /* Dark mode — Atlas dark surface TBD; keeping functional values */
+    --background: 240 39% 10%;   /* deep indigo-tinted dark */
+    --foreground: 43 47% 95%;    /* near-parchment on dark */
+    --card: 240 30% 15%;
+    --card-foreground: 43 47% 95%;
+    --popover: 240 30% 15%;
+    --popover-foreground: 43 47% 95%;
 
-    --primary: var(--indigo-500);
-    --primary-foreground: 0 0% 100%;
-    --secondary: var(--amber-400);
-    --secondary-foreground: 0 0% 100%;
+    --primary: 241 49% 77%;      /* on-primary-container lightened for dark */
+    --primary-foreground: 240 39% 10%;
+    --primary-container: 240 30% 33%;
+    --on-primary-container: 241 49% 77%;
 
-    --muted: 215 27.9% 16.9%;
-    --muted-foreground: 217.9 10.6% 64.9%;
-    --accent: var(--amber-100);
-    --accent-foreground: var(--amber-950);
+    --secondary: 37 99% 55%;     /* saffron amber stays vivid on dark */
+    --secondary-foreground: 37 100% 26%;
 
-    --border: 215 27.9% 16.9%;
-    --input: 215 27.9% 16.9%;
-    --ring: var(--indigo-400);
+    --muted: 240 30% 20%;
+    --muted-foreground: 241 49% 77%;
+    --accent: 240 30% 20%;
+    --accent-foreground: 43 47% 95%;
+    --destructive: 0 75% 42%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 240 30% 33%;
+    --input: 240 30% 33%;
+    --ring: 241 49% 77%;
+
+    --on-secondary: 37 100% 26%;
+    --on-surface-variant: 241 49% 77%;
+    --outline: 240 30% 45%;
   }
 }
 
-/* RTL Support */
+/* ============================================================
+   RTL / Arabic-first layout utilities
+   Use logical CSS properties (padding-inline, inset-inline-*)
+   everywhere — never hard-code left/right.
+   ============================================================ */
 [dir="rtl"] {
-  .space-x-1 > :not([hidden]) ~ :not([hidden]) {
-    --tw-space-x-reverse: 1;
-  }
-  .space-x-2 > :not([hidden]) ~ :not([hidden]) {
-    --tw-space-x-reverse: 1;
-  }
-  .space-x-4 > :not([hidden]) ~ :not([hidden]) {
-    --tw-space-x-reverse: 1;
-  }
+  /* Reverse Tailwind space-x utilities for RTL flow */
+  .space-x-1 > :not([hidden]) ~ :not([hidden]) { --tw-space-x-reverse: 1; }
+  .space-x-2 > :not([hidden]) ~ :not([hidden]) { --tw-space-x-reverse: 1; }
+  .space-x-3 > :not([hidden]) ~ :not([hidden]) { --tw-space-x-reverse: 1; }
+  .space-x-4 > :not([hidden]) ~ :not([hidden]) { --tw-space-x-reverse: 1; }
+  .space-x-6 > :not([hidden]) ~ :not([hidden]) { --tw-space-x-reverse: 1; }
+  .space-x-8 > :not([hidden]) ~ :not([hidden]) { --tw-space-x-reverse: 1; }
+
+  /* Flip dividers */
+  .divide-x > :not([hidden]) ~ :not([hidden]) { --tw-divide-x-reverse: 1; }
+}
+
+/* Logical property helpers — use these in components instead of physical padding utilities */
+@layer utilities {
+  .ps-1  { padding-inline-start: 0.25rem; }
+  .ps-2  { padding-inline-start: 0.5rem; }
+  .ps-3  { padding-inline-start: 0.75rem; }
+  .ps-4  { padding-inline-start: 1rem; }
+  .ps-6  { padding-inline-start: 1.5rem; }
+  .pe-1  { padding-inline-end: 0.25rem; }
+  .pe-2  { padding-inline-end: 0.5rem; }
+  .pe-3  { padding-inline-end: 0.75rem; }
+  .pe-4  { padding-inline-end: 1rem; }
+  .pe-6  { padding-inline-end: 1.5rem; }
+  .ms-auto { margin-inline-start: auto; }
+  .me-auto { margin-inline-end: auto; }
+  .ms-1  { margin-inline-start: 0.25rem; }
+  .ms-2  { margin-inline-start: 0.5rem; }
+  .ms-3  { margin-inline-start: 0.75rem; }
+  .ms-4  { margin-inline-start: 1rem; }
+  .me-1  { margin-inline-end: 0.25rem; }
+  .me-2  { margin-inline-end: 0.5rem; }
+  .me-3  { margin-inline-end: 0.75rem; }
+  .me-4  { margin-inline-end: 1rem; }
+  .start-0  { inset-inline-start: 0; }
+  .end-0    { inset-inline-end: 0; }
+  .start-3  { inset-inline-start: 0.75rem; }
+  .end-3    { inset-inline-end: 0.75rem; }
+  .start-4  { inset-inline-start: 1rem; }
+  .end-4    { inset-inline-end: 1rem; }
+  /* MAD currency helper — always LTR regardless of document direction */
+  .currency-mad { direction: ltr; unicode-bidi: embed; }
 }
 
 /* Moroccan Decorative Elements */
 .moroccan-pattern {
-  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0l30 30-30 30L0 30z' fill='%236366f1' fill-opacity='0.05'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0l30 30-30 30L0 30z' fill='%23252555' fill-opacity='0.05'/%3E%3C/svg%3E");
   background-size: 60px 60px;
 }
 
@@ -376,4 +463,19 @@
   select {
     font-size: 16px !important;
   }
+}
+
+/* Editorial elevation — soft indigo-tinted shadows for shop profile cards */
+.editorial-shadow {
+  box-shadow: 0 2px 8px 0 hsl(240 39% 24% / 0.08);
+}
+.editorial-shadow-md {
+  box-shadow: 0 6px 24px 0 hsl(240 39% 24% / 0.10);
+}
+.scrollbar-hide {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
 }

@@ -212,10 +212,10 @@ export default function ProductsPage() {
   if (error) {
     return (
       <div className="text-center py-12">
-        <p className="text-red-500">{error.message || 'Failed to fetch products'}</p>
+        <p className="text-rose-700">{error.message || 'Failed to fetch products'}</p>
         <button
           onClick={handleRetry}
-          className="mt-4 px-4 py-2 bg-amber-500 text-white rounded-full hover:bg-amber-600"
+          className="mt-4 px-4 py-2 bg-amber-500 text-amber-950 font-semibold rounded-full hover:bg-amber-400 transition-colors"
         >
           {t('common.try_again')}
         </button>
@@ -229,7 +229,7 @@ export default function ProductsPage() {
       <section className="relative isolate overflow-hidden bg-indigo-900 text-white">
         <div
           aria-hidden
-          className="absolute inset-0 opacity-25 bg-[radial-gradient(circle_at_15%_15%,_#f59e0b_0,_transparent_45%),radial-gradient(circle_at_85%_60%,_#6366f1_0,_transparent_50%)]"
+          className="absolute inset-0 opacity-25 bg-[radial-gradient(circle_at_15%_15%,_#f59e0b_0,_transparent_45%),radial-gradient(circle_at_85%_60%,_#3b3b6d_0,_transparent_50%)]"
         />
         <div className="relative mx-auto max-w-7xl px-6 py-14 lg:py-20">
           <p className="text-xs sm:text-sm uppercase tracking-[0.18em] text-amber-300 font-medium">

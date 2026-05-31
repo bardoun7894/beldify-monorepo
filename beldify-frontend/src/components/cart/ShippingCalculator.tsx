@@ -44,7 +44,7 @@ export default function ShippingCalculator({ subtotal, onCalculate }: ShippingCa
     return (
       <button
         onClick={() => setShowCalculator(true)}
-        className="flex items-center gap-2 text-sm text-indigo-700 hover:text-indigo-800 font-medium transition-colors"
+        className="flex items-center gap-2 text-sm text-indigo-600 hover:text-indigo-800 font-medium transition-colors"
       >
         <Truck className="h-4 w-4" strokeWidth={1.5} />
         {t('cart.shipping.calculate')}
@@ -53,10 +53,10 @@ export default function ShippingCalculator({ subtotal, onCalculate }: ShippingCa
   }
 
   return (
-    <div className="bg-amber-50 rounded-2xl p-4 ring-1 ring-amber-200">
+    <div className="bg-indigo-50/60 rounded-2xl p-4 ring-1 ring-indigo-100">
       <div className="flex items-center gap-2 mb-3">
-        <MapPin className="h-4 w-4 text-indigo-700" strokeWidth={1.5} />
-        <span className="text-sm font-medium text-gray-900">
+        <MapPin className="h-4 w-4 text-indigo-600" strokeWidth={1.5} />
+        <span className="text-sm font-medium text-indigo-950">
           {t('cart.shipping.enter_location')}
         </span>
       </div>
@@ -67,7 +67,7 @@ export default function ShippingCalculator({ subtotal, onCalculate }: ShippingCa
           setSelectedCity(e.target.value);
           handleCalculate();
         }}
-        className="w-full rounded-2xl bg-white ring-1 ring-amber-200 text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none px-3 py-2 mb-3"
+        className="w-full rounded-2xl bg-white ring-1 ring-indigo-100 text-sm focus:ring-2 focus:ring-indigo-400 focus:outline-none px-3 py-2 mb-3 text-indigo-950"
       >
         <option value="">{t('cart.shipping.select_city')}</option>
         {CITIES.map((city) => (
@@ -80,14 +80,14 @@ export default function ShippingCalculator({ subtotal, onCalculate }: ShippingCa
       {selectedCity && (
         <div className="text-sm">
           {subtotal >= 500 ? (
-            <div className="flex items-center gap-2 text-amber-700">
+            <div className="flex items-center gap-2 text-[#855300]">
               <Truck className="h-4 w-4" strokeWidth={1.5} />
               <span className="font-medium">{t('cart.shipping.free')}</span>
             </div>
           ) : (
             <div className="flex items-center justify-between">
-              <span className="text-gray-600">{t('cart.shipping.cost')}:</span>
-              <span className="font-medium text-gray-900">{shipping} MAD</span>
+              <span className="text-indigo-500">{t('cart.shipping.cost')}:</span>
+              <span className="font-medium text-indigo-950">{shipping} MAD</span>
             </div>
           )}
         </div>
@@ -95,7 +95,7 @@ export default function ShippingCalculator({ subtotal, onCalculate }: ShippingCa
 
       <button
         onClick={() => setShowCalculator(false)}
-        className="mt-3 text-xs text-gray-500 hover:text-gray-700"
+        className="mt-3 text-xs text-indigo-400 hover:text-indigo-600 transition-colors"
       >
         {t('common.hide')}
       </button>
