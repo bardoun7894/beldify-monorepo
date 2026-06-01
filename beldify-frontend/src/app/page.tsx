@@ -62,10 +62,10 @@ export default async function Home() {
   const [data, categories] = await Promise.all([getHomeData(), getTopCategories()]);
 
   return (
-    <main className="min-h-screen bg-amber-50/40 text-gray-900">
+    <main className="min-h-screen bg-background text-foreground">
       {/* Announcement strip */}
-      <div className="bg-gray-900 text-amber-50 py-2 text-center text-xs font-medium tracking-wide">
-        Free shipping across Morocco on orders over 500 MAD — Free returns within 14 days
+      <div dir="rtl" className="bg-[hsl(var(--primary))] text-white py-2 text-center text-xs font-medium tracking-wide">
+        شحن مجاني داخل المغرب للطلبات فوق 500 درهم — إرجاع مجاني خلال 14 يوماً
       </div>
 
       {/* Hero */}
@@ -83,49 +83,58 @@ export default async function Home() {
             sizes="100vw"
             className="object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-white/95 via-white/70 to-transparent" />
+          {/* JOB 2a: dark photographic hero — Atlas indigo gradient overlay */}
+          <div className="absolute inset-0 bg-gradient-to-r from-atlas-primary/[0.85] via-atlas-primary/[0.5] to-transparent" />
         </div>
 
         <div className="mx-auto max-w-7xl px-6 py-20 sm:py-28 lg:py-36">
           <div className="max-w-xl">
-            <span className="inline-flex items-center gap-2 rounded-full bg-amber-100/80 px-3 py-1 text-xs font-medium text-amber-900 ring-1 ring-amber-300">
-              <span className="h-1.5 w-1.5 rounded-full bg-amber-500" />
+            <span className="inline-flex items-center gap-2 rounded-full bg-white/[0.15] px-3 py-1 text-xs font-medium text-white ring-1 ring-white/[0.3]">
+              <span className="h-1.5 w-1.5 rounded-full bg-[hsl(var(--secondary))]" />
               Authentic Moroccan craftsmanship
             </span>
 
+            {/* JOB 2b: Arabic-primary headline hierarchy */}
+            {/* Arabic H1 — primary, large, uses font-arabic (no Playfair — Playfair has no Arabic glyphs) */}
+            <h1
+              dir="rtl"
+              lang="ar"
+              className="font-arabic mt-6 text-5xl sm:text-6xl lg:text-7xl font-bold leading-[1.1] tracking-tight text-white"
+            >
+              تُلبَس منذ قرون. مصنوعة لليوم.
+            </h1>
+
+            {/* English — secondary sub-label */}
+            <p className="mt-3 text-lg font-medium text-white/85 italic">
+              Worn for centuries. Made for today.
+            </p>
+
             {/* Bilingual etymology lockup — intentionally bilingual regardless of page locale (DESIGN.md §12) */}
-            <div className="flex items-baseline gap-3 flex-wrap mb-4 mt-4" aria-label="Beldify — Beldi reimagined">
-              <span dir="rtl" lang="ar" className="font-arabic text-3xl font-semibold text-gray-900 leading-tight">
+            <div className="flex items-baseline gap-3 flex-wrap mb-4 mt-6" aria-label="Beldify — Beldi reimagined">
+              <span dir="rtl" lang="ar" className="font-arabic text-3xl font-semibold text-white leading-tight">
                 بلدي
               </span>
-              <span className="text-amber-400 text-2xl select-none" aria-hidden="true">×</span>
+              <span className="text-[hsl(var(--secondary))] text-2xl select-none" aria-hidden="true">×</span>
               <span
                 dir="ltr"
                 lang="en"
                 style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
-                className="text-3xl font-bold text-indigo-700 italic leading-tight"
+                className="text-3xl font-bold text-white italic leading-tight"
               >
                 ify
               </span>
             </div>
-            <p className="text-sm text-gray-600 mb-6">
+            <p className="text-sm text-white/75 mb-6">
               beldi (بلدي) — local, artisan, of the country
             </p>
 
-            <h1
-              className="mt-6 text-5xl sm:text-6xl lg:text-7xl font-serif font-bold leading-[1.05] tracking-tight text-gray-900"
-              style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
-            >
-              Worn for centuries.
-              <span className="block text-indigo-700">Made for today.</span>
-            </h1>
-            <p className="mt-5 text-lg leading-relaxed text-gray-700 max-w-lg">
+            <p className="mt-5 text-lg leading-relaxed text-white/85 max-w-lg">
               Discover caftans, djellabas, and tailoring from Morocco’s finest ateliers — delivered worldwide.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Link
                 href="/products"
-                className="inline-flex items-center gap-2 rounded-full bg-indigo-700 px-6 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                className="inline-flex items-center gap-2 rounded-xl bg-[hsl(var(--secondary))] px-6 py-3 text-sm font-semibold text-[hsl(var(--on-secondary))] shadow-atlas-sm transition hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-[hsl(var(--secondary))] focus:ring-offset-2"
               >
                 Shop the marketplace
                 <svg aria-hidden="true" className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -134,7 +143,7 @@ export default async function Home() {
               </Link>
               <Link
                 href="/shops"
-                className="inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-semibold text-gray-900 ring-1 ring-gray-300 transition hover:bg-gray-50"
+                className="inline-flex items-center gap-2 rounded-xl bg-white/[0.15] px-6 py-3 text-sm font-semibold text-white ring-1 ring-white/[0.4] transition hover:bg-white/[0.25]"
               >
                 Meet the tailors
               </Link>
@@ -147,7 +156,7 @@ export default async function Home() {
       {/* TODO: gate by browsing history signal once wired (hasHistory context/signal does not yet exist) */}
       <div className="mx-auto max-w-7xl px-6 pt-4 pb-2">
         <div className="flex items-center gap-2 flex-wrap">
-          <span className="inline-flex items-center gap-1.5 min-h-[44px] px-3 py-2 rounded-full bg-amber-100 text-amber-800 text-xs font-medium ring-1 ring-amber-200 animate-fade-in-up">
+          <span className="inline-flex items-center gap-1.5 min-h-[44px] px-3 py-2 rounded-full bg-atlas-primary/[0.1] text-[hsl(var(--primary))] text-xs font-medium ring-1 ring-atlas-primary/[0.2] animate-fade-in-up">
             <Sparkles size={12} className="shrink-0" />
             AI styled for you
           </span>
@@ -155,7 +164,7 @@ export default async function Home() {
       </div>
 
       {/* Trust strip */}
-      <section className="border-y border-amber-200/60 bg-white/70 backdrop-blur">
+      <section className="border-y border-outline/20 bg-background/80 backdrop-blur">
         <div className="mx-auto max-w-7xl px-6 py-6 grid grid-cols-2 sm:grid-cols-4 gap-6 text-center text-xs sm:text-sm">
           {([
             { label: 'Verified Sellers', Icon: ShieldCheck },
@@ -163,8 +172,8 @@ export default async function Home() {
             { label: 'Free 14-day Returns', Icon: RotateCcw },
             { label: 'Support AR / FR / EN', Icon: Headphones },
           ] as const).map(({ label, Icon }) => (
-            <div key={label} className="flex flex-col items-center gap-2 text-gray-700">
-              <span className="h-10 w-10 rounded-full bg-amber-100 text-amber-700 flex items-center justify-center ring-1 ring-amber-200">
+            <div key={label} className="flex flex-col items-center gap-2 text-on-surface-variant">
+              <span className="h-10 w-10 rounded-full bg-atlas-primary/[0.1] text-[hsl(var(--primary))] flex items-center justify-center ring-1 ring-atlas-primary/[0.2]">
                 <Icon className="h-5 w-5" strokeWidth={1.8} />
               </span>
               <span className="font-medium">{label}</span>
@@ -177,15 +186,15 @@ export default async function Home() {
       <section className="mx-auto max-w-7xl px-6 py-16">
         <div className="flex items-end justify-between mb-8">
           <div>
-            <p className="text-sm uppercase tracking-[0.18em] text-amber-700 font-medium">Browse</p>
+            <p className="text-sm uppercase tracking-[0.18em] text-[hsl(var(--secondary))] font-medium">السوق</p>
             <h2
-              className="mt-1 text-3xl sm:text-4xl font-bold text-gray-900"
+              className="mt-1 text-3xl sm:text-4xl font-bold text-[hsl(var(--primary))]"
               style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
             >
-              The souk
+              مجموعات السوق
             </h2>
           </div>
-          <Link href="/categories" className="hidden sm:inline-flex items-center gap-1 text-sm font-medium text-indigo-700 hover:text-indigo-900">
+          <Link href="/categories" className="hidden sm:inline-flex items-center gap-1 text-sm font-medium text-[hsl(var(--primary))] hover:text-primary-container">
             View all →
           </Link>
         </div>
@@ -198,7 +207,7 @@ export default async function Home() {
               <Link
                 key={c.id}
                 href={`/categories/${c.slug || c.id}`}
-                className="group relative aspect-[4/5] overflow-hidden rounded-2xl ring-1 ring-amber-200/60 bg-amber-50 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
+                className="group relative aspect-[4/5] overflow-hidden rounded-2xl ring-1 ring-outline/20 bg-background shadow-atlas-sm transition hover:-translate-y-0.5 hover:shadow-atlas-md"
               >
                 <Image
                   src={c.image}
@@ -209,16 +218,16 @@ export default async function Home() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
                 {typeof c.itemCount === 'number' && c.itemCount > 0 && (
-                  <span className="absolute top-3 right-3 rounded-full bg-white/95 px-2.5 py-1 text-[11px] font-semibold text-gray-900 shadow-sm">
+                  <span className="absolute top-3 end-3 rounded-full bg-card/95 px-2.5 py-1 text-[11px] font-semibold text-on-surface shadow-sm">
                     {c.itemCount} items
                   </span>
                 )}
-                <div className="absolute bottom-4 left-4 right-4">
+                <div className="absolute bottom-4 start-4 end-4">
                   <h3
                     className="text-white text-xl sm:text-2xl font-semibold leading-tight drop-shadow-sm"
                     style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
                   >
-                    {c.name_en}
+                    {c.name_ar || c.name_en}
                   </h3>
                 </div>
               </Link>
@@ -228,14 +237,14 @@ export default async function Home() {
       </section>
 
       {/* Tailoring CTA strip */}
-      <section className="relative isolate overflow-hidden bg-indigo-900 text-white">
+      <section className="relative isolate overflow-hidden bg-[hsl(var(--primary))] text-white">
         <div
           aria-hidden
-          className="absolute inset-0 opacity-30 bg-[radial-gradient(circle_at_20%_20%,_#f59e0b_0,_transparent_45%),radial-gradient(circle_at_80%_60%,_#6366f1_0,_transparent_50%)]"
+          className="absolute inset-0 opacity-30 bg-[radial-gradient(circle_at_20%_20%,_#fea619_0,_transparent_45%),radial-gradient(circle_at_80%_60%,_#3b3b6d_0,_transparent_50%)]"
         />
         <div className="relative mx-auto max-w-7xl px-6 py-16 grid lg:grid-cols-2 gap-10 items-center">
           <div>
-            <p className="text-sm uppercase tracking-[0.18em] text-amber-300 font-medium">Bespoke</p>
+            <p className="text-sm uppercase tracking-[0.18em] text-[hsl(var(--secondary))] font-medium">خياطة</p>
             <h2
               className="mt-2 text-3xl sm:text-4xl font-bold leading-tight"
               style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
@@ -247,7 +256,7 @@ export default async function Home() {
             </p>
             <Link
               href="/tailoring"
-              className="mt-6 inline-flex items-center gap-2 rounded-full bg-amber-400 px-6 py-3 text-sm font-semibold text-gray-900 transition hover:bg-amber-300"
+              className="mt-6 inline-flex items-center gap-2 rounded-xl bg-[hsl(var(--secondary))] px-6 py-3 text-sm font-semibold text-[hsl(var(--on-secondary))] transition hover:opacity-90"
             >
               Start a tailoring order
               <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
@@ -261,8 +270,8 @@ export default async function Home() {
               ['Send measurements', 'Use our guided form or upload an existing pattern.'],
               ['Receive your piece', 'Hand-finished and shipped to your door in 2–4 weeks.'],
             ].map(([t, d], i) => (
-              <li key={t} className="flex gap-4 rounded-xl bg-white/5 ring-1 ring-white/10 px-4 py-3">
-                <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-amber-400 text-gray-900 font-bold">{i + 1}</span>
+              <li key={t} className="flex gap-4 rounded-xl bg-card/5 ring-1 ring-white/10 px-4 py-3">
+                <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[hsl(var(--secondary))] text-[hsl(var(--on-secondary))] font-bold">{i + 1}</span>
                 <div>
                   <p className="font-semibold text-white">{t}</p>
                   <p className="text-indigo-100/80">{d}</p>
@@ -295,15 +304,15 @@ export default async function Home() {
       <section className="mx-auto max-w-7xl px-6 py-16">
         <div className="flex items-end justify-between mb-8">
           <div>
-            <p className="text-sm uppercase tracking-[0.18em] text-amber-700 font-medium">Curated</p>
+            <p className="text-sm uppercase tracking-[0.18em] text-[hsl(var(--secondary))] font-medium">حُراس التراث</p>
             <h2
-              className="mt-1 text-3xl sm:text-4xl font-bold text-gray-900"
+              className="mt-1 text-3xl sm:text-4xl font-bold text-[hsl(var(--primary))]"
               style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
             >
-              Hand-picked ateliers
+              ورشات مختارة
             </h2>
           </div>
-          <Link href="/shops" className="hidden sm:inline-flex items-center gap-1 text-sm font-medium text-indigo-700 hover:text-indigo-900">
+          <Link href="/shops" className="hidden sm:inline-flex items-center gap-1 text-sm font-medium text-[hsl(var(--primary))] hover:text-primary-container">
             All ateliers <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
@@ -318,7 +327,7 @@ export default async function Home() {
             <Link
               key={a.name}
               href="/shops"
-              className="group relative overflow-hidden rounded-2xl ring-1 ring-amber-200/60 bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
+              className="group relative overflow-hidden rounded-2xl ring-1 ring-outline/20 bg-card shadow-atlas-sm transition hover:-translate-y-0.5 hover:shadow-atlas-md"
             >
               <div className="relative aspect-[5/4] overflow-hidden">
                 <Image
@@ -328,21 +337,21 @@ export default async function Home() {
                   sizes="(min-width:1024px) 25vw, (min-width:640px) 50vw, 100vw"
                   className="object-cover transition duration-500 group-hover:scale-105"
                 />
-                <span className="absolute top-3 right-3 inline-flex items-center gap-1 rounded-full bg-white/95 px-2.5 py-1 text-[11px] font-semibold text-indigo-700 shadow-sm">
-                  <BadgeCheck className="h-3.5 w-3.5 text-amber-500" strokeWidth={2.2} />
+                <span className="absolute top-3 end-3 inline-flex items-center gap-1 rounded-full bg-card/95 px-2.5 py-1 text-[11px] font-semibold text-[hsl(var(--primary))] shadow-sm">
+                  <BadgeCheck className="h-3.5 w-3.5 text-[hsl(var(--secondary))]" strokeWidth={2.2} />
                   Verified
                 </span>
               </div>
               <div className="p-4">
                 <h3
-                  className="text-lg font-semibold text-gray-900"
+                  className="text-lg font-semibold text-[hsl(var(--primary))]"
                   style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
                 >
                   {a.name}
                 </h3>
                 <div className="mt-1 flex items-center justify-between text-xs">
-                  <span className="inline-flex items-center gap-1 text-gray-500"><MapPin className="h-3.5 w-3.5" /> {a.city}</span>
-                  <span className="text-amber-700 font-medium">{a.specialty}</span>
+                  <span className="inline-flex items-center gap-1 text-on-surface-variant"><MapPin className="h-3.5 w-3.5" /> {a.city}</span>
+                  <span className="text-[hsl(var(--secondary))] font-medium">{a.specialty}</span>
                 </div>
               </div>
             </Link>
@@ -351,19 +360,19 @@ export default async function Home() {
       </section>
 
       {/* The Journal */}
-      <section className="bg-white border-t border-amber-100">
+      <section className="bg-background border-t border-outline/15">
         <div className="mx-auto max-w-7xl px-6 py-16">
           <div className="flex items-end justify-between mb-8">
             <div>
-              <p className="text-sm uppercase tracking-[0.18em] text-amber-700 font-medium">Read</p>
+              <p className="text-sm uppercase tracking-[0.18em] text-[hsl(var(--secondary))] font-medium">المجلة</p>
               <h2
-                className="mt-1 text-3xl sm:text-4xl font-bold text-gray-900"
+                className="mt-1 text-3xl sm:text-4xl font-bold text-[hsl(var(--primary))]"
                 style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
               >
-                The journal
+                المجلة
               </h2>
             </div>
-            <Link href="/journal" className="hidden sm:inline-flex items-center gap-1 text-sm font-medium text-indigo-700 hover:text-indigo-900">
+            <Link href="/journal" className="hidden sm:inline-flex items-center gap-1 text-sm font-medium text-[hsl(var(--primary))] hover:text-primary-container">
               All stories <ArrowRight className="h-4 w-4" />
             </Link>
           </div>
@@ -395,7 +404,7 @@ export default async function Home() {
                 img: 'https://pro.beldify.com/storage/categories/category_5.jpg',
               },
             ].map((a) => (
-              <article key={a.title} className="group rounded-2xl overflow-hidden ring-1 ring-amber-100 bg-amber-50/30 hover:bg-amber-50 transition">
+              <article key={a.title} className="group rounded-2xl overflow-hidden ring-1 ring-outline/15 bg-background hover:bg-card shadow-atlas-sm transition">
                 <div className="relative aspect-[16/10] overflow-hidden">
                   <Image
                     src={a.img}
@@ -406,17 +415,17 @@ export default async function Home() {
                   />
                 </div>
                 <div className="p-5">
-                  <span className="inline-flex items-center rounded-full bg-indigo-100 px-2.5 py-0.5 text-[11px] font-semibold uppercase tracking-wide text-indigo-700">
+                  <span className="inline-flex items-center rounded-full bg-atlas-primary/[0.1] px-2.5 py-0.5 text-[11px] font-semibold uppercase tracking-wide text-[hsl(var(--primary))]">
                     {a.tag}
                   </span>
                   <h3
-                    className="mt-3 text-xl font-semibold leading-snug text-gray-900"
+                    className="mt-3 text-xl font-semibold leading-snug text-[hsl(var(--primary))]"
                     style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
                   >
                     {a.title}
                   </h3>
-                  <p className="mt-2 text-sm text-gray-600">{a.excerpt}</p>
-                  <p className="mt-4 text-xs text-gray-500">{a.author} · {a.readTime}</p>
+                  <p className="mt-2 text-sm text-on-surface-variant">{a.excerpt}</p>
+                  <p className="mt-4 text-xs text-on-surface-variant">{a.author} · {a.readTime}</p>
                 </div>
               </article>
             ))}
@@ -426,7 +435,7 @@ export default async function Home() {
 
       {/* Seller strip — for artisans and ateliers */}
       {/* Positioned after Journal (white bg) so two indigo-900 strips are never adjacent: Tailoring CTA → light sections → Journal (white) → Seller Strip → Newsletter */}
-      <section className="py-16 bg-indigo-900 text-white relative overflow-hidden">
+      <section className="py-16 bg-[hsl(var(--primary))] text-white relative overflow-hidden">
         {/* Zellige motif overlay — 10% opacity, pointer-events-none (DESIGN.md §13.2) */}
         <div
           className="absolute inset-0 pointer-events-none"
@@ -439,8 +448,8 @@ export default async function Home() {
           aria-hidden="true"
         />
         <div className="relative max-w-7xl mx-auto px-6">
-          <p className="text-xs uppercase tracking-[0.18em] text-amber-400 font-medium mb-3">
-            For artisans &amp; ateliers
+          <p className="text-xs uppercase tracking-[0.18em] text-[hsl(var(--secondary))] font-medium mb-3">
+            للحرفيين والورشات
           </p>
           <h2
             className="text-3xl sm:text-4xl font-bold mb-4 max-w-xl"
@@ -454,12 +463,12 @@ export default async function Home() {
           <div className="flex items-center gap-3 flex-wrap">
             <a
               href="https://pro.beldify.com"
-              className="inline-flex items-center gap-2 min-h-[44px] px-6 py-3 rounded-full bg-amber-400 text-gray-900 font-semibold text-sm hover:bg-amber-300 transition-colors duration-200"
+              className="inline-flex items-center gap-2 min-h-[44px] px-6 py-3 rounded-xl bg-[hsl(var(--secondary))] text-[hsl(var(--on-secondary))] font-semibold text-sm hover:opacity-90 transition-opacity duration-200"
             >
               Open your boutique
             </a>
             {/* AI seller chip */}
-            <span className="inline-flex items-center gap-1.5 min-h-[44px] px-3 py-2 rounded-full bg-indigo-700 text-white text-xs font-medium">
+            <span className="inline-flex items-center gap-1.5 min-h-[44px] px-3 py-2 rounded-full bg-primary-container text-on-primary-container text-xs font-medium">
               <Sparkles size={12} className="shrink-0" />
               AI-assisted listings
             </span>

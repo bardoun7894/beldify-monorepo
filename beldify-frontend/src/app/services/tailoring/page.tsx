@@ -139,7 +139,7 @@ export default function TailoringPage() {
       {/* Gallery row */}
       <section className="mx-auto max-w-7xl px-6 py-16">
         <div className="mb-8">
-          <p className="text-xs uppercase tracking-[0.18em] text-amber-700 font-medium">
+          <p className="text-xs uppercase tracking-[0.18em] text-[#855300] font-medium">
             {t('tailoring.gallery.eyebrow', 'OUR ATELIERS')}
           </p>
           <h2

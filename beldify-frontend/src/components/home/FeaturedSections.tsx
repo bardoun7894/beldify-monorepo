@@ -121,7 +121,7 @@ export default function FeaturedSections() {
             image: specialOffersData?.[0]?.main_image || specialOffersData?.[0]?.images?.[0] || '/placeholder-product.jpg',
             cta: t('featuredSections.offer1Cta', 'Shop Collection'),
             // Atlas Indigo dark editorial strip with amber radial bloom (DESIGN.md §6.4)
-            color: 'bg-indigo-900',
+            color: 'bg-[hsl(var(--primary))]',
           },
           {
             id: 'special-offer-2',
@@ -129,8 +129,8 @@ export default function FeaturedSections() {
             description: t('featuredSections.offer2Description', 'Perfect for special occasions and celebrations'),
             image: specialOffersData?.[1]?.main_image || specialOffersData?.[1]?.images?.[0] || '/placeholder-product.jpg',
             cta: t('featuredSections.offer2Cta', 'Explore Now'),
-            // Sand surface with amber accents (DESIGN.md §2 palette)
-            color: 'bg-amber-50',
+            // Sand/parchment surface (Atlas background token)
+            color: 'bg-background',
           }
         ]);
       } catch (err) {
@@ -162,7 +162,7 @@ export default function FeaturedSections() {
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-[400px]">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-700"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[hsl(var(--primary))]"></div>
       </div>
     );
   }
@@ -183,7 +183,7 @@ export default function FeaturedSections() {
           <div className="sm:flex sm:items-center sm:justify-between">
             <div>
               <h2
-                className="text-2xl font-bold tracking-tight text-gray-900"
+                className="text-2xl font-bold tracking-tight text-foreground"
                 style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
               >
                 {section.title}
@@ -192,7 +192,7 @@ export default function FeaturedSections() {
             </div>
             <Link
               href={`/products?category=${section.id}`}
-              className="hidden sm:flex sm:items-center sm:text-sm sm:font-semibold sm:text-indigo-700 sm:hover:text-indigo-800 transition-colors duration-[220ms]"
+              className="hidden sm:flex sm:items-center sm:text-sm sm:font-semibold sm:text-[hsl(var(--primary))] sm:hover:text-[hsl(var(--primary-container))] transition-colors duration-[220ms]"
             >
               {t('featuredSections.browseAll', 'Browse all')}
               <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
@@ -200,12 +200,12 @@ export default function FeaturedSections() {
           </div>
 
           {section.items.length === 0 ? (
-            <div className="mt-8 rounded-2xl bg-amber-50/60 ring-1 ring-amber-200 px-6 py-12 text-center">
-              <div className="inline-flex h-14 w-14 items-center justify-center rounded-full bg-amber-100 ring-1 ring-amber-200 mb-3">
-                <Sparkles className="h-6 w-6 text-amber-700" aria-hidden="true" />
+            <div className="mt-8 rounded-2xl bg-background ring-1 ring-outline/20 px-6 py-12 text-center">
+              <div className="inline-flex h-14 w-14 items-center justify-center rounded-full bg-atlas-primary/[0.1] ring-1 ring-atlas-primary/[0.2] mb-3">
+                <Sparkles className="h-6 w-6 text-[hsl(var(--primary))]" aria-hidden="true" />
               </div>
               <h3
-                className="text-xl font-bold text-gray-900"
+                className="text-xl font-bold text-foreground"
                 style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
               >
                 {t('featuredSections.restocking', 'The atelier is restocking')}
@@ -215,7 +215,7 @@ export default function FeaturedSections() {
               </p>
               <Link
                 href="/community/posts/create"
-                className="mt-5 inline-flex items-center gap-2 rounded-full bg-indigo-700 px-5 py-2.5 text-sm font-semibold text-white hover:bg-indigo-800 min-h-[44px] transition-colors duration-[220ms]"
+                className="mt-5 inline-flex items-center gap-2 rounded-xl bg-[hsl(var(--primary))] px-5 py-2.5 text-sm font-semibold text-white hover:bg-primary-container min-h-[44px] transition-colors duration-[220ms]"
               >
                 {t('featuredSections.postBrief', 'Post a brief')}
                 <ArrowRight className="h-4 w-4" aria-hidden="true" />
@@ -235,7 +235,7 @@ export default function FeaturedSections() {
                     />
                   </div>
                   <div className="mt-4 px-1">
-                    <h3 className="text-sm font-medium text-gray-900">
+                    <h3 className="text-sm font-medium text-foreground">
                       <Link href={`/products/${product.id}`}>
                         <span aria-hidden="true" className="absolute inset-0" />
                         {product.name}
@@ -244,7 +244,7 @@ export default function FeaturedSections() {
                     <div className="mt-1 flex items-center justify-between">
                       <p className="text-sm text-gray-500">${product.price}</p>
                       {'isNew' in product && product.isNew && (
-                        <span className="inline-flex items-center rounded-full bg-amber-100 px-2.5 py-0.5 text-xs font-medium text-amber-800 ring-1 ring-amber-200">
+                        <span className="inline-flex items-center rounded-full bg-atlas-secondary/[0.15] px-2.5 py-0.5 text-xs font-medium text-[hsl(var(--on-secondary))] ring-1 ring-atlas-secondary/[0.3]">
                           {t('featuredSections.newBadge', 'New')}
                         </span>
                       )}
@@ -280,7 +280,7 @@ export default function FeaturedSections() {
           <div className="mt-6 sm:hidden">
             <Link
               href={`/products?category=${section.id}`}
-              className="block text-sm font-semibold text-indigo-700 hover:text-indigo-800 transition-colors duration-[220ms]"
+              className="block text-sm font-semibold text-[hsl(var(--primary))] hover:text-[hsl(var(--primary-container))] transition-colors duration-[220ms]"
             >
               {t('featuredSections.browseAll', 'Browse all')}
               <span aria-hidden="true"> →</span>
@@ -293,7 +293,7 @@ export default function FeaturedSections() {
       <section className="px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-y-8 lg:grid-cols-2 lg:gap-x-8">
           {specialOffers.map((offer) => (
-            <div key={offer.id} className={`${offer.color} relative overflow-hidden rounded-2xl ring-1 ring-amber-200/40`}>
+            <div key={offer.id} className={`${offer.color} relative overflow-hidden rounded-2xl ring-1 ring-outline/20`}>
               {/* Background image — only render if a real source resolved, not the placeholder */}
               {offer.image && !offer.image.includes('placeholder-product') && (
                 <div className="absolute inset-0">
@@ -307,27 +307,27 @@ export default function FeaturedSections() {
                 </div>
               )}
               {/* Atlas radial overlay — amber + indigo blooms per DESIGN.md §6.4. Only on dark variant. */}
-              {offer.color.includes('indigo-900') && (
+              {offer.color.includes('primary') && (
                 <div
                   aria-hidden="true"
                   className="absolute inset-0 pointer-events-none opacity-30"
                   style={{
                     backgroundImage:
-                      'radial-gradient(circle at 20% 20%, #f59e0b 0, transparent 45%), radial-gradient(circle at 80% 60%, #6366f1 0, transparent 50%)',
+                      'radial-gradient(circle at 20% 20%, #fea619 0, transparent 45%), radial-gradient(circle at 80% 60%, #3b3b6d 0, transparent 50%)',
                   }}
                 />
               )}
               <div className="relative px-6 py-16 sm:px-12 sm:py-24">
                 <p
                   className={`text-xs uppercase tracking-[0.18em] font-medium mb-3 ${
-                    offer.color.includes('indigo-900') ? 'text-amber-300' : 'text-amber-700'
+                    offer.color.includes('primary') ? 'text-[hsl(var(--secondary))]' : 'text-[hsl(var(--secondary))]'
                   }`}
                 >
                   {t('featuredSections.editorial', 'Beldify Editorial')}
                 </p>
                 <h2
                   className={`text-3xl sm:text-4xl font-bold tracking-tight ${
-                    offer.color.includes('indigo-900') ? 'text-white' : 'text-gray-900'
+                    offer.color.includes('primary') ? 'text-white' : 'text-foreground'
                   }`}
                   style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
                 >
@@ -335,14 +335,14 @@ export default function FeaturedSections() {
                 </h2>
                 <p
                   className={`mt-3 text-base sm:text-lg ${
-                    offer.color.includes('indigo-900') ? 'text-indigo-100' : 'text-gray-700'
+                    offer.color.includes('primary') ? 'text-white/80' : 'text-on-surface-variant'
                   }`}
                 >
                   {offer.description}
                 </p>
                 <Link
                   href={`/products?category=${offer.id}`}
-                  className="mt-8 inline-flex items-center gap-2 rounded-full bg-amber-500 px-6 py-3 text-sm font-semibold text-gray-900 hover:bg-amber-400 transition-all duration-[220ms] ease-[cubic-bezier(0.33,1,0.68,1)] min-h-[44px]"
+                  className="mt-8 inline-flex items-center gap-2 rounded-xl bg-[hsl(var(--secondary))] px-6 py-3 text-sm font-semibold text-[hsl(var(--on-secondary))] hover:opacity-90 transition-all duration-[220ms] ease-[cubic-bezier(0.33,1,0.68,1)] min-h-[44px]"
                 >
                   {offer.cta}
                   <ArrowRight className="h-4 w-4" aria-hidden="true" />
@@ -357,7 +357,7 @@ export default function FeaturedSections() {
       {recommendedTailors.length > 0 && (
         <section className="mt-16 px-4 sm:px-6 lg:px-8">
           <h2
-            className="text-2xl font-bold text-gray-900"
+            className="text-2xl font-bold text-foreground"
             style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
           >
             {t('featuredSections.recommendedTailors', 'Recommended Tailors')}
@@ -375,7 +375,7 @@ export default function FeaturedSections() {
                   />
                 </div>
                 <div className="mt-4 px-1">
-                  <h3 className="text-lg font-medium text-gray-900">{tailor.name}</h3>
+                  <h3 className="text-lg font-medium text-foreground">{tailor.name}</h3>
                   <div className="flex items-center mt-1">
                     <div className="flex items-center">
                       {[...Array(5)].map((_, i) => (
@@ -401,7 +401,7 @@ export default function FeaturedSections() {
                     {tailor.specialties?.map((specialty) => (
                       <span
                         key={specialty}
-                        className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-50 text-indigo-700"
+                        className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-atlas-primary/[0.08] text-[hsl(var(--primary))]"
                       >
                         {specialty}
                       </span>
@@ -418,7 +418,7 @@ export default function FeaturedSections() {
       {recommendedSellers.length > 0 && (
         <section className="mt-16 px-4 sm:px-6 lg:px-8">
           <h2
-            className="text-2xl font-bold text-gray-900"
+            className="text-2xl font-bold text-foreground"
             style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
           >
             {t('featuredSections.recommendedSellers', 'Recommended Sellers')}
@@ -436,7 +436,7 @@ export default function FeaturedSections() {
                   />
                 </div>
                 <div className="mt-4 px-1">
-                  <h3 className="text-lg font-medium text-gray-900">{seller.name}</h3>
+                  <h3 className="text-lg font-medium text-foreground">{seller.name}</h3>
                   <div className="flex items-center mt-1">
                     <div className="flex items-center">
                       {[...Array(5)].map((_, i) => (
@@ -462,7 +462,7 @@ export default function FeaturedSections() {
                     {seller.categories?.map((category) => (
                       <span
                         key={category}
-                        className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-amber-50 text-amber-800"
+                        className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-atlas-secondary/[0.12] text-[hsl(var(--on-secondary))]"
                       >
                         {category}
                       </span>

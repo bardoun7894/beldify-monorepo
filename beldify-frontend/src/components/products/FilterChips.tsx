@@ -53,7 +53,7 @@ export default function FilterChips({
       {chips.length > 1 && (
         <button
           onClick={onClearAll}
-          className="text-sm text-gray-500 hover:text-gray-700 underline transition-colors ml-2"
+          className="text-sm text-indigo-700 hover:text-indigo-800 underline transition-colors ml-2"
         >
           {t('filters.clear_all')}
         </button>

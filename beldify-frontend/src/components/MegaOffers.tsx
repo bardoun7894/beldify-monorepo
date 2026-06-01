@@ -226,9 +226,9 @@ const TEST_MEGA_OFFERS: MegaOfferCollection[] = [
   }
 ];
 
-// Atlas colors — always indigo-700 (#4338ca) + amber-500 (#f59e0b)
-const ATLAS_PRIMARY = '#4338ca';
-const ATLAS_ACCENT = '#f59e0b';
+// Atlas colors — deep indigo #252555 + saffron amber #fea619
+const ATLAS_PRIMARY = '#252555';
+const ATLAS_ACCENT = '#fea619';
 
 const getDaysRemaining = (endDate: string): number => {
   const end = new Date(endDate);
@@ -249,7 +249,7 @@ function ProductCard({ product, locale }: { product: FeaturedProduct; locale: st
       href={`/products/${product.slug}?locale=${locale}`}
       className="group/product block"
     >
-      <div className="bg-white rounded-2xl overflow-hidden transition hover:-translate-y-0.5 hover:shadow-md duration-[220ms] ease-[cubic-bezier(0.33,1,0.68,1)] border border-gray-100 hover:border-indigo-100">
+      <div className="bg-white rounded-2xl overflow-hidden transition hover:-translate-y-0.5 hover:shadow-md duration-[220ms] ease-[cubic-bezier(0.33,1,0.68,1)] border border-gray-100 hover:border-atlas-primary/[0.1]">
         {/* Product Image */}
         <div className="relative h-32 md:h-40 overflow-hidden bg-gray-50">
           <Image
@@ -270,7 +270,7 @@ function ProductCard({ product, locale }: { product: FeaturedProduct; locale: st
               </span>
             )}
             {product.is_trending && (
-              <span className="text-white text-xs px-2 py-0.5 rounded-full font-semibold bg-amber-500">
+              <span className="text-[hsl(var(--on-secondary))] text-xs px-2 py-0.5 rounded-full font-semibold bg-[hsl(var(--secondary))]">
                 {t('megaOffers.hot', 'HOT')}
               </span>
             )}
@@ -317,13 +317,13 @@ function CollectionCard({ collection, locale }: { collection: MegaOfferCollectio
   const daysLeft = getDaysRemaining(collection.end_date);
 
   return (
-    <div className="bg-white rounded-2xl shadow-sm hover:shadow-md transition-all duration-[220ms] ease-[cubic-bezier(0.33,1,0.68,1)] overflow-hidden border border-indigo-100 hover:border-indigo-200">
+    <div className="bg-white rounded-2xl shadow-sm hover:shadow-md transition-all duration-[220ms] ease-[cubic-bezier(0.33,1,0.68,1)] overflow-hidden border border-atlas-primary/[0.1] hover:border-atlas-primary/[0.1]">
       {/* Collection Header */}
-      <div className="relative px-6 py-5 bg-indigo-50/60 border-b border-indigo-100">
+      <div className="relative px-6 py-5 bg-atlas-primary/[0.06] border-b border-atlas-primary/[0.1]">
         <div className="flex items-start justify-between gap-3">
           <div className="flex-1 min-w-0">
             <h3
-              className="text-xl font-bold text-indigo-700 mb-1 truncate"
+              className="text-xl font-bold text-[hsl(var(--primary))] mb-1 truncate"
               style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
             >
               {collection.title}
@@ -332,10 +332,10 @@ function CollectionCard({ collection, locale }: { collection: MegaOfferCollectio
           </div>
 
           <div className="flex flex-col items-end gap-1.5 shrink-0">
-            <span className="px-3 py-1 rounded-full text-white text-xs font-semibold bg-amber-500">
+            <span className="px-3 py-1 rounded-full text-[hsl(var(--on-secondary))] text-xs font-semibold bg-[hsl(var(--secondary))]">
               {t('megaOffers.upTo70Off', 'UP TO 70% OFF')}
             </span>
-            <span className="text-xs font-medium text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded-full">
+            <span className="text-xs font-medium text-[hsl(var(--primary))] bg-atlas-primary/[0.08] px-2 py-0.5 rounded-full">
               {daysLeft} {t('megaOffers.daysLeft', 'days left')}
             </span>
           </div>
@@ -351,15 +351,15 @@ function CollectionCard({ collection, locale }: { collection: MegaOfferCollectio
         </div>
 
         {/* Footer actions */}
-        <div className="mt-5 pt-4 border-t border-indigo-50 flex items-center justify-between">
+        <div className="mt-5 pt-4 border-t border-atlas-primary/[0.06] flex items-center justify-between">
           {collection.featured_products && collection.featured_products.length > 4 && (
-            <span className="text-sm font-medium text-amber-600">
+            <span className="text-sm font-medium text-[hsl(var(--secondary))]">
               +{collection.featured_products.length - 4} {t('megaOffers.moreItems', 'more items')}
             </span>
           )}
           <Link
             href={`/mega-offers/${collection.slug}?locale=${locale}`}
-            className="ml-auto inline-flex items-center gap-2 px-5 py-2 text-sm font-semibold text-white bg-indigo-700 hover:bg-indigo-800 rounded-full transition-all duration-[220ms] ease-[cubic-bezier(0.33,1,0.68,1)] hover:shadow-md hover:-translate-y-0.5"
+            className="ml-auto inline-flex items-center gap-2 px-5 py-2 text-sm font-semibold text-white bg-[hsl(var(--primary))] hover:bg-primary-container rounded-xl transition-all duration-[220ms] ease-[cubic-bezier(0.33,1,0.68,1)] hover:shadow-atlas-sm hover:-translate-y-0.5"
           >
             {t('megaOffers.viewCollection', 'View Collection')}
             <ArrowRight className="h-4 w-4" />
@@ -475,8 +475,8 @@ const MegaOffers: React.FC<MegaOffersProps> = ({ megaOffers }) => {
           {/* Eyebrow + heading */}
           <div className="text-center mb-10">
             <div className="flex items-center justify-center gap-3 mb-4">
-              <div className="w-2 h-2 bg-amber-500 rounded-full"></div>
-              <span className="text-xs font-medium uppercase tracking-[0.18em] text-amber-700">
+              <div className="w-2 h-2 bg-[hsl(var(--secondary))] rounded-full"></div>
+              <span className="text-xs font-medium uppercase tracking-[0.18em] text-[hsl(var(--secondary))]">
                 {t('megaOffers.eyebrow', 'Special Collections')}
               </span>
             </div>
@@ -508,7 +508,7 @@ const MegaOffers: React.FC<MegaOffersProps> = ({ megaOffers }) => {
             <div className="text-center mt-12">
               <Link
                 href={`/mega-offers?locale=${i18n.language}`}
-                className="group inline-flex items-center gap-3 bg-indigo-700 hover:bg-indigo-800 text-white px-8 py-4 rounded-full font-semibold transition-all duration-[220ms] ease-[cubic-bezier(0.33,1,0.68,1)] shadow-lg hover:shadow-xl hover:-translate-y-0.5"
+                className="group inline-flex items-center gap-3 bg-[hsl(var(--primary))] hover:bg-primary-container text-white px-8 py-4 rounded-xl font-semibold transition-all duration-[220ms] ease-[cubic-bezier(0.33,1,0.68,1)] shadow-atlas-sm hover:shadow-atlas-md hover:-translate-y-0.5"
               >
                 <span>{t('megaOffers.viewAllCollections', 'View All Collections')}</span>
                 <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />

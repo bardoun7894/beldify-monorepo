@@ -169,20 +169,20 @@ const ProductCard = memo(function ProductCard({
       {/* Product Image Container */}
       <Link href={`/products/${id}`} className="block">
         <div className="relative w-full pt-[100%]">
-          {/* Express Delivery Badge - Only show if enabled */}
+          {/* Express Delivery Badge — Atlas: indigo-700 bg (replaces .badge-express emerald) */}
           {showExpressDelivery && (
             <div className="absolute top-3 left-3 z-10">
-              <div className="badge-express flex items-center gap-1">
-                <Zap className="h-3 w-3" />
+              <div className="flex items-center gap-1 bg-indigo-700 text-white px-2.5 py-1 rounded-full text-xs font-bold shadow-sm">
+                <Zap className="h-3 w-3" aria-hidden="true" />
                 {t('product.express')}
               </div>
             </div>
           )}
 
-          {/* Discount Badge */}
+          {/* Discount Badge — Atlas: rose-700 bg (sale/error token, replaces .badge-discount red→pink) */}
           {hasDiscount && (
             <div className="absolute top-3 right-3 z-10">
-              <div className="badge-discount">
+              <div className="bg-rose-700 text-white px-2.5 py-1 rounded-full text-xs font-bold shadow-sm">
                 -{discountPercentage}%
               </div>
             </div>
@@ -286,7 +286,8 @@ const ProductCard = memo(function ProductCard({
         <div className="flex items-center justify-between gap-3 mt-3">
           <div className="flex flex-col flex-1">
             <div className="flex items-center gap-2">
-              <span className="price-current">{formatPrice(displayPrice)}</span>
+              {/* Atlas price-display: indigo-700 per design spec (overrides .price-current gray gradient) */}
+              <span className="text-base font-extrabold text-indigo-700">{formatPrice(displayPrice)}</span>
               {hasDiscount && (
                 <span className="price-original">{formatPrice(price)}</span>
               )}
@@ -300,15 +301,16 @@ const ProductCard = memo(function ProductCard({
              )}
           </div>
 
-          {/* Add to Cart Quick Button - Only show if in stock */}
+          {/* Add to Cart Quick Button - Only show if in stock.
+              Atlas: amber CTAs use text-amber-950 (dark) for WCAG AA contrast on amber-500 background. */}
           {stock_quantity > 0 && (
-            <button 
+            <button
               onClick={handleAddToCart}
               disabled={isAddingToCart}
-              className={`btn-cta-primary ${isAddingToCart ? 'btn-cta-success' : ''}`}
+              className={`p-2.5 rounded-xl bg-amber-500 text-amber-950 hover:bg-amber-400 transition-all duration-300 active:scale-95 hover:scale-105 relative overflow-hidden shadow-md hover:shadow-lg flex items-center justify-center ${isAddingToCart ? 'opacity-80' : ''}`}
               aria-label={t('product.addToCart')}
             >
-              <div className={`absolute inset-0 flex items-center justify-center bg-gradient-to-r from-green-500 to-emerald-500 transition-transform duration-500 ${isAddingToCart ? 'translate-y-0' : 'translate-y-full'}`}>
+              <div className={`absolute inset-0 flex items-center justify-center bg-[#252555] transition-transform duration-500 ${isAddingToCart ? 'translate-y-0' : 'translate-y-full'}`}>
                 <Check className="h-4 w-4 text-white" />
               </div>
               <ShoppingCart className={`h-4 w-4 transition-all duration-300 ${isAddingToCart ? 'opacity-0 scale-75' : 'opacity-100 scale-100'}`} />
