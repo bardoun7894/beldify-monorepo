@@ -21,6 +21,7 @@ import {
   Search,
   ChevronRight
 } from 'lucide-react';
+import { groupMessagesByDay } from '@/utils/groupMessagesByDay';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 
 interface Shop {

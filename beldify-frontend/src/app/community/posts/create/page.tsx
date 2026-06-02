@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useMemo, useCallback, useRef } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useRouter, useSearchParams } from 'next/navigation';
 import {
@@ -10,32 +10,199 @@ import {
   Tag,
   Wallet,
   Clock,
-  FileText,
   Sparkles,
-  Share2,
-  Info,
-  CheckCircle
+  CheckCircle,
+  Wrench,
+  Eye,
+  Calendar,
+  ChevronRight,
 } from 'lucide-react';
 import { createCommunityPost } from '@/services/communityService';
 import { useAuth } from '@/contexts/AuthContext';
-import { CommunityPostFormData } from '@/types/community';
 import LoadingSpinner from '@/components/common/LoadingSpinner';
 import Link from 'next/link';
 import { categoryService } from '@/services/categoryService';
 import { Category } from '@/types/category';
 import { useDirection } from '@/hooks/useDirection';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 
+// ─── Available skill chips ────────────────────────────────────────────────────
+const AVAILABLE_SKILLS = [
+  { key: 'embroidery', ar: 'التطريز', en: 'Embroidery' },
+  { key: 'tailoring', ar: 'الخياطة', en: 'Tailoring' },
+  { key: 'leather', ar: 'الجلد', en: 'Leather Craft' },
+  { key: 'weaving', ar: 'النسيج', en: 'Weaving' },
+  { key: 'zellige', ar: 'الزليج', en: 'Zellige' },
+  { key: 'woodwork', ar: 'النجارة', en: 'Wood Carving' },
+  { key: 'pottery', ar: 'الفخار', en: 'Pottery' },
+  { key: 'jewelry', ar: 'المجوهرات', en: 'Jewelry' },
+  { key: 'knitting', ar: 'التريكو', en: 'Knitting' },
+  { key: 'dyeing', ar: 'الصباغة', en: 'Dyeing' },
+  { key: 'caftan', ar: 'القفطان', en: 'Caftan Making' },
+  { key: 'djellaba', ar: 'الجلابة', en: 'Djellaba Making' },
+];
+
+// ─── Preview Aside (desktop live summary) ────────────────────────────────────
+interface PreviewAsideProps {
+  title: string;
+  description: string;
+  categoryName: string;
+  budget: { min: number; max: number; currency: string } | undefined;
+  timeline: string;
+  requiredSkills: string[];
+  imageCount: number;
+  isRTL: boolean;
+  t: (key: string, fallback?: string) => string;
+}
+
+function PreviewAside({
+  title,
+  description,
+  categoryName,
+  budget,
+  timeline,
+  requiredSkills,
+  imageCount,
+  isRTL,
+  t,
+}: PreviewAsideProps) {
+  const hasContent = title || description || budget?.min || budget?.max || requiredSkills.length > 0;
+
+  return (
+    <aside
+      className="hidden lg:block sticky top-8 self-start"
+      aria-label={t('community.preview_label', 'Live Preview')}
+    >
+      {/* Preview card */}
+      <div className="bg-white rounded-2xl ring-1 ring-amber-200 overflow-hidden shadow-sm">
+        {/* Header */}
+        <div className="px-5 py-4 bg-indigo-950 flex items-center gap-2.5">
+          <Eye size={15} className="text-indigo-300 shrink-0" />
+          <span className="text-xs font-semibold uppercase tracking-[0.18em] text-indigo-200">
+            {t('community.preview_label', 'Live Preview')}
+          </span>
+        </div>
+
+        <div className="p-5 space-y-4">
+          {!hasContent ? (
+            <div className="text-center py-8">
+              <div className="w-12 h-12 rounded-full bg-amber-50 ring-1 ring-amber-200 flex items-center justify-center mx-auto mb-3">
+                <Eye size={20} className="text-amber-400" />
+              </div>
+              <p className="text-sm text-gray-500">
+                {t('community.preview_empty', 'Fill in the form to see a preview')}
+              </p>
+            </div>
+          ) : (
+            <>
+              {/* Title */}
+              {title && (
+                <div>
+                  <h3
+                    className="text-base font-bold text-gray-900 leading-snug"
+                    style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
+                  >
+                    {title}
+                  </h3>
+                </div>
+              )}
+
+              {/* Status pill */}
+              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-amber-100 text-amber-950 text-xs font-semibold">
+                <span className="w-1.5 h-1.5 rounded-full bg-amber-500 shrink-0" />
+                {t('community.status_open', 'Open for proposals')}
+              </span>
+
+              {/* Description excerpt */}
+              {description && (
+                <p className="text-sm text-gray-600 line-clamp-3 leading-relaxed">
+                  {description}
+                </p>
+              )}
+
+              {/* Budget */}
+              {(budget?.min || budget?.max) ? (
+                <div className="flex items-center gap-2 text-sm">
+                  <Wallet size={14} className="text-indigo-700 shrink-0" />
+                  <span className="font-semibold text-indigo-700">
+                    {budget.min > 0 ? `${budget.min}` : '?'} – {budget.max > 0 ? `${budget.max}` : '?'}{' '}
+                    <span className="font-normal text-gray-500">{budget.currency}</span>
+                  </span>
+                </div>
+              ) : null}
+
+              {/* Timeline */}
+              {timeline && (
+                <div className="flex items-center gap-2 text-sm text-gray-600">
+                  <Calendar size={14} className="text-indigo-700 shrink-0" />
+                  <span>{t('community.timeline_prefix', 'Within')} {timeline}</span>
+                </div>
+              )}
+
+              {/* Category */}
+              {categoryName && (
+                <div className="flex items-center gap-2 text-sm text-gray-600">
+                  <Tag size={14} className="text-indigo-700 shrink-0" />
+                  <span>{categoryName}</span>
+                </div>
+              )}
+
+              {/* Skills */}
+              {requiredSkills.length > 0 && (
+                <div className="flex flex-wrap gap-1.5">
+                  {requiredSkills.map((skill) => (
+                    <span
+                      key={skill}
+                      className="inline-flex items-center px-2.5 py-1 rounded-full bg-indigo-50 text-indigo-700 text-xs font-medium ring-1 ring-indigo-200"
+                    >
+                      {skill}
+                    </span>
+                  ))}
+                </div>
+              )}
+
+              {/* Images count */}
+              {imageCount > 0 && (
+                <div className="flex items-center gap-2 text-xs text-gray-500">
+                  <ImageIcon size={13} className="text-amber-500 shrink-0" />
+                  <span>
+                    {imageCount} {t('community.images_attached', 'image(s) attached')}
+                  </span>
+                </div>
+              )}
+            </>
+          )}
+        </div>
+      </div>
+
+      {/* Editorial tip */}
+      <div className="mt-4 px-4 py-3 rounded-2xl bg-amber-50 ring-1 ring-amber-200">
+        <div className="flex items-start gap-2.5">
+          <Sparkles size={14} className="text-amber-600 mt-0.5 shrink-0" />
+          <p className="text-xs text-amber-800 leading-relaxed">
+            {t(
+              'community.preview_tip',
+              'Requests with a clear budget and reference photos attract 3× more proposals on average.'
+            )}
+          </p>
+        </div>
+      </div>
+    </aside>
+  );
+}
+
+// ─── Main page ────────────────────────────────────────────────────────────────
 export default function CreatePostPage() {
   const { t } = useTranslation();
   const { isRTL } = useDirection();
   const router = useRouter();
   const searchParams = useSearchParams();
   const { isAuthenticated, user } = useAuth();
-  // Helper for managing tag inputs
-  const [inputValues, setInputValues] = useState({});
 
-  // State for validation errors
+  // ── State ──────────────────────────────────────────────────────────────────
+  const [submitted, setSubmitted] = useState(false);
+  const [submittedPostId, setSubmittedPostId] = useState<string | number | null>(null);
+
   const [validationErrors, setValidationErrors] = useState<{
     title?: string;
     description?: string;
@@ -49,15 +216,11 @@ export default function CreatePostPage() {
     title: string;
     description: string;
     categoryId: string;
-    timelineValue?: string;
-    timelineUnit?: 'days' | 'weeks' | 'months';
-    timeline?: string;
-    budget?: {
-      min: number;
-      max: number;
-      currency: string;
-    };
-    images?: File[];
+    timelineValue: string;
+    timelineUnit: 'days' | 'weeks' | 'months';
+    timeline: string;
+    budget: { min: number; max: number; currency: string };
+    images: File[];
   }>({
     title: '',
     description: '',
@@ -65,12 +228,12 @@ export default function CreatePostPage() {
     timeline: '1 weeks',
     timelineValue: '1',
     timelineUnit: 'weeks',
-    budget: {
-      min: 0,
-      max: 0,
-      currency: 'MAD'
-    }
+    budget: { min: 0, max: 0, currency: 'MAD' },
+    images: [],
   });
+
+  // Required skills multi-select chips
+  const [requiredSkills, setRequiredSkills] = useState<string[]>([]);
 
   const [previewImages, setPreviewImages] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -78,310 +241,251 @@ export default function CreatePostPage() {
   const [categories, setCategories] = useState<Category[]>([]);
   const [loadingCategories, setLoadingCategories] = useState(true);
 
-  // Check authentication
+  // ── Auth redirect ──────────────────────────────────────────────────────────
   useEffect(() => {
     if (!isAuthenticated) {
       router.push('/login?redirect=/community/posts/create');
     }
   }, [isAuthenticated, router]);
 
-  // Fetch categories when component mounts
+  // ── Fetch categories ───────────────────────────────────────────────────────
   useEffect(() => {
     const fetchCategories = async () => {
       try {
         setLoadingCategories(true);
-        const categoriesData = await categoryService.getAllCategories();
-        setCategories(categoriesData);
-      } catch (error) {
-        console.error('Error fetching categories:', error);
-        setError(t('community.error_loading_categories') || 'Error loading categories');
+        const data = await categoryService.getAllCategories();
+        setCategories(data);
+      } catch {
+        setError(t('community.error_loading_categories', 'Error loading categories'));
       } finally {
         setLoadingCategories(false);
       }
     };
-
     fetchCategories();
   }, [t]);
 
-  // Pre-fill form with product data if provided via search params
+  // ── Pre-fill from search params ────────────────────────────────────────────
   useEffect(() => {
     const productId = searchParams.get('productId');
     const productName = searchParams.get('productName');
     const productImage = searchParams.get('productImage');
-    
+
     if (productId && productName) {
-      setFormData(prev => ({
+      setFormData((prev) => ({
         ...prev,
-        title: `Custom ${productName} - Similar Design Requested`,
-        description: `I'm looking for a custom product similar to the ${productName} (Product ID: ${productId}). ${productImage ? 'Please see the reference image for the style I prefer.' : 'I can provide more details about the design I have in mind.'}\n\nPlease let me know if you can create something similar with custom modifications.`
+        title: t('community.prefill_title', { productName }),
+        description: `I'm looking for a custom product similar to the ${productName} (Product ID: ${productId}). ${
+          productImage
+            ? 'Please see the reference image for the style I prefer.'
+            : 'I can provide more details about the design I have in mind.'
+        }\n\nPlease let me know if you can create something similar with custom modifications.`,
       }));
     }
   }, [searchParams]);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  // ── Derived timeline string ────────────────────────────────────────────────
+  const timelineString = `${formData.timelineValue || '1'} ${formData.timelineUnit || 'weeks'}`;
+
+  // ── Category name for preview ──────────────────────────────────────────────
+  const selectedCategoryName =
+    categories.find((c) => String(c.id) === String(formData.categoryId))?.name || '';
+
+  // ── Skills toggle ──────────────────────────────────────────────────────────
+  const toggleSkill = useCallback((skillKey: string) => {
+    setRequiredSkills((prev) =>
+      prev.includes(skillKey) ? prev.filter((s) => s !== skillKey) : [...prev, skillKey]
+    );
+  }, []);
+
+  // ── Inputs ─────────────────────────────────────────────────────────────────
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+  ) => {
     const { name, value } = e.target;
-    
-    setFormData(prev => ({ ...prev, [name]: value }));
-    
-    // Clear validation error when user starts typing
+    setFormData((prev) => {
+      const next = { ...prev, [name]: value };
+      // Keep timeline string in sync
+      if (name === 'timelineValue' || name === 'timelineUnit') {
+        next.timeline = `${name === 'timelineValue' ? value : prev.timelineValue} ${
+          name === 'timelineUnit' ? value : prev.timelineUnit
+        }`;
+      }
+      return next;
+    });
     if (validationErrors[name as keyof typeof validationErrors]) {
-      setValidationErrors(prev => ({ ...prev, [name]: '' }));
+      setValidationErrors((prev) => ({ ...prev, [name]: '' }));
     }
   };
 
-  const handleBudgetChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleBudgetChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
       budget: {
-        ...prev.budget!,
-        [name]: name === 'min' || name === 'max' ? parseFloat(value) : value
-      }
+        ...prev.budget,
+        [name]: name === 'min' || name === 'max' ? parseFloat(value) || 0 : value,
+      },
     }));
   };
 
-  // Custom file validation and handling
+  // ── Image handling ─────────────────────────────────────────────────────────
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [isDragActive, setIsDragActive] = useState(false);
-  
-  // Process selected files (from drag or input)
-  const processFiles = useCallback((files: File[]) => {
-    // Clear previous validation errors
-    setValidationErrors(prev => ({ ...prev, images: '' }));
-    
-    // Validate image files (size < 5MB, types: jpg, png, gif, webp)
-    const validFiles: File[] = [];
-    const invalidFiles: { name: string; reason: string }[] = [];
-    
-    files.forEach(file => {
-      // Check file size (max 5MB)
-      if (file.size > 5 * 1024 * 1024) {
-        invalidFiles.push({ name: file.name, reason: 'size' });
-        return;
+
+  const processFiles = useCallback(
+    (files: File[]) => {
+      setValidationErrors((prev) => ({ ...prev, images: '' }));
+      const valid: File[] = [];
+      const invalid: { name: string; reason: string }[] = [];
+
+      files.forEach((file) => {
+        if (file.size > 5 * 1024 * 1024) {
+          invalid.push({ name: file.name, reason: 'size' });
+          return;
+        }
+        if (!['image/jpeg', 'image/png', 'image/gif', 'image/webp'].includes(file.type)) {
+          invalid.push({ name: file.name, reason: 'type' });
+          return;
+        }
+        valid.push(file);
+      });
+
+      if (invalid.length > 0) {
+        if (invalid.some((f) => f.reason === 'size')) {
+          setValidationErrors((prev) => ({ ...prev, images: t('community.error_image_size') }));
+        } else {
+          setValidationErrors((prev) => ({ ...prev, images: t('community.error_image_type') }));
+        }
+        if (valid.length === 0) return;
       }
-      
-      // Check file type
-      const validTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
-      if (!validTypes.includes(file.type)) {
-        invalidFiles.push({ name: file.name, reason: 'type' });
-        return;
-      }
-      
-      validFiles.push(file);
-    });
-    
-    // If there are invalid files, show error
-    if (invalidFiles.length > 0) {
-      // If it's a size issue
-      if (invalidFiles.some(file => file.reason === 'size')) {
-        setValidationErrors(prev => ({ 
-          ...prev, 
-          images: t('community.error_image_size')
-        }));
-      }
-      // If it's a type issue
-      else if (invalidFiles.some(file => file.reason === 'type')) {
-        setValidationErrors(prev => ({ 
-          ...prev, 
-          images: t('community.error_image_type') 
-        }));
-      }
-      
-      // If there are no valid files, don't proceed
-      if (validFiles.length === 0) return;
-    }
-    
-    // Add valid files to form data
-    setFormData(prev => ({
-      ...prev,
-      images: [...(prev.images || []), ...validFiles]
-    }));
-    
-    // Generate preview URLs
-    const newPreviewUrls = validFiles.map(file => URL.createObjectURL(file));
-    setPreviewImages(prev => [...prev, ...newPreviewUrls]);
-  }, [t]);
-  
-  // Handle file drop events
+
+      setFormData((prev) => ({ ...prev, images: [...prev.images, ...valid] }));
+      setPreviewImages((prev) => [...prev, ...valid.map((f) => URL.createObjectURL(f))]);
+    },
+    [t]
+  );
+
   const handleDragEnter = useCallback((e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     e.stopPropagation();
     setIsDragActive(true);
   }, []);
-  
+
   const handleDragLeave = useCallback((e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     e.stopPropagation();
     setIsDragActive(false);
   }, []);
-  
-  const handleDragOver = useCallback((e: React.DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    e.stopPropagation();
-    if (!isDragActive) setIsDragActive(true);
-  }, [isDragActive]);
-  
-  const handleDrop = useCallback((e: React.DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    e.stopPropagation();
-    setIsDragActive(false);
-    
-    const files = Array.from(e.dataTransfer.files);
-    if (files.length === 0) return;
-    processFiles(files);
-  }, [processFiles]);
-  
-  // Open file input dialog
-  const openFileDialog = useCallback(() => {
-    if (fileInputRef.current) {
-      fileInputRef.current.click();
-    }
-  }, []);
-  
-  // Handle file selection from input
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files;
-    if (!files || files.length === 0) return;
-    processFiles(Array.from(files));
-  };
+
+  const handleDragOver = useCallback(
+    (e: React.DragEvent<HTMLDivElement>) => {
+      e.preventDefault();
+      e.stopPropagation();
+      if (!isDragActive) setIsDragActive(true);
+    },
+    [isDragActive]
+  );
+
+  const handleDrop = useCallback(
+    (e: React.DragEvent<HTMLDivElement>) => {
+      e.preventDefault();
+      e.stopPropagation();
+      setIsDragActive(false);
+      const files = Array.from(e.dataTransfer.files);
+      if (files.length > 0) processFiles(files);
+    },
+    [processFiles]
+  );
 
   const removeImage = (index: number) => {
-    // Revoke object URL to prevent memory leaks
     URL.revokeObjectURL(previewImages[index]);
-    
-    setPreviewImages(prev => prev.filter((_, i) => i !== index));
-    setFormData(prev => ({
-      ...prev,
-      images: (prev.images || []).filter((_, i) => i !== index)
-    }));
-    
-    // Clear image validation error if it exists and we have no images
-    if (validationErrors.images && previewImages.length <= 1) {
-      setValidationErrors(prev => ({ ...prev, images: undefined }));
-    }
+    setPreviewImages((prev) => prev.filter((_, i) => i !== index));
+    setFormData((prev) => ({ ...prev, images: prev.images.filter((_, i) => i !== index) }));
   };
 
+  // ── Validation ─────────────────────────────────────────────────────────────
   const validateForm = (): boolean => {
-    const errors: {
-      title?: string;
-      description?: string;
-      categoryId?: string;
-      budget?: string;
-      images?: string;
-      general?: string;
-    } = {};
-    
-    // Validate title (min 5 characters)
+    const errors: typeof validationErrors = {};
     if (!formData.title || formData.title.trim().length < 5) {
       errors.title = t('community.error_title_min_length', 'Title must be at least 5 characters');
     }
-    
-    // Validate description (min 20 characters)
     if (!formData.description || formData.description.trim().length < 20) {
-      errors.description = t('community.error_description_min_length', 'Description must be at least 20 characters');
+      errors.description = t(
+        'community.error_description_min_length',
+        'Description must be at least 20 characters'
+      );
     }
-    
-    // Validate category
     if (!formData.categoryId) {
       errors.categoryId = t('community.error_category_required', 'Please select a category');
     }
-    
-    // Validate budget
-    if (formData.budget) {
-      if (formData.budget.min > formData.budget.max) {
-        errors.budget = t('community.error_invalid_budget', 'Minimum budget cannot be greater than maximum');
-      }
+    if (formData.budget.min > 0 && formData.budget.max > 0 && formData.budget.min > formData.budget.max) {
+      errors.budget = t(
+        'community.error_invalid_budget',
+        'Minimum budget cannot be greater than maximum'
+      );
     }
-    
-    // Set validation errors
     setValidationErrors(errors);
-    
-    // Return true if no errors
     return Object.keys(errors).length === 0;
   };
 
+  // ── Submit ─────────────────────────────────────────────────────────────────
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError(null);
-    
-    // Validate form before submission
+
     if (!validateForm()) {
-      // Scroll to the first error
-      const firstErrorField = document.querySelector('.error-field');
-      if (firstErrorField) {
-        firstErrorField.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      }
+      const firstError = document.querySelector('.error-field');
+      firstError?.scrollIntoView({ behavior: 'smooth', block: 'center' });
       return;
     }
-    
+
     setIsLoading(true);
-    
+
     try {
-      // Create FormData for API
-      const dataToSubmit = new FormData();
-      dataToSubmit.append('title', formData.title);
-      dataToSubmit.append('description', formData.description);
-      dataToSubmit.append('category_id', formData.categoryId);
-      
-      // Add budget and timeline
-      dataToSubmit.append('timeline', formData.timeline || '1 weeks');
-      
-      // Add budget data if it exists
-      if (formData.budget) {
-        dataToSubmit.append('budget', JSON.stringify(formData.budget));
-        dataToSubmit.append('budget_min', formData.budget.min.toString());
-        dataToSubmit.append('budget_max', formData.budget.max.toString());
-        dataToSubmit.append('budget_currency', formData.budget.currency);
-      } else {
-        // Default budget values
-        dataToSubmit.append('budget_min', '0');
-        dataToSubmit.append('budget_max', '0');
-        dataToSubmit.append('budget_currency', 'MAD');
-      }
-      
-      // Add timeline
-      dataToSubmit.append('timeline_value', formData.timelineValue || '1');
-      dataToSubmit.append('timeline_unit', formData.timelineUnit || 'weeks');
-      
-      // Add images
-      formData.images?.forEach((image, index) => {
-        dataToSubmit.append(`images[${index}]`, image);
+      const data = new FormData();
+      data.append('title', formData.title);
+      data.append('description', formData.description);
+      data.append('category_id', formData.categoryId);
+      data.append('timeline', timelineString);
+      data.append('timeline_value', formData.timelineValue);
+      data.append('timeline_unit', formData.timelineUnit);
+      data.append('budget', JSON.stringify(formData.budget));
+      data.append('budget_min', formData.budget.min.toString());
+      data.append('budget_max', formData.budget.max.toString());
+      data.append('budget_currency', formData.budget.currency);
+
+      // Append required_skills[] to FormData
+      requiredSkills.forEach((skill) => {
+        data.append('required_skills[]', skill);
       });
 
-      // Create post
-      await createCommunityPost(dataToSubmit);
-      
-      // Redirect to community page on success
-      router.push('/community');
-      
+      formData.images.forEach((image, idx) => {
+        data.append(`images[${idx}]`, image);
+      });
+
+      const created = await createCommunityPost(data);
+      setSubmittedPostId(created?.id ?? null);
+      setSubmitted(true);
     } catch (err: any) {
-      console.error('Error creating post:', err);
-      
-      // Handle validation errors from server
       if (err.response?.data?.errors) {
         const serverErrors = err.response.data.errors;
-        const mappedErrors: any = {};
-        
-        // Map server error fields to our form fields
-        if (serverErrors.title) mappedErrors.title = serverErrors.title[0];
-        if (serverErrors.description) mappedErrors.description = serverErrors.description[0];
-        if (serverErrors.category_id) mappedErrors.categoryId = serverErrors.category_id[0];
-        
-        setValidationErrors(mappedErrors);
-        
-        // Scroll to the first error
-        const firstErrorField = document.querySelector('.error-field');
-        if (firstErrorField) {
-          firstErrorField.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }
+        const mapped: typeof validationErrors = {};
+        if (serverErrors.title) mapped.title = serverErrors.title[0];
+        if (serverErrors.description) mapped.description = serverErrors.description[0];
+        if (serverErrors.category_id) mapped.categoryId = serverErrors.category_id[0];
+        setValidationErrors(mapped);
+        document.querySelector('.error-field')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
       } else {
-        setError(err.message || t('community.error_creating_post'));
+        setError(err.message || t('community.error_creating_post', 'Error creating post'));
       }
     } finally {
       setIsLoading(false);
     }
   };
 
+  // ── Loading guard ──────────────────────────────────────────────────────────
   if (!isAuthenticated) {
     return (
       <div className="flex justify-center items-center min-h-[60vh]">
@@ -390,6 +494,90 @@ export default function CreatePostPage() {
     );
   }
 
+  // ── SUCCESS STATE ──────────────────────────────────────────────────────────
+  if (submitted) {
+    return (
+      <div className="min-h-screen bg-amber-50/30 flex flex-col">
+        {/* Hero band */}
+        <section className="bg-indigo-700 text-white py-10 px-6">
+          <div className="max-w-7xl mx-auto">
+            <p className="text-amber-300 text-xs uppercase tracking-[0.18em] font-medium mb-2">
+              {t('openSouk.eyebrow', 'OPEN SOUK')}
+            </p>
+            <h1
+              className="text-2xl sm:text-3xl font-bold leading-tight"
+              style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
+            >
+              {t('community.request_posted', 'Request Posted')}
+            </h1>
+          </div>
+        </section>
+
+        {/* Success card */}
+        <div className="flex-1 flex items-center justify-center px-4 py-16">
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.35, ease: [0.33, 1, 0.68, 1] }}
+            className="max-w-md w-full bg-white rounded-2xl ring-1 ring-amber-200 shadow-sm overflow-hidden text-center"
+          >
+            {/* Indigo accent strip */}
+            <div className="h-1.5 bg-indigo-700 w-full" />
+
+            <div className="p-8 sm:p-10">
+              {/* Icon */}
+              <div className="w-16 h-16 rounded-full bg-emerald-50 ring-2 ring-emerald-200 flex items-center justify-center mx-auto mb-5">
+                <CheckCircle size={32} className="text-emerald-600" />
+              </div>
+
+              <h2
+                className="text-2xl font-bold text-gray-900 mb-2"
+                style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
+              >
+                {t('community.success_title', 'Your request is live!')}
+              </h2>
+
+              <p className="text-sm text-gray-600 mb-8 leading-relaxed">
+                {t(
+                  'community.success_body',
+                  'Artisans can now see and respond to your request. You will be notified when proposals arrive.'
+                )}
+              </p>
+
+              {/* Status pill */}
+              <div className="flex items-center justify-center gap-2 mb-8">
+                <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-amber-100 text-amber-950 text-xs font-semibold">
+                  <span className="w-1.5 h-1.5 rounded-full bg-amber-500 shrink-0" />
+                  {t('community.status_open', 'Open for proposals')}
+                </span>
+              </div>
+
+              {/* CTAs */}
+              <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                {submittedPostId && (
+                  <Link
+                    href={`/community/posts/${submittedPostId}`}
+                    className="inline-flex items-center justify-center gap-2 px-5 py-3 min-h-[44px] bg-indigo-700 hover:bg-indigo-800 text-white text-sm font-semibold rounded-full transition-colors duration-200"
+                  >
+                    {t('community.view_request', 'View my request')}
+                    <ChevronRight size={16} />
+                  </Link>
+                )}
+                <Link
+                  href="/community"
+                  className="inline-flex items-center justify-center gap-2 px-5 py-3 min-h-[44px] bg-white ring-1 ring-amber-200 hover:ring-amber-300 text-gray-700 text-sm font-semibold rounded-full transition-colors duration-200"
+                >
+                  {t('community.browse_souk', 'Browse Open Souk')}
+                </Link>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      </div>
+    );
+  }
+
+  // ── FORM STATE ─────────────────────────────────────────────────────────────
   return (
     <div className="min-h-screen bg-amber-50/30">
       {/* Editorial Hero Band */}
@@ -411,7 +599,7 @@ export default function CreatePostPage() {
           >
             {t('community.create_request', 'Post a Bespoke Request')}
           </h1>
-          {/* Customer-side AI chips */}
+          {/* AI chips */}
           <div className="flex flex-wrap gap-2 mt-3">
             <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-amber-500/20 text-amber-200 text-xs font-medium">
               <Sparkles size={11} className="shrink-0" />
@@ -425,365 +613,456 @@ export default function CreatePostPage() {
         </div>
       </section>
 
-      {/* Main Content */}
-      <div className="max-w-2xl mx-auto px-3 sm:px-6 lg:px-8 py-4 sm:py-8">
-        {/* Create Post Card */}
-        <div className="bg-amber-50/40 rounded-2xl ring-1 ring-amber-200 overflow-hidden">
-          {/* Form header */}
-          <div className="p-6 border-b border-amber-200">
-            <div className="flex items-center gap-4">
-              <div className="w-10 h-10 bg-indigo-700 rounded-full flex items-center justify-center shrink-0">
-                <span className="text-white font-semibold text-sm">
-                  {user?.full_name_en?.charAt(0)?.toUpperCase() || 'U'}
-                </span>
+      {/* Two-column layout: form + aside */}
+      <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-6 sm:py-10">
+        <div className="lg:grid lg:grid-cols-[1fr_340px] lg:gap-8 items-start">
+          {/* ── FORM COLUMN ─────────────────────────────────────────────────── */}
+          <div>
+            <div className="bg-white rounded-2xl ring-1 ring-amber-200 overflow-hidden shadow-sm">
+
+              {/* Form header */}
+              <div className="px-6 py-5 border-b border-amber-100">
+                <div className="flex items-center gap-3.5">
+                  <div className="w-10 h-10 bg-indigo-700 rounded-full flex items-center justify-center shrink-0">
+                    <span className="text-white font-semibold text-sm">
+                      {user?.full_name_en?.charAt(0)?.toUpperCase() || 'U'}
+                    </span>
+                  </div>
+                  <div>
+                    <h2 className="text-base font-semibold text-gray-900">
+                      {t('community.what_is_custom_request', 'What is your custom request?')}
+                    </h2>
+                    <p className="text-xs text-gray-500 mt-0.5">
+                      {t('community.create_request_subtitle', 'Describe what you need — artisans will respond with proposals')}
+                    </p>
+                  </div>
+                </div>
               </div>
-              <div>
-                <h2 className="text-base sm:text-lg font-medium text-gray-900">
-                  {t('community.what_is_custom_request', 'What is your custom request?')}
-                </h2>
-                <p className="text-xs sm:text-sm text-gray-600">
-                  {t('community.create_request_step2', 'Give your request a title and description')}
-                </p>
-              </div>
+
+              <form onSubmit={handleSubmit} className="divide-y divide-amber-100">
+
+                {/* ── SECTION: Images ──────────────────────────────────────── */}
+                <section className="px-6 py-6">
+                  <div className="mb-4">
+                    <h3 className="text-sm font-semibold text-gray-900 mb-1 flex items-center gap-1.5">
+                      <ImageIcon size={15} className="text-indigo-700" />
+                      {t('community.section_photos', 'Reference Photos')}
+                    </h3>
+                    <p className="text-xs text-gray-500">
+                      {t('community.photos_help', 'Photos help artisans understand your vision')}
+                    </p>
+                  </div>
+
+                  {/* Drag & Drop area */}
+                  <div
+                    onDragEnter={handleDragEnter}
+                    onDragLeave={handleDragLeave}
+                    onDragOver={handleDragOver}
+                    onDrop={handleDrop}
+                    className={[
+                      'relative group cursor-pointer flex flex-col justify-center items-center p-8 border-2 border-dashed rounded-2xl transition-all duration-200',
+                      isDragActive
+                        ? 'border-indigo-400 bg-indigo-50'
+                        : validationErrors.images
+                        ? 'border-rose-300 bg-rose-50'
+                        : 'border-amber-200 bg-amber-50/30 hover:border-amber-300 hover:bg-amber-50/60',
+                    ].join(' ')}
+                    role="button"
+                    tabIndex={0}
+                    aria-label={t('community.drop_zone_label', 'Image drop zone')}
+                    onClick={() => fileInputRef.current?.click()}
+                    onKeyDown={(e) => e.key === 'Enter' && fileInputRef.current?.click()}
+                  >
+                    <input
+                      ref={fileInputRef}
+                      type="file"
+                      className="hidden"
+                      accept="image/jpeg,image/png,image/gif,image/webp"
+                      multiple
+                      onChange={(e) => {
+                        if (e.target.files) processFiles(Array.from(e.target.files));
+                        (e.target as HTMLInputElement).value = '';
+                      }}
+                    />
+                    <div className="mb-3 rounded-full bg-white ring-1 ring-amber-200 p-3 shadow-sm">
+                      <ImageIcon size={26} className="text-amber-400" />
+                    </div>
+                    <p className="text-sm font-medium text-indigo-700 mb-1">
+                      {isDragActive
+                        ? t('community.drag_photos_here', 'Drop photos here')
+                        : t('community.drag_drop_images', 'Drag & drop photos here')}
+                    </p>
+                    <p className="text-xs text-gray-400">
+                      {t('community.or_click_to_select', 'or click to browse files')}
+                    </p>
+                    <p className="text-[10px] text-gray-400 mt-2 font-mono tracking-wide uppercase">
+                      {t('community.image_formats', 'JPG, PNG, WEBP — max 5 MB each')}
+                    </p>
+                  </div>
+
+                  {validationErrors.images && (
+                    <p className="mt-2 text-xs text-rose-700">{validationErrors.images}</p>
+                  )}
+
+                  {previewImages.length > 0 && (
+                    <div className="mt-4">
+                      <p className="text-[10px] font-mono tracking-[0.15em] uppercase text-gray-500 mb-3">
+                        {t('community.uploaded_images', 'Uploaded')} ({previewImages.length})
+                      </p>
+                      <div className="grid grid-cols-3 sm:grid-cols-4 gap-2.5">
+                        {previewImages.map((src, i) => (
+                          <div key={i} className="relative group">
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                            <img
+                              src={src}
+                              alt={t('community.image_preview_alt', { index: i + 1 })}
+                              className="w-full aspect-square object-cover rounded-xl ring-1 ring-amber-200"
+                            />
+                            <button
+                              type="button"
+                              onClick={(e) => { e.stopPropagation(); removeImage(i); }}
+                              className="absolute -top-2 -end-2 w-6 h-6 bg-rose-700 text-white rounded-full flex items-center justify-center hover:bg-rose-800 transition-colors shadow-md opacity-0 group-hover:opacity-100 focus:opacity-100"
+                              aria-label={t('common.remove', 'Remove')}
+                            >
+                              <X size={11} />
+                            </button>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </section>
+
+                {/* ── SECTION: Title & Description ─────────────────────────── */}
+                <section className="px-6 py-6 space-y-5">
+                  {/* Title */}
+                  <div className={validationErrors.title ? 'error-field' : ''}>
+                    <label htmlFor="title" className="block text-sm font-semibold text-gray-900 mb-1.5">
+                      {t('community.title_label', 'Request title')}
+                      <span className="text-rose-600 ms-0.5">*</span>
+                    </label>
+                    <input
+                      id="title"
+                      name="title"
+                      value={formData.title}
+                      onChange={handleInputChange}
+                      placeholder={t('community.title_placeholder', 'e.g. Custom embroidered djellaba for a wedding')}
+                      maxLength={100}
+                      className={[
+                        'w-full px-4 py-3 border rounded-2xl text-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-indigo-700/30 focus:border-indigo-700',
+                        validationErrors.title ? 'border-rose-300 bg-rose-50' : 'border-amber-200 bg-white',
+                      ].join(' ')}
+                    />
+                    <div className="flex items-center justify-between mt-1.5">
+                      {validationErrors.title ? (
+                        <p className="text-xs text-rose-700">{validationErrors.title}</p>
+                      ) : (
+                        <span />
+                      )}
+                      <span className="text-[10px] text-gray-400 font-mono">
+                        {formData.title.length}/100
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Description */}
+                  <div className={validationErrors.description ? 'error-field' : ''}>
+                    <label htmlFor="description" className="block text-sm font-semibold text-gray-900 mb-1.5">
+                      {t('community.description_label', 'Describe your request')}
+                      <span className="text-rose-600 ms-0.5">*</span>
+                    </label>
+                    <textarea
+                      id="description"
+                      name="description"
+                      value={formData.description}
+                      onChange={handleInputChange}
+                      placeholder={t(
+                        'community.description_placeholder',
+                        'Describe the material, colors, measurements, style inspiration, and any special details...'
+                      )}
+                      rows={6}
+                      className={[
+                        'w-full px-4 py-3 border rounded-2xl text-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-indigo-700/30 focus:border-indigo-700 resize-none',
+                        validationErrors.description ? 'border-rose-300 bg-rose-50' : 'border-amber-200 bg-white',
+                      ].join(' ')}
+                    />
+                    <div className="flex items-center justify-between mt-1.5">
+                      {validationErrors.description ? (
+                        <p className="text-xs text-rose-700">{validationErrors.description}</p>
+                      ) : (
+                        <span />
+                      )}
+                      <span className="text-[10px] text-gray-400 font-mono">
+                        {formData.description.length}/2000
+                      </span>
+                    </div>
+                  </div>
+                </section>
+
+                {/* ── SECTION: Category ────────────────────────────────────── */}
+                <section className="px-6 py-6">
+                  <div className="mb-3">
+                    <h3 className="text-sm font-semibold text-gray-900 mb-0.5 flex items-center gap-1.5">
+                      <Tag size={14} className="text-indigo-700" />
+                      {t('community.category_label', 'Category')}
+                      <span className="text-rose-600">*</span>
+                    </h3>
+                    <p className="text-xs text-gray-500">
+                      {t('community.pick_category', 'Select the category that best matches your request')}
+                    </p>
+                  </div>
+
+                  <div className={validationErrors.categoryId ? 'error-field' : ''}>
+                    <select
+                      id="categoryId"
+                      name="categoryId"
+                      value={formData.categoryId}
+                      onChange={handleInputChange}
+                      disabled={loadingCategories}
+                      className={[
+                        'w-full px-4 py-3 border rounded-2xl text-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-indigo-700/30 focus:border-indigo-700 bg-white',
+                        validationErrors.categoryId ? 'border-rose-300 bg-rose-50' : 'border-amber-200',
+                      ].join(' ')}
+                    >
+                      <option value="">{t('community.select_category', 'اختار الصنف')}</option>
+                      {categories.map((category) => (
+                        <option key={category.id} value={category.id}>
+                          {isRTL ? category.name_ar : category.name}
+                        </option>
+                      ))}
+                    </select>
+                    {validationErrors.categoryId && (
+                      <p className="mt-1.5 text-xs text-rose-700">{validationErrors.categoryId}</p>
+                    )}
+                  </div>
+                </section>
+
+                {/* ── SECTION: Required Skills ─────────────────────────────── */}
+                <section className="px-6 py-6">
+                  <div className="mb-4">
+                    <h3 className="text-sm font-semibold text-gray-900 mb-0.5 flex items-center gap-1.5">
+                      <Wrench size={14} className="text-indigo-700" />
+                      {t('community.skills_label', 'Required Skills')}
+                    </h3>
+                    <p className="text-xs text-gray-500">
+                      {t(
+                        'community.skills_help',
+                        'Tag the crafts you need — sellers with matching expertise will be highlighted'
+                      )}
+                    </p>
+                  </div>
+
+                  {/* Skill chips */}
+                  <div className="flex flex-wrap gap-2" role="group" aria-label={t('community.skills_label', 'Required Skills')}>
+                    {AVAILABLE_SKILLS.map((skill) => {
+                      const selected = requiredSkills.includes(skill.key);
+                      return (
+                        <button
+                          key={skill.key}
+                          type="button"
+                          onClick={() => toggleSkill(skill.key)}
+                          aria-pressed={selected}
+                          className={[
+                            'inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-150',
+                            selected
+                              ? 'bg-indigo-700 text-white ring-1 ring-indigo-700'
+                              : 'bg-white text-gray-700 ring-1 ring-amber-200 hover:ring-indigo-300 hover:text-indigo-700',
+                          ].join(' ')}
+                        >
+                          {selected && <CheckCircle size={11} className="shrink-0" />}
+                          {isRTL ? skill.ar : skill.en}
+                        </button>
+                      );
+                    })}
+                  </div>
+
+                  {requiredSkills.length > 0 && (
+                    <p className="mt-3 text-xs text-indigo-700 font-medium">
+                      {requiredSkills.length} {t('community.skills_selected', 'skill(s) selected')}
+                    </p>
+                  )}
+                </section>
+
+                {/* ── SECTION: Budget ──────────────────────────────────────── */}
+                <section className="px-6 py-6">
+                  <div className="mb-4">
+                    <h3 className="text-sm font-semibold text-gray-900 mb-0.5 flex items-center gap-1.5">
+                      <Wallet size={14} className="text-indigo-700" />
+                      {t('community.budget_section', 'Budget Range')}
+                    </h3>
+                    <p className="text-xs text-gray-500">
+                      {t('community.budget_guidance', 'Setting a clear budget attracts more focused bids')}
+                    </p>
+                  </div>
+
+                  <div className="grid grid-cols-3 gap-3">
+                    <div>
+                      <label htmlFor="min" className="block text-xs font-medium text-gray-700 mb-1.5">
+                        {t('community.from_price', 'Min')}
+                      </label>
+                      <input
+                        type="number"
+                        id="min"
+                        name="min"
+                        value={formData.budget.min || ''}
+                        onChange={handleBudgetChange}
+                        placeholder="0"
+                        min="0"
+                        className="w-full px-3 py-3 border border-amber-200 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-700/30 focus:border-indigo-700 transition-all duration-200 bg-white"
+                      />
+                    </div>
+                    <div>
+                      <label htmlFor="max" className="block text-xs font-medium text-gray-700 mb-1.5">
+                        {t('community.to_price', 'Max')}
+                      </label>
+                      <input
+                        type="number"
+                        id="max"
+                        name="max"
+                        value={formData.budget.max || ''}
+                        onChange={handleBudgetChange}
+                        placeholder="500"
+                        min="0"
+                        className="w-full px-3 py-3 border border-amber-200 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-700/30 focus:border-indigo-700 transition-all duration-200 bg-white"
+                      />
+                    </div>
+                    <div>
+                      <label htmlFor="currency" className="block text-xs font-medium text-gray-700 mb-1.5">
+                        {t('community.currency', 'Currency')}
+                      </label>
+                      <select
+                        id="currency"
+                        name="currency"
+                        value={formData.budget.currency}
+                        onChange={handleBudgetChange}
+                        className="w-full px-3 py-3 border border-amber-200 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-700/30 focus:border-indigo-700 transition-all duration-200 bg-white"
+                      >
+                        <option value="MAD">MAD</option>
+                        <option value="USD">USD</option>
+                        <option value="EUR">EUR</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  {validationErrors.budget && (
+                    <p className="mt-2 text-xs text-rose-700">{validationErrors.budget}</p>
+                  )}
+
+                  {/* Budget hint */}
+                  <div className="mt-3 flex items-center gap-2 px-3 py-2.5 rounded-xl bg-amber-50 ring-1 ring-amber-200">
+                    <Sparkles size={13} className="text-amber-600 shrink-0" />
+                    <p className="text-xs text-amber-800">
+                      {t('community.budget_hint', 'Setting a clear budget attracts more focused bids.')}
+                    </p>
+                  </div>
+                </section>
+
+                {/* ── SECTION: Timeline ────────────────────────────────────── */}
+                <section className="px-6 py-6">
+                  <div className="mb-4">
+                    <h3 className="text-sm font-semibold text-gray-900 mb-0.5 flex items-center gap-1.5">
+                      <Clock size={14} className="text-indigo-700" />
+                      {t('community.timeline_section', 'Timeline')}
+                    </h3>
+                    <p className="text-xs text-gray-500">
+                      {t('community.timeline_estimate', 'How long do you need for completion?')}
+                    </p>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-3">
+                    <input
+                      type="number"
+                      id="timelineValue"
+                      name="timelineValue"
+                      value={formData.timelineValue}
+                      onChange={handleInputChange}
+                      placeholder="1"
+                      min="1"
+                      className="w-full px-4 py-3 border border-amber-200 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-700/30 focus:border-indigo-700 transition-all duration-200 bg-white"
+                    />
+                    <select
+                      id="timelineUnit"
+                      name="timelineUnit"
+                      value={formData.timelineUnit}
+                      onChange={handleInputChange}
+                      className="w-full px-4 py-3 border border-amber-200 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-700/30 focus:border-indigo-700 transition-all duration-200 bg-white"
+                    >
+                      <option value="days">{t('community.timeline_days', 'Days')}</option>
+                      <option value="weeks">{t('community.timeline_weeks', 'Weeks')}</option>
+                      <option value="months">{t('community.timeline_months', 'Months')}</option>
+                    </select>
+                  </div>
+                </section>
+
+                {/* ── SECTION: Submit ──────────────────────────────────────── */}
+                <section className="px-6 py-6 bg-amber-50/40">
+                  {error && (
+                    <div className="mb-5 p-4 bg-rose-50 ring-1 ring-rose-200 rounded-2xl">
+                      <p className="text-sm text-rose-700">{error}</p>
+                    </div>
+                  )}
+
+                  <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+                    <p className="text-xs text-gray-500 text-center sm:text-start">
+                      {t('community.sellers_will_contact', 'Artisans will respond to your request with proposals')}
+                    </p>
+
+                    <button
+                      type="submit"
+                      disabled={isLoading}
+                      className="inline-flex items-center justify-center gap-2 px-7 py-3 min-h-[44px] bg-indigo-700 hover:bg-indigo-800 disabled:bg-gray-300 text-white rounded-full text-sm font-semibold transition-colors duration-200 shrink-0"
+                    >
+                      {isLoading ? (
+                        <>
+                          <svg
+                            className="animate-spin h-4 w-4 text-white"
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                          >
+                            <circle
+                              className="opacity-25"
+                              cx="12"
+                              cy="12"
+                              r="10"
+                              stroke="currentColor"
+                              strokeWidth="4"
+                            />
+                            <path
+                              className="opacity-75"
+                              fill="currentColor"
+                              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                            />
+                          </svg>
+                          {t('common.submitting', 'Submitting…')}
+                        </>
+                      ) : (
+                        t('community.submit_request', 'نشر الطلب')
+                      )}
+                    </button>
+                  </div>
+                </section>
+              </form>
             </div>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-0">
-            {/* Image Upload Section */}
-            <div className="p-6 border-b border-amber-200">
-              <div className="mb-4">
-                <h3 className="text-sm font-medium text-gray-900 mb-1 flex items-center gap-1.5">
-                  <ImageIcon size={16} className="text-indigo-700" />
-                  {t('community.create_request_step3', 'Add photos to help sellers understand')}
-                </h3>
-                <p className="text-xs text-gray-600">
-                  {t('community.photos_catch_attention', 'Photos help explain your request better')}
-                </p>
-              </div>
-
-              {/* Drag & Drop Area */}
-              <div
-                onDragEnter={handleDragEnter}
-                onDragLeave={handleDragLeave}
-                onDragOver={handleDragOver}
-                onDrop={handleDrop}
-                className={`
-                  relative group cursor-pointer flex flex-col justify-center items-center p-6 border-2 border-dashed
-                  rounded-2xl transition-all duration-200 bg-white
-                  ${isDragActive ? 'border-indigo-500 bg-amber-50/40' : 'border-amber-200 hover:border-amber-300'}
-                  ${validationErrors.images ? 'border-rose-300 bg-rose-50' : ''}
-                `}
-              >
-                <input
-                  ref={fileInputRef}
-                  type="file"
-                  className="hidden"
-                  accept="image/jpeg,image/png,image/gif,image/webp"
-                  multiple
-                  onChange={handleImageChange}
-                  onClick={(e) => {
-                    (e.target as HTMLInputElement).value = '';
-                  }}
-                />
-
-                <div className="mb-3 rounded-full bg-amber-50 ring-1 ring-amber-200 p-3">
-                  <ImageIcon size={28} className="text-amber-400" />
-                </div>
-
-                <p className="text-sm font-medium text-indigo-700 mb-1">
-                  {isDragActive ? t('community.drag_photos_here') : t('community.drag_drop_images')}
-                </p>
-                <p className="text-xs text-gray-500 text-center mb-4">
-                  {t('community.or_click_to_select')}
-                </p>
-
-                <button
-                  type="button"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    openFileDialog();
-                  }}
-                  className="inline-flex items-center gap-2 px-5 py-2.5 min-h-[44px] text-sm font-semibold text-white bg-indigo-700 rounded-full hover:bg-indigo-800 transition-colors duration-200"
-                >
-                  <ImageIcon size={14} />
-                  {t('community.select_files')}
-                </button>
-
-                <p className="text-xs text-gray-400 mt-3 text-center">
-                  {t('community.image_formats')}
-                </p>
-              </div>
-
-              {/* Image Error Message */}
-              {validationErrors.images && (
-                <div className="mt-4 p-3 bg-rose-50 ring-1 ring-rose-200 rounded-2xl">
-                  <p className="text-sm font-medium text-rose-700">{t('community.please_fix_errors')}</p>
-                  <p className="text-sm text-rose-700">{validationErrors.images}</p>
-                </div>
-              )}
-
-              {/* Image Previews */}
-              {previewImages.length > 0 && (
-                <div className="mt-5">
-                  <h4 className="text-xs font-medium text-gray-700 mb-3 font-mono tracking-[0.15em] uppercase">
-                    {t('community.uploaded_images', 'Uploaded Images')} ({previewImages.length})
-                  </h4>
-                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-                    {previewImages.map((preview, index) => (
-                      <div key={index} className="relative group">
-                        <img
-                          src={preview}
-                          alt={`Preview ${index + 1}`}
-                          className="w-full h-24 object-cover rounded-2xl ring-1 ring-amber-200"
-                        />
-                        <button
-                          type="button"
-                          onClick={() => removeImage(index)}
-                          className="absolute -top-2 -end-2 w-7 h-7 bg-rose-700 text-white rounded-full flex items-center justify-center hover:bg-rose-800 transition-colors shadow-md"
-                        >
-                          <X size={12} />
-                        </button>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-            </div>
-            
-            {/* Title and Description Section */}
-            <div className="p-6 border-b border-amber-200">
-              {/* Title Field */}
-              <div className="mb-5">
-                <label htmlFor="title" className="block text-sm font-medium text-gray-900 mb-1.5">
-                  {t('common.title', 'Title')}
-                </label>
-                <input
-                  id="title"
-                  name="title"
-                  value={formData.title}
-                  onChange={handleInputChange}
-                  placeholder={t('community.create_request_step2', 'Give your request a title')}
-                  maxLength={100}
-                  className={`
-                    w-full px-4 py-3 border rounded-2xl focus:ring-2 focus:ring-indigo-700/30 focus:border-indigo-700 transition-all duration-200 text-sm
-                    ${validationErrors.title ? 'border-rose-300 bg-rose-50' : 'border-amber-200'}
-                  `}
-                />
-                {validationErrors.title && (
-                  <p className="mt-1 text-xs text-rose-700">{validationErrors.title}</p>
-                )}
-                <div className="mt-1 text-xs text-end text-gray-400">
-                  {formData.title.length}/100
-                </div>
-              </div>
-
-              {/* Description Field */}
-              <div>
-                <label htmlFor="description" className="block text-sm font-medium text-gray-900 mb-1.5">
-                  {t('community.description', 'Description')}
-                </label>
-                <textarea
-                  id="description"
-                  name="description"
-                  value={formData.description}
-                  onChange={handleInputChange}
-                  placeholder={t('community.custom_request_explanation', 'Describe what you need in detail')}
-                  rows={5}
-                  className={`
-                    w-full px-4 py-3 border rounded-2xl focus:ring-2 focus:ring-indigo-700/30 focus:border-indigo-700 transition-all duration-200 text-sm resize-none
-                    ${validationErrors.description ? 'border-rose-300 bg-rose-50' : 'border-amber-200'}
-                  `}
-                />
-                {validationErrors.description && (
-                  <p className="mt-1 text-xs text-rose-700">{validationErrors.description}</p>
-                )}
-                <div className="mt-1 text-xs text-end text-gray-400">
-                  {formData.description.length}/500
-                </div>
-              </div>
-            </div>
-
-            {/* Category Section */}
-            <div className="p-6 border-b border-amber-200">
-              <div className="mb-3">
-                <label htmlFor="categoryId" className="block text-sm font-medium text-gray-900 mb-1 flex items-center gap-1.5">
-                  <Tag size={15} className="text-indigo-700" />
-                  {t('community.category_name', 'Category')}
-                </label>
-                <p className="text-xs text-gray-600">
-                  {t('community.pick_category', 'Select a category that best matches your request')}
-                </p>
-              </div>
-
-              <select
-                id="categoryId"
-                name="categoryId"
-                value={formData.categoryId}
-                onChange={handleInputChange}
-                className={`
-                  w-full px-4 py-3 border rounded-2xl focus:ring-2 focus:ring-indigo-700/30 focus:border-indigo-700 transition-all duration-200 text-sm bg-white
-                  ${validationErrors.categoryId ? 'border-rose-300 bg-rose-50' : 'border-amber-200'}
-                `}
-              >
-                <option value="">{t('community.select_category', 'اختار الصنف')}</option>
-                {categories.map((category) => (
-                  <option key={category.id} value={category.id}>
-                    {isRTL ? category.name_ar : category.name}
-                  </option>
-                ))}
-              </select>
-              {validationErrors.categoryId && (
-                <p className="mt-2 text-xs text-rose-700">{validationErrors.categoryId}</p>
-              )}
-            </div>
-
-            {/* Budget Section */}
-            <div className="p-6 border-b border-amber-200">
-              <div className="mb-3">
-                <label className="block text-sm font-medium text-gray-900 mb-1 flex items-center gap-1.5">
-                  <Wallet size={15} className="text-indigo-700" />
-                  {t('community.budget_section')}
-                </label>
-                <p className="text-xs text-gray-600">
-                  {t('community.budget_guidance')}
-                </p>
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                <div>
-                  <label htmlFor="min" className="block text-sm font-medium text-gray-900 mb-1.5">
-                    {t('community.from_price', 'Min')}
-                  </label>
-                  <input
-                    type="number"
-                    id="min"
-                    name="min"
-                    value={formData.budget?.min || ''}
-                    onChange={handleBudgetChange}
-                    placeholder="0"
-                    className="w-full px-4 py-3 border border-amber-200 rounded-2xl focus:ring-2 focus:ring-indigo-700/30 focus:border-indigo-700 transition-all duration-200 text-sm"
-                  />
-                </div>
-                <div>
-                  <label htmlFor="max" className="block text-sm font-medium text-gray-900 mb-1.5">
-                    {t('community.to_price', 'Max')}
-                  </label>
-                  <input
-                    type="number"
-                    id="max"
-                    name="max"
-                    value={formData.budget?.max || ''}
-                    onChange={handleBudgetChange}
-                    placeholder="1000"
-                    className="w-full px-4 py-3 border border-amber-200 rounded-2xl focus:ring-2 focus:ring-indigo-700/30 focus:border-indigo-700 transition-all duration-200 text-sm"
-                  />
-                </div>
-                <div>
-                  <label htmlFor="currency" className="block text-sm font-medium text-gray-900 mb-1.5">
-                    {t('community.currency', 'Currency')}
-                  </label>
-                  <select
-                    id="currency"
-                    name="currency"
-                    value={formData.budget?.currency || 'MAD'}
-                    onChange={handleBudgetChange}
-                    className="w-full px-4 py-3 border border-amber-200 rounded-2xl focus:ring-2 focus:ring-indigo-700/30 focus:border-indigo-700 transition-all duration-200 text-sm"
-                  >
-                    <option value="MAD">{t('common.currency_mad', 'MAD')}</option>
-                    <option value="USD">{t('common.currency_usd', 'USD')}</option>
-                    <option value="EUR">{t('common.currency_eur', 'EUR')}</option>
-                  </select>
-                </div>
-              </div>
-              {validationErrors.budget && (
-                <p className="mt-2 text-xs text-rose-700">{validationErrors.budget}</p>
-              )}
-              {/* Amber hint for positive budget signals */}
-              <p className="mt-2 text-xs text-amber-700 font-medium">
-                {t('community.budget_hint', 'Setting a clear budget attracts more focused bids.')}
-              </p>
-            </div>
-
-            {/* Timeline Section */}
-            <div className="p-6 border-b border-amber-200">
-              <div className="mb-3">
-                <label htmlFor="timelineValue" className="block text-sm font-medium text-gray-900 mb-1 flex items-center gap-1.5">
-                  <Clock size={15} className="text-indigo-700" />
-                  {t('community.timeline_section', 'الوقت اللي كتحتاجو فيه')}
-                </label>
-                <p className="text-xs text-gray-600">
-                  {t('community.timeline_estimate', 'شحال من وقت محتاج باش يتكمل؟')}
-                </p>
-              </div>
-
-              <div className="grid grid-cols-2 gap-4">
-                <input
-                  type="number"
-                  id="timelineValue"
-                  name="timelineValue"
-                  value={formData.timelineValue || ''}
-                  onChange={handleInputChange}
-                  placeholder="1"
-                  min="1"
-                  className="w-full px-4 py-3 border border-amber-200 rounded-2xl focus:ring-2 focus:ring-indigo-700/30 focus:border-indigo-700 transition-all duration-200 text-sm"
-                />
-                <select
-                  id="timelineUnit"
-                  name="timelineUnit"
-                  value={formData.timelineUnit || 'weeks'}
-                  onChange={handleInputChange}
-                  className="w-full px-4 py-3 border border-amber-200 rounded-2xl focus:ring-2 focus:ring-indigo-700/30 focus:border-indigo-700 transition-all duration-200 text-sm"
-                >
-                  <option value="days">{t('community.timeline_days', 'أيام')}</option>
-                  <option value="weeks">{t('community.timeline_weeks', 'أسابيع')}</option>
-                  <option value="months">{t('community.timeline_months', 'شهور')}</option>
-                </select>
-              </div>
-            </div>
-            
-            {/* Submit Section */}
-            <div className="p-6">
-              <div className="text-center mb-5">
-                <p className="text-xs font-medium text-gray-700 flex items-center justify-center gap-1.5 mb-1">
-                  <Share2 size={14} className="text-indigo-700" />
-                  {t('community.share_request', 'نشر الطلب')}
-                </p>
-                <p className="text-xs text-gray-600">
-                  {t('community.sellers_will_contact', 'البايعين غادي يتواصلو معاك')}
-                </p>
-              </div>
-
-              {error && (
-                <div className="mb-5 p-4 bg-rose-50 ring-1 ring-rose-200 rounded-2xl">
-                  <p className="text-sm text-rose-700">{error}</p>
-                </div>
-              )}
-
-              <div className="flex justify-center">
-                {isLoading ? (
-                  <button
-                    type="button"
-                    disabled
-                    className="inline-flex items-center gap-2 px-6 py-3 min-h-[44px] bg-gray-300 text-white rounded-full text-sm font-semibold"
-                  >
-                    <svg className="animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                    </svg>
-                    {t('common.submitting', 'Submitting...')}
-                  </button>
-                ) : (
-                  <button
-                    type="submit"
-                    className="inline-flex items-center gap-2 px-6 py-3 min-h-[44px] bg-indigo-700 hover:bg-indigo-800 text-white rounded-full text-sm font-semibold transition-colors duration-200"
-                  >
-                    {t('community.submit_request', 'نشر الطلب')}
-                  </button>
-                )}
-              </div>
-            </div>
-          </form>
+          {/* ── PREVIEW COLUMN (lg+) ─────────────────────────────────────── */}
+          <PreviewAside
+            title={formData.title}
+            description={formData.description}
+            categoryName={selectedCategoryName}
+            budget={formData.budget}
+            timeline={timelineString}
+            requiredSkills={requiredSkills.map(
+              (key) =>
+                (isRTL
+                  ? AVAILABLE_SKILLS.find((s) => s.key === key)?.ar
+                  : AVAILABLE_SKILLS.find((s) => s.key === key)?.en) || key
+            )}
+            imageCount={previewImages.length}
+            isRTL={isRTL}
+            t={t}
+          />
         </div>
       </div>
     </div>

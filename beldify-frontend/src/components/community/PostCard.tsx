@@ -1,17 +1,22 @@
+'use client';
+
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import Link from 'next/link';
 import {
   ImageIcon,
-  Tag,
   Wallet,
   Calendar,
   User,
-  Heart,
   MessageSquare,
-  Sparkles
+  Sparkles,
+  Clock,
+  Users,
 } from 'lucide-react';
+import { formatDistanceToNow } from 'date-fns';
+import { ar } from 'date-fns/locale';
 import type { CommunityPost } from '@/types/community';
+import { useDirection } from '@/hooks/useDirection';
 
 interface PostCardProps {
   post: CommunityPost & {
@@ -21,93 +26,140 @@ interface PostCardProps {
   isUserPost?: boolean;
 }
 
-export default function PostCard({ post, isUserPost = false }: PostCardProps) {
-  const { t } = useTranslation();
-
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString();
-  };
-
-  const formatPrice = (price: any) => {
-    if (!price) return '';
-
-    if (typeof price === 'object' && price.min !== undefined && price.max !== undefined) {
-      const min = typeof price.min === 'string' ? parseFloat(price.min) : price.min;
-      const max = typeof price.max === 'string' ? parseFloat(price.max) : price.max;
-      if (isNaN(min) || isNaN(max)) return '';
-      const currency = price.currency || 'MAD';
+/** Format MAD budget range from various API shapes */
+function formatBudget(post: CommunityPost): string {
+  // Normalised budget object
+  if (post.budget && typeof post.budget === 'object') {
+    const min =
+      typeof post.budget.min === 'string'
+        ? parseFloat(post.budget.min)
+        : post.budget.min;
+    const max =
+      typeof post.budget.max === 'string'
+        ? parseFloat(post.budget.max)
+        : post.budget.max;
+    if (!isNaN(min) && !isNaN(max)) {
+      const currency = post.budget.currency || post.currency || 'MAD';
       return `${min.toLocaleString()} – ${max.toLocaleString()} ${currency}`;
     }
-
-    const numPrice = typeof price === 'string' ? parseFloat(price) : price;
-    if (isNaN(numPrice)) return '';
-    const currency = (price as any)?.currency || 'MAD';
-
-    return `${numPrice.toLocaleString()} ${currency}`;
-  };
-
-  const getImageSrc = (image: string | { url: string; alt?: string } | any): string => {
-    if (typeof image === 'string') {
-      return image;
+  }
+  // Flat budget_min / budget_max fields
+  const rawMin = post.budget_min;
+  const rawMax = post.budget_max;
+  if (rawMin != null && rawMax != null) {
+    const min = typeof rawMin === 'string' ? parseFloat(rawMin) : rawMin;
+    const max = typeof rawMax === 'string' ? parseFloat(rawMax) : rawMax;
+    if (!isNaN(min) && !isNaN(max)) {
+      const currency = post.currency || 'MAD';
+      return `${min.toLocaleString()} – ${max.toLocaleString()} ${currency}`;
     }
-    if (image && typeof image === 'object' && image.url) {
-      return image.url;
-    }
-    return '';
-  };
+  }
+  return '';
+}
 
-  // Tetouani craft keywords — show amber pill
+function getImageSrc(image: string | { url?: string; image_path?: string } | any): string {
+  if (typeof image === 'string') return image;
+  if (image && typeof image === 'object') {
+    return image.url || image.image_path || '';
+  }
+  return '';
+}
+
+/** Relative time — respects locale */
+function timeAgo(dateString: string, isRTL: boolean): string {
+  try {
+    return formatDistanceToNow(new Date(dateString), {
+      addSuffix: true,
+      locale: isRTL ? ar : undefined,
+    });
+  } catch {
+    return dateString;
+  }
+}
+
+/** Status pill classes — Atlas design-system colours */
+function statusPillClasses(status: string): string {
+  switch (status) {
+    case 'open':
+      return 'bg-amber-100 text-amber-800 ring-1 ring-amber-200'; // amber = pending/open
+    case 'in_progress':
+      return 'bg-indigo-100 text-indigo-700 ring-1 ring-indigo-200'; // indigo = active
+    case 'completed':
+      return 'bg-emerald-100 text-emerald-700 ring-1 ring-emerald-200'; // green = done
+    default:
+      return 'bg-gray-100 text-gray-600';
+  }
+}
+
+// Tetouani craft keywords — show amber craft-origin pill
+const TETOUANI_KEYWORDS = ['caftan', 'djellaba', 'kandora', 'takchita', 'tarz', 'zellige', 'babouche'];
+
+export default function PostCard({ post, isUserPost = false }: PostCardProps) {
+  const { t } = useTranslation();
+  const { isRTL } = useDirection();
+
+  const budgetDisplay = formatBudget(post);
+
   const titleLower = post.title?.toLowerCase() || '';
   const descLower = post.description?.toLowerCase() || '';
-  const hasTetouaniKeyword =
-    titleLower.includes('caftan') ||
-    titleLower.includes('djellaba') ||
-    titleLower.includes('kandora') ||
-    titleLower.includes('takchita') ||
-    descLower.includes('caftan') ||
-    descLower.includes('djellaba') ||
-    descLower.includes('kandora') ||
-    descLower.includes('takchita');
-
+  const hasTetouaniKeyword = TETOUANI_KEYWORDS.some(
+    kw => titleLower.includes(kw) || descLower.includes(kw)
+  );
   const locationIsTetouan =
     (post as any).location?.toLowerCase()?.includes('tetouan') ||
     (post as any).location?.toLowerCase()?.includes('tétouan');
 
-  const statusBadgeClass =
-    post.status === 'open'
-      ? 'bg-amber-100 text-amber-800 ring-1 ring-amber-200'
-      : post.status === 'in_progress'
-      ? 'bg-indigo-100 text-indigo-700'
-      : 'bg-gray-100 text-gray-700';
+  // Normalise required skills from both naming conventions
+  const skills: string[] =
+    post.required_skills ??
+    post.requiredSkills ??
+    [];
+
+  // proposal_count — both naming conventions
+  const proposalCount = post.proposal_count ?? post.proposalCount;
+
+  // Buyer info — prefer `buyer` mini-profile, fall back to legacy fields
+  const buyerName =
+    post.buyer?.name ||
+    post.userName ||
+    post.user?.name ||
+    t('community.anonymous', 'Anonymous');
+
+  const buyerAvatar =
+    post.buyer?.avatar ||
+    post.userAvatar ||
+    post.user?.avatar;
+
+  const postedAt = post.created_at || post.createdAt;
 
   return (
-    <Link href={`/community/posts/${post.id}`}>
-      <div className="bg-white rounded-2xl ring-1 ring-amber-200 hover:ring-amber-300 hover:-translate-y-0.5 hover:shadow-atlas-md transition-all duration-200 overflow-hidden">
-        {/* Image Section */}
-        <div className="relative h-40 bg-amber-50">
+    <Link href={`/community/posts/${post.id}`} className="block group">
+      <article className="bg-white rounded-2xl ring-1 ring-amber-200 hover:ring-amber-300 hover:-translate-y-0.5 hover:shadow-md transition-all duration-200 overflow-hidden h-full flex flex-col">
+        {/* ── Image band ── */}
+        <div className="relative h-40 bg-amber-50 shrink-0 overflow-hidden">
           {post.images && post.images.length > 0 ? (
             <img
               src={getImageSrc(post.images[0])}
               alt={post.title}
-              className="w-full h-full object-cover"
+              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
+              loading="lazy"
             />
           ) : (
             <div className="w-full h-full flex items-center justify-center">
-              <ImageIcon className="h-12 w-12 text-amber-300" />
+              <ImageIcon className="h-10 w-10 text-amber-200" />
             </div>
           )}
 
-          {/* Status Badge */}
+          {/* Status pill — top-start */}
           {post.status && (
             <div className="absolute top-2 start-2">
-              <span className={`px-2 py-1 rounded-full text-xs font-medium ${statusBadgeClass}`}>
+              <span className={`px-2.5 py-1 rounded-full text-[11px] font-semibold leading-none ${statusPillClasses(post.status)}`}>
                 {t(`community.status.${post.status}`, post.status)}
               </span>
             </div>
           )}
 
-          {/* Tetouani craft pill */}
+          {/* Tetouani craft origin badge */}
           {hasTetouaniKeyword && (
             <div className="absolute bottom-2 start-2">
               <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-amber-100 text-amber-800 text-[10px] font-semibold uppercase tracking-wide ring-1 ring-amber-200">
@@ -116,94 +168,129 @@ export default function PostCard({ post, isUserPost = false }: PostCardProps) {
             </div>
           )}
 
-          {/* User Post Badge */}
+          {/* Your Post badge */}
           {isUserPost && (
             <div className="absolute top-2 end-2">
-              <span className="px-2 py-1 bg-indigo-700 text-white rounded-full text-xs font-medium">
+              <span className="px-2 py-1 bg-indigo-700 text-white rounded-full text-[11px] font-semibold">
                 {t('community.your_post', 'Your Post')}
               </span>
             </div>
           )}
         </div>
 
-        {/* Content Section */}
-        <div className="p-4">
+        {/* ── Body ── */}
+        <div className="p-4 flex flex-col flex-1 gap-2.5">
+          {/* Category eyebrow */}
+          {post.category && (
+            <p className="text-xs uppercase tracking-[0.14em] text-amber-700 font-medium leading-none">
+              {typeof post.category === 'string'
+                ? t(`community.category.${post.category}`, post.category)
+                : post.category.name}
+            </p>
+          )}
+
           {/* Title */}
-          <h3 className="font-semibold text-gray-900 mb-2 line-clamp-2 text-base">
+          <h3
+            className="font-semibold text-gray-900 line-clamp-2 text-sm leading-snug"
+            style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
+          >
             {post.title}
           </h3>
 
           {/* Description */}
           {post.description && (
-            <p className="text-gray-600 text-xs mb-3 line-clamp-2">
+            <p className="text-gray-500 text-xs line-clamp-2 leading-relaxed">
               {post.description}
             </p>
           )}
 
-          {/* Metadata */}
-          <div className="space-y-2 mb-3">
-            {/* Category */}
-            {post.category && (
-              <div className="flex items-center gap-1.5">
-                <Tag className="h-3 w-3 text-gray-400" />
-                <span className="text-xs text-gray-600">
-                  {typeof post.category === 'string'
-                    ? t(`community.category.${post.category}`, post.category)
-                    : (post.category.name || t('community.category.other', 'Other'))}
+          {/* Required skills chips */}
+          {skills.length > 0 && (
+            <div className="flex flex-wrap gap-1">
+              {skills.slice(0, 4).map(skill => (
+                <span
+                  key={skill}
+                  className="px-2 py-0.5 rounded-full bg-indigo-50 text-indigo-700 text-[10px] font-medium ring-1 ring-indigo-100"
+                >
+                  {skill}
                 </span>
-              </div>
-            )}
+              ))}
+              {skills.length > 4 && (
+                <span className="px-2 py-0.5 rounded-full bg-gray-50 text-gray-500 text-[10px] font-medium">
+                  +{skills.length - 4}
+                </span>
+              )}
+            </div>
+          )}
 
+          {/* Metadata strip */}
+          <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mt-auto">
             {/* Budget */}
-            {post.budget && (
-              <div className="flex items-center gap-1.5">
-                <Wallet className="h-3 w-3 text-gray-400" />
-                <span className="currency-mad text-xs text-amber-700 font-medium">
-                  {formatPrice(post.budget)}
-                </span>
-              </div>
+            {budgetDisplay && (
+              <span className="currency-mad inline-flex items-center gap-1 text-xs text-indigo-700 font-semibold">
+                <Wallet size={11} className="shrink-0 text-indigo-400" />
+                {budgetDisplay}
+              </span>
             )}
 
-            {/* Date — plain, scannable */}
-            {post.created_at && (
-              <div className="flex items-center gap-1.5">
-                <Calendar className="h-3 w-3 text-gray-400" />
-                <span className="text-xs text-gray-500">
-                  {formatDate(post.created_at)}
-                </span>
-              </div>
+            {/* Timeline */}
+            {post.timeline && (
+              <span className="inline-flex items-center gap-1 text-xs text-gray-500">
+                <Clock size={11} className="shrink-0 text-gray-400" />
+                {post.timeline}
+              </span>
             )}
           </div>
 
-          {/* User Info */}
-          <div className="flex items-center justify-between pt-3 border-t border-amber-100">
-            <div className="flex items-center gap-2">
-              <div className="w-6 h-6 bg-amber-100 rounded-full ring-1 ring-amber-200 flex items-center justify-center">
-                <User className="h-3 w-3 text-amber-800" />
-              </div>
-              <span className="text-xs text-gray-600 font-medium">
-                {post.userName || post.user?.name || t('community.anonymous', 'Anonymous')}
+          {/* Footer — buyer info + proposal count + posted-time */}
+          <div className="flex items-center justify-between pt-2.5 border-t border-amber-100 mt-1">
+            {/* Buyer */}
+            <div className="flex items-center gap-1.5 min-w-0">
+              {buyerAvatar ? (
+                <img
+                  src={buyerAvatar}
+                  alt={buyerName}
+                  className="w-6 h-6 rounded-full ring-1 ring-amber-300 object-cover shrink-0"
+                  loading="lazy"
+                />
+              ) : (
+                <div className="w-6 h-6 bg-amber-100 rounded-full ring-1 ring-amber-200 flex items-center justify-center shrink-0">
+                  <User size={11} className="text-amber-800" />
+                </div>
+              )}
+              <span className="text-xs text-gray-600 font-medium truncate max-w-[80px]">
+                {buyerName}
               </span>
             </div>
 
-            {/* Engagement */}
-            <div className="flex items-center gap-3">
-              {post.likes_count !== undefined && (
-                <div className="flex items-center gap-1">
-                  <Heart className="h-3 w-3 text-gray-400" />
-                  <span className="text-xs text-gray-500">{post.likes_count}</span>
-                </div>
+            {/* Right column: proposal count + time */}
+            <div className="flex items-center gap-2.5 shrink-0">
+              {proposalCount !== undefined && (
+                <span className="inline-flex items-center gap-0.5 text-[11px] text-gray-500">
+                  <Users size={11} className="shrink-0" />
+                  <span>
+                    {proposalCount}{' '}
+                    {t('openSouk.proposals', 'proposals')}
+                  </span>
+                </span>
               )}
+
               {post.comments_count !== undefined && (
-                <div className="flex items-center gap-1">
-                  <MessageSquare className="h-3 w-3 text-gray-400" />
-                  <span className="text-xs text-gray-500">{post.comments_count}</span>
-                </div>
+                <span className="inline-flex items-center gap-0.5 text-[11px] text-gray-500">
+                  <MessageSquare size={11} className="shrink-0" />
+                  {post.comments_count}
+                </span>
+              )}
+
+              {postedAt && (
+                <span className="text-[11px] text-gray-400">
+                  {timeAgo(postedAt, isRTL)}
+                </span>
               )}
             </div>
           </div>
         </div>
-      </div>
+      </article>
     </Link>
   );
 }

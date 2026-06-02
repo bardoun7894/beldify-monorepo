@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { CommunityPost, CommunityResponse, CommunityPostFormData, CommunityResponseFormData, Shop, Message } from '@/types/community';
+import { CommunityPost, CommunityResponse, CommunityPostFormData, CommunityResponseFormData, Shop, Message, SellerCommunityStats, JobFilters, JobSort } from '@/types/community';
 import { getMockShop, getMockMessages, addMockMessage } from '@/mocks/mockMessagingData';
 import logger from '@/utils/consoleLogger'; 
 
@@ -161,26 +161,52 @@ axiosInstance.interceptors.response.use(
 );
 
 /**
- * Fetch community posts with pagination and filters
+ * Fetch community posts (Open Souk jobs) with pagination and filters.
+ *
+ * Supports both the legacy filter keys (category_id, status, color, style,
+ * search) and the new Open Souk keys (budget_min, budget_max, skills, q,
+ * sort, limit) so existing call-sites continue to work unchanged.
  */
 export const fetchCommunityPosts = async (
-  filters: { category_id?: string; status?: string; color?: string; style?: string; search?: string },
+  filters: JobFilters & {
+    color?: string;
+    style?: string;
+    /** @deprecated Use `q` instead */
+    search?: string;
+  },
   page: number = 1,
-  per_page: number = 12
+  per_page: number = 12,
+  sort?: JobSort,
+  limit?: number
 ): Promise<PaginatedPosts> => {
   const params = new URLSearchParams();
-  
-  // Add pagination params
+
+  // Pagination
   params.append('page', page.toString());
   params.append('per_page', per_page.toString());
-  
-  // Add filters if provided
+
+  // Legacy filters (backward-compat)
   if (filters.category_id) params.append('category_id', filters.category_id);
   if (filters.status) params.append('status', filters.status);
-  if (filters.color) params.append('color', filters.color);
-  if (filters.style) params.append('style', filters.style);
-  if (filters.search) params.append('search', filters.search);
-  
+  if (filters.color) params.append('color', filters.color ?? '');
+  if (filters.style) params.append('style', filters.style ?? '');
+
+  // Search: `q` takes precedence; fall back to `search` for old call-sites
+  const searchQuery = filters.q ?? filters.search;
+  if (searchQuery) params.append('q', searchQuery);
+
+  // New Open Souk filters
+  if (filters.budget_min != null) params.append('budget_min', String(filters.budget_min));
+  if (filters.budget_max != null) params.append('budget_max', String(filters.budget_max));
+  if (filters.skills && filters.skills.length > 0) {
+    filters.skills.forEach(skill => params.append('skills[]', skill));
+  }
+
+  // Sort and limit
+  const resolvedSort = sort ?? (filters as any).sort;
+  if (resolvedSort) params.append('sort', resolvedSort);
+  if (limit != null) params.append('limit', String(limit));
+
   return axiosInstance.get<PaginatedPosts>(`/community/posts?${params.toString()}`)
     .then(response => response.data)
     .catch(error => {
@@ -263,10 +289,30 @@ export const fetchPostResponses = async (postId: string): Promise<CommunityRespo
 };
 
 /**
- * Create a new response for a post
+ * Create a new response (proposal) for a post.
+ *
+ * Accepts either a pre-built FormData or a plain options object. When an
+ * options object is supplied, `delivery_days` is appended to the FormData
+ * sent to the backend (POST /api/v1/seller/community/posts/{post}/respond).
  */
-export const createCommunityResponse = async (postId: string, formData: FormData): Promise<CommunityResponse> => {
-  return axiosInstance.post<ResponseCreationResponse>(`/seller/community/posts/${postId}/respond`, formData, {
+export const createCommunityResponse = async (
+  postId: string,
+  formDataOrOptions:
+    | FormData
+    | { formData: FormData; delivery_days?: number }
+): Promise<CommunityResponse> => {
+  let fd: FormData;
+
+  if (formDataOrOptions instanceof FormData) {
+    fd = formDataOrOptions;
+  } else {
+    fd = formDataOrOptions.formData;
+    if (formDataOrOptions.delivery_days != null) {
+      fd.append('delivery_days', String(formDataOrOptions.delivery_days));
+    }
+  }
+
+  return axiosInstance.post<ResponseCreationResponse>(`/seller/community/posts/${postId}/respond`, fd, {
     headers: {
       'Content-Type': 'multipart/form-data',
     },
@@ -467,6 +513,24 @@ export const getMessages = async (userId: string, page: number = 1, perPage: num
     logger.error('Error fetching messages:', error);
     throw error;
   }
+};
+
+/**
+ * Fetch aggregate community stats for a seller/shop.
+ *
+ * Endpoint: GET /api/v1/community/sellers/{shopId}/stats (public)
+ * Returns avg_rating, completed_jobs, total_proposals, response_rate,
+ * member_since in snake_case exactly matching SellerCommunityStats.
+ */
+export const getSellerStats = async (shopId: string): Promise<SellerCommunityStats> => {
+  return axiosInstance.get<{ success: boolean; data: SellerCommunityStats }>(
+    `/community/sellers/${shopId}/stats`
+  )
+    .then(response => response.data.data)
+    .catch(error => {
+      logger.error(`Error fetching seller stats for shop ${shopId}:`, error);
+      throw error;
+    });
 };
 
 /**

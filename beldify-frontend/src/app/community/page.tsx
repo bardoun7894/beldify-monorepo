@@ -1,205 +1,252 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import {
   Plus,
-  Search,
-  SlidersHorizontal,
+  Sparkles,
+  AlertCircle,
   UserCircle,
   MessagesSquare,
-  Sparkles,
-  ChevronDown
 } from 'lucide-react';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
+
 import { fetchCommunityPosts } from '@/services/communityService';
 import PostCard from '@/components/community/PostCard';
+import JobFiltersPanel from '@/components/community/JobFiltersPanel';
+import JobSortBar from '@/components/community/JobSortBar';
 import Pagination from '@/components/common/Pagination';
-import LoadingSpinner from '@/components/common/LoadingSpinner';
 import { useAuth } from '@/contexts/AuthContext';
-import { useDirection } from '@/hooks/useDirection';
 import type { CommunityPost } from '@/types/community';
-import type { User } from '@/types/auth';
+import type { JobFilters, JobSort } from '@/types/community';
 import logger from '@/utils/consoleLogger';
 
+// ── Skeleton card ─────────────────────────────────────────────────────────────
+function JobCardSkeleton() {
+  return (
+    <div className="bg-white rounded-2xl ring-1 ring-amber-100 overflow-hidden animate-pulse">
+      <div className="h-40 bg-amber-50" />
+      <div className="p-4 space-y-2.5">
+        <div className="h-2 bg-amber-50 rounded-full w-1/4" />
+        <div className="h-3.5 bg-gray-100 rounded-full w-3/4" />
+        <div className="h-3 bg-gray-100 rounded-full w-full" />
+        <div className="h-3 bg-gray-100 rounded-full w-5/6" />
+        <div className="flex gap-1.5 mt-2">
+          <div className="h-4 w-14 bg-indigo-50 rounded-full" />
+          <div className="h-4 w-16 bg-indigo-50 rounded-full" />
+        </div>
+        <div className="flex justify-between pt-2 border-t border-amber-50 mt-1">
+          <div className="flex items-center gap-1.5">
+            <div className="w-6 h-6 bg-amber-50 rounded-full" />
+            <div className="h-2 w-16 bg-gray-100 rounded-full" />
+          </div>
+          <div className="h-2 w-10 bg-gray-100 rounded-full" />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ── Empty state ───────────────────────────────────────────────────────────────
+function EmptyState({ isAuthenticated }: { isAuthenticated: boolean }) {
+  const { t } = useTranslation();
+  return (
+    <div className="text-center py-20">
+      <div className="w-16 h-16 bg-amber-50 rounded-full ring-1 ring-amber-200 flex items-center justify-center mx-auto mb-4">
+        <MessagesSquare size={28} className="text-amber-300" />
+      </div>
+      <h3
+        className="text-lg font-semibold text-gray-900 mb-2"
+        style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
+      >
+        {t('openSouk.feedEmptyTitle', 'The souk is open')}
+      </h3>
+      <p className="text-sm text-gray-500 mb-6 max-w-sm mx-auto leading-relaxed">
+        {t('openSouk.feedEmptyBody', 'Be the first to post a brief — ateliers are watching.')}
+      </p>
+      {isAuthenticated && (
+        <Link
+          href="/community/posts/create"
+          className="inline-flex items-center gap-2 px-5 py-2.5 min-h-[44px] rounded-full bg-indigo-700 text-white text-sm font-semibold hover:bg-indigo-800 transition-colors duration-200"
+        >
+          <Plus size={16} />
+          {t('openSouk.postCta', 'Post to the Open Souk')}
+        </Link>
+      )}
+    </div>
+  );
+}
+
+// ── Error state ───────────────────────────────────────────────────────────────
+function ErrorState({ onRetry }: { onRetry: () => void }) {
+  const { t } = useTranslation();
+  return (
+    <div className="text-center py-16">
+      <div className="w-14 h-14 bg-rose-50 rounded-full ring-1 ring-rose-200 flex items-center justify-center mx-auto mb-3">
+        <AlertCircle size={22} className="text-rose-600" />
+      </div>
+      <h3 className="text-base font-semibold text-gray-900 mb-1">
+        {t('common.errorTitle', 'Something went wrong')}
+      </h3>
+      <p className="text-sm text-gray-500 mb-4">
+        {t('openSouk.feedError', 'Could not load jobs. Please try again.')}
+      </p>
+      <button
+        onClick={onRetry}
+        className="px-4 py-2 bg-indigo-700 text-white rounded-full text-sm font-medium hover:bg-indigo-800 transition-colors duration-200"
+      >
+        {t('common.retry', 'Try again')}
+      </button>
+    </div>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Main Page
+// ─────────────────────────────────────────────────────────────────────────────
 export default function CommunityPage() {
   const { t } = useTranslation();
   const router = useRouter();
   const { isAuthenticated, user } = useAuth();
-  const { isRTL } = useDirection();
   const prefersReducedMotion = useReducedMotion();
 
+  // Feed state
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
   const [posts, setPosts] = useState<CommunityPost[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('');
-  const [selectedStatus, setSelectedStatus] = useState('');
-  const [showFilters, setShowFilters] = useState(false);
 
-  // States for user's own posts
+  // Filter / sort state
+  const [filters, setFilters] = useState<JobFilters>({});
+  const [sort, setSort] = useState<JobSort>('latest');
+  const [searchQuery, setSearchQuery] = useState('');
+
+  // Mobile drawer
+  const [drawerOpen, setDrawerOpen] = useState(false);
+
+  // User posts section
   const [userPosts, setUserPosts] = useState<CommunityPost[]>([]);
   const [loadingUserPosts, setLoadingUserPosts] = useState(false);
 
-  // Fetch posts on mount and when filters change
+  // Debounce ref for search
+  const searchTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // Count active filters for badge
+  const activeFilterCount =
+    (filters.category_id ? 1 : 0) +
+    (filters.budget_min != null ? 1 : 0) +
+    (filters.budget_max != null ? 1 : 0) +
+    (filters.status ? 1 : 0) +
+    (filters.skills?.length ?? 0);
+
+  // ── Fetch public job feed ────────────────────────────────────────────────
+  const loadPosts = useCallback(async () => {
+    setLoading(true);
+    setError(false);
+    try {
+      const response = await fetchCommunityPosts(
+        { ...filters, q: searchQuery || undefined },
+        currentPage,
+        12,
+        sort,
+      );
+      setPosts(response.data);
+      setTotalPages(response.meta?.last_page ?? 1);
+    } catch (err) {
+      logger.error('Error fetching posts:', err);
+      setError(true);
+    } finally {
+      setLoading(false);
+    }
+  }, [filters, searchQuery, currentPage, sort]);
+
   useEffect(() => {
-    const fetchPosts = async () => {
-      setLoading(true);
-      try {
-        const apiFilters: { category_id?: string; status?: string; search?: string; color?: string; style?: string } = {};
-        if (selectedCategory) apiFilters.category_id = selectedCategory;
-        if (selectedStatus) apiFilters.status = selectedStatus;
-        if (searchQuery) apiFilters.search = searchQuery;
+    loadPosts();
+  }, [loadPosts]);
 
-        const response = await fetchCommunityPosts(apiFilters, currentPage, 12);
-        setPosts(response.data);
-        setTotalPages(response.meta.last_page || 1);
-      } catch (err) {
-        logger.error('Error fetching posts:', err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchPosts();
-  }, [currentPage, selectedCategory, selectedStatus, searchQuery]);
-
-  // Fetch user's own posts when user is authenticated
+  // ── Fetch user's own posts ───────────────────────────────────────────────
   useEffect(() => {
-    const fetchUserPosts = async () => {
-      if (!isAuthenticated || !user) {
-        logger.log('User not authenticated or user object missing');
-        return;
-      }
-
-      logger.log('Current user:', user);
-      logger.log('User ID:', user.id, typeof user.id);
-
+    if (!isAuthenticated || !user) return;
+    const fetch = async () => {
       setLoadingUserPosts(true);
       try {
-        logger.log('Fetching all posts to filter by user ID');
         const allPostsResponse = await fetchCommunityPosts({}, 1, 100);
-        logger.log('All posts received:', allPostsResponse.data.length);
-
         const userId = String(user.id);
         const userEmail = user.email?.toLowerCase();
-        const userName = (user.full_name_en || user.full_name_ar || user.username)?.toLowerCase();
+        const userName = (
+          user.full_name_en || user.full_name_ar || user.username
+        )?.toLowerCase();
 
-        logger.log('Looking for posts with user ID:', userId);
-        logger.log('User email:', userEmail);
-        logger.log('User name:', userName);
-
-        const filteredPosts = allPostsResponse.data.filter(post => {
+        const filtered = allPostsResponse.data.filter(post => {
           const postUserId = String(
             post.userId ||
-            // @ts-expect-error - handle possible backend format
+            // @ts-expect-error possible backend format
             post.user_id ||
-            (post.user && post.user.id) ||
+            post.user?.id ||
             ''
           );
-
           const postUser = post.user as any;
           const postUserEmail = postUser?.email?.toLowerCase() || '';
           const postUserName = (
             post.userName?.toLowerCase() ||
-            (postUser?.name || postUser?.full_name_en || postUser?.full_name_ar)?.toLowerCase() ||
+            postUser?.name?.toLowerCase() ||
             ''
           );
-
-          const isIdMatch = postUserId === userId;
-          const isEmailMatch = userEmail && postUserEmail && userEmail === postUserEmail;
-          const isNameMatch = userName && postUserName && userName === postUserName;
-
-          const isMatch = isIdMatch || isEmailMatch || isNameMatch;
-
-          if (isMatch) {
-            logger.log(`Found matching post - ID: ${post.id}, Title: ${post.title}`);
-          }
-
-          return isMatch;
+          return (
+            postUserId === userId ||
+            (userEmail && postUserEmail && userEmail === postUserEmail) ||
+            (userName && postUserName && userName === postUserName)
+          );
         });
-
-        logger.log('Filtered posts:', filteredPosts.length);
-        setUserPosts(filteredPosts);
-
-        try {
-          const token = localStorage.getItem('token');
-          const response = await fetch(`/api/community/user-posts?user_id=${user.id}`, {
-            headers: {
-              Authorization: token ? `Bearer ${token}` : '',
-              'Content-Type': 'application/json',
-            }
-          });
-
-          if (response.ok) {
-            const data = await response.json();
-            logger.log('API response data:', data);
-
-            if (data.data && data.data.length > 0) {
-              const existingPostIds = new Set(filteredPosts.map((p: CommunityPost) => p.id));
-              const newPosts = data.data.filter((p: CommunityPost) => !existingPostIds.has(p.id));
-              if (newPosts.length > 0) {
-                setUserPosts([...filteredPosts, ...newPosts]);
-                logger.log('Added additional posts from API:', newPosts.length);
-              }
-            }
-          } else {
-            logger.error('API endpoint returned error:', response.status);
-          }
-        } catch (apiError) {
-          logger.error('Error calling API endpoint:', apiError);
-        }
+        setUserPosts(filtered);
       } catch (err) {
         logger.error('Error fetching user posts:', err);
       } finally {
         setLoadingUserPosts(false);
       }
     };
-
-    fetchUserPosts();
+    fetch();
   }, [isAuthenticated, user]);
+
+  // ── Handlers ─────────────────────────────────────────────────────────────
+  const handleFiltersChange = (next: JobFilters) => {
+    setFilters(next);
+    setCurrentPage(1);
+  };
+
+  const handleSearch = (q: string) => {
+    // Debounce 300ms
+    if (searchTimer.current) clearTimeout(searchTimer.current);
+    searchTimer.current = setTimeout(() => {
+      setSearchQuery(q);
+      setCurrentPage(1);
+    }, 300);
+  };
+
+  const handleSort = (s: JobSort) => {
+    setSort(s);
+    setCurrentPage(1);
+  };
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault();
-    setCurrentPage(1);
-  };
-
-  const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedCategory(e.target.value);
-    setCurrentPage(1);
-  };
-
-  const handleStatusChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedStatus(e.target.value);
-    setCurrentPage(1);
-  };
-
-  const resetFilters = () => {
-    setSelectedCategory('');
-    setSelectedStatus('');
-    setSearchQuery('');
-    setCurrentPage(1);
-  };
-
+  // ── Render ────────────────────────────────────────────────────────────────
   return (
     <div className="min-h-screen bg-amber-50/30">
-      {/* Editorial Hero Band — indigo-700 dark strip */}
+
+      {/* ── Editorial hero strip ── */}
       <section className="bg-indigo-700 text-white py-12 px-6">
         <div className="max-w-7xl mx-auto">
-          {/* Eyebrow */}
           <p className="text-amber-300 text-xs uppercase tracking-[0.18em] font-medium mb-3">
             {t('openSouk.eyebrow', 'OPEN SOUK')}
           </p>
 
-          {/* Headline */}
           <h1
             className="text-3xl sm:text-4xl font-bold leading-tight mb-3"
             style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
@@ -207,32 +254,34 @@ export default function CommunityPage() {
             {t('openSouk.headline', 'Post your brief. Ateliers come to you.')}
           </h1>
 
-          {/* Subline */}
           <p className="text-indigo-200 text-base max-w-xl mb-6">
-            {t('openSouk.subtitle', 'A reverse marketplace where Tetouani ateliers compete to make your piece.')}
+            {t(
+              'openSouk.subtitle',
+              'A reverse marketplace where Tetouani ateliers compete to make your piece.'
+            )}
           </p>
 
-          {/* CTA row */}
           <div className="flex flex-wrap items-center gap-4">
             {isAuthenticated ? (
               <Link
                 href="/community/posts/create"
-                className="inline-flex items-center gap-2 px-5 py-2.5 min-h-[44px] rounded-full bg-amber-500 text-gray-900 text-sm font-semibold hover:bg-amber-400 transition-colors duration-200"
+                className="inline-flex items-center gap-2 px-5 py-2.5 min-h-[44px] rounded-full bg-amber-500 text-amber-950 text-sm font-semibold hover:bg-amber-400 transition-colors duration-200"
               >
                 <Plus size={16} />
                 {t('openSouk.postCta', 'Post to the Open Souk')}
               </Link>
             ) : (
               <button
-                onClick={() => router.push('/login?redirect=/community/posts/create')}
-                className="inline-flex items-center gap-2 px-5 py-2.5 min-h-[44px] rounded-full bg-amber-500 text-gray-900 text-sm font-semibold hover:bg-amber-400 transition-colors duration-200"
+                onClick={() =>
+                  router.push('/login?redirect=/community/posts/create')
+                }
+                className="inline-flex items-center gap-2 px-5 py-2.5 min-h-[44px] rounded-full bg-amber-500 text-amber-950 text-sm font-semibold hover:bg-amber-400 transition-colors duration-200"
               >
                 <Plus size={16} />
                 {t('openSouk.postCta', 'Post to the Open Souk')}
               </button>
             )}
 
-            {/* Customer-side AI chip */}
             <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-amber-500/20 text-amber-200 text-xs font-medium">
               <Sparkles size={12} className="shrink-0" />
               {t('openSouk.aiTranslateChip', 'AI translates your brief to AR · EN · FR')}
@@ -241,257 +290,168 @@ export default function CommunityPage() {
         </div>
       </section>
 
-      {/* Main content — editorial 2-col split: feed + sticky rail */}
-      <div className="max-w-7xl mx-auto px-6 py-8 grid grid-cols-1 lg:grid-cols-[1fr_20rem] lg:gap-8 lg:items-start">
+      {/* ── Main content: 2-col on desktop (feed | sidebar) ── */}
+      <div className="max-w-7xl mx-auto px-6 py-8">
+        <div className="lg:grid lg:grid-cols-[1fr_20rem] lg:gap-8 lg:items-start">
 
-        {/* ── Rail: how-it-works helper + filters (sticky on desktop) ── */}
-        <aside className="lg:order-2 lg:sticky lg:top-6 space-y-6 mb-6 lg:mb-0">
+          {/* ── Feed column ── */}
+          <div className="lg:order-1 min-w-0">
 
-        {/* How it works — lightweight inline helper, not a heavy ringed card */}
-        <div className="border-s-2 border-amber-300 ps-4">
-          <h2 className="text-base font-semibold text-gray-900 mb-2">
-            {t('openSouk.helperTitle', 'What is the Open Souk?')}
-          </h2>
-          <p className="text-sm text-gray-600 mb-4 leading-relaxed">
-            {t('openSouk.helperBody', 'A reverse marketplace where you post a tailoring brief and ateliers send you offers. AI translates everything to the right language.')}
-          </p>
+            {/* Sticky sort / search bar */}
+            <JobSortBar
+              query={searchQuery}
+              sort={sort}
+              onSearch={handleSearch}
+              onSort={handleSort}
+              onFilterToggle={() => setDrawerOpen(true)}
+              activeFilterCount={activeFilterCount}
+            />
 
-          <ol className="list-decimal list-inside space-y-1.5 text-sm text-gray-600 mb-4">
-            <li>{t('openSouk.helperStep1', 'Tap the "Post" button')}</li>
-            <li>{t('openSouk.helperStep2', 'Add a title, description, and budget')}</li>
-            <li>{t('openSouk.helperStep3', 'Add reference photos so ateliers know what you want')}</li>
-            <li>{t('openSouk.helperStep4', 'Set your timeline')}</li>
-            <li>{t('openSouk.helperStep5', 'Publish and ateliers will message you with offers')}</li>
-          </ol>
-
-          <div className="flex items-start gap-2.5 rounded-xl bg-amber-50/60 p-3">
-            <Sparkles size={16} className="text-amber-500 mt-0.5 shrink-0" />
-            <p className="text-sm text-gray-600 leading-relaxed">
-              {t('openSouk.helperTip', "Tip: the more detail you give, the better the offers you'll receive.")}
-            </p>
-          </div>
-        </div>
-
-        {/* Search and Filters */}
-        <div className="bg-amber-50/40 rounded-2xl ring-1 ring-amber-200 p-5">
-          <form onSubmit={handleSearch} className="mb-3">
-            <div className="relative">
-              <Search size={14} className="text-gray-400 absolute start-3 top-1/2 -translate-y-1/2" />
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full ps-9 pe-4 py-2.5 text-sm border border-amber-200 rounded-2xl focus:ring-2 focus:ring-indigo-700/30 focus:border-indigo-700"
-                placeholder={t('community.search_placeholder', 'Search')}
-              />
-            </div>
-          </form>
-
-          {/* Filter Toggle — pill shape */}
-          <button
-            onClick={() => setShowFilters(!showFilters)}
-            className="inline-flex items-center gap-2 px-3 py-1.5 min-h-[44px] rounded-full ring-1 ring-amber-200 text-xs text-gray-600 hover:ring-amber-300 hover:text-gray-900 transition-all duration-200"
-          >
-            <SlidersHorizontal size={12} />
-            {t('common.filter', 'Filter')}
-            <ChevronDown size={12} className={`transition-transform duration-200 ${showFilters ? 'rotate-180' : ''}`} />
-          </button>
-
-          {/* Expandable Filters */}
-          <AnimatePresence>
-            {showFilters && (
-              <motion.div
-                initial={prefersReducedMotion ? false : { opacity: 0, height: 0 }}
-                animate={{ opacity: 1, height: 'auto' }}
-                exit={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, height: 0 }}
-                transition={{ duration: prefersReducedMotion ? 0 : 0.2 }}
-                className="border-t border-amber-200 pt-3 mt-3"
-              >
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-                  <div>
-                    <label className="block text-xs font-medium text-gray-700 mb-1.5">
-                      {t('community.filter_by_category', 'Category')}
-                    </label>
-                    <select
-                      value={selectedCategory}
-                      onChange={handleCategoryChange}
-                      className="w-full px-3 py-2 text-sm border border-amber-200 rounded-2xl focus:ring-2 focus:ring-indigo-700/30 focus:border-indigo-700"
-                    >
-                      <option value="">{t('community.all_categories', 'All Categories')}</option>
-                      <option value="clothing">{t('community.category.clothing', 'Clothing')}</option>
-                      <option value="accessories">{t('community.category.accessories', 'Accessories')}</option>
-                      <option value="footwear">{t('community.category.footwear', 'Footwear')}</option>
-                      <option value="traditional">{t('community.category.traditional', 'Traditional')}</option>
-                      <option value="other">{t('community.category.other', 'Other')}</option>
-                    </select>
+            {/* Your Posts */}
+            {isAuthenticated && user && (
+              <div className="mt-6 mb-6">
+                <div className="bg-amber-50/40 rounded-2xl ring-1 ring-amber-200 p-5">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="w-7 h-7 bg-amber-100 rounded-full ring-1 ring-amber-200 flex items-center justify-center">
+                      <UserCircle size={14} className="text-amber-800" />
+                    </div>
+                    <h2 className="text-base font-semibold text-gray-900">
+                      {t('community.your_posts', 'Your Posts')}
+                    </h2>
                   </div>
 
-                  <div>
-                    <label className="block text-xs font-medium text-gray-700 mb-1.5">
-                      {t('community.filter_by_status', 'Status')}
-                    </label>
-                    <select
-                      value={selectedStatus}
-                      onChange={handleStatusChange}
-                      className="w-full px-3 py-2 text-sm border border-amber-200 rounded-2xl focus:ring-2 focus:ring-indigo-700/30 focus:border-indigo-700"
-                    >
-                      <option value="">{t('community.all_statuses', 'All Statuses')}</option>
-                      <option value="open">{t('community.status.open', 'Open')}</option>
-                      <option value="in_progress">{t('community.status.in_progress', 'In Progress')}</option>
-                      <option value="completed">{t('community.status.completed', 'Completed')}</option>
-                    </select>
-                  </div>
-
-                  <div className="flex items-end gap-2">
-                    <button
-                      onClick={resetFilters}
-                      className="px-3 py-2 rounded-full ring-1 ring-amber-200 text-xs text-gray-700 hover:ring-amber-300 transition-all duration-200"
-                    >
-                      {t('common.reset', 'Reset')}
-                    </button>
-                    <button
-                      onClick={() => setShowFilters(false)}
-                      className="px-3 py-2 bg-indigo-700 text-white rounded-full text-xs font-medium hover:bg-indigo-800 transition-colors duration-200"
-                    >
-                      {t('common.apply', 'Apply')}
-                    </button>
-                  </div>
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </div>
-        </aside>
-
-        {/* ── Main feed column ── */}
-        <div className="lg:order-1 min-w-0">
-
-        {/* User's Posts Section */}
-        {isAuthenticated && user && (
-          <div className="mb-6">
-            <div className="bg-amber-50/40 rounded-2xl ring-1 ring-amber-200 p-5">
-              <div className="flex items-center justify-between mb-5">
-                <div className="flex items-center gap-3">
-                  <div className="w-7 h-7 bg-amber-100 rounded-full ring-1 ring-amber-200 flex items-center justify-center">
-                    <UserCircle size={14} className="text-amber-800" />
-                  </div>
-                  <h2 className="text-base font-semibold text-gray-900">
-                    {t('community.your_posts', 'Your Posts')}
-                  </h2>
+                  {loadingUserPosts ? (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      {[0, 1].map(i => <JobCardSkeleton key={i} />)}
+                    </div>
+                  ) : userPosts.length === 0 ? (
+                    <div className="text-center py-8">
+                      <div className="w-10 h-10 bg-amber-50 rounded-full ring-1 ring-amber-200 flex items-center justify-center mx-auto mb-2">
+                        <MessagesSquare size={16} className="text-amber-400" />
+                      </div>
+                      <p className="text-sm text-gray-500 mb-3">
+                        {t('community.no_user_posts', 'No posts yet')}
+                      </p>
+                      <Link
+                        href="/community/posts/create"
+                        className="inline-flex items-center gap-1.5 px-4 py-2 min-h-[40px] rounded-full bg-indigo-700 text-white text-xs font-medium hover:bg-indigo-800 transition-colors duration-200"
+                      >
+                        <Plus size={12} />
+                        {t('community.create_post', 'Create Post')}
+                      </Link>
+                    </div>
+                  ) : (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
+                      {userPosts.map(p => (
+                        <PostCard key={p.id} post={p} isUserPost />
+                      ))}
+                    </div>
+                  )}
                 </div>
               </div>
+            )}
 
-              {loadingUserPosts ? (
-                <div className="flex justify-center py-10">
-                  <div className="flex flex-col items-center gap-2">
-                    <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-indigo-700"></div>
-                    <p className="text-xs text-gray-500">{t('common.loading', 'Loading...')}</p>
-                  </div>
+            {/* All jobs */}
+            <div className="bg-amber-50/40 rounded-2xl ring-1 ring-amber-200 p-5 mt-4">
+              <div className="flex items-center gap-3 mb-5">
+                <div className="w-7 h-7 bg-amber-100 rounded-full ring-1 ring-amber-200 flex items-center justify-center">
+                  <Sparkles size={14} className="text-amber-700" />
                 </div>
-              ) : userPosts.length === 0 ? (
-                <div className="text-center py-10">
-                  <div className="w-12 h-12 bg-amber-50 rounded-full ring-1 ring-amber-200 flex items-center justify-center mx-auto mb-3">
-                    <MessagesSquare size={20} className="text-amber-400" />
-                  </div>
-                  <h3 className="text-base font-medium text-gray-900 mb-2">
-                    {t('community.no_user_posts', 'No posts yet')}
-                  </h3>
-                  <p className="text-sm text-gray-600 mb-4">
-                    {t('community.no_user_posts_description', 'Start your first post to connect with the community')}
-                  </p>
-                  <Link
-                    href="/community/posts/create"
-                    className="inline-flex items-center gap-2 px-4 py-2 min-h-[44px] rounded-full bg-indigo-700 text-white text-sm font-medium hover:bg-indigo-800 transition-colors duration-200"
-                  >
-                    <Plus size={12} />
-                    {t('community.create_post', 'Create Post')}
-                  </Link>
-                </div>
-              ) : (
+                <h2 className="text-base font-semibold text-gray-900">
+                  {t('community.all_posts', 'Community Posts')}
+                </h2>
+              </div>
+
+              {loading ? (
                 <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5">
-                  {userPosts.map((post) => (
-                    <PostCard key={post.id} post={post} isUserPost={true} />
+                  {Array.from({ length: 6 }).map((_, i) => (
+                    <JobCardSkeleton key={i} />
                   ))}
                 </div>
+              ) : error ? (
+                <ErrorState onRetry={loadPosts} />
+              ) : posts.length === 0 ? (
+                <EmptyState isAuthenticated={isAuthenticated} />
+              ) : (
+                <>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5 mb-6">
+                    <AnimatePresence mode="popLayout">
+                      {posts.map((post, index) => (
+                        <motion.div
+                          key={post.id}
+                          initial={
+                            prefersReducedMotion ? false : { opacity: 0, y: 16 }
+                          }
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0 }}
+                          transition={{
+                            duration: prefersReducedMotion ? 0 : 0.25,
+                            delay: prefersReducedMotion
+                              ? 0
+                              : Math.min(index * 0.04, 0.3),
+                            ease: [0.33, 1, 0.68, 1],
+                          }}
+                        >
+                          <PostCard post={post} />
+                        </motion.div>
+                      ))}
+                    </AnimatePresence>
+                  </div>
+
+                  {totalPages > 1 && (
+                    <div className="flex justify-center">
+                      <Pagination
+                        currentPage={currentPage}
+                        totalPages={totalPages}
+                        onPageChange={handlePageChange}
+                      />
+                    </div>
+                  )}
+                </>
               )}
             </div>
           </div>
-        )}
 
-        {/* All Posts Section */}
-        <div className="bg-amber-50/40 rounded-2xl ring-1 ring-amber-200 p-5">
-          <div className="flex items-center gap-3 mb-5">
-            <div className="w-7 h-7 bg-amber-100 rounded-full ring-1 ring-amber-200 flex items-center justify-center">
-              <Sparkles size={14} className="text-amber-700" />
-            </div>
-            <h2 className="text-base font-semibold text-gray-900">
-              {t('community.all_posts', 'Community Posts')}
-            </h2>
-          </div>
-
-          {loading ? (
-            <div className="flex justify-center py-16">
-              <div className="flex flex-col items-center gap-3">
-                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-700"></div>
-                <p className="text-sm text-gray-500">{t('common.loading', 'Loading posts...')}</p>
-              </div>
-            </div>
-          ) : posts.length === 0 ? (
-            <div className="text-center py-16">
-              <div className="w-16 h-16 bg-amber-50 rounded-full ring-1 ring-amber-200 flex items-center justify-center mx-auto mb-4">
-                <MessagesSquare size={28} className="text-amber-300" />
-              </div>
-              <h3
-                className="text-lg font-semibold text-gray-900 mb-2"
-                style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
-              >
-                {t('openSouk.feedEmptyTitle', 'The souk is open')}
-              </h3>
-              <p className="text-sm text-gray-600 mb-6 max-w-md mx-auto">
-                {t('openSouk.feedEmptyBody', 'Be the first to post a brief — ateliers are watching.')}
+          {/* ── Sidebar (desktop only) ── */}
+          <aside className="lg:order-2 lg:sticky lg:top-6 space-y-5 mt-8 lg:mt-0 hidden lg:block">
+            {/* How-it-works helper */}
+            <div className="border-s-2 border-amber-300 ps-4">
+              <h2 className="text-sm font-semibold text-gray-900 mb-2">
+                {t('openSouk.helperTitle', 'What is the Open Souk?')}
+              </h2>
+              <p className="text-xs text-gray-500 mb-3 leading-relaxed">
+                {t(
+                  'openSouk.helperBody',
+                  'Post a tailoring brief and ateliers send you offers. AI translates everything.'
+                )}
               </p>
-              {isAuthenticated && (
-                <Link
-                  href="/community/posts/create"
-                  className="inline-flex items-center gap-2 px-5 py-2.5 min-h-[44px] rounded-full bg-indigo-700 text-white text-sm font-semibold hover:bg-indigo-800 transition-colors duration-200"
-                >
-                  <Plus size={16} />
-                  {t('openSouk.postCta', 'Post to the Open Souk')}
-                </Link>
-              )}
+              <ol className="list-decimal list-inside space-y-1 text-xs text-gray-500">
+                <li>{t('openSouk.helperStep1', 'Tap the "Post" button')}</li>
+                <li>{t('openSouk.helperStep2', 'Add title, description, budget')}</li>
+                <li>{t('openSouk.helperStep3', 'Add reference photos')}</li>
+                <li>{t('openSouk.helperStep4', 'Set your timeline')}</li>
+                <li>{t('openSouk.helperStep5', 'Publish — ateliers will respond')}</li>
+              </ol>
             </div>
-          ) : (
-            <>
-              <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5 mb-6">
-                {posts.map((post, index) => (
-                  <motion.div
-                    key={post.id}
-                    initial={prefersReducedMotion ? false : { opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{
-                      duration: prefersReducedMotion ? 0 : 0.3,
-                      delay: prefersReducedMotion ? 0 : index * 0.05,
-                    }}
-                  >
-                    <PostCard post={post} />
-                  </motion.div>
-                ))}
-              </div>
 
-              {totalPages > 1 && (
-                <div className="flex justify-center">
-                  <Pagination
-                    currentPage={currentPage}
-                    totalPages={totalPages}
-                    onPageChange={setCurrentPage}
-                  />
-                </div>
-              )}
-            </>
-          )}
-        </div>
+            {/* Desktop filter sidebar */}
+            <JobFiltersPanel
+              filters={filters}
+              onFiltersChange={handleFiltersChange}
+              mobile={false}
+            />
+          </aside>
         </div>
       </div>
+
+      {/* ── Mobile filter drawer ── */}
+      <JobFiltersPanel
+        filters={filters}
+        onFiltersChange={handleFiltersChange}
+        isOpen={drawerOpen}
+        onClose={() => setDrawerOpen(false)}
+        mobile
+      />
     </div>
   );
 }

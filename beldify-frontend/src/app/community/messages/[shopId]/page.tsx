@@ -10,6 +10,9 @@ import { useRealtimeChat } from '@/contexts/RealtimeChatContext';
 import * as messagingService from '@/services/messagingService';
 import { Message } from '@/types/community';
 import logger from '@/utils/consoleLogger';
+import { groupMessagesByDay } from '@/utils/groupMessagesByDay';
+import { ConversationDateDivider } from '@/components/messaging/ConversationDateDivider';
+import { TypingIndicator } from '@/components/messaging/TypingIndicator';
 
 /**
  * Conversation detail page — a single customer↔seller thread.
@@ -21,7 +24,7 @@ import logger from '@/utils/consoleLogger';
 export default function ConversationPage() {
   const { t } = useTranslation('common');
   const { user, isAuthenticated } = useAuth();
-  const { onMessageReceived, isConnected, connectionStatus } = useRealtimeChat();
+  const { onMessageReceived, onUserTyping, sendTypingIndicator, isConnected, connectionStatus } = useRealtimeChat();
   const router = useRouter();
   const params = useParams();
   const searchParams = useSearchParams();
@@ -35,6 +38,8 @@ export default function ConversationPage() {
   const [sending, setSending] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [input, setInput] = useState('');
+  const [isOtherTyping, setIsOtherTyping] = useState(false);
+  const typingTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const bottomRef = useRef<HTMLDivElement | null>(null);
 
@@ -118,9 +123,25 @@ export default function ConversationPage() {
     };
   }, [isAuthenticated, shopId, onMessageReceived, appendMessage]);
 
+  // ── Realtime: typing indicator ────────────────────────────────────────────
+  useEffect(() => {
+    if (!isAuthenticated) return;
+    onUserTyping(({ isTyping }) => {
+      setIsOtherTyping(isTyping);
+      // Auto-clear after 4 s in case the stop event is missed.
+      if (typingTimeoutRef.current) clearTimeout(typingTimeoutRef.current);
+      if (isTyping) {
+        typingTimeoutRef.current = setTimeout(() => setIsOtherTyping(false), 4000);
+      }
+    });
+    return () => {
+      if (typingTimeoutRef.current) clearTimeout(typingTimeoutRef.current);
+    };
+  }, [isAuthenticated, onUserTyping]);
+
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages.length]);
+  }, [messages.length, isOtherTyping]);
 
   const formatTime = (dateString?: string) => {
     if (!dateString) return '';
@@ -293,43 +314,52 @@ export default function ConversationPage() {
               </p>
             </div>
           ) : (
-            /* Messages */
-            messages.map((m) => {
-              const mine = isMine(m);
-              const timestamp = formatTime((m as any).created_at ?? (m as any).createdAt);
-              return (
-                <div
-                  key={String(m.id)}
-                  className={`flex items-end gap-2 ${mine ? 'justify-end' : 'justify-start'}`}
-                >
-                  {/* Other user avatar — only on theirs */}
-                  {!mine && (
-                    <div className="mb-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-atlas-secondary text-[11px] font-bold text-on-secondary">
-                      {initial}
-                    </div>
-                  )}
-
-                  <div
-                    className={`max-w-[78%] break-words rounded-2xl px-3.5 py-2.5 text-sm shadow-atlas-sm ${
-                      mine
-                        ? 'rounded-ee-md bg-atlas-primary text-white'
-                        : 'rounded-es-md bg-card text-on-surface ring-1 ring-outline/15'
-                    }`}
-                  >
-                    <p className="whitespace-pre-wrap leading-relaxed">{m.content}</p>
-                    {timestamp && (
-                      <span
-                        className={`mt-1 block text-[10px] tabular-nums ${
-                          mine ? 'text-[#a8a7e1] text-end' : 'text-on-surface-variant/70'
-                        }`}
+            /* Messages grouped by day with date dividers */
+            <>
+              {groupMessagesByDay(messages).map((group) => (
+                <React.Fragment key={group.dateKey}>
+                  <ConversationDateDivider label={group.label} />
+                  {group.messages.map((m) => {
+                    const mine = isMine(m);
+                    const timestamp = formatTime((m as any).created_at ?? (m as any).createdAt);
+                    return (
+                      <div
+                        key={String(m.id)}
+                        className={`flex items-end gap-2 ${mine ? 'justify-end' : 'justify-start'}`}
                       >
-                        {timestamp}
-                      </span>
-                    )}
-                  </div>
-                </div>
-              );
-            })
+                        {/* Other user avatar — only on theirs */}
+                        {!mine && (
+                          <div className="mb-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-atlas-secondary text-[11px] font-bold text-on-secondary">
+                            {initial}
+                          </div>
+                        )}
+
+                        <div
+                          className={`max-w-[78%] break-words rounded-2xl px-3.5 py-2.5 text-sm shadow-atlas-sm ${
+                            mine
+                              ? 'rounded-ee-md bg-atlas-primary text-white'
+                              : 'rounded-es-md bg-card text-on-surface ring-1 ring-outline/15'
+                          }`}
+                        >
+                          <p className="whitespace-pre-wrap leading-relaxed">{m.content}</p>
+                          {timestamp && (
+                            <span
+                              className={`mt-1 block text-[10px] tabular-nums ${
+                                mine ? 'text-[#a8a7e1] text-end' : 'text-on-surface-variant/70'
+                              }`}
+                            >
+                              {timestamp}
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </React.Fragment>
+              ))}
+              {/* Typing indicator — shown when the other party is typing */}
+              {isOtherTyping && <TypingIndicator />}
+            </>
           )}
           <div ref={bottomRef} />
         </div>
@@ -341,7 +371,11 @@ export default function ConversationPage() {
         >
           <textarea
             value={input}
-            onChange={(e) => setInput(e.target.value)}
+            onChange={(e) => {
+              setInput(e.target.value);
+              // Emit typing indicator on every keystroke; the context debounces.
+              sendTypingIndicator(shopId, e.target.value.length > 0);
+            }}
             onKeyDown={(e) => {
               if (e.key === 'Enter' && !e.shiftKey) {
                 e.preventDefault();

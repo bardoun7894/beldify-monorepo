@@ -10,21 +10,21 @@ import {
   Clock,
   Wallet,
   MessagesSquare,
-  ImageIcon,
-  Send,
   UserCircle,
   Tag,
-  Sparkles,
+  Wrench,
+  ChevronDown,
+  ChevronUp,
+  Send,
 } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { getAuthToken } from '@/utils/authUtils';
 import { useDirection } from '@/hooks/useDirection';
-import { 
-  fetchCommunityPost, 
-  fetchPostResponses, 
+import {
+  fetchCommunityPost,
+  fetchPostResponses,
   updateResponseStatus,
   createCommunityResponse,
-  redirectToSellerResponse
 } from '@/services/communityService';
 import { CommunityPost, CommunityResponse, CommunityImage } from '@/types/community';
 import { S3_CONFIG, API_BASE_URL } from '@/config/constants';
@@ -40,17 +40,15 @@ export default function PostDetailPage() {
   const [authToken, setAuthToken] = useState<string | null>(null);
 
   useEffect(() => {
-    // Get auth token when component mounts
     const loadAuthToken = async () => {
       const token = await getAuthToken();
       setAuthToken(token);
     };
     loadAuthToken();
   }, []);
+
   const { isRTL } = useDirection();
-  // Extract the numeric ID from the URL parameter (in case it contains a slug)
   const rawId = params?.id as string;
-  // If the ID contains a dash (e.g., "123-post-title"), extract just the numeric part
   const postId = rawId.includes('-') ? rawId.split('-')[0] : rawId;
 
   const [post, setPost] = useState<CommunityPost | null>(null);
@@ -60,43 +58,41 @@ export default function PostDetailPage() {
   const [error, setError] = useState<string | null>(null);
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [showResponseForm, setShowResponseForm] = useState(false);
+  const [descExpanded, setDescExpanded] = useState(false);
 
   useEffect(() => {
     if (!postId) return;
-    
+
     const fetchData = async () => {
       setIsLoading(true);
       setError(null);
       try {
-        // Set up headers with auth token
         const headers: HeadersInit = {
           'Content-Type': 'application/json',
-          ...(authToken ? { 'Authorization': `Bearer ${authToken}` } : {})
-        }
-        
-        const postResponse = await fetch(`${API_BASE_URL}/api/v1/community/posts/${postId}`, {
-          headers,
-          credentials: 'include',
-        });
-        
+          ...(authToken ? { Authorization: `Bearer ${authToken}` } : {}),
+        };
+
+        const postResponse = await fetch(
+          `${API_BASE_URL}/api/v1/community/posts/${postId}`,
+          { headers, credentials: 'include' }
+        );
+
         if (!postResponse.ok) {
           const errorData = await postResponse.json().catch(() => ({}));
-          throw new Error(errorData.message || 'Failed to fetch post');
+          throw new Error(errorData.message || t('community.error_failed_to_fetch_post'));
         }
-        
+
         const postResult = await postResponse.json();
-        
-        // The API returns data in a 'data' property
+
         if (postResult.data) {
           setPost(postResult.data);
-          
+
           try {
-            // Then fetch the responses
             const responsesResponse = await fetch(
               `${API_BASE_URL}/api/v1/community/posts/${postId}/responses`,
               { headers, credentials: 'include' }
             );
-            
+
             if (!responsesResponse.ok) {
               console.warn('Failed to fetch responses, continuing without them');
               setResponses([]);
@@ -106,17 +102,16 @@ export default function PostDetailPage() {
             }
           } catch (responseError) {
             console.error('Error fetching responses:', responseError);
-            // Don't fail the whole page if responses fail to load
             setResponses([]);
           }
         } else {
-          throw new Error('Invalid post data format');
+          throw new Error(t('community.error_invalid_post_data'));
         }
       } catch (err) {
         console.error('Error in fetchData:', err);
         setError(
-          err instanceof Error 
-            ? err.message 
+          err instanceof Error
+            ? err.message
             : t('community.error_fetching_post') || 'Failed to load post details'
         );
       } finally {
@@ -132,29 +127,13 @@ export default function PostDetailPage() {
     if (imagePath.startsWith('http')) return imagePath;
     return `${S3_CONFIG.BASE_URL}/${imagePath}`;
   };
-  
-  // Helper to handle different image formats in API response
-  const getPostImages = (post: CommunityPost) => {
-    if (!post.images || post.images.length === 0) return [];
-    
-    // Handle string array format
-    if (typeof post.images[0] === 'string') {
-      return post.images as string[];
-    }
-    
-    // Handle object format with image_path
-    return (post.images as CommunityImage[]).map(img => 
-      typeof img === 'string' ? img : img.image_path
-    );
-  };
 
   const formatDate = (dateString: string | undefined) => {
     if (!dateString) return '';
     try {
       const date = new Date(dateString);
       return date.toLocaleDateString() + ' ' + date.toLocaleTimeString();
-    } catch (error) {
-      console.error('Error formatting date:', error);
+    } catch {
       return dateString;
     }
   };
@@ -168,9 +147,7 @@ export default function PostDetailPage() {
 
     try {
       setIsSubmitting(true);
-      // Backend endpoint: POST /api/v1/community/posts/{post}/responses/{response}/accept
-      await updateResponseStatus(postId, responseId.toString(), 'accepted'); 
-      // Re-fetch post and responses data using the new service methods
+      await updateResponseStatus(postId, responseId.toString(), 'accepted');
       const updatedPostData = await fetchCommunityPost(postId);
       setPost(updatedPostData);
       const updatedResponsesData = await fetchPostResponses(postId);
@@ -192,8 +169,7 @@ export default function PostDetailPage() {
 
     try {
       setIsSubmitting(true);
-      // Backend endpoint: POST /api/v1/community/posts/{post}/responses/{response}/reject
-      await updateResponseStatus(postId, responseId.toString(), 'rejected'); 
+      await updateResponseStatus(postId, responseId.toString(), 'rejected');
       const updatedPostData = await fetchCommunityPost(postId);
       setPost(updatedPostData);
       const updatedResponsesData = await fetchPostResponses(postId);
@@ -215,14 +191,12 @@ export default function PostDetailPage() {
     try {
       setIsSubmitting(true);
       await createCommunityResponse(postId, formData);
-      
-      // Refresh post and responses data
+
       const updatedPostData = await fetchCommunityPost(postId);
       setPost(updatedPostData);
       const updatedResponsesData = await fetchPostResponses(postId);
       setResponses(updatedResponsesData || []);
-      
-      // Hide the response form after successful submission
+
       setShowResponseForm(false);
     } catch (err) {
       console.error('Error submitting response:', err);
@@ -238,7 +212,7 @@ export default function PostDetailPage() {
         <div className="flex flex-col items-center gap-4">
           <div className="w-16 h-16 bg-amber-100/70 rounded-2xl animate-pulse" />
           <div className="w-32 h-4 bg-amber-100/70 rounded-full animate-pulse" />
-          <p className="text-sm text-gray-500">{t('common.loading', 'Loading...')}</p>
+          <p className="text-sm text-gray-500">{t('common.loading', 'Loading…')}</p>
         </div>
       </div>
     );
@@ -250,7 +224,9 @@ export default function PostDetailPage() {
         <div className="max-w-7xl mx-auto px-6">
           <div className="max-w-lg mx-auto text-center">
             <div className="bg-rose-50 rounded-2xl p-8 ring-1 ring-rose-200">
-              <h2 className="text-xl font-bold mb-3 text-gray-900">{t('community.post_not_found')}</h2>
+              <h2 className="text-xl font-bold mb-3 text-gray-900">
+                {t('community.post_not_found')}
+              </h2>
               <p className="mb-6 text-rose-700">{error || t('community.post_may_not_exist')}</p>
               <Link
                 href="/community"
@@ -269,7 +245,9 @@ export default function PostDetailPage() {
   const isMyPost = Number(user?.id) === (post.userId || post.user?.id);
   const postIsOpen = post.status === 'open';
 
-  // Stepper for post lifecycle: open → in_progress → completed
+  // hasMyProposal guard — backend 422s a second submit, so hide the form
+  const hasMyProposal = post.hasMyProposal ?? post.has_my_proposal ?? false;
+
   const statusSteps: Array<{ key: string; label: string }> = [
     { key: 'open', label: t('community.status.open', 'Open') },
     { key: 'in_progress', label: t('community.status.in_progress', 'In Progress') },
@@ -277,238 +255,371 @@ export default function PostDetailPage() {
   ];
   const currentStepIndex = statusSteps.findIndex(s => s.key === post.status);
 
+  // Status pill
+  const statusPillClass =
+    post.status === 'open'
+      ? 'bg-amber-100 text-amber-800 ring-1 ring-amber-200'
+      : post.status === 'in_progress'
+      ? 'bg-indigo-100 text-indigo-700 ring-1 ring-indigo-200'
+      : 'bg-emerald-100 text-emerald-800 ring-1 ring-emerald-200';
+
+  const requiredSkills = post.requiredSkills ?? post.required_skills ?? [];
+
+  // Buyer card: prefer post.buyer, fall back to legacy user fields
+  const buyerName = post.buyer?.name ?? post.userName ?? post.user?.name;
+  const buyerAvatar = post.buyer?.avatar ?? post.userAvatar ?? post.user?.avatar;
+
+  const proposalCount =
+    post.proposalCount ?? post.proposal_count ?? responses.length;
+
   return (
     <div className="min-h-screen bg-amber-50/30">
-      <div className="max-w-4xl mx-auto px-6 py-8">
-        {/* Back Button */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
+        {/* Back */}
         <Link
           href="/community"
-          className="inline-flex items-center gap-2 text-gray-600 hover:text-indigo-700 mb-8 transition-colors font-medium"
+          className="inline-flex items-center gap-2 text-gray-500 hover:text-indigo-700 mb-8 transition-colors font-medium text-sm"
         >
-          <ArrowLeft size={18} />
-          {t('common.back_to')} {t('openSouk.brand', 'Open Souk')}
+          <ArrowLeft size={16} />
+          {t('openSouk.brand', 'Open Souk')}
         </Link>
 
-        {/* Status Stepper */}
-        <div className="bg-amber-50/40 rounded-2xl ring-1 ring-amber-200 p-5 mb-6">
-          <div className="flex items-center gap-2">
-            {statusSteps.map((step, index) => {
-              const isCompleted = currentStepIndex > index;
-              const isActive = currentStepIndex === index;
-              return (
-                <div key={step.key} className="flex items-center gap-2 flex-1">
-                  <div className="flex flex-col items-center gap-1">
-                    <div className={`w-7 h-7 rounded-full flex items-center justify-center text-[10px] font-bold transition-all
-                      ${isCompleted ? 'bg-indigo-700 text-white' : isActive ? 'bg-indigo-700 text-white ring-2 ring-amber-300' : 'bg-gray-200 text-gray-500'}`}>
-                      {index + 1}
-                    </div>
-                    <span className={`font-mono text-[9px] tracking-[0.15em] uppercase whitespace-nowrap
-                      ${isActive ? 'text-indigo-700 font-semibold' : isCompleted ? 'text-gray-600' : 'text-gray-400'}`}>
-                      {step.label}
-                    </span>
-                  </div>
-                  {index < statusSteps.length - 1 && (
-                    <div className={`flex-1 h-0.5 mt-[-12px] ${isCompleted ? 'bg-indigo-700' : 'bg-gray-200'}`} />
-                  )}
-                </div>
-              );
-            })}
-          </div>
+        {/* Status strip */}
+        <div className="flex items-center gap-3 mb-6 flex-wrap">
+          <span
+            className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wide ${statusPillClass}`}
+          >
+            {t(`community.status.${post.status}`, post.status)}
+          </span>
+          <span className="text-xs text-gray-400">
+            {proposalCount} {t('community.proposals', 'proposals')}
+          </span>
         </div>
 
-        {/* Post Header */}
-        <div className="bg-amber-50/40 rounded-2xl ring-1 ring-amber-200 overflow-hidden mb-6">
-          <div className="p-6">
-            <h1
-              className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4"
-              style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
-            >
-              {post.title}
-            </h1>
+        {/* Two-column grid: left=job detail, right=proposals/form */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
+          {/* ── LEFT COLUMN: Job detail ───────────────────────── */}
+          <div className="space-y-4">
+            {/* Header card */}
+            <div className="bg-white rounded-2xl ring-1 ring-amber-200 overflow-hidden">
+              {/* Title + meta */}
+              <div className="p-6">
+                <h1
+                  className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3 leading-tight"
+                  style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
+                >
+                  {post.title}
+                </h1>
 
-            {/* Post Meta — AI metadata caption style */}
-            <div className="flex flex-wrap items-center gap-5 mb-5">
-              <div className="flex items-center gap-1.5">
-                <Clock size={13} className="text-gray-400" />
-                <span className="text-xs text-gray-500">
-                  {formatDate(post.created_at)}
-                </span>
-              </div>
-              <div className="flex items-center gap-1.5">
-                <MessagesSquare size={13} className="text-gray-400" />
-                <span className="text-xs text-gray-500">
-                  {responses.length} {t('community.responses')}
-                </span>
-              </div>
-            </div>
-
-            {/* Category */}
-            {post.category && (
-              <div className="mb-5">
-                <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium bg-amber-100 text-amber-800 ring-1 ring-amber-200">
-                  <Tag size={12} />
-                  {isRTL ? post.category.name_ar || post.category.name : post.category.name}
-                </span>
-              </div>
-            )}
-
-            {/* Budget */}
-            {(post.budget_min && post.budget_max) || post.budget ? (
-              <div className="inline-flex items-center gap-2 px-4 py-2.5 bg-amber-50 rounded-2xl ring-1 ring-amber-200 mb-5">
-                <Wallet size={16} className="text-amber-700 shrink-0" />
-                <span className="currency-mad text-sm font-medium text-amber-800">
-                  {post.budget
-                    ? `${post.budget.min} – ${post.budget.max} ${post.budget.currency}`
-                    : `${post.budget_min} – ${post.budget_max} ${post.currency || 'MAD'}`
-                  }
-                </span>
-              </div>
-            ) : null}
-          </div>
-
-          {/* Post Images Gallery */}
-          {post.images && post.images.length > 0 && (
-            <div className="px-6 pb-6">
-              <div className="relative w-full h-80 bg-amber-50 rounded-2xl overflow-hidden mb-3 group ring-1 ring-amber-200">
-                <Image
-                  src={getImageUrl(typeof post.images[activeImageIndex] === 'string' ? post.images[activeImageIndex] : post.images[activeImageIndex].image_path)}
-                  alt={`${post.title} - Image ${activeImageIndex + 1}`}
-                  fill
-                  className="object-contain transition-transform duration-500 group-hover:scale-105 motion-reduce:group-hover:scale-100"
-                />
-                <div className="absolute bottom-3 end-3 bg-indigo-950/70 text-white px-2.5 py-1 rounded-full text-xs backdrop-blur-sm">
-                  {activeImageIndex + 1} / {post.images.length}
+                <div className="flex flex-wrap items-center gap-4 mb-4 text-xs text-gray-500">
+                  <div className="flex items-center gap-1.5">
+                    <Clock size={12} className="text-gray-400" />
+                    {formatDate(post.created_at ?? post.createdAt)}
+                  </div>
+                  <div className="flex items-center gap-1.5">
+                    <MessagesSquare size={12} className="text-gray-400" />
+                    {proposalCount} {t('community.proposals', 'proposals')}
+                  </div>
                 </div>
-              </div>
 
-              {post.images.length > 1 && (
-                <div className="flex overflow-x-auto gap-2 pb-1">
-                  {post.images.map((image, index) => (
-                    <button
-                      key={index}
-                      className={`relative w-20 h-20 rounded-2xl overflow-hidden shrink-0 transition-all duration-200 ring-2 ${
-                        activeImageIndex === index ? 'ring-amber-500' : 'ring-amber-200 hover:ring-amber-300'
-                      }`}
-                      onClick={() => setActiveImageIndex(index)}
-                    >
-                      <Image
-                        src={getImageUrl(typeof image === 'string' ? image : image.image_path)}
-                        alt={`${post.title} - Thumbnail ${index + 1}`}
-                        fill
-                        className="object-cover"
-                      />
-                    </button>
-                  ))}
-                </div>
-              )}
-            </div>
-          )}
+                {/* Category */}
+                {post.category && (
+                  <div className="mb-4">
+                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-amber-100 text-amber-800 ring-1 ring-amber-200">
+                      <Tag size={11} />
+                      {isRTL
+                        ? post.category.name_ar ?? post.category.name
+                        : post.category.name}
+                    </span>
+                  </div>
+                )}
 
-          {/* Post Description */}
-          <div className="px-6 pb-6">
-            <div className="bg-white rounded-2xl p-5 ring-1 ring-amber-100">
-              <h3 className="text-sm font-semibold text-gray-900 mb-2">{t('community.description')}</h3>
-              <p className="text-gray-700 leading-relaxed text-sm">{post.description}</p>
-            </div>
-          </div>
-
-          {/* Timeline */}
-          {post.timeline && (
-            <div className="px-6 pb-6">
-              <div className="bg-white rounded-2xl p-5 ring-1 ring-amber-100">
-                <h3 className="text-sm font-semibold text-gray-900 mb-2">{t('community.timeline_label')}</h3>
-                <p className="text-gray-700 text-sm">{post.timeline}</p>
-              </div>
-            </div>
-          )}
-
-          {/* Post Author */}
-          <div className="px-6 pb-6">
-            <div className="flex items-center pt-5 border-t border-amber-100">
-              <div className="h-10 w-10 rounded-full overflow-hidden bg-amber-50 ring-1 ring-amber-200">
-                {(post.userAvatar || post.user?.avatar) ? (
-                  <Image
-                    src={getImageUrl(post.userAvatar || post.user?.avatar || '')}
-                    alt={post.userName || post.user?.name || ''}
-                    width={40}
-                    height={40}
-                    className="object-cover w-full h-full"
-                  />
-                ) : (
-                  <div className="w-full h-full flex items-center justify-center">
-                    <UserCircle size={22} className="text-amber-600" />
+                {/* Budget */}
+                {((post.budget_min && post.budget_max) || post.budget) && (
+                  <div className="inline-flex items-center gap-2 px-4 py-2.5 bg-amber-50 rounded-2xl ring-1 ring-amber-200">
+                    <Wallet size={15} className="text-amber-700 shrink-0" />
+                    <span className="currency-mad text-sm font-semibold text-amber-900">
+                      {post.budget
+                        ? `${post.budget.min} – ${post.budget.max} ${post.budget.currency}`
+                        : `${post.budget_min} – ${post.budget_max} ${post.currency || 'MAD'}`}
+                    </span>
                   </div>
                 )}
               </div>
-              <div className="ms-3">
-                <p className="text-sm font-medium text-gray-900 flex items-center gap-2">
-                  {post.userName || post.user?.name}
-                  {Number(user?.id) === (post.userId || post.user?.id) && (
-                    <span className="text-[10px] bg-indigo-100 text-indigo-700 px-2 py-0.5 rounded-full font-medium">
-                      {t('common.you')}
-                    </span>
+
+              {/* Images gallery */}
+              {post.images && post.images.length > 0 && (
+                <div className="px-6 pb-6">
+                  <div className="relative w-full h-64 bg-amber-50 rounded-2xl overflow-hidden mb-3 group ring-1 ring-amber-200">
+                    <Image
+                      src={getImageUrl(
+                        typeof post.images[activeImageIndex] === 'string'
+                          ? (post.images[activeImageIndex] as string)
+                          : (post.images[activeImageIndex] as CommunityImage).image_path
+                      )}
+                      alt={`${post.title} — ${t('community.post_image_alt_suffix')} ${activeImageIndex + 1}`}
+                      fill
+                      className="object-contain transition-transform duration-500 group-hover:scale-105 motion-reduce:group-hover:scale-100"
+                    />
+                    <div className="absolute bottom-3 end-3 bg-indigo-950/70 text-white px-2.5 py-1 rounded-full text-xs backdrop-blur-sm">
+                      {activeImageIndex + 1} / {post.images.length}
+                    </div>
+                  </div>
+
+                  {post.images.length > 1 && (
+                    <div className="flex overflow-x-auto gap-2 pb-1">
+                      {post.images.map((image, index) => (
+                        <button
+                          key={index}
+                          aria-label={`View image ${index + 1}`}
+                          className={`relative w-16 h-16 rounded-xl overflow-hidden shrink-0 transition-all duration-200 ring-2 ${
+                            activeImageIndex === index
+                              ? 'ring-amber-500'
+                              : 'ring-amber-200 hover:ring-amber-300'
+                          }`}
+                          onClick={() => setActiveImageIndex(index)}
+                        >
+                          <Image
+                            src={getImageUrl(
+                              typeof image === 'string'
+                                ? image
+                                : (image as CommunityImage).image_path
+                            )}
+                            alt={`${t('community.post_thumbnail_alt_suffix')} ${index + 1}`}
+                            fill
+                            className="object-cover"
+                          />
+                        </button>
+                      ))}
+                    </div>
                   )}
-                </p>
-                <p className="text-xs text-gray-500 flex items-center gap-1 mt-0.5">
-                  <Clock size={9} />
-                  {formatDate(post.createdAt || post.created_at)}
-                </p>
+                </div>
+              )}
+
+              {/* Description */}
+              <div className="px-6 pb-5">
+                <div className="bg-amber-50/50 rounded-2xl p-5 ring-1 ring-amber-100">
+                  <h3 className="text-sm font-semibold text-gray-900 mb-2">
+                    {t('community.description', 'Description')}
+                  </h3>
+                  <p
+                    className={`text-gray-700 leading-relaxed text-sm whitespace-pre-line ${
+                      !descExpanded ? 'line-clamp-5' : ''
+                    }`}
+                  >
+                    {post.description}
+                  </p>
+                  {post.description && post.description.length > 300 && (
+                    <button
+                      onClick={() => setDescExpanded(v => !v)}
+                      className="mt-2 text-xs text-indigo-700 hover:text-indigo-800 font-medium flex items-center gap-1"
+                    >
+                      {descExpanded ? (
+                        <>
+                          {t('common.show_less', 'Show less')} <ChevronUp size={12} />
+                        </>
+                      ) : (
+                        <>
+                          {t('common.show_more', 'Show more')} <ChevronDown size={12} />
+                        </>
+                      )}
+                    </button>
+                  )}
+                </div>
+              </div>
+
+              {/* Timeline (deadline) */}
+              {post.timeline && (
+                <div className="px-6 pb-5">
+                  <div className="flex items-center gap-2">
+                    <Clock size={14} className="text-gray-400 shrink-0" />
+                    <span className="text-sm text-gray-600">
+                      <span className="font-medium text-gray-900">
+                        {t('community.timeline_label', 'Timeline:')}
+                      </span>{' '}
+                      {post.timeline}
+                    </span>
+                  </div>
+                </div>
+              )}
+
+              {/* Required skills */}
+              {requiredSkills.length > 0 && (
+                <div className="px-6 pb-6">
+                  <div className="flex items-start gap-2">
+                    <Wrench size={14} className="text-gray-400 shrink-0 mt-0.5" />
+                    <div>
+                      <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">
+                        {t('community.required_skills', 'Required skills')}
+                      </p>
+                      <div className="flex flex-wrap gap-1.5">
+                        {requiredSkills.map((skill, i) => (
+                          <span
+                            key={i}
+                            className="px-2.5 py-1 text-xs font-medium bg-indigo-50 text-indigo-700 rounded-full ring-1 ring-indigo-100"
+                          >
+                            {skill}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Buyer card */}
+              {buyerName && (
+                <div className="px-6 pb-6">
+                  <div className="flex items-center gap-3 pt-4 border-t border-amber-100">
+                    <div className="h-9 w-9 rounded-full overflow-hidden bg-amber-50 ring-2 ring-amber-200 shrink-0">
+                      {buyerAvatar ? (
+                        <Image
+                          src={getImageUrl(buyerAvatar)}
+                          alt={buyerName}
+                          width={36}
+                          height={36}
+                          className="object-cover w-full h-full"
+                        />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center">
+                          <UserCircle size={20} className="text-amber-600" />
+                        </div>
+                      )}
+                    </div>
+                    <div>
+                      <p className="text-sm font-medium text-gray-900 flex items-center gap-2">
+                        {buyerName}
+                        {Number(user?.id) === (post.userId || post.user?.id) && (
+                          <span className="text-[10px] bg-indigo-100 text-indigo-700 px-2 py-0.5 rounded-full font-medium">
+                            {t('common.you', 'You')}
+                          </span>
+                        )}
+                      </p>
+                      <p className="text-[11px] text-gray-400 mt-0.5">
+                        {t('community.posted_by', 'Posted by')}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Lifecycle stepper */}
+            <div className="bg-white rounded-2xl ring-1 ring-amber-200 p-5">
+              <div className="flex items-center gap-2">
+                {statusSteps.map((step, index) => {
+                  const isCompleted = currentStepIndex > index;
+                  const isActive = currentStepIndex === index;
+                  return (
+                    <div key={step.key} className="flex items-center gap-2 flex-1">
+                      <div className="flex flex-col items-center gap-1">
+                        <div
+                          className={`w-7 h-7 rounded-full flex items-center justify-center text-[10px] font-bold transition-all ${
+                            isCompleted
+                              ? 'bg-indigo-700 text-white'
+                              : isActive
+                              ? 'bg-indigo-700 text-white ring-2 ring-amber-300'
+                              : 'bg-gray-200 text-gray-500'
+                          }`}
+                        >
+                          {index + 1}
+                        </div>
+                        <span
+                          className={`font-mono text-[9px] tracking-[0.15em] uppercase whitespace-nowrap ${
+                            isActive
+                              ? 'text-indigo-700 font-semibold'
+                              : isCompleted
+                              ? 'text-gray-600'
+                              : 'text-gray-400'
+                          }`}
+                        >
+                          {step.label}
+                        </span>
+                      </div>
+                      {index < statusSteps.length - 1 && (
+                        <div
+                          className={`flex-1 h-0.5 mt-[-12px] ${
+                            isCompleted ? 'bg-indigo-700' : 'bg-gray-200'
+                          }`}
+                        />
+                      )}
+                    </div>
+                  );
+                })}
               </div>
             </div>
+          </div>
+
+          {/* ── RIGHT COLUMN: Proposals + proposal form ──────── */}
+          <div className="space-y-4">
+            {/* Seller: submit proposal (form toggled inline) */}
+            {!isMyPost && postIsOpen && isAuthenticated && !hasMyProposal && (
+              <div className="bg-white rounded-2xl ring-1 ring-amber-200 overflow-hidden">
+                {showResponseForm ? (
+                  <ResponseForm
+                    onSubmit={handleSubmitResponse}
+                    onCancel={() => setShowResponseForm(false)}
+                    isLoading={isSubmitting}
+                  />
+                ) : (
+                  <div className="p-5">
+                    <p className="text-sm text-gray-600 mb-4">
+                      {t('community.seller_response_description', 'Interested? Send your proposal directly to the buyer.')}
+                    </p>
+                    <button
+                      onClick={() => setShowResponseForm(true)}
+                      className="inline-flex items-center gap-2 px-6 py-3 min-h-[44px] text-sm font-semibold text-white bg-indigo-700 rounded-full hover:bg-indigo-800 transition-colors duration-200"
+                    >
+                      <Send size={15} />
+                      {t('community.submit_proposal', 'Submit Proposal')}
+                    </button>
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* Already submitted banner */}
+            {!isMyPost && hasMyProposal && (
+              <div className="bg-emerald-50 rounded-2xl ring-1 ring-emerald-200 p-5">
+                <p className="text-sm font-medium text-emerald-800">
+                  {t('community.proposal_already_submitted', 'You have already submitted a proposal for this job.')}
+                </p>
+              </div>
+            )}
+
+            {/* Proposals list */}
+            {responses.length > 0 ? (
+              <div className="bg-white rounded-2xl ring-1 ring-amber-200 overflow-hidden">
+                <div className="px-5 py-4 border-b border-amber-100 flex items-center justify-between">
+                  <h2 className="text-sm font-semibold text-gray-900">
+                    {t('community.proposals', 'Proposals')}
+                    <span className="ms-2 text-gray-400 font-normal">({responses.length})</span>
+                  </h2>
+                </div>
+                <div className="p-4 space-y-4">
+                  {responses.map(response => (
+                    <ResponseCard
+                      key={response.id}
+                      response={response}
+                      isPostOwner={isMyPost}
+                      onAccept={() => handleAcceptResponse(Number(response.id))}
+                      onReject={() => handleRejectResponse(Number(response.id))}
+                      postId={postId}
+                      isSubmitting={isSubmitting}
+                    />
+                  ))}
+                </div>
+              </div>
+            ) : (
+              <div className="bg-white rounded-2xl ring-1 ring-amber-200 p-8 text-center">
+                <MessagesSquare size={32} className="text-amber-300 mx-auto mb-3" />
+                <p className="text-sm text-gray-500">
+                  {t('community.no_proposals_yet', 'No proposals yet. Be the first!')}
+                </p>
+              </div>
+            )}
           </div>
         </div>
-
-        {/* Response Section — Seller bid CTA with AI chip */}
-        {!isMyPost && postIsOpen && isAuthenticated && (
-          <div className="bg-amber-50/40 rounded-2xl ring-1 ring-amber-200 p-6 mb-6">
-            <div className="flex items-start justify-between gap-4 flex-wrap">
-              <div>
-                <h2 className="text-base font-semibold text-gray-900 mb-1">
-                  {t('community.respond_to_post')}
-                </h2>
-                <p className="text-sm text-gray-600 mb-4">
-                  {t('community.seller_response_description')}
-                </p>
-                {/* Seller-side AI chip */}
-                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-indigo-700 text-white text-xs font-medium mb-4">
-                  <Sparkles size={12} className="shrink-0" />
-                  {t('ai.chip.photoEnhance', 'AI photo enhance for your portfolio')}
-                </span>
-              </div>
-            </div>
-            <button
-              onClick={() => redirectToSellerResponse(postId, t('common.language_code', 'en'))}
-              className="inline-flex items-center gap-2 px-6 py-3 min-h-[44px] text-sm font-semibold text-white bg-indigo-700 rounded-full hover:bg-indigo-800 transition-colors duration-200"
-            >
-              <Send size={16} />
-              {t('community.respond_as_seller')}
-            </button>
-          </div>
-        )}
-
-        {/* Responses Section */}
-        {responses.length > 0 && (
-          <div className="bg-amber-50/40 rounded-2xl ring-1 ring-amber-200 overflow-hidden">
-            <div className="px-6 py-5 border-b border-amber-200">
-              <h2 className="text-base font-semibold text-gray-900">
-                {t('community.responses')} ({responses.length})
-              </h2>
-            </div>
-            <div className="divide-y divide-amber-100 p-4 space-y-4">
-              {responses.map((response) => (
-                <ResponseCard
-                  key={response.id}
-                  response={response}
-                  isPostOwner={isMyPost}
-                  onAccept={() => handleAcceptResponse(Number(response.id))}
-                  onReject={() => handleRejectResponse(Number(response.id))}
-                  postId={postId}
-                  isSubmitting={isSubmitting}
-                />
-              ))}
-            </div>
-          </div>
-        )}
       </div>
     </div>
   );
