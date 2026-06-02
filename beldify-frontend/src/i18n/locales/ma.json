@@ -1432,7 +1432,11 @@
         "order_status": "تبدل حال الطلبية",
         "community_response": "جواب جديد على بوستك",
         "tailoring_booking": "تحديث الخياطة",
-        "new_message": "رسالة جديدة"
+        "new_message": "رسالة جديدة",
+        "review_posted": "تقييم جديد على منتوجك",
+        "new_follower": "متابع جديد",
+        "back_in_stock": "المنتوج رجع متوفر",
+        "price_drop": "تنقص التمن"
       }
     },
     "page": {
@@ -1447,7 +1451,11 @@
         "order_status": "تبدل حال الطلبية",
         "community_response": "جواب جديد على بوستك",
         "tailoring_booking": "تحديث الخياطة",
-        "new_message": "رسالة جديدة"
+        "new_message": "رسالة جديدة",
+        "review_posted": "تقييم جديد على منتوجك",
+        "new_follower": "متابع جديد",
+        "back_in_stock": "المنتوج رجع متوفر",
+        "price_drop": "تنقص التمن"
       }
     }
   },

@@ -1491,7 +1491,11 @@
         "order_status": "Statut de commande mis à jour",
         "community_response": "Nouvelle réponse sur votre publication",
         "tailoring_booking": "Mise à jour de la réservation de couture",
-        "new_message": "Nouveau message"
+        "new_message": "Nouveau message",
+        "review_posted": "Nouvel avis sur votre produit",
+        "new_follower": "Nouveau abonné",
+        "back_in_stock": "De nouveau en stock",
+        "price_drop": "Baisse de prix"
       }
     },
     "page": {
@@ -1506,7 +1510,11 @@
         "order_status": "Statut de commande mis à jour",
         "community_response": "Nouvelle réponse sur votre publication",
         "tailoring_booking": "Mise à jour de la réservation de couture",
-        "new_message": "Nouveau message"
+        "new_message": "Nouveau message",
+        "review_posted": "Nouvel avis sur votre produit",
+        "new_follower": "Nouveau abonné",
+        "back_in_stock": "De nouveau en stock",
+        "price_drop": "Baisse de prix"
       }
     }
   },

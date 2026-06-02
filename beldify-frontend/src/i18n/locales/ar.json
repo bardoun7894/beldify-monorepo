@@ -1510,7 +1510,11 @@
         "order_status": "تم تحديث حالة الطلب",
         "community_response": "رد جديد على منشورك",
         "tailoring_booking": "تحديث حجز الخياطة",
-        "new_message": "رسالة جديدة"
+        "new_message": "رسالة جديدة",
+        "review_posted": "تقييم جديد على منتجك",
+        "new_follower": "متابع جديد",
+        "back_in_stock": "المنتج متوفر مجدداً",
+        "price_drop": "انخفاض السعر"
       }
     },
     "page": {
@@ -1525,7 +1529,11 @@
         "order_status": "تم تحديث حالة الطلب",
         "community_response": "رد جديد على منشورك",
         "tailoring_booking": "تحديث حجز الخياطة",
-        "new_message": "رسالة جديدة"
+        "new_message": "رسالة جديدة",
+        "review_posted": "تقييم جديد على منتجك",
+        "new_follower": "متابع جديد",
+        "back_in_stock": "المنتج متوفر مجدداً",
+        "price_drop": "انخفاض السعر"
       }
     }
   },

@@ -1491,7 +1491,11 @@
         "order_status": "Estado del pedido actualizado",
         "community_response": "Nueva respuesta en tu publicación",
         "tailoring_booking": "Actualización de reserva de sastrería",
-        "new_message": "Nuevo mensaje"
+        "new_message": "Nuevo mensaje",
+        "review_posted": "Nueva reseña en tu producto",
+        "new_follower": "Nuevo seguidor",
+        "back_in_stock": "De vuelta en stock",
+        "price_drop": "Bajada de precio"
       }
     },
     "page": {
@@ -1506,7 +1510,11 @@
         "order_status": "Estado del pedido actualizado",
         "community_response": "Nueva respuesta en tu publicación",
         "tailoring_booking": "Actualización de reserva de sastrería",
-        "new_message": "Nuevo mensaje"
+        "new_message": "Nuevo mensaje",
+        "review_posted": "Nueva reseña en tu producto",
+        "new_follower": "Nuevo seguidor",
+        "back_in_stock": "De vuelta en stock",
+        "price_drop": "Bajada de precio"
       }
     }
   },

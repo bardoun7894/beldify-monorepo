@@ -1504,7 +1504,11 @@
         "order_status": "Order status updated",
         "community_response": "New response on your post",
         "tailoring_booking": "Tailoring booking update",
-        "new_message": "New message"
+        "new_message": "New message",
+        "review_posted": "New review on your product",
+        "new_follower": "New follower",
+        "back_in_stock": "Back in stock",
+        "price_drop": "Price drop"
       }
     },
     "page": {
@@ -1519,7 +1523,11 @@
         "order_status": "Order status updated",
         "community_response": "New response on your post",
         "tailoring_booking": "Tailoring booking update",
-        "new_message": "New message"
+        "new_message": "New message",
+        "review_posted": "New review on your product",
+        "new_follower": "New follower",
+        "back_in_stock": "Back in stock",
+        "price_drop": "Price drop"
       }
     }
   },
