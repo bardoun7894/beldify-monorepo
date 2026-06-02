@@ -220,6 +220,7 @@ export default function CustomOrderForm({ storeId, storeName, vertical }: Custom
                     required={field.required}
                     className={inputClass}
                     aria-invalid={hasError}
+                    aria-required={field.required || undefined}
                   >
                     <option value="">{isRTL ? 'اختر…' : 'Select…'}</option>
                     {field.options.map(opt => (
@@ -239,6 +240,7 @@ export default function CustomOrderForm({ storeId, storeName, vertical }: Custom
                     placeholder={field.label}
                     className={inputClass}
                     aria-invalid={hasError}
+                    aria-required={field.required || undefined}
                   />
                 )}
 
