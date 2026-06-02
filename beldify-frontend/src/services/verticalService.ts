@@ -51,13 +51,21 @@ const MOCK_JEWELRY_CONFIG: VerticalConfig = {
   ],
 };
 
-// Provisional apparel config — WS-A owns the authoritative field list.
-// These keys are provisional until GET /api/v1/verticals/menswear/config is live.
+// Apparel config — aligned to backend App\Support\Verticals::APPAREL_FIELDS
+// (9 fields: 6 measurements + fabric_id/fabric_name + style). Keys/types/groups
+// match the live GET /api/v1/verticals/{menswear|womenswear|tailor}/config response,
+// so flipping USE_MOCK=false is a no-op for the form's field rendering.
 const MOCK_APPAREL_CONFIG: VerticalConfig = {
   vertical: 'menswear', // placeholder — same shape for womenswear/tailor
   fields: [
-    { key: 'measurements', label: 'Measurements', type: 'text', required: false, options: null, group: null },
-    { key: 'fabric', label: 'Fabric', type: 'text', required: false, options: null, group: null },
+    { key: 'chest', label: 'Chest (cm)', type: 'decimal', required: false, options: null, group: 'measurements' },
+    { key: 'waist', label: 'Waist (cm)', type: 'decimal', required: false, options: null, group: 'measurements' },
+    { key: 'hips', label: 'Hips (cm)', type: 'decimal', required: false, options: null, group: 'measurements' },
+    { key: 'shoulder', label: 'Shoulder (cm)', type: 'decimal', required: false, options: null, group: 'measurements' },
+    { key: 'length', label: 'Length (cm)', type: 'decimal', required: false, options: null, group: 'measurements' },
+    { key: 'sleeve', label: 'Sleeve (cm)', type: 'decimal', required: false, options: null, group: 'measurements' },
+    { key: 'fabric_id', label: 'Fabric', type: 'select', required: false, options: null, group: 'fabric' },
+    { key: 'fabric_name', label: 'Fabric Name', type: 'text', required: false, options: null, group: 'fabric' },
     { key: 'style', label: 'Style', type: 'text', required: false, options: null, group: null },
   ],
 };
