@@ -71,16 +71,16 @@ Role-tagged, dependency-ordered. `[P]` = parallelizable. Each code task is TDD (
 Reviewer verdict: CHANGES REQUESTED (targeted, not structural). Apply after WS-D lands (avoid backend git race).
 
 ### P1 (must fix — spec non-compliance)
-- [ ] R1 Wire `StoreRevenue::recordForCustomOrder()` into `CustomOrderService::advance()` at the `delivered` (or `closed`) transition — currently dead code, custom orders record ZERO revenue. Add lifecycle test asserting a `source_type='custom_order'` revenue row appears. (CustomOrderService.php:124–149; StoreRevenue.php:69–88)
+- [x] R1 Wire `StoreRevenue::recordForCustomOrder()` into `CustomOrderService::advance()` at the `delivered` (or `closed`) transition — currently dead code, custom orders record ZERO revenue. Add lifecycle test asserting a `source_type='custom_order'` revenue row appears. (CustomOrderService.php:124–149; StoreRevenue.php:69–88)
 
 ### P2 (should fix)
-- [ ] R2 `advance()` → when target is `deposit_paid`, also set `deposit_paid=true` (boolean stays false; buyer timeline checkmark reads it). (CustomOrderService.php:108–115)
-- [ ] R3 `submit()` validate the target store's vertical matches the requested vertical (block jewelry order at a menswear store). (CustomOrderController.php:53–71)
-- [ ] R4 `quote` validation: add `deposit_amount` rule `lte:quote_amount`. (CustomOrderController.php:198)
-- [ ] R5 Align frontend `MOCK_APPAREL_CONFIG` keys/types/groups with backend `APPAREL_FIELDS` so USE_MOCK→false is safe. (verticalService.ts:49–63 ↔ Verticals.php:132–170)
-- [ ] R6 `isStoreOwner` N+1: `loadMissing('store')` before authz in show/quote/advance. (CustomOrderController.php:278–280)
+- [x] R2 `advance()` → when target is `deposit_paid`, also set `deposit_paid=true` (boolean stays false; buyer timeline checkmark reads it). (CustomOrderService.php:108–115)
+- [x] R3 `submit()` validate the target store's vertical matches the requested vertical (block jewelry order at a menswear store). (CustomOrderController.php:53–71)
+- [x] R4 `quote` validation: add `deposit_amount` rule `lte:quote_amount`. (CustomOrderController.php:198)
+- [x] R5 Align frontend `MOCK_APPAREL_CONFIG` keys/types/groups with backend `APPAREL_FIELDS` so USE_MOCK→false is safe. (verticalService.ts:49–63 ↔ Verticals.php:132–170)
+- [x] R6 `isStoreOwner` N+1: `loadMissing('store')` before authz in show/quote/advance. (CustomOrderController.php:278–280)
 
 ### P3 / pre-existing (follow-up, separate from this feature)
-- [ ] R7 (P0 on main) `StoreRevenue::recordRevenue()` undefined but called in OrderObserver:52 + TailoringOrderObserver:39 → 500 on every order payment. Pre-existing breakage; define the method or fix observers.
-- [ ] R8 `StoreRevenue.$fillable` lists nonexistent columns (order_id/tailoring_order_id/commission_rate) — model↔schema drift, mass-assignment silently drops.
+- [x] R7 (P0 on main) `StoreRevenue::recordRevenue()` undefined but called in OrderObserver:52 + TailoringOrderObserver:39 → 500 on every order payment. Pre-existing breakage; define the method or fix observers.
+- [x] R8 `StoreRevenue.$fillable` lists nonexistent columns (order_id/tailoring_order_id/commission_rate) — model↔schema drift, mass-assignment silently drops.
 - [ ] R9 Flip `USE_MOCK=false` in verticalService.ts + customOrderService.ts before production launch.
