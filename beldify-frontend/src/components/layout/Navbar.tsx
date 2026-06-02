@@ -28,6 +28,7 @@ import { useRouter, usePathname } from 'next/navigation';
 import { useWishlist } from '@/contexts/WishlistContext';
 import { useMessaging } from '@/contexts/MessagingContext';
 import logger from '@/utils/consoleLogger';
+import NotificationBell from '@/components/notifications/NotificationBell';
 
 interface FeaturedProduct {
   id: number;
@@ -289,6 +290,9 @@ export default function Navbar() {
                 </span>
               )}
             </Link>
+
+            {/* Notifications */}
+            <NotificationBell />
 
             {/* Orders */}
             <Link
@@ -570,14 +574,18 @@ export default function Navbar() {
                       {t('brand.name', 'Beldify')}
                     </span>
                   </Link>
-                  <button
-                    type="button"
-                    onClick={() => setMobileMenuOpen(false)}
-                    aria-label={t('chrome.navbar.closeMenu', 'Close menu')}
-                    className="flex items-center justify-center w-9 h-9 text-gray-500 hover:text-indigo-700 rounded-full hover:bg-amber-100 transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30"
-                  >
-                    <X className="h-5 w-5" aria-hidden="true" />
-                  </button>
+                  <div className="flex items-center gap-1">
+                    {/* Notifications (mobile) */}
+                    <NotificationBell />
+                    <button
+                      type="button"
+                      onClick={() => setMobileMenuOpen(false)}
+                      aria-label={t('chrome.navbar.closeMenu', 'Close menu')}
+                      className="flex items-center justify-center w-9 h-9 text-gray-500 hover:text-indigo-700 rounded-full hover:bg-amber-100 transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30"
+                    >
+                      <X className="h-5 w-5" aria-hidden="true" />
+                    </button>
+                  </div>
                 </div>
 
                 {/* User section */}

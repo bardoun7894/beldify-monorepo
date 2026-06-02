@@ -13,6 +13,7 @@ interface RealtimeChatContextType {
   leaveRoom: (roomId: string) => void;
   sendMessage: (roomId: string, message: any) => void;
   onMessageReceived: (callback: (message: any) => void) => void;
+  onNotificationReceived: (callback: (data: any) => void) => void;
   onUserTyping: (callback: (data: { userId: string; isTyping: boolean }) => void) => void;
   sendTypingIndicator: (roomId: string, isTyping: boolean) => void;
   activeRooms: string[];
@@ -26,6 +27,7 @@ const defaultContext: RealtimeChatContextType = {
   leaveRoom: () => {},
   sendMessage: () => {},
   onMessageReceived: () => {},
+  onNotificationReceived: () => {},
   onUserTyping: () => {},
   sendTypingIndicator: () => {},
   activeRooms: [],
@@ -45,6 +47,7 @@ export const RealtimeChatProvider: React.FC<{ children: React.ReactNode }> = ({ 
   // Refs for Pusher and callbacks
   const pusherRef = useRef<Pusher | null>(null);
   const messageCallbackRef = useRef<((message: any) => void) | null>(null);
+  const notificationCallbackRef = useRef<((data: any) => void) | null>(null);
   const typingCallbackRef = useRef<((data: { userId: string; isTyping: boolean }) => void) | null>(null);
   const channelsRef = useRef<Map<string, any>>(new Map());
   const reconnectTimeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -147,6 +150,13 @@ export const RealtimeChatProvider: React.FC<{ children: React.ReactNode }> = ({ 
         logger.log('RealtimeChat: New message received:', data);
         if (messageCallbackRef.current) {
           messageCallbackRef.current(data.message);
+        }
+      });
+
+      privateChannel.bind('notification-created', (data: any) => {
+        logger.log('RealtimeChat: Notification received:', data);
+        if (notificationCallbackRef.current) {
+          notificationCallbackRef.current(data);
         }
       });
 
@@ -262,6 +272,11 @@ export const RealtimeChatProvider: React.FC<{ children: React.ReactNode }> = ({ 
     messageCallbackRef.current = callback;
   }, []);
 
+  // Set notification received callback
+  const onNotificationReceived = useCallback((callback: (data: any) => void) => {
+    notificationCallbackRef.current = callback;
+  }, []);
+
   // Set typing indicator callback
   const onUserTyping = useCallback((callback: (data: { userId: string; isTyping: boolean }) => void) => {
     typingCallbackRef.current = callback;
@@ -287,6 +302,7 @@ export const RealtimeChatProvider: React.FC<{ children: React.ReactNode }> = ({ 
     leaveRoom,
     sendMessage,
     onMessageReceived,
+    onNotificationReceived,
     onUserTyping,
     sendTypingIndicator,
     activeRooms,
