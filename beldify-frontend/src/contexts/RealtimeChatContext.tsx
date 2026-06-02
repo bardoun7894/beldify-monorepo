@@ -74,14 +74,28 @@ export const RealtimeChatProvider: React.FC<{ children: React.ReactNode }> = ({ 
         return;
       }
 
-      // Configure Pusher for Laravel Reverb
-      pusherRef.current = new Pusher(process.env.NEXT_PUBLIC_REVERB_APP_KEY || 'vbinspvcm2kgh78ka1wx', {
+      const reverbKey = process.env.NEXT_PUBLIC_REVERB_APP_KEY;
+      if (!reverbKey) {
+        logger.warn('RealtimeChat: NEXT_PUBLIC_REVERB_APP_KEY is not set; skipping realtime connection (polling fallback stays active)');
+        setConnectionStatus('disconnected');
+        return;
+      }
+
+      // TLS scheme drives both the wss/ws transport and forceTLS. Defaults to https.
+      const useTLS = (process.env.NEXT_PUBLIC_REVERB_SCHEME || 'https') !== 'http';
+
+      // Configure Pusher for Laravel Reverb.
+      // Auth goes DIRECTLY to the Laravel backend: pusher-js POSTs a
+      // application/x-www-form-urlencoded body which Laravel parses natively.
+      // (The Next proxy at /api/broadcasting/auth does req.json() and would 500
+      // on that body, so it is intentionally bypassed here.)
+      pusherRef.current = new Pusher(reverbKey, {
         wsHost: process.env.NEXT_PUBLIC_REVERB_HOST || new URL(API_BASE_URL).hostname,
         wsPort: parseInt(process.env.NEXT_PUBLIC_REVERB_PORT || '8082'),
         wssPort: parseInt(process.env.NEXT_PUBLIC_REVERB_PORT || '8082'),
-        forceTLS: true,
-        encrypted: true,
-        enabledTransports: ['wss'],
+        forceTLS: useTLS,
+        encrypted: useTLS,
+        enabledTransports: useTLS ? ['wss'] : ['ws'],
         cluster: 'mt1', // Required for Pusher compatibility
         authEndpoint: `${process.env.NEXT_PUBLIC_API_URL}/broadcasting/auth`,
         auth: {

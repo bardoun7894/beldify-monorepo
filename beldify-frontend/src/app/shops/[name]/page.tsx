@@ -737,7 +737,7 @@ export default function ShopPage() {
               )}
             </p>
             <Link
-              href={shopId ? `/messages/new?shop=${shopId}` : '/contact'}
+              href={shopId ? `/community/messages/${shopId}` : '/contact'}
               className="mt-8 inline-flex items-center gap-2 rounded-full bg-amber-500 px-8 py-3.5 text-sm font-bold text-amber-950 hover:bg-amber-400 transition focus-visible:ring-2 focus-visible:ring-amber-500 focus-visible:ring-offset-2 focus-visible:ring-offset-indigo-950"
             >
               <MessageCircle className="h-4 w-4" aria-hidden="true" />

@@ -2332,5 +2332,21 @@
     "retry": "إعادة المحاولة",
     "back": "العودة",
     "footnote": "بمجرد عودتك للاتصال بالإنترنت، ستتوفر جميع الميزات مرة أخرى."
+  },
+  "messages": {
+    "sign_in_required": "سجّل الدخول لعرض الرسائل",
+    "sign_in_description": "اطّلع على محادثاتك مع ورشات الحرفيين.",
+    "sign_in": "تسجيل الدخول",
+    "conversation": "محادثة",
+    "live": "متصل",
+    "connecting": "جارٍ الاتصال…",
+    "offline": "غير متصل",
+    "all_conversations": "كل المحادثات",
+    "no_messages_yet": "لا توجد رسائل بعد",
+    "start_conversation_hint": "ابدأ المحادثة، ألقِ التحية على الورشة.",
+    "type_a_message": "اكتب رسالة…",
+    "send": "إرسال",
+    "error_loading": "تعذّر تحميل المحادثة",
+    "error_sending": "تعذّر إرسال الرسالة"
   }
 }

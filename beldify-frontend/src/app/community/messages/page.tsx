@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { getRecentMessages } from '@/services/messagingService';
@@ -56,8 +56,7 @@ export default function MessagesPage() {
   const { isRTL } = useDirection();
   const prefersReducedMotion = useReducedMotion();
 
-  useEffect(() => {
-    const fetchConversations = async () => {
+  const fetchConversations = useCallback(async () => {
       setIsLoading(true);
       try {
         const messages = await getRecentMessages() as ExtendedMessage[];
@@ -134,15 +133,16 @@ export default function MessagesPage() {
       } finally {
         setIsLoading(false);
       }
-    };
+  }, [refreshUnreadCount]);
 
+  useEffect(() => {
     if (isAuthenticated) {
       fetchConversations();
     } else {
       // Redirect to login if not authenticated
       router.push('/login?redirect=/community/messages');
     }
-  }, [isAuthenticated, router, refreshUnreadCount]);
+  }, [isAuthenticated, router, fetchConversations]);
 
   const formatMessageDate = (dateString?: string) => {
     if (!dateString) return '';
@@ -196,176 +196,180 @@ export default function MessagesPage() {
   }
 
   return (
-    <div className="min-h-screen bg-amber-50/30">
-      {/* Editorial Hero Band */}
-      <section className="bg-indigo-700 text-white py-12 px-6">
-        <div className="max-w-7xl mx-auto">
-          <p className="text-amber-300 text-xs uppercase tracking-[0.18em] font-medium mb-3">
-            {t('community.messages.hub', 'Messages Hub')}
-          </p>
+    <div dir={isRTL ? 'rtl' : 'ltr'} className="min-h-screen bg-background">
+      {/* ── Editorial Hero Band — Atlas indigo ──────────────────────────── */}
+      <section className="bg-atlas-primary text-white">
+        <div className="mx-auto max-w-5xl px-5 py-10 sm:px-6 sm:py-14">
           <h1
-            className="text-3xl sm:text-4xl font-bold leading-tight mb-3"
-            style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
+            className="font-heading text-3xl font-bold leading-tight sm:text-4xl"
+            style={{ textWrap: 'balance' }}
           >
             {t('community.messages.title', 'Your Conversations')}
           </h1>
-          <p className="text-indigo-200 text-base max-w-xl mb-4">
-            {t('community.messages.subtitle', 'Stay connected with ateliers and buyers — all in one place.')}
+          <p className="mt-3 max-w-xl text-[15px] leading-relaxed text-[#a8a7e1]">
+            {t('community.messages.subtitle', 'Stay connected with ateliers and buyers, all in one place.')}
           </p>
           {conversations.length > 0 && (
-            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-amber-500/20 text-amber-200 text-xs font-medium">
-              <Sparkles size={12} className="shrink-0" />
-              {conversations.length} {conversations.length === 1 ? t('community.messages.conversation') : t('community.messages.conversations')}
+            <span className="mt-5 inline-flex items-center gap-1.5 rounded-full bg-atlas-secondary px-3 py-1 text-xs font-semibold text-on-secondary">
+              <Sparkles size={13} className="shrink-0" aria-hidden="true" />
+              {conversations.length}{' '}
+              {conversations.length === 1
+                ? t('community.messages.conversation', 'conversation')
+                : t('community.messages.conversations', 'conversations')}
             </span>
           )}
         </div>
       </section>
 
-      {/* Main Content */}
-      <div className="container mx-auto max-w-6xl px-4 py-8">
+      {/* ── Main Content ─────────────────────────────────────────────────── */}
+      <div className="mx-auto max-w-3xl px-4 py-8 sm:px-6">
         {isLoading ? (
-          <div className="space-y-3 py-4">
+          <div className="space-y-3" aria-busy="true" aria-label={t('common.loading', 'Loading')}>
             {[...Array(5)].map((_, i) => (
-              <div key={i} className="bg-white rounded-2xl ring-1 ring-amber-100 p-4 flex items-center gap-4 animate-pulse">
-                <div className="w-12 h-12 bg-amber-100/70 rounded-full shrink-0" />
-                <div className="flex-1 space-y-2">
-                  <div className="h-4 bg-amber-100/70 rounded-full w-1/3" />
-                  <div className="h-3 bg-amber-100/70 rounded-full w-2/3" />
+              <div
+                key={i}
+                className="flex animate-pulse items-center gap-4 rounded-2xl bg-card p-4 shadow-atlas-sm ring-1 ring-outline/15"
+              >
+                <div className="h-12 w-12 shrink-0 rounded-full bg-outline/15" />
+                <div className="flex-1 space-y-2.5">
+                  <div className="h-3.5 w-1/3 rounded-full bg-outline/15" />
+                  <div className="h-3 w-2/3 rounded-full bg-outline/10" />
                 </div>
               </div>
             ))}
           </div>
         ) : conversations.length === 0 ? (
-          <div className="text-center py-16">
-            <div className="mx-auto h-24 w-24 rounded-full bg-amber-50 ring-1 ring-amber-200 flex items-center justify-center mb-6">
-              <MessagesSquare size={40} className="text-amber-400" />
+          <div className="rounded-2xl bg-card px-6 py-16 text-center shadow-atlas-sm ring-1 ring-outline/15">
+            <div className="mx-auto mb-6 flex h-24 w-24 items-center justify-center rounded-full bg-atlas-secondary/15 ring-1 ring-atlas-secondary/30">
+              <MessagesSquare size={40} className="text-atlas-secondary" aria-hidden="true" />
             </div>
-            <h3 className="text-xl font-semibold text-gray-900 mb-3">
+            <h3 className="font-heading text-xl font-bold text-on-surface">
               {t('community.messages.no_conversations', 'No conversations yet')}
             </h3>
-            <p className="text-gray-600 mb-8 max-w-md mx-auto">
+            <p className="mx-auto mt-3 max-w-md text-sm leading-relaxed text-on-surface-variant">
               {t('community.messages.start_conversation', 'Start browsing products and connect with sellers to begin your first conversation')}
             </p>
-            <div className="flex flex-col sm:flex-row gap-3 justify-center">
+            <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
               <Link
                 href="/community"
-                className="inline-flex items-center gap-2 px-6 py-3 min-h-[44px] bg-indigo-700 text-white font-medium rounded-full hover:bg-indigo-800 transition-colors duration-200"
+                className="inline-flex min-h-[44px] items-center justify-center gap-2 rounded-full bg-atlas-primary px-6 py-3 text-sm font-semibold text-white transition-colors duration-200 hover:bg-primary-container focus:outline-none focus-visible:ring-2 focus-visible:ring-atlas-primary focus-visible:ring-offset-2"
               >
-                <Sparkles size={16} />
+                <Sparkles size={16} aria-hidden="true" />
                 {t('community.explore_community', 'Explore Community')}
               </Link>
               <Link
                 href="/products"
-                className="inline-flex items-center gap-2 px-6 py-3 min-h-[44px] ring-1 ring-amber-200 text-gray-700 font-medium rounded-full hover:ring-amber-300 hover:bg-amber-50 transition-all duration-200"
+                className="inline-flex min-h-[44px] items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold text-on-surface ring-1 ring-outline/30 transition-colors duration-200 hover:bg-atlas-secondary/10 hover:ring-outline/50 focus:outline-none focus-visible:ring-2 focus-visible:ring-atlas-primary focus-visible:ring-offset-2"
               >
-                <Search size={16} />
+                <Search size={16} aria-hidden="true" />
                 {t('common.browse_products', 'Browse Products')}
               </Link>
             </div>
           </div>
         ) : (
-          <div className="space-y-6">
+          <div className="space-y-5">
             {/* Search and Actions Bar */}
-            <div className="bg-amber-50/40 rounded-2xl ring-1 ring-amber-200 p-4">
-              <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
-                <div className="flex-1 max-w-md">
-                  <div className="relative">
-                    <Search size={14} className="text-gray-400 absolute start-3 top-1/2 -translate-y-1/2" />
-                    <input
-                      type="text"
-                      value={searchQuery}
-                      onChange={(e) => setSearchQuery(e.target.value)}
-                      className="w-full ps-9 pe-4 py-2.5 text-sm border border-amber-200 rounded-2xl focus:ring-2 focus:ring-indigo-700/30 focus:border-indigo-700"
-                      placeholder={t('community.messages.search_conversations', 'Search conversations...')}
-                    />
-                  </div>
-                </div>
-                <button
-                  onClick={() => window.location.reload()}
-                  className="inline-flex items-center gap-2 px-4 py-2.5 min-h-[44px] text-sm font-medium text-gray-700 ring-1 ring-amber-200 rounded-full hover:ring-amber-300 hover:bg-amber-50 transition-all duration-200"
-                >
-                  <RefreshCw size={14} />
-                  {t('common.refresh')}
-                </button>
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+              <div className="relative flex-1 sm:max-w-md">
+                <Search
+                  size={15}
+                  className="pointer-events-none absolute start-3.5 top-1/2 -translate-y-1/2 text-on-surface-variant"
+                  aria-hidden="true"
+                />
+                <input
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-full min-h-[44px] rounded-full bg-card py-2.5 ps-10 pe-4 text-sm text-on-surface shadow-atlas-sm ring-1 ring-outline/20 transition placeholder:text-on-surface-variant/70 focus:outline-none focus:ring-2 focus:ring-atlas-primary"
+                  placeholder={t('community.messages.search_conversations', 'Search conversations...')}
+                  aria-label={t('community.messages.search_conversations', 'Search conversations...')}
+                />
               </div>
+              <button
+                onClick={() => fetchConversations()}
+                disabled={isLoading}
+                aria-label={t('common.refresh', 'Refresh')}
+                className="inline-flex min-h-[44px] items-center justify-center gap-2 rounded-full bg-card px-5 py-2.5 text-sm font-semibold text-on-surface shadow-atlas-sm ring-1 ring-outline/20 transition-colors duration-200 hover:bg-atlas-secondary/10 disabled:opacity-60 focus:outline-none focus-visible:ring-2 focus-visible:ring-atlas-primary focus-visible:ring-offset-2"
+              >
+                <RefreshCw size={15} className={isLoading ? 'animate-spin' : ''} aria-hidden="true" />
+                {t('common.refresh', 'Refresh')}
+              </button>
             </div>
 
             {/* Conversations List */}
-            <div className="bg-amber-50/40 rounded-2xl ring-1 ring-amber-200 overflow-hidden">
-              <div className="border-b border-amber-200 px-6 py-4">
-                <h2 className="text-base font-semibold text-gray-900">
+            <div className="overflow-hidden rounded-2xl bg-card shadow-atlas-sm ring-1 ring-outline/15">
+              <div className="border-b border-outline/12 px-5 py-4">
+                <h2 className="text-sm font-semibold text-on-surface">
                   {t('community.messages.recent_conversations', 'Recent Conversations')}
                 </h2>
               </div>
 
-              <div className="divide-y divide-amber-100">
+              <div className="divide-y divide-outline/10">
                 <AnimatePresence>
                   {filteredConversations.map((message: ExtendedMessage) => {
                     const shopId = message.shop_id || message.shopId || message.id;
                     if (!shopId) return null;
-                    
+
                     const hasUnread = message.unread_count && message.unread_count > 0;
                     const lastActive = formatMessageDate(message.updated_at || message.createdAt || message.created_at);
                     const shopName = getShopName(message);
-                    
+
                     return (
                       <motion.div
                         key={String(message.id)}
-                        initial={prefersReducedMotion ? false : { opacity: 0, y: 20 }}
+                        initial={prefersReducedMotion ? false : { opacity: 0, y: 16 }}
                         animate={{ opacity: 1, y: 0 }}
-                        exit={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: -20 }}
-                        transition={{ duration: prefersReducedMotion ? 0 : 0.3 }}
+                        exit={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: -16 }}
+                        transition={{ duration: prefersReducedMotion ? 0 : 0.25, ease: [0.22, 1, 0.36, 1] }}
                       >
                         <Link
                           href={`/community/messages/${shopId}`}
-                          className={`block p-5 hover:bg-amber-50 transition-all duration-200 ${hasUnread ? 'bg-amber-50/70 ring-2 ring-amber-500 rounded-2xl mx-1 my-1' : ''}`}
+                          className={`flex items-center gap-4 px-5 py-4 transition-colors duration-200 focus:outline-none focus-visible:bg-atlas-secondary/10 ${
+                            hasUnread ? 'bg-atlas-secondary/[0.07] hover:bg-atlas-secondary/[0.12]' : 'hover:bg-atlas-secondary/[0.06]'
+                          }`}
                         >
-                          <div className="flex items-center gap-4">
-                            {/* Avatar */}
-                            <div className="relative flex-shrink-0">
-                              <div className={`relative w-12 h-12 rounded-full overflow-hidden ring-1 ${hasUnread ? 'ring-amber-400' : 'ring-amber-200'}`}>
-                                <Image
-                                  src={getAvatarUrl(message)}
-                                  alt={shopName}
-                                  fill
-                                  className="object-cover"
-                                />
-                              </div>
-                              {message.is_online === true && (
-                                <span className="absolute -bottom-0.5 -right-0.5 block h-3.5 w-3.5 rounded-full bg-amber-500 ring-2 ring-white"></span>
-                              )}
+                          {/* Avatar */}
+                          <div className="relative shrink-0">
+                            <div
+                              className={`relative h-12 w-12 overflow-hidden rounded-full ring-1 ${
+                                hasUnread ? 'ring-atlas-secondary' : 'ring-outline/20'
+                              }`}
+                            >
+                              <Image src={getAvatarUrl(message)} alt={shopName} fill className="object-cover" />
+                            </div>
+                            {message.is_online === true && (
+                              <span className="absolute -bottom-0.5 end-0 block h-3.5 w-3.5 rounded-full bg-emerald-500 ring-2 ring-card" aria-hidden="true" />
+                            )}
+                          </div>
+
+                          {/* Conversation Info */}
+                          <div className="min-w-0 flex-1">
+                            <div className="mb-1 flex items-baseline justify-between gap-3">
+                              <h3 className="truncate text-sm font-semibold text-on-surface">{shopName}</h3>
+                              <span className="shrink-0 whitespace-nowrap text-[11px] text-on-surface-variant">
+                                {lastActive}
+                              </span>
                             </div>
 
-                            {/* Conversation Info */}
-                            <div className="flex-1 min-w-0">
-                              <div className="flex items-center justify-between mb-1">
-                                <h3 className="text-sm font-semibold text-gray-900 truncate">
-                                  {shopName}
-                                </h3>
-                                <div className="flex items-center gap-2">
-                                  {message.is_online === true && (
-                                    <span className="text-[10px] font-medium px-2 py-0.5 rounded-full bg-amber-100 text-amber-800 ring-1 ring-amber-200 uppercase tracking-wide">
-                                      {t('common.online')}
-                                    </span>
-                                  )}
-                                  <span className="text-[11px] text-gray-500 whitespace-nowrap">
-                                    {lastActive}
-                                  </span>
-                                </div>
-                              </div>
-
-                              <p className={`text-xs truncate mb-2 ${hasUnread ? 'text-indigo-700 font-medium' : 'text-gray-600'}`}>
+                            <div className="flex items-center gap-2">
+                              <p
+                                className={`min-w-0 flex-1 truncate text-[13px] ${
+                                  hasUnread ? 'font-medium text-on-surface' : 'text-on-surface-variant'
+                                }`}
+                              >
                                 {message.last_message?.content || message.content || t('community.messages.no_messages')}
                               </p>
-
-                              <div className="flex items-center justify-between">
-                                {hasUnread && (
-                                  <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-amber-100 text-amber-800 ring-1 ring-amber-200">
-                                    {message.unread_count} {message.unread_count === 1 ? t('community.messages.new_message') : t('community.messages.new_messages')}
-                                  </span>
-                                )}
-                                <ChevronRight size={14} className="text-gray-400 ms-auto rtl:rotate-180" />
-                              </div>
+                              {hasUnread ? (
+                                <span className="inline-flex h-5 min-w-[20px] shrink-0 items-center justify-center rounded-full bg-atlas-secondary px-1.5 text-[11px] font-bold text-on-secondary">
+                                  {message.unread_count}
+                                </span>
+                              ) : (
+                                <ChevronRight
+                                  size={15}
+                                  className="shrink-0 text-on-surface-variant/50 rtl:rotate-180"
+                                  aria-hidden="true"
+                                />
+                              )}
                             </div>
                           </div>
                         </Link>
@@ -374,16 +378,16 @@ export default function MessagesPage() {
                   })}
                 </AnimatePresence>
               </div>
-              
+
               {filteredConversations.length === 0 && searchQuery && (
-                <div className="text-center py-12">
-                  <div className="mx-auto w-12 h-12 rounded-full bg-amber-50 ring-1 ring-amber-200 flex items-center justify-center mb-4">
-                    <Search size={20} className="text-amber-400" />
+                <div className="px-6 py-12 text-center">
+                  <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-atlas-secondary/15 ring-1 ring-atlas-secondary/30">
+                    <Search size={20} className="text-atlas-secondary" aria-hidden="true" />
                   </div>
-                  <h3 className="text-base font-medium text-gray-900 mb-2">
+                  <h3 className="text-base font-semibold text-on-surface">
                     {t('common.no_results', 'No results found')}
                   </h3>
-                  <p className="text-sm text-gray-600">
+                  <p className="mt-2 text-sm text-on-surface-variant">
                     {t('community.messages.no_search_results', 'Try adjusting your search to find what you\'re looking for')}
                   </p>
                 </div>

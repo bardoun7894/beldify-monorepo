@@ -2015,5 +2015,21 @@
     "retry": "Réessayer",
     "back": "Retour",
     "footnote": "Dès votre retour en ligne, toutes les fonctionnalités seront à nouveau disponibles."
+  },
+  "messages": {
+    "sign_in_required": "Connectez-vous pour voir les messages",
+    "sign_in_description": "Accédez à vos conversations avec les ateliers artisans.",
+    "sign_in": "Se connecter",
+    "conversation": "Conversation",
+    "live": "En direct",
+    "connecting": "Connexion…",
+    "offline": "Hors ligne",
+    "all_conversations": "Toutes les conversations",
+    "no_messages_yet": "Aucun message",
+    "start_conversation_hint": "Lancez la conversation, dites bonjour à l'atelier.",
+    "type_a_message": "Écrivez un message…",
+    "send": "Envoyer",
+    "error_loading": "Échec du chargement de la conversation",
+    "error_sending": "Échec de l'envoi du message"
   }
 }

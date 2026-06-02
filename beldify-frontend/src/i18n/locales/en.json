@@ -2437,5 +2437,21 @@
     "retry": "Try Again",
     "back": "Go Back",
     "footnote": "Once you're back online, all features will be available again."
+  },
+  "messages": {
+    "sign_in_required": "Sign in to view messages",
+    "sign_in_description": "Access your conversations with artisan ateliers.",
+    "sign_in": "Sign In",
+    "conversation": "Conversation",
+    "live": "Live",
+    "connecting": "Connecting…",
+    "offline": "Offline",
+    "all_conversations": "All conversations",
+    "no_messages_yet": "No messages yet",
+    "start_conversation_hint": "Start the conversation, say hello to the atelier.",
+    "type_a_message": "Type a message…",
+    "send": "Send",
+    "error_loading": "Failed to load conversation",
+    "error_sending": "Failed to send message"
   }
 }
