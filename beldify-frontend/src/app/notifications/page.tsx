@@ -85,7 +85,7 @@ const TYPE_CONFIG: Record<string, TypeConfig> = {
   review_posted: {
     icon: Star,
     href: (d: any) =>
-      d?.product_id ? `/products/${d.product_id}` : '/orders',
+      d?.stock_id ? `/products/${d.stock_id}` : '/orders',
     labelKey: 'notifications.page.types.review_posted',
     fallback: 'New review on your product',
     color: 'bg-yellow-100 text-yellow-700',
@@ -93,7 +93,7 @@ const TYPE_CONFIG: Record<string, TypeConfig> = {
   new_follower: {
     icon: UserPlus,
     href: (d: any) =>
-      d?.shop_name ? `/shops/${d.shop_name}` : '/community',
+      d?.store_slug ? `/shops/${d.store_slug}` : '/community',
     labelKey: 'notifications.page.types.new_follower',
     fallback: 'New follower',
     color: 'bg-teal-100 text-teal-700',
@@ -101,7 +101,7 @@ const TYPE_CONFIG: Record<string, TypeConfig> = {
   back_in_stock: {
     icon: PackageCheck,
     href: (d: any) =>
-      d?.product_id ? `/products/${d.product_id}` : '/orders',
+      d?.stock_id ? `/products/${d.stock_id}` : '/orders',
     labelKey: 'notifications.page.types.back_in_stock',
     fallback: 'Back in stock',
     color: 'bg-emerald-100 text-emerald-700',
@@ -109,7 +109,7 @@ const TYPE_CONFIG: Record<string, TypeConfig> = {
   price_drop: {
     icon: TrendingDown,
     href: (d: any) =>
-      d?.product_id ? `/products/${d.product_id}` : '/orders',
+      d?.stock_id ? `/products/${d.stock_id}` : '/orders',
     labelKey: 'notifications.page.types.price_drop',
     fallback: 'Price drop',
     color: 'bg-rose-100 text-rose-700',

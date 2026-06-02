@@ -53,28 +53,28 @@ const TYPE_CONFIG: Record<
   review_posted: {
     icon: Star,
     href: (d: any) =>
-      d?.product_id ? `/products/${d.product_id}` : '/orders',
+      d?.stock_id ? `/products/${d.stock_id}` : '/orders',
     labelKey: 'notifications.bell.types.review_posted',
     fallback: 'New review on your product',
   },
   new_follower: {
     icon: UserPlus,
     href: (d: any) =>
-      d?.shop_name ? `/shops/${d.shop_name}` : '/community',
+      d?.store_slug ? `/shops/${d.store_slug}` : '/community',
     labelKey: 'notifications.bell.types.new_follower',
     fallback: 'New follower',
   },
   back_in_stock: {
     icon: PackageCheck,
     href: (d: any) =>
-      d?.product_id ? `/products/${d.product_id}` : '/orders',
+      d?.stock_id ? `/products/${d.stock_id}` : '/orders',
     labelKey: 'notifications.bell.types.back_in_stock',
     fallback: 'Back in stock',
   },
   price_drop: {
     icon: TrendingDown,
     href: (d: any) =>
-      d?.product_id ? `/products/${d.product_id}` : '/orders',
+      d?.stock_id ? `/products/${d.stock_id}` : '/orders',
     labelKey: 'notifications.bell.types.price_drop',
     fallback: 'Price drop',
   },
