@@ -3,7 +3,7 @@
 import { Fragment } from 'react';
 import Link from 'next/link';
 import { Menu, Transition } from '@headlessui/react';
-import { Bell, CheckCheck, Package, MessageCircle, Scissors, ShoppingBag } from 'lucide-react';
+import { Bell, CheckCheck, Package, MessageCircle, Scissors, ShoppingBag, Star, UserPlus } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useNotifications } from '@/contexts/NotificationContext';
 import { useTranslation } from 'react-i18next';
@@ -49,6 +49,20 @@ const TYPE_CONFIG: Record<
       d?.sender_id ? `/community/messages/${d.sender_id}` : '/community/messages',
     labelKey: 'notifications.bell.types.new_message',
     fallback: 'New message',
+  },
+  review_posted: {
+    icon: Star,
+    href: (d: any) =>
+      d?.product_id ? `/products/${d.product_id}` : '/orders',
+    labelKey: 'notifications.bell.types.review_posted',
+    fallback: 'New review on your product',
+  },
+  new_follower: {
+    icon: UserPlus,
+    href: (d: any) =>
+      d?.shop_name ? `/shops/${d.shop_name}` : '/community',
+    labelKey: 'notifications.bell.types.new_follower',
+    fallback: 'New follower',
   },
 };
 

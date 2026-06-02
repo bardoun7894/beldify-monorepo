@@ -13,6 +13,8 @@ import {
   ChevronLeft,
   ChevronRight,
   RefreshCw,
+  Star,
+  UserPlus,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useAuth } from '@/contexts/AuthContext';
@@ -77,6 +79,22 @@ const TYPE_CONFIG: Record<string, TypeConfig> = {
     labelKey: 'notifications.page.types.new_message',
     fallback: 'New message',
     color: 'bg-violet-100 text-violet-700',
+  },
+  review_posted: {
+    icon: Star,
+    href: (d: any) =>
+      d?.product_id ? `/products/${d.product_id}` : '/orders',
+    labelKey: 'notifications.page.types.review_posted',
+    fallback: 'New review on your product',
+    color: 'bg-yellow-100 text-yellow-700',
+  },
+  new_follower: {
+    icon: UserPlus,
+    href: (d: any) =>
+      d?.shop_name ? `/shops/${d.shop_name}` : '/community',
+    labelKey: 'notifications.page.types.new_follower',
+    fallback: 'New follower',
+    color: 'bg-teal-100 text-teal-700',
   },
 };
 
