@@ -3,7 +3,7 @@
 import { Fragment } from 'react';
 import Link from 'next/link';
 import { Menu, Transition } from '@headlessui/react';
-import { Bell, CheckCheck, Package, MessageCircle, Scissors, ShoppingBag, Star, UserPlus } from 'lucide-react';
+import { Bell, CheckCheck, Package, MessageCircle, PackageCheck, Scissors, ShoppingBag, Star, TrendingDown, UserPlus } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useNotifications } from '@/contexts/NotificationContext';
 import { useTranslation } from 'react-i18next';
@@ -63,6 +63,20 @@ const TYPE_CONFIG: Record<
       d?.shop_name ? `/shops/${d.shop_name}` : '/community',
     labelKey: 'notifications.bell.types.new_follower',
     fallback: 'New follower',
+  },
+  back_in_stock: {
+    icon: PackageCheck,
+    href: (d: any) =>
+      d?.product_id ? `/products/${d.product_id}` : '/orders',
+    labelKey: 'notifications.bell.types.back_in_stock',
+    fallback: 'Back in stock',
+  },
+  price_drop: {
+    icon: TrendingDown,
+    href: (d: any) =>
+      d?.product_id ? `/products/${d.product_id}` : '/orders',
+    labelKey: 'notifications.bell.types.price_drop',
+    fallback: 'Price drop',
   },
 };
 

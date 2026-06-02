@@ -6,6 +6,7 @@ import {
   Bell,
   Package,
   MessageCircle,
+  PackageCheck,
   Scissors,
   ShoppingBag,
   CheckCheck,
@@ -14,6 +15,7 @@ import {
   ChevronRight,
   RefreshCw,
   Star,
+  TrendingDown,
   UserPlus,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
@@ -95,6 +97,22 @@ const TYPE_CONFIG: Record<string, TypeConfig> = {
     labelKey: 'notifications.page.types.new_follower',
     fallback: 'New follower',
     color: 'bg-teal-100 text-teal-700',
+  },
+  back_in_stock: {
+    icon: PackageCheck,
+    href: (d: any) =>
+      d?.product_id ? `/products/${d.product_id}` : '/orders',
+    labelKey: 'notifications.page.types.back_in_stock',
+    fallback: 'Back in stock',
+    color: 'bg-emerald-100 text-emerald-700',
+  },
+  price_drop: {
+    icon: TrendingDown,
+    href: (d: any) =>
+      d?.product_id ? `/products/${d.product_id}` : '/orders',
+    labelKey: 'notifications.page.types.price_drop',
+    fallback: 'Price drop',
+    color: 'bg-rose-100 text-rose-700',
   },
 };
 
