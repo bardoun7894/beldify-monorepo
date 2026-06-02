@@ -1,11 +1,12 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, MotionConfig } from 'framer-motion';
 import { useAuth } from '@/contexts/AuthContext';
 import { useRouter } from 'next/navigation';
 import { useTranslation } from 'react-i18next';
 import { User, Lock, Settings } from 'lucide-react';
+import Breadcrumbs from '@/components/navigation/Breadcrumbs';
 import ProfileHeader from './components/ProfileHeader';
 import ProfileTabs from './components/ProfileTabs';
 import GeneralSettings from './components/GeneralSettings';
@@ -13,9 +14,9 @@ import SecuritySettings from './components/SecuritySettings';
 import PreferencesSettings from './components/PreferencesSettings';
 
 const tabIcons = {
-  general: <User className="mr-2 h-5 w-5" />,
-  security: <Lock className="mr-2 h-5 w-5" />,
-  preferences: <Settings className="mr-2 h-5 w-5" />,
+  general: <User className="me-2 h-5 w-5" aria-hidden="true" />,
+  security: <Lock className="me-2 h-5 w-5" aria-hidden="true" />,
+  preferences: <Settings className="me-2 h-5 w-5" aria-hidden="true" />,
 };
 
 export default function ProfilePage() {
@@ -32,16 +33,14 @@ export default function ProfilePage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-amber-50">
-        <div className="flex flex-col items-center gap-4 p-8 bg-white rounded-2xl shadow-xl border border-amber-100">
+      <div className="min-h-screen flex items-center justify-center bg-amber-50 px-4">
+        <div className="flex flex-col items-center gap-4 p-8 bg-white rounded-2xl shadow-atlas-md border border-amber-100">
           <div className="relative">
-            <div className="w-16 h-16 rounded-full bg-indigo-100 p-1">
-              <div className="w-full h-full bg-white rounded-full flex items-center justify-center">
-                <div className="animate-spin rounded-full h-12 w-12 border-2 border-indigo-200 border-t-amber-500"></div>
-              </div>
+            <div className="w-16 h-16 rounded-full ring-2 ring-amber-200 bg-amber-50 flex items-center justify-center">
+              <div className="animate-spin rounded-full h-10 w-10 border-2 border-indigo-200 border-t-amber-500" />
             </div>
           </div>
-          <span className="text-gray-700 font-medium text-lg">{t('page.loading')}</span>
+          <span className="text-indigo-900 font-medium text-base">{t('page.loading')}</span>
         </div>
       </div>
     );
@@ -65,53 +64,92 @@ export default function ProfilePage() {
   };
 
   return (
+    // MotionConfig reducedMotion="user" makes every framer animation below (avatar
+    // spring, tab x-transitions, whileHover/whileTap) honour the OS setting; CSS
+    // transitions are already gated by the global prefers-reduced-motion block.
+    <MotionConfig reducedMotion="user">
     <div className="min-h-screen bg-amber-50 py-8 px-4 sm:px-6 lg:px-8">
       <div className="max-w-5xl mx-auto">
+        {/* ── Breadcrumbs: Home / My Account / Profile ── */}
+        <Breadcrumbs
+          className="mb-6"
+          items={[
+            { label: t('navigation.account', { ns: 'common', defaultValue: 'My Account' }) },
+            { label: t('title', { defaultValue: 'Profile' }) },
+          ]}
+        />
+
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
-          className="bg-white rounded-2xl shadow-lg overflow-hidden border border-amber-100"
+          className="overflow-hidden rounded-2xl shadow-atlas-md border border-amber-100 bg-white"
         >
-          {/* Atlas amber hairline accent */}
-          <div className="h-1 bg-amber-400 w-full" />
+          {/* Amber hairline accent top */}
+          <div className="h-1 w-full bg-amber-400" />
 
-          <div className="p-6 sm:p-8">
+          {/* Profile hero header */}
+          <div className="p-5 sm:p-7 bg-white">
             <ProfileHeader user={user} />
           </div>
 
           <div className="grid md:grid-cols-12">
-            {/* Sidebar Tabs */}
-            <div className="md:col-span-3 bg-amber-50 p-4 border-r border-amber-100">
-              <ProfileTabs activeTab={activeTab} onTabChange={setActiveTab} />
+            {/* ── Sidebar tabs ── */}
+            <div className="md:col-span-3 bg-amber-50 p-4 border-e border-amber-100">
+              {/* Mobile: horizontal scroll pill tabs */}
+              <div className="flex gap-2 overflow-x-auto pb-1 md:hidden snap-x snap-mandatory">
+                {(['general', 'security', 'preferences'] as const).map((tab) => {
+                  const isActive = activeTab === tab;
+                  return (
+                    <button
+                      key={tab}
+                      onClick={() => setActiveTab(tab)}
+                      aria-current={isActive ? 'page' : undefined}
+                      className={[
+                        'snap-start shrink-0 flex items-center gap-1.5 rounded-full px-4 py-2 text-xs font-semibold transition-all duration-200',
+                        isActive
+                          ? 'bg-indigo-700 text-white shadow-atlas-sm'
+                          : 'bg-white text-indigo-700 ring-1 ring-indigo-100 hover:ring-indigo-200',
+                      ].join(' ')}
+                    >
+                      {tabIcons[tab]}
+                      {t(`tabs.${tab}`)}
+                    </button>
+                  );
+                })}
+              </div>
+
+              {/* Desktop: vertical sidebar */}
+              <div className="hidden md:block">
+                <ProfileTabs activeTab={activeTab} onTabChange={setActiveTab} />
+              </div>
             </div>
 
-            {/* Vertical Divider */}
-            <div className="hidden md:block w-px bg-amber-100" />
-
-            {/* Main Content */}
-            <div className="md:col-span-8">
+            {/* ── Main content ── */}
+            <div className="md:col-span-9">
               <AnimatePresence mode="wait">
                 <motion.div
                   key={activeTab}
-                  initial={{ opacity: 0, x: 10 }}
+                  initial={{ opacity: 0, x: 12 }}
                   animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: -10 }}
-                  transition={{ duration: 0.2 }}
-                  className="p-6 sm:p-8"
+                  exit={{ opacity: 0, x: -12 }}
+                  transition={{ duration: 0.18 }}
+                  className="p-5 sm:p-7"
                 >
-                  <div className="mb-8">
+                  {/* Tab heading */}
+                  <div className="mb-7">
                     <h2
-                      className="text-2xl font-bold text-indigo-900 flex items-center"
+                      className="flex items-center text-2xl font-bold text-indigo-900"
                       style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
                     >
-                      <span className="text-indigo-700 mr-2">
+                      <span className="text-indigo-700">
                         {tabIcons[activeTab as keyof typeof tabIcons]}
                       </span>
                       {t(`tabs.${activeTab}`)}
                     </h2>
-                    <div className="mt-2 h-0.5 w-16 bg-amber-400 rounded-full" />
+                    <div className="mt-2 h-0.5 w-14 rounded-full bg-amber-400" />
                   </div>
+
                   {renderTabContent()}
                 </motion.div>
               </AnimatePresence>
@@ -120,5 +158,6 @@ export default function ProfilePage() {
         </motion.div>
       </div>
     </div>
+    </MotionConfig>
   );
 }

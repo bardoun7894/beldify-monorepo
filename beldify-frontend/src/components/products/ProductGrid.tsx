@@ -152,7 +152,7 @@ export default function ProductGrid({ products }: ProductGridProps) {
 
             <div className="pt-3 border-t border-gray-100">
               <button
-                className="w-full bg-amber-500 hover:bg-amber-600 text-white font-medium py-2 px-4 rounded-lg transition-colors flex items-center justify-center space-x-2"
+                className="w-full bg-amber-500 hover:bg-amber-600 text-amber-950 font-medium py-2 px-4 rounded-lg transition-colors flex items-center justify-center space-x-2"
                 onClick={(e) => {
                   e.preventDefault();
                   // Add to cart logic here

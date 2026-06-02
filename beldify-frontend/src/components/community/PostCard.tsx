@@ -36,16 +36,15 @@ export default function PostCard({ post, isUserPost = false }: PostCardProps) {
       const min = typeof price.min === 'string' ? parseFloat(price.min) : price.min;
       const max = typeof price.max === 'string' ? parseFloat(price.max) : price.max;
       if (isNaN(min) || isNaN(max)) return '';
-      return `${min} – ${max} MAD`;
+      const currency = price.currency || 'MAD';
+      return `${min.toLocaleString()} – ${max.toLocaleString()} ${currency}`;
     }
 
     const numPrice = typeof price === 'string' ? parseFloat(price) : price;
     if (isNaN(numPrice)) return '';
+    const currency = (price as any)?.currency || 'MAD';
 
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD',
-    }).format(numPrice);
+    return `${numPrice.toLocaleString()} ${currency}`;
   };
 
   const getImageSrc = (image: string | { url: string; alt?: string } | any): string => {
@@ -84,7 +83,7 @@ export default function PostCard({ post, isUserPost = false }: PostCardProps) {
 
   return (
     <Link href={`/community/posts/${post.id}`}>
-      <div className="bg-amber-50/40 rounded-2xl ring-1 ring-amber-200 hover:ring-amber-300 hover:-translate-y-0.5 hover:shadow-md transition-all duration-200 overflow-hidden">
+      <div className="bg-white rounded-2xl ring-1 ring-amber-200 hover:ring-amber-300 hover:-translate-y-0.5 hover:shadow-atlas-md transition-all duration-200 overflow-hidden">
         {/* Image Section */}
         <div className="relative h-40 bg-amber-50">
           {post.images && post.images.length > 0 ? (
@@ -101,7 +100,7 @@ export default function PostCard({ post, isUserPost = false }: PostCardProps) {
 
           {/* Status Badge */}
           {post.status && (
-            <div className="absolute top-2 left-2">
+            <div className="absolute top-2 start-2">
               <span className={`px-2 py-1 rounded-full text-xs font-medium ${statusBadgeClass}`}>
                 {t(`community.status.${post.status}`, post.status)}
               </span>
@@ -110,7 +109,7 @@ export default function PostCard({ post, isUserPost = false }: PostCardProps) {
 
           {/* Tetouani craft pill */}
           {hasTetouaniKeyword && (
-            <div className="absolute bottom-2 left-2">
+            <div className="absolute bottom-2 start-2">
               <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-amber-100 text-amber-800 text-[10px] font-semibold uppercase tracking-wide ring-1 ring-amber-200">
                 {locationIsTetouan ? 'TETOUANI' : 'BESPOKE'}
               </span>
@@ -119,7 +118,7 @@ export default function PostCard({ post, isUserPost = false }: PostCardProps) {
 
           {/* User Post Badge */}
           {isUserPost && (
-            <div className="absolute top-2 right-2">
+            <div className="absolute top-2 end-2">
               <span className="px-2 py-1 bg-indigo-700 text-white rounded-full text-xs font-medium">
                 {t('community.your_post', 'Your Post')}
               </span>
@@ -130,7 +129,7 @@ export default function PostCard({ post, isUserPost = false }: PostCardProps) {
         {/* Content Section */}
         <div className="p-4">
           {/* Title */}
-          <h3 className="font-semibold text-gray-900 mb-2 line-clamp-2 text-sm">
+          <h3 className="font-semibold text-gray-900 mb-2 line-clamp-2 text-base">
             {post.title}
           </h3>
 
@@ -159,17 +158,17 @@ export default function PostCard({ post, isUserPost = false }: PostCardProps) {
             {post.budget && (
               <div className="flex items-center gap-1.5">
                 <Wallet className="h-3 w-3 text-gray-400" />
-                <span className="text-xs text-amber-700 font-medium">
+                <span className="currency-mad text-xs text-amber-700 font-medium">
                   {formatPrice(post.budget)}
                 </span>
               </div>
             )}
 
-            {/* Date — AI metadata caption style */}
+            {/* Date — plain, scannable */}
             {post.created_at && (
               <div className="flex items-center gap-1.5">
                 <Calendar className="h-3 w-3 text-gray-400" />
-                <span className="font-mono text-[10px] tracking-[0.2em] uppercase text-gray-600">
+                <span className="text-xs text-gray-500">
                   {formatDate(post.created_at)}
                 </span>
               </div>

@@ -5,13 +5,14 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useSearchParams } from 'next/navigation';
 import { useTranslation } from 'react-i18next';
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 import { orderService, Order, OrderItem } from '@/services/orderService';
 import toast from '@/utils/toast';
 import { syncUrlLocale } from '@/i18n/config';
 import { OrdersLoadingScreen } from '@/components/ui/LoadingManager';
 import ModernOrderFilters from '@/components/orders/ModernOrderFilters';
 import ModernSearchBar from '@/components/orders/ModernSearchBar';
+import { formatMAD } from '@/components/orders/formatMAD';
 import {
   ShoppingBag,
   Search,
@@ -29,6 +30,8 @@ import {
 } from 'lucide-react';
 import logger from '@/utils/consoleLogger';
 
+const playfair = { fontFamily: '"Playfair Display", ui-serif, Georgia, serif' };
+
 export default function OrdersPage() {
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
@@ -36,19 +39,9 @@ export default function OrdersPage() {
   const { t, i18n } = useTranslation();
   const searchParams = useSearchParams();
   const isRTL = i18n.language === 'ar';
+  const shouldReduceMotion = useReducedMotion();
   const [statusFilter, setStatusFilter] = useState<'all' | 'pending' | 'processing' | 'shipped' | 'delivered' | 'cancelled'>('all');
   const [query, setQuery] = useState('');
-  const [viewMode, setViewMode] = useState<'grid' | 'list'>('list');
-
-  // Format number based on locale
-  const formatNumber = (num: number | string | null | undefined): string => {
-    if (num === null || num === undefined || isNaN(Number(num))) return '0.00';
-    return new Intl.NumberFormat(i18n.language, {
-      style: 'decimal',
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2,
-    }).format(Number(num));
-  };
 
   // Format date based on locale - Modern style
   const formatOrderDate = (date: string | null | undefined): string => {
@@ -87,28 +80,29 @@ export default function OrdersPage() {
     return t(`orders.filter.${k}`, { defaultValue: k }) as string;
   };
 
-  // Get status color - Clean flat style
+  // Get status color — Atlas token mapping
+  // amber=pending, indigo=processing/shipped, emerald=delivered, rose=cancelled
   const getStatusColor = (status: string) => {
-    const colors = {
-      pending: 'bg-amber-50 text-amber-700 border-amber-200',
-      processing: 'bg-blue-50 text-blue-700 border-blue-200',
-      shipped: 'bg-indigo-50 text-indigo-700 border-indigo-200',
-      delivered: 'bg-emerald-50 text-emerald-700 border-emerald-200',
-      cancelled: 'bg-gray-50 text-gray-600 border-gray-200',
+    const colors: Record<string, string> = {
+      pending: 'bg-amber-50 text-amber-700 ring-1 ring-amber-200',
+      processing: 'bg-indigo-50 text-indigo-700 ring-1 ring-indigo-200',
+      shipped: 'bg-indigo-50 text-indigo-700 ring-1 ring-indigo-200',
+      delivered: 'bg-emerald-50 text-emerald-700 ring-1 ring-emerald-200',
+      cancelled: 'bg-rose-50 text-rose-700 ring-1 ring-rose-200',
     };
-    return colors[status.toLowerCase() as keyof typeof colors] || colors.pending;
+    return colors[status.toLowerCase()] ?? colors.pending;
   };
 
   // Get status icon
   const getStatusIcon = (status: string) => {
-    const icons = {
+    const icons: Record<string, React.ElementType> = {
       pending: Clock,
       processing: Sparkles,
       shipped: Truck,
       delivered: CheckCircle,
       cancelled: XCircle,
     };
-    const Icon = icons[status.toLowerCase() as keyof typeof icons] || Clock;
+    const Icon = icons[status.toLowerCase()] ?? Clock;
     return <Icon className="w-4 h-4" strokeWidth={1.5} />;
   };
 
@@ -136,14 +130,12 @@ export default function OrdersPage() {
   const filteredOrders = useMemo(() => {
     let filtered = orders;
 
-    // Apply status filter
     if (statusFilter && statusFilter !== 'all') {
       filtered = filtered.filter(order =>
         order.status?.toLowerCase() === statusFilter.toLowerCase()
       );
     }
 
-    // Apply search query
     if (query) {
       const searchQuery = query.toLowerCase();
       filtered = filtered.filter(order =>
@@ -192,17 +184,19 @@ export default function OrdersPage() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="bg-white rounded-2xl shadow-xl ring-1 ring-rose-100 p-10 max-w-md w-full text-center"
+          transition={{ duration: 0.4, ease: [0.33, 1, 0.68, 1] }}
+          className="bg-white rounded-2xl shadow-atlas-lg ring-1 ring-rose-100 p-10 max-w-md w-full text-center"
         >
           <div className="w-20 h-20 bg-rose-50 rounded-full flex items-center justify-center mx-auto mb-6">
             <XCircle className="w-10 h-10 text-rose-700" strokeWidth={1.5} />
           </div>
-          <h2 className="text-2xl font-bold text-gray-900 mb-3">{t('orders.error.title')}</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-3" style={playfair}>
+            {t('orders.error.title')}
+          </h2>
           <p className="text-gray-600 mb-8">{error}</p>
           <button
             onClick={() => window.location.reload()}
-            className="w-full px-6 py-3 bg-indigo-700 text-white rounded-2xl hover:bg-indigo-800 transition hover:-translate-y-0.5 hover:shadow-md font-medium"
+            className="w-full px-6 py-3 bg-indigo-700 text-white rounded-2xl hover:bg-indigo-800 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-atlas-md font-medium focus:ring-2 focus:ring-indigo-700/30 focus:outline-none"
           >
             {t('orders.actions.try_again')}
           </button>
@@ -217,17 +211,22 @@ export default function OrdersPage() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="bg-white rounded-2xl shadow-xl ring-1 ring-amber-100 p-10 max-w-md w-full text-center"
+          transition={{ duration: 0.4, ease: [0.33, 1, 0.68, 1] }}
+          className="bg-white rounded-2xl shadow-atlas-lg ring-1 ring-amber-100 p-10 max-w-md w-full text-center"
         >
-          <div className="w-24 h-24 bg-indigo-50 rounded-full flex items-center justify-center mx-auto mb-6 animate-pulse">
+          <div className="w-24 h-24 bg-indigo-50 rounded-full flex items-center justify-center mx-auto mb-6">
             <ShoppingBag className="w-12 h-12 text-indigo-700" strokeWidth={1.5} />
           </div>
-          <h2 className="text-3xl font-bold text-gray-900 mb-4">{t('orders.empty.title')}</h2>
+          <h2
+            className="text-3xl font-bold text-gray-900 mb-4"
+            style={playfair}
+          >
+            {t('orders.empty.title')}
+          </h2>
           <p className="text-gray-600 mb-8">{t('orders.empty.description')}</p>
           <Link
             href="/products"
-            className="inline-flex items-center justify-center w-full px-6 py-3 bg-indigo-700 text-white rounded-2xl hover:bg-indigo-800 transition hover:-translate-y-0.5 hover:shadow-md font-medium"
+            className="inline-flex items-center justify-center w-full px-6 py-3 bg-indigo-700 text-white rounded-2xl hover:bg-indigo-800 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-atlas-md font-medium focus:ring-2 focus:ring-indigo-700/30 focus:outline-none"
           >
             <ShoppingBag className="w-5 h-5 me-2" strokeWidth={1.5} />
             {t('orders.actions.start_shopping')}
@@ -241,61 +240,45 @@ export default function OrdersPage() {
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      transition={{ duration: 0.5 }}
+      transition={{ duration: 0.4, ease: [0.33, 1, 0.68, 1] }}
       className={`min-h-screen bg-amber-50/40 ${isRTL ? 'rtl' : 'ltr'}`}
       dir={isRTL ? 'rtl' : 'ltr'}
     >
-      {/* Modern Header with Gradient */}
-      <div className="bg-white/80 backdrop-blur-md border-b border-gray-200 sticky top-0 z-10">
+      {/* Page header — solid parchment surface (no glassmorphism) */}
+      <div className="bg-white border-b border-amber-100 sticky top-0 z-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="py-6 sm:py-8">
-            <div className="flex items-center justify-between mb-6">
-              <div>
-                <h1 className="text-3xl sm:text-4xl font-bold text-gray-900">
-                  {t('orders.title')}
-                </h1>
-                <p className="mt-2 text-gray-600 flex items-center gap-2">
-                  <Archive className="w-5 h-5 text-indigo-700" strokeWidth={1.5} />
+            <div className="mb-6">
+              <h1
+                className="text-3xl sm:text-4xl font-bold text-gray-900 tracking-tight"
+                style={playfair}
+              >
+                {t('orders.title')}
+              </h1>
+              <p className="mt-2 text-gray-600 flex items-center gap-2">
+                <Archive className="w-4 h-4 text-indigo-700 flex-shrink-0" strokeWidth={1.5} />
+                <span>
                   {filteredOrders.length} {t('orders.subtitle', { count: filteredOrders.length })}
-                </p>
-              </div>
-
-              {/* Quick Stats */}
-              <div className="hidden md:flex items-center gap-4">
-                {statusFilter === 'all' && (
-                  <div className="flex gap-3">
-                    <div className="px-4 py-2 bg-amber-50 rounded-2xl ring-1 ring-amber-200">
-                      <p className="text-xs text-amber-700 font-medium">{t('orders.filter.pending', 'Pending')}</p>
-                      <p className="text-lg font-bold text-amber-700">{statusCounts.pending}</p>
-                    </div>
-                    <div className="px-4 py-2 bg-emerald-50 rounded-2xl ring-1 ring-emerald-200">
-                      <p className="text-xs text-emerald-700 font-medium">{t('orders.filter.delivered', 'Delivered')}</p>
-                      <p className="text-lg font-bold text-emerald-700">{statusCounts.delivered}</p>
-                    </div>
-                  </div>
-                )}
-              </div>
+                </span>
+              </p>
             </div>
 
-            {/* Modern Search Bar */}
-            <div className="space-y-4">
-              <ModernSearchBar
-                query={query}
-                setQuery={setQuery}
-                statusFilter={statusFilter}
-                setStatusFilter={setStatusFilter}
-                placeholder={t('orders.search.placeholder')}
-                isRTL={isRTL}
-                t={t}
-              />
-            </div>
+            <ModernSearchBar
+              query={query}
+              setQuery={setQuery}
+              statusFilter={statusFilter}
+              setStatusFilter={setStatusFilter}
+              placeholder={t('orders.search.placeholder')}
+              isRTL={isRTL}
+              t={t}
+            />
           </div>
         </div>
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
 
-        {/* Modern Filter Pills */}
+        {/* Status filter pills */}
         <ModernOrderFilters
           statusFilter={statusFilter}
           setStatusFilter={setStatusFilter}
@@ -304,17 +287,21 @@ export default function OrdersPage() {
           isRTL={isRTL}
         />
 
-        {/* Results Section */}
+        {/* Results */}
         {filteredOrders.length === 0 ? (
           <motion.div
-            initial={{ scale: 0.9, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ duration: 0.4 }}
-            className="bg-white rounded-2xl shadow-xl ring-1 ring-amber-100 overflow-hidden text-center p-16">
-            <div className="mx-auto w-24 h-24 rounded-full bg-indigo-50 flex items-center justify-center mb-8 animate-pulse">
-              <Search className="w-12 h-12 text-indigo-700" strokeWidth={1.5} />
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.35, ease: [0.33, 1, 0.68, 1] }}
+            className="bg-white rounded-2xl shadow-atlas-sm ring-1 ring-amber-100 overflow-hidden text-center p-16 mt-6"
+          >
+            <div className="mx-auto w-20 h-20 rounded-full bg-indigo-50 flex items-center justify-center mb-8">
+              <Search className="w-10 h-10 text-indigo-700" strokeWidth={1.5} />
             </div>
-            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3">
+            <h2
+              className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3"
+              style={playfair}
+            >
               {t('orders.no_results.title', { defaultValue: 'No matching orders found' })}
             </h2>
             <p className="text-gray-600 mb-8">
@@ -324,7 +311,7 @@ export default function OrdersPage() {
               <button
                 type="button"
                 onClick={() => { setStatusFilter('all'); setQuery(''); }}
-                className="inline-flex items-center justify-center px-8 py-3 rounded-2xl bg-indigo-700 text-white hover:bg-indigo-800 transition hover:-translate-y-0.5 hover:shadow-md font-medium"
+                className="inline-flex items-center justify-center px-8 py-3 rounded-2xl bg-indigo-700 text-white hover:bg-indigo-800 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-atlas-md font-medium focus:ring-2 focus:ring-indigo-700/30 focus:outline-none"
               >
                 <XCircle className="w-5 h-5 me-2" strokeWidth={1.5} />
                 {t('orders.actions.clear_filters', { defaultValue: 'Clear filters' })}
@@ -332,61 +319,73 @@ export default function OrdersPage() {
             )}
           </motion.div>
         ) : (
-          <div className="grid gap-6">
+          <div className="grid gap-5 mt-6 lg:grid-cols-2 lg:items-start">
             {filteredOrders.map((order: Order, index: number) => (
               <motion.div
                 key={order.id}
-                initial={{ y: 20, opacity: 0 }}
+                initial={shouldReduceMotion ? false : { y: 16, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
-                transition={{ duration: 0.4, delay: index * 0.05 }}
-                className="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border border-gray-100"
+                transition={{
+                  duration: shouldReduceMotion ? 0 : 0.35,
+                  delay: shouldReduceMotion ? 0 : Math.min(index * 0.04, 0.32),
+                  ease: [0.33, 1, 0.68, 1],
+                }}
+                className="bg-white rounded-2xl shadow-atlas-sm hover:shadow-atlas-md transition-all duration-200 hover:-translate-y-0.5 overflow-hidden ring-1 ring-amber-100"
               >
-                {/* Order Header */}
-                <div className="p-6 pb-4 border-b border-amber-100 bg-amber-50/40">
-                  <div className="flex items-start justify-between">
-                    <div className="space-y-1">
-                      <div className="flex items-center gap-3">
-                        <h3 className="text-lg font-bold text-gray-900">
-                          Order #{order.order_number || '-'}
+                {/* Order header */}
+                <div className="p-5 sm:p-6 pb-4 border-b border-amber-100 bg-amber-50/30">
+                  <div className="flex items-start justify-between gap-4">
+                    <div className="space-y-1.5 min-w-0">
+                      <div className="flex items-center gap-3 flex-wrap">
+                        <h3
+                          className="text-lg font-bold text-gray-900"
+                          style={playfair}
+                        >
+                          {t('orders.list.order_number', { orderNumber: order.order_number, defaultValue: `Order #${order.order_number}` })}
                         </h3>
-                        <span className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold border ${getStatusColor(order.status)}`}>
+                        <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold ${getStatusColor(order.status)}`}>
                           {getStatusIcon(order.status)}
                           {statusLabel(order.status)}
                         </span>
                       </div>
                       <div className="flex items-center gap-4 text-sm text-gray-500">
-                        <span className="flex items-center gap-1">
-                          <Calendar className="w-4 h-4" strokeWidth={1.5} />
+                        <span className="flex items-center gap-1.5">
+                          <Calendar className="w-3.5 h-3.5 flex-shrink-0" strokeWidth={1.5} />
                           {formatOrderDate(order.created_at)}
                         </span>
-                        <span className="flex items-center gap-1">
-                          <CreditCard className="w-4 h-4" strokeWidth={1.5} />
-                          {order.payment_method || 'Cash'}
-                        </span>
+                        {order.payment_method && (
+                          <span className="flex items-center gap-1.5">
+                            <CreditCard className="w-3.5 h-3.5 flex-shrink-0" strokeWidth={1.5} />
+                            {order.payment_method}
+                          </span>
+                        )}
                       </div>
                     </div>
 
-                    {/* Order Total */}
-                    <div className="text-right">
-                      <p className="text-xs text-gray-500 mb-1">{t('orders.summary.total', 'Total')}</p>
-                      <p className="text-2xl font-bold text-indigo-700">
-                        {formatNumber(order.total_amount)} MAD
+                    {/* Order total */}
+                    <div className="text-end flex-shrink-0">
+                      <p className="text-xs text-gray-500 mb-0.5">{t('orders.summary.total', 'Total')}</p>
+                      <p className="text-xl font-bold text-indigo-700">
+                        <span className="currency-mad">{formatMAD(order.total_amount, i18n.language)}</span>
                       </p>
                     </div>
                   </div>
                 </div>
 
-                {/* Order Items */}
-                <div className="p-6 pb-4">
-                  <div className="space-y-3">
+                {/* Order items preview */}
+                <div className="p-5 sm:p-6 pb-4">
+                  <div className="space-y-2.5">
                     {(order.items ?? []).slice(0, 3).map((item: OrderItem) => (
-                      <div key={`${order.id}-item-${item.id}`} className="flex items-center gap-4 p-3 rounded-2xl bg-amber-50/40 hover:bg-amber-50 transition-colors">
-                        <div className="relative w-16 h-16 rounded-2xl overflow-hidden bg-white shadow-sm flex-shrink-0">
+                      <div
+                        key={`${order.id}-item-${item.id}`}
+                        className="flex items-center gap-3 p-3 rounded-xl bg-amber-50/40 hover:bg-amber-50/70 transition-colors"
+                      >
+                        <div className="relative w-14 h-14 rounded-xl overflow-hidden bg-white shadow-atlas-sm flex-shrink-0">
                           <Image
                             src={item.primary_image || item.product_image || '/images/placeholder-product.jpg'}
                             alt={item.product_name || 'Product'}
                             fill
-                            sizes="64px"
+                            sizes="56px"
                             className="object-cover"
                             loading="lazy"
                             onError={(e) => {
@@ -396,46 +395,48 @@ export default function OrdersPage() {
                           />
                         </div>
                         <div className="flex-1 min-w-0">
-                          <p className="font-semibold text-gray-900 truncate">
+                          <p className="font-semibold text-gray-900 truncate text-sm">
                             {item.product_name || 'Unknown Product'}
                           </p>
-                          <div className="flex items-center gap-3 mt-1">
-                            <span className="text-sm text-gray-500">
+                          <div className="flex items-center gap-3 mt-0.5">
+                            <span className="text-xs text-gray-500">
                               {t('orders.items.qty', 'Qty')}: <span className="font-semibold text-gray-700">{item.quantity}</span>
                             </span>
-                            <span className="text-sm font-semibold text-indigo-700">
-                              {formatNumber(item.unit_price)} MAD
+                            <span className="text-xs font-semibold text-indigo-700 currency-mad">
+                              {formatMAD(item.unit_price, i18n.language)}
                             </span>
                           </div>
                         </div>
                       </div>
                     ))}
                     {order.items && order.items.length > 3 && (
-                      <p className="text-sm text-gray-500 text-center py-2">
-                        +{order.items.length - 3} more items
+                      <p className="text-xs text-gray-500 text-center py-1.5">
+                        +{order.items.length - 3} {t('orders.items.more', 'more items')}
                       </p>
                     )}
                   </div>
                 </div>
 
-                {/* Order Actions */}
-                <div className="p-6 pt-4 bg-amber-50/30 border-t border-amber-100">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2 text-sm text-gray-600">
+                {/* Order footer */}
+                <div className="px-5 sm:px-6 py-4 bg-amber-50/20 border-t border-amber-100">
+                  <div className="flex items-center justify-between gap-4">
+                    <div className="min-w-0">
                       {order.shipping_address && (
-                        <span className="flex items-center gap-1">
-                          <MapPin className="w-4 h-4 text-indigo-700" strokeWidth={1.5} />
-                          {t('orders.list.shipping_to', 'Shipping to')} {order.shipping_address.city}
+                        <span className="flex items-center gap-1.5 text-sm text-gray-500">
+                          <MapPin className="w-3.5 h-3.5 text-indigo-700 flex-shrink-0" strokeWidth={1.5} />
+                          <span className="truncate">
+                            {t('orders.list.shipping_to', 'Shipping to')} {order.shipping_address.city}
+                          </span>
                         </span>
                       )}
                     </div>
                     <Link
                       href={`/orders/${order.order_number}`}
-                      className="inline-flex items-center gap-2 px-5 py-2.5 bg-indigo-700 text-white text-sm font-medium rounded-2xl hover:bg-indigo-800 transition hover:-translate-y-0.5 hover:shadow-md"
+                      className="inline-flex items-center gap-2 px-5 py-2.5 bg-indigo-700 text-white text-sm font-medium rounded-2xl hover:bg-indigo-800 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-atlas-md flex-shrink-0 focus:ring-2 focus:ring-indigo-700/30 focus:outline-none"
                     >
                       <Eye className="w-4 h-4" strokeWidth={1.5} />
                       {t('orders.actions.view_details')}
-                      <ChevronRight className="w-3 h-3" strokeWidth={1.5} />
+                      <ChevronRight className={`w-3.5 h-3.5 ${isRTL ? 'rotate-180' : ''}`} strokeWidth={2} />
                     </Link>
                   </div>
                 </div>

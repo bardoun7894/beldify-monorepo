@@ -608,7 +608,17 @@
     },
     "order_number": "Numéro de commande",
     "status": {
-      "label": "Statut de la commande"
+      "label": "Statut de la commande",
+      "values": {
+        "pending": "En attente",
+        "awaiting_payment": "En attente de paiement",
+        "processing": "En cours de traitement",
+        "confirmed": "Confirmée",
+        "shipped": "Expédiée",
+        "delivered": "Livrée",
+        "cancelled": "Annulée",
+        "refunded": "Remboursée"
+      }
     },
     "shipping": {
       "title": "Adresse de livraison"

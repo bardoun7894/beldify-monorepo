@@ -12,7 +12,7 @@ export function ErrorMessage({ message, onRetry }: ErrorMessageProps) {
       {onRetry && (
         <button
           onClick={onRetry}
-          className="mt-4 px-4 py-2 bg-amber-500 text-white rounded-md hover:bg-amber-600"
+          className="mt-4 px-4 py-2 bg-amber-500 text-amber-950 rounded-md hover:bg-amber-600"
         >
           Try Again
         </button>

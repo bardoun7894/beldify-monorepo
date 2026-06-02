@@ -2009,5 +2009,19 @@
     "retry": "عاود حاول",
     "back": "رجع للور",
     "footnote": "ملي ترجع للأنترنيت غاتولي تستعمل كل الخدمات."
+  },
+  "order_confirmation": {
+    "status": {
+      "values": {
+        "pending": "قيد الانتظار",
+        "awaiting_payment": "بانتظار الدفع",
+        "processing": "كيتعالج",
+        "confirmed": "مؤكد",
+        "shipped": "تشحن",
+        "delivered": "توصل",
+        "cancelled": "تلغى",
+        "refunded": "ترجع الفلوس"
+      }
+    }
   }
 }

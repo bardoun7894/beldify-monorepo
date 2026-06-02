@@ -91,7 +91,7 @@ export default function ResponseCard({ response, isPostOwner, onAccept, onReject
         <div className="flex justify-between items-start mb-6">
           <div className="flex items-center">
             {/* Avatar */}
-            <div className="relative h-14 w-14 rounded-full overflow-hidden bg-indigo-50 mr-4 ring-1 ring-amber-200">
+            <div className="relative h-14 w-14 rounded-full overflow-hidden bg-indigo-50 me-4 ring-1 ring-amber-200">
               {response.shop?.logo && typeof response.shop.logo === 'string' ? (
                 <Image
                   src={response.shop.logo}
@@ -108,16 +108,20 @@ export default function ResponseCard({ response, isPostOwner, onAccept, onReject
             <div>
               <h3 className="font-semibold text-gray-900 text-base flex items-center gap-1">
                 {response.shop?.name || response.shopName || response.userName || t('community.seller')}
-                {(response.shop?.isVerified || true) && (
+                {response.shop?.isVerified && (
                   <BadgeCheck size={16} className="text-indigo-700 shrink-0" />
                 )}
               </h3>
               {/* Seller-side AI chip */}
               <div className="flex items-center gap-2 mt-1">
-                <div className="flex items-center">
-                  <Star size={12} className="text-amber-500 mr-1" />
-                  <span className="text-sm text-gray-700 font-medium">4.9</span>
-                </div>
+                {typeof response.shop?.rating === 'number' && (
+                  <div className="flex items-center">
+                    <Star size={12} className="text-amber-500 me-1" />
+                    <span className="text-sm text-gray-700 font-medium">
+                      {response.shop.rating.toFixed(1)}
+                    </span>
+                  </div>
+                )}
                 <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-indigo-700 text-white text-[10px] font-medium">
                   <Sparkles size={10} className="shrink-0" />
                   {t('ai.chip.photoEnhance', 'AI photo enhance')}
@@ -138,7 +142,7 @@ export default function ResponseCard({ response, isPostOwner, onAccept, onReject
         {response.price && (
           <div className="mb-4 inline-flex items-center gap-2 px-4 py-2.5 bg-amber-50 rounded-2xl ring-1 ring-amber-200">
             <Wallet size={16} className="text-amber-700 shrink-0" />
-            <span className="font-medium text-amber-800">
+            <span className="currency-mad font-medium text-amber-800">
               {response.price} {response.currency || 'MAD'}
             </span>
           </div>
@@ -198,7 +202,7 @@ export default function ResponseCard({ response, isPostOwner, onAccept, onReject
         )}
 
         {/* Timestamp */}
-        <div className="mt-3 font-mono text-[10px] tracking-[0.2em] uppercase text-gray-600">
+        <div className="mt-3 text-xs text-gray-500">
           {formatDate(response.created_at)}
         </div>
 

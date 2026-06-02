@@ -17,46 +17,40 @@ interface BreadcrumbsProps {
 }
 
 export default function Breadcrumbs({ items, className }: BreadcrumbsProps) {
-  const { t } = useTranslation();
-  const { i18n } = useTranslation();
-  const isRTL = i18n.language === 'ar';
+  const { t, i18n } = useTranslation();
 
   return (
     <nav
       aria-label={t('chrome.breadcrumbs.label', 'Breadcrumb')}
       className={cn("flex items-center text-sm text-gray-500", className)}
     >
-      <ol className={cn(
-        "flex items-center flex-wrap gap-1",
-        isRTL && "flex-row-reverse"
-      )}>
+      <ol className="flex items-center flex-wrap gap-1">
         <li>
           <Link
             href="/"
-            className="flex items-center hover:text-indigo-700 transition-colors"
+            className="flex items-center p-1 rounded-lg hover:text-indigo-700 hover:bg-amber-50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30"
           >
-            <Home className="h-4 w-4" />
+            <Home className="h-4 w-4" aria-hidden="true" />
             <span className="sr-only">{t('navigation.home')}</span>
           </Link>
         </li>
-        
+
         {items.map((item, index) => (
           <li key={index} className="flex items-center">
+            {/* ChevronRight flips automatically with RTL dir via rtl:rotate-180 */}
             <ChevronRight
-              className={cn(
-                "h-4 w-4 mx-1 text-gray-400 flex-shrink-0",
-                isRTL && "rotate-180"
-              )}
+              className="h-4 w-4 mx-1 text-amber-400 flex-shrink-0 rtl:rotate-180"
+              aria-hidden="true"
             />
             {item.href ? (
               <Link
                 href={item.href}
-                className="hover:text-indigo-700 transition-colors"
+                className="px-1 hover:text-indigo-700 transition-colors rounded hover:underline underline-offset-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30"
               >
                 {item.label}
               </Link>
             ) : (
-              <span className="text-gray-900 font-medium" aria-current="page">
+              <span className="px-1 text-gray-900 font-medium" aria-current="page">
                 {item.label}
               </span>
             )}

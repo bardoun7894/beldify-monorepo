@@ -73,8 +73,8 @@ export const UnreadBadge: React.FC<UnreadBadgeProps> = ({
       className={`
         inline-flex items-center justify-center
         min-w-[20px] h-5 px-1.5
-        text-xs font-semibold text-white
-        bg-red-500 rounded-full
+        text-xs font-semibold text-amber-950
+        bg-amber-500 rounded-full
         ${className}
       `}
     >

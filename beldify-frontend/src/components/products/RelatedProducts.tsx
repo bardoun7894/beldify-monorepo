@@ -83,7 +83,7 @@ const RelatedProducts: React.FC<RelatedProductsProps> = ({
     <div className={cn("mt-8 px-4", className)}>
       <div className="relative mb-6">
         <h2 className="text-xl font-medium inline-block">
-          <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-amber-500">
+          <span className="text-indigo-700">
             {title || t('product.related_products')}
           </span>
         </h2>

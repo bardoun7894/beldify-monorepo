@@ -234,9 +234,10 @@ export default function PostDetailPage() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="flex flex-col items-center gap-3">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-700"></div>
+      <div className="min-h-screen bg-amber-50/30 flex items-center justify-center">
+        <div className="flex flex-col items-center gap-4">
+          <div className="w-16 h-16 bg-amber-100/70 rounded-2xl animate-pulse" />
+          <div className="w-32 h-4 bg-amber-100/70 rounded-full animate-pulse" />
           <p className="text-sm text-gray-500">{t('common.loading', 'Loading...')}</p>
         </div>
       </div>
@@ -245,7 +246,7 @@ export default function PostDetailPage() {
 
   if (error || !post) {
     return (
-      <div className="min-h-screen bg-gray-50 py-12">
+      <div className="min-h-screen bg-amber-50/30 py-12">
         <div className="max-w-7xl mx-auto px-6">
           <div className="max-w-lg mx-auto text-center">
             <div className="bg-rose-50 rounded-2xl p-8 ring-1 ring-rose-200">
@@ -277,8 +278,8 @@ export default function PostDetailPage() {
   const currentStepIndex = statusSteps.findIndex(s => s.key === post.status);
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="max-w-7xl mx-auto px-6 py-8 max-w-4xl">
+    <div className="min-h-screen bg-amber-50/30">
+      <div className="max-w-4xl mx-auto px-6 py-8">
         {/* Back Button */}
         <Link
           href="/community"
@@ -329,13 +330,13 @@ export default function PostDetailPage() {
             <div className="flex flex-wrap items-center gap-5 mb-5">
               <div className="flex items-center gap-1.5">
                 <Clock size={13} className="text-gray-400" />
-                <span className="font-mono text-[10px] tracking-[0.2em] uppercase text-gray-600">
+                <span className="text-xs text-gray-500">
                   {formatDate(post.created_at)}
                 </span>
               </div>
               <div className="flex items-center gap-1.5">
                 <MessagesSquare size={13} className="text-gray-400" />
-                <span className="font-mono text-[10px] tracking-[0.2em] uppercase text-gray-600">
+                <span className="text-xs text-gray-500">
                   {responses.length} {t('community.responses')}
                 </span>
               </div>
@@ -355,7 +356,7 @@ export default function PostDetailPage() {
             {(post.budget_min && post.budget_max) || post.budget ? (
               <div className="inline-flex items-center gap-2 px-4 py-2.5 bg-amber-50 rounded-2xl ring-1 ring-amber-200 mb-5">
                 <Wallet size={16} className="text-amber-700 shrink-0" />
-                <span className="text-sm font-medium text-amber-800">
+                <span className="currency-mad text-sm font-medium text-amber-800">
                   {post.budget
                     ? `${post.budget.min} – ${post.budget.max} ${post.budget.currency}`
                     : `${post.budget_min} – ${post.budget_max} ${post.currency || 'MAD'}`
@@ -373,9 +374,9 @@ export default function PostDetailPage() {
                   src={getImageUrl(typeof post.images[activeImageIndex] === 'string' ? post.images[activeImageIndex] : post.images[activeImageIndex].image_path)}
                   alt={`${post.title} - Image ${activeImageIndex + 1}`}
                   fill
-                  className="object-contain transition-transform duration-500 group-hover:scale-105"
+                  className="object-contain transition-transform duration-500 group-hover:scale-105 motion-reduce:group-hover:scale-100"
                 />
-                <div className="absolute bottom-3 right-3 bg-black/70 text-white px-2.5 py-1 rounded-full text-xs backdrop-blur-sm">
+                <div className="absolute bottom-3 end-3 bg-indigo-950/70 text-white px-2.5 py-1 rounded-full text-xs backdrop-blur-sm">
                   {activeImageIndex + 1} / {post.images.length}
                 </div>
               </div>
@@ -439,7 +440,7 @@ export default function PostDetailPage() {
                   </div>
                 )}
               </div>
-              <div className="ml-3">
+              <div className="ms-3">
                 <p className="text-sm font-medium text-gray-900 flex items-center gap-2">
                   {post.userName || post.user?.name}
                   {Number(user?.id) === (post.userId || post.user?.id) && (
@@ -448,7 +449,7 @@ export default function PostDetailPage() {
                     </span>
                   )}
                 </p>
-                <p className="font-mono text-[10px] tracking-[0.2em] uppercase text-gray-500 flex items-center gap-1 mt-0.5">
+                <p className="text-xs text-gray-500 flex items-center gap-1 mt-0.5">
                   <Clock size={9} />
                   {formatDate(post.createdAt || post.created_at)}
                 </p>

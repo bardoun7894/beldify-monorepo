@@ -24,7 +24,8 @@ describe('services/tailoring/[id]/page.tsx — Atlas compliance', () => {
     expect(pageSrc).toContain('amber-200');
   });
 
-  it('preserves bg-indigo-900 hero strip (already present)', () => {
-    expect(pageSrc).toContain('bg-indigo-900');
+  it('uses the Atlas indigo-950 dark hero strip (indigo-900 is off-scale)', () => {
+    expect(pageSrc).toContain('bg-indigo-950');
+    expect(pageSrc).not.toContain('bg-indigo-900');
   });
 });

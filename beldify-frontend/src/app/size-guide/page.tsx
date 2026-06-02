@@ -207,7 +207,7 @@ export default function SizeGuidePage() {
               {headers.map((header, index) => (
                 <th
                   key={index}
-                  className="px-6 py-4 text-left text-xs font-semibold text-indigo-900 uppercase tracking-wide"
+                  className="px-6 py-4 text-start text-xs font-semibold text-indigo-900 uppercase tracking-wide"
                 >
                   {header}
                 </th>
@@ -295,7 +295,7 @@ export default function SizeGuidePage() {
                 onClick={() => setGarmentType(key)}
                 className={`flex items-center gap-2 px-5 py-2 rounded-full text-sm font-medium transition ${
                   garmentType === key
-                    ? 'bg-amber-500 text-white shadow-sm'
+                    ? 'bg-amber-500 text-amber-950 shadow-sm'
                     : 'bg-amber-50 text-amber-800 ring-1 ring-amber-200 hover:ring-amber-400'
                 }`}
               >
@@ -353,7 +353,7 @@ export default function SizeGuidePage() {
             <div className="space-y-4">
               {/* Length Measurement */}
               <div className="flex items-start p-5 rounded-2xl ring-1 ring-amber-200/60 bg-white shadow-sm">
-                <Layers className="h-5 w-5 text-amber-600 mt-1 mr-3 flex-shrink-0" />
+                <Layers className="h-5 w-5 text-amber-600 mt-1 me-3 flex-shrink-0" />
                 <div>
                   <h3 className="font-semibold text-indigo-900">
                     {t('size_guide.length')}

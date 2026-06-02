@@ -169,20 +169,20 @@ const ProductCard = memo(function ProductCard({
       {/* Product Image Container */}
       <Link href={`/products/${id}`} className="block">
         <div className="relative w-full pt-[100%]">
-          {/* Express Delivery Badge — Atlas: indigo-700 bg (replaces .badge-express emerald) */}
+          {/* Express Delivery Badge — Atlas: indigo-700 bg */}
           {showExpressDelivery && (
-            <div className="absolute top-3 left-3 z-10">
-              <div className="flex items-center gap-1 bg-indigo-700 text-white px-2.5 py-1 rounded-full text-xs font-bold shadow-sm">
+            <div className="absolute top-3 start-3 z-10">
+              <div className="flex items-center gap-1 bg-indigo-700 text-white px-2.5 py-1 rounded-full text-xs font-semibold shadow-sm">
                 <Zap className="h-3 w-3" aria-hidden="true" />
                 {t('product.express')}
               </div>
             </div>
           )}
 
-          {/* Discount Badge — Atlas: rose-700 bg (sale/error token, replaces .badge-discount red→pink) */}
+          {/* Discount Badge — Atlas: rose-700 (Tetouani Garnet, sale-only) */}
           {hasDiscount && (
-            <div className="absolute top-3 right-3 z-10">
-              <div className="bg-rose-700 text-white px-2.5 py-1 rounded-full text-xs font-bold shadow-sm">
+            <div className="absolute top-3 end-3 z-10">
+              <div className="bg-rose-700 text-white px-2.5 py-1 rounded-full text-xs font-semibold shadow-sm">
                 -{discountPercentage}%
               </div>
             </div>
@@ -223,8 +223,8 @@ const ProductCard = memo(function ProductCard({
             </div>
           </div>
 
-          {/* Quick Action Buttons */}
-          <div className="absolute top-3 right-3 z-10 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-x-2 group-hover:translate-x-0">
+          {/* Quick Action Buttons — float from end edge */}
+          <div className="absolute top-3 end-3 z-10 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-all duration-200 translate-x-2 group-hover:translate-x-0">
             <button
               onClick={handleWishlistToggle}
               className={`btn-action ${isWishlisted ? 'btn-action-active' : 'btn-action-default'}`}
@@ -248,7 +248,7 @@ const ProductCard = memo(function ProductCard({
 
           {/* Stock Status Indicator - Only show for out of stock */}
           {stock_quantity <= 0 && (
-            <div className="absolute bottom-3 left-3 z-10">
+            <div className="absolute bottom-3 start-3 z-10">
               <div className="badge-stock badge-stock-out flex items-center gap-1">
                 <XCircle className="h-3 w-3" aria-hidden="true" />
                 {getStockStatusText()}
@@ -262,14 +262,14 @@ const ProductCard = memo(function ProductCard({
       <div className="p-4">
         {/* Brand & Rating */}
         <div className="flex items-center justify-between mb-2">
-          <span className="text-xs font-bold text-secondary-600 truncate max-w-[100px] uppercase tracking-wider bg-secondary-50/50 px-2.5 py-1 rounded-full">
+          <span className="text-xs font-bold text-indigo-700 truncate max-w-[100px] uppercase tracking-wider bg-indigo-50 px-2.5 py-1 rounded-full">
             {displayCategory}
           </span>
           {rating > 0 && (
             <div className="badge-rating">
               <span className="text-amber-600 text-xs font-bold">{rating.toFixed(1)} ★</span>
               {reviews_count > 0 && (
-                <span className="ml-1 text-xs text-amber-500/70">({reviews_count})</span>
+                <span className="ms-1 text-xs text-amber-500/70">({reviews_count})</span>
               )}
             </div>
           )}
@@ -287,7 +287,7 @@ const ProductCard = memo(function ProductCard({
           <div className="flex flex-col flex-1">
             <div className="flex items-center gap-2">
               {/* Atlas price-display: indigo-700 per design spec (overrides .price-current gray gradient) */}
-              <span className="text-base font-extrabold text-indigo-700">{formatPrice(displayPrice)}</span>
+              <span className="text-base font-extrabold text-indigo-700 currency-mad">{formatPrice(displayPrice)}</span>
               {hasDiscount && (
                 <span className="price-original">{formatPrice(price)}</span>
               )}
@@ -310,7 +310,7 @@ const ProductCard = memo(function ProductCard({
               className={`p-2.5 rounded-xl bg-amber-500 text-amber-950 hover:bg-amber-400 transition-all duration-300 active:scale-95 hover:scale-105 relative overflow-hidden shadow-md hover:shadow-lg flex items-center justify-center ${isAddingToCart ? 'opacity-80' : ''}`}
               aria-label={t('product.addToCart')}
             >
-              <div className={`absolute inset-0 flex items-center justify-center bg-[#252555] transition-transform duration-500 ${isAddingToCart ? 'translate-y-0' : 'translate-y-full'}`}>
+              <div className={`absolute inset-0 flex items-center justify-center bg-indigo-950 transition-transform duration-500 ${isAddingToCart ? 'translate-y-0' : 'translate-y-full'}`}>
                 <Check className="h-4 w-4 text-white" />
               </div>
               <ShoppingCart className={`h-4 w-4 transition-all duration-300 ${isAddingToCart ? 'opacity-0 scale-75' : 'opacity-100 scale-100'}`} />

@@ -127,14 +127,14 @@ export default function ShippingPage() {
               <ul role="list" className="space-y-6">
                 <li className="flex">
                   <ShieldCheck className="h-5 w-5 flex-shrink-0 text-amber-600 mt-0.5" aria-hidden="true" />
-                  <span className="ml-3 text-sm text-gray-700">
+                  <span className="ms-3 text-sm text-gray-700">
                     <strong className="font-semibold text-indigo-900">{t('pages.shipping.processingTime')}:</strong>{' '}
                     {t('pages.shipping.processingText')}
                   </span>
                 </li>
                 <li className="flex">
                   <ShieldCheck className="h-5 w-5 flex-shrink-0 text-amber-600 mt-0.5" aria-hidden="true" />
-                  <span className="ml-3 text-sm text-gray-700">
+                  <span className="ms-3 text-sm text-gray-700">
                     <strong className="font-semibold text-indigo-900">
                       {t('content.shipping.shippingConfirmation', 'Shipping Confirmation')}:
                     </strong>{' '}
@@ -143,7 +143,7 @@ export default function ShippingPage() {
                 </li>
                 <li className="flex">
                   <ShieldCheck className="h-5 w-5 flex-shrink-0 text-amber-600 mt-0.5" aria-hidden="true" />
-                  <span className="ml-3 text-sm text-gray-700">
+                  <span className="ms-3 text-sm text-gray-700">
                     <strong className="font-semibold text-indigo-900">
                       {t('content.shipping.deliveryDays', 'Delivery Days')}:
                     </strong>{' '}
@@ -152,7 +152,7 @@ export default function ShippingPage() {
                 </li>
                 <li className="flex">
                   <ShieldCheck className="h-5 w-5 flex-shrink-0 text-amber-600 mt-0.5" aria-hidden="true" />
-                  <span className="ml-3 text-sm text-gray-700">
+                  <span className="ms-3 text-sm text-gray-700">
                     <strong className="font-semibold text-indigo-900">
                       {t('content.shipping.addressChanges', 'Address Changes')}:
                     </strong>{' '}
@@ -161,7 +161,7 @@ export default function ShippingPage() {
                 </li>
                 <li className="flex">
                   <ShieldCheck className="h-5 w-5 flex-shrink-0 text-amber-600 mt-0.5" aria-hidden="true" />
-                  <span className="ml-3 text-sm text-gray-700">
+                  <span className="ms-3 text-sm text-gray-700">
                     <strong className="font-semibold text-indigo-900">
                       {t('content.shipping.packageHandling', 'Package Handling')}:
                     </strong>{' '}

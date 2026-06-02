@@ -740,7 +740,17 @@
     },
     "order_number": "Order Number",
     "status": {
-      "label": "Order Status"
+      "label": "Order Status",
+      "values": {
+        "pending": "Pending",
+        "awaiting_payment": "Awaiting payment",
+        "processing": "Processing",
+        "confirmed": "Confirmed",
+        "shipped": "Shipped",
+        "delivered": "Delivered",
+        "cancelled": "Cancelled",
+        "refunded": "Refunded"
+      }
     },
     "shipping": {
       "title": "Shipping Address"

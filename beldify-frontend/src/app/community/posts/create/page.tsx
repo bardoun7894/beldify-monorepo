@@ -391,7 +391,7 @@ export default function CreatePostPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-amber-50/30">
       {/* Editorial Hero Band */}
       <section className="bg-indigo-700 text-white py-10 px-6">
         <div className="max-w-7xl mx-auto">
@@ -431,13 +431,13 @@ export default function CreatePostPage() {
         <div className="bg-amber-50/40 rounded-2xl ring-1 ring-amber-200 overflow-hidden">
           {/* Form header */}
           <div className="p-6 border-b border-amber-200">
-            <div className={`flex items-center ${isRTL ? 'flex-row-reverse' : ''}`}>
-              <div className="w-10 h-10 bg-indigo-700 rounded-full flex items-center justify-center">
+            <div className="flex items-center gap-4">
+              <div className="w-10 h-10 bg-indigo-700 rounded-full flex items-center justify-center shrink-0">
                 <span className="text-white font-semibold text-sm">
                   {user?.full_name_en?.charAt(0)?.toUpperCase() || 'U'}
                 </span>
               </div>
-              <div className={`${isRTL ? 'mr-4' : 'ml-4'}`}>
+              <div>
                 <h2 className="text-base sm:text-lg font-medium text-gray-900">
                   {t('community.what_is_custom_request', 'What is your custom request?')}
                 </h2>
@@ -540,7 +540,7 @@ export default function CreatePostPage() {
                         <button
                           type="button"
                           onClick={() => removeImage(index)}
-                          className="absolute -top-2 -right-2 w-7 h-7 bg-rose-700 text-white rounded-full flex items-center justify-center hover:bg-rose-800 transition-colors shadow-md"
+                          className="absolute -top-2 -end-2 w-7 h-7 bg-rose-700 text-white rounded-full flex items-center justify-center hover:bg-rose-800 transition-colors shadow-md"
                         >
                           <X size={12} />
                         </button>
@@ -566,15 +566,14 @@ export default function CreatePostPage() {
                   placeholder={t('community.create_request_step2', 'Give your request a title')}
                   maxLength={100}
                   className={`
-                    w-full px-4 py-3 border rounded-2xl focus:ring-2 focus:ring-amber-300 focus:border-indigo-500 transition-all duration-200 text-sm
-                    ${validationErrors.title ? 'border-rose-300 bg-rose-50' : 'border-gray-300'}
-                    ${isRTL ? 'text-right' : 'text-left'}
+                    w-full px-4 py-3 border rounded-2xl focus:ring-2 focus:ring-indigo-700/30 focus:border-indigo-700 transition-all duration-200 text-sm
+                    ${validationErrors.title ? 'border-rose-300 bg-rose-50' : 'border-amber-200'}
                   `}
                 />
                 {validationErrors.title && (
                   <p className="mt-1 text-xs text-rose-700">{validationErrors.title}</p>
                 )}
-                <div className="mt-1 text-xs text-right text-gray-400">
+                <div className="mt-1 text-xs text-end text-gray-400">
                   {formData.title.length}/100
                 </div>
               </div>
@@ -592,15 +591,14 @@ export default function CreatePostPage() {
                   placeholder={t('community.custom_request_explanation', 'Describe what you need in detail')}
                   rows={5}
                   className={`
-                    w-full px-4 py-3 border rounded-2xl focus:ring-2 focus:ring-amber-300 focus:border-indigo-500 transition-all duration-200 text-sm resize-none
-                    ${validationErrors.description ? 'border-rose-300 bg-rose-50' : 'border-gray-300'}
-                    ${isRTL ? 'text-right' : 'text-left'}
+                    w-full px-4 py-3 border rounded-2xl focus:ring-2 focus:ring-indigo-700/30 focus:border-indigo-700 transition-all duration-200 text-sm resize-none
+                    ${validationErrors.description ? 'border-rose-300 bg-rose-50' : 'border-amber-200'}
                   `}
                 />
                 {validationErrors.description && (
                   <p className="mt-1 text-xs text-rose-700">{validationErrors.description}</p>
                 )}
-                <div className="mt-1 text-xs text-right text-gray-400">
+                <div className="mt-1 text-xs text-end text-gray-400">
                   {formData.description.length}/500
                 </div>
               </div>
@@ -624,9 +622,8 @@ export default function CreatePostPage() {
                 value={formData.categoryId}
                 onChange={handleInputChange}
                 className={`
-                  w-full px-4 py-3 border rounded-2xl focus:ring-2 focus:ring-amber-300 focus:border-indigo-500 transition-all duration-200 text-sm bg-white
-                  ${validationErrors.categoryId ? 'border-rose-300 bg-rose-50' : 'border-gray-300'}
-                  ${isRTL ? 'text-right' : 'text-left'}
+                  w-full px-4 py-3 border rounded-2xl focus:ring-2 focus:ring-indigo-700/30 focus:border-indigo-700 transition-all duration-200 text-sm bg-white
+                  ${validationErrors.categoryId ? 'border-rose-300 bg-rose-50' : 'border-amber-200'}
                 `}
               >
                 <option value="">{t('community.select_category', 'اختار الصنف')}</option>
@@ -665,7 +662,7 @@ export default function CreatePostPage() {
                     value={formData.budget?.min || ''}
                     onChange={handleBudgetChange}
                     placeholder="0"
-                    className="w-full px-4 py-3 border border-gray-300 rounded-2xl focus:ring-2 focus:ring-amber-300 focus:border-indigo-500 transition-all duration-200 text-sm"
+                    className="w-full px-4 py-3 border border-amber-200 rounded-2xl focus:ring-2 focus:ring-indigo-700/30 focus:border-indigo-700 transition-all duration-200 text-sm"
                   />
                 </div>
                 <div>
@@ -679,7 +676,7 @@ export default function CreatePostPage() {
                     value={formData.budget?.max || ''}
                     onChange={handleBudgetChange}
                     placeholder="1000"
-                    className="w-full px-4 py-3 border border-gray-300 rounded-2xl focus:ring-2 focus:ring-amber-300 focus:border-indigo-500 transition-all duration-200 text-sm"
+                    className="w-full px-4 py-3 border border-amber-200 rounded-2xl focus:ring-2 focus:ring-indigo-700/30 focus:border-indigo-700 transition-all duration-200 text-sm"
                   />
                 </div>
                 <div>
@@ -691,7 +688,7 @@ export default function CreatePostPage() {
                     name="currency"
                     value={formData.budget?.currency || 'MAD'}
                     onChange={handleBudgetChange}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-2xl focus:ring-2 focus:ring-amber-300 focus:border-indigo-500 transition-all duration-200 text-sm"
+                    className="w-full px-4 py-3 border border-amber-200 rounded-2xl focus:ring-2 focus:ring-indigo-700/30 focus:border-indigo-700 transition-all duration-200 text-sm"
                   >
                     <option value="MAD">{t('common.currency_mad', 'MAD')}</option>
                     <option value="USD">{t('common.currency_usd', 'USD')}</option>
@@ -729,14 +726,14 @@ export default function CreatePostPage() {
                   onChange={handleInputChange}
                   placeholder="1"
                   min="1"
-                  className="w-full px-4 py-3 border border-gray-300 rounded-2xl focus:ring-2 focus:ring-amber-300 focus:border-indigo-500 transition-all duration-200 text-sm"
+                  className="w-full px-4 py-3 border border-amber-200 rounded-2xl focus:ring-2 focus:ring-indigo-700/30 focus:border-indigo-700 transition-all duration-200 text-sm"
                 />
                 <select
                   id="timelineUnit"
                   name="timelineUnit"
                   value={formData.timelineUnit || 'weeks'}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-2xl focus:ring-2 focus:ring-amber-300 focus:border-indigo-500 transition-all duration-200 text-sm"
+                  className="w-full px-4 py-3 border border-amber-200 rounded-2xl focus:ring-2 focus:ring-indigo-700/30 focus:border-indigo-700 transition-all duration-200 text-sm"
                 >
                   <option value="days">{t('community.timeline_days', 'أيام')}</option>
                   <option value="weeks">{t('community.timeline_weeks', 'أسابيع')}</option>
