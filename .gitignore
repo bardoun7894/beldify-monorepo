@@ -1,0 +1,26 @@
+# === Monorepo root ignores ===
+# OS cruft
+.DS_Store
+**/.DS_Store
+
+# Build / tooling caches (can be hundreds of MB — never commit)
+.cache/
+**/.cache/
+.vite/
+**/.vite/
+
+# Screenshots (large PNG artifacts)
+.screenshots/
+**/.screenshots/
+
+# Local SQLite databases
+*.sqlite
+*.sqlite3
+
+# Python virtualenvs (KB tooling etc.)
+**/.venv/
+
+# Session / scratch artifacts
+session-ses_*.md
+*.mxd
+.claude/scheduled_tasks.lock

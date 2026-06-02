@@ -1,0 +1,20 @@
+Ripgrep is not available. Falling back to GrepTool.
+Skill conflict detected: "github" from "/Users/mohamedbardouni/.agents/skills/github/SKILL.md" is overriding the same skill from "/Users/mohamedbardouni/.gemini/skills/github/SKILL.md".Skill conflict detected: "dogfood" from "/Users/mohamedbardouni/.agents/skills/dogfood/SKILL.md" is overriding the same skill from "/Users/mohamedbardouni/.gemini/skills/dogfood/SKILL.md".Skill conflict detected: "karpathy-guidelines" from "/Users/mohamedbardouni/.agents/skills/_extras/SKILL.md" is overriding the same skill from "/Users/mohamedbardouni/.agents/skills/karpathy-guidelines/SKILL.md".(node:44485) [DEP0190] DeprecationWarning: Passing args to a child process with shell option true can lead to security vulnerabilities, as the arguments are not escaped, only concatenated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+`app/Http/Controllers/Seller/ProductController.php` - P0 - **Column inconsistency** - The seller form maps the description to the `description` column (`$stock->description = $validated['description']`), but the canonical DB schema, Admin controllers, and Frontend expect `description_en`. 
+**Suggested Fix:** Update the validation and assignment in `Seller\ProductController` to use `description_en`.
+
+`app/Models/Stock.php` & `app/Http/Controllers/Admin/ProductVariantController.php` - P0 - **Stale N+1 Cache** - `Stock::getTotalQuantityAttribute()` caches variant sums for 300s when not eager-loaded. However, `ProductVariantController` (create/update/delete) *never* invalidates `Stock::CACHE_KEY_TOTAL_QUANTITY`, causing the accessor to return a stale `0` for 5 minutes after a variant change. 
+**Suggested Fix:** Remove the 300s cache entirely. Rely on eager loading (`withSum('variants', 'quantity')`), or use Eloquent `saved`/`deleted` boot events on `ProductVariant` to maintain a denormalized `total_quantity` column directly on the `stocks` table.
+
+`app/Models/ProductVariant.php` - P1 - **Split-Brain Data Model** - Variant attributes are duplicated. Admin `store()` writes to both JSON and pivots, but Admin `update()` writes *only* to pivots. The Seller API writes *only* to JSON. Since production pivots are already nearly empty, JSON is the de facto truth.
+**Suggested Fix:** Standardize on the JSON `attributes` column as the single canonical source of truth. Drop the `variant_attribute_values` pivot and its lookup tables. Update `CategoryProductsController` to exclusively read `$variant->decoded_attributes`. Run a one-time script to merge the 4 existing fabric pivot records into the JSON column.
+
+`app/Http/Controllers/Admin/ProductManagementController.php` - P1 - **Fragile Architecture** - The unified-page uses synchronous form posts with `redirect_to` guards. This is fragile because validation failures trigger `back()->withInput()`, which returns to the root unified page but loses the active tab state, confusing the user.
+**Suggested Fix:** Convert the sub-sections (variants, images, inventory) to submit via AJAX/Fetch, or refactor the page to use Livewire so component state and active tabs are preserved without full page reloads.
+
+`public/images/placeholder.jpg` - P2 - **Broken Asset** - The placeholder image is 0 bytes, leading to broken images in the UI.
+**Suggested Fix:** Replace the file with a valid, optimized default image.
+
+**Single most important change:**
+Standardize ProductVariant attributes by exclusively adopting the schema-less JSON `attributes` column (dropping pivots), and eliminate the fragile `total_quantity` cache in favor of database denormalization. This permanently resolves the split-brain data model and the most visible frontend caching bugs in one stroke.

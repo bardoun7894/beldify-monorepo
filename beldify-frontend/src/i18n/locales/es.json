@@ -1078,7 +1078,11 @@
       "error": "No se pudo subir el recibo. Inténtalo de nuevo.",
       "file_required": "Adjunta tu recibo de transferencia",
       "under_review_title": "Pago en revisión",
-      "under_review_body": "Recibimos tu comprobante y confirmaremos tu pedido pronto."
+      "under_review_body": "Recibimos tu comprobante y confirmaremos tu pedido pronto.",
+      "need_help": "¿No sabes cómo pagar? Estamos aquí para ayudarte.",
+      "whatsapp": "WhatsApp",
+      "call": "Llámanos",
+      "send_to": "Enviar el pago a"
     }
   },
   "checkout": {
@@ -3078,7 +3082,8 @@
     "verified_purchase": "Compra verificada",
     "with_images_only": "Con imágenes",
     "write_review_form": "Escribe una reseña",
-    "your_rating": "Tu calificación"
+    "your_rating": "Tu calificación",
+    "submitted_pending": "¡Gracias! Tu reseña fue enviada y aparecerá tras su aprobación."
   },
   "wishlist": {
     "title": "Mi lista de deseos",

@@ -6,7 +6,8 @@ import ReviewCard from './ReviewCard';
 import { ReviewForm } from './ReviewForm'; 
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { mockReviewService } from '@/services/mockReviewService'; // Using mock service
+import { reviewService } from '@/services/api'; // Real backend reviews
+import toast from '@/utils/toast';
 import { PlusCircleIcon, AdjustmentsHorizontalIcon, StarIcon } from '@heroicons/react/24/outline';
 import { cn } from '@/utils/classNames';
 
@@ -38,7 +39,7 @@ const ReviewsSection: React.FC<ReviewsSectionProps> = ({ productId, productName 
     setIsLoading(true);
     setError(null);
     try {
-      const response: ReviewsResponse = await mockReviewService.getProductReviews(
+      const response: ReviewsResponse = await reviewService.getProductReviews(
         productId,
         page,
         ITEMS_PER_PAGE,
@@ -85,18 +86,20 @@ const ReviewsSection: React.FC<ReviewsSectionProps> = ({ productId, productName 
     handleFilterChange('rating', rating);
   };
 
-  const handleReviewSubmitted = (newReview: Review) => {
+  const handleReviewSubmitted = (_newReview: Review) => {
     setShowReviewForm(false);
-    // Optimistically update or refetch
-    // For mock, refetching page 1 with current filters to see the new review (if it matches filters)
+    // New reviews are created with status=pending and only appear after an admin
+    // approves them, so we don't optimistically insert (it isn't visible yet).
+    toast.success(
+      t('reviews.submitted_pending', 'Thanks! Your review was submitted and will appear once approved.')
+    );
     fetchReviewsAndSummary(1, activeFilters);
-    // Potentially scroll to reviews section or new review
   };
 
   // This function is passed to ReviewCard, which expects (reviewId: string, updatedReview: Review) => void
   // We need to adapt or ensure ReviewCard is flexible. For now, let's assume ReviewCard calls a service directly
   // or this handler is for internal state update after ReviewCard's own service call.
-  // The current ReviewCard calls mockReviewService.reactToReview itself and then calls onReactionUpdate.
+  // ReviewCard calls reviewService.reactToReview itself, then calls onReactionUpdate.
   // So, onReactionUpdate in ReviewsSection should expect the updated review object.
   const handleReviewCardReactionUpdate = (reviewId: string, updatedReview: Review) => {
     try {
@@ -155,7 +158,7 @@ const ReviewsSection: React.FC<ReviewsSectionProps> = ({ productId, productName 
               productId={productId}
               onSubmitSuccess={handleReviewSubmitted}
               onCancel={() => setShowReviewForm(false)}
-              createReviewService={mockReviewService.createReview} 
+              createReviewService={reviewService.createReview}
             />
           </div>
         )}

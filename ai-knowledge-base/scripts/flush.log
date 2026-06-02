@@ -1,0 +1,198 @@
+2026-05-14 18:20:08 INFO [hook] SessionEnd fired: session=7f3c17d0-0bd4-4318-9d46-cc6d5436e069 source=unknown
+2026-05-14 18:20:09 INFO [hook] Raw-copied session 7f3c17d0-0bd4-4318-9d46-cc6d5436e069 (200 turns, 78539 bytes) → /Users/mohamedbardouni/projects/beldify/ai-knowledge-base/raw/sessions/2026-05-14-7f3c17d0.md
+2026-05-20 16:47:41 INFO [pre-compact] PreCompact fired: session=bb534dba-ca9f-4b73-8483-6f3df202306f
+2026-05-20 16:47:41 INFO [pre-compact] Spawned flush.py for session bb534dba-ca9f-4b73-8483-6f3df202306f (22 turns, 3979 chars)
+2026-05-20 16:47:41 INFO flush.py started for session bb534dba-ca9f-4b73-8483-6f3df202306f, context: /Users/mohamedbardouni/projects/beldify/ai-knowledge-base/scripts/flush-context-bb534dba-ca9f-4b73-8483-6f3df202306f-20260520-164741.md
+2026-05-20 16:47:41 INFO Flushing session bb534dba-ca9f-4b73-8483-6f3df202306f: 3978 chars
+2026-05-20 16:47:41 INFO Using bundled Claude Code CLI: /Users/mohamedbardouni/projects/beldify/ai-knowledge-base/.venv/lib/python3.14/site-packages/claude_agent_sdk/_bundled/claude
+2026-05-20 16:47:51 INFO Result: saved to daily log (315 chars)
+2026-05-20 16:47:51 INFO Flush complete for session bb534dba-ca9f-4b73-8483-6f3df202306f
+2026-05-20 19:57:21 INFO [pre-compact] PreCompact fired: session=bb534dba-ca9f-4b73-8483-6f3df202306f
+2026-05-20 19:57:21 INFO [pre-compact] Spawned flush.py for session bb534dba-ca9f-4b73-8483-6f3df202306f (30 turns, 9751 chars)
+2026-05-20 19:57:21 INFO flush.py started for session bb534dba-ca9f-4b73-8483-6f3df202306f, context: /Users/mohamedbardouni/projects/beldify/ai-knowledge-base/scripts/flush-context-bb534dba-ca9f-4b73-8483-6f3df202306f-20260520-195721.md
+2026-05-20 19:57:21 INFO Flushing session bb534dba-ca9f-4b73-8483-6f3df202306f: 9750 chars
+2026-05-20 19:57:21 INFO Using bundled Claude Code CLI: /Users/mohamedbardouni/projects/beldify/ai-knowledge-base/.venv/lib/python3.14/site-packages/claude_agent_sdk/_bundled/claude
+2026-05-20 19:57:31 INFO Result: saved to daily log (18 chars)
+2026-05-20 19:57:31 INFO End-of-day compilation triggered (after 18:00)
+2026-05-20 19:57:31 INFO Flush complete for session bb534dba-ca9f-4b73-8483-6f3df202306f
+2026-05-21 02:19:37 INFO [pre-compact] PreCompact fired: session=bb534dba-ca9f-4b73-8483-6f3df202306f
+2026-05-21 02:19:37 INFO [pre-compact] Spawned flush.py for session bb534dba-ca9f-4b73-8483-6f3df202306f (30 turns, 9523 chars)
+2026-05-21 02:19:37 INFO flush.py started for session bb534dba-ca9f-4b73-8483-6f3df202306f, context: /Users/mohamedbardouni/projects/beldify/ai-knowledge-base/scripts/flush-context-bb534dba-ca9f-4b73-8483-6f3df202306f-20260521-021937.md
+2026-05-21 02:19:37 INFO Flushing session bb534dba-ca9f-4b73-8483-6f3df202306f: 9522 chars
+2026-05-21 02:19:38 INFO Using bundled Claude Code CLI: /Users/mohamedbardouni/projects/beldify/ai-knowledge-base/.venv/lib/python3.14/site-packages/claude_agent_sdk/_bundled/claude
+2026-05-21 02:19:46 INFO Result: saved to daily log (6 chars)
+2026-05-21 02:19:46 INFO Flush complete for session bb534dba-ca9f-4b73-8483-6f3df202306f
+2026-05-21 04:56:52 INFO [pre-compact] PreCompact fired: session=bb534dba-ca9f-4b73-8483-6f3df202306f
+2026-05-21 04:56:52 INFO [pre-compact] Spawned flush.py for session bb534dba-ca9f-4b73-8483-6f3df202306f (30 turns, 12063 chars)
+2026-05-21 04:56:52 INFO flush.py started for session bb534dba-ca9f-4b73-8483-6f3df202306f, context: /Users/mohamedbardouni/projects/beldify/ai-knowledge-base/scripts/flush-context-bb534dba-ca9f-4b73-8483-6f3df202306f-20260521-045652.md
+2026-05-21 04:56:52 INFO Flushing session bb534dba-ca9f-4b73-8483-6f3df202306f: 12062 chars
+2026-05-21 04:56:53 INFO Using bundled Claude Code CLI: /Users/mohamedbardouni/projects/beldify/ai-knowledge-base/.venv/lib/python3.14/site-packages/claude_agent_sdk/_bundled/claude
+2026-05-21 04:57:02 INFO Result: saved to daily log (59 chars)
+2026-05-21 04:57:02 INFO Flush complete for session bb534dba-ca9f-4b73-8483-6f3df202306f
+2026-05-21 05:00:23 INFO [pre-compact] PreCompact fired: session=bb534dba-ca9f-4b73-8483-6f3df202306f
+2026-05-21 05:00:23 INFO [pre-compact] Spawned flush.py for session bb534dba-ca9f-4b73-8483-6f3df202306f (30 turns, 12185 chars)
+2026-05-21 05:00:23 INFO flush.py started for session bb534dba-ca9f-4b73-8483-6f3df202306f, context: /Users/mohamedbardouni/projects/beldify/ai-knowledge-base/scripts/flush-context-bb534dba-ca9f-4b73-8483-6f3df202306f-20260521-050023.md
+2026-05-21 05:00:23 INFO Flushing session bb534dba-ca9f-4b73-8483-6f3df202306f: 12184 chars
+2026-05-21 05:00:23 INFO Using bundled Claude Code CLI: /Users/mohamedbardouni/projects/beldify/ai-knowledge-base/.venv/lib/python3.14/site-packages/claude_agent_sdk/_bundled/claude
+2026-05-21 05:00:32 INFO Result: saved to daily log (22 chars)
+2026-05-21 05:00:32 INFO Flush complete for session bb534dba-ca9f-4b73-8483-6f3df202306f
+2026-05-21 05:09:58 INFO [pre-compact] PreCompact fired: session=bb534dba-ca9f-4b73-8483-6f3df202306f
+2026-05-21 05:09:58 INFO [pre-compact] Spawned flush.py for session bb534dba-ca9f-4b73-8483-6f3df202306f (30 turns, 2859 chars)
+2026-05-21 05:09:58 INFO flush.py started for session bb534dba-ca9f-4b73-8483-6f3df202306f, context: /Users/mohamedbardouni/projects/beldify/ai-knowledge-base/scripts/flush-context-bb534dba-ca9f-4b73-8483-6f3df202306f-20260521-050958.md
+2026-05-21 05:09:58 INFO Flushing session bb534dba-ca9f-4b73-8483-6f3df202306f: 2858 chars
+2026-05-21 05:09:58 INFO Using bundled Claude Code CLI: /Users/mohamedbardouni/projects/beldify/ai-knowledge-base/.venv/lib/python3.14/site-packages/claude_agent_sdk/_bundled/claude
+2026-05-21 05:10:25 INFO Result: saved to daily log (1887 chars)
+2026-05-21 05:10:25 INFO Flush complete for session bb534dba-ca9f-4b73-8483-6f3df202306f
+2026-05-21 05:21:37 INFO [pre-compact] PreCompact fired: session=bb534dba-ca9f-4b73-8483-6f3df202306f
+2026-05-21 05:21:37 INFO [pre-compact] Spawned flush.py for session bb534dba-ca9f-4b73-8483-6f3df202306f (30 turns, 14904 chars)
+2026-05-21 05:21:37 INFO flush.py started for session bb534dba-ca9f-4b73-8483-6f3df202306f, context: /Users/mohamedbardouni/projects/beldify/ai-knowledge-base/scripts/flush-context-bb534dba-ca9f-4b73-8483-6f3df202306f-20260521-052137.md
+2026-05-21 05:21:37 INFO Flushing session bb534dba-ca9f-4b73-8483-6f3df202306f: 14903 chars
+2026-05-21 05:21:38 INFO Using bundled Claude Code CLI: /Users/mohamedbardouni/projects/beldify/ai-knowledge-base/.venv/lib/python3.14/site-packages/claude_agent_sdk/_bundled/claude
+2026-05-21 05:22:07 INFO Result: saved to daily log (2930 chars)
+2026-05-21 05:22:07 INFO Flush complete for session bb534dba-ca9f-4b73-8483-6f3df202306f
+2026-05-21 05:26:36 INFO [pre-compact] PreCompact fired: session=bb534dba-ca9f-4b73-8483-6f3df202306f
+2026-05-21 05:26:36 INFO [pre-compact] Spawned flush.py for session bb534dba-ca9f-4b73-8483-6f3df202306f (30 turns, 12686 chars)
+2026-05-21 05:26:36 INFO flush.py started for session bb534dba-ca9f-4b73-8483-6f3df202306f, context: /Users/mohamedbardouni/projects/beldify/ai-knowledge-base/scripts/flush-context-bb534dba-ca9f-4b73-8483-6f3df202306f-20260521-052636.md
+2026-05-21 05:26:36 INFO Flushing session bb534dba-ca9f-4b73-8483-6f3df202306f: 12685 chars
+2026-05-21 05:26:36 INFO Using bundled Claude Code CLI: /Users/mohamedbardouni/projects/beldify/ai-knowledge-base/.venv/lib/python3.14/site-packages/claude_agent_sdk/_bundled/claude
+2026-05-21 05:26:45 INFO Result: saved to daily log (41 chars)
+2026-05-21 05:26:45 INFO Flush complete for session bb534dba-ca9f-4b73-8483-6f3df202306f
+2026-05-21 05:36:49 INFO [pre-compact] PreCompact fired: session=bb534dba-ca9f-4b73-8483-6f3df202306f
+2026-05-21 05:36:49 INFO [pre-compact] Spawned flush.py for session bb534dba-ca9f-4b73-8483-6f3df202306f (30 turns, 12686 chars)
+2026-05-21 05:36:49 INFO flush.py started for session bb534dba-ca9f-4b73-8483-6f3df202306f, context: /Users/mohamedbardouni/projects/beldify/ai-knowledge-base/scripts/flush-context-bb534dba-ca9f-4b73-8483-6f3df202306f-20260521-053649.md
+2026-05-21 05:36:49 INFO Flushing session bb534dba-ca9f-4b73-8483-6f3df202306f: 12685 chars
+2026-05-21 05:36:50 INFO Using bundled Claude Code CLI: /Users/mohamedbardouni/projects/beldify/ai-knowledge-base/.venv/lib/python3.14/site-packages/claude_agent_sdk/_bundled/claude
+2026-05-21 05:36:58 INFO Result: FLUSH_OK
+2026-05-21 05:36:58 INFO Flush complete for session bb534dba-ca9f-4b73-8483-6f3df202306f
+2026-05-21 05:45:03 INFO [hook] SessionEnd fired: session=bb534dba-ca9f-4b73-8483-6f3df202306f source=unknown
+2026-05-21 05:45:03 INFO [hook] Raw-copied session bb534dba-ca9f-4b73-8483-6f3df202306f (200 turns, 127040 bytes) → /Users/mohamedbardouni/projects/beldify/ai-knowledge-base/raw/sessions/2026-05-21-bb534dba.md
+2026-05-21 19:15:39 INFO [hook] SessionEnd fired: session=1295f6ce-23fb-416a-9720-dc6b5f990eee source=unknown
+2026-05-21 19:15:39 INFO [hook] Raw-copied session 1295f6ce-23fb-416a-9720-dc6b5f990eee (110 turns, 99969 bytes) → /Users/mohamedbardouni/projects/beldify/ai-knowledge-base/raw/sessions/2026-05-21-1295f6ce.md
+2026-05-21 19:33:33 INFO [hook] SessionEnd fired: session=89817e3c-bfd4-453c-9868-d6c5ab1bad43 source=unknown
+2026-05-21 19:33:33 INFO [hook] Raw-copied session 89817e3c-bfd4-453c-9868-d6c5ab1bad43 (2 turns, 558 bytes) → /Users/mohamedbardouni/projects/beldify/ai-knowledge-base/raw/sessions/2026-05-21-89817e3c.md
+2026-05-23 06:37:53 INFO [hook] SessionEnd fired: session=b0eb28fe-3fce-455f-8b68-8af4920e9227 source=unknown
+2026-05-23 06:37:53 INFO [hook] Raw-copied session b0eb28fe-3fce-455f-8b68-8af4920e9227 (200 turns, 79415 bytes) → /Users/mohamedbardouni/projects/beldify/ai-knowledge-base/raw/sessions/2026-05-23-b0eb28fe.md
+2026-05-23 16:03:15 INFO [hook] SessionEnd fired: session=741f1260-0872-494d-94ee-f2970710f1b2 source=unknown
+2026-05-23 16:03:15 INFO [hook] Raw-copied session 741f1260-0872-494d-94ee-f2970710f1b2 (2 turns, 3360 bytes) → /Users/mohamedbardouni/projects/beldify/ai-knowledge-base/raw/sessions/2026-05-23-741f1260.md
+2026-05-24 10:54:14 INFO [hook] SessionEnd fired: session=6260134a-c8c9-4b8b-9975-217e4a2f19f1 source=unknown
+2026-05-24 10:54:14 INFO [hook] Raw-copied session 6260134a-c8c9-4b8b-9975-217e4a2f19f1 (200 turns, 139800 bytes) → /Users/mohamedbardouni/projects/beldify/ai-knowledge-base/raw/sessions/2026-05-24-6260134a.md
+2026-05-24 12:41:03 INFO [pre-compact] PreCompact fired: session=1346762f-75a1-4276-9b34-a738369215e4
+2026-05-24 12:41:03 INFO [pre-compact] Spawned flush.py for session 1346762f-75a1-4276-9b34-a738369215e4 (18 turns, 12787 chars)
+2026-05-24 12:41:03 INFO flush.py started for session 1346762f-75a1-4276-9b34-a738369215e4, context: /Users/mohamedbardouni/projects/beldify/ai-knowledge-base/scripts/flush-context-1346762f-75a1-4276-9b34-a738369215e4-20260524-124103.md
+2026-05-24 12:41:03 INFO Flushing session 1346762f-75a1-4276-9b34-a738369215e4: 12786 chars
+2026-05-24 12:41:03 INFO Using bundled Claude Code CLI: /Users/mohamedbardouni/projects/beldify/ai-knowledge-base/.venv/lib/python3.14/site-packages/claude_agent_sdk/_bundled/claude
+2026-05-24 12:41:13 INFO Result: saved to daily log (12 chars)
+2026-05-24 12:41:13 INFO Flush complete for session 1346762f-75a1-4276-9b34-a738369215e4
+2026-05-24 13:57:18 INFO [pre-compact] PreCompact fired: session=1346762f-75a1-4276-9b34-a738369215e4
+2026-05-24 13:57:18 INFO [pre-compact] Spawned flush.py for session 1346762f-75a1-4276-9b34-a738369215e4 (18 turns, 12787 chars)
+2026-05-24 13:57:18 INFO flush.py started for session 1346762f-75a1-4276-9b34-a738369215e4, context: /Users/mohamedbardouni/projects/beldify/ai-knowledge-base/scripts/flush-context-1346762f-75a1-4276-9b34-a738369215e4-20260524-135718.md
+2026-05-24 13:57:18 INFO Flushing session 1346762f-75a1-4276-9b34-a738369215e4: 12786 chars
+2026-05-24 13:57:19 INFO Using bundled Claude Code CLI: /Users/mohamedbardouni/projects/beldify/ai-knowledge-base/.venv/lib/python3.14/site-packages/claude_agent_sdk/_bundled/claude
+2026-05-24 14:03:53 INFO Result: saved to daily log (60320 chars)
+2026-05-24 14:03:53 INFO Flush complete for session 1346762f-75a1-4276-9b34-a738369215e4
+2026-05-24 14:08:52 INFO [pre-compact] PreCompact fired: session=1346762f-75a1-4276-9b34-a738369215e4
+2026-05-24 14:08:52 INFO [pre-compact] Spawned flush.py for session 1346762f-75a1-4276-9b34-a738369215e4 (27 turns, 14531 chars)
+2026-05-24 14:08:52 INFO flush.py started for session 1346762f-75a1-4276-9b34-a738369215e4, context: /Users/mohamedbardouni/projects/beldify/ai-knowledge-base/scripts/flush-context-1346762f-75a1-4276-9b34-a738369215e4-20260524-140852.md
+2026-05-24 14:08:52 INFO Flushing session 1346762f-75a1-4276-9b34-a738369215e4: 14530 chars
+2026-05-24 14:08:53 INFO Using bundled Claude Code CLI: /Users/mohamedbardouni/projects/beldify/ai-knowledge-base/.venv/lib/python3.14/site-packages/claude_agent_sdk/_bundled/claude
+2026-05-24 14:09:28 INFO Result: saved to daily log (3105 chars)
+2026-05-24 14:09:28 INFO Flush complete for session 1346762f-75a1-4276-9b34-a738369215e4
+2026-05-24 14:09:37 INFO [pre-compact] PreCompact fired: session=2620b1f8-4700-4a3d-a747-b35d15821b1d
+2026-05-24 14:09:37 INFO [pre-compact] Spawned flush.py for session 2620b1f8-4700-4a3d-a747-b35d15821b1d (10 turns, 3139 chars)
+2026-05-24 14:09:37 INFO flush.py started for session 2620b1f8-4700-4a3d-a747-b35d15821b1d, context: /Users/mohamedbardouni/projects/beldify/ai-knowledge-base/scripts/flush-context-2620b1f8-4700-4a3d-a747-b35d15821b1d-20260524-140937.md
+2026-05-24 14:09:37 INFO Flushing session 2620b1f8-4700-4a3d-a747-b35d15821b1d: 3138 chars
+2026-05-24 14:09:37 INFO Using bundled Claude Code CLI: /Users/mohamedbardouni/projects/beldify/ai-knowledge-base/.venv/lib/python3.14/site-packages/claude_agent_sdk/_bundled/claude
+2026-05-24 14:09:50 INFO Result: saved to daily log (707 chars)
+2026-05-24 14:09:50 INFO Flush complete for session 2620b1f8-4700-4a3d-a747-b35d15821b1d
+2026-05-24 14:10:04 INFO [pre-compact] PreCompact fired: session=1346762f-75a1-4276-9b34-a738369215e4
+2026-05-24 14:10:04 INFO [pre-compact] Spawned flush.py for session 1346762f-75a1-4276-9b34-a738369215e4 (27 turns, 14531 chars)
+2026-05-24 14:10:04 INFO flush.py started for session 1346762f-75a1-4276-9b34-a738369215e4, context: /Users/mohamedbardouni/projects/beldify/ai-knowledge-base/scripts/flush-context-1346762f-75a1-4276-9b34-a738369215e4-20260524-141004.md
+2026-05-24 14:10:04 INFO Flushing session 1346762f-75a1-4276-9b34-a738369215e4: 14530 chars
+2026-05-24 14:10:04 INFO Using bundled Claude Code CLI: /Users/mohamedbardouni/projects/beldify/ai-knowledge-base/.venv/lib/python3.14/site-packages/claude_agent_sdk/_bundled/claude
+2026-05-24 14:10:45 INFO Result: saved to daily log (4277 chars)
+2026-05-24 14:10:45 INFO Flush complete for session 1346762f-75a1-4276-9b34-a738369215e4
+2026-05-24 14:12:47 INFO [pre-compact] PreCompact fired: session=1346762f-75a1-4276-9b34-a738369215e4
+2026-05-24 14:12:47 INFO [pre-compact] Spawned flush.py for session 1346762f-75a1-4276-9b34-a738369215e4 (27 turns, 14531 chars)
+2026-05-24 14:12:47 INFO flush.py started for session 1346762f-75a1-4276-9b34-a738369215e4, context: /Users/mohamedbardouni/projects/beldify/ai-knowledge-base/scripts/flush-context-1346762f-75a1-4276-9b34-a738369215e4-20260524-141247.md
+2026-05-24 14:12:47 INFO Flushing session 1346762f-75a1-4276-9b34-a738369215e4: 14530 chars
+2026-05-24 14:12:47 INFO Using bundled Claude Code CLI: /Users/mohamedbardouni/projects/beldify/ai-knowledge-base/.venv/lib/python3.14/site-packages/claude_agent_sdk/_bundled/claude
+2026-05-24 14:14:36 INFO Result: saved to daily log (3179 chars)
+2026-05-24 14:14:36 INFO Flush complete for session 1346762f-75a1-4276-9b34-a738369215e4
+2026-05-24 14:40:32 INFO [pre-compact] PreCompact fired: session=1346762f-75a1-4276-9b34-a738369215e4
+2026-05-24 14:40:32 INFO [pre-compact] Spawned flush.py for session 1346762f-75a1-4276-9b34-a738369215e4 (30 turns, 9874 chars)
+2026-05-24 14:40:32 INFO flush.py started for session 1346762f-75a1-4276-9b34-a738369215e4, context: /Users/mohamedbardouni/projects/beldify/ai-knowledge-base/scripts/flush-context-1346762f-75a1-4276-9b34-a738369215e4-20260524-144032.md
+2026-05-24 14:40:32 INFO Flushing session 1346762f-75a1-4276-9b34-a738369215e4: 9873 chars
+2026-05-24 14:40:33 INFO Using bundled Claude Code CLI: /Users/mohamedbardouni/projects/beldify/ai-knowledge-base/.venv/lib/python3.14/site-packages/claude_agent_sdk/_bundled/claude
+2026-05-24 14:40:44 INFO Result: saved to daily log (50 chars)
+2026-05-24 14:40:44 INFO Flush complete for session 1346762f-75a1-4276-9b34-a738369215e4
+2026-05-24 14:41:53 INFO [pre-compact] PreCompact fired: session=1346762f-75a1-4276-9b34-a738369215e4
+2026-05-24 14:41:53 INFO [pre-compact] Spawned flush.py for session 1346762f-75a1-4276-9b34-a738369215e4 (30 turns, 9874 chars)
+2026-05-24 14:41:53 INFO flush.py started for session 1346762f-75a1-4276-9b34-a738369215e4, context: /Users/mohamedbardouni/projects/beldify/ai-knowledge-base/scripts/flush-context-1346762f-75a1-4276-9b34-a738369215e4-20260524-144153.md
+2026-05-24 14:41:53 INFO Flushing session 1346762f-75a1-4276-9b34-a738369215e4: 9873 chars
+2026-05-24 14:41:53 INFO Using bundled Claude Code CLI: /Users/mohamedbardouni/projects/beldify/ai-knowledge-base/.venv/lib/python3.14/site-packages/claude_agent_sdk/_bundled/claude
+2026-05-24 14:42:15 INFO Result: saved to daily log (1493 chars)
+2026-05-24 14:42:15 INFO Flush complete for session 1346762f-75a1-4276-9b34-a738369215e4
+2026-05-24 14:54:13 INFO [pre-compact] PreCompact fired: session=1346762f-75a1-4276-9b34-a738369215e4
+2026-05-24 14:54:13 INFO [pre-compact] Spawned flush.py for session 1346762f-75a1-4276-9b34-a738369215e4 (30 turns, 9874 chars)
+2026-05-24 14:54:13 INFO flush.py started for session 1346762f-75a1-4276-9b34-a738369215e4, context: /Users/mohamedbardouni/projects/beldify/ai-knowledge-base/scripts/flush-context-1346762f-75a1-4276-9b34-a738369215e4-20260524-145413.md
+2026-05-24 14:54:13 INFO Flushing session 1346762f-75a1-4276-9b34-a738369215e4: 9873 chars
+2026-05-24 14:54:14 INFO Using bundled Claude Code CLI: /Users/mohamedbardouni/projects/beldify/ai-knowledge-base/.venv/lib/python3.14/site-packages/claude_agent_sdk/_bundled/claude
+2026-05-24 14:54:27 INFO Result: saved to daily log (30 chars)
+2026-05-24 14:54:27 INFO Flush complete for session 1346762f-75a1-4276-9b34-a738369215e4
+2026-05-24 15:08:07 INFO [pre-compact] PreCompact fired: session=1346762f-75a1-4276-9b34-a738369215e4
+2026-05-24 15:08:07 INFO [pre-compact] Spawned flush.py for session 1346762f-75a1-4276-9b34-a738369215e4 (30 turns, 13225 chars)
+2026-05-24 15:08:07 INFO flush.py started for session 1346762f-75a1-4276-9b34-a738369215e4, context: /Users/mohamedbardouni/projects/beldify/ai-knowledge-base/scripts/flush-context-1346762f-75a1-4276-9b34-a738369215e4-20260524-150807.md
+2026-05-24 15:08:07 INFO Flushing session 1346762f-75a1-4276-9b34-a738369215e4: 13224 chars
+2026-05-24 15:08:08 INFO Using bundled Claude Code CLI: /Users/mohamedbardouni/projects/beldify/ai-knowledge-base/.venv/lib/python3.14/site-packages/claude_agent_sdk/_bundled/claude
+2026-05-24 15:08:19 INFO Result: saved to daily log (40 chars)
+2026-05-24 15:08:19 INFO Flush complete for session 1346762f-75a1-4276-9b34-a738369215e4
+2026-05-24 15:33:52 INFO [pre-compact] PreCompact fired: session=1346762f-75a1-4276-9b34-a738369215e4
+2026-05-24 15:33:52 INFO [pre-compact] Spawned flush.py for session 1346762f-75a1-4276-9b34-a738369215e4 (30 turns, 14854 chars)
+2026-05-24 15:33:52 INFO flush.py started for session 1346762f-75a1-4276-9b34-a738369215e4, context: /Users/mohamedbardouni/projects/beldify/ai-knowledge-base/scripts/flush-context-1346762f-75a1-4276-9b34-a738369215e4-20260524-153352.md
+2026-05-24 15:33:52 INFO Flushing session 1346762f-75a1-4276-9b34-a738369215e4: 14853 chars
+2026-05-24 15:33:53 INFO Using bundled Claude Code CLI: /Users/mohamedbardouni/projects/beldify/ai-knowledge-base/.venv/lib/python3.14/site-packages/claude_agent_sdk/_bundled/claude
+2026-05-24 15:34:23 INFO Result: saved to daily log (2805 chars)
+2026-05-24 15:34:23 INFO Flush complete for session 1346762f-75a1-4276-9b34-a738369215e4
+2026-05-24 18:04:54 INFO [hook] SessionEnd fired: session=2620b1f8-4700-4a3d-a747-b35d15821b1d source=unknown
+2026-05-24 18:04:54 INFO [hook] Raw-copied session 2620b1f8-4700-4a3d-a747-b35d15821b1d (65 turns, 59772 bytes) → /Users/mohamedbardouni/projects/beldify/ai-knowledge-base/raw/sessions/2026-05-24-2620b1f8.md
+2026-05-24 18:04:54 INFO [hook] SessionEnd fired: session=1346762f-75a1-4276-9b34-a738369215e4 source=unknown
+2026-05-24 18:04:54 INFO [hook] Raw-copied session 1346762f-75a1-4276-9b34-a738369215e4 (86 turns, 75099 bytes) → /Users/mohamedbardouni/projects/beldify/ai-knowledge-base/raw/sessions/2026-05-24-1346762f.md
+2026-05-28 14:12:46 INFO [hook] SessionEnd fired: session=6d18f0a6-33be-4db0-9563-0417118c3081 source=unknown
+2026-05-28 14:12:46 INFO [hook] Raw-copied session 6d18f0a6-33be-4db0-9563-0417118c3081 (200 turns, 133764 bytes) → /Users/mohamedbardouni/projects/beldify/ai-knowledge-base/raw/sessions/2026-05-28-6d18f0a6.md
+2026-05-29 17:58:58 INFO [hook] SessionEnd fired: session=6d5911cb-2038-47a4-92ba-e3a2745b8aba source=unknown
+2026-05-29 17:58:58 INFO [hook] Raw-copied session 6d5911cb-2038-47a4-92ba-e3a2745b8aba (62 turns, 63285 bytes) → /Users/mohamedbardouni/projects/beldify/ai-knowledge-base/raw/sessions/2026-05-29-6d5911cb.md
+2026-05-29 20:37:54 INFO [hook] SessionEnd fired: session=6d5911cb-2038-47a4-92ba-e3a2745b8aba source=unknown
+2026-05-29 20:37:54 INFO [hook] Raw-copied session 6d5911cb-2038-47a4-92ba-e3a2745b8aba (166 turns, 114126 bytes) → /Users/mohamedbardouni/projects/beldify/ai-knowledge-base/raw/sessions/2026-05-29-6d5911cb.md
+2026-05-29 21:43:50 INFO [hook] SessionEnd fired: session=9dad4eda-4a5d-41ba-9f93-6500372fdce3 source=unknown
+2026-05-29 21:43:50 INFO [hook] Raw-copied session 9dad4eda-4a5d-41ba-9f93-6500372fdce3 (98 turns, 29824 bytes) → /Users/mohamedbardouni/projects/beldify/ai-knowledge-base/raw/sessions/2026-05-29-9dad4eda.md
+2026-05-31 05:48:27 INFO [hook] SessionEnd fired: session=0c1b54c6-c8cd-49cd-8f63-28192edf3a68 source=unknown
+2026-05-31 05:48:27 INFO [hook] Raw-copied session 0c1b54c6-c8cd-49cd-8f63-28192edf3a68 (200 turns, 121997 bytes) → /Users/mohamedbardouni/projects/beldify/ai-knowledge-base/raw/sessions/2026-05-31-0c1b54c6.md
+2026-05-31 06:01:43 INFO [hook] SessionEnd fired: session=b750bbe2-cf88-4023-8a7b-2337ba969a31 source=unknown
+2026-05-31 06:01:43 INFO [hook] Raw-copied session b750bbe2-cf88-4023-8a7b-2337ba969a31 (199 turns, 175383 bytes) → /Users/mohamedbardouni/projects/beldify/ai-knowledge-base/raw/sessions/2026-05-31-b750bbe2.md
+2026-05-31 06:32:12 INFO [hook] SessionEnd fired: session=4c0ae9be-411c-43a8-8aa9-20c49a5599d0 source=unknown
+2026-05-31 06:32:12 INFO [hook] Raw-copied session 4c0ae9be-411c-43a8-8aa9-20c49a5599d0 (34 turns, 56269 bytes) → /Users/mohamedbardouni/projects/beldify/ai-knowledge-base/raw/sessions/2026-05-31-4c0ae9be.md
+2026-05-31 14:27:26 INFO [hook] SessionEnd fired: session=c623c86f-d223-4646-8b54-f015cdbbb4f5 source=unknown
+2026-05-31 14:27:26 INFO [hook] Raw-copied session c623c86f-d223-4646-8b54-f015cdbbb4f5 (70 turns, 59125 bytes) → /Users/mohamedbardouni/projects/beldify/ai-knowledge-base/raw/sessions/2026-05-31-c623c86f.md
+2026-05-31 20:28:25 INFO [hook] SessionEnd fired: session=48de5834-96e9-47f9-a374-6a2fe84f7a1a source=unknown
+2026-05-31 20:28:25 INFO [hook] Raw-copied session 48de5834-96e9-47f9-a374-6a2fe84f7a1a (84 turns, 60601 bytes) → /Users/mohamedbardouni/projects/beldify/ai-knowledge-base/raw/sessions/2026-05-31-48de5834.md
+2026-06-01 00:24:42 INFO [hook] SessionEnd fired: session=25023e79-7fae-4982-8edf-0292095ec429 source=unknown
+2026-06-01 00:24:42 INFO [hook] Raw-copied session 25023e79-7fae-4982-8edf-0292095ec429 (98 turns, 49357 bytes) → /Users/mohamedbardouni/projects/beldify/ai-knowledge-base/raw/sessions/2026-06-01-25023e79.md
+2026-06-02 00:01:57 INFO [hook] SessionEnd fired: session=bdb93bad-8ec9-4f09-8cde-0b942fcb3317 source=unknown
+2026-06-02 00:01:57 INFO [hook] Raw-copied session bdb93bad-8ec9-4f09-8cde-0b942fcb3317 (94 turns, 99077 bytes) → /Users/mohamedbardouni/projects/beldify/ai-knowledge-base/raw/sessions/2026-06-02-bdb93bad.md
+2026-06-02 00:53:58 INFO [hook] SessionEnd fired: session=aa44f8da-2081-4ec2-90f5-23dfbfb315ec source=unknown
+2026-06-02 00:53:58 INFO [hook] Raw-copied session aa44f8da-2081-4ec2-90f5-23dfbfb315ec (70 turns, 30915 bytes) → /Users/mohamedbardouni/projects/beldify/ai-knowledge-base/raw/sessions/2026-06-02-aa44f8da.md
+2026-06-02 01:02:36 INFO [hook] SessionEnd fired: session=7516ecae-3641-4d1e-85a5-b31c6a905f3f source=unknown
+2026-06-02 01:02:36 INFO [hook] Raw-copied session 7516ecae-3641-4d1e-85a5-b31c6a905f3f (44 turns, 90399 bytes) → /Users/mohamedbardouni/projects/beldify/ai-knowledge-base/raw/sessions/2026-06-02-7516ecae.md
+2026-06-02 01:02:36 INFO [hook] SessionEnd fired: session=b3e468d7-06e7-49f5-8213-a1dc0ae6e2ba source=unknown
+2026-06-02 01:02:36 INFO [hook] Raw-copied session b3e468d7-06e7-49f5-8213-a1dc0ae6e2ba (29 turns, 5697 bytes) → /Users/mohamedbardouni/projects/beldify/ai-knowledge-base/raw/sessions/2026-06-02-b3e468d7.md
+2026-06-02 01:03:29 INFO [pre-compact] PreCompact fired: session=6d5911cb-2038-47a4-92ba-e3a2745b8aba
+2026-06-02 01:03:29 INFO [pre-compact] Spawned flush.py for session 6d5911cb-2038-47a4-92ba-e3a2745b8aba (30 turns, 11430 chars)
+2026-06-02 01:03:29 INFO flush.py started for session 6d5911cb-2038-47a4-92ba-e3a2745b8aba, context: /Users/mohamedbardouni/projects/beldify/ai-knowledge-base/scripts/flush-context-6d5911cb-2038-47a4-92ba-e3a2745b8aba-20260602-010329.md
+2026-06-02 01:03:29 INFO Flushing session 6d5911cb-2038-47a4-92ba-e3a2745b8aba: 11429 chars
+2026-06-02 01:03:29 INFO Using bundled Claude Code CLI: /Users/mohamedbardouni/projects/beldify/ai-knowledge-base/.venv/lib/python3.14/site-packages/claude_agent_sdk/_bundled/claude
+2026-06-02 01:03:42 INFO Result: saved to daily log (16 chars)
+2026-06-02 01:03:42 INFO Flush complete for session 6d5911cb-2038-47a4-92ba-e3a2745b8aba
+2026-06-02 01:08:05 INFO [hook] SessionEnd fired: session=410f7e30-3412-40d0-af9a-c56ec166a158 source=unknown
+2026-06-02 01:08:05 INFO [hook] SKIP: transcript not found (hint=/Users/mohamedbardouni/.claude/projects/-Users-mohamedbardouni-projects-beldify/410f7e30-3412-40d0-af9a-c56ec166a158.jsonl)
+2026-06-02 05:25:17 INFO [hook] SessionEnd fired: session=6d5911cb-2038-47a4-92ba-e3a2745b8aba source=unknown
+2026-06-02 05:25:17 INFO [hook] Raw-copied session 6d5911cb-2038-47a4-92ba-e3a2745b8aba (200 turns, 117546 bytes) → /Users/mohamedbardouni/projects/beldify/ai-knowledge-base/raw/sessions/2026-06-02-6d5911cb.md

@@ -1091,7 +1091,11 @@
       "error": "Could not upload your receipt. Please try again.",
       "file_required": "Please attach your transfer receipt",
       "under_review_title": "Payment under review",
-      "under_review_body": "We received your payment evidence and will confirm your order shortly."
+      "under_review_body": "We received your payment evidence and will confirm your order shortly.",
+      "need_help": "Not sure how to pay? We're here to help.",
+      "whatsapp": "WhatsApp",
+      "call": "Call us",
+      "send_to": "Send payment to"
     }
   },
   "checkout": {
@@ -2502,7 +2506,8 @@
     "stars": "Stars",
     "filter_reviews_by_rating": "Filter by Rating",
     "rating_summary": "Rating Summary",
-    "verified_buyer": "Verified buyer"
+    "verified_buyer": "Verified buyer",
+    "submitted_pending": "Thanks! Your review was submitted and will appear once approved."
   },
   "community": {
     "verified_seller": "Verified Seller",

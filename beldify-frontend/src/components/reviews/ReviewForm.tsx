@@ -15,7 +15,7 @@ interface ReviewFormProps {
   onSubmitSuccess: (newReview: any) => void; // Callback after successful submission
   onCancel?: () => void;
   // Service to create review, could be mock or real
-  createReviewService: (productId: string, data: CreateReviewRequest) => Promise<any>; 
+  createReviewService: (productId: string, data: CreateReviewRequest, files?: File[]) => Promise<any>;
 }
 
 const MAX_IMAGES = 5;
@@ -99,26 +99,16 @@ export const ReviewForm: React.FC<ReviewFormProps> = ({
     setError(null);
 
     try {
-      // In a real app, you'd upload images to a service (e.g., Contabo S3)
-      // and get back URLs to send with the review data.
-      // For this mock, we'll just pass placeholder image paths.
-      // In a real app, 'images' (File[]) would be uploaded here, and 'uploadedImagePaths' (string[]) would be the URLs returned from the upload service.
-      // For mock, we'll simulate this by creating pseudo-URLs. This matches CreateReviewRequest.images as string[].
-      const uploadedImagePaths = images.map(file => `/mock/user_uploads/${productId}/${file.name}`);
-
+      // The real backend uploads the image File[] as multipart and derives the
+      // author from the authenticated session — so we pass the files through.
       const reviewData: CreateReviewRequest = {
-        productId, // Add the productId to fix the lint error
+        productId,
         rating,
         title,
         content,
-        images: uploadedImagePaths, // Or actual URLs from upload service
-        // Assuming userName and userAvatar would be sourced from auth context in a real app
-        userName: 'Current User', 
-        userAvatar: '/images/avatars/avatar-placeholder.jpg',
-        verified: true, // Mocking as verified for now
       };
 
-      const newReview = await createReviewService(productId, reviewData);
+      const newReview = await createReviewService(productId, reviewData, images);
       onSubmitSuccess(newReview);
       // Reset form
       setRating(0);

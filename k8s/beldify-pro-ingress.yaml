@@ -1,0 +1,50 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: beldify-pro
+  namespace: default
+spec:
+  ports:
+    - port: 80
+---
+apiVersion: v1
+kind: Endpoints
+metadata:
+  name: beldify-pro
+  namespace: default
+subsets:
+  - addresses:
+      - ip: 172.25.0.1
+    ports:
+      - port: 7894
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: beldify-pro
+  namespace: default
+  annotations:
+    traefik.ingress.kubernetes.io/router.entrypoints: web,websecure
+spec:
+  ingressClassName: traefik
+  rules:
+    - host: pro.beldify.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: beldify-pro
+                port:
+                  number: 80
+    - host: api.beldify.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: beldify-pro
+                port:
+                  number: 80

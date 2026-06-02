@@ -1,0 +1,31 @@
+(Use `node --trace-deprecation ...` to show where the warning was created)
+app/size-guide/page.tsx:298 - P0 - WCAG AA contrast fail (white on amber) - Change `text-white` to `text-amber-950`
+app/categories/components/FeaturedCategories.tsx:46 - P0 - WCAG AA contrast fail (white on amber) - Change `text-white` to `text-amber-950`
+app/services/tailoring/tailors/[id]/page.tsx:632 - P0 - WCAG AA contrast fail (white on amber) - Change `text-white bg-amber-500` to `text-amber-950 bg-amber-500`
+app/services/tailoring/tailors/page.tsx:167 - P0 - WCAG AA contrast fail (white on amber) - Change `text-white bg-amber-500` to `text-amber-950 bg-amber-500`
+app/services/tailoring/tailors/page.tsx:239 - P0 - WCAG AA contrast fail (white on amber) - Change `text-white bg-amber-500` to `text-amber-950 bg-amber-500`
+components/ui/error.tsx:15 - P0 - WCAG AA contrast fail (white on amber) - Change `text-white` to `text-amber-950`
+components/products/ProductGrid.tsx:155 - P0 - WCAG AA contrast fail (white on amber) - Change `text-white` to `text-amber-950`
+components/common/ErrorMessage.tsx:33 - P0 - WCAG AA contrast fail (white on amber) - Change `text-white` to `text-amber-950`
+app/checkout/page.tsx:1194 - P0 - Missing currency-mad on price - Add `className="currency-mad"` to the price span
+app/checkout/page.tsx:1209 - P0 - Missing currency-mad on price - Add `className="currency-mad"` to the price span
+app/checkout/page.tsx:1215 - P0 - Missing currency-mad on price - Add `className="currency-mad"` to the price span
+components/cart/ShippingCalculator.tsx:90 - P0 - Missing currency-mad on price - Add `className="currency-mad"` to the price span
+components/home/FeaturedSections.tsx:124 - P1 - Tailwind JIT failure (hsl/var) - Replace `bg-[hsl(var(--primary))]` with literal `bg-indigo-700`
+components/pwa/ModernInstallPrompt.tsx:65 - P1 - Banned numbered primary scale - Replace `text-primary-500` with literal `text-amber-500`
+components/pwa/ModernInstallPrompt.tsx:67 - P1 - Banned numbered secondary scale - Replace `text-secondary-500` with literal `text-indigo-700`
+components/pwa/ModernInstallPrompt.tsx:111 - P1 - Banned numbered secondary scale - Replace `bg-secondary-500` with literal `bg-indigo-700`
+components/pwa/ModernInstallPrompt.tsx:190 - P1 - Banned numbered secondary scale - Replace `bg-secondary-600 hover:bg-secondary-700` with literal `bg-indigo-700 hover:bg-indigo-800`
+components/pwa/PWAReminderBanner.tsx:48 - P1 - Banned numbered secondary scale - Replace `bg-secondary-500` with literal `bg-indigo-700`
+components/pwa/PWAReminderBanner.tsx:86 - P1 - Banned numbered primary scale - Replace `text-primary-700 bg-primary-50` with literal `text-amber-950 bg-amber-50`
+app/categories/components/FeaturedCategories.tsx:46 - P1 - Physical RTL bug (left-4) - Replace `left-4` with logical `start-4`
+components/HeroSlider.tsx:286 - P1 - Conditional physical RTL bug (right-2/left-2) - Remove JS check and use logical `start-2 sm:start-4 md:start-8`
+components/products/RelatedProducts.tsx:86 - P2 - Banned gradient text - Remove `bg-clip-text text-transparent bg-gradient-to-r` and use solid `text-indigo-700`
+components/ui/LoadingManager.tsx:117 - P2 - Banned gradient text - Remove `text-transparent bg-clip-text bg-gradient-to-r` and use solid `text-indigo-700`
+app/categories/components/FeaturedCategories.tsx:52 - P2 - Banned decorative glassmorphism - Remove `backdrop-blur-sm bg-white/90` and use solid `bg-white`
+app/page.tsx:200 - P2 - Banned decorative glassmorphism - Remove `backdrop-blur bg-amber-50/60` and use solid `bg-amber-50`
+app/products/[id]/page.tsx:1300 - P2 - Banned decorative glassmorphism - Remove `backdrop-blur-sm bg-white/90` and use solid `bg-white`
+components/layout/Navbar.tsx:178 - P2 - Banned decorative glassmorphism - Remove `backdrop-blur-md bg-amber-50/98` and use solid `bg-amber-50`
+app/products/[id]/page.tsx:1698 - P2 - Banned decorative glassmorphism - Remove `backdrop-blur-sm bg-amber-50/95` and use solid `bg-amber-50`
+components/layout/MobileBottomNav.tsx:66 - P2 - Banned decorative glassmorphism - Remove `backdrop-blur bg-white/95` and use solid `bg-white`
+app/checkout/page.tsx:676 - P2 - Banned decorative glassmorphism - Remove `backdrop-blur-[2px] bg-white/85` and use solid `bg-white`

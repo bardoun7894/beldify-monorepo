@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Beldify - Royal Brocade Caftan</title>
+<!-- Google Fonts: Public Sans (Headline) and Inter (Body) -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&amp;family=Public+Sans:wght@700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Config injected from prompt -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {},
+            "borderRadius": {
+                    "DEFAULT": "0.5rem",
+                    "lg": "1rem",
+                    "xl": "1.5rem",
+                    "full": "9999px"
+            },
+            "spacing": {},
+            "fontFamily": {
+                    "headline": [
+                            "Public Sans"
+                    ],
+                    "display": [
+                            "Public Sans"
+                    ],
+                    "body": [
+                            "Inter"
+                    ],
+                    "label": [
+                            "Inter"
+                    ]
+            },
+            "fontSize": {}
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+          font-variation-settings:
+          'FILL' 0,
+          'wght' 300,
+          'GRAD' 0,
+          'opsz' 24
+        }
+        .material-symbols-outlined.filled {
+          font-variation-settings: 'FILL' 1;
+        }
+    </style>
+</head>
+<body class="bg-[#F7F3EE] text-[#1A1A1A] font-body antialiased selection:bg-[#C9A14A] selection:text-white pb-24">
+<!-- Shared Component: TopNavBar -->
+<header class="bg-[#F7F3EE] dark:bg-[#1A1A1A] docked full-width top-0 sticky z-50 border-b border-[#C9A14A]/20 shadow-sm transition-colors duration-200">
+<div class="flex justify-between items-center w-full px-6 py-4 max-w-7xl mx-auto">
+<!-- Brand -->
+<a class="font-headline text-2xl font-bold text-[#0E5C9B] dark:text-[#C9A14A] tracking-tight" href="#">Beldify</a>
+<!-- Actions -->
+<div class="flex items-center space-x-6">
+<!-- Search (Pill style per design system) -->
+<div class="hidden md:flex items-center bg-white border border-[#C9A14A]/30 rounded-full px-4 py-2">
+<span class="material-symbols-outlined text-[#1A1A1A]/50 mr-2 text-sm">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-sm w-48 text-[#1A1A1A] placeholder:text-[#1A1A1A]/50 font-body" placeholder="Search handcrafted..." type="text"/>
+</div>
+<nav class="flex items-center space-x-4 text-[#1A1A1A] dark:text-[#F7F3EE]">
+<button class="hover:text-[#C9A14A] transition-colors duration-200 active:scale-95 flex items-center justify-center p-1 rounded-full focus:outline-none focus:ring-2 focus:ring-[#C9A14A]">
+<span class="material-symbols-outlined">language</span>
+</button>
+<button class="hover:text-[#C9A14A] transition-colors duration-200 active:scale-95 flex items-center justify-center p-1 rounded-full focus:outline-none focus:ring-2 focus:ring-[#C9A14A]">
+<span class="material-symbols-outlined">shopping_cart</span>
+</button>
+<button class="hover:text-[#C9A14A] transition-colors duration-200 active:scale-95 flex items-center justify-center p-1 rounded-full focus:outline-none focus:ring-2 focus:ring-[#C9A14A]">
+<span class="material-symbols-outlined">account_circle</span>
+</button>
+</nav>
+</div>
+</div>
+</header>
+<main class="max-w-7xl mx-auto w-full">
+<!-- 1. Breadcrumb -->
+<nav class="px-6 py-6 text-sm text-[#1A1A1A]/60 font-body">
+<ol class="flex items-center space-x-2">
+<li><a class="hover:text-[#0E5C9B] transition-colors" href="#">Home</a></li>
+<li><span class="mx-1">/</span></li>
+<li><a class="hover:text-[#0E5C9B] transition-colors" href="#">Women</a></li>
+<li><span class="mx-1">/</span></li>
+<li><a class="hover:text-[#0E5C9B] transition-colors" href="#">Caftan</a></li>
+<li><span class="mx-1">/</span></li>
+<li aria-current="page" class="text-[#1A1A1A] font-medium">Royal Brocade Caftan</li>
+</ol>
+</nav>
+<!-- 2. Hero Section -->
+<section class="px-6 grid grid-cols-1 lg:grid-cols-12 gap-12 mb-16">
+<!-- Left: Imagery -->
+<div class="lg:col-span-6 flex flex-col gap-4">
+<div class="relative w-full aspect-[4/5] rounded-[12px] overflow-hidden bg-white">
+<img alt="Royal Brocade Caftan Main Image" class="w-full h-full object-cover" data-alt="A stunning, high-resolution editorial photograph of a Moroccan woman wearing a luxurious royal blue brocade caftan. The caftan features intricate golden embroidery along the seams and chest. The lighting is soft and natural, casting warm, flattering tones across the scene, highlighting the rich texture of the fabric. The background is a slightly blurred, sun-drenched riad courtyard featuring traditional zellige tilework, establishing an authentic, elegant mood." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDPELw4uEJ_mBlG0MnFVE7D1Vcv2Y_8mmRsZO2S7XO616B-3lHsr0_p9NMJvRS6UvyaAkCrWIH4kTDOtnSL-a5UEmGyyzKYwyOhs4kDj7l7_ECUbEN60m2i60OcGuPRjCRXq7JA_M4R3p6QKcrEJ9fMvM6zeVKMAhhmiPlWInenCpMSksZxlVST37I_n2oJISrtHW0o8QLZ4MIC5Lpz2qecR-OEIAOzJjWBKzJOErg1178gYdyFE_BSOx2JWlG6tPKOKFQZTbH1IZA"/>
+<button class="absolute top-4 right-4 bg-white/80 backdrop-blur-md rounded-full p-3 hover:bg-white transition-colors active:scale-95">
+<span class="material-symbols-outlined text-[#1A1A1A]">favorite</span>
+</button>
+</div>
+<div class="grid grid-cols-4 gap-4">
+<img alt="Thumbnail 1" class="w-full aspect-square object-cover rounded-[12px] cursor-pointer border-2 border-[#0E5C9B]" data-alt="Close up detail shot of golden embroidery on a royal blue brocade caftan fabric, high resolution, warm lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCH6e1WkFHRD00HFmX4EEKGGDV404iyZlA0wNfk6nyPNa4wc99jd8kRu2jStYX0Pul_XlMtWOqRh1e0N6K7-3xGvrIvQD6blAgif5R9qMecVCGIYnYbZEzPHy0AWwU-kgy-imQw_qiypQQMeoeiBigY_eomU0hVaHCHs54KCxzXvStjaUfryX78vV83rBzMvN79OuGqCF_xndrLEexxcz1BhooIqCDrMHc9oRYXGZkJ8JGEWFL0a4RyetGXVIY1X3UN1eSFw_Pn72M"/>
+<img alt="Thumbnail 2" class="w-full aspect-square object-cover rounded-[12px] cursor-pointer opacity-70 hover:opacity-100 transition-opacity" data-alt="Detail shot of the back of a royal blue caftan showing the drape of the heavy brocade fabric, warm riad setting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCewvPZRFXtAyvUUfeIA-BG0W-gg10F65JwDw4ziAPJxIDIES0UewxYlTHS5DA1tP3ZYzMyqITQ4j5yZHJlvhU2T5z6b8QfFM22zVZjUplsZzuq161LlpyxOSmSOYJb0vv7ShJWuGFp4jbruTLcx8djRO56JWy_X-zYJKh4K2G2WreHarKeXcQKkSECTRB_hQ5CUUz1FZGFIUuFagmnTS5bHceEKH6kRjCcaKtt-rJhP1uGYQtUI4LwqxUyUnQJUCThnyvoWWUEug0"/>
+<img alt="Thumbnail 3" class="w-full aspect-square object-cover rounded-[12px] cursor-pointer opacity-70 hover:opacity-100 transition-opacity" data-alt="Close up of the intricate hand-stitched golden belt accompanying a royal blue Moroccan caftan." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAPUv8WEPe0MUsZAxcE7LHxprFvbyDVgXtUTQ9j6NM1J_jizIA1yDF9ayJaH6ZVMfKmdaaidrJ7jiaqCzep1mb6DTeHMFncxtomH4NLrjwHnU7fZeXt6cJL3HqeWUJPbuE9DoUBnjmM7TVGHyRLNkgKpbMHmAt5k1LO2tm2ig7XjFf8hogYJv3_8X3n_DSOP_NyfjJKgS7ZDGa-ekvvvCYyhjcz8fDczGYTKyCgR9gNgU3gw3zaVQPxgptCjYp9EzjQg_OtVm3762k"/>
+<img alt="Thumbnail 4" class="w-full aspect-square object-cover rounded-[12px] cursor-pointer opacity-70 hover:opacity-100 transition-opacity" data-alt="Lifestyle shot of a woman in a royal blue caftan walking down a sunlit traditional Moroccan street with painted blue walls." src="https://lh3.googleusercontent.com/aida-public/AB6AXuABn0lHt2T1XXL1NH9l205KY5gjGebH9UOCjHoxUGYP0TbSpwA3JcQWucXm1FPDWwK4McR0QAOt22eZYfDKb3PRipa37RMFKLPZjNJpdKevuitDPlGApPvvtvrW_Tq6pqg5-T0UMa3uty303iA_xbeDJyXYDrXj7PmqK-U2ANpl50RbI63yW9lZ9xbTFhKSCfsl0heteeS19zZb6pzH4-m_FI0XwrhIjZ154167lf2nMyOnWJTmryMLJIazV1Ul7ow5YiE5aB_I-GU"/>
+</div>
+</div>
+<!-- Right: Product Details -->
+<div class="lg:col-span-6 flex flex-col justify-start py-4">
+<span class="text-[#C9A14A] font-body text-xs font-bold tracking-widest mb-2">BESTSELLER</span>
+<h1 class="font-headline text-4xl lg:text-5xl font-bold text-[#1A1A1A] leading-tight mb-4">Royal Brocade Caftan — Hand-stitched in Fez</h1>
+<div class="flex items-end gap-4 mb-6">
+<span class="font-body text-2xl font-medium text-[#0E5C9B]">3,200 MAD</span>
+<span class="font-body text-lg text-[#1A1A1A]/50 line-through pb-0.5">4,000 MAD</span>
+<span class="bg-[#C9A14A]/20 text-[#9C2A2A] text-xs font-bold px-2 py-1 rounded-full pb-1.5">-20%</span>
+</div>
+<!-- Seller Chip & Rating -->
+<div class="flex items-center justify-between border-y border-[#C9A14A]/20 py-4 mb-6">
+<a class="flex items-center gap-3 hover:opacity-80 transition-opacity" href="#">
+<img alt="Atelier Fassi Avatar" class="w-10 h-10 rounded-full object-cover" data-alt="A professional headshot portrait of a skilled Moroccan tailor working in his atelier, soft lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCod50ANAxwwNvzE4fGC42ZgzOLr5T0dJzhC9F6jBhdN5xPWIMj5KiwkGhPPztWG3ASvlWeE0xnKiRY0E_U2uAhO1lizfsOOMoRZnNjYAlXIFqwjlvGe6nQMhi4CgMnZFk3tGStaCaWj8fMzc2XPF2VObFO9nDhW3q939KID9EI-IlFyw9gIMKt8XhowO7qh12QF9z5IcME6an3d8K9E2qdqHveYnNI40tT614S9WlZcY8STm_k1lcyj_sWwfI_VE6YeMVpPw2KBgo"/>
+<div class="flex flex-col">
+<span class="font-body text-sm font-medium text-[#1A1A1A] flex items-center gap-1">
+                                Atelier Fassi · Fez <span class="material-symbols-outlined filled text-[#0E5C9B] text-sm">verified</span>
+</span>
+</div>
+</a>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined filled text-[#C9A14A] text-lg">star</span>
+<span class="font-body text-sm font-medium text-[#1A1A1A]">4.8</span>
+<a class="font-body text-sm text-[#1A1A1A]/60 underline hover:text-[#0E5C9B]" href="#reviews">(24 reviews)</a>
+</div>
+</div>
+<p class="font-body text-[#1A1A1A]/80 leading-relaxed mb-8">
+                    An exquisite piece of wearable art, hand-loomed by master artisans in the ancient medina of Fez. Crafted from heavyweight silk brocade with meticulous 'sfifa' golden braiding.
+                </p>
+<!-- Options -->
+<div class="mb-8">
+<div class="flex justify-between items-center mb-3">
+<span class="font-body font-medium text-[#1A1A1A]">Size</span>
+<a class="font-body text-sm text-[#0E5C9B] hover:underline" href="#">Sizing Guide</a>
+</div>
+<div class="flex flex-wrap gap-3">
+<button class="px-5 py-2 rounded-full border border-[#1A1A1A]/20 font-body text-sm hover:border-[#1A1A1A] transition-colors">S</button>
+<button class="px-5 py-2 rounded-full bg-[#0E5C9B] text-white font-body text-sm shadow-sm">M</button>
+<button class="px-5 py-2 rounded-full border border-[#1A1A1A]/20 font-body text-sm hover:border-[#1A1A1A] transition-colors">L</button>
+<button class="px-5 py-2 rounded-full border border-[#1A1A1A]/20 font-body text-sm hover:border-[#1A1A1A] transition-colors">XL</button>
+</div>
+<a class="inline-block mt-3 font-body text-sm text-[#0E5C9B] underline hover:text-[#C9A14A] transition-colors" href="#bespoke">Custom sizing available</a>
+</div>
+<!-- Actions -->
+<div class="flex gap-4 mb-8">
+<button class="flex-1 bg-[#0E5C9B] text-white font-body font-medium py-4 px-6 rounded-[12px] hover:bg-[#0E5C9B]/90 transition-colors active:scale-[0.98] flex items-center justify-center gap-2">
+<span class="material-symbols-outlined">shopping_bag</span>
+                        Add to bag
+                    </button>
+<button class="px-6 py-4 rounded-[12px] border-2 border-[#1A1A1A]/10 text-[#1A1A1A] hover:border-[#1A1A1A] transition-colors active:scale-[0.98] flex items-center justify-center gap-2">
+<span class="material-symbols-outlined">bookmark</span>
+                        Save
+                    </button>
+</div>
+<!-- Trust Badges -->
+<div class="flex gap-6 border-t border-[#C9A14A]/20 pt-6">
+<div class="flex items-center gap-2 text-[#1A1A1A]/70">
+<span class="material-symbols-outlined text-[#C9A14A]">local_shipping</span>
+<span class="font-body text-xs">Ships in 3-5 days</span>
+</div>
+<div class="flex items-center gap-2 text-[#1A1A1A]/70">
+<span class="material-symbols-outlined text-[#C9A14A]">handshake</span>
+<span class="font-body text-xs">Authenticity Guaranteed</span>
+</div>
+<div class="flex items-center gap-2 text-[#1A1A1A]/70">
+<span class="material-symbols-outlined text-[#C9A14A]">assignment_return</span>
+<span class="font-body text-xs">14-day returns</span>
+</div>
+</div>
+</div>
+</section>
+<!-- 4. Bespoke Strip -->
+<section class="w-full bg-[#0E5C9B] text-[#F7F3EE] py-16 px-6 mb-16 relative overflow-hidden" id="bespoke">
+<!-- Decorative Zellige Pattern (Simulated with CSS gradient for structural requirement, but keeping minimal) -->
+<div class="absolute inset-0 opacity-5 pointer-events-none" style="background-image: radial-gradient(#F7F3EE 1px, transparent 1px); background-size: 20px 20px;"></div>
+<div class="max-w-4xl mx-auto text-center relative z-10 flex flex-col items-center">
+<span class="material-symbols-outlined text-[#C9A14A] text-4xl mb-4">straighten</span>
+<h2 class="font-headline text-3xl md:text-4xl font-bold mb-4">Want it tailored to you?</h2>
+<p class="font-body text-[#F7F3EE]/80 mb-8 max-w-xl mx-auto">
+                    Experience authentic Moroccan tailoring. Provide your exact measurements and Atelier Fassi will craft this piece specifically for your body.
+                </p>
+<button class="bg-[#C9A14A] text-[#1A1A1A] font-body font-medium py-3 px-8 rounded-full hover:bg-[#C9A14A]/90 transition-colors active:scale-95 shadow-sm">
+                    Start a tailoring order
+                </button>
+</div>
+</section>
+</main>
+<!-- Shared Component: Footer -->
+<footer class="bg-[#F7F3EE] dark:bg-[#1A1A1A] full-width bottom-0 border-t border-[#C9A14A]/30 flat no shadows mt-16">
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 px-8 py-12 max-w-7xl mx-auto">
+<div>
+<span class="font-headline text-xl font-bold text-[#0E5C9B] dark:text-[#C9A14A] mb-4 block">Beldify</span>
+<p class="font-body text-sm text-[#1A1A1A] dark:text-[#F7F3EE]">© 2024 Beldify. Handcrafted quality from the heart of Morocco.</p>
+</div>
+<div class="flex flex-col space-y-3">
+<a class="font-body text-sm text-[#1A1A1A]/70 dark:text-[#F7F3EE]/70 hover:text-[#C9A14A] underline-offset-4 hover:underline transition-all focus:ring-2 focus:ring-[#C9A14A] outline-none" href="#">Our Artisans</a>
+<a class="font-body text-sm text-[#1A1A1A]/70 dark:text-[#F7F3EE]/70 hover:text-[#C9A14A] underline-offset-4 hover:underline transition-all focus:ring-2 focus:ring-[#C9A14A] outline-none" href="#">Tailoring Services</a>
+</div>
+<div class="flex flex-col space-y-3">
+<a class="font-body text-sm text-[#1A1A1A]/70 dark:text-[#F7F3EE]/70 hover:text-[#C9A14A] underline-offset-4 hover:underline transition-all focus:ring-2 focus:ring-[#C9A14A] outline-none" href="#">Authenticity Guarantee</a>
+<a class="font-body text-sm text-[#1A1A1A]/70 dark:text-[#F7F3EE]/70 hover:text-[#C9A14A] underline-offset-4 hover:underline transition-all focus:ring-2 focus:ring-[#C9A14A] outline-none" href="#">Shipping &amp; Returns</a>
+</div>
+<div>
+<p class="font-body text-sm text-[#1A1A1A]/70 dark:text-[#F7F3EE]/70 mb-4">Secure Payments</p>
+<div class="flex gap-2">
+<div class="w-10 h-6 bg-white border border-[#1A1A1A]/10 rounded flex items-center justify-center text-[10px] font-bold text-[#0E5C9B]">VISA</div>
+<div class="w-10 h-6 bg-white border border-[#1A1A1A]/10 rounded flex items-center justify-center text-[10px] font-bold text-[#9C2A2A]">MC</div>
+</div>
+</div>
+</div>
+</footer>
+</body></html>

@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+
+<html dir="rtl" lang="ar"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Beldify - Marketplace</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-tint": "#59598d",
+                        "on-error": "#ffffff",
+                        "secondary": "#855300",
+                        "surface-container-low": "#f5f3ee",
+                        "on-tertiary-fixed-variant": "#753401",
+                        "on-surface-variant": "#47464f",
+                        "on-primary-fixed": "#151546",
+                        "tertiary-container": "#6b2f00",
+                        "surface": "#fbf9f4",
+                        "on-secondary-fixed-variant": "#653e00",
+                        "surface-container-high": "#eae8e3",
+                        "primary": "#252555",
+                        "tertiary-fixed-dim": "#ffb68c",
+                        "surface-variant": "#e4e2dd",
+                        "secondary-fixed-dim": "#ffb95f",
+                        "on-surface": "#1b1c19",
+                        "on-primary": "#ffffff",
+                        "inverse-primary": "#c2c1fc",
+                        "secondary-fixed": "#ffddb8",
+                        "inverse-on-surface": "#f2f1ec",
+                        "surface-dim": "#dbdad5",
+                        "on-secondary": "#ffffff",
+                        "surface-container-highest": "#e4e2dd",
+                        "primary-fixed": "#e2dfff",
+                        "on-tertiary-fixed": "#321200",
+                        "on-secondary-fixed": "#2a1700",
+                        "on-error-container": "#93000a",
+                        "on-tertiary": "#ffffff",
+                        "outline-variant": "#c8c5d0",
+                        "on-primary-container": "#a8a7e1",
+                        "on-background": "#1b1c19",
+                        "on-primary-fixed-variant": "#414174",
+                        "primary-fixed-dim": "#c2c1fc",
+                        "secondary-container": "#fea619",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container": "#f0eee9",
+                        "on-tertiary-container": "#f1965e",
+                        "error": "#ba1a1a",
+                        "error-container": "#ffdad6",
+                        "tertiary-fixed": "#ffdbc9",
+                        "on-secondary-container": "#684000",
+                        "background": "#fbf9f4",
+                        "outline": "#777680",
+                        "surface-bright": "#fbf9f4",
+                        "primary-container": "#3b3b6d",
+                        "inverse-surface": "#30312e",
+                        "tertiary": "#491e00"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "2xl": "1rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-desktop": "64px",
+                        "sm": "8px",
+                        "margin-mobile": "16px",
+                        "lg": "24px",
+                        "xs": "4px",
+                        "xxl": "48px",
+                        "xl": "32px",
+                        "md": "16px",
+                        "unit": "4px",
+                        "gutter": "20px"
+                    },
+                    "fontFamily": {
+                        "price-display": ["IBM Plex Sans Arabic"],
+                        "headline-lg": ["IBM Plex Sans Arabic"],
+                        "label-md": ["IBM Plex Sans Arabic"],
+                        "display-lg-mobile": ["IBM Plex Sans Arabic"],
+                        "title-lg": ["IBM Plex Sans Arabic"],
+                        "headline-md": ["IBM Plex Sans Arabic"],
+                        "body-md": ["IBM Plex Sans Arabic"],
+                        "display-lg": ["IBM Plex Sans Arabic"],
+                        "body-lg": ["IBM Plex Sans Arabic"]
+                    },
+                    "fontSize": {
+                        "price-display": ["22px", { "lineHeight": "28px", "fontWeight": "700" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "fontWeight": "600" }],
+                        "label-md": ["14px", { "lineHeight": "20px", "fontWeight": "500" }],
+                        "display-lg-mobile": ["32px", { "lineHeight": "40px", "fontWeight": "700" }],
+                        "title-lg": ["20px", { "lineHeight": "28px", "fontWeight": "500" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "display-lg": ["48px", { "lineHeight": "60px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { font-family: 'IBM Plex Sans Arabic', sans-serif; }
+    </style>
+</head>
+<body class="bg-background text-on-background antialiased selection:bg-secondary-container selection:text-on-secondary-container">
+<!-- 1. Announcement Strip -->
+<div class="bg-surface-variant text-secondary-container text-center py-sm font-label-md text-label-md">
+        شحن مجاني للطلبات فوق 1000 درهم
+    </div>
+<!-- TopNavBar (Shared Component) -->
+<nav class="bg-surface dark:bg-surface-dim shadow-[0px_4px_20px_rgba(37,37,85,0.05)] border-b border-outline-variant/20 sticky top-0 z-50 w-full transition-all duration-300">
+<div class="flex flex-row-reverse justify-between items-center px-margin-mobile md:px-margin-desktop h-24 w-full max-w-7xl mx-auto">
+<!-- Brand Logo -->
+<div class="font-headline-lg text-headline-lg font-bold text-primary tracking-tight">
+                بيلديفاي
+            </div>
+<!-- Navigation Links (Desktop) -->
+<div class="hidden md:flex gap-lg items-center">
+<a class="text-on-surface-variant hover:text-primary font-medium transition-colors hover:bg-surface-container-low rounded-lg px-3 py-2 cursor-pointer active:scale-95 transform duration-200" href="#">الرئيسية</a>
+<a class="text-primary border-b-2 border-secondary-container font-bold pb-2 transition-all px-3 py-2 cursor-pointer active:scale-95 transform duration-200" href="#">المتجر</a>
+<a class="text-on-surface-variant hover:text-primary font-medium transition-colors hover:bg-surface-container-low rounded-lg px-3 py-2 cursor-pointer active:scale-95 transform duration-200" href="#">الحرفيين</a>
+<a class="text-on-surface-variant hover:text-primary font-medium transition-colors hover:bg-surface-container-low rounded-lg px-3 py-2 cursor-pointer active:scale-95 transform duration-200" href="#">المجلة</a>
+</div>
+<!-- Trailing Actions -->
+<div class="flex items-center gap-md">
+<span class="hidden md:inline font-label-md text-label-md text-on-surface-variant cursor-pointer hover:text-primary transition-colors">العربية</span>
+<button class="p-2 rounded-full hover:bg-surface-container-low transition-colors cursor-pointer active:scale-95 transform duration-200">
+<span class="material-symbols-outlined text-primary">notifications</span>
+</button>
+<button class="p-2 rounded-full hover:bg-surface-container-low transition-colors cursor-pointer active:scale-95 transform duration-200 md:hidden">
+<span class="material-symbols-outlined text-primary">menu</span>
+</button>
+</div>
+</div>
+</nav>
+<main>
+<!-- 2. Hero Section -->
+<section class="relative w-full h-[819px] min-h-[600px] flex items-center overflow-hidden">
+<!-- Background Image with Gradient Overlay -->
+<div class="absolute inset-0 z-0">
+<img class="w-full h-full object-cover" data-alt="A sweeping, high-end editorial shot of a Moroccan interior or fashion scene. The lighting is soft and ambient, reminiscent of a luxury boutique in Marrakech. Colors are rich but muted, featuring deep indigos, warm terracottas, and natural textures. The composition uses generous whitespace and asymmetrical balance, characteristic of modern editorial design." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDBYU4nupt7R2u7rwzwaUNxGaVSDnljTj6oXQkQvDO5rvQRHuw4rIYd9RMDovjj-9aGcnoQeSSz8fy9Yiop_zFyTwGJiZUXM79-tZ4GgpWGVgNVYogYggBQYL27vdMP9zcuDS_ea135GEBsDe_pWEDu73g0wfc5jaa3leImjTzE9Wa-9vq-uYTX1rUdwyrFf4E0vUV_AfKSKfsOEC1f9EWapHGwWrAo7E7yMFM-qhmNAWDcKQicPZEWrsZiRPqGdbCjbfkERX62VFLc"/>
+<div class="absolute inset-0 bg-gradient-to-r from-primary/80 via-primary/50 to-transparent"></div>
+</div>
+<!-- Hero Content -->
+<div class="relative z-10 w-full max-w-7xl mx-auto px-margin-mobile md:px-margin-desktop flex flex-col items-start text-on-primary">
+<h1 class="font-display-lg-mobile text-display-lg-mobile md:font-display-lg md:text-display-lg max-w-2xl mb-md leading-tight drop-shadow-md">
+                    تُلبَس منذ قرون. مصنوعة لليوم.
+                </h1>
+<p class="font-body-lg text-body-lg max-w-xl mb-xl opacity-90 drop-shadow-sm">
+                    اكتشف جمال الحرف اليدوية المغربية الأصيلة، حيث يلتقي التراث العريق باللمسة العصرية الأنيقة.
+                </p>
+<div class="flex flex-col sm:flex-row gap-md">
+<button class="bg-secondary-container text-on-secondary-container px-xl py-md rounded-full font-label-md text-label-md font-bold hover:opacity-90 transition-opacity flex items-center justify-center gap-2 cursor-pointer active:scale-95 transform duration-200 shadow-sm">
+                        تسوّق الآن
+                        <span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+</button>
+<button class="border border-on-primary text-on-primary px-xl py-md rounded-full font-label-md text-label-md hover:bg-on-primary/10 transition-colors flex items-center justify-center gap-2 cursor-pointer active:scale-95 transform duration-200 backdrop-blur-sm">
+                        تعرّف على الحرفيين
+                    </button>
+</div>
+</div>
+</section>
+</main>
+</body></html>

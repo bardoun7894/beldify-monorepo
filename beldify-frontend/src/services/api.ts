@@ -350,9 +350,80 @@ export const orderService = {
 };
 
 export const reviewService = {
-  async createReview(reviewData: any) {
+  /**
+   * Fetch approved product reviews from the real backend and normalize the
+   * Laravel paginator + summary shape into the frontend ReviewsResponse.
+   */
+  async getProductReviews(
+    productId: string,
+    page: number = 1,
+    limit: number = 5,
+    filters?: Record<string, any>
+  ) {
+    const response = await api.get(`/products/${productId}/reviews`, {
+      params: { page, per_page: limit, ...(filters || {}) },
+    });
+
+    const payload = response.data?.data ?? {};
+    const paginator = payload.reviews ?? {};
+    const rows: any[] = paginator.data ?? [];
+    const summary = payload.summary ?? {};
+
+    const reviews = rows.map((r) => ({
+      id: String(r.id),
+      productId: String(r.stock_id ?? productId),
+      userId: String(r.user_id ?? ''),
+      userName: r.user?.name || r.user?.display_name || 'Customer',
+      userAvatar: r.user?.profile_image || undefined,
+      rating: Number(r.rating) || 0,
+      title: r.title || '',
+      content: r.comment || '',
+      images: Array.isArray(r.images) ? r.images : [],
+      createdAt: r.created_at,
+      verified: !!r.is_verified,
+      likes: Number(r.likes) || 0,
+      dislikes: Number(r.dislikes) || 0,
+      userReaction: null,
+    }));
+
+    const dist = summary.rating_counts || {};
+    return {
+      reviews,
+      summary: {
+        averageRating: Number(summary.average_rating) || 0,
+        totalReviews: Number(summary.total_reviews) || 0,
+        ratingDistribution: {
+          1: dist[1] ?? 0, 2: dist[2] ?? 0, 3: dist[3] ?? 0, 4: dist[4] ?? 0, 5: dist[5] ?? 0,
+        },
+        verifiedPurchases: reviews.filter((r) => r.verified).length,
+        withImages: reviews.filter((r) => r.images.length > 0).length,
+        withComments: reviews.filter((r) => r.content).length,
+      },
+      pagination: {
+        currentPage: Number(paginator.current_page) || page,
+        totalPages: Number(paginator.last_page) || 1,
+        totalItems: Number(paginator.total) || reviews.length,
+        hasMore: (Number(paginator.current_page) || 1) < (Number(paginator.last_page) || 1),
+      },
+    };
+  },
+
+  /**
+   * Submit a review (multipart so receipt images upload as real files).
+   * Backend stores it as status=pending until an admin approves it.
+   */
+  async createReview(productId: string, data: any, files?: File[]) {
     try {
-      const response = await api.post('/products/reviews', reviewData);
+      const form = new FormData();
+      form.append('stock_id', String(productId));
+      form.append('rating', String(data.rating));
+      if (data.title) form.append('title', data.title);
+      form.append('comment', data.content ?? data.comment ?? '');
+      (files || []).forEach((f, i) => form.append(`images[${i}]`, f));
+
+      const response = await api.post('/products/reviews', form, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      });
       return response.data;
     } catch (error) {
       debugError('Error creating review:', error);

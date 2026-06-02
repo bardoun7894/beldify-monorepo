@@ -230,6 +230,20 @@ class OrderService {
     }
   }
 
+  /**
+   * Payout account + how-to-pay instructions for an offline transfer method.
+   */
+  async getPaymentInstructions(
+    method: string
+  ): Promise<{ method: string; label: string; account: string; instructions: string } | null> {
+    try {
+      const response = await api.get(`/api/payment-methods/${method}/instructions`);
+      return response.data?.data ?? null;
+    } catch {
+      return null;
+    }
+  }
+
   async createOrder(orderData: OrderData) {
     try {
       logger.log('Creating order with payload (raw):', orderData);

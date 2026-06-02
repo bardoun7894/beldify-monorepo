@@ -1078,7 +1078,11 @@
       "error": "Impossible de téléverser votre reçu. Réessayez.",
       "file_required": "Veuillez joindre votre reçu de virement",
       "under_review_title": "Paiement en cours de vérification",
-      "under_review_body": "Nous avons reçu votre justificatif et confirmerons votre commande sous peu."
+      "under_review_body": "Nous avons reçu votre justificatif et confirmerons votre commande sous peu.",
+      "need_help": "Vous ne savez pas comment payer ? Nous sommes là pour vous aider.",
+      "whatsapp": "WhatsApp",
+      "call": "Appelez-nous",
+      "send_to": "Envoyer le paiement à"
     }
   },
   "checkout": {
@@ -3011,7 +3015,8 @@
     "verified_purchase": "Achat Vérifié",
     "with_images_only": "Avec Images",
     "write_review_form": "Écrire un Avis",
-    "your_rating": "Votre Évaluation"
+    "your_rating": "Votre Évaluation",
+    "submitted_pending": "Merci ! Votre avis a été soumis et apparaîtra après approbation."
   },
   "wishlist": {
     "title": "Ma liste de souhaits",

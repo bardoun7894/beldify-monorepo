@@ -1,0 +1,69 @@
+services:
+  app:
+    build:
+      context: ./.cache/local-docker/beldify-backend-mirror
+      dockerfile: docker/php/Dockerfile
+    container_name: beldify-local-app
+    expose:
+      - "9000"
+    volumes:
+      # Case-sensitive Linux volume (mirrors the server FS exactly) — avoids
+      # macOS bind-mount case-folding that breaks __('Messages')→messages.php etc.
+      - beldify_local_code:/var/www/html
+      - /var/www/html/vendor
+      - /var/www/html/bootstrap/cache
+    env_file:
+      - ./.cache/local-docker/beldify-backend-mirror/.env
+    depends_on:
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    restart: unless-stopped
+
+  nginx:
+    build:
+      context: ./.cache/local-docker/beldify-backend-mirror
+      dockerfile: docker/nginx/Dockerfile
+    container_name: beldify-local-nginx
+    ports:
+      - "7895:80"
+    volumes:
+      - beldify_local_code:/var/www/html
+      - /var/www/html/vendor
+    depends_on:
+      - app
+    restart: unless-stopped
+
+  mysql:
+    image: mysql:8.0
+    container_name: beldify-local-mysql
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_DATABASE: beldify
+      MYSQL_USER: beldify_user
+      MYSQL_PASSWORD: Beldify7894
+      MYSQL_ROOT_PASSWORD: BeldifyRoot7894
+    volumes:
+      - beldify_local_mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
+    restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+    container_name: beldify-local-redis
+    ports:
+      - "6381:6379"
+    command: redis-server --requirepass beldify_secure_password
+    restart: unless-stopped
+
+volumes:
+  beldify_local_mysql_data:
+  # Pre-loaded case-sensitive code volume (created + populated out-of-band from
+  # the server tar). Marked external so compose never recreates/wipes it.
+  beldify_local_code:
+    external: true
