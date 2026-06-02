@@ -19,13 +19,13 @@ Role-tagged, dependency-ordered. `[P]` = parallelizable. Each code task is TDD (
 - T020 Product create/update writes vertical config → `stocks.customization_options`/`additional_attributes`.
 
 ## WS-B — Frontend: seller + buyer UI — frontend-engineer (depends on T001 contracts; T019 for live wiring)
-- T030 Seller: vertical picker in store settings (reads store_type). [P]
-- T031 Seller: vertical-aware product form — conditional fields from `/verticals/{slug}/config`.
-- T032 Seller: custom-order management (quote form, advance-status timeline).
-- T033 Buyer: Jewelry category page + filters (material/gemstone). [P]
-- T034 Buyer: jewelry PDP fields (material/purity/grams/size/gemstone/engraving/finish, optional-aware).
-- T035 Buyer: "Request custom piece" form (jewelry + apparel variants; material required, rest optional).
-- T036 Buyer: made-to-order tracking timeline. Atlas/RTL/MAD throughout.
+- [x] T030 Seller: vertical picker in store settings (reads store_type). [P]
+- [x] T031 Seller: vertical-aware product form — conditional fields from `/verticals/{slug}/config`.
+- [x] T032 Seller: custom-order management (quote form, advance-status timeline).
+- [x] T033 Buyer: Jewelry category page + filters (material/gemstone). [P]
+- [x] T034 Buyer: jewelry PDP fields (material/purity/grams/size/gemstone/engraving/finish, optional-aware).
+- [x] T035 Buyer: "Request custom piece" form (jewelry + apparel variants; material required, rest optional).
+- [x] T036 Buyer: made-to-order tracking timeline. Atlas/RTL/MAD throughout.
 
 ## WS-C — Tailoring + fabric fixes (all 18) — debugger lead → backend + frontend
 ### P0 (backend-engineer)
