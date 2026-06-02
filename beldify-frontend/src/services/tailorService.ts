@@ -4,9 +4,24 @@ import { API_BASE_URL } from '@/config/constants';
 
 const API_URL = `${API_BASE_URL}/api`;
 
+export interface TailorService {
+  id: number;
+  name: string;
+  description: string | null;
+  base_price: number | string;
+  estimated_days: number;
+  options?: Record<string, { price?: number }> | null;
+}
+
+export interface TailorReview {
+  id: number;
+  rating: number;
+  review_text: string | null;
+  created_at: string;
+}
+
 export interface Tailor {
   id: number;
-  user_id: number;
   business_name: string;
   bio: string;
   specializations: string[];
@@ -24,12 +39,10 @@ export interface Tailor {
   completed_orders: number;
   is_verified: boolean;
   is_active: boolean;
-  user: {
-    id: number;
-    name: string;
-    email: string;
-    city: string;
-  };
+  // Public, PII-safe owner display name (backend hides email/PII — bug 9).
+  owner_name?: string | null;
+  services?: TailorService[];
+  reviews?: TailorReview[];
 }
 
 export interface TimeSlot {

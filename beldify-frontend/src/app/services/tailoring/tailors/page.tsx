@@ -3,51 +3,38 @@
 import { useTranslation } from 'react-i18next';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useEffect, useState } from 'react';
 import { Star, MapPin, Briefcase, ArrowRight, Search, SlidersHorizontal } from 'lucide-react';
+import tailorService, { Tailor } from '@/services/tailorService';
 
-// Placeholder data — replace with API fetch when backend is ready
-const placeholderTailors = [
-  {
-    id: '1',
-    name: 'Ahmed Tailoring',
-    specialty: 'Kaftans & Djellabas',
-    location: 'Marrakech',
-    imageUrl: '/placeholder.png',
-    rating: 4.9,
-    reviews: 124,
-    featured: true,
-  },
-  {
-    id: '2',
-    name: 'Fatima Couture',
-    specialty: 'Wedding Dresses',
-    location: 'Casablanca',
-    imageUrl: '/placeholder.png',
-    rating: 4.7,
-    reviews: 87,
-    featured: false,
-  },
-  {
-    id: '3',
-    name: 'Youssef Stitches',
-    specialty: "Men's Suits",
-    location: 'Rabat',
-    imageUrl: '/placeholder.png',
-    rating: 4.8,
-    reviews: 56,
-    featured: true,
-  },
-  {
-    id: '4',
-    name: 'Moroccan Fashion',
-    specialty: 'Traditional Wear',
-    location: 'Fes',
-    imageUrl: '/placeholder.png',
-    rating: 4.6,
-    reviews: 42,
-    featured: false,
-  },
-];
+/**
+ * bug 10: this listing was 100% hardcoded mock data despite a working API + service.
+ * It now fetches real tailors from /api/tailors and maps the PII-safe Resource fields
+ * onto the existing Atlas card layout.
+ */
+interface TailorCard {
+  id: number;
+  name: string;
+  specialty: string;
+  location: string;
+  imageUrl: string;
+  rating: number;
+  reviews: number;
+  featured: boolean;
+}
+
+function toCard(tailor: Tailor): TailorCard {
+  return {
+    id: tailor.id,
+    name: tailor.business_name,
+    specialty: tailor.specializations?.[0] ?? '',
+    location: tailor.owner_name ?? '',
+    imageUrl: tailor.profile_image || '/placeholder.png',
+    rating: Number(tailor.rating) || 0,
+    reviews: tailor.total_reviews ?? 0,
+    featured: Boolean(tailor.is_verified),
+  };
+}
 
 function StarRating({ rating }: { rating: number }) {
   return (
@@ -65,7 +52,27 @@ function StarRating({ rating }: { rating: number }) {
 export default function TailorsPage() {
   const { t } = useTranslation();
 
-  const tailors = placeholderTailors;
+  const [tailors, setTailors] = useState<TailorCard[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    let active = true;
+    (async () => {
+      try {
+        const response = await tailorService.getTailors();
+        const list: Tailor[] = response?.data ?? [];
+        if (active) setTailors(list.map(toCard));
+      } catch {
+        if (active) setTailors([]);
+      } finally {
+        if (active) setLoading(false);
+      }
+    })();
+    return () => {
+      active = false;
+    };
+  }, []);
+
   const featuredTailors = tailors.filter((tailor) => tailor.featured);
 
   const filterLabels = [
@@ -184,7 +191,7 @@ export default function TailorsPage() {
                       </p>
                     </div>
                     <Link
-                      href={`/services/tailoring/tailors/${tailor.id}`}
+                      href={`/services/tailoring/${tailor.id}`}
                       className="mt-6 inline-flex items-center justify-center gap-2 rounded-full bg-indigo-700 hover:bg-indigo-800 text-white text-sm font-semibold px-5 py-2.5 transition"
                     >
                       {t('content.tailors.viewProfile', 'View Profile')}
@@ -211,7 +218,13 @@ export default function TailorsPage() {
             <div className="mt-3 h-px w-full bg-amber-200/70" aria-hidden />
           </div>
 
-          {tailors.length === 0 ? (
+          {loading ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {[1, 2, 3].map((i) => (
+                <div key={i} className="h-80 rounded-2xl bg-amber-50 ring-1 ring-amber-200/60 animate-pulse" />
+              ))}
+            </div>
+          ) : tailors.length === 0 ? (
             <div className="text-center py-16 rounded-2xl ring-1 ring-amber-200/60 bg-white">
               <p className="text-gray-500 text-base">{t('content.tailors.noResults', 'No tailors found matching your criteria.')}</p>
               <button className="mt-4 rounded-full px-5 py-2.5 text-sm font-medium bg-amber-50 text-amber-800 ring-1 ring-amber-200 hover:ring-amber-400 transition">
@@ -241,7 +254,7 @@ export default function TailorsPage() {
                     {/* Hover reveal CTA */}
                     <div className="absolute bottom-4 inset-x-0 flex justify-center opacity-0 translate-y-3 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
                       <Link
-                        href={`/services/tailoring/tailors/${tailor.id}`}
+                        href={`/services/tailoring/${tailor.id}`}
                         className="bg-white/90 backdrop-blur-sm text-indigo-700 text-sm font-semibold px-4 py-2 rounded-full shadow-atlas-md hover:bg-white transition"
                       >
                         {t('content.tailors.viewDetails', 'View Details')}
@@ -268,7 +281,7 @@ export default function TailorsPage() {
                     </div>
                     <div className="mt-auto pt-3 border-t border-amber-50">
                       <Link
-                        href={`/services/tailoring/tailors/${tailor.id}`}
+                        href={`/services/tailoring/${tailor.id}`}
                         className="inline-flex items-center justify-center w-full gap-2 rounded-full ring-1 ring-indigo-200 text-indigo-700 text-sm font-medium py-2.5 hover:ring-indigo-400 hover:bg-indigo-50 transition"
                       >
                         {t('content.tailors.viewProfile', 'View Profile')}

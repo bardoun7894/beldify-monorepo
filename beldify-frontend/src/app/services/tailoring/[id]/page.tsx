@@ -9,27 +9,12 @@ import { Dialog } from '@headlessui/react';
 import tailorService, { Tailor, TimeSlot } from '@/services/tailorService';
 import toast from '@/utils/toast';
 
-interface Review {
-  id: string;
-  author: string;
-  rating: number;
-  comment: string;
-  date: string;
-  service: string;
-}
-
-interface Service {
-  id: string;
-  name: string;
-  price: string;
-  duration: string;
-}
-
 export default function TailorProfilePage({ params }: { params: { id: string } }) {
   const { t } = useTranslation();
   const [tailor, setTailor] = useState<Tailor | null>(null);
   const [loading, setLoading] = useState(true);
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
+  // bug 8: service id is the real numeric tailor_services id, not a hardcoded string.
   const [selectedService, setSelectedService] = useState<string | null>(null);
   const [selectedTimeSlot, setSelectedTimeSlot] = useState<string | null>(null);
   const [timeSlots, setTimeSlots] = useState<TimeSlot[]>([]);
@@ -136,39 +121,9 @@ export default function TailorProfilePage({ params }: { params: { id: string } }
     ));
   };
 
-  const services: Service[] = [
-    {
-      id: 'custom-suit',
-      name: t('tailoring.services.custom_suits.title'),
-      price: t('tailoring.services.custom_suits.price'),
-      duration: t('tailoring.services.custom_suits.duration'),
-    },
-    {
-      id: 'alterations',
-      name: t('tailoring.services.alterations.title'),
-      price: t('tailoring.services.alterations.price'),
-      duration: t('tailoring.services.alterations.duration'),
-    },
-  ];
-
-  const reviews: Review[] = [
-    {
-      id: '1',
-      author: 'Karim Alami',
-      rating: 5,
-      comment: t('tailoring.reviews.mock.1.comment'),
-      date: '2024-12-15',
-      service: t('tailoring.reviews.mock.1.service'),
-    },
-    {
-      id: '2',
-      author: 'Youssef Benjelloun',
-      rating: 4,
-      comment: t('tailoring.reviews.mock.2.comment'),
-      date: '2024-12-10',
-      service: t('tailoring.reviews.mock.2.service'),
-    },
-  ];
+  // bug 8 + 10: render real tailor_services and reviews from the API, not mock data.
+  const services = tailor.services ?? [];
+  const reviews = tailor.reviews ?? [];
 
   return (
     <div className="min-h-screen bg-amber-50/40">
@@ -204,10 +159,12 @@ export default function TailorProfilePage({ params }: { params: { id: string } }
                 </span>
               </div>
               <div className="flex flex-wrap items-center justify-center sm:justify-start gap-4">
-                <div className="flex items-center gap-1.5 bg-white/10 backdrop-blur-sm px-3 py-1.5 rounded-full">
-                  <MapPin className="w-4 h-4 text-amber-400 flex-shrink-0" />
-                  <span className="text-sm">{tailor.user.city}</span>
-                </div>
+                {tailor.owner_name && (
+                  <div className="flex items-center gap-1.5 bg-white/10 backdrop-blur-sm px-3 py-1.5 rounded-full">
+                    <MapPin className="w-4 h-4 text-amber-400 flex-shrink-0" />
+                    <span className="text-sm">{tailor.owner_name}</span>
+                  </div>
+                )}
                 <div className="flex items-center gap-1.5 bg-white/10 backdrop-blur-sm px-3 py-1.5 rounded-full">
                   <BadgeCheck className="w-4 h-4 text-amber-400 flex-shrink-0" />
                   <span className="text-sm">{tailor.experience_years} {t('tailoring.tailors.years')}</span>
@@ -279,22 +236,23 @@ export default function TailorProfilePage({ params }: { params: { id: string } }
                 {t('tailoring.profile.reviews')}
               </h2>
               <div className="space-y-4">
+                {reviews.length === 0 && (
+                  <p className="text-sm text-gray-500">{t('tailoring.profile.no_reviews', 'No reviews yet')}</p>
+                )}
                 {reviews.map((review) => (
                   <div
                     key={review.id}
                     className="rounded-2xl bg-amber-50 ring-1 ring-amber-200/60 p-5"
                   >
                     <div className="flex justify-between items-start mb-2">
-                      <div>
-                        <h3 className="font-semibold text-sm text-indigo-900">{review.author}</h3>
-                        <div className="flex items-center gap-2 mt-0.5">
-                          <div className="flex">{renderStars(review.rating)}</div>
-                          <span className="text-xs text-gray-500">{review.service}</span>
-                        </div>
+                      <div className="flex items-center gap-2 mt-0.5">
+                        <div className="flex">{renderStars(review.rating)}</div>
                       </div>
-                      <span className="text-xs text-gray-400">{review.date}</span>
+                      <span className="text-xs text-gray-400">
+                        {new Date(review.created_at).toLocaleDateString()}
+                      </span>
                     </div>
-                    <p className="text-sm text-gray-700">{review.comment}</p>
+                    <p className="text-sm text-gray-700">{review.review_text}</p>
                   </div>
                 ))}
               </div>
@@ -323,8 +281,8 @@ export default function TailorProfilePage({ params }: { params: { id: string } }
                 >
                   <option value="">{t('tailoring.booking.choose_service')}</option>
                   {services.map((service) => (
-                    <option key={service.id} value={service.id}>
-                      {service.name} - {service.price}
+                    <option key={service.id} value={String(service.id)}>
+                      {service.name} — {service.base_price} {t('common.currency', 'MAD')}
                     </option>
                   ))}
                 </select>

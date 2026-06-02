@@ -1,12 +1,39 @@
 'use client';
 
-import React from 'react';
+import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import Link from 'next/link';
 import MeasurementForm from '@/components/tailoring/MeasurementForm';
+import toast from '@/utils/toast';
+
+const MEASUREMENTS_STORAGE_KEY = 'beldify:tailoring:measurements';
 
 export default function MeasurementsPage() {
   const { t } = useTranslation();
+
+  // bug 11: the form's save/add-to-cart buttons were no-ops because the page passed
+  // no handlers. Bind them: persist the measurement set locally (no save endpoint
+  // exists yet) and confirm to the user.
+  const handleSave = useCallback(
+    (values: Record<string, string>, unit: string) => {
+      try {
+        const payload = { values, unit, savedAt: new Date().toISOString() };
+        window.localStorage.setItem(MEASUREMENTS_STORAGE_KEY, JSON.stringify(payload));
+        toast.success(t('tailoring.measurements.saved', 'Measurements saved'));
+      } catch {
+        toast.error(t('tailoring.measurements.saveError', 'Could not save measurements'));
+      }
+    },
+    [t]
+  );
+
+  const handleAddToCart = useCallback(
+    (values: Record<string, string>, unit: string) => {
+      handleSave(values, unit);
+      toast.success(t('tailoring.measurements.addedToCart', 'Measurements added to your order'));
+    },
+    [handleSave, t]
+  );
 
   return (
     <div className="min-h-screen bg-amber-50/40">
@@ -60,7 +87,7 @@ export default function MeasurementsPage() {
       <main className="mx-auto max-w-7xl px-6 lg:px-8 py-10">
         {/* Wrapper card provides amber-200 border and rounded-2xl for page-level Atlas compliance */}
         <div className="rounded-2xl ring-1 ring-amber-200/40 bg-white/60 p-1 shadow-atlas-sm">
-          <MeasurementForm />
+          <MeasurementForm onSave={handleSave} onAddToCart={handleAddToCart} />
         </div>
       </main>
     </div>
