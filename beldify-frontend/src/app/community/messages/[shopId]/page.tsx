@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import Link from 'next/link';
 import { useParams, useSearchParams, useRouter } from 'next/navigation';
-import { MessageSquare, ChevronLeft, Send, Loader2 } from 'lucide-react';
+import { MessageSquare, ChevronLeft, Send, Loader2, ArrowLeft } from 'lucide-react';
 import { useTranslation } from '@/i18n/client';
 import { useAuth } from '@/contexts/AuthContext';
 import * as messagingService from '@/services/messagingService';
@@ -119,17 +119,26 @@ export default function ConversationPage() {
     }
   };
 
+  // ── Not authenticated ──────────────────────────────────────────────────────
   if (!isAuthenticated) {
     return (
-      <div className="tw-min-h-screen tw-flex tw-items-center tw-justify-center tw-px-4">
-        <div className="tw-text-center">
-          <MessageSquare className="tw-w-16 tw-h-16 tw-text-gray-300 tw-mx-auto tw-mb-4" />
-          <h2 className="tw-text-xl tw-font-semibold tw-text-gray-700 tw-mb-2">
+      <div className="min-h-screen bg-amber-50 flex items-center justify-center px-6">
+        <div className="max-w-sm w-full text-center">
+          <div className="w-20 h-20 bg-amber-100 rounded-full ring-1 ring-amber-200 flex items-center justify-center mx-auto mb-6">
+            <MessageSquare className="w-9 h-9 text-amber-500" />
+          </div>
+          <h2
+            className="text-2xl font-bold text-gray-900 mb-3"
+            style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
+          >
             {t('messages.sign_in_required') || 'Sign in to view messages'}
           </h2>
+          <p className="text-gray-600 text-sm mb-6">
+            {t('messages.sign_in_description') || 'Access your conversations with artisan ateliers.'}
+          </p>
           <Link
             href="/login"
-            className="tw-inline-flex tw-items-center tw-px-6 tw-py-3 tw-bg-indigo-600 tw-text-white tw-rounded-lg hover:tw-bg-indigo-700 tw-transition"
+            className="inline-flex items-center justify-center gap-2 px-6 py-3 min-h-[44px] bg-indigo-700 text-white rounded-full font-semibold text-sm hover:bg-indigo-800 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-indigo-700/30 focus:ring-offset-2"
           >
             {t('messages.sign_in') || 'Sign In'}
           </Link>
@@ -143,56 +152,133 @@ export default function ConversationPage() {
   const initial = (otherUser.name || '?').charAt(0).toUpperCase();
 
   return (
-    <div className="tw-min-h-screen tw-bg-gray-50 tw-flex tw-flex-col">
-      <div className="tw-max-w-2xl tw-mx-auto tw-w-full tw-flex tw-flex-col tw-flex-1 tw-px-0 sm:tw-px-4">
-        {/* Header */}
-        <div className="tw-sticky tw-top-0 tw-z-10 tw-flex tw-items-center tw-gap-3 tw-bg-white tw-border-b tw-border-gray-100 tw-px-4 tw-py-3">
+    <div className="min-h-screen bg-amber-50 flex flex-col">
+      <div className="max-w-2xl mx-auto w-full flex flex-col flex-1 px-0 sm:px-4">
+
+        {/* ── Sticky Header ───────────────────────────────────────────────── */}
+        <div className="sticky top-0 z-10 flex items-center gap-3 bg-white border-b border-amber-100 px-4 py-3 shadow-atlas-sm">
           <button
             onClick={() => router.back()}
             aria-label={t('common.back') || 'Back'}
-            className="tw-p-2 tw-rounded-full hover:tw-bg-gray-100 tw-transition"
+            className="p-2 min-h-[44px] min-w-[44px] flex items-center justify-center rounded-full hover:bg-amber-50 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-indigo-700/30 rtl:rotate-180"
           >
-            <ChevronLeft className="tw-w-5 tw-h-5" />
+            <ChevronLeft className="w-5 h-5 text-gray-700" />
           </button>
+
+          {/* Avatar */}
           {avatarUrl ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img src={avatarUrl} alt={title} className="tw-w-9 tw-h-9 tw-rounded-full tw-object-cover" />
+            <div className="relative w-10 h-10 rounded-full overflow-hidden ring-1 ring-amber-200 shrink-0">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={avatarUrl} alt={title} className="w-full h-full object-cover" />
+            </div>
           ) : (
-            <span className="tw-w-9 tw-h-9 tw-rounded-full tw-bg-indigo-100 tw-text-indigo-700 tw-flex tw-items-center tw-justify-center tw-font-semibold">
+            <span className="w-10 h-10 rounded-full bg-indigo-100 text-indigo-700 flex items-center justify-center font-semibold text-sm shrink-0 ring-1 ring-indigo-200">
               {initial}
             </span>
           )}
-          <h1 className="tw-text-base tw-font-semibold tw-text-gray-900 tw-truncate">{title}</h1>
+
+          <div className="flex-1 min-w-0">
+            <h1 className="text-sm font-semibold text-gray-900 truncate">{title}</h1>
+            <p className="font-mono text-[10px] tracking-[0.15em] uppercase text-gray-500">
+              {t('messages.conversation') || 'Conversation'}
+            </p>
+          </div>
+
+          {/* Back to all messages */}
+          <Link
+            href="/community/messages"
+            aria-label={t('messages.all_conversations') || 'All conversations'}
+            className="p-2 min-h-[44px] min-w-[44px] flex items-center justify-center rounded-full hover:bg-amber-50 text-gray-500 hover:text-indigo-700 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-indigo-700/30"
+          >
+            <ArrowLeft className="w-4 h-4 rtl:rotate-180" />
+          </Link>
         </div>
 
-        {/* Messages */}
-        <div className="tw-flex-1 tw-overflow-y-auto tw-px-4 tw-py-4 tw-space-y-2">
+        {/* ── Message Thread ──────────────────────────────────────────────── */}
+        <div className="flex-1 overflow-y-auto px-4 py-6 space-y-3">
           {loading ? (
-            <div className="tw-flex tw-justify-center tw-py-10">
-              <Loader2 className="tw-w-6 tw-h-6 tw-text-indigo-500 tw-animate-spin" />
+            /* Loading skeleton */
+            <div className="space-y-4" aria-busy="true" aria-label={t('common.loading') || 'Loading'}>
+              {[...Array(4)].map((_, i) => (
+                <div
+                  key={i}
+                  className={`flex ${i % 2 === 0 ? 'justify-start' : 'justify-end'}`}
+                >
+                  <div
+                    className={`rounded-2xl px-4 py-3 animate-pulse bg-amber-100/70 ${
+                      i % 2 === 0 ? 'rounded-es-sm' : 'rounded-ee-sm'
+                    }`}
+                    style={{ width: `${40 + i * 12}%`, height: '40px' }}
+                  />
+                </div>
+              ))}
             </div>
           ) : error ? (
-            <div className="tw-text-center tw-text-red-500 tw-py-6 tw-text-sm">{error}</div>
+            /* Error state */
+            <div className="flex items-center justify-center py-12">
+              <div className="bg-rose-50 rounded-2xl ring-1 ring-rose-200 p-6 text-center max-w-sm w-full">
+                <div className="w-12 h-12 bg-rose-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                  <MessageSquare className="w-5 h-5 text-rose-600" />
+                </div>
+                <p className="text-sm text-rose-700 font-medium mb-4">{error}</p>
+                <button
+                  onClick={() => fetchMessages(true)}
+                  className="inline-flex items-center gap-2 px-5 py-2.5 min-h-[44px] bg-indigo-700 text-white rounded-full text-sm font-semibold hover:bg-indigo-800 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-indigo-700/30"
+                >
+                  {t('common.retry') || 'Retry'}
+                </button>
+              </div>
+            </div>
           ) : messages.length === 0 ? (
-            <div className="tw-text-center tw-text-gray-400 tw-py-10 tw-text-sm">
-              {t('messages.no_messages_yet') || 'No messages yet. Say hello!'}
+            /* Empty state */
+            <div className="flex flex-col items-center justify-center py-16 text-center px-4">
+              <div className="w-20 h-20 bg-amber-50 rounded-full ring-1 ring-amber-200 flex items-center justify-center mb-6">
+                <MessageSquare className="w-9 h-9 text-amber-400" />
+              </div>
+              <h3
+                className="text-xl font-bold text-gray-900 mb-2"
+                style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
+              >
+                {t('messages.no_messages_yet') || 'No messages yet'}
+              </h3>
+              <p className="text-sm text-gray-600 max-w-xs">
+                {t('messages.start_conversation_hint') || 'Start the conversation — say hello to the atelier.'}
+              </p>
             </div>
           ) : (
+            /* Messages */
             messages.map((m) => {
               const mine = isMine(m);
+              const timestamp = formatTime((m as any).created_at ?? (m as any).createdAt);
               return (
-                <div key={String(m.id)} className={`tw-flex ${mine ? 'tw-justify-end' : 'tw-justify-start'}`}>
+                <div
+                  key={String(m.id)}
+                  className={`flex items-end gap-2 ${mine ? 'justify-end' : 'justify-start'}`}
+                >
+                  {/* Other user avatar — only on theirs */}
+                  {!mine && (
+                    <div className="w-7 h-7 rounded-full bg-indigo-100 text-indigo-700 flex items-center justify-center text-xs font-semibold shrink-0 ring-1 ring-indigo-200 mb-1">
+                      {initial}
+                    </div>
+                  )}
+
                   <div
-                    className={`tw-max-w-[75%] tw-rounded-2xl tw-px-3.5 tw-py-2 tw-text-sm tw-break-words ${
+                    className={`max-w-[75%] rounded-2xl px-4 py-2.5 text-sm break-words shadow-atlas-sm ${
                       mine
-                        ? 'tw-bg-indigo-600 tw-text-white tw-rounded-br-sm'
-                        : 'tw-bg-white tw-text-gray-800 tw-border tw-border-gray-100 tw-rounded-bl-sm'
+                        ? 'bg-indigo-700 text-white rounded-ee-sm'
+                        : 'bg-white text-gray-800 ring-1 ring-amber-100 rounded-es-sm'
                     }`}
                   >
-                    <p className="tw-whitespace-pre-wrap tw-m-0">{m.content}</p>
-                    <span className={`tw-block tw-mt-1 tw-text-[10px] ${mine ? 'tw-text-indigo-200' : 'tw-text-gray-400'}`}>
-                      {formatTime((m as any).created_at ?? (m as any).createdAt)}
-                    </span>
+                    <p className="whitespace-pre-wrap leading-relaxed">{m.content}</p>
+                    {timestamp && (
+                      <span
+                        className={`block mt-1 font-mono text-[10px] tracking-[0.1em] ${
+                          mine ? 'text-indigo-200' : 'text-gray-400'
+                        }`}
+                      >
+                        {timestamp}
+                      </span>
+                    )}
                   </div>
                 </div>
               );
@@ -201,10 +287,10 @@ export default function ConversationPage() {
           <div ref={bottomRef} />
         </div>
 
-        {/* Composer */}
+        {/* ── Composer ────────────────────────────────────────────────────── */}
         <form
           onSubmit={handleSend}
-          className="tw-sticky tw-bottom-0 tw-flex tw-items-end tw-gap-2 tw-bg-white tw-border-t tw-border-gray-100 tw-px-4 tw-py-3"
+          className="sticky bottom-0 flex items-end gap-2 bg-white border-t border-amber-100 px-4 py-3 shadow-atlas-sm"
         >
           <textarea
             value={input}
@@ -217,17 +303,22 @@ export default function ConversationPage() {
             }}
             rows={1}
             placeholder={t('messages.type_a_message') || 'Type a message…'}
-            className="tw-flex-1 tw-resize-none tw-rounded-2xl tw-border tw-border-gray-200 tw-px-4 tw-py-2.5 tw-text-sm focus:tw-outline-none focus:tw-ring-2 focus:tw-ring-indigo-400 tw-max-h-32"
+            className="flex-1 resize-none rounded-2xl border border-amber-200 bg-amber-50/40 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-700/30 focus:border-indigo-700 max-h-32 transition-all duration-200 placeholder:text-gray-400"
           />
           <button
             type="submit"
             disabled={sending || !input.trim()}
             aria-label={t('messages.send') || 'Send'}
-            className="tw-flex tw-items-center tw-justify-center tw-w-11 tw-h-11 tw-rounded-full tw-bg-indigo-600 tw-text-white disabled:tw-opacity-50 hover:tw-bg-indigo-700 tw-transition tw-flex-shrink-0"
+            className="flex items-center justify-center w-11 h-11 min-h-[44px] min-w-[44px] rounded-full bg-indigo-700 text-white disabled:opacity-40 hover:bg-indigo-800 transition-colors duration-200 shrink-0 focus:outline-none focus:ring-2 focus:ring-indigo-700/30 focus:ring-offset-2"
           >
-            {sending ? <Loader2 className="tw-w-5 tw-h-5 tw-animate-spin" /> : <Send className="tw-w-5 tw-h-5" />}
+            {sending ? (
+              <Loader2 className="w-5 h-5 animate-spin" />
+            ) : (
+              <Send className="w-5 h-5 rtl:rotate-180" />
+            )}
           </button>
         </form>
+
       </div>
     </div>
   );

@@ -13,7 +13,7 @@ import {
   Sparkles,
   ChevronDown
 } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import { fetchCommunityPosts } from '@/services/communityService';
 import PostCard from '@/components/community/PostCard';
 import Pagination from '@/components/common/Pagination';
@@ -29,6 +29,7 @@ export default function CommunityPage() {
   const router = useRouter();
   const { isAuthenticated, user } = useAuth();
   const { isRTL } = useDirection();
+  const prefersReducedMotion = useReducedMotion();
 
   const [loading, setLoading] = useState(true);
   const [posts, setPosts] = useState<CommunityPost[]>([]);
@@ -189,7 +190,7 @@ export default function CommunityPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-amber-50/30">
       {/* Editorial Hero Band — indigo-700 dark strip */}
       <section className="bg-indigo-700 text-white py-12 px-6">
         <div className="max-w-7xl mx-auto">
@@ -240,19 +241,22 @@ export default function CommunityPage() {
         </div>
       </section>
 
-      {/* Main content */}
-      <div className="max-w-7xl mx-auto px-6 py-8">
+      {/* Main content — editorial 2-col split: feed + sticky rail */}
+      <div className="max-w-7xl mx-auto px-6 py-8 grid grid-cols-1 lg:grid-cols-[1fr_20rem] lg:gap-8 lg:items-start">
 
-        {/* How it works — now with brand-consistent card */}
-        <div className="bg-amber-50/40 rounded-2xl ring-1 ring-amber-200 p-5 mb-6">
-          <h2 className="text-base font-semibold text-gray-900 mb-3">
+        {/* ── Rail: how-it-works helper + filters (sticky on desktop) ── */}
+        <aside className="lg:order-2 lg:sticky lg:top-6 space-y-6 mb-6 lg:mb-0">
+
+        {/* How it works — lightweight inline helper, not a heavy ringed card */}
+        <div className="border-s-2 border-amber-300 ps-4">
+          <h2 className="text-base font-semibold text-gray-900 mb-2">
             {t('openSouk.helperTitle', 'What is the Open Souk?')}
           </h2>
-          <p className="text-sm text-gray-700 mb-4">
+          <p className="text-sm text-gray-600 mb-4 leading-relaxed">
             {t('openSouk.helperBody', 'A reverse marketplace where you post a tailoring brief and ateliers send you offers. AI translates everything to the right language.')}
           </p>
 
-          <ol className="list-decimal list-inside space-y-2 text-sm text-gray-700 mb-4 ml-2">
+          <ol className="list-decimal list-inside space-y-1.5 text-sm text-gray-600 mb-4">
             <li>{t('openSouk.helperStep1', 'Tap the "Post" button')}</li>
             <li>{t('openSouk.helperStep2', 'Add a title, description, and budget')}</li>
             <li>{t('openSouk.helperStep3', 'Add reference photos so ateliers know what you want')}</li>
@@ -260,26 +264,24 @@ export default function CommunityPage() {
             <li>{t('openSouk.helperStep5', 'Publish and ateliers will message you with offers')}</li>
           </ol>
 
-          <div className="bg-white rounded-xl p-3 ring-1 ring-amber-200">
-            <div className="flex items-start gap-3">
-              <Sparkles size={16} className="text-amber-500 mt-0.5 shrink-0" />
-              <p className="text-sm text-gray-600">
-                {t('openSouk.helperTip', "Tip: the more detail you give, the better the offers you'll receive.")}
-              </p>
-            </div>
+          <div className="flex items-start gap-2.5 rounded-xl bg-amber-50/60 p-3">
+            <Sparkles size={16} className="text-amber-500 mt-0.5 shrink-0" />
+            <p className="text-sm text-gray-600 leading-relaxed">
+              {t('openSouk.helperTip', "Tip: the more detail you give, the better the offers you'll receive.")}
+            </p>
           </div>
         </div>
 
         {/* Search and Filters */}
-        <div className="bg-amber-50/40 rounded-2xl ring-1 ring-amber-200 p-5 mb-6">
+        <div className="bg-amber-50/40 rounded-2xl ring-1 ring-amber-200 p-5">
           <form onSubmit={handleSearch} className="mb-3">
             <div className="relative">
-              <Search size={14} className="text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" />
+              <Search size={14} className="text-gray-400 absolute start-3 top-1/2 -translate-y-1/2" />
               <input
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-9 pr-4 py-2.5 text-sm border border-gray-300 rounded-2xl focus:ring-2 focus:ring-amber-300 focus:border-indigo-500"
+                className="w-full ps-9 pe-4 py-2.5 text-sm border border-amber-200 rounded-2xl focus:ring-2 focus:ring-indigo-700/30 focus:border-indigo-700"
                 placeholder={t('community.search_placeholder', 'Search')}
               />
             </div>
@@ -299,10 +301,10 @@ export default function CommunityPage() {
           <AnimatePresence>
             {showFilters && (
               <motion.div
-                initial={{ opacity: 0, height: 0 }}
+                initial={prefersReducedMotion ? false : { opacity: 0, height: 0 }}
                 animate={{ opacity: 1, height: 'auto' }}
-                exit={{ opacity: 0, height: 0 }}
-                transition={{ duration: 0.2 }}
+                exit={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, height: 0 }}
+                transition={{ duration: prefersReducedMotion ? 0 : 0.2 }}
                 className="border-t border-amber-200 pt-3 mt-3"
               >
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
@@ -313,7 +315,7 @@ export default function CommunityPage() {
                     <select
                       value={selectedCategory}
                       onChange={handleCategoryChange}
-                      className="w-full px-3 py-2 text-sm border border-gray-300 rounded-2xl focus:ring-2 focus:ring-amber-300 focus:border-indigo-500"
+                      className="w-full px-3 py-2 text-sm border border-amber-200 rounded-2xl focus:ring-2 focus:ring-indigo-700/30 focus:border-indigo-700"
                     >
                       <option value="">{t('community.all_categories', 'All Categories')}</option>
                       <option value="clothing">{t('community.category.clothing', 'Clothing')}</option>
@@ -331,7 +333,7 @@ export default function CommunityPage() {
                     <select
                       value={selectedStatus}
                       onChange={handleStatusChange}
-                      className="w-full px-3 py-2 text-sm border border-gray-300 rounded-2xl focus:ring-2 focus:ring-amber-300 focus:border-indigo-500"
+                      className="w-full px-3 py-2 text-sm border border-amber-200 rounded-2xl focus:ring-2 focus:ring-indigo-700/30 focus:border-indigo-700"
                     >
                       <option value="">{t('community.all_statuses', 'All Statuses')}</option>
                       <option value="open">{t('community.status.open', 'Open')}</option>
@@ -359,6 +361,10 @@ export default function CommunityPage() {
             )}
           </AnimatePresence>
         </div>
+        </aside>
+
+        {/* ── Main feed column ── */}
+        <div className="lg:order-1 min-w-0">
 
         {/* User's Posts Section */}
         {isAuthenticated && user && (
@@ -402,7 +408,7 @@ export default function CommunityPage() {
                   </Link>
                 </div>
               ) : (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5">
                   {userPosts.map((post) => (
                     <PostCard key={post.id} post={post} isUserPost={true} />
                   ))}
@@ -456,13 +462,16 @@ export default function CommunityPage() {
             </div>
           ) : (
             <>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mb-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5 mb-6">
                 {posts.map((post, index) => (
                   <motion.div
                     key={post.id}
-                    initial={{ opacity: 0, y: 20 }}
+                    initial={prefersReducedMotion ? false : { opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.3, delay: index * 0.05 }}
+                    transition={{
+                      duration: prefersReducedMotion ? 0 : 0.3,
+                      delay: prefersReducedMotion ? 0 : index * 0.05,
+                    }}
                   >
                     <PostCard post={post} />
                   </motion.div>
@@ -480,6 +489,7 @@ export default function CommunityPage() {
               )}
             </>
           )}
+        </div>
         </div>
       </div>
     </div>

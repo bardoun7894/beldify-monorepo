@@ -28,10 +28,18 @@ import {
   RotateCcw,
   BadgeCheck,
   Headphones,
+  Check,
 } from 'lucide-react';
 
 // ── Playfair inline style token ───────────────────────────────────────────────
 const playfair = { fontFamily: '"Playfair Display", ui-serif, Georgia, serif' };
+
+// ── Shipping config — single source of truth ──────────────────────────────────
+// Free-shipping threshold and standard/express method prices live here so the
+// method card and the order summary can never drift apart.
+const FREE_SHIPPING_THRESHOLD = 500;
+const STANDARD_SHIPPING_PRICE = 30;
+const EXPRESS_SHIPPING_PRICE = 70;
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 interface ShippingInfo {
@@ -109,6 +117,15 @@ export default function CheckoutPage() {
   const { user, isAuthenticated } = useAuth();
   const isRTL = i18n.language === 'ar';
   const { triggerOnCheckout } = usePWATriggers();
+
+  // Locale-aware currency formatter — shared with order-confirmation so the same
+  // cart renders identical digits/grouping across both screens (Arabic numerals).
+  const formatAmount = (amount: number) =>
+    new Intl.NumberFormat(i18n.language, {
+      style: 'decimal',
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    }).format(amount);
 
   const [step, setStep] = useState(1);
   const [selectedPayment, setSelectedPayment] = useState<string>('cod');
@@ -571,11 +588,11 @@ export default function CheckoutPage() {
     return (
       <div className={`min-h-screen bg-amber-50/40 ${isRTL ? 'rtl' : 'ltr'}`}>
         <div className="max-w-7xl mx-auto px-6 py-24 flex flex-col items-center text-center">
-          <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-amber-50 ring-2 ring-amber-200 mb-8">
+          <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-amber-50 ring-2 ring-amber-200 mb-8 shadow-atlas-sm">
             <ShoppingBag className="w-9 h-9 text-amber-500" />
           </div>
           <h2
-            className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4"
+            className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4 text-balance"
             style={playfair}
           >
             {t(
@@ -588,51 +605,37 @@ export default function CheckoutPage() {
           </p>
           <Link
             href="/products"
-            className="inline-flex items-center gap-2 bg-indigo-700 hover:bg-indigo-800 text-white rounded-full py-3 px-8 text-sm font-semibold transition-colors"
+            className="inline-flex items-center gap-2 bg-indigo-700 hover:bg-indigo-800 text-white rounded-full py-3 px-8 text-sm font-semibold transition-all duration-200 hover-lift focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700/50"
           >
             {t('checkout.empty.cta', 'Back to shopping')}
-            <ArrowRight className="w-4 h-4" />
+            <ArrowRight className="w-4 h-4 rtl:rotate-180" aria-hidden="true" />
           </Link>
         </div>
 
         <ReassuranceStrip t={t} />
-
         <BespokeStrip t={t} />
       </div>
     );
   }
 
   // ── Input helper ─────────────────────────────────────────────────────────
-  // expect: form inputs (input/select/textarea) use rounded-2xl per DESIGN.md §4
   const inputClass = (field?: string) =>
     `block w-full rounded-2xl bg-amber-50 ring-1 ${
       field && touchedFields[field] && validationErrors[field]
-        ? 'ring-red-400 focus:ring-red-500'
-        : 'ring-amber-200 focus:ring-indigo-500'
-    } px-3 py-2.5 text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 transition`;
+        ? 'ring-rose-400 focus:ring-rose-500'
+        : 'ring-amber-200 focus:ring-indigo-700/40'
+    } px-3 py-2.5 text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 transition-all duration-150`;
 
-  // ── Payment step (original visual, kept verbatim) ─────────────────────────
+  // ── Payment step ─────────────────────────────────────────────────────────
   const renderPaymentSection = () => (
-    <div className="bg-white rounded-2xl ring-1 ring-amber-200 p-6">
-      <div className="flex items-center justify-between mb-6">
-        <h2
-          id="payment-title"
-          className="text-xl font-semibold text-gray-900"
-          style={playfair}
-        >
-          {t('checkout.payment.title', 'Payment method')}
-        </h2>
-        <div className="flex items-center text-sm text-gray-500 gap-2">
-          {/* expect: completed step indicator uses indigo-700 (not green-600) per palette */}
-          <span className="w-6 h-6 flex items-center justify-center rounded-full bg-indigo-700 text-white text-xs font-medium">
-            ✓
-          </span>
-          <span>/</span>
-          <span className="w-6 h-6 flex items-center justify-center rounded-full bg-indigo-700 text-white text-xs font-medium">
-            2
-          </span>
-        </div>
-      </div>
+    <div className="bg-white rounded-2xl ring-1 ring-amber-200 p-6 shadow-atlas-sm">
+      <h2
+        id="payment-title"
+        className="text-xl font-semibold text-gray-900 mb-6"
+        style={playfair}
+      >
+        {t('checkout.payment.title', 'Payment method')}
+      </h2>
 
       <fieldset className="space-y-3" role="radiogroup" aria-labelledby="payment-title">
         <legend className="sr-only">{t('checkout.payment.title', 'Payment method')}</legend>
@@ -648,33 +651,36 @@ export default function CheckoutPage() {
                 handlePaymentMethodSelect(method.id);
               }
             }}
-            className={`relative flex items-center p-4 border rounded-xl cursor-pointer transition-all ${
+            className={`relative flex items-center p-4 border rounded-2xl cursor-pointer transition-all duration-200 ${
               selectedPayment === method.id
-                ? 'border-indigo-700 bg-indigo-50'
-                : 'border-amber-200 hover:border-indigo-400'
+                ? 'border-indigo-700 bg-indigo-50 shadow-atlas-sm'
+                : 'border-amber-200 hover:border-indigo-400 hover:bg-amber-50/50'
             }`}
             onClick={() => handlePaymentMethodSelect(method.id)}
           >
             <div className="flex items-center flex-1 gap-3">
-              <Image
-                src={method.icon}
-                alt=""
-                width={48}
-                height={48}
-                className="object-contain p-1 flex-shrink-0"
-                aria-hidden="true"
-              />
+              <div className="w-12 h-12 rounded-xl bg-amber-50 ring-1 ring-amber-200 flex items-center justify-center flex-shrink-0 overflow-hidden">
+                <Image
+                  src={method.icon}
+                  alt=""
+                  width={40}
+                  height={40}
+                  className="object-contain p-1"
+                  aria-hidden="true"
+                />
+              </div>
               <div className="flex-1">
-                <h3 className="text-sm font-medium text-gray-900">
+                <h3 className="text-sm font-semibold text-gray-900">
                   {t(`checkout.payment.methods.${method.id}`, method.name)}
                 </h3>
-                <p className="text-sm text-gray-500">
+                <p className="text-xs text-gray-500 mt-0.5">
                   {t(`checkout.payment.descriptions.${method.id}`, method.description)}
                 </p>
               </div>
             </div>
+            {/* Custom radio dot */}
             <div
-              className={`w-5 h-5 rounded-full border-2 flex items-center justify-center flex-shrink-0 ${
+              className={`w-5 h-5 rounded-full border-2 flex items-center justify-center flex-shrink-0 transition-colors ${
                 selectedPayment === method.id ? 'border-indigo-700' : 'border-gray-300'
               }`}
             >
@@ -683,8 +689,8 @@ export default function CheckoutPage() {
               )}
             </div>
             {method.id !== 'cod' && (
-              <div className="absolute inset-0 bg-white/80 backdrop-blur-sm flex items-center justify-center rounded-xl">
-                <span className="text-xs font-medium text-gray-500 bg-white px-3 py-1 rounded-full shadow-sm border border-gray-200">
+              <div className="absolute inset-0 bg-white/85 backdrop-blur-[2px] flex items-center justify-center rounded-2xl">
+                <span className="text-xs font-medium text-gray-500 bg-white px-3 py-1 rounded-full shadow-atlas-sm ring-1 ring-amber-200">
                   {t('checkout.payment.coming_soon', 'Coming soon')}
                 </span>
               </div>
@@ -697,14 +703,14 @@ export default function CheckoutPage() {
         <button
           type="button"
           onClick={() => setStep(1)}
-          className="px-6 py-3 border border-amber-200 text-gray-700 font-medium rounded-full hover:bg-amber-50 transition-colors text-sm"
+          className="px-6 py-3 ring-1 ring-amber-200 text-gray-700 font-medium rounded-full hover:bg-amber-50 transition-all duration-200 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-700/30"
         >
           {t('checkout.actions.back_to_shipping', 'Back to Delivery')}
         </button>
         <button
           onClick={handlePaymentSubmit}
           disabled={isProcessing}
-          className="flex-1 inline-flex items-center justify-center gap-2 bg-indigo-700 hover:bg-indigo-800 text-white font-semibold rounded-full py-3 px-8 transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-sm"
+          className="flex-1 inline-flex items-center justify-center gap-2 bg-indigo-700 hover:bg-indigo-800 text-white font-semibold rounded-full py-3 px-8 transition-all duration-200 hover-lift disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700/50"
         >
           {isProcessing ? (
             <>
@@ -713,6 +719,7 @@ export default function CheckoutPage() {
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
+                aria-hidden="true"
               >
                 <circle
                   className="opacity-25"
@@ -733,7 +740,7 @@ export default function CheckoutPage() {
           ) : (
             <>
               {t('checkout.actions.place_order', 'Place order')}
-              <ArrowRight className="w-4 h-4" />
+              <ArrowRight className="w-4 h-4 rtl:rotate-180" aria-hidden="true" />
             </>
           )}
         </button>
@@ -741,37 +748,41 @@ export default function CheckoutPage() {
     </div>
   );
 
-  // ── Delivery step — Stitch design ─────────────────────────────────────────
+  // ── Delivery step ─────────────────────────────────────────────────────────
   const shippingMethodOptions: Array<{
     key: ShippingMethodKey;
     icon: React.ReactNode;
     name: string;
     eta: string;
     price: string;
+    isFree: boolean;
   }> = [
     {
       key: 'standard',
-      icon: <Truck className="w-5 h-5 text-indigo-700" />,
+      icon: <Truck className="w-5 h-5 text-indigo-700" aria-hidden="true" />,
       name: t('checkout.shipping.methods.standard.name', 'Standard Delivery'),
       eta: t('checkout.shipping.methods.standard.eta', '3–5 business days'),
       price:
-        subtotal >= 500
+        subtotal >= FREE_SHIPPING_THRESHOLD
           ? t('checkout.shipping.methods.standard.free', 'Free')
-          : '30 MAD',
+          : `${formatAmount(STANDARD_SHIPPING_PRICE)} MAD`,
+      isFree: subtotal >= FREE_SHIPPING_THRESHOLD,
     },
     {
       key: 'express',
-      icon: <Zap className="w-5 h-5 text-indigo-700" />,
+      icon: <Zap className="w-5 h-5 text-indigo-700" aria-hidden="true" />,
       name: t('checkout.shipping.methods.express.name', 'Express Delivery'),
       eta: t('checkout.shipping.methods.express.eta', '1–2 business days'),
-      price: '70 MAD',
+      price: `${formatAmount(EXPRESS_SHIPPING_PRICE)} MAD`,
+      isFree: false,
     },
     {
       key: 'pickup',
-      icon: <Store className="w-5 h-5 text-indigo-700" />,
+      icon: <Store className="w-5 h-5 text-indigo-700" aria-hidden="true" />,
       name: t('checkout.shipping.methods.pickup.name', 'Pickup — Tetouan'),
       eta: t('checkout.shipping.methods.pickup.eta', 'Ready next business day'),
       price: t('checkout.shipping.methods.pickup.free', 'Free'),
+      isFree: true,
     },
   ];
 
@@ -779,52 +790,65 @@ export default function CheckoutPage() {
     <form
       id="checkout-delivery"
       onSubmit={handleShippingSubmit}
-      className="space-y-6"
+      className="space-y-5"
       noValidate
     >
       {/* Contact card */}
-      <section className="bg-white ring-1 ring-amber-200 rounded-2xl p-6">
-        <h2 className="text-xl font-semibold text-gray-900 mb-5" style={playfair}>
+      <section
+        className="bg-white ring-1 ring-amber-200 rounded-2xl p-6 shadow-atlas-sm"
+        aria-labelledby="section-contact"
+      >
+        <h2
+          id="section-contact"
+          className="text-xl font-semibold text-gray-900 mb-5"
+          style={playfair}
+        >
           {t('checkout.contact.title', 'Contact')}
         </h2>
         <div className="space-y-4">
-          {/* Email pill */}
-          <div className="relative">
-            <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
-            <input
-              type="email"
-              name="email"
-              id="email"
-              autoComplete="email"
-              autoCapitalize="off"
-              autoCorrect="off"
-              value={shippingInfo.email}
-              onChange={handleShippingChange}
-              onBlur={(e) => handleFieldBlur('email', e.target.value)}
-              placeholder={t('checkout.contact.email_placeholder', 'Email address')}
-              className={`block w-full rounded-full bg-amber-50 ring-1 ${
-                touchedFields.email && validationErrors.email
-                  ? 'ring-red-400 focus:ring-red-500'
-                  : 'ring-amber-200 focus:ring-indigo-500'
-              } pl-10 pr-4 py-2.5 text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 transition`}
-              aria-invalid={touchedFields.email && !!validationErrors.email}
-            />
+          {/* Email */}
+          <div>
+            <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1.5">
+              {t('checkout.contact.email_label', 'Email address')}
+            </label>
+            <div className="relative">
+              <Mail className="absolute start-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" aria-hidden="true" />
+              <input
+                type="email"
+                name="email"
+                id="email"
+                autoComplete="email"
+                autoCapitalize="off"
+                autoCorrect="off"
+                value={shippingInfo.email}
+                onChange={handleShippingChange}
+                onBlur={(e) => handleFieldBlur('email', e.target.value)}
+                placeholder={t('checkout.contact.email_placeholder', 'Email address')}
+                className={`block w-full rounded-full bg-amber-50 ring-1 ${
+                  touchedFields.email && validationErrors.email
+                    ? 'ring-rose-400 focus:ring-rose-500'
+                    : 'ring-amber-200 focus:ring-indigo-700/40'
+                } ps-10 pe-4 py-2.5 text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 transition-all duration-150`}
+                aria-invalid={touchedFields.email && !!validationErrors.email}
+                aria-describedby={touchedFields.email && validationErrors.email ? 'email-error' : undefined}
+              />
+            </div>
+            {touchedFields.email && validationErrors.email && (
+              <p id="email-error" className="text-xs text-rose-600 mt-1.5" role="alert">
+                {validationErrors.email}
+              </p>
+            )}
           </div>
-          {touchedFields.email && validationErrors.email && (
-            <p className="text-xs text-red-600" role="alert">
-              {validationErrors.email}
-            </p>
-          )}
 
           {/* Updates checkbox */}
-          <label className="flex items-center gap-3 cursor-pointer select-none">
+          <label className="flex items-center gap-3 cursor-pointer select-none group">
             <input
               type="checkbox"
               checked={sendUpdates}
               onChange={(e) => setSendUpdates(e.target.checked)}
-              className="w-4 h-4 rounded border-amber-300 text-amber-500 focus:ring-amber-400 bg-amber-50"
+              className="w-4 h-4 rounded border-amber-300 text-indigo-700 focus:ring-indigo-700/30 bg-amber-50"
             />
-            <span className="text-sm text-gray-600">
+            <span className="text-sm text-gray-600 group-hover:text-gray-800 transition-colors">
               {t(
                 'checkout.contact.updates_label',
                 'Send me order updates and offers'
@@ -835,8 +859,15 @@ export default function CheckoutPage() {
       </section>
 
       {/* Delivery address card */}
-      <section className="bg-white ring-1 ring-amber-200 rounded-2xl p-6">
-        <h2 className="text-xl font-semibold text-gray-900 mb-5" style={playfair}>
+      <section
+        className="bg-white ring-1 ring-amber-200 rounded-2xl p-6 shadow-atlas-sm"
+        aria-labelledby="section-address"
+      >
+        <h2
+          id="section-address"
+          className="text-xl font-semibold text-gray-900 mb-5"
+          style={playfair}
+        >
           {t('checkout.address.title', 'Delivery address')}
         </h2>
 
@@ -850,7 +881,7 @@ export default function CheckoutPage() {
               {t('checkout.address.full_name', 'Full name')}
             </label>
             <div className="relative">
-              <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
+              <User className="absolute start-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" aria-hidden="true" />
               <input
                 type="text"
                 id="firstName"
@@ -859,7 +890,7 @@ export default function CheckoutPage() {
                 value={shippingInfo.firstName}
                 onChange={handleShippingChange}
                 placeholder={t('checkout.address.full_name_placeholder', 'Ahmed Benali')}
-                className={`${inputClass()} pl-9`}
+                className={`${inputClass()} ps-9`}
               />
             </div>
           </div>
@@ -873,7 +904,7 @@ export default function CheckoutPage() {
               {t('checkout.address.phone', 'Phone')}
             </label>
             <div className="relative">
-              <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
+              <Phone className="absolute start-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" aria-hidden="true" />
               <input
                 type="tel"
                 id="phone"
@@ -887,12 +918,13 @@ export default function CheckoutPage() {
                   'checkout.address.phone_placeholder',
                   '+212 6 00 00 00 00'
                 )}
-                className={`${inputClass('phone')} pl-9`}
+                className={`${inputClass('phone')} ps-9`}
                 aria-invalid={touchedFields.phone && !!validationErrors.phone}
+                aria-describedby={touchedFields.phone && validationErrors.phone ? 'phone-error' : undefined}
               />
             </div>
             {touchedFields.phone && validationErrors.phone && (
-              <p className="text-xs text-red-600 mt-1" role="alert">
+              <p id="phone-error" className="text-xs text-rose-600 mt-1.5" role="alert">
                 {validationErrors.phone}
               </p>
             )}
@@ -914,6 +946,7 @@ export default function CheckoutPage() {
               onBlur={(e) => handleFieldBlur('country', e.target.value)}
               className={`${inputClass('country')} appearance-none`}
               aria-invalid={touchedFields.country && !!validationErrors.country}
+              aria-describedby={touchedFields.country && validationErrors.country ? 'country-error' : undefined}
             >
               <option value="">{t('common.select_option', 'Select country')}</option>
               {countries.map((c) => (
@@ -923,7 +956,7 @@ export default function CheckoutPage() {
               ))}
             </select>
             {touchedFields.country && validationErrors.country && (
-              <p className="text-xs text-red-600 mt-1" role="alert">
+              <p id="country-error" className="text-xs text-rose-600 mt-1.5" role="alert">
                 {validationErrors.country}
               </p>
             )}
@@ -948,9 +981,10 @@ export default function CheckoutPage() {
               placeholder={t('checkout.address.city_placeholder', 'Casablanca')}
               className={inputClass('city')}
               aria-invalid={touchedFields.city && !!validationErrors.city}
+              aria-describedby={touchedFields.city && validationErrors.city ? 'city-error' : undefined}
             />
             {touchedFields.city && validationErrors.city && (
-              <p className="text-xs text-red-600 mt-1" role="alert">
+              <p id="city-error" className="text-xs text-rose-600 mt-1.5" role="alert">
                 {validationErrors.city}
               </p>
             )}
@@ -975,9 +1009,10 @@ export default function CheckoutPage() {
               placeholder={t('checkout.address.state_placeholder', 'Grand Casablanca')}
               className={inputClass('state')}
               aria-invalid={touchedFields.state && !!validationErrors.state}
+              aria-describedby={touchedFields.state && validationErrors.state ? 'state-error' : undefined}
             />
             {touchedFields.state && validationErrors.state && (
-              <p className="text-xs text-red-600 mt-1" role="alert">
+              <p id="state-error" className="text-xs text-rose-600 mt-1.5" role="alert">
                 {validationErrors.state}
               </p>
             )}
@@ -992,7 +1027,7 @@ export default function CheckoutPage() {
               {t('checkout.address.address', 'Street address')}
             </label>
             <div className="relative">
-              <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
+              <MapPin className="absolute start-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" aria-hidden="true" />
               <input
                 type="text"
                 id="address"
@@ -1005,12 +1040,13 @@ export default function CheckoutPage() {
                   'checkout.address.address_placeholder',
                   '123 Rue Mohammed V'
                 )}
-                className={`${inputClass('address')} pl-9`}
+                className={`${inputClass('address')} ps-9`}
                 aria-invalid={touchedFields.address && !!validationErrors.address}
+                aria-describedby={touchedFields.address && validationErrors.address ? 'address-error' : undefined}
               />
             </div>
             {touchedFields.address && validationErrors.address && (
-              <p className="text-xs text-red-600 mt-1" role="alert">
+              <p id="address-error" className="text-xs text-rose-600 mt-1.5" role="alert">
                 {validationErrors.address}
               </p>
             )}
@@ -1025,7 +1061,7 @@ export default function CheckoutPage() {
               {t('checkout.address.postal_code', 'Postal code')}
             </label>
             <div className="relative">
-              <Hash className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
+              <Hash className="absolute start-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" aria-hidden="true" />
               <input
                 type="text"
                 id="postalCode"
@@ -1034,12 +1070,12 @@ export default function CheckoutPage() {
                 value={shippingInfo.postalCode}
                 onChange={handleShippingChange}
                 placeholder="20000"
-                className={`${inputClass()} pl-9`}
+                className={`${inputClass()} ps-9`}
               />
             </div>
           </div>
 
-          {/* Apartment — spans 2 on sm, 1 col */}
+          {/* Apartment */}
           <div>
             <label
               htmlFor="apartment"
@@ -1065,70 +1101,84 @@ export default function CheckoutPage() {
       </section>
 
       {/* Shipping method card */}
-      <section className="bg-white ring-1 ring-amber-200 rounded-2xl p-6">
-        <h2 className="text-xl font-semibold text-gray-900 mb-5" style={playfair}>
+      <section
+        className="bg-white ring-1 ring-amber-200 rounded-2xl p-6 shadow-atlas-sm"
+        aria-labelledby="section-shipping"
+      >
+        <h2
+          id="section-shipping"
+          className="text-xl font-semibold text-gray-900 mb-5"
+          style={playfair}
+        >
           {t('checkout.shipping.title', 'Shipping method')}
         </h2>
 
-        <div className="space-y-3">
-          {shippingMethodOptions.map((opt) => {
-            const isSelected = shippingMethod === opt.key;
-            return (
-              <label
-                key={opt.key}
-                className={`flex items-start gap-3 p-4 rounded-xl ring-1 cursor-pointer transition-colors ${
-                  isSelected
-                    ? 'ring-2 ring-indigo-700 bg-indigo-50'
-                    : 'ring-amber-200 hover:bg-amber-50/50'
-                }`}
-              >
-                <input
-                  type="radio"
-                  name="shippingMethod"
-                  value={opt.key}
-                  checked={isSelected}
-                  onChange={() => setShippingMethod(opt.key)}
-                  className="sr-only"
-                />
-                <span className="mt-0.5 flex-shrink-0">{opt.icon}</span>
-                <div className="flex-1">
-                  <p className="text-sm font-semibold text-gray-900">{opt.name}</p>
-                  <p className="text-xs text-gray-500 mt-0.5">{opt.eta}</p>
-                </div>
-                {/* expect: free-shipping price shows amber-600 (not green-600) per palette */}
-                <span
-                  className={`text-sm font-semibold flex-shrink-0 ${
-                    opt.price === 'Free' || opt.price === t('checkout.shipping.methods.standard.free', 'Free') || opt.price === t('checkout.shipping.methods.pickup.free', 'Free')
-                      ? 'text-amber-600'
-                      : 'text-gray-900'
+        <fieldset role="radiogroup" aria-labelledby="section-shipping">
+          <legend className="sr-only">{t('checkout.shipping.title', 'Shipping method')}</legend>
+          <div className="space-y-3">
+            {shippingMethodOptions.map((opt) => {
+              const isSelected = shippingMethod === opt.key;
+              return (
+                <label
+                  key={opt.key}
+                  className={`flex items-center gap-3 p-4 rounded-2xl ring-1 cursor-pointer transition-all duration-200 ${
+                    isSelected
+                      ? 'ring-2 ring-indigo-700 bg-indigo-50 shadow-atlas-sm'
+                      : 'ring-amber-200 hover:bg-amber-50/50 hover:ring-amber-300'
                   }`}
                 >
-                  {opt.price}
-                </span>
-              </label>
-            );
-          })}
-        </div>
+                  <input
+                    type="radio"
+                    name="shippingMethod"
+                    value={opt.key}
+                    checked={isSelected}
+                    onChange={() => setShippingMethod(opt.key)}
+                    className="sr-only"
+                  />
+                  {/* Custom radio */}
+                  <div
+                    className={`w-4 h-4 rounded-full border-2 flex items-center justify-center flex-shrink-0 transition-colors ${
+                      isSelected ? 'border-indigo-700' : 'border-gray-300'
+                    }`}
+                  >
+                    {isSelected && <div className="w-2 h-2 rounded-full bg-indigo-700" />}
+                  </div>
+                  <span className="flex-shrink-0">{opt.icon}</span>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-semibold text-gray-900">{opt.name}</p>
+                    <p className="text-xs text-gray-500 mt-0.5">{opt.eta}</p>
+                  </div>
+                  <span
+                    className={`text-sm font-semibold flex-shrink-0 ${
+                      opt.isFree ? 'text-amber-700' : 'text-gray-900 tabular-nums currency-mad'
+                    }`}
+                  >
+                    {opt.price}
+                  </span>
+                </label>
+              );
+            })}
+          </div>
+        </fieldset>
       </section>
     </form>
   );
 
   // ── Order summary (right column) ──────────────────────────────────────────
   const renderOrderSummary = () => (
-    <div className="bg-white ring-1 ring-amber-200 rounded-2xl p-6 lg:sticky lg:top-24 self-start">
-      {/* Kicker */}
+    <div className="bg-white ring-1 ring-amber-200 rounded-2xl p-6 shadow-atlas-sm lg:sticky lg:top-24 self-start">
       <p className="text-xs uppercase tracking-[0.18em] text-amber-700 font-medium mb-4">
         {t('checkout.summary.kicker', 'Order Summary')}
       </p>
 
       {/* Line items */}
-      <ul className="space-y-3 mb-5">
+      <ul className="space-y-3 mb-5" aria-label={t('checkout.summary.items_list', 'Order items')}>
         {cartState.items.map((item) => {
           const productName =
             i18n.language === 'ar' ? item.product.name_ar : item.product.name;
           return (
             <li key={item.id} className="flex items-center gap-3">
-              <div className="relative w-12 h-12 flex-shrink-0 rounded-lg ring-1 ring-amber-200 overflow-hidden bg-amber-50">
+              <div className="relative w-12 h-12 flex-shrink-0 rounded-xl ring-1 ring-amber-200 overflow-hidden bg-amber-50">
                 <Image
                   src={getImageUrl(item.product.image_url, '/placeholder.png')}
                   alt={productName || 'Product image'}
@@ -1136,17 +1186,18 @@ export default function CheckoutPage() {
                   className="object-cover"
                   sizes="48px"
                 />
+                {/* Quantity badge */}
+                <span className="absolute -top-1.5 -end-1.5 w-5 h-5 rounded-full bg-indigo-700 text-white text-[10px] font-bold flex items-center justify-center leading-none">
+                  {item.quantity}
+                </span>
               </div>
               <div className="flex-1 min-w-0">
                 <p className="text-sm font-medium text-gray-900 truncate">
                   {productName}
                 </p>
-                <p className="text-xs text-gray-500">
-                  {t('checkout.summary.qty', 'Qty')} {item.quantity}
-                </p>
               </div>
-              <span className="text-sm font-semibold text-indigo-700 flex-shrink-0">
-                {(item.unit_price * item.quantity).toFixed(2)} MAD
+              <span className="text-sm font-semibold text-indigo-700 flex-shrink-0 tabular-nums currency-mad">
+                {formatAmount(item.unit_price * item.quantity)} MAD
               </span>
             </li>
           );
@@ -1156,29 +1207,32 @@ export default function CheckoutPage() {
       <div className="border-t border-amber-200 pt-4 space-y-2 text-sm">
         <div className="flex justify-between">
           <span className="text-gray-600">{t('checkout.summary.subtotal', 'Subtotal')}</span>
-          <span className="text-gray-900 font-medium">{subtotal.toFixed(2)} MAD</span>
+          <span className="text-gray-900 font-medium tabular-nums currency-mad">{formatAmount(subtotal)} MAD</span>
         </div>
         <div className="flex justify-between">
           <span className="text-gray-600">{t('checkout.summary.shipping', 'Shipping')}</span>
-          <span className="text-gray-900 font-medium">
-            {shippingAmount > 0
-              ? `${shippingAmount.toFixed(2)} MAD`
-              : subtotal >= 500
-              ? t('cart.summary.free', 'Free')
-              : '—'}
-          </span>
+          {shippingAmount > 0 ? (
+            <span className="text-gray-900 font-medium tabular-nums currency-mad">
+              {formatAmount(shippingAmount)} MAD
+            </span>
+          ) : subtotal >= FREE_SHIPPING_THRESHOLD ? (
+            <span className="text-amber-700 font-semibold">
+              {t('cart.summary.free', 'Free')}
+            </span>
+          ) : (
+            <span className="text-gray-900 font-medium tabular-nums">—</span>
+          )}
         </div>
         {taxAmount > 0 && (
           <div className="flex justify-between">
             <span className="text-gray-600">{t('checkout.summary.tax', 'Tax')}</span>
-            <span className="text-gray-900 font-medium">{taxAmount.toFixed(2)} MAD</span>
+            <span className="text-gray-900 font-medium tabular-nums currency-mad">{formatAmount(taxAmount)} MAD</span>
           </div>
         )}
         {discountAmount > 0 && (
           <div className="flex justify-between">
             <span className="text-gray-600">{t('checkout.summary.discount', 'Discount')}</span>
-            {/* expect: discount "good news" uses amber-600 (green not in palette per DESIGN.md §2) */}
-            <span className="text-amber-600 font-medium">-{discountAmount.toFixed(2)} MAD</span>
+            <span className="text-amber-700 font-medium tabular-nums currency-mad">-{formatAmount(discountAmount)} MAD</span>
           </div>
         )}
       </div>
@@ -1189,10 +1243,10 @@ export default function CheckoutPage() {
           {t('checkout.summary.total', 'Total')}
         </span>
         <span
-          className="text-2xl font-bold text-indigo-700"
+          className="text-2xl font-bold text-indigo-700 tabular-nums currency-mad"
           style={playfair}
         >
-          {totalAmount.toFixed(2)} MAD
+          {formatAmount(totalAmount)} MAD
         </span>
       </div>
 
@@ -1201,21 +1255,21 @@ export default function CheckoutPage() {
         <button
           type="submit"
           form="checkout-delivery"
-          className="w-full inline-flex items-center justify-center gap-2 bg-indigo-700 hover:bg-indigo-800 text-white rounded-full py-3 text-sm font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+          className="w-full inline-flex items-center justify-center gap-2 bg-indigo-700 hover:bg-indigo-800 text-white rounded-full py-3 text-sm font-semibold transition-all duration-200 hover-lift focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700/50"
         >
           {t('checkout.actions.continue_payment', 'Continue to payment')}
-          <ArrowRight className="w-4 h-4" />
+          <ArrowRight className="w-4 h-4 rtl:rotate-180" aria-hidden="true" />
         </button>
       ) : (
         <button
           type="button"
           onClick={handlePaymentSubmit}
           disabled={isProcessing}
-          className="w-full inline-flex items-center justify-center gap-2 bg-indigo-700 hover:bg-indigo-800 text-white rounded-full py-3 text-sm font-semibold transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          className="w-full inline-flex items-center justify-center gap-2 bg-indigo-700 hover:bg-indigo-800 text-white rounded-full py-3 text-sm font-semibold transition-all duration-200 hover-lift disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700/50"
         >
           {isProcessing ? (
             <>
-              <svg className="animate-spin h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <svg className="animate-spin h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" aria-hidden="true">
                 <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                 <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
               </svg>
@@ -1224,7 +1278,7 @@ export default function CheckoutPage() {
           ) : (
             <>
               {t('checkout.actions.place_order', 'Place order')}
-              <ArrowRight className="w-4 h-4" />
+              <ArrowRight className="w-4 h-4 rtl:rotate-180" aria-hidden="true" />
             </>
           )}
         </button>
@@ -1233,16 +1287,15 @@ export default function CheckoutPage() {
       {/* Trust micro-pills */}
       <div className="flex flex-wrap justify-center gap-2 mt-4">
         <span className="inline-flex items-center gap-1.5 text-xs text-gray-600 bg-amber-50 ring-1 ring-amber-200 rounded-full px-3 py-1.5">
-          <ShieldCheck className="w-3.5 h-3.5 text-amber-600" />
+          <ShieldCheck className="w-3.5 h-3.5 text-amber-700" aria-hidden="true" />
           {t('cart.trust.secure', 'Secure payments')}
         </span>
         <span className="inline-flex items-center gap-1.5 text-xs text-gray-600 bg-amber-50 ring-1 ring-amber-200 rounded-full px-3 py-1.5">
-          <RotateCcw className="w-3.5 h-3.5 text-amber-600" />
+          <RotateCcw className="w-3.5 h-3.5 text-amber-700" aria-hidden="true" />
           {t('cart.trust.returns', 'Free 14-day returns')}
         </span>
       </div>
 
-      {/* Payment methods */}
       <p className="text-center text-xs text-gray-400 mt-3">
         {t(
           'cart.payment_methods',
@@ -1252,7 +1305,7 @@ export default function CheckoutPage() {
     </div>
   );
 
-  // ── Stepper strip ─────────────────────────────────────────────────────────
+  // ── Progress stepper steps ─────────────────────────────────────────────────
   const steps: Array<{ id: number; label: string; completed: boolean; active: boolean }> = [
     {
       id: 1,
@@ -1263,7 +1316,7 @@ export default function CheckoutPage() {
     {
       id: 2,
       label: t('checkout.stepper.delivery', 'Delivery'),
-      completed: false,
+      completed: step > 1,
       active: step === 1,
     },
     {
@@ -1282,30 +1335,30 @@ export default function CheckoutPage() {
 
   return (
     <div className={`min-h-screen bg-amber-50/40 ${isRTL ? 'rtl' : 'ltr'}`}>
-      {/* ── Stepper strip ─────────────────────────────────────────────────── */}
+      {/* ── Progress stepper strip ─────────────────────────────────────────── */}
       <div className="bg-amber-50 border-b border-amber-200 py-5">
         <div className="max-w-7xl mx-auto px-6">
           <nav aria-label={t('checkout.stepper.aria_label', 'Checkout progress')}>
             <ol className="flex items-center justify-center gap-0" role="list">
               {steps.map((s, idx) => (
                 <li key={s.id} className="flex items-center">
-                  <div className="flex flex-col items-center relative">
+                  <div className="flex flex-col items-center">
                     <span
-                      className={`flex h-8 w-8 items-center justify-center rounded-full text-xs font-semibold transition-colors ${
+                      className={`flex h-8 w-8 items-center justify-center rounded-full text-xs font-semibold transition-all duration-200 ${
                         s.completed
-                          ? 'bg-indigo-700 text-white'
+                          ? 'bg-indigo-700 text-white shadow-atlas-sm'
                           : s.active
-                          ? 'bg-indigo-700 text-white ring-2 ring-amber-300'
-                          : 'bg-gray-200 text-gray-600'
+                          ? 'bg-indigo-700 text-white ring-2 ring-offset-2 ring-indigo-700/40'
+                          : 'bg-gray-200 text-gray-500'
                       }`}
                       aria-current={s.active ? 'step' : undefined}
                     >
-                      {s.active ? (
+                      {s.completed ? (
+                        <Check className="w-4 h-4" aria-hidden="true" />
+                      ) : s.active ? (
                         <span className="h-2.5 w-2.5 rounded-full bg-amber-400" />
-                      ) : s.completed ? (
-                        '✓'
                       ) : (
-                        s.id
+                        <span aria-hidden="true">{s.id}</span>
                       )}
                     </span>
                     <span
@@ -1313,7 +1366,7 @@ export default function CheckoutPage() {
                         s.active
                           ? 'text-indigo-700'
                           : s.completed
-                          ? 'text-amber-600'
+                          ? 'text-gray-700'
                           : 'text-gray-400'
                       }`}
                     >
@@ -1321,7 +1374,11 @@ export default function CheckoutPage() {
                     </span>
                   </div>
                   {idx < steps.length - 1 && (
-                    <div className="w-16 sm:w-24 h-px bg-amber-200 mx-2 mb-5" />
+                    <div
+                      className={`w-12 sm:w-20 h-px mx-2 mb-5 transition-colors duration-300 ${
+                        steps[idx].completed ? 'bg-indigo-300' : 'bg-amber-200'
+                      }`}
+                    />
                   )}
                 </li>
               ))}
@@ -1332,13 +1389,8 @@ export default function CheckoutPage() {
 
       {/* ── Page heading ──────────────────────────────────────────────────── */}
       <div className="max-w-7xl mx-auto px-6 pt-8 pb-2">
-        <p className="text-xs uppercase tracking-[0.18em] text-amber-700 font-medium mb-2">
-          {step === 1
-            ? t('checkout.heading.kicker', 'STEP 2 OF 4')
-            : t('checkout.heading.kicker_payment', 'STEP 3 OF 4')}
-        </p>
         <h1
-          className="text-3xl sm:text-4xl font-bold text-gray-900"
+          className="text-3xl sm:text-4xl font-bold text-gray-900 text-balance"
           style={playfair}
         >
           {step === 1
@@ -1373,25 +1425,25 @@ export default function CheckoutPage() {
 function ReassuranceStrip({ t }: { t: (k: string, fb: string) => string }) {
   const items = [
     {
-      icon: <BadgeCheck className="w-7 h-7 text-amber-500" />,
+      icon: <BadgeCheck className="w-7 h-7 text-amber-500" aria-hidden="true" />,
       label: t('checkout.reassurance.verified', 'Verified Sellers'),
     },
     {
-      icon: <ShieldCheck className="w-7 h-7 text-amber-500" />,
+      icon: <ShieldCheck className="w-7 h-7 text-amber-500" aria-hidden="true" />,
       label: t('checkout.reassurance.authentic', 'Authentic Craft'),
     },
     {
-      icon: <RotateCcw className="w-7 h-7 text-amber-500" />,
+      icon: <RotateCcw className="w-7 h-7 text-amber-500" aria-hidden="true" />,
       label: t('checkout.reassurance.returns', 'Free Returns'),
     },
     {
-      icon: <Headphones className="w-7 h-7 text-amber-500" />,
+      icon: <Headphones className="w-7 h-7 text-amber-500" aria-hidden="true" />,
       label: t('checkout.reassurance.support', 'Multilingual Support'),
     },
   ];
 
   return (
-    <section className="bg-amber-50/60 border-y border-amber-200/50 py-12 px-6">
+    <section className="bg-amber-50/60 border-y border-amber-200/50 py-12 px-6" aria-label={t('checkout.reassurance.section_label', 'Why shop with us')}>
       <div className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8">
         {items.map(({ icon, label }) => (
           <div key={label} className="flex flex-col items-center text-center gap-3">
@@ -1409,27 +1461,28 @@ function ReassuranceStrip({ t }: { t: (k: string, fb: string) => string }) {
 // ── Bespoke strip ─────────────────────────────────────────────────────────────
 function BespokeStrip({ t }: { t: (k: string, fb: string) => string }) {
   return (
-    <section className="bg-indigo-900 py-16 relative overflow-hidden">
+    <section className="bg-indigo-950 py-16 relative overflow-hidden">
       <div
-        className="absolute inset-0 opacity-25 pointer-events-none"
+        className="absolute inset-0 opacity-20 pointer-events-none"
+        aria-hidden="true"
         style={{
           background:
-            'radial-gradient(circle at 20% 20%, #f59e0b 0, transparent 45%), radial-gradient(circle at 80% 60%, #6366f1 0, transparent 50%)',
+            'radial-gradient(circle at 20% 20%, hsl(var(--amber-500)) 0, transparent 45%), radial-gradient(circle at 80% 60%, hsl(var(--indigo-500)) 0, transparent 50%)',
         }}
       />
       <div className="relative z-10 max-w-7xl mx-auto px-6 text-center flex flex-col md:flex-row items-center justify-center gap-8">
         <h2
           className="text-3xl md:text-4xl font-bold text-white"
-          style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
+          style={playfair}
         >
           {t('cart.bespoke.headline', 'Want it tailored to you?')}
         </h2>
         <Link
           href="/services/tailoring"
-          className="inline-flex items-center justify-center px-8 py-3 bg-amber-400 hover:bg-amber-300 text-gray-900 font-bold rounded-full transition-colors text-sm"
+          className="inline-flex items-center justify-center px-8 py-3 bg-amber-400 hover:bg-amber-300 text-gray-900 font-bold rounded-full transition-all duration-200 hover-lift text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-400/60"
         >
           {t('checkout.bespoke.cta', 'Explore bespoke')}
-          <ArrowRight className="w-4 h-4 ml-2" />
+          <ArrowRight className="w-4 h-4 ms-2 rtl:rotate-180" aria-hidden="true" />
         </Link>
       </div>
     </section>

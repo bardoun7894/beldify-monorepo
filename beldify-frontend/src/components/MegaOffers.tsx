@@ -226,9 +226,8 @@ const TEST_MEGA_OFFERS: MegaOfferCollection[] = [
   }
 ];
 
-// Atlas colors — deep indigo #252555 + saffron amber #fea619
-const ATLAS_PRIMARY = '#252555';
-const ATLAS_ACCENT = '#fea619';
+// Atlas colors are applied via Tailwind class tokens below (indigo-700/amber-500)
+// Raw hex constants removed — use literal Tailwind classes instead per DESIGN.md §9
 
 const getDaysRemaining = (endDate: string): number => {
   const end = new Date(endDate);
@@ -249,9 +248,9 @@ function ProductCard({ product, locale }: { product: FeaturedProduct; locale: st
       href={`/products/${product.slug}?locale=${locale}`}
       className="group/product block"
     >
-      <div className="bg-white rounded-2xl overflow-hidden transition hover:-translate-y-0.5 hover:shadow-md duration-[220ms] ease-[cubic-bezier(0.33,1,0.68,1)] border border-gray-100 hover:border-atlas-primary/[0.1]">
+      <div className="bg-white rounded-2xl overflow-hidden transition-all duration-200 ease-[cubic-bezier(0.33,1,0.68,1)] hover:-translate-y-0.5 shadow-atlas-sm hover:shadow-atlas-md ring-1 ring-amber-200/50">
         {/* Product Image */}
-        <div className="relative h-32 md:h-40 overflow-hidden bg-gray-50">
+        <div className="relative h-32 md:h-40 overflow-hidden bg-amber-50/40">
           <Image
             src={imgSrc}
             alt={displayName}
@@ -263,14 +262,14 @@ function ProductCard({ product, locale }: { product: FeaturedProduct; locale: st
           />
 
           {/* Badges */}
-          <div className="absolute top-2 left-2 flex flex-col gap-1">
+          <div className="absolute top-2 start-2 flex flex-col gap-1">
             {product.has_discount && product.discount_percentage && product.discount_percentage > 0 && (
               <span className="text-white text-xs px-2 py-0.5 rounded-full font-semibold bg-rose-700">
                 -{product.discount_percentage}%
               </span>
             )}
             {product.is_trending && (
-              <span className="text-[hsl(var(--on-secondary))] text-xs px-2 py-0.5 rounded-full font-semibold bg-[hsl(var(--secondary))]">
+              <span className="text-indigo-950 text-xs px-2 py-0.5 rounded-full font-semibold bg-amber-500">
                 {t('megaOffers.hot', 'HOT')}
               </span>
             )}
@@ -284,8 +283,8 @@ function ProductCard({ product, locale }: { product: FeaturedProduct; locale: st
           </h4>
 
           <div className="flex items-center gap-2 mb-1">
-            <span className="font-bold text-gray-900 text-sm">
-              {product.price} {t('currency')}
+            <span className="font-bold text-indigo-700 text-sm">
+              {Number(product.price).toLocaleString('ar-MA')} <span dir="rtl" lang="ar">درهم</span>
             </span>
             {product.has_discount && product.original_price && product.original_price !== product.price && (
               <span className="text-xs text-gray-400 line-through">
@@ -300,9 +299,10 @@ function ProductCard({ product, locale }: { product: FeaturedProduct; locale: st
                 <Star
                   key={i}
                   className={`h-3 w-3 ${i < Math.floor(product.rating) ? 'text-amber-400 fill-current' : 'text-gray-200'}`}
+                  aria-hidden="true"
                 />
               ))}
-              <span className="text-[10px] text-gray-500 ml-0.5">({product.review_count})</span>
+              <span className="text-[10px] text-gray-500 ms-0.5">({product.review_count})</span>
             </div>
           )}
         </div>
@@ -317,13 +317,13 @@ function CollectionCard({ collection, locale }: { collection: MegaOfferCollectio
   const daysLeft = getDaysRemaining(collection.end_date);
 
   return (
-    <div className="bg-white rounded-2xl shadow-sm hover:shadow-md transition-all duration-[220ms] ease-[cubic-bezier(0.33,1,0.68,1)] overflow-hidden border border-atlas-primary/[0.1] hover:border-atlas-primary/[0.1]">
+    <div className="bg-white rounded-2xl transition-all duration-200 ease-[cubic-bezier(0.33,1,0.68,1)] hover:-translate-y-0.5 overflow-hidden shadow-atlas-sm hover:shadow-atlas-md ring-1 ring-amber-200/50">
       {/* Collection Header */}
-      <div className="relative px-6 py-5 bg-atlas-primary/[0.06] border-b border-atlas-primary/[0.1]">
+      <div className="relative px-6 py-5 bg-amber-50/60 border-b border-amber-200/40">
         <div className="flex items-start justify-between gap-3">
           <div className="flex-1 min-w-0">
             <h3
-              className="text-xl font-bold text-[hsl(var(--primary))] mb-1 truncate"
+              className="text-xl font-bold text-gray-900 mb-1 truncate"
               style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
             >
               {collection.title}
@@ -332,10 +332,10 @@ function CollectionCard({ collection, locale }: { collection: MegaOfferCollectio
           </div>
 
           <div className="flex flex-col items-end gap-1.5 shrink-0">
-            <span className="px-3 py-1 rounded-full text-[hsl(var(--on-secondary))] text-xs font-semibold bg-[hsl(var(--secondary))]">
+            <span className="px-3 py-1 rounded-full text-amber-950 text-xs font-semibold bg-amber-500">
               {t('megaOffers.upTo70Off', 'UP TO 70% OFF')}
             </span>
-            <span className="text-xs font-medium text-[hsl(var(--primary))] bg-atlas-primary/[0.08] px-2 py-0.5 rounded-full">
+            <span className="text-xs font-medium text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded-full">
               {daysLeft} {t('megaOffers.daysLeft', 'days left')}
             </span>
           </div>
@@ -351,18 +351,18 @@ function CollectionCard({ collection, locale }: { collection: MegaOfferCollectio
         </div>
 
         {/* Footer actions */}
-        <div className="mt-5 pt-4 border-t border-atlas-primary/[0.06] flex items-center justify-between">
+        <div className="mt-5 pt-4 border-t border-amber-100 flex items-center justify-between">
           {collection.featured_products && collection.featured_products.length > 4 && (
-            <span className="text-sm font-medium text-[hsl(var(--secondary))]">
+            <span className="text-sm font-medium text-amber-700">
               +{collection.featured_products.length - 4} {t('megaOffers.moreItems', 'more items')}
             </span>
           )}
           <Link
             href={`/mega-offers/${collection.slug}?locale=${locale}`}
-            className="ml-auto inline-flex items-center gap-2 px-5 py-2 text-sm font-semibold text-white bg-[hsl(var(--primary))] hover:bg-primary-container rounded-xl transition-all duration-[220ms] ease-[cubic-bezier(0.33,1,0.68,1)] hover:shadow-atlas-sm hover:-translate-y-0.5"
+            className="ms-auto inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-white bg-indigo-700 hover:bg-indigo-800 rounded-xl transition-all duration-200 ease-[cubic-bezier(0.33,1,0.68,1)] shadow-atlas-sm hover:shadow-atlas-md hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-indigo-700/30 min-h-[44px]"
           >
             {t('megaOffers.viewCollection', 'View Collection')}
-            <ArrowRight className="h-4 w-4" />
+            <ArrowRight className="h-4 w-4" aria-hidden="true" />
           </Link>
         </div>
       </div>
@@ -429,35 +429,28 @@ const MegaOffers: React.FC<MegaOffersProps> = ({ megaOffers }) => {
     return null;
   }
 
-  // Loading state
+  // Loading state — Atlas skeleton
   if (loading) {
     return (
-      <section className="py-16 sm:py-20 bg-white">
-        <div className="container mx-auto px-4">
-          <div className="max-w-7xl mx-auto animate-pulse">
-            <div className="text-center mb-12">
-              <div className="h-4 bg-gray-200 rounded-full w-32 mx-auto mb-4"></div>
-              <div className="h-10 bg-gray-200 rounded w-80 mx-auto mb-4"></div>
-              <div className="h-5 bg-gray-200 rounded w-56 mx-auto"></div>
-            </div>
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-              {[1, 2].map((i) => (
-                <div key={i} className="bg-white rounded-2xl border border-gray-100 overflow-hidden">
-                  <div className="h-24 bg-gray-100"></div>
-                  <div className="p-5 grid grid-cols-2 md:grid-cols-4 gap-3">
-                    {[1, 2, 3, 4].map((j) => (
-                      <div key={j} className="rounded-2xl overflow-hidden">
-                        <div className="h-36 bg-gray-200"></div>
-                        <div className="p-3">
-                          <div className="h-3 bg-gray-200 rounded mb-2"></div>
-                          <div className="h-4 bg-gray-200 rounded w-16"></div>
-                        </div>
+      <section className="py-16 sm:py-20 bg-background">
+        <div className="mx-auto max-w-7xl px-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            {[1, 2].map((i) => (
+              <div key={i} className="rounded-2xl overflow-hidden ring-1 ring-amber-200/50">
+                <div className="h-24 bg-amber-100/70 animate-pulse" />
+                <div className="p-5 grid grid-cols-2 md:grid-cols-4 gap-3">
+                  {[1, 2, 3, 4].map((j) => (
+                    <div key={j} className="rounded-2xl overflow-hidden">
+                      <div className="h-36 bg-amber-100/70 animate-pulse rounded-2xl" />
+                      <div className="p-3 space-y-2">
+                        <div className="h-3 bg-amber-100/70 animate-pulse rounded w-3/4" />
+                        <div className="h-3 bg-amber-100/70 animate-pulse rounded w-1/2" />
                       </div>
-                    ))}
-                  </div>
+                    </div>
+                  ))}
                 </div>
-              ))}
-            </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -469,53 +462,57 @@ const MegaOffers: React.FC<MegaOffersProps> = ({ megaOffers }) => {
   }
 
   return (
-    <section className="py-16 sm:py-20 bg-white">
-      <div className="container mx-auto px-4">
-        <div className="max-w-7xl mx-auto">
-          {/* Eyebrow + heading */}
-          <div className="text-center mb-10">
-            <div className="flex items-center justify-center gap-3 mb-4">
-              <div className="w-2 h-2 bg-[hsl(var(--secondary))] rounded-full"></div>
-              <span className="text-xs font-medium uppercase tracking-[0.18em] text-[hsl(var(--secondary))]">
-                {t('megaOffers.eyebrow', 'Special Collections')}
-              </span>
-            </div>
+    <section className="py-16 sm:py-20 bg-background">
+      <div className="mx-auto max-w-7xl px-6">
+        {/* Section heading — no centered eyebrow, left-aligned editorial */}
+        <div className="flex items-end justify-between mb-10">
+          <div>
             <h2
-              className="text-3xl md:text-4xl font-bold text-gray-900 mb-3"
+              className="text-3xl sm:text-4xl font-bold text-gray-900"
               style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
             >
-              {t('megaOffers.title', 'Mega Offers')}
+              {t('megaOffers.title', 'Special Collections')}
             </h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              {t('megaOffers.subtitle', 'Discover amazing deals on premium products')}
+            <p className="mt-1 text-sm text-gray-500">
+              {t('megaOffers.subtitle', 'Limited-time offers from Beldify ateliers')}
             </p>
-            {error && (
-              <div className="mt-4 bg-rose-50 border border-rose-200 text-rose-700 px-4 py-3 rounded-2xl text-sm max-w-lg mx-auto">
-                {error}
-              </div>
-            )}
           </div>
-
-          {/* Two-column grid of collections */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {offers.map((collection) => (
-              <CollectionCard key={collection.id} collection={collection} locale={i18n.language} />
-            ))}
-          </div>
-
-          {/* View All Collections — only if > 4 offers */}
           {offers.length > 4 && (
-            <div className="text-center mt-12">
-              <Link
-                href={`/mega-offers?locale=${i18n.language}`}
-                className="group inline-flex items-center gap-3 bg-[hsl(var(--primary))] hover:bg-primary-container text-white px-8 py-4 rounded-xl font-semibold transition-all duration-[220ms] ease-[cubic-bezier(0.33,1,0.68,1)] shadow-atlas-sm hover:shadow-atlas-md hover:-translate-y-0.5"
-              >
-                <span>{t('megaOffers.viewAllCollections', 'View All Collections')}</span>
-                <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
-              </Link>
-            </div>
+            <Link
+              href={`/mega-offers?locale=${i18n.language}`}
+              className="hidden sm:inline-flex items-center gap-1 text-sm font-semibold text-indigo-700 hover:text-indigo-800 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-indigo-700/30 rounded"
+            >
+              {t('megaOffers.viewAllCollections', 'View all')}
+              <ArrowRight className="h-4 w-4" aria-hidden="true" />
+            </Link>
           )}
         </div>
+
+        {error && (
+          <div className="mb-6 bg-rose-50 border border-rose-200 text-rose-700 px-4 py-3 rounded-2xl text-sm max-w-lg">
+            {error}
+          </div>
+        )}
+
+        {/* Two-column grid of collections */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {offers.map((collection) => (
+            <CollectionCard key={collection.id} collection={collection} locale={i18n.language} />
+          ))}
+        </div>
+
+        {/* View All Collections — only if > 4 offers (mobile) */}
+        {offers.length > 4 && (
+          <div className="text-center mt-10 sm:hidden">
+            <Link
+              href={`/mega-offers?locale=${i18n.language}`}
+              className="inline-flex items-center gap-1 text-sm font-semibold text-indigo-700 hover:text-indigo-800 transition-colors duration-200"
+            >
+              {t('megaOffers.viewAllCollections', 'View all collections')}
+              <ArrowRight className="h-4 w-4" aria-hidden="true" />
+            </Link>
+          </div>
+        )}
       </div>
     </section>
   );

@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400" viewBox="0 0 400 400" role="img" aria-label="Beldify">
+  <rect width="400" height="400" fill="#fbf9f4"/>
+  <rect x="0.5" y="0.5" width="399" height="399" fill="none" stroke="#fde68a" stroke-width="1"/>
+  <g fill="none" stroke="#f59e0b" stroke-width="2" opacity="0.55">
+    <circle cx="200" cy="176" r="46"/>
+    <path d="M200 130 L246 176 L200 222 L154 176 Z"/>
+  </g>
+  <text x="200" y="270" text-anchor="middle" font-family="'Playfair Display', Georgia, serif" font-size="30" fill="#4338ca" font-weight="700">بلديفاي</text>
+  <text x="200" y="298" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" letter-spacing="3" fill="#92400e">BELDIFY</text>
+</svg>

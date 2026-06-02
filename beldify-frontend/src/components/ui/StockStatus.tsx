@@ -2,7 +2,7 @@
 
 import { useTranslation } from 'react-i18next';
 import { cn } from '@/lib/utils';
-import { MinusIcon, PlusIcon, CheckIcon, ExclamationTriangleIcon, XMarkIcon } from '@heroicons/react/24/outline';
+import { Minus, Plus, Check, AlertTriangle, X } from 'lucide-react';
 
 interface StockStatusProps {
   quantity: number;
@@ -46,10 +46,10 @@ export default function StockStatus({
   };
 
   const getStockIcon = () => {
-    if (isOutOfStock) return <XMarkIcon className="h-4 w-4" />;
-    if (quantity >= stockQuantity) return <ExclamationTriangleIcon className="h-4 w-4" />;
-    if (isLowStock) return <ExclamationTriangleIcon className="h-4 w-4" />;
-    return <CheckIcon className="h-4 w-4" />;
+    if (isOutOfStock) return <X className="h-4 w-4" />;
+    if (quantity >= stockQuantity) return <AlertTriangle className="h-4 w-4" />;
+    if (isLowStock) return <AlertTriangle className="h-4 w-4" />;
+    return <Check className="h-4 w-4" />;
   };
 
   const sizeClasses = {
@@ -115,14 +115,14 @@ export default function StockStatus({
             onClick={() => quantity > 1 && onQuantityChange(quantity - 1)}
             disabled={quantity <= 1}
             className={cn(
-              "p-2 rounded-md transition-all duration-200",
-              "border border-gray-300 hover:bg-gray-50 active:scale-95",
+              "p-2 rounded-xl transition-all duration-200",
+              "border border-amber-200 bg-white hover:bg-amber-50 active:scale-95",
               "disabled:opacity-50 disabled:cursor-not-allowed disabled:active:scale-100",
-              "focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500"
+              "focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700/30"
             )}
             aria-label={t('stock.decrease_quantity')}
           >
-            <MinusIcon className="w-4 h-4" />
+            <Minus className="w-4 h-4 text-gray-700" />
           </button>
 
           <div className="relative">
@@ -137,7 +137,7 @@ export default function StockStatus({
                   onQuantityChange(val);
                 }
               }}
-              className="w-16 text-center font-medium border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500"
+              className="w-16 text-center font-medium border border-amber-200 rounded-xl py-2 px-3 focus:outline-none focus:ring-2 focus:ring-indigo-700/30 focus:border-indigo-700"
             />
           </div>
 
@@ -145,14 +145,14 @@ export default function StockStatus({
             onClick={() => quantity < stockQuantity && onQuantityChange(quantity + 1)}
             disabled={quantity >= stockQuantity}
             className={cn(
-              "p-2 rounded-md transition-all duration-200",
-              "border border-gray-300 hover:bg-gray-50 active:scale-95",
+              "p-2 rounded-xl transition-all duration-200",
+              "border border-amber-200 bg-white hover:bg-amber-50 active:scale-95",
               "disabled:opacity-50 disabled:cursor-not-allowed disabled:active:scale-100",
-              "focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500"
+              "focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700/30"
             )}
             aria-label={t('stock.increase_quantity')}
           >
-            <PlusIcon className="w-4 h-4" />
+            <Plus className="w-4 h-4 text-gray-700" />
           </button>
         </div>
       )}

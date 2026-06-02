@@ -2,481 +2,275 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowRight, ShoppingBag, Sparkles } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { ArrowRight, Sparkles } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import {
-  fetchBestSellers,
-  fetchNewArrivals,
-  fetchSpecialOffers,
-  // fetchRecommendedTailors ,
-  // fetchRecommendedSellers,
-} from '@/lib/api';
-import logger from '@/utils/consoleLogger';
 
-interface BaseProduct {
+interface IncomingProduct {
+  id: number;
+  name: string;
+  price: number;
+  image?: string;
+  main_image?: string;
+  images?: string[];
+  isNew?: boolean;
+  rating?: number;
+  reviews?: number;
+}
+
+interface FeaturedSectionsProps {
+  bestSellers?: IncomingProduct[];
+  newArrivals?: IncomingProduct[];
+  mensTraditional?: IncomingProduct[];
+  womensTraditional?: IncomingProduct[];
+  childrensTraditional?: IncomingProduct[];
+}
+
+interface NormalizedProduct {
   id: number;
   name: string;
   price: number;
   image: string;
-}
-
-interface RatedProduct extends BaseProduct {
-  rating: number;
-  reviews: number;
-}
-
-interface NewProduct extends BaseProduct {
   isNew: boolean;
-}
-
-interface Tailor {
-  id: number;
-  name: string;
   rating: number;
   reviews: number;
-  image: string;
-  specialties: string[];
-  location: string;
-  experience: string;
 }
 
-interface Seller {
-  id: number;
-  name: string;
-  rating: number;
-  reviews: number;
-  image: string;
-  categories: string[];
-  location: string;
-  topBrands: string[];
+const PLACEHOLDER = '/placeholder-product.jpg';
+
+function normalize(items?: IncomingProduct[]): NormalizedProduct[] {
+  if (!Array.isArray(items)) return [];
+  return items.map((p) => ({
+    id: p.id,
+    name: p.name,
+    price: Number(p.price) || 0,
+    image: p.image || p.main_image || p.images?.[0] || PLACEHOLDER,
+    isNew: Boolean(p.isNew),
+    rating: typeof p.rating === 'number' ? p.rating : 0,
+    reviews: typeof p.reviews === 'number' ? p.reviews : 0,
+  }));
 }
 
-interface SpecialOffer {
-  id: string;
-  title: string;
-  description: string;
-  image: string;
-  cta: string;
-  color: string;
+/* Shared price + rating lockup so both layouts read identically at the card
+   level — only the *arrangement* of cards differs between the two sections. */
+function PriceTag({ price }: { price: number }) {
+  return (
+    <p className="text-sm font-semibold text-indigo-700">
+      {/* MAD lockup isolated so the numeral + درهم don't reorder under bidi */}
+      <span className="currency-mad">{Number(price).toLocaleString('ar-MA')} درهم</span>
+    </p>
+  );
 }
 
-interface Section {
-  id: string;
-  title: string;
-  description: string;
-  items: RatedProduct[] | NewProduct[];
+function StarRow({ rating, reviews }: { rating: number; reviews: number }) {
+  if (rating <= 0) return null;
+  return (
+    <div className="mt-1.5 flex items-center gap-1">
+      {[0, 1, 2, 3, 4].map((r) => (
+        <svg
+          key={r}
+          className={`h-3 w-3 flex-shrink-0 ${rating > r ? 'text-amber-400' : 'text-gray-200'}`}
+          fill="currentColor"
+          viewBox="0 0 20 20"
+          aria-hidden="true"
+        >
+          <path
+            fillRule="evenodd"
+            d="M10 15.934L4.618 19.09l1.052-6.134L.34 7.934l6.157-.894L10 1.666l3.503 5.374 6.157.894-5.33 5.022 1.052 6.134L10 15.934z"
+          />
+        </svg>
+      ))}
+      {reviews > 0 && <p className="ms-0.5 text-[11px] text-gray-500">({reviews})</p>}
+    </div>
+  );
 }
 
-type Product = RatedProduct | NewProduct;
-
-export default function FeaturedSections() {
+export default function FeaturedSections(props: FeaturedSectionsProps) {
   const { t } = useTranslation();
-  const [bestSellers, setBestSellers] = useState<RatedProduct[]>([]);
-  const [newArrivals, setNewArrivals] = useState<NewProduct[]>([]);
-  const [specialOffers, setSpecialOffers] = useState<SpecialOffer[]>([]);
-  const [recommendedTailors, setRecommendedTailors] = useState<Tailor[]>([]);
-  const [recommendedSellers, setRecommendedSellers] = useState<Seller[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const [bestSellersData, newArrivalsData, specialOffersData] =
-          await Promise.all([
-            fetchBestSellers(),
-            fetchNewArrivals(),
-            fetchSpecialOffers(),
-          ]);
+  const bestSellers = normalize(props.bestSellers);
+  const newArrivals = normalize(props.newArrivals);
 
-        // Set default empty arrays for tailors and sellers since the API functions are commented out
-        setRecommendedTailors([]);
-        setRecommendedSellers([]);
-
-        // Cast API responses to component-specific types
-        setBestSellers(Array.isArray(bestSellersData) ? bestSellersData.map(product => ({
-          id: product.id,
-          name: product.name,
-          price: product.price,
-          rating: product.rating || 0,
-          reviews: 0, // Default value since API doesn't provide review count
-          image: product.main_image || product.images?.[0] || '/placeholder-product.jpg'
-        })) : []);
-
-        setNewArrivals(Array.isArray(newArrivalsData) ? newArrivalsData.map(product => ({
-          id: product.id,
-          name: product.name,
-          price: product.price,
-          isNew: true, // All items from new arrivals are new
-          image: product.main_image || product.images?.[0] || '/placeholder-product.jpg'
-        })) : []);
-
-        // Transform special offers
-        setSpecialOffers([
-          {
-            id: 'special-offer-1',
-            title: t('featuredSections.offer1Title', 'Traditional Elegance'),
-            description: t('featuredSections.offer1Description', 'Discover our finest collection of authentic Moroccan wear'),
-            image: specialOffersData?.[0]?.main_image || specialOffersData?.[0]?.images?.[0] || '/placeholder-product.jpg',
-            cta: t('featuredSections.offer1Cta', 'Shop Collection'),
-            // Atlas Indigo dark editorial strip with amber radial bloom (DESIGN.md §6.4)
-            color: 'bg-[hsl(var(--primary))]',
-          },
-          {
-            id: 'special-offer-2',
-            title: t('featuredSections.offer2Title', 'Festive Collection'),
-            description: t('featuredSections.offer2Description', 'Perfect for special occasions and celebrations'),
-            image: specialOffersData?.[1]?.main_image || specialOffersData?.[1]?.images?.[0] || '/placeholder-product.jpg',
-            cta: t('featuredSections.offer2Cta', 'Explore Now'),
-            // Sand/parchment surface (Atlas background token)
-            color: 'bg-background',
-          }
-        ]);
-      } catch (err) {
-        setError(t('featuredSections.loadError', 'Failed to load featured sections. Please try again later.'));
-        logger.error('Error fetching featured sections:', err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, [t]);
-
-  const sections: Section[] = [
-    {
-      id: 'best-sellers',
-      title: t('featuredSections.bestSellers', 'Best Sellers'),
-      description: t('featuredSections.bestSellersDesc', 'Our most popular traditional Moroccan wear'),
-      items: bestSellers,
-    },
-    {
-      id: 'new-arrivals',
-      title: t('featuredSections.newArrivals', 'New Arrivals'),
-      description: t('featuredSections.newArrivalsDesc', 'Latest additions to our collection'),
-      items: newArrivals,
-    },
-  ];
-
-  if (loading) {
-    return (
-      <div className="flex items-center justify-center min-h-[400px]">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[hsl(var(--primary))]"></div>
+  const EmptyState = ({ heading }: { heading: string }) => (
+    <div className="rounded-2xl bg-amber-50 ring-1 ring-amber-200 px-6 py-16 text-center shadow-atlas-sm">
+      <div className="inline-flex h-14 w-14 items-center justify-center rounded-full bg-amber-100 ring-1 ring-amber-200 mb-4">
+        <Sparkles className="h-6 w-6 text-indigo-700" aria-hidden="true" />
       </div>
-    );
-  }
+      <h3
+        className="text-xl font-bold text-gray-900"
+        style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
+      >
+        {heading}
+      </h3>
+      <p className="mt-2 text-sm text-gray-600 max-w-md mx-auto leading-relaxed">
+        {t(
+          'featuredSections.restockingDesc',
+          'Pieces from Tetouani and Fes ateliers are being curated. Check back shortly — or post a brief in the Open Souk and ateliers will come to you.'
+        )}
+      </p>
+      <Link
+        href="/community/posts/create"
+        className="mt-6 inline-flex items-center gap-2 rounded-xl bg-indigo-700 px-5 py-2.5 text-sm font-semibold text-white hover:bg-indigo-800 min-h-[44px] transition-all duration-200 hover:-translate-y-0.5 shadow-atlas-sm focus:outline-none focus:ring-2 focus:ring-indigo-700/30"
+      >
+        {t('featuredSections.postBrief', 'Post a brief')}
+        <ArrowRight className="h-4 w-4" aria-hidden="true" />
+      </Link>
+    </div>
+  );
 
-  if (error) {
-    return (
-      <div className="flex items-center justify-center min-h-[400px]">
-        <div className="text-rose-700">{error}</div>
+  const SectionHeader = ({
+    id,
+    title,
+    description,
+  }: {
+    id: string;
+    title: string;
+    description: string;
+  }) => (
+    <div className="flex items-end justify-between mb-8">
+      <div>
+        <h2
+          className="text-3xl sm:text-4xl font-bold text-gray-900"
+          style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
+        >
+          {title}
+        </h2>
+        <p className="mt-1 text-sm text-gray-500">{description}</p>
       </div>
-    );
-  }
+      <Link
+        href={`/products?category=${id}`}
+        className="hidden sm:inline-flex items-center gap-1 text-sm font-semibold text-indigo-700 hover:text-indigo-800 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-indigo-700/30 rounded"
+        aria-label={t('featuredSections.browseAll', 'Browse all')}
+      >
+        {t('featuredSections.browseAll', 'Browse all')}
+        <ArrowRight className="ms-1 h-4 w-4" aria-hidden="true" />
+      </Link>
+    </div>
+  );
 
   return (
-    <div className="space-y-16 py-8">
-      {/* Best Sellers and New Arrivals */}
-      {sections.map((section) => (
-        <section key={section.id} className="px-4 sm:px-6 lg:px-8">
-          <div className="sm:flex sm:items-center sm:justify-between">
-            <div>
-              <h2
-                className="text-2xl font-bold tracking-tight text-foreground"
-                style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
-              >
-                {section.title}
-              </h2>
-              <p className="mt-1 text-sm text-gray-500">{section.description}</p>
-            </div>
-            <Link
-              href={`/products?category=${section.id}`}
-              className="hidden sm:flex sm:items-center sm:text-sm sm:font-semibold sm:text-[hsl(var(--primary))] sm:hover:text-[hsl(var(--primary-container))] transition-colors duration-[220ms]"
-            >
-              {t('featuredSections.browseAll', 'Browse all')}
-              <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
-            </Link>
-          </div>
+    <div className="space-y-20 py-8">
+      {/* ── BEST SELLERS — editorial 4-col grid ─────────────────────────── */}
+      <section className="mx-auto max-w-7xl px-6">
+        <SectionHeader
+          id="best-sellers"
+          title={t('featuredSections.bestSellers', 'Best Sellers')}
+          description={t('featuredSections.bestSellersDesc', 'Our most popular traditional Moroccan wear')}
+        />
 
-          {section.items.length === 0 ? (
-            <div className="mt-8 rounded-2xl bg-background ring-1 ring-outline/20 px-6 py-12 text-center">
-              <div className="inline-flex h-14 w-14 items-center justify-center rounded-full bg-atlas-primary/[0.1] ring-1 ring-atlas-primary/[0.2] mb-3">
-                <Sparkles className="h-6 w-6 text-[hsl(var(--primary))]" aria-hidden="true" />
-              </div>
-              <h3
-                className="text-xl font-bold text-foreground"
-                style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
+        {bestSellers.length === 0 ? (
+          <EmptyState heading={t('featuredSections.restocking', 'The atelier is restocking')} />
+        ) : (
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5">
+            {bestSellers.map((product) => (
+              <div
+                key={product.id}
+                className="group relative transition-all duration-200 ease-[cubic-bezier(0.33,1,0.68,1)] hover:-translate-y-0.5 rounded-2xl overflow-hidden shadow-atlas-sm hover:shadow-atlas-md bg-white ring-1 ring-amber-200/50"
               >
-                {t('featuredSections.restocking', 'The atelier is restocking')}
-              </h3>
-              <p className="mt-1 text-sm text-gray-600 max-w-md mx-auto">
-                {t('featuredSections.restockingDesc', 'Pieces from Tetouani and Fes ateliers are being curated. Check back shortly — or post a brief in the Open Souk and ateliers will come to you.')}
-              </p>
-              <Link
-                href="/community/posts/create"
-                className="mt-5 inline-flex items-center gap-2 rounded-xl bg-[hsl(var(--primary))] px-5 py-2.5 text-sm font-semibold text-white hover:bg-primary-container min-h-[44px] transition-colors duration-[220ms]"
-              >
-                {t('featuredSections.postBrief', 'Post a brief')}
-                <ArrowRight className="h-4 w-4" aria-hidden="true" />
-              </Link>
-            </div>
-          ) : (
-            <div className="mt-8 grid grid-cols-1 gap-y-12 sm:grid-cols-2 sm:gap-x-6 lg:grid-cols-3 xl:gap-x-8">
-              {section.items.map((product) => (
-                <div key={product.id} className="group relative transition hover:-translate-y-0.5 hover:shadow-md duration-[220ms] ease-[cubic-bezier(0.33,1,0.68,1)] rounded-2xl overflow-hidden">
-                  <div className="aspect-w-3 aspect-h-4 overflow-hidden rounded-2xl">
-                    <Image
-                      src={product.image}
-                      alt={product.name}
-                      className="object-cover object-center transition-transform duration-500 ease-out group-hover:scale-105"
-                      width={300}
-                      height={400}
-                    />
-                  </div>
-                  <div className="mt-4 px-1">
-                    <h3 className="text-sm font-medium text-foreground">
-                      <Link href={`/products/${product.id}`}>
-                        <span aria-hidden="true" className="absolute inset-0" />
-                        {product.name}
-                      </Link>
-                    </h3>
-                    <div className="mt-1 flex items-center justify-between">
-                      <p className="text-sm text-gray-500">${product.price}</p>
-                      {'isNew' in product && product.isNew && (
-                        <span className="inline-flex items-center rounded-full bg-atlas-secondary/[0.15] px-2.5 py-0.5 text-xs font-medium text-[hsl(var(--on-secondary))] ring-1 ring-atlas-secondary/[0.3]">
-                          {t('featuredSections.newBadge', 'New')}
-                        </span>
-                      )}
-                    </div>
-                    {'rating' in product && (
-                      <div className="mt-1 flex items-center">
-                        <div className="flex items-center">
-                          {[0, 1, 2, 3, 4].map((rating) => (
-                            <svg
-                              key={rating}
-                              className={`h-4 w-4 flex-shrink-0 ${
-                                product.rating > rating ? 'text-amber-400' : 'text-gray-200'
-                              }`}
-                              fill="currentColor"
-                              viewBox="0 0 20 20"
-                            >
-                              <path
-                                fillRule="evenodd"
-                                d="M10 15.934L4.618 19.09l1.052-6.134L.34 7.934l6.157-.894L10 1.666l3.503 5.374 6.157.894-5.33 5.022 1.052 6.134L10 15.934z"
-                              />
-                            </svg>
-                          ))}
-                        </div>
-                        <p className="ml-2 text-sm text-gray-500">{product.reviews} {t('featuredSections.reviews', 'reviews')}</p>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
-
-          <div className="mt-6 sm:hidden">
-            <Link
-              href={`/products?category=${section.id}`}
-              className="block text-sm font-semibold text-[hsl(var(--primary))] hover:text-[hsl(var(--primary-container))] transition-colors duration-[220ms]"
-            >
-              {t('featuredSections.browseAll', 'Browse all')}
-              <span aria-hidden="true"> →</span>
-            </Link>
-          </div>
-        </section>
-      ))}
-
-      {/* Special Offers */}
-      <section className="px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 gap-y-8 lg:grid-cols-2 lg:gap-x-8">
-          {specialOffers.map((offer) => (
-            <div key={offer.id} className={`${offer.color} relative overflow-hidden rounded-2xl ring-1 ring-outline/20`}>
-              {/* Background image — only render if a real source resolved, not the placeholder */}
-              {offer.image && !offer.image.includes('placeholder-product') && (
-                <div className="absolute inset-0">
+                <div className="relative aspect-[3/4] overflow-hidden">
                   <Image
-                    src={offer.image}
-                    alt={offer.title}
-                    className="h-full w-full object-cover object-center opacity-60"
-                    width={800}
-                    height={400}
+                    src={product.image}
+                    alt={product.name}
+                    fill
+                    sizes="(min-width:1024px) 25vw, (min-width:640px) 33vw, 50vw"
+                    className="object-cover object-center transition-transform duration-500 ease-out group-hover:scale-105"
                   />
                 </div>
-              )}
-              {/* Atlas radial overlay — amber + indigo blooms per DESIGN.md §6.4. Only on dark variant. */}
-              {offer.color.includes('primary') && (
-                <div
-                  aria-hidden="true"
-                  className="absolute inset-0 pointer-events-none opacity-30"
-                  style={{
-                    backgroundImage:
-                      'radial-gradient(circle at 20% 20%, #fea619 0, transparent 45%), radial-gradient(circle at 80% 60%, #3b3b6d 0, transparent 50%)',
-                  }}
-                />
-              )}
-              <div className="relative px-6 py-16 sm:px-12 sm:py-24">
-                <p
-                  className={`text-xs uppercase tracking-[0.18em] font-medium mb-3 ${
-                    offer.color.includes('primary') ? 'text-[hsl(var(--secondary))]' : 'text-[hsl(var(--secondary))]'
-                  }`}
-                >
-                  {t('featuredSections.editorial', 'Beldify Editorial')}
-                </p>
-                <h2
-                  className={`text-3xl sm:text-4xl font-bold tracking-tight ${
-                    offer.color.includes('primary') ? 'text-white' : 'text-foreground'
-                  }`}
-                  style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
-                >
-                  {offer.title}
-                </h2>
-                <p
-                  className={`mt-3 text-base sm:text-lg ${
-                    offer.color.includes('primary') ? 'text-white/80' : 'text-on-surface-variant'
-                  }`}
-                >
-                  {offer.description}
-                </p>
-                <Link
-                  href={`/products?category=${offer.id}`}
-                  className="mt-8 inline-flex items-center gap-2 rounded-xl bg-[hsl(var(--secondary))] px-6 py-3 text-sm font-semibold text-[hsl(var(--on-secondary))] hover:opacity-90 transition-all duration-[220ms] ease-[cubic-bezier(0.33,1,0.68,1)] min-h-[44px]"
-                >
-                  {offer.cta}
-                  <ArrowRight className="h-4 w-4" aria-hidden="true" />
-                </Link>
+                <div className="p-3">
+                  <h3 className="text-sm font-medium text-gray-900 line-clamp-2 leading-snug">
+                    <Link
+                      href={`/products/${product.id}`}
+                      className="hover:text-indigo-700 transition-colors duration-200 focus:outline-none"
+                    >
+                      <span aria-hidden="true" className="absolute inset-0" />
+                      {product.name}
+                    </Link>
+                  </h3>
+                  <div className="mt-1.5 flex items-center justify-between">
+                    <PriceTag price={product.price} />
+                  </div>
+                  <StarRow rating={product.rating} reviews={product.reviews} />
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
+        )}
+
+        <div className="mt-6 sm:hidden">
+          <Link
+            href="/products?category=best-sellers"
+            className="inline-flex items-center gap-1 text-sm font-semibold text-indigo-700 hover:text-indigo-800 transition-colors duration-200"
+          >
+            {t('featuredSections.browseAll', 'Browse all')}
+            <ArrowRight className="h-4 w-4" aria-hidden="true" />
+          </Link>
         </div>
       </section>
 
-      {/* Recommended Tailors Section */}
-      {recommendedTailors.length > 0 && (
-        <section className="mt-16 px-4 sm:px-6 lg:px-8">
-          <h2
-            className="text-2xl font-bold text-foreground"
-            style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
-          >
-            {t('featuredSections.recommendedTailors', 'Recommended Tailors')}
-          </h2>
-          <div className="mt-6 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-3">
-            {recommendedTailors.map((tailor) => (
-              <div key={tailor.id} className="group relative transition hover:-translate-y-0.5 hover:shadow-md duration-[220ms] ease-[cubic-bezier(0.33,1,0.68,1)] rounded-2xl overflow-hidden">
-                <div className="aspect-w-4 aspect-h-3 overflow-hidden rounded-2xl bg-gray-100">
-                  <Image
-                    src={tailor.image}
-                    alt={tailor.name}
-                    className="object-cover object-center transition-transform duration-500 ease-out group-hover:scale-105"
-                    width={400}
-                    height={300}
-                  />
-                </div>
-                <div className="mt-4 px-1">
-                  <h3 className="text-lg font-medium text-foreground">{tailor.name}</h3>
-                  <div className="flex items-center mt-1">
-                    <div className="flex items-center">
-                      {[...Array(5)].map((_, i) => (
-                        <svg
-                          key={i}
-                          className={`h-5 w-5 flex-shrink-0 ${
-                            i < Math.floor(tailor.rating) ? 'text-amber-400' : 'text-gray-200'
-                          }`}
-                          fill="currentColor"
-                          viewBox="0 0 20 20"
-                        >
-                          <path
-                            fillRule="evenodd"
-                            d="M10 15.934L4.618 19.09l1.052-6.134L.34 7.934l6.157-.894L10 1.666l3.503 5.374 6.157.894-5.33 5.022 1.052 6.134L10 15.934z"
-                          />
-                        </svg>
-                      ))}
-                    </div>
-                    <p className="ml-2 text-sm text-gray-500">{tailor.reviews} {t('featuredSections.reviews', 'reviews')}</p>
-                  </div>
-                  <p className="mt-2 text-sm text-gray-500">{tailor.location}</p>
-                  <div className="mt-2 flex flex-wrap gap-2">
-                    {tailor.specialties?.map((specialty) => (
-                      <span
-                        key={specialty}
-                        className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-atlas-primary/[0.08] text-[hsl(var(--primary))]"
-                      >
-                        {specialty}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
-      )}
+      {/* ── NEW ARRIVALS — horizontal snap-rail (distinct from the grid) ── */}
+      <section className="mx-auto max-w-7xl px-6">
+        <SectionHeader
+          id="new-arrivals"
+          title={t('featuredSections.newArrivals', 'New Arrivals')}
+          description={t('featuredSections.newArrivalsDesc', 'Latest additions to our collection')}
+        />
 
-      {/* Recommended Sellers Section */}
-      {recommendedSellers.length > 0 && (
-        <section className="mt-16 px-4 sm:px-6 lg:px-8">
-          <h2
-            className="text-2xl font-bold text-foreground"
-            style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
+        {newArrivals.length === 0 ? (
+          <EmptyState heading={t('featuredSections.restocking', 'The atelier is restocking')} />
+        ) : (
+          <div
+            className="-mx-6 px-6 flex gap-4 sm:gap-5 overflow-x-auto snap-x snap-mandatory pb-4 scroll-ps-6 scroll-pe-6 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+            role="list"
+            aria-label={t('featuredSections.newArrivals', 'New Arrivals')}
           >
-            {t('featuredSections.recommendedSellers', 'Recommended Sellers')}
-          </h2>
-          <div className="mt-6 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-3">
-            {recommendedSellers.map((seller) => (
-              <div key={seller.id} className="group relative transition hover:-translate-y-0.5 hover:shadow-md duration-[220ms] ease-[cubic-bezier(0.33,1,0.68,1)] rounded-2xl overflow-hidden">
-                <div className="aspect-w-4 aspect-h-3 overflow-hidden rounded-2xl bg-gray-100">
+            {newArrivals.map((product) => (
+              <div
+                key={product.id}
+                role="listitem"
+                className="group relative snap-start shrink-0 w-[60%] sm:w-[40%] lg:w-[23%] transition-all duration-200 ease-[cubic-bezier(0.33,1,0.68,1)] hover:-translate-y-0.5 rounded-2xl overflow-hidden shadow-atlas-sm hover:shadow-atlas-md bg-white ring-1 ring-amber-200/50"
+              >
+                <div className="relative aspect-[4/5] overflow-hidden">
                   <Image
-                    src={seller.image}
-                    alt={seller.name}
+                    src={product.image}
+                    alt={product.name}
+                    fill
+                    sizes="(min-width:1024px) 23vw, (min-width:640px) 40vw, 60vw"
                     className="object-cover object-center transition-transform duration-500 ease-out group-hover:scale-105"
-                    width={400}
-                    height={300}
                   />
+                  {product.isNew && (
+                    <span className="absolute top-3 start-3 inline-flex items-center rounded-full bg-indigo-700 px-2.5 py-0.5 text-[11px] font-semibold text-white shadow-sm">
+                      {t('featuredSections.newBadge', 'New')}
+                    </span>
+                  )}
                 </div>
-                <div className="mt-4 px-1">
-                  <h3 className="text-lg font-medium text-foreground">{seller.name}</h3>
-                  <div className="flex items-center mt-1">
-                    <div className="flex items-center">
-                      {[...Array(5)].map((_, i) => (
-                        <svg
-                          key={i}
-                          className={`h-5 w-5 flex-shrink-0 ${
-                            i < Math.floor(seller.rating) ? 'text-amber-400' : 'text-gray-200'
-                          }`}
-                          fill="currentColor"
-                          viewBox="0 0 20 20"
-                        >
-                          <path
-                            fillRule="evenodd"
-                            d="M10 15.934L4.618 19.09l1.052-6.134L.34 7.934l6.157-.894L10 1.666l3.503 5.374 6.157.894-5.33 5.022 1.052 6.134L10 15.934z"
-                          />
-                        </svg>
-                      ))}
-                    </div>
-                    <p className="ml-2 text-sm text-gray-500">{seller.reviews} {t('featuredSections.reviews', 'reviews')}</p>
-                  </div>
-                  <p className="mt-2 text-sm text-gray-500">{seller.location}</p>
-                  <div className="mt-2 flex flex-wrap gap-2">
-                    {seller.categories?.map((category) => (
-                      <span
-                        key={category}
-                        className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-atlas-secondary/[0.12] text-[hsl(var(--on-secondary))]"
-                      >
-                        {category}
-                      </span>
-                    ))}
-                  </div>
-                  <div className="mt-2">
-                    <p className="text-sm text-gray-500">{t('featuredSections.topBrands', 'Top Brands')}: {seller.topBrands?.join(', ')}</p>
+                <div className="p-3">
+                  <h3 className="text-sm font-medium text-gray-900 line-clamp-2 leading-snug">
+                    <Link
+                      href={`/products/${product.id}`}
+                      className="hover:text-indigo-700 transition-colors duration-200 focus:outline-none"
+                    >
+                      <span aria-hidden="true" className="absolute inset-0" />
+                      {product.name}
+                    </Link>
+                  </h3>
+                  <div className="mt-1.5 flex items-center justify-between">
+                    <PriceTag price={product.price} />
                   </div>
                 </div>
               </div>
             ))}
           </div>
-        </section>
-      )}
+        )}
+
+        <div className="mt-6 sm:hidden">
+          <Link
+            href="/products?category=new-arrivals"
+            className="inline-flex items-center gap-1 text-sm font-semibold text-indigo-700 hover:text-indigo-800 transition-colors duration-200"
+          >
+            {t('featuredSections.browseAll', 'Browse all')}
+            <ArrowRight className="h-4 w-4" aria-hidden="true" />
+          </Link>
+        </div>
+      </section>
     </div>
   );
 }

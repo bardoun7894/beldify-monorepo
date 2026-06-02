@@ -129,10 +129,17 @@ describe('ShippingCalculator — a11y P0 fixes', () => {
 
 describe('Tailoring page — a11y P0 fixes', () => {
 
-  it('gallery eyebrow text-amber-700 on parchment replaced with text-[#855300]', () => {
-    // text-amber-700 on bg-amber-50/40 parchment is ~3.4:1 (fails AA for small text)
+  it('no faint amber text (amber-600/700) on parchment surfaces', () => {
+    // text-amber-700 on bg-amber-50/40 parchment is ~3.4:1 (fails AA for small text).
+    // The reference-grade pass dropped the gallery/process eyebrows entirely
+    // (anti-slop: no tracked eyebrow above every section), removing the risk.
     expect(tailoring).not.toContain('text-amber-700');
-    expect(tailoring).toContain('text-[#855300]');
+    expect(tailoring).not.toContain('text-amber-600');
+  });
+
+  it('drops the slop section eyebrows (gallery "OUR ATELIERS" / "THE PROCESS")', () => {
+    expect(tailoring).not.toContain('OUR ATELIERS');
+    expect(tailoring).not.toContain('THE PROCESS');
   });
 });
 

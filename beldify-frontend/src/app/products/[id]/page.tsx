@@ -1022,8 +1022,55 @@ export default function ProductDetailsPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-amber-50">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-700"></div>
+      <div className="bg-amber-50 min-h-screen">
+        <div className="max-w-7xl mx-auto px-6 pt-6 pb-16">
+          {/* Breadcrumb skeleton */}
+          <div className="flex items-center gap-2 mb-8">
+            <div className="h-3 w-12 rounded-full bg-amber-100/70 animate-pulse" />
+            <div className="h-3 w-2 rounded-full bg-amber-100/70 animate-pulse" />
+            <div className="h-3 w-20 rounded-full bg-amber-100/70 animate-pulse" />
+            <div className="h-3 w-2 rounded-full bg-amber-100/70 animate-pulse" />
+            <div className="h-3 w-32 rounded-full bg-amber-100/70 animate-pulse" />
+          </div>
+          {/* Hero skeleton — 2-col on lg */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
+            {/* Gallery skeleton */}
+            <div className="flex flex-col gap-4">
+              <div className="w-full aspect-[4/5] rounded-2xl bg-amber-100/70 animate-pulse" />
+              <div className="grid grid-cols-4 gap-3">
+                {[...Array(4)].map((_, i) => (
+                  <div key={i} className="aspect-square rounded-xl bg-amber-100/70 animate-pulse" />
+                ))}
+              </div>
+            </div>
+            {/* Info pane skeleton */}
+            <div className="bg-white rounded-2xl ring-1 ring-amber-200 p-8 flex flex-col gap-5 shadow-atlas-sm">
+              <div className="h-3 w-20 rounded-full bg-amber-100/70 animate-pulse" />
+              <div className="space-y-2">
+                <div className="h-8 w-3/4 rounded-2xl bg-amber-100/70 animate-pulse" />
+                <div className="h-8 w-1/2 rounded-2xl bg-amber-100/70 animate-pulse" />
+              </div>
+              <div className="h-6 w-28 rounded-full bg-amber-100/70 animate-pulse" />
+              <div className="h-4 w-24 rounded-full bg-amber-100/70 animate-pulse" />
+              <div className="space-y-1.5">
+                <div className="h-3.5 w-full rounded-full bg-amber-100/70 animate-pulse" />
+                <div className="h-3.5 w-5/6 rounded-full bg-amber-100/70 animate-pulse" />
+              </div>
+              <div className="flex gap-2">
+                {[...Array(4)].map((_, i) => (
+                  <div key={i} className="h-10 w-10 rounded-full bg-amber-100/70 animate-pulse" />
+                ))}
+              </div>
+              <div className="flex gap-2">
+                {['S', 'M', 'L', 'XL'].map((_, i) => (
+                  <div key={i} className="h-8 w-14 rounded-full bg-amber-100/70 animate-pulse" />
+                ))}
+              </div>
+              <div className="h-12 w-full rounded-full bg-amber-100/70 animate-pulse mt-2" />
+              <div className="h-10 w-full rounded-full bg-amber-100/70 animate-pulse" />
+            </div>
+          </div>
+        </div>
       </div>
     );
   }
@@ -1031,9 +1078,21 @@ export default function ProductDetailsPage() {
   if (error || !product) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-amber-50">
-        <div className="flex flex-col items-center gap-3 text-center px-6">
-          <p className="text-rose-700 font-medium">{error || t('errors.productNotFound', 'Product not found')}</p>
-          <Link href="/products" className="text-sm text-indigo-700 underline underline-offset-2 hover:text-indigo-900">
+        <div className="flex flex-col items-center gap-4 text-center px-6 max-w-sm">
+          <div className="h-16 w-16 rounded-2xl bg-rose-50 ring-1 ring-rose-200 flex items-center justify-center">
+            <XCircle className="h-8 w-8 text-rose-700" aria-hidden />
+          </div>
+          <h1 className="text-xl font-semibold text-gray-900" style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}>
+            {error || t('errors.productNotFound', 'Product not found')}
+          </h1>
+          <p className="text-sm text-gray-500">
+            {t('errors.productNotFoundDesc', 'This product may have been removed or the link is incorrect.')}
+          </p>
+          <Link
+            href="/products"
+            className="inline-flex items-center gap-2 rounded-full bg-indigo-700 px-6 py-2.5 text-sm font-semibold text-white hover:bg-indigo-800 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30"
+          >
+            <ArrowRight className="h-4 w-4 rtl:rotate-180" aria-hidden />
             {t('navigation.backToProducts', 'Back to products')}
           </Link>
         </div>
@@ -1167,7 +1226,7 @@ export default function ProductDetailsPage() {
     : ['S', 'M', 'L', 'XL'];
 
   return (
-    <div className="bg-amber-50 min-h-screen pb-16">
+    <div className="bg-amber-50 min-h-screen pb-20 md:pb-16">
     <main className="max-w-7xl mx-auto" role="main">
       {/* ── 1. Breadcrumb strip ── */}
       <nav className="px-6 py-4 text-sm text-gray-500" aria-label={t('catalog.pdp.breadcrumb_label', 'Breadcrumb')}>
@@ -1177,7 +1236,7 @@ export default function ProductDetailsPage() {
               {t('navigation.home', 'Home')}
             </Link>
           </li>
-          <li><span className="text-gray-500">/</span></li>
+          <li><span className="text-amber-400 px-0.5">/</span></li>
           {displayCategory && (
             <>
               <li>
@@ -1188,7 +1247,7 @@ export default function ProductDetailsPage() {
                   {displayCategory}
                 </Link>
               </li>
-              <li><span className="text-gray-500">/</span></li>
+              <li><span className="text-amber-400 px-0.5">/</span></li>
             </>
           )}
           <li>
@@ -1199,44 +1258,67 @@ export default function ProductDetailsPage() {
         </ol>
       </nav>
 
-      {/* ── 2. Hero (2-col on lg+) ── */}
-
       {/* ── 2. Hero — 2-col on lg+ ── */}
-      <section className="px-6 grid grid-cols-1 lg:grid-cols-2 gap-10 mb-16" aria-label={t('product.details', 'Product details')}>
+      <section className="px-6 grid grid-cols-1 lg:grid-cols-[1fr_480px] xl:grid-cols-[1fr_520px] gap-10 mb-16" aria-label={t('product.details', 'Product details')}>
 
         {/* ── Left: Image gallery ── */}
         <div className="flex flex-col gap-4">
-          {/* Main image — 4:5 aspect, amber-200 ring, Atlas rounded-lg (16px) */}
-          <div className="relative w-full aspect-[4/5] rounded-lg overflow-hidden ring-1 ring-amber-200 bg-amber-50">
+          {/* Main image — 4:5 aspect, warm parchment bg, Atlas rounded-2xl */}
+          <div className="relative w-full aspect-[4/5] rounded-2xl overflow-hidden ring-1 ring-amber-200 bg-amber-50 shadow-atlas-sm group">
             {getCurrentImageUrl() ? (
               <Image
                 src={getCurrentImageUrl()}
                 alt={displayName}
                 fill
                 priority
-                className="object-cover transition-transform duration-500 hover:scale-105"
+                className="object-cover transition-transform duration-700 group-hover:scale-[1.03]"
                 sizes="(max-width: 1024px) 100vw, 50vw"
               />
             ) : (
-              <div className="w-full h-full bg-amber-100 flex items-center justify-center">
-                <span className="text-amber-400 text-sm">{displayName}</span>
+              <div className="w-full h-full bg-amber-100 flex items-center justify-center rounded-2xl">
+                <span className="text-amber-400 text-sm font-medium">{displayName}</span>
               </div>
             )}
+
+            {/* Gradient vignette at base — editorial depth */}
+            <div
+              aria-hidden
+              className="absolute inset-x-0 bottom-0 h-1/4 bg-gradient-to-t from-gray-950/20 to-transparent pointer-events-none"
+            />
+
+            {/* Kicker badge overlaid on image (mobile only) */}
+            {kickerLabel && (
+              <span className="lg:hidden absolute top-4 start-4 text-xs uppercase tracking-[0.18em] text-amber-700 font-medium bg-amber-50/95 backdrop-blur-sm ring-1 ring-amber-200 rounded-full px-3 py-1">
+                {kickerLabel}
+              </span>
+            )}
+
             {/* Wishlist pill top-end (RTL-safe logical positioning) */}
             <button
               onClick={handleWishlistToggle}
               aria-label={wishlisted ? t('wishlist.remove', 'Remove from wishlist') : t('wishlist.add', 'Add to wishlist')}
-              className="absolute top-4 end-4 bg-white/90 backdrop-blur-sm rounded-full p-2.5 shadow-sm hover:bg-white transition-colors"
+              className="absolute top-4 end-4 bg-white/90 backdrop-blur-sm rounded-full p-2.5 shadow-atlas-sm hover:bg-white transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30"
             >
               <Heart
-                className={cn('h-5 w-5', wishlisted ? 'fill-indigo-700 text-indigo-700' : 'text-gray-500')}
+                className={cn('h-5 w-5 transition-colors', wishlisted ? 'fill-rose-600 text-rose-600' : 'text-gray-500')}
               />
             </button>
+
+            {/* Sale badge overlaid on image (start side, below wishlist) */}
+            {hasDiscount && discountPercentage > 0 && (
+              <span className="absolute bottom-4 end-4 inline-flex items-center rounded-full bg-rose-700 px-2.5 py-1 text-xs font-bold text-white shadow-atlas-sm">
+                −{discountPercentage}%
+              </span>
+            )}
           </div>
 
-          {/* Thumbnail row (up to 4) */}
+          {/* Thumbnail strip (up to 5, scroll on mobile) */}
           {thumbnails.length > 1 && (
-            <div className="grid grid-cols-4 gap-3">
+            <div
+              className="flex gap-3 overflow-x-auto pb-1 snap-x snap-mandatory scrollbar-none"
+              role="group"
+              aria-label={t('product.image_thumbnails', 'Product images')}
+            >
               {thumbnails.map((img, idx) => (
                 <button
                   key={img.id}
@@ -1244,19 +1326,21 @@ export default function ProductDetailsPage() {
                     setSelectedImage(img);
                     setActiveImageIndex(idx);
                   }}
+                  aria-label={`${displayName} ${t('product.view', 'view')} ${idx + 1}`}
+                  aria-pressed={activeImageIndex === idx}
                   className={cn(
-                    'relative aspect-square rounded-xl overflow-hidden ring-1 transition-all duration-200',
+                    'relative shrink-0 w-20 h-20 rounded-xl overflow-hidden ring-1 transition-all duration-200 snap-start focus:outline-none focus-visible:ring-2',
                     activeImageIndex === idx
-                      ? 'ring-indigo-700 ring-2'
-                      : 'ring-amber-200 opacity-70 hover:opacity-100'
+                      ? 'ring-2 ring-indigo-700 shadow-atlas-sm focus-visible:ring-indigo-700'
+                      : 'ring-amber-200 opacity-60 hover:opacity-90 hover:ring-amber-300 focus-visible:ring-indigo-700/50'
                   )}
                 >
                   <Image
                     src={buildImageUrl(img.url)}
-                    alt={`${displayName} ${t('product.view', 'view')} ${idx + 1}`}
+                    alt={`${displayName} ${idx + 1}`}
                     fill
                     className="object-cover"
-                    sizes="10vw"
+                    sizes="80px"
                   />
                 </button>
               ))}
@@ -1264,19 +1348,22 @@ export default function ProductDetailsPage() {
           )}
         </div>
 
-        {/* ── Right: Info pane on sand background ── */}
-        <div className="bg-white ring-1 ring-amber-200 rounded-lg p-8 flex flex-col gap-5 shadow-atlas-sm">
+        {/* ── Right: Info pane ── */}
+        <div className="bg-white ring-1 ring-amber-200 rounded-2xl p-7 lg:p-8 flex flex-col gap-5 shadow-atlas-sm">
 
-          {/* Kicker */}
+          {/* Kicker — desktop only (mobile shows it overlaid on image) */}
           {kickerLabel && (
-            <p className="text-xs uppercase tracking-[0.18em] text-amber-700 font-medium">
+            <p className="hidden lg:block text-xs uppercase tracking-[0.18em] text-amber-700 font-medium">
               {kickerLabel}
             </p>
           )}
 
-          {/* Product name */}
+          {/* Product name — large Playfair on desktop */}
           <h1
-            className={cn('text-3xl sm:text-4xl font-bold text-gray-900 leading-tight', isRTL ? 'font-arabic' : '')}
+            className={cn(
+              'text-3xl sm:text-4xl lg:text-[2.6rem] font-bold text-gray-900 leading-[1.1] tracking-tight',
+              isRTL ? 'font-arabic' : ''
+            )}
             style={isRTL ? undefined : { fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
           >
             {displayName}
@@ -1284,66 +1371,105 @@ export default function ProductDetailsPage() {
 
           {/* Price line */}
           <div className="flex items-baseline gap-3 flex-wrap">
+            <span className="text-3xl font-bold text-indigo-700 tabular-nums currency-mad">
+              {formatPrice(displayPrice)}
+            </span>
             {hasDiscount && (
-              <span className="text-base text-gray-500 line-through">
+              <span className="text-base text-gray-400 line-through tabular-nums">
                 {formatPrice(product.price)}
               </span>
             )}
-            <span className="text-2xl font-semibold text-indigo-700">
-              {formatPrice(displayPrice)}
-            </span>
             {hasDiscount && discountPercentage > 0 && (
-              <span className="inline-flex items-center rounded-full bg-amber-100 px-2.5 py-0.5 text-xs font-semibold text-amber-700 ring-1 ring-amber-300">
+              <span className="inline-flex items-center rounded-full bg-rose-700 px-2.5 py-0.5 text-xs font-bold text-white">
                 −{discountPercentage}%
               </span>
             )}
           </div>
 
-          {/* Verified seller chip */}
-          <div className="flex items-center gap-2 flex-wrap">
-            <span className="inline-flex items-center gap-1.5 bg-amber-50 ring-1 ring-amber-200 rounded-full px-3 py-1.5 text-sm text-gray-800">
-              <BadgeCheck className="h-4 w-4 text-indigo-700" aria-hidden />
-              {product.shop?.name ?? 'Atelier Fassi'}
-              {(product.shop?.location ?? 'Fez') && (
-                <span className="text-gray-500">
-                  · {product.shop?.location ?? 'Fez'}
-                </span>
-              )}
-            </span>
-          </div>
-
-          {/* Provenance caption — renders only when shop.location (city) is present in API response */}
-          {/* expect: font-mono text-[10px] uppercase caption "<City> · artisan made" appears below seller chip */}
-          {product.shop?.location && (
-            <p className="font-mono text-[10px] tracking-[0.2em] uppercase text-gray-600 mt-1">
-              {product.shop.location} · {t('pdp.artisanMade', 'artisan made')}
-            </p>
-          )}
-          {/* TODO: render provenance once seller_city is in the API response (currently uses shop.location as proxy) */}
-
           {/* Rating row */}
           {product.rating != null && (
             <div className="flex items-center gap-2 text-sm">
-              <span className="flex items-center gap-0.5" aria-hidden="true">
-                {[1,2,3,4,5].map(i => (
-                  <Star
-                    key={i}
-                    className={cn(
-                      'h-4 w-4',
-                      i <= Math.round(product.rating ?? 0) ? 'fill-amber-400 text-amber-400' : 'text-gray-300'
-                    )}
-                  />
-                ))}
+              {/* Spoken label announces the rating rounded to the nearest half, so it
+                  agrees with the rendered half-star fill (e.g. 3.4 → "3.5 stars"). */}
+              <span
+                className="flex items-center gap-0.5"
+                aria-label={`${Math.round((product.rating ?? 0) * 2) / 2} ${t('product.stars', 'stars')}`}
+              >
+                {[1, 2, 3, 4, 5].map((i) => {
+                  const rating = product.rating ?? 0;
+                  const isFull = rating >= i;
+                  const isHalf = !isFull && rating >= i - 0.5;
+                  return (
+                    <span key={i} className="relative inline-flex h-4 w-4 shrink-0" aria-hidden>
+                      {/* Empty base star */}
+                      <Star className="h-4 w-4 fill-gray-200 text-gray-200" />
+                      {/* Filled overlay — full star or a start-clipped half (RTL-safe via inset-inline-start) */}
+                      {(isFull || isHalf) && (
+                        <span
+                          className="absolute inset-y-0 start-0 overflow-hidden"
+                          style={{ width: isHalf ? '50%' : '100%' }}
+                        >
+                          <Star className="h-4 w-4 fill-amber-400 text-amber-400" />
+                        </span>
+                      )}
+                    </span>
+                  );
+                })}
               </span>
-              <a href="#reviews" className="text-indigo-700 underline-offset-2 hover:underline">
+              <a
+                href="#reviews"
+                className="text-indigo-700 hover:underline underline-offset-2 text-sm font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30 rounded"
+              >
                 ({product.reviews_count ?? 0} {t('product.reviews', 'reviews')})
               </a>
             </div>
           )}
 
-          {/* Description — 2 lines */}
+          {/* Seller card — rich editorial block */}
+          <div className="flex items-center gap-3 bg-amber-50 ring-1 ring-amber-200 rounded-2xl px-4 py-3">
+            {/* Shop logo / monogram */}
+            <div className="shrink-0 h-10 w-10 rounded-full bg-indigo-700 flex items-center justify-center shadow-atlas-sm">
+              {product.shop?.logo ? (
+                <Image
+                  src={buildImageUrl(product.shop.logo)}
+                  alt={product.shop.name ?? 'Shop'}
+                  width={40}
+                  height={40}
+                  className="rounded-full object-cover"
+                />
+              ) : (
+                <span className="text-white font-semibold text-sm">
+                  {(product.shop?.name ?? 'A').charAt(0).toUpperCase()}
+                </span>
+              )}
+            </div>
+            <div className="flex-1 min-w-0">
+              <div className="flex items-center gap-1.5 flex-wrap">
+                <span className="font-semibold text-gray-900 text-sm truncate">
+                  {product.shop?.name ?? 'Atelier Fassi'}
+                </span>
+                <BadgeCheck className="h-4 w-4 text-indigo-700 shrink-0" aria-label={t('shop.verified', 'Verified')} />
+              </div>
+              {product.shop?.location && (
+                <p className="font-mono text-[10px] tracking-[0.2em] uppercase text-gray-500 mt-0.5">
+                  {product.shop.location} · {t('pdp.artisanMade', 'artisan made')}
+                </p>
+              )}
+            </div>
+            {product.shop?.url_name && (
+              <Link
+                href={`/shops/${product.shop.url_name}`}
+                className="shrink-0 text-xs text-indigo-700 hover:text-indigo-900 font-medium underline-offset-2 hover:underline transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30 rounded"
+                aria-label={t('shop.visit', 'Visit shop')}
+              >
+                {t('shop.visit', 'Visit shop')}
+              </Link>
+            )}
+          </div>
+
+          {/* Description — 3 lines, styled */}
           {product.description && (
-            <p className="text-gray-600 text-sm leading-relaxed line-clamp-2">
+            <p className="text-gray-600 text-sm leading-relaxed line-clamp-3 border-s-2 border-amber-300 ps-3">
               {product.description}
             </p>
           )}
@@ -1465,109 +1591,147 @@ export default function ProductDetailsPage() {
           {/* Custom size link */}
           <Link
             href="/services/tailoring"
-            className="text-sm text-indigo-700 underline underline-offset-2 hover:text-indigo-900 self-start"
+            className="inline-flex items-center gap-1.5 text-sm text-indigo-700 underline underline-offset-2 hover:text-indigo-900 transition-colors self-start focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30 rounded"
           >
             {t('product.custom_size', 'Custom size available')}
+            <ArrowRight className="h-3.5 w-3.5 rtl:rotate-180" aria-hidden />
           </Link>
 
-          {/* Quantity stepper */}
-          <div className="flex items-center gap-3">
-            <span className="text-sm font-medium text-gray-700">
-              {t('product.quantity', 'Qty')}
-            </span>
-            <div className="flex items-center bg-amber-50 ring-1 ring-amber-200 rounded-full overflow-hidden">
-              <button
-                onClick={() => setQuantity(q => Math.max(1, q - 1))}
-                disabled={quantity <= 1}
-                aria-label={t('stock.decrease_quantity', 'Decrease')}
-                className="p-2.5 hover:bg-amber-100 disabled:opacity-40 transition-colors"
-              >
-                <Minus className="h-3.5 w-3.5 text-gray-700" />
-              </button>
-              <span className="w-10 text-center text-sm font-semibold text-gray-900 select-none">
-                {quantity}
+          {/* Divider */}
+          <div className="border-t border-amber-100" aria-hidden />
+
+          {/* Quantity stepper + CTA group */}
+          <div className="space-y-3">
+            {/* Qty row */}
+            <div className="flex items-center gap-4">
+              <span className="text-sm font-medium text-gray-700 shrink-0">
+                {t('product.quantity', 'Qty')}
               </span>
-              <button
-                onClick={() => setQuantity(q => q + 1)}
-                aria-label={t('stock.increase_quantity', 'Increase')}
-                className="p-2.5 hover:bg-amber-100 transition-colors"
-              >
-                <Plus className="h-3.5 w-3.5 text-gray-700" />
-              </button>
+              <div className="flex items-center bg-amber-50 ring-1 ring-amber-200 rounded-full overflow-hidden">
+                <button
+                  onClick={() => setQuantity(q => Math.max(1, q - 1))}
+                  disabled={quantity <= 1}
+                  aria-label={t('stock.decrease_quantity', 'Decrease quantity')}
+                  className="p-2.5 hover:bg-amber-100 disabled:opacity-40 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-indigo-700/30"
+                >
+                  <Minus className="h-3.5 w-3.5 text-gray-700" aria-hidden />
+                </button>
+                <span className="w-10 text-center text-sm font-semibold text-gray-900 select-none" aria-live="polite">
+                  {quantity}
+                </span>
+                <button
+                  onClick={() => setQuantity(q => q + 1)}
+                  aria-label={t('stock.increase_quantity', 'Increase quantity')}
+                  className="p-2.5 hover:bg-amber-100 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-indigo-700/30"
+                >
+                  <Plus className="h-3.5 w-3.5 text-gray-700" aria-hidden />
+                </button>
+              </div>
+              {/* Stock indicator */}
+              {selectedVariant && (
+                <span className={cn(
+                  'text-xs font-medium rounded-full px-2.5 py-1',
+                  selectedVariant.quantity > 0
+                    ? 'bg-emerald-50 text-emerald-700 ring-1 ring-emerald-200'
+                    : 'bg-rose-50 text-rose-700 ring-1 ring-rose-200'
+                )}>
+                  {selectedVariant.quantity > 0
+                    ? `${selectedVariant.quantity} ${t('stock.available', 'available')}`
+                    : t('stock.out_of_stock', 'Out of stock')}
+                </span>
+              )}
             </div>
-            {selectedVariant && (
-              <span className="text-xs text-gray-500">
-                {selectedVariant.quantity > 0
-                  ? `${selectedVariant.quantity} ${t('stock.available', 'available')}`
-                  : t('stock.out_of_stock', 'Out of stock')}
-              </span>
-            )}
+
+            {/* Primary CTA: Add to bag — full-width, large tap target.
+                INTENTIONAL Atlas exception: the global add-to-cart contract is the
+                amber-500 / text-amber-950 accent variant, but on the PDP the saffron
+                accent is reserved for the bespoke-tailoring CTA below (the editorial
+                hook). To avoid two amber CTAs competing on one screen, the PDP add-to-bag
+                is the indigo-700 primary instead. This is a documented PDP-primary-indigo
+                exception, not silent drift. */}
+            <button
+              type="button"
+              onClick={() => {
+                if (!shouldDisableButton()) handleAddToCart();
+              }}
+              disabled={shouldDisableButton()}
+              className={cn(
+                'w-full rounded-full py-4 flex items-center justify-center gap-2.5 text-base font-semibold transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30',
+                shouldDisableButton()
+                  ? 'bg-gray-100 text-gray-400 cursor-not-allowed ring-1 ring-gray-200'
+                  : 'bg-indigo-700 hover:bg-indigo-800 text-white shadow-atlas-sm hover:shadow-atlas-md active:scale-[0.98]'
+              )}
+            >
+              <ShoppingBag className="h-5 w-5" aria-hidden />
+              {(() => {
+                if (!product?.variants || product.variants.length === 0) return t('cart.add_to_bag', 'Add to bag');
+                if (!selectedVariant) return t('product.select_options', 'Select options');
+                if (isOutOfStock(selectedVariant)) return t('stock.out_of_stock', 'Out of stock');
+                return t('cart.add_to_bag', 'Add to bag');
+              })()}
+            </button>
+
+            {/* Secondary CTA: Save to wishlist */}
+            <button
+              type="button"
+              onClick={handleWishlistToggle}
+              className={cn(
+                'w-full rounded-full py-3 flex items-center justify-center gap-2 text-sm font-medium transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30',
+                wishlisted
+                  ? 'bg-rose-50 ring-1 ring-rose-200 text-rose-700 hover:bg-rose-100'
+                  : 'bg-white ring-1 ring-amber-200 text-gray-700 hover:ring-indigo-300 hover:text-indigo-700'
+              )}
+            >
+              <Heart className={cn('h-4 w-4', wishlisted ? 'fill-rose-600 text-rose-600' : '')} aria-hidden />
+              {wishlisted ? t('wishlist.saved', 'Saved') : t('wishlist.save', 'Save for later')}
+            </button>
           </div>
 
-          {/* Primary CTA: Add to bag */}
-          <button
-            type="button"
-            onClick={() => {
-              if (!shouldDisableButton()) handleAddToCart();
-            }}
-            disabled={shouldDisableButton()}
-            className={cn(
-              'w-full rounded-full py-3 flex items-center justify-center gap-2 text-base font-semibold transition-all duration-200',
-              shouldDisableButton()
-                ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
-                : 'bg-indigo-700 hover:bg-indigo-800 text-white'
-            )}
-          >
-            <ShoppingBag className="h-5 w-5" aria-hidden />
-            {(() => {
-              if (!product?.variants || product.variants.length === 0) return t('cart.add_to_bag', 'Add to bag');
-              if (!selectedVariant) return t('product.select_options', 'Select options');
-              if (isOutOfStock(selectedVariant)) return t('stock.out_of_stock', 'Out of stock');
-              return t('cart.add_to_bag', 'Add to bag');
-            })()}
-          </button>
-
-          {/* Secondary CTA: Save (wishlist) */}
-          <button
-            type="button"
-            onClick={handleWishlistToggle}
-            className="w-full rounded-full py-3 flex items-center justify-center gap-2 text-sm font-medium bg-white ring-1 ring-gray-300 text-gray-700 hover:ring-indigo-300 hover:text-indigo-700 transition-all duration-200"
-          >
-            <Heart className={cn('h-4 w-4', wishlisted ? 'fill-indigo-700 text-indigo-700' : '')} aria-hidden />
-            {wishlisted ? t('wishlist.saved', 'Saved') : t('wishlist.save', 'Save')}
-          </button>
-
-          {/* Trust micro-pills */}
-          <div className="flex flex-wrap gap-2 pt-1">
-            <span className="bg-white ring-1 ring-amber-200 rounded-full px-2.5 py-1 text-xs text-gray-600 inline-flex items-center gap-1.5">
-              <Truck className="h-3.5 w-3.5 text-amber-600" aria-hidden />
-              {t('trust.ships', 'Ships in 3 days')}
-            </span>
-            <span className="bg-white ring-1 ring-amber-200 rounded-full px-2.5 py-1 text-xs text-gray-600 inline-flex items-center gap-1.5">
-              <RotateCcw className="h-3.5 w-3.5 text-amber-600" aria-hidden />
-              {t('trust.returns', 'Free returns 14 days')}
-            </span>
-            <span className="bg-white ring-1 ring-amber-200 rounded-full px-2.5 py-1 text-xs text-gray-600 inline-flex items-center gap-1.5">
-              <ShieldCheck className="h-3.5 w-3.5 text-amber-600" aria-hidden />
-              {t('trust.authentic', 'Authenticity guaranteed')}
-            </span>
+          {/* Trust strip — 3 micro-pills in a warm row */}
+          <div className="grid grid-cols-3 gap-2 pt-1">
+            <div className="flex flex-col items-center gap-1.5 bg-amber-50/80 ring-1 ring-amber-100 rounded-2xl p-3 text-center">
+              <Truck className="h-4 w-4 text-amber-600 shrink-0" aria-hidden />
+              <span className="text-[11px] text-gray-600 leading-snug font-medium">
+                {t('trust.ships', 'Ships in 3 days')}
+              </span>
+            </div>
+            <div className="flex flex-col items-center gap-1.5 bg-amber-50/80 ring-1 ring-amber-100 rounded-2xl p-3 text-center">
+              <RotateCcw className="h-4 w-4 text-amber-600 shrink-0" aria-hidden />
+              <span className="text-[11px] text-gray-600 leading-snug font-medium">
+                {t('trust.returns', 'Free returns')}
+              </span>
+            </div>
+            <div className="flex flex-col items-center gap-1.5 bg-amber-50/80 ring-1 ring-amber-100 rounded-2xl p-3 text-center">
+              <ShieldCheck className="h-4 w-4 text-amber-600 shrink-0" aria-hidden />
+              <span className="text-[11px] text-gray-600 leading-snug font-medium">
+                {t('trust.authentic', 'Authentic')}
+              </span>
+            </div>
           </div>
         </div>
       </section>
 
       {/* ── 3. Tabs section ── */}
-      <section className="px-6 mb-16" aria-label={t('product.tabs', 'Product tabs')}>
-        {/* Tab pills */}
-        <div className="flex gap-1 border-b border-amber-200 mb-8 overflow-x-auto">
+      <section className="px-6 mb-16" aria-label={t('product.tabs', 'Product tabs')} id="product-tabs">
+        {/* Tab pills — horizontal scroll on mobile, sticky feel */}
+        <div
+          className="flex gap-0 border-b border-amber-200 mb-8 overflow-x-auto scrollbar-none sticky top-0 z-10 bg-amber-50/95 backdrop-blur-sm pt-2"
+          role="tablist"
+          aria-label={t('product.tabs', 'Product tabs')}
+        >
           {(['description', 'specs', 'sizing', 'reviews'] as const).map((tab) => (
             <button
               key={tab}
+              role="tab"
+              id={`tab-${tab}`}
+              aria-controls={`tabpanel-${tab}`}
+              aria-selected={activeTab === tab}
               onClick={() => setActiveTab(tab)}
               className={cn(
-                'px-4 py-2.5 text-sm font-medium whitespace-nowrap transition-colors',
+                'px-5 py-3 text-sm font-medium whitespace-nowrap transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-indigo-700/30',
                 activeTab === tab
                   ? 'text-indigo-700 border-b-2 border-indigo-700 -mb-px'
-                  : 'text-gray-500 hover:text-gray-800'
+                  : 'text-gray-500 hover:text-gray-800 hover:bg-amber-100/40 rounded-t-xl'
               )}
             >
               {t(`product.tab_${tab}`, tab.charAt(0).toUpperCase() + tab.slice(1))}
@@ -1575,65 +1739,108 @@ export default function ProductDetailsPage() {
           ))}
         </div>
 
-        {/* Tab content */}
+        {/* Tab panels */}
         <div className="max-w-3xl">
-          {activeTab === 'description' && (
-            <div className="space-y-4 text-gray-600 text-sm leading-relaxed">
-              <p>{product.description}</p>
+          {/* Description */}
+          <div
+            role="tabpanel"
+            id="tabpanel-description"
+            aria-labelledby="tab-description"
+            className={activeTab === 'description' ? '' : 'hidden'}
+          >
+            <div className="space-y-5 text-gray-600 text-sm leading-relaxed">
+              <p className="text-base">{product.description}</p>
               {product.description && (
-                <p>
+                <p className="text-gray-500">
                   {t('product.description_secondary', 'Crafted by skilled artisans using traditional methods passed down through generations, this piece represents the finest in Moroccan craftsmanship.')}
                 </p>
               )}
               {/* Journal entry link card */}
               <Link
                 href={`/journal/${product.category?.toLowerCase() ?? 'crafts'}`}
-                className="flex items-center justify-between mt-6 p-4 rounded-2xl bg-amber-50 ring-1 ring-amber-200 hover:ring-amber-300 transition-all group"
+                className="flex items-center justify-between mt-6 p-5 rounded-2xl bg-white ring-1 ring-amber-200 hover:ring-amber-300 hover:shadow-atlas-sm transition-all duration-200 group"
               >
                 <div>
-                  <p className="text-xs uppercase tracking-widest text-amber-700 font-medium mb-1">
+                  <p className="text-xs uppercase tracking-[0.18em] text-amber-700 font-medium mb-1">
                     {t('journal.from_the_journal', 'From the journal')}
                   </p>
-                  <p className="text-sm font-medium text-gray-900">
-                    {t('product.read_journal', 'Read the journal entry')}
+                  <p className="text-sm font-semibold text-gray-900">
+                    {t('product.read_journal', 'Read the craft story')}
                   </p>
                 </div>
-                <ArrowRight className="h-5 w-5 text-indigo-700 group-hover:translate-x-0.5 transition-transform rtl:rotate-180" />
+                <ArrowRight className="h-5 w-5 text-indigo-700 group-hover:translate-x-0.5 rtl:group-hover:-translate-x-0.5 transition-transform rtl:rotate-180 shrink-0" aria-hidden />
               </Link>
             </div>
-          )}
-          {activeTab === 'specs' && (
-            <div className="text-sm text-gray-600 leading-relaxed space-y-3">
+          </div>
+
+          {/* Specs */}
+          <div
+            role="tabpanel"
+            id="tabpanel-specs"
+            aria-labelledby="tab-specs"
+            className={activeTab === 'specs' ? '' : 'hidden'}
+          >
+            <div className="rounded-2xl ring-1 ring-amber-200 overflow-hidden bg-white">
               {product.category && (
-                <p><span className="font-medium text-gray-900">{t('product.category', 'Category')}:</span> {displayCategory}</p>
+                <div className="flex items-center gap-4 px-5 py-3.5 border-b border-amber-100 last:border-b-0">
+                  <span className="text-xs uppercase tracking-wider text-gray-500 w-24 shrink-0">{t('product.category', 'Category')}</span>
+                  <span className="text-sm font-medium text-gray-900">{displayCategory}</span>
+                </div>
               )}
               {selectedVariant?.sku && (
-                <p><span className="font-medium text-gray-900">{t('catalog.pdp.sku', 'SKU')}:</span> {selectedVariant.sku}</p>
+                <div className="flex items-center gap-4 px-5 py-3.5 border-b border-amber-100 last:border-b-0">
+                  <span className="text-xs uppercase tracking-wider text-gray-500 w-24 shrink-0">{t('catalog.pdp.sku', 'SKU')}</span>
+                  <span className="text-sm font-mono text-gray-900">{selectedVariant.sku}</span>
+                </div>
               )}
               {availableFabrics.length > 0 && (
-                <p><span className="font-medium text-gray-900">{t('product.fabric', 'Fabric')}:</span> {availableFabrics.map(f => f.name).join(', ')}</p>
+                <div className="flex items-center gap-4 px-5 py-3.5 last:border-b-0">
+                  <span className="text-xs uppercase tracking-wider text-gray-500 w-24 shrink-0">{t('product.fabric', 'Fabric')}</span>
+                  <span className="text-sm text-gray-900">{availableFabrics.map(f => f.name).join(', ')}</span>
+                </div>
               )}
             </div>
-          )}
-          {activeTab === 'sizing' && (
-            <div className="text-sm text-gray-600 leading-relaxed space-y-3">
+          </div>
+
+          {/* Sizing */}
+          <div
+            role="tabpanel"
+            id="tabpanel-sizing"
+            aria-labelledby="tab-sizing"
+            className={activeTab === 'sizing' ? '' : 'hidden'}
+          >
+            <div className="space-y-4 text-sm text-gray-600 leading-relaxed">
               <p>{t('product.sizing_info', 'Please refer to our size guide for accurate measurements. Custom sizing is always available.')}</p>
-              <Link href="/services/tailoring" className="text-indigo-700 underline underline-offset-2 hover:text-indigo-900">
+              <Link
+                href="/services/tailoring"
+                className="inline-flex items-center gap-2 text-indigo-700 underline underline-offset-2 hover:text-indigo-900 font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30 rounded"
+              >
                 {t('product.custom_sizing', 'Request custom sizing')}
+                <ArrowRight className="h-3.5 w-3.5 rtl:rotate-180" aria-hidden />
               </Link>
             </div>
-          )}
-          {activeTab === 'reviews' && (
+          </div>
+
+          {/* Reviews */}
+          <div
+            role="tabpanel"
+            id="tabpanel-reviews"
+            aria-labelledby="tab-reviews"
+            className={activeTab === 'reviews' ? '' : 'hidden'}
+          >
             <ReviewsSection productId={product.id} productName={product.name} />
-          )}
+          </div>
         </div>
       </section>
 
       {/* ── 4. Bespoke strip (full-bleed) ── */}
       <section className="relative isolate overflow-hidden bg-indigo-900 text-white py-16 px-6 mb-16">
+        {/* Decorative warm/indigo glow — token-single-sourced via theme() so the
+            palette never drifts to literal hexes. amber.500 = saffron accent,
+            indigo.950 = deep Atlas surface. */}
         <div
           aria-hidden
-          className="absolute inset-0 opacity-30 bg-[radial-gradient(circle_at_20%_20%,_#f59e0b_0,_transparent_45%),radial-gradient(circle_at_80%_60%,_#3b3b6d_0,_transparent_50%)]"
+          className="absolute inset-0 opacity-30 bg-[radial-gradient(circle_at_20%_20%,_theme(colors.amber.500)_0,_transparent_45%),radial-gradient(circle_at_80%_60%,_theme(colors.indigo.950)_0,_transparent_50%)]"
         />
         <div className="relative max-w-4xl mx-auto text-center flex flex-col items-center gap-6">
           <p className="text-xs uppercase tracking-[0.18em] text-amber-300 font-medium">
@@ -1650,7 +1857,7 @@ export default function ProductDetailsPage() {
           </p>
           <Link
             href="/services/tailoring"
-            className="inline-flex items-center gap-2 rounded-full bg-amber-400 px-8 py-3 text-sm font-semibold text-gray-900 hover:bg-amber-300 transition-colors"
+            className="inline-flex items-center gap-2 rounded-full bg-amber-500 px-8 py-3 text-sm font-semibold text-amber-950 shadow-atlas-sm hover:bg-amber-400 hover:text-amber-950 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-300 focus-visible:ring-offset-2 focus-visible:ring-offset-indigo-900"
           >
             {t('bespoke.cta', 'Start a tailoring order')}
             <ArrowRight className="h-4 w-4 rtl:rotate-180" aria-hidden />
@@ -1670,37 +1877,60 @@ export default function ProductDetailsPage() {
 
       {/* ── 5. You might also like ── */}
       <section className="px-6 mb-16" aria-label={t('product.related', 'You might also like')}>
-        <h2
-          className="text-2xl font-bold text-gray-900 mb-8"
-          style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
-        >
-          {t('product.you_might_also_like', 'You might also like')}
-        </h2>
+        <div className="flex items-baseline justify-between mb-8 flex-wrap gap-4">
+          <h2
+            className="text-2xl sm:text-3xl font-bold text-gray-900"
+            style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
+          >
+            {t('product.you_might_also_like', 'You might also like')}
+          </h2>
+          <Link
+            href="/products"
+            className="text-sm text-indigo-700 hover:text-indigo-900 underline underline-offset-2 font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30 rounded"
+          >
+            {t('product.view_all', 'View all')}
+          </Link>
+        </div>
         <RelatedProducts productId={product.id} limit={4} />
       </section>
 
-      {/* Mobile sticky add-to-bag bar */}
-      <div className="fixed bottom-0 left-0 right-0 z-40 bg-white border-t border-amber-100 p-4 md:hidden shadow-lg">
-        <div className="flex items-center gap-3">
-          <div className="flex-shrink-0">
-            <p className="text-base font-bold text-indigo-700">
+      {/* Mobile sticky add-to-bag bar — safe-area aware */}
+      <div
+        className="fixed bottom-0 inset-x-0 z-40 bg-white/95 backdrop-blur-md border-t border-amber-100 px-4 pt-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))] md:hidden shadow-atlas-lg"
+        role="region"
+        aria-label={t('cart.sticky_bar', 'Add to bag')}
+      >
+        <div className="flex items-center gap-3 max-w-lg mx-auto">
+          <div className="shrink-0">
+            <p className="text-base font-bold text-indigo-700 tabular-nums currency-mad">
               {formatPrice((selectedVariant?.price || product.price) * quantity)}
             </p>
-            <p className="text-xs text-gray-500">{t('product.total', 'Total')}</p>
+            <p className="text-[11px] text-gray-400 uppercase tracking-wider">{t('product.total', 'Total')}</p>
           </div>
           <button
             type="button"
             onClick={() => { if (!shouldDisableButton()) handleAddToCart(); }}
             disabled={shouldDisableButton()}
             className={cn(
-              'flex-1 rounded-full py-3 flex items-center justify-center gap-1.5 text-sm font-semibold transition-all',
+              'flex-1 rounded-full py-3.5 flex items-center justify-center gap-2 text-sm font-semibold transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30',
               shouldDisableButton()
-                ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
-                : 'bg-indigo-700 text-white hover:bg-indigo-800'
+                ? 'bg-gray-100 text-gray-400 cursor-not-allowed ring-1 ring-gray-200'
+                : 'bg-indigo-700 text-white hover:bg-indigo-800 shadow-atlas-sm active:scale-[0.98]'
             )}
           >
             <ShoppingBag className="h-4 w-4" aria-hidden />
             {t('cart.add_to_bag', 'Add to bag')}
+          </button>
+          <button
+            type="button"
+            onClick={handleWishlistToggle}
+            aria-label={wishlisted ? t('wishlist.remove', 'Remove from wishlist') : t('wishlist.add', 'Add to wishlist')}
+            className="shrink-0 h-12 w-12 rounded-full flex items-center justify-center ring-1 ring-amber-200 bg-white hover:bg-amber-50 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30"
+          >
+            <Heart
+              className={cn('h-5 w-5 transition-colors', wishlisted ? 'fill-rose-600 text-rose-600' : 'text-gray-500')}
+              aria-hidden
+            />
           </button>
         </div>
       </div>

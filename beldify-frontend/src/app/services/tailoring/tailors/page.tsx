@@ -78,13 +78,10 @@ export default function TailorsPage() {
   return (
     <div className="min-h-screen bg-white">
       {/* Atlas editorial hero strip */}
-      <div className="relative bg-indigo-900 overflow-hidden">
+      <div className="relative bg-indigo-950 overflow-hidden">
         <div
-          className="absolute inset-0 opacity-25"
-          style={{
-            backgroundImage:
-              'radial-gradient(circle at 15% 15%, #f59e0b 0, transparent 45%), radial-gradient(circle at 85% 60%, #6366f1 0, transparent 50%)',
-          }}
+          aria-hidden
+          className="absolute inset-0 opacity-25 bg-[radial-gradient(circle_at_15%_15%,_#f59e0b_0,_transparent_45%),radial-gradient(circle_at_85%_60%,_#6366f1_0,_transparent_50%)]"
         />
         <div className="relative mx-auto max-w-7xl px-6 py-16 sm:py-20 text-center">
           <p className="text-xs uppercase tracking-[0.18em] text-amber-400 font-medium mb-3">
@@ -104,7 +101,7 @@ export default function TailorsPage() {
 
       <div className="mx-auto max-w-7xl px-6 lg:px-8 py-12">
         {/* Filter / Search bar */}
-        <div className="mb-12 rounded-2xl ring-1 ring-amber-200/60 bg-white shadow-sm p-5">
+        <div className="mb-12 rounded-2xl ring-1 ring-amber-200/60 bg-white shadow-atlas-sm p-5">
           <div className="flex flex-col md:flex-row md:items-center gap-4">
             <div className="flex items-center gap-2 text-indigo-900 font-medium text-sm">
               <SlidersHorizontal className="h-4 w-4 text-amber-600" />
@@ -116,7 +113,7 @@ export default function TailorsPage() {
                   key={label}
                   className={`px-4 py-2 rounded-full text-sm font-medium transition ${
                     i === 0
-                      ? 'bg-indigo-700 text-white shadow-sm'
+                      ? 'bg-indigo-700 text-white shadow-atlas-sm'
                       : 'bg-white text-indigo-700 ring-1 ring-indigo-200 hover:ring-indigo-400'
                   }`}
                 >
@@ -124,12 +121,12 @@ export default function TailorsPage() {
                 </button>
               ))}
             </div>
-            <div className="relative md:ml-auto">
-              <Search className="h-4 w-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" />
+            <div className="relative md:ms-auto">
+              <Search className="h-4 w-4 text-gray-400 absolute start-3 top-1/2 -translate-y-1/2" />
               <input
                 type="text"
                 placeholder={t('content.tailors.searchPlaceholder', 'Search tailors...')}
-                className="pl-9 pr-4 py-2.5 rounded-full text-sm text-gray-800 bg-amber-50 ring-1 ring-amber-200 focus:ring-indigo-400 focus:outline-none w-full md:w-64"
+                className="ps-9 pe-4 py-2.5 rounded-full text-sm text-gray-800 bg-amber-50 ring-1 ring-amber-200 focus:ring-2 focus:ring-indigo-700/30 focus:border-indigo-700 focus:outline-none w-full md:w-64"
               />
             </div>
           </div>
@@ -154,7 +151,7 @@ export default function TailorsPage() {
               {featuredTailors.map((tailor) => (
                 <div
                   key={tailor.id}
-                  className="rounded-2xl ring-1 ring-amber-200/60 bg-white shadow-sm overflow-hidden transition hover:-translate-y-0.5 hover:shadow-md group flex flex-col md:flex-row"
+                  className="rounded-2xl ring-1 ring-amber-200/60 bg-white shadow-atlas-sm overflow-hidden transition hover:-translate-y-0.5 hover:shadow-atlas-md group flex flex-col md:flex-row"
                 >
                   <div className="md:w-2/5 relative overflow-hidden">
                     <Image
@@ -164,7 +161,7 @@ export default function TailorsPage() {
                       height={280}
                       className="w-full h-56 md:h-full object-cover transition-transform duration-500 group-hover:scale-105"
                     />
-                    <span className="absolute top-3 left-3 rounded-full bg-amber-500 text-white text-xs font-bold px-2.5 py-1">
+                    <span className="absolute top-3 start-3 rounded-full bg-amber-500 text-amber-950 text-xs font-bold px-2.5 py-1">
                       {t('content.tailors.featuredBadge', 'Featured')}
                     </span>
                   </div>
@@ -202,15 +199,16 @@ export default function TailorsPage() {
 
         {/* All Tailors */}
         <div>
-          <div className="flex items-center gap-3 mb-8">
-            <div className="h-px w-6 bg-amber-400" />
-            <h2
-              className="text-2xl font-bold text-indigo-900"
-              style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
-            >
-              {t('content.tailors.allTailors', 'All Expert Tailors')}
-            </h2>
-            <div className="h-px flex-grow bg-amber-100" />
+          <div className="mb-8">
+            <div className="flex items-baseline gap-3">
+              <h2
+                className="text-2xl font-bold text-indigo-950"
+                style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
+              >
+                {t('content.tailors.allTailors', 'All Expert Tailors')}
+              </h2>
+            </div>
+            <div className="mt-3 h-px w-full bg-amber-200/70" aria-hidden />
           </div>
 
           {tailors.length === 0 ? (
@@ -225,7 +223,7 @@ export default function TailorsPage() {
               {tailors.map((tailor) => (
                 <div
                   key={tailor.id}
-                  className="rounded-2xl ring-1 ring-amber-200/60 bg-white shadow-sm overflow-hidden transition hover:-translate-y-0.5 hover:shadow-md group flex flex-col"
+                  className="rounded-2xl ring-1 ring-amber-200/60 bg-white shadow-atlas-sm overflow-hidden transition hover:-translate-y-0.5 hover:shadow-atlas-md group flex flex-col"
                 >
                   <div className="relative overflow-hidden">
                     <Image
@@ -236,7 +234,7 @@ export default function TailorsPage() {
                       className="w-full h-56 object-cover transition-transform duration-500 group-hover:scale-105"
                     />
                     {tailor.featured && (
-                      <span className="absolute top-3 right-3 rounded-full bg-amber-500 text-white text-xs font-bold px-2.5 py-1">
+                      <span className="absolute top-3 end-3 rounded-full bg-amber-500 text-amber-950 text-xs font-bold px-2.5 py-1">
                         {t('content.tailors.featuredBadge', 'Featured')}
                       </span>
                     )}
@@ -244,7 +242,7 @@ export default function TailorsPage() {
                     <div className="absolute bottom-4 inset-x-0 flex justify-center opacity-0 translate-y-3 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
                       <Link
                         href={`/services/tailoring/tailors/${tailor.id}`}
-                        className="bg-white/90 backdrop-blur-sm text-indigo-700 text-sm font-semibold px-4 py-2 rounded-full shadow-md hover:bg-white transition"
+                        className="bg-white/90 backdrop-blur-sm text-indigo-700 text-sm font-semibold px-4 py-2 rounded-full shadow-atlas-md hover:bg-white transition"
                       >
                         {t('content.tailors.viewDetails', 'View Details')}
                       </Link>

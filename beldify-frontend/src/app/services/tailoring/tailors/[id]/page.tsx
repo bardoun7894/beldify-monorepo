@@ -136,32 +136,29 @@ const TailorDetailsPage = ({ params }: TailorDetailsPageProps) => {
   return (
     <div className="min-h-screen bg-white pb-20">
       {/* Atlas editorial hero strip */}
-      <div className="relative bg-indigo-900 overflow-hidden">
+      <div className="relative bg-indigo-950 overflow-hidden">
         <div
-          className="absolute inset-0 opacity-25"
-          style={{
-            backgroundImage:
-              'radial-gradient(circle at 15% 15%, #f59e0b 0, transparent 45%), radial-gradient(circle at 85% 60%, #6366f1 0, transparent 50%)',
-          }}
+          aria-hidden
+          className="absolute inset-0 opacity-25 bg-[radial-gradient(circle_at_15%_15%,_#f59e0b_0,_transparent_45%),radial-gradient(circle_at_85%_60%,_#6366f1_0,_transparent_50%)]"
         />
         <div className="relative mx-auto max-w-7xl px-6 py-14 sm:py-16">
           {/* Breadcrumbs */}
           <nav
             aria-label={t('content.tailorDetail.breadcrumbLabel', 'Breadcrumb')}
-            className="mb-6 text-sm text-indigo-300 flex flex-wrap items-center gap-1.5"
+            className="mb-6 text-sm text-indigo-200 flex flex-wrap items-center gap-1.5"
           >
             <Link href="/" className="hover:text-white transition-colors">
               {t('content.tailorDetail.breadcrumbHome', 'Home')}
             </Link>
-            <span className="text-indigo-500">/</span>
+            <span className="text-indigo-400" aria-hidden>/</span>
             <Link href="/services/tailoring" className="hover:text-white transition-colors">
               {t('content.tailorDetail.breadcrumbTailoring', 'Tailoring')}
             </Link>
-            <span className="text-indigo-500">/</span>
+            <span className="text-indigo-400" aria-hidden>/</span>
             <Link href="/services/tailoring/tailors" className="hover:text-white transition-colors">
               {t('content.tailorDetail.breadcrumbTailors', 'Tailors')}
             </Link>
-            <span className="text-indigo-500">/</span>
+            <span className="text-indigo-400" aria-hidden>/</span>
             <span className="text-white font-medium">{tailor.name}</span>
           </nav>
 
@@ -180,7 +177,7 @@ const TailorDetailsPage = ({ params }: TailorDetailsPageProps) => {
                 <div className="flex items-center gap-2 bg-white/10 backdrop-blur-sm px-3 py-1.5 rounded-full">
                   <StarRating rating={tailor.rating} size="md" />
                   <span className="text-white font-semibold text-sm">{tailor.rating.toFixed(1)}</span>
-                  <span className="text-indigo-300 text-sm">
+                  <span className="text-indigo-200 text-sm">
                     ({tailor.reviews} {t('content.tailorDetail.reviews', 'reviews')})
                   </span>
                 </div>
@@ -200,7 +197,7 @@ const TailorDetailsPage = ({ params }: TailorDetailsPageProps) => {
           {/* Left column */}
           <div className="lg:col-span-2 space-y-8">
             {/* About */}
-            <div className="rounded-2xl ring-1 ring-amber-200/60 bg-white shadow-sm overflow-hidden">
+            <div className="rounded-2xl ring-1 ring-amber-200/60 bg-white shadow-atlas-sm overflow-hidden">
               <div className="p-6 md:p-8">
                 <h2
                   className="text-2xl font-bold text-indigo-900 mb-5 flex items-center gap-2"
@@ -218,7 +215,7 @@ const TailorDetailsPage = ({ params }: TailorDetailsPageProps) => {
                       href={tailor.social.instagram}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 rounded-full bg-gradient-to-br from-purple-600 to-pink-500 text-white px-4 py-1.5 text-xs font-semibold hover:opacity-90 transition"
+                      className="inline-flex items-center gap-1.5 rounded-full bg-amber-50 text-amber-800 ring-1 ring-amber-200 px-4 py-1.5 text-xs font-semibold hover:bg-amber-100 transition"
                       aria-label={t('content.tailorDetail.instagram', 'Instagram')}
                     >
                       {t('content.tailorDetail.instagram', 'Instagram')}
@@ -230,7 +227,7 @@ const TailorDetailsPage = ({ params }: TailorDetailsPageProps) => {
                       href={tailor.social.facebook}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 rounded-full bg-blue-600 text-white px-4 py-1.5 text-xs font-semibold hover:opacity-90 transition"
+                      className="inline-flex items-center gap-1.5 rounded-full bg-indigo-50 text-indigo-700 ring-1 ring-indigo-200/60 px-4 py-1.5 text-xs font-semibold hover:bg-indigo-100 transition"
                       aria-label={t('content.tailorDetail.facebook', 'Facebook')}
                     >
                       {t('content.tailorDetail.facebook', 'Facebook')}
@@ -311,7 +308,7 @@ const TailorDetailsPage = ({ params }: TailorDetailsPageProps) => {
             </div>
 
             {/* Services */}
-            <div className="rounded-2xl ring-1 ring-amber-200/60 bg-white shadow-sm overflow-hidden">
+            <div className="rounded-2xl ring-1 ring-amber-200/60 bg-white shadow-atlas-sm overflow-hidden">
               <div className="p-6 md:p-8">
                 <h2
                   className="text-2xl font-bold text-indigo-900 mb-6 flex items-center gap-2"
@@ -324,13 +321,13 @@ const TailorDetailsPage = ({ params }: TailorDetailsPageProps) => {
                   <table className="min-w-full divide-y divide-amber-100">
                     <thead className="bg-amber-50/50">
                       <tr>
-                        <th className="px-6 py-4 text-left text-xs font-semibold text-indigo-900 uppercase tracking-wide">
+                        <th className="px-6 py-4 text-start text-xs font-semibold text-indigo-900 uppercase tracking-wide">
                           {t('content.tailorDetail.tableService', 'Service')}
                         </th>
-                        <th className="px-6 py-4 text-left text-xs font-semibold text-indigo-900 uppercase tracking-wide">
+                        <th className="px-6 py-4 text-start text-xs font-semibold text-indigo-900 uppercase tracking-wide">
                           {t('content.tailorDetail.tablePriceRange', 'Price Range')}
                         </th>
-                        <th className="px-6 py-4 text-left text-xs font-semibold text-indigo-900 uppercase tracking-wide">
+                        <th className="px-6 py-4 text-start text-xs font-semibold text-indigo-900 uppercase tracking-wide">
                           {t('content.tailorDetail.tableEstTime', 'Estimated Time')}
                         </th>
                       </tr>
@@ -339,7 +336,9 @@ const TailorDetailsPage = ({ params }: TailorDetailsPageProps) => {
                       {services.map((service) => (
                         <tr key={service.id} className="transition hover:bg-amber-50/30">
                           <td className="px-6 py-4 text-sm font-medium text-indigo-900">{service.name}</td>
-                          <td className="px-6 py-4 text-sm text-gray-700">{service.price}</td>
+                          <td className="px-6 py-4 text-sm text-gray-700">
+                            <span className="currency-mad">{service.price}</span>
+                          </td>
                           <td className="px-6 py-4">
                             <span className="inline-flex items-center rounded-full bg-indigo-50 px-3 py-1 text-xs font-semibold text-indigo-700 ring-1 ring-indigo-200/60">
                               {service.duration}
@@ -354,7 +353,7 @@ const TailorDetailsPage = ({ params }: TailorDetailsPageProps) => {
             </div>
 
             {/* Portfolio */}
-            <div className="rounded-2xl ring-1 ring-amber-200/60 bg-white shadow-sm overflow-hidden">
+            <div className="rounded-2xl ring-1 ring-amber-200/60 bg-white shadow-atlas-sm overflow-hidden">
               <div className="p-6 md:p-8">
                 <h2
                   className="text-2xl font-bold text-indigo-900 mb-6 flex items-center gap-2"
@@ -385,7 +384,7 @@ const TailorDetailsPage = ({ params }: TailorDetailsPageProps) => {
             </div>
 
             {/* Reviews */}
-            <div className="rounded-2xl ring-1 ring-amber-200/60 bg-white shadow-sm overflow-hidden">
+            <div className="rounded-2xl ring-1 ring-amber-200/60 bg-white shadow-atlas-sm overflow-hidden">
               <div className="p-6 md:p-8">
                 <h2
                   className="text-2xl font-bold text-indigo-900 mb-6 flex items-center gap-2"
@@ -424,7 +423,7 @@ const TailorDetailsPage = ({ params }: TailorDetailsPageProps) => {
 
           {/* Sidebar */}
           <div className="lg:col-span-1">
-            <div className="rounded-2xl ring-1 ring-amber-200/60 bg-white shadow-sm overflow-hidden sticky top-8">
+            <div className="rounded-2xl ring-1 ring-amber-200/60 bg-white shadow-atlas-sm overflow-hidden sticky top-8">
               <div className="p-6">
                 <h2 className="text-lg font-bold text-indigo-900 mb-5 pb-4 border-b border-amber-100">
                   {t('content.tailorDetail.contactInformation', 'Contact Information')}
@@ -609,10 +608,10 @@ const TailorDetailsPage = ({ params }: TailorDetailsPageProps) => {
       </div>
 
       {/* Mobile floating actions */}
-      <div className="lg:hidden fixed bottom-6 right-6 z-50 flex flex-col gap-3">
+      <div className="lg:hidden fixed bottom-6 end-6 z-50 flex flex-col gap-3">
         <a
           href={`tel:${tailor.phone}`}
-          className="p-3.5 bg-indigo-700 text-white rounded-full shadow-lg hover:bg-indigo-800 transition-colors"
+          className="p-3.5 bg-indigo-700 text-white rounded-full shadow-atlas-lg hover:bg-indigo-800 transition-colors"
           aria-label={t('content.tailorDetail.mobileCallLabel', 'Call')}
         >
           <Phone className="h-5 w-5" />
@@ -621,7 +620,7 @@ const TailorDetailsPage = ({ params }: TailorDetailsPageProps) => {
           href={`https://wa.me/${tailor.phone.replace(/[^0-9]/g, '')}`}
           target="_blank"
           rel="noopener noreferrer"
-          className="p-3.5 bg-green-600 text-white rounded-full shadow-lg hover:bg-green-700 transition-colors"
+          className="p-3.5 bg-green-600 text-white rounded-full shadow-atlas-lg hover:bg-green-700 transition-colors"
           aria-label={t('content.tailorDetail.mobileWhatsAppLabel', 'WhatsApp')}
         >
           <svg className="h-5 w-5 fill-current" viewBox="0 0 24 24" aria-hidden="true">
@@ -629,7 +628,7 @@ const TailorDetailsPage = ({ params }: TailorDetailsPageProps) => {
           </svg>
         </a>
         <button
-          className="p-3.5 bg-amber-500 text-white rounded-full shadow-lg hover:bg-amber-600 transition-colors"
+          className="p-3.5 bg-amber-500 text-amber-950 rounded-full shadow-atlas-lg hover:bg-amber-600 transition-colors"
           aria-label={t('content.tailorDetail.mobileBookLabel', 'Book Appointment')}
         >
           <Calendar className="h-5 w-5" />

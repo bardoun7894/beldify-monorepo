@@ -10,7 +10,6 @@ export default function SellersPage() {
   const steps = [
     {
       icon: ClipboardCheck,
-      step: '01',
       title: t('sellers.steps.apply.title', 'Apply'),
       body: t(
         'sellers.steps.apply.body',
@@ -19,7 +18,6 @@ export default function SellersPage() {
     },
     {
       icon: BadgeCheck,
-      step: '02',
       title: t('sellers.steps.verify.title', 'Get verified'),
       body: t(
         'sellers.steps.verify.body',
@@ -28,7 +26,6 @@ export default function SellersPage() {
     },
     {
       icon: ShoppingBag,
-      step: '03',
       title: t('sellers.steps.sell.title', 'Start selling'),
       body: t(
         'sellers.steps.sell.body',
@@ -39,168 +36,233 @@ export default function SellersPage() {
 
   return (
     <main className="min-h-screen bg-amber-50/40 text-gray-900">
-      {/* Editorial hero strip — DESIGN.md §6.4 */}
-      <section className="relative isolate overflow-hidden bg-indigo-900 text-white">
+      {/* Hero — generous, asymmetric, no eyebrow */}
+      <section className="relative isolate overflow-hidden bg-indigo-950">
+        {/* Subtle decorative wash — not glassmorphism, not gradient-clip text */}
         <div
           aria-hidden
-          className="absolute inset-0 opacity-25 bg-[radial-gradient(circle_at_15%_15%,_#f59e0b_0,_transparent_45%),radial-gradient(circle_at_85%_60%,_#6366f1_0,_transparent_50%)]"
+          className="pointer-events-none absolute inset-0"
+          style={{
+            background:
+              'radial-gradient(ellipse 70% 60% at 8% 80%, hsl(38 92% 50% / 0.18) 0%, transparent 65%), radial-gradient(ellipse 55% 50% at 92% 10%, hsl(243 75% 51% / 0.25) 0%, transparent 60%)',
+          }}
         />
-        <div className="relative mx-auto max-w-7xl px-6 py-16 lg:py-24">
-          <p className="text-xs sm:text-sm uppercase tracking-[0.18em] text-amber-300 font-medium">
-            {t('sellers.eyebrow', 'SELL ON BELDIFY')}
-          </p>
-          <h1
-            className="mt-3 text-5xl sm:text-6xl lg:text-7xl font-bold leading-[1.05] tracking-tight"
-            style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
-          >
-            {t('sellers.headline', 'Bring your atelier')}
-            <span className="block text-amber-300">
-              {t('sellers.headlineLine2', 'to the world.')}
-            </span>
-          </h1>
-          <p className="mt-5 text-indigo-100 max-w-xl text-base sm:text-lg leading-relaxed">
-            {t(
-              'sellers.sub',
-              'Beldify connects Moroccan ateliers with buyers across 23 cities. Join 120+ verified sellers already growing their business on our platform.'
-            )}
-          </p>
-          <Link
-            href="/seller/register"
-            className="mt-8 inline-flex items-center gap-2 rounded-full bg-amber-400 px-6 py-3 text-sm font-semibold text-gray-900 transition hover:bg-amber-300"
-          >
-            {t('sellers.cta.apply', 'Apply to sell')}
-          </Link>
+
+        <div className="relative mx-auto max-w-7xl px-6 pb-20 pt-20 lg:grid lg:grid-cols-12 lg:gap-x-12 lg:pt-28 lg:pb-28">
+          {/* Left: editorial headline block */}
+          <div className="lg:col-span-7">
+            <h1
+              className="text-5xl sm:text-6xl lg:text-7xl font-bold leading-[1.05] tracking-tight text-white"
+              style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
+            >
+              {t('sellers.headline', 'Bring your atelier')}
+              <span className="block mt-1 text-amber-300">
+                {t('sellers.headlineLine2', 'to the world.')}
+              </span>
+            </h1>
+            <p className="mt-6 max-w-lg text-base sm:text-lg text-indigo-200 leading-relaxed">
+              {t(
+                'sellers.sub',
+                'Beldify connects Moroccan ateliers with buyers across 23 cities. Join 120+ verified sellers already growing their business on our platform.'
+              )}
+            </p>
+            <div className="mt-10 flex flex-wrap gap-4">
+              <Link
+                href="/seller/register"
+                className="inline-flex items-center gap-2 rounded-full bg-amber-500 px-7 py-3.5 text-sm font-bold text-amber-950 shadow-atlas-sm transition hover:bg-amber-400 focus-visible:ring-2 focus-visible:ring-amber-500 focus-visible:ring-offset-2 focus-visible:ring-offset-indigo-950"
+              >
+                {t('sellers.cta.apply', 'Apply to sell')}
+              </Link>
+              <Link
+                href="/shops"
+                className="inline-flex items-center gap-2 rounded-full bg-white/10 px-7 py-3.5 text-sm font-semibold text-white ring-1 ring-white/20 transition hover:bg-white/20 focus-visible:ring-2 focus-visible:ring-white/60"
+              >
+                {t('sellers.cta.browse', 'Browse sellers')}
+              </Link>
+            </div>
+          </div>
+
+          {/* Right desktop: one editorial pull-stat + supporting lines —
+              deliberately NOT a 3-card metric stack (breaks the template feel) */}
+          <div className="hidden lg:col-span-5 lg:flex lg:flex-col lg:justify-center lg:ps-8">
+            <div className="rounded-2xl bg-white/8 ring-1 ring-white/12 px-8 py-8 backdrop-blur-sm">
+              {/* Feature stat — large, leads the eye */}
+              <p
+                className="text-6xl font-bold leading-none text-amber-300"
+                style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
+              >
+                120+
+              </p>
+              <p className="mt-2 text-base text-indigo-100">
+                {t('sellers.stat1', 'Verified ateliers already on the platform')}
+              </p>
+
+              {/* Supporting lines — quieter, no card chrome */}
+              <dl className="mt-7 space-y-3 border-t border-white/12 pt-6">
+                <div className="flex items-baseline justify-between gap-4">
+                  <dt className="text-sm text-indigo-200">{t('sellers.stat2', 'Cities reached worldwide')}</dt>
+                  <dd
+                    className="text-xl font-bold text-white"
+                    style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
+                  >
+                    23
+                  </dd>
+                </div>
+                <div className="flex items-baseline justify-between gap-4">
+                  <dt className="text-sm text-indigo-200">{t('sellers.stat3', 'Commission — only when you sell')}</dt>
+                  <dd
+                    className="text-xl font-bold text-white"
+                    style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
+                  >
+                    10–15%
+                  </dd>
+                </div>
+              </dl>
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* 3-step explainer */}
-      <section className="mx-auto max-w-7xl px-6 py-16">
-        <div className="mb-10 text-center">
-          <p className="text-xs uppercase tracking-[0.18em] text-amber-700 font-medium">
-            {t('sellers.howItWorks.eyebrow', 'HOW IT WORKS')}
-          </p>
-          <h2
-            className="mt-2 text-3xl sm:text-4xl font-bold text-gray-900"
-            style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
-          >
-            {t('sellers.howItWorks.title', 'Three simple steps')}
-          </h2>
-        </div>
+      {/* How it works — 3-step, but without the 01/02/03 numbering scaffolding */}
+      <section className="mx-auto max-w-7xl px-6 py-20">
+        <h2
+          className="text-3xl sm:text-4xl font-bold text-gray-900"
+          style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
+        >
+          {t('sellers.howItWorks.title', 'Three steps to launch')}
+        </h2>
+        <p className="mt-3 text-gray-600 max-w-xl">
+          {t('sellers.howItWorks.sub', 'From first application to your first sale, we guide you through every step.')}
+        </p>
 
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-          {steps.map(({ icon: Icon, step, title, body }) => (
+        {/* Asymmetric desktop layout — not a uniform 3-col grid */}
+        <div className="mt-12 grid grid-cols-1 gap-8 lg:grid-cols-3 lg:gap-6">
+          {steps.map(({ icon: Icon, title, body }, idx) => (
             <div
-              key={step}
-              className="rounded-2xl bg-white ring-1 ring-amber-200/60 shadow-sm px-6 py-7 flex flex-col gap-4 transition hover:-translate-y-0.5 hover:shadow-md"
+              key={title}
+              className={`group rounded-2xl bg-white ring-1 ring-amber-200/60 shadow-atlas-sm px-7 py-8 flex flex-col gap-5 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-atlas-md ${
+                idx === 1 ? 'lg:mt-8' : idx === 2 ? 'lg:mt-4' : ''
+              }`}
             >
-              <div className="flex items-center gap-3">
-                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-amber-100 ring-1 ring-amber-200 text-amber-700">
-                  <Icon className="h-5 w-5" strokeWidth={1.8} />
-                </span>
-                <span
-                  className="text-3xl font-bold text-amber-500 leading-none"
+              <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-indigo-50 ring-1 ring-indigo-100">
+                <Icon className="h-6 w-6 text-indigo-700" strokeWidth={1.6} aria-hidden="true" />
+              </span>
+              <div>
+                <h3
+                  className="text-xl font-bold text-gray-900"
                   style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
                 >
-                  {step}
-                </span>
+                  {title}
+                </h3>
+                <p className="mt-3 text-sm leading-relaxed text-gray-600">{body}</p>
               </div>
-              <h3
-                className="text-xl font-bold text-gray-900"
-                style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
-              >
-                {title}
-              </h3>
-              <p className="text-sm leading-relaxed text-gray-600">{body}</p>
             </div>
           ))}
         </div>
       </section>
 
-      {/* Commission strip */}
-      <section className="bg-amber-50 border-y border-amber-200/60">
-        <div className="mx-auto max-w-7xl px-6 py-10 flex flex-col sm:flex-row items-center justify-between gap-6">
+      {/* Transparent fees — horizontal split, no side-stripe */}
+      <section className="bg-white border-y border-amber-200/60">
+        <div className="mx-auto max-w-7xl px-6 py-14 grid gap-8 sm:grid-cols-2 sm:items-center">
           <div>
-            <p className="text-xs uppercase tracking-[0.18em] text-amber-700 font-medium">
-              {t('sellers.commission.eyebrow', 'TRANSPARENT FEES')}
-            </p>
             <h3
-              className="mt-1 text-2xl sm:text-3xl font-bold text-gray-900"
+              className="text-2xl sm:text-3xl font-bold text-gray-900"
               style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
             >
-              {t('sellers.commission.headline', '10–15 % commission. Nothing else.')}
+              {t('sellers.commission.headline', '10–15% commission. Nothing else.')}
             </h3>
-            <p className="mt-2 text-sm text-gray-600 max-w-lg">
+            <p className="mt-3 text-sm text-gray-600 max-w-lg">
               {t(
                 'sellers.commission.body',
                 'No setup fee. No monthly subscription. No listing fee. You only pay Beldify when you make a sale — and we publish the exact rates by category on our seller help page.'
               )}
             </p>
           </div>
-          <Link
-            href="/seller/register"
-            className="shrink-0 inline-flex items-center gap-2 rounded-full bg-indigo-700 px-6 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-800"
-          >
-            {t('sellers.commission.cta', 'Apply to sell')}
-          </Link>
-        </div>
-      </section>
-
-      {/* Testimonial quote block */}
-      <section className="mx-auto max-w-7xl px-6 py-16">
-        <div className="rounded-2xl bg-indigo-50 border border-indigo-100 px-8 py-10">
-          <p className="text-xs uppercase tracking-[0.18em] text-indigo-400 font-medium mb-6">
-            {t('sellers.testimonial.eyebrow', 'FROM OUR SELLERS')}
-          </p>
-          <div className="space-y-8">
-            {[
-              {
-                quote: t(
-                  'sellers.testimonial.1.quote',
-                  '"Joining Beldify transformed my small workshop into a thriving business. I now sell my hand-embroidered caftans to customers across Europe and the Middle East."'
-                ),
-                author: t('sellers.testimonial.1.author', 'Fatima Zahra'),
-                role: t('sellers.testimonial.1.role', 'Caftan designer, Fez'),
-              },
-              {
-                quote: t(
-                  'sellers.testimonial.2.quote',
-                  '"The support from the Beldify team has been exceptional. They helped me improve my product photography and descriptions — my sales doubled in the first month."'
-                ),
-                author: t('sellers.testimonial.2.author', 'Kamal Idrissi'),
-                role: t('sellers.testimonial.2.role', 'Traditional jewellery maker, Tangier'),
-              },
-            ].map(({ quote, author, role }) => (
-              <blockquote key={author} className="border-l-4 border-amber-400 pl-5">
-                <p
-                  className="text-lg sm:text-xl font-medium text-gray-900 italic leading-snug"
-                  style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
-                >
-                  {quote}
-                </p>
-                <footer className="mt-3 text-sm text-indigo-700 font-semibold">
-                  {author}
-                  <span className="ml-2 font-normal text-gray-500">{role}</span>
-                </footer>
-              </blockquote>
-            ))}
+          <div className="sm:text-end">
+            <Link
+              href="/seller/register"
+              className="inline-flex items-center gap-2 rounded-full bg-indigo-700 px-7 py-3.5 text-sm font-semibold text-white shadow-atlas-sm transition hover:bg-indigo-800 focus-visible:ring-2 focus-visible:ring-indigo-700 focus-visible:ring-offset-2"
+            >
+              {t('sellers.commission.cta', 'Apply to sell')}
+            </Link>
           </div>
         </div>
       </section>
 
-      {/* Final CTA */}
-      <section className="relative isolate overflow-hidden bg-indigo-900 text-white">
+      {/* Seller voices — no side-stripe blockquote */}
+      <section className="mx-auto max-w-7xl px-6 py-20">
+        <h2
+          className="text-3xl sm:text-4xl font-bold text-gray-900"
+          style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
+        >
+          {t('sellers.testimonial.heading', 'Sellers speak for themselves')}
+        </h2>
+
+        <div className="mt-10 grid gap-6 md:grid-cols-2">
+          {[
+            {
+              quote: t(
+                'sellers.testimonial.1.quote',
+                'Joining Beldify transformed my small workshop into a thriving business. I now sell my hand-embroidered caftans to customers across Europe and the Middle East.'
+              ),
+              author: t('sellers.testimonial.1.author', 'Fatima Zahra'),
+              role: t('sellers.testimonial.1.role', 'Caftan designer, Fez'),
+            },
+            {
+              quote: t(
+                'sellers.testimonial.2.quote',
+                'The support from the Beldify team has been exceptional. They helped me improve my product photography and descriptions — my sales doubled in the first month.'
+              ),
+              author: t('sellers.testimonial.2.author', 'Kamal Idrissi'),
+              role: t('sellers.testimonial.2.role', 'Traditional jewellery maker, Tangier'),
+            },
+          ].map(({ quote, author, role }) => (
+            <figure
+              key={author}
+              className="rounded-2xl bg-indigo-50 ring-1 ring-indigo-100 px-8 py-8"
+            >
+              <blockquote>
+                <p
+                  className="text-lg sm:text-xl font-medium text-gray-900 leading-snug"
+                  style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
+                >
+                  &ldquo;{quote}&rdquo;
+                </p>
+              </blockquote>
+              <figcaption className="mt-5 flex items-center gap-3">
+                <div className="h-9 w-9 rounded-full bg-indigo-200 flex items-center justify-center shrink-0">
+                  <span className="text-sm font-bold text-indigo-700" aria-hidden="true">
+                    {author.charAt(0)}
+                  </span>
+                </div>
+                <div>
+                  <p className="text-sm font-semibold text-indigo-700">{author}</p>
+                  <p className="text-xs text-gray-500">{role}</p>
+                </div>
+              </figcaption>
+            </figure>
+          ))}
+        </div>
+      </section>
+
+      {/* Final CTA strip */}
+      <section className="relative isolate overflow-hidden bg-indigo-950">
         <div
           aria-hidden
-          className="absolute inset-0 opacity-25 bg-[radial-gradient(circle_at_20%_20%,_#f59e0b_0,_transparent_45%),radial-gradient(circle_at_80%_60%,_#6366f1_0,_transparent_50%)]"
+          className="pointer-events-none absolute inset-0"
+          style={{
+            background:
+              'radial-gradient(ellipse 60% 70% at 85% 50%, hsl(38 92% 50% / 0.15) 0%, transparent 60%)',
+          }}
         />
-        <div className="relative mx-auto max-w-7xl px-6 py-16 text-center">
+        <div className="relative mx-auto max-w-7xl px-6 py-20 text-center">
           <h2
-            className="text-3xl sm:text-4xl font-bold"
+            className="text-3xl sm:text-4xl font-bold text-white"
             style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
           >
             {t('sellers.finalCta.headline', 'Ready to grow your atelier?')}
           </h2>
-          <p className="mt-4 text-indigo-100 max-w-md mx-auto">
+          <p className="mt-4 text-indigo-200 max-w-md mx-auto text-sm sm:text-base">
             {t(
               'sellers.finalCta.sub',
               'Applications are reviewed within 3–5 days. Join 120+ verified sellers and start reaching buyers worldwide.'
@@ -208,7 +270,7 @@ export default function SellersPage() {
           </p>
           <Link
             href="/seller/register"
-            className="mt-8 inline-flex items-center gap-2 rounded-full bg-amber-400 px-8 py-3 text-sm font-semibold text-gray-900 transition hover:bg-amber-300"
+            className="mt-10 inline-flex items-center gap-2 rounded-full bg-amber-500 px-9 py-4 text-sm font-bold text-amber-950 shadow-atlas-md transition hover:bg-amber-400 focus-visible:ring-2 focus-visible:ring-amber-500 focus-visible:ring-offset-2 focus-visible:ring-offset-indigo-950"
           >
             {t('sellers.finalCta.cta', 'Apply to sell')}
           </Link>

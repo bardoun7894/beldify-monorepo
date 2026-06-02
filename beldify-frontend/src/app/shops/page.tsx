@@ -5,7 +5,6 @@ import { useTranslation } from 'react-i18next';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { shopService } from '@/services/shopService';
 import type { Shop } from '@/lib/types/shop';
-import { Loading } from '@/components/ui/loading';
 import ShopCard from '@/components/shops/ShopCard';
 import ShopFilters from '@/components/shops/ShopFilters';
 import ShopSort from '@/components/shops/ShopSort';
@@ -21,6 +20,29 @@ interface PaginationData {
   last_page: number;
   per_page: number;
   total: number;
+}
+
+// ─── Skeleton Grid ────────────────────────────────────────────────────────────
+function ShopGridSkeleton() {
+  return (
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+      {Array.from({ length: 8 }).map((_, i) => (
+        <div
+          key={i}
+          className="rounded-2xl ring-1 ring-amber-200 bg-white overflow-hidden animate-pulse"
+          aria-hidden="true"
+        >
+          {/* Square cover — mirrors ShopCard's pt-[100%] image to avoid CLS */}
+          <div className="aspect-square bg-amber-100/70" />
+          {/* Footer block — title + meta lines */}
+          <div className="p-4 space-y-2.5">
+            <div className="h-4 w-2/3 rounded bg-amber-100/70" />
+            <div className="h-3 w-1/2 rounded bg-amber-100/60" />
+          </div>
+        </div>
+      ))}
+    </div>
+  );
 }
 
 export default function ShopsPage() {
@@ -100,76 +122,94 @@ export default function ShopsPage() {
     router.push(`/shops?${params.toString()}`);
   };
 
-  if (loading) return <Loading />;
-
   if (error) {
     return (
-      <div className="text-center py-12">
-        <h2 className="text-lg font-medium text-gray-900">{t('shops.error.title')}</h2>
-        <p className="mt-2 text-sm text-gray-500">{error}</p>
-        <Button onClick={fetchShops} className="mt-4">
-          {t('common.actions.tryAgain')}
-        </Button>
+      <div className="min-h-screen flex flex-col items-center justify-center bg-amber-50/40 gap-5 px-6">
+        <div className="rounded-2xl bg-white ring-1 ring-rose-200 shadow-atlas-sm px-10 py-10 flex flex-col items-center gap-4 max-w-sm w-full text-center">
+          <div className="h-14 w-14 rounded-full bg-rose-50 ring-1 ring-rose-200 flex items-center justify-center">
+            <ShoppingBagIcon className="h-7 w-7 text-rose-700" aria-hidden="true" />
+          </div>
+          <h2
+            className="text-xl font-bold text-gray-900"
+            style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
+          >
+            {t('shops.error.title', 'Something went wrong')}
+          </h2>
+          <p className="text-sm text-gray-600">{error}</p>
+          <Button onClick={fetchShops} className="rounded-full bg-indigo-700 hover:bg-indigo-800 text-white px-6">
+            {t('common.actions.tryAgain', 'Try again')}
+          </Button>
+        </div>
       </div>
     );
   }
 
   return (
     <div className="min-h-screen bg-amber-50/40 pb-16">
-      {/* Editorial hero — matches homepage Stitch palette */}
-      <section className="relative isolate overflow-hidden bg-indigo-900 text-white">
+      {/* Editorial hero — indigo-950 surface, no eyebrow kicker */}
+      <section className="relative isolate overflow-hidden bg-indigo-950">
         <div
           aria-hidden
-          className="absolute inset-0 opacity-25 bg-[radial-gradient(circle_at_15%_15%,_#f59e0b_0,_transparent_45%),radial-gradient(circle_at_85%_60%,_#6366f1_0,_transparent_50%)]"
+          className="pointer-events-none absolute inset-0"
+          style={{
+            background:
+              'radial-gradient(ellipse 60% 55% at 5% 85%, hsl(38 92% 50% / 0.16) 0%, transparent 60%), radial-gradient(ellipse 50% 45% at 90% 15%, hsl(243 75% 51% / 0.20) 0%, transparent 55%)',
+          }}
         />
         <div className="relative mx-auto max-w-7xl px-6 py-14 lg:py-20">
-          <p className="text-xs sm:text-sm uppercase tracking-[0.18em] text-amber-300 font-medium">{t('shops.list.eyebrow', 'Marketplace')}</p>
           <h1
-            className="mt-2 text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight"
+            className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight text-white"
             style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
           >
             {t('shops.list.headline', 'Hand-picked ateliers.')}
           </h1>
-          <p className="mt-4 text-indigo-100 max-w-lg text-base sm:text-lg">
-            Browse verified Moroccan sellers and tailors across Fez, Marrakech, Casablanca and Tetouan — every one is curated by the Beldify team.
+          <p className="mt-4 text-indigo-200 max-w-lg text-base sm:text-lg">
+            {t(
+              'shops.list.sub',
+              'Browse verified Moroccan sellers and tailors across Fez, Marrakech, Casablanca and Tetouan — every one curated by the Beldify team.'
+            )}
           </p>
         </div>
       </section>
 
-      {/* Header Section */}
-      <div className="bg-white border-b border-amber-200/60 sticky top-0 z-30">
+      {/* Sticky search + filter bar */}
+      <div className="bg-white border-b border-amber-200/60 sticky top-16 z-30 shadow-atlas-sm">
         <div className="max-w-7xl mx-auto">
-          {/* Title and Search Bar */}
-          <div className="px-4 py-4 sm:px-6 lg:px-8">
-            <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-              <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-indigo-900">
-                {t('shops.title')}
-              </h1>
+          {/* Search row */}
+          <div className="px-4 py-3 sm:px-6 lg:px-8">
+            <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+              <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-indigo-900">
+                {t('shops.title', 'Sellers')}
+              </h2>
 
-              {/* Search Bar */}
               <form onSubmit={handleSearch} className="flex w-full md:w-auto">
                 <div className="relative flex-1 md:w-80">
-                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <MagnifyingGlassIcon className="h-5 w-5 text-gray-400" />
+                  <div className="absolute inset-y-0 start-0 ps-3 flex items-center pointer-events-none">
+                    <MagnifyingGlassIcon className="h-4 w-4 text-gray-400" aria-hidden="true" />
                   </div>
                   <Input
                     ref={searchInputRef}
                     type="search"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    placeholder={t('shops.search.placeholder')}
-                    className="pl-10 w-full text-sm sm:text-base"
+                    placeholder={t('shops.search.placeholder', 'Search sellers...')}
+                    className="ps-9 w-full text-sm"
+                    aria-label={t('shops.search.label', 'Search sellers')}
                   />
                 </div>
-                <Button type="submit" className="ml-2 bg-indigo-700 hover:bg-indigo-800 text-white px-3 sm:px-4 py-2 rounded-lg text-sm sm:text-base">
-                  <span className="hidden sm:inline">{t('common.actions.search')}</span>
-                  <MagnifyingGlassIcon className="h-4 w-4 sm:hidden" />
+                <Button
+                  type="submit"
+                  className="ms-2 bg-indigo-700 hover:bg-indigo-800 text-white px-3 sm:px-4 py-2 rounded-full text-sm"
+                  aria-label={t('common.actions.search', 'Search')}
+                >
+                  <span className="hidden sm:inline">{t('common.actions.search', 'Search')}</span>
+                  <MagnifyingGlassIcon className="h-4 w-4 sm:hidden" aria-hidden="true" />
                 </Button>
               </form>
             </div>
           </div>
 
-          {/* Filter Bar - Mobile Scroll */}
+          {/* Filter / sort bar */}
           <div className="md:border-t md:border-amber-200/60">
             <div className="flex items-center justify-between gap-4">
               <div className="flex-1">
@@ -180,93 +220,118 @@ export default function ShopsPage() {
                 />
               </div>
               <div className="hidden md:block px-4">
-                <ShopSort value={currentSort} onChange={handleSortChange} />
+                <ShopSort value={currentSort as SortOption} onChange={handleSortChange} />
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Main Content */}
+      {/* Main content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Mobile Sort - Shown only on mobile */}
+        {/* Mobile sort */}
         <div className="mb-4 md:hidden">
-          <ShopSort value={currentSort} onChange={handleSortChange} />
+          <ShopSort value={currentSort as SortOption} onChange={handleSortChange} />
         </div>
 
-        {/* Shop Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
-          {shops.map((shop) => (
-            <ShopCard key={shop.id} shop={shop} />
-          ))}
-        </div>
-
-        {/* Empty State */}
-        {shops.length === 0 && (
-          <div className="text-center py-12 bg-white rounded-2xl ring-1 ring-amber-200 hover:shadow-md transition-all my-8">
-            <div className="mx-auto w-16 h-16 bg-indigo-50 rounded-full flex items-center justify-center mb-4">
-              <ShoppingBagIcon className="h-8 w-8 text-indigo-500" />
-            </div>
-            <h3 className="text-xl font-medium text-indigo-700">{t('shops.noResults')}</h3>
-            <p className="mt-2 text-sm text-gray-600">{t('shops.tryDifferentSearch')}</p>
-            <div className="mt-6">
-              <Button
-                onClick={() => router.push('/shops')}
-                className="ring-1 ring-indigo-700 text-indigo-700 hover:bg-indigo-50 px-4 py-2 rounded-full">
-                {t('common.actions.clearFilters')}
-              </Button>
-            </div>
-          </div>
-        )}
-
-        {/* Pagination */}
-        {pagination && pagination.last_page > 1 && (
-          <div className="mt-8">
-            <div className="flex items-center justify-center gap-2">
-              <Button
-                className="ring-1 ring-indigo-700 text-indigo-700 hover:bg-indigo-50 px-4 py-2 rounded-full disabled:opacity-50 disabled:cursor-not-allowed"
-                disabled={pagination.current_page === 1}
-                onClick={() => handlePageChange(pagination.current_page - 1)}
-              >
-                {t('common.pagination.previous')}
-              </Button>
-
-              <div className="hidden sm:flex items-center gap-1">
-                {Array.from({ length: pagination.last_page }, (_, i) => i + 1).map((page) => (
-                  <Button
-                    key={page}
-                    className={page === pagination.current_page
-                      ? "bg-indigo-700 hover:bg-indigo-800 text-white w-10 h-10 p-0 rounded-full"
-                      : "ring-1 ring-amber-200 text-gray-700 hover:bg-amber-50 w-10 h-10 p-0 rounded-full"}
-                    onClick={() => handlePageChange(page)}
-                  >
-                    {page}
-                  </Button>
+        {/* Loading skeleton */}
+        {loading ? (
+          <ShopGridSkeleton />
+        ) : (
+          <>
+            {/* Shop grid */}
+            {shops.length > 0 ? (
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+                {shops.map((shop) => (
+                  <ShopCard key={shop.id} shop={shop} />
                 ))}
               </div>
-
-              <div className="sm:hidden">
-                <span className="text-sm text-gray-600 font-medium">
-                  {t('common.pagination.page', {
-                    current: pagination.current_page,
-                    total: pagination.last_page,
-                  })}
-                </span>
+            ) : (
+              /* Empty state */
+              <div className="flex flex-col items-center justify-center py-20 bg-white rounded-2xl ring-1 ring-amber-200 shadow-atlas-sm my-8 text-center px-6">
+                <div className="h-16 w-16 rounded-full bg-indigo-50 ring-1 ring-indigo-100 flex items-center justify-center mb-5">
+                  <ShoppingBagIcon className="h-8 w-8 text-indigo-700" aria-hidden="true" />
+                </div>
+                <h3
+                  className="text-xl font-bold text-gray-900"
+                  style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
+                >
+                  {t('shops.noResults', 'No sellers found')}
+                </h3>
+                <p className="mt-2 text-sm text-gray-600 max-w-xs">
+                  {t('shops.tryDifferentSearch', 'Try adjusting your search or filters to find what you\'re looking for.')}
+                </p>
+                <Button
+                  onClick={() => router.push('/shops')}
+                  variant="outline"
+                  className="mt-6 rounded-full border-indigo-700 text-indigo-700 hover:bg-indigo-50 px-6"
+                >
+                  {t('common.actions.clearFilters', 'Clear filters')}
+                </Button>
               </div>
+            )}
 
-              <Button
-                className="ring-1 ring-indigo-700 text-indigo-700 hover:bg-indigo-50 px-4 py-2 rounded-full disabled:opacity-50 disabled:cursor-not-allowed"
-                disabled={pagination.current_page === pagination.last_page}
-                onClick={() => handlePageChange(pagination.current_page + 1)}
+            {/* Pagination */}
+            {pagination && pagination.last_page > 1 && (
+              <nav
+                aria-label={t('common.pagination.label', 'Page navigation')}
+                className="mt-10"
               >
-                {t('common.pagination.next')}
-              </Button>
-            </div>
-          </div>
+                <div className="flex items-center justify-center gap-2">
+                  <Button
+                    variant="outline"
+                    className="rounded-full border-indigo-200 text-indigo-700 hover:bg-indigo-50 px-5 disabled:opacity-40 disabled:cursor-not-allowed"
+                    disabled={pagination.current_page === 1}
+                    onClick={() => handlePageChange(pagination.current_page - 1)}
+                    aria-label={t('common.pagination.previous', 'Previous page')}
+                  >
+                    {t('common.pagination.previous', 'Previous')}
+                  </Button>
+
+                  <div className="hidden sm:flex items-center gap-1">
+                    {Array.from({ length: pagination.last_page }, (_, i) => i + 1).map((page) => (
+                      <button
+                        key={page}
+                        aria-current={page === pagination.current_page ? 'page' : undefined}
+                        aria-label={t('common.pagination.goToPage', 'Go to page {{page}}', { page })}
+                        onClick={() => handlePageChange(page)}
+                        className={`w-10 h-10 rounded-full text-sm font-medium transition focus-visible:ring-2 focus-visible:ring-indigo-700 focus-visible:ring-offset-1 ${
+                          page === pagination.current_page
+                            ? 'bg-indigo-700 text-white shadow-atlas-sm'
+                            : 'ring-1 ring-amber-200 text-gray-700 hover:bg-amber-50'
+                        }`}
+                      >
+                        {page}
+                      </button>
+                    ))}
+                  </div>
+
+                  <div className="sm:hidden">
+                    <span className="text-sm text-gray-600 font-medium">
+                      {t('common.pagination.page', 'Page {{current}} of {{total}}', {
+                        current: pagination.current_page,
+                        total: pagination.last_page,
+                      })}
+                    </span>
+                  </div>
+
+                  <Button
+                    variant="outline"
+                    className="rounded-full border-indigo-200 text-indigo-700 hover:bg-indigo-50 px-5 disabled:opacity-40 disabled:cursor-not-allowed"
+                    disabled={pagination.current_page === pagination.last_page}
+                    onClick={() => handlePageChange(pagination.current_page + 1)}
+                    aria-label={t('common.pagination.next', 'Next page')}
+                  >
+                    {t('common.pagination.next', 'Next')}
+                  </Button>
+                </div>
+              </nav>
+            )}
+          </>
         )}
       </div>
 
-      {/* Filters Drawer */}
+      {/* Filters drawer */}
       <ShopFilters
         isOpen={showFilters}
         onClose={() => setShowFilters(false)}

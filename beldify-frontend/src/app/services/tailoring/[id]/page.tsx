@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
-import { Star, MapPin, Calendar, Clock, MessageCircle, BadgeCheck } from 'lucide-react';
+import { Star, MapPin, Calendar, Clock, MessageCircle, BadgeCheck, Ruler } from 'lucide-react';
 import { Dialog } from '@headlessui/react';
 import tailorService, { Tailor, TimeSlot } from '@/services/tailorService';
 import toast from '@/utils/toast';
@@ -93,18 +93,35 @@ export default function TailorProfilePage({ params }: { params: { id: string } }
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-600"></div>
+      <div className="min-h-screen bg-amber-50/40 flex items-center justify-center">
+        {/* Atlas-styled loading skeleton */}
+        <div className="w-full max-w-3xl px-6 space-y-6 animate-pulse">
+          <div className="h-48 rounded-2xl bg-indigo-950/80" />
+          <div className="grid grid-cols-3 gap-4">
+            <div className="col-span-2 h-48 rounded-2xl bg-amber-100/70" />
+            <div className="h-48 rounded-2xl bg-amber-100/70" />
+          </div>
+          <div className="h-6 w-1/2 rounded-full bg-amber-100/70" />
+          <div className="h-4 w-3/4 rounded-full bg-amber-100/50" />
+        </div>
       </div>
     );
   }
 
   if (!tailor) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <h1 className="text-2xl font-semibold text-gray-900 mb-2">{t('common.not_found')}</h1>
-          <p className="text-gray-600">{t('tailoring.profile.not_found')}</p>
+      <div className="min-h-screen bg-amber-50/40 flex items-center justify-center px-6">
+        <div className="text-center max-w-sm">
+          <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-indigo-50 ring-1 ring-amber-200/60">
+            <Ruler className="h-8 w-8 text-indigo-400" />
+          </div>
+          <h1
+            className="text-2xl font-bold text-indigo-900 mb-2"
+            style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
+          >
+            {t('common.not_found')}
+          </h1>
+          <p className="text-gray-600 text-sm">{t('tailoring.profile.not_found')}</p>
         </div>
       </div>
     );
@@ -154,13 +171,18 @@ export default function TailorProfilePage({ params }: { params: { id: string } }
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Hero Section */}
-      <section className="relative bg-indigo-900 py-20">
-        <div className="absolute inset-0 bg-[url('/images/moroccan-pattern.png')] opacity-10" />
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row items-center gap-8">
-            <div className="relative w-32 h-32 md:w-40 md:h-40 rounded-full overflow-hidden border-4 border-white">
+    <div className="min-h-screen bg-amber-50/40">
+      {/* Hero Section — Atlas §6.4 editorial dark strip + §13.2 zellige motif */}
+      <section className="relative isolate overflow-hidden bg-indigo-950 py-16 sm:py-20">
+        {/* Zellige motif overlay */}
+        <div aria-hidden className="absolute inset-0 pointer-events-none bg-motif-zellige" />
+        <div
+          aria-hidden
+          className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_20%_20%,_#f59e0b_0,_transparent_45%),radial-gradient(circle_at_80%_60%,_#6366f1_0,_transparent_50%)]"
+        />
+        <div className="relative mx-auto max-w-7xl px-6">
+          <div className="flex flex-col sm:flex-row items-center gap-8">
+            <div className="relative w-32 h-32 sm:w-40 sm:h-40 rounded-2xl overflow-hidden ring-4 ring-white/20 shadow-atlas-lg flex-shrink-0">
               <Image
                 src={tailor.profile_image}
                 alt={tailor.business_name}
@@ -168,22 +190,27 @@ export default function TailorProfilePage({ params }: { params: { id: string } }
                 className="object-cover"
               />
             </div>
-            <div className="text-white text-center md:text-left">
-              <h1 className="text-3xl font-bold tracking-tight mb-2">{tailor.business_name}</h1>
-              <div className="flex items-center justify-center md:justify-start gap-2 mb-4">
+            <div className="text-white text-center sm:text-start">
+              <h1
+                className="text-3xl sm:text-4xl font-bold tracking-tight mb-2"
+                style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
+              >
+                {tailor.business_name}
+              </h1>
+              <div className="flex items-center justify-center sm:justify-start gap-2 mb-4">
                 <div className="flex">{renderStars(tailor.rating)}</div>
-                <span className="text-gray-300">
+                <span className="text-indigo-200 text-sm">
                   ({tailor.total_reviews} {t('tailoring.tailors.reviews')})
                 </span>
               </div>
-              <div className="flex flex-wrap items-center justify-center md:justify-start gap-4">
-                <div className="flex items-center">
-                  <MapPin className="w-5 h-5 mr-2" />
-                  {tailor.user.city}
+              <div className="flex flex-wrap items-center justify-center sm:justify-start gap-4">
+                <div className="flex items-center gap-1.5 bg-white/10 backdrop-blur-sm px-3 py-1.5 rounded-full">
+                  <MapPin className="w-4 h-4 text-amber-400 flex-shrink-0" />
+                  <span className="text-sm">{tailor.user.city}</span>
                 </div>
-                <div className="flex items-center">
-                  <BadgeCheck className="w-5 h-5 mr-2" />
-                  {tailor.experience_years} {t('tailoring.tailors.years')}
+                <div className="flex items-center gap-1.5 bg-white/10 backdrop-blur-sm px-3 py-1.5 rounded-full">
+                  <BadgeCheck className="w-4 h-4 text-amber-400 flex-shrink-0" />
+                  <span className="text-sm">{tailor.experience_years} {t('tailoring.tailors.years')}</span>
                 </div>
               </div>
             </div>
@@ -191,25 +218,28 @@ export default function TailorProfilePage({ params }: { params: { id: string } }
         </div>
       </section>
 
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div className="mx-auto max-w-7xl px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Main Content */}
           <div className="lg:col-span-2 space-y-8">
             {/* About Section */}
-            <section className="bg-white rounded-2xl ring-1 ring-amber-200/60 p-6 shadow-sm">
-              <h2 className="text-2xl font-semibold text-indigo-800 mb-4">
+            <section className="bg-white rounded-2xl ring-1 ring-amber-200/60 p-6 shadow-atlas-sm">
+              <h2
+                className="text-2xl font-bold text-indigo-900 mb-4"
+                style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
+              >
                 {t('tailoring.profile.about')}
               </h2>
-              <p className="text-gray-700">{tailor.bio}</p>
-              <div className="mt-6">
-                <h3 className="text-lg font-medium text-gray-900 mb-2">
+              <p className="text-gray-700 leading-relaxed">{tailor.bio}</p>
+              <div className="mt-6 pt-5 border-t border-amber-100">
+                <h3 className="text-sm font-semibold text-indigo-900 mb-3 uppercase tracking-[0.1em]">
                   {t('tailoring.profile.specialties')}
                 </h3>
                 <div className="flex flex-wrap gap-2">
                   {tailor.specializations.map((specialty) => (
                     <span
                       key={specialty}
-                      className="bg-indigo-50 text-indigo-700 px-3 py-1 rounded-full text-sm"
+                      className="bg-amber-50 text-amber-800 px-3 py-1 rounded-full text-xs font-medium ring-1 ring-amber-200"
                     >
                       {specialty}
                     </span>
@@ -219,8 +249,11 @@ export default function TailorProfilePage({ params }: { params: { id: string } }
             </section>
 
             {/* Portfolio Section */}
-            <section className="bg-white rounded-2xl ring-1 ring-amber-200/60 p-6 shadow-sm">
-              <h2 className="text-2xl font-semibold text-indigo-800 mb-4">
+            <section className="bg-white rounded-2xl ring-1 ring-amber-200/60 p-6 shadow-atlas-sm">
+              <h2
+                className="text-2xl font-bold text-indigo-900 mb-4"
+                style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
+              >
                 {t('tailoring.profile.portfolio')}
               </h2>
               <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
@@ -238,27 +271,30 @@ export default function TailorProfilePage({ params }: { params: { id: string } }
             </section>
 
             {/* Reviews Section */}
-            <section className="bg-white rounded-2xl ring-1 ring-amber-200/60 p-6 shadow-sm">
-              <h2 className="text-2xl font-semibold text-indigo-800 mb-4">
+            <section className="bg-white rounded-2xl ring-1 ring-amber-200/60 p-6 shadow-atlas-sm">
+              <h2
+                className="text-2xl font-bold text-indigo-900 mb-4"
+                style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
+              >
                 {t('tailoring.profile.reviews')}
               </h2>
-              <div className="space-y-6">
+              <div className="space-y-4">
                 {reviews.map((review) => (
                   <div
                     key={review.id}
-                    className="border-b border-gray-200 last:border-0 pb-6 last:pb-0"
+                    className="rounded-2xl bg-amber-50 ring-1 ring-amber-200/60 p-5"
                   >
                     <div className="flex justify-between items-start mb-2">
                       <div>
-                        <h3 className="font-medium text-gray-900">{review.author}</h3>
-                        <div className="flex items-center gap-2">
+                        <h3 className="font-semibold text-sm text-indigo-900">{review.author}</h3>
+                        <div className="flex items-center gap-2 mt-0.5">
                           <div className="flex">{renderStars(review.rating)}</div>
-                          <span className="text-sm text-gray-500">{review.service}</span>
+                          <span className="text-xs text-gray-500">{review.service}</span>
                         </div>
                       </div>
-                      <span className="text-sm text-gray-500">{review.date}</span>
+                      <span className="text-xs text-gray-400">{review.date}</span>
                     </div>
-                    <p className="text-gray-700">{review.comment}</p>
+                    <p className="text-sm text-gray-700">{review.comment}</p>
                   </div>
                 ))}
               </div>
@@ -267,18 +303,21 @@ export default function TailorProfilePage({ params }: { params: { id: string } }
 
           {/* Booking Sidebar */}
           <div className="lg:col-span-1">
-            <div className="bg-white rounded-2xl ring-1 ring-amber-200/60 p-6 shadow-sm sticky top-4">
-              <h2 className="text-xl font-semibold text-indigo-800 mb-4">
+            <div className="bg-white rounded-2xl ring-1 ring-amber-200/60 p-6 shadow-atlas-sm sticky top-8">
+              <h2
+                className="text-xl font-bold text-indigo-900 mb-5 pb-4 border-b border-amber-100"
+                style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
+              >
                 {t('tailoring.booking.title')}
               </h2>
 
               {/* Service Selection */}
-              <div className="mb-6">
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+              <div className="mb-5">
+                <label className="block text-sm font-medium text-indigo-900 mb-2">
                   {t('tailoring.booking.select_service')}
                 </label>
                 <select
-                  className="w-full px-4 py-2 border border-amber-200 rounded-xl focus:ring-2 focus:ring-indigo-500"
+                  className="w-full px-4 py-2.5 border border-amber-200 rounded-2xl text-sm text-gray-900 bg-white focus:ring-2 focus:ring-indigo-700/30 focus:border-indigo-700 focus:outline-none transition-colors"
                   value={selectedService || ''}
                   onChange={(e) => setSelectedService(e.target.value)}
                 >
@@ -292,13 +331,13 @@ export default function TailorProfilePage({ params }: { params: { id: string } }
               </div>
 
               {/* Date Selection */}
-              <div className="mb-6">
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+              <div className="mb-5">
+                <label className="block text-sm font-medium text-indigo-900 mb-2">
                   {t('tailoring.booking.select_date')}
                 </label>
                 <input
                   type="date"
-                  className="w-full px-4 py-2 border border-amber-200 rounded-xl focus:ring-2 focus:ring-indigo-500"
+                  className="w-full px-4 py-2.5 border border-amber-200 rounded-2xl text-sm text-gray-900 bg-white focus:ring-2 focus:ring-indigo-700/30 focus:border-indigo-700 focus:outline-none transition-colors"
                   onChange={(e) => setSelectedDate(e.target.value)}
                   min={new Date().toISOString().split('T')[0]}
                 />
@@ -306,20 +345,20 @@ export default function TailorProfilePage({ params }: { params: { id: string } }
 
               {/* Time Slots */}
               {selectedDate && timeSlots.length > 0 && (
-                <div className="mb-6">
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                <div className="mb-5">
+                  <label className="block text-sm font-medium text-indigo-900 mb-2">
                     {t('tailoring.booking.select_time')}
                   </label>
                   <div className="grid grid-cols-2 gap-2">
                     {timeSlots.map((slot) => (
                       <button
                         key={slot.time}
-                        className={`px-4 py-2 rounded-lg text-sm ${
+                        className={`px-3 py-2 rounded-xl text-sm font-medium transition-all duration-150 ${
                           slot.available
                             ? selectedTimeSlot === slot.time
-                              ? 'bg-indigo-700 text-white'
-                              : 'ring-1 ring-amber-200 hover:ring-indigo-400'
-                            : 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                              ? 'bg-indigo-700 text-white shadow-atlas-sm'
+                              : 'ring-1 ring-amber-200 text-indigo-900 hover:ring-indigo-400 hover:bg-amber-50'
+                            : 'bg-amber-100/70 text-gray-400 cursor-not-allowed'
                         }`}
                         onClick={() => setSelectedTimeSlot(slot.time)}
                         disabled={!slot.available}
@@ -332,10 +371,10 @@ export default function TailorProfilePage({ params }: { params: { id: string } }
               )}
 
               <button
-                className={`w-full px-4 py-2 rounded-full transition-colors ${
+                className={`w-full px-4 py-3 rounded-full font-semibold text-sm transition-all duration-150 mt-2 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 ${
                   !selectedService || !selectedDate || !selectedTimeSlot
-                    ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
-                    : 'bg-indigo-700 hover:bg-indigo-800 text-white'
+                    ? 'bg-amber-100/70 text-gray-400 cursor-not-allowed'
+                    : 'bg-indigo-700 hover:bg-indigo-800 text-white shadow-atlas-sm'
                 }`}
                 onClick={() => setIsBookingModalOpen(true)}
                 disabled={!selectedService || !selectedDate || !selectedTimeSlot}
@@ -347,44 +386,48 @@ export default function TailorProfilePage({ params }: { params: { id: string } }
         </div>
       </div>
 
-      {/* Booking Confirmation Modal */}
+      {/* Booking Confirmation Modal — Atlas §shadow-atlas-xl */}
       <Dialog
         open={isBookingModalOpen}
         onClose={() => !bookingLoading && setIsBookingModalOpen(false)}
         className="relative z-50"
       >
-        <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
+        <div className="fixed inset-0 bg-indigo-950/40 backdrop-blur-sm" aria-hidden="true" />
         <div className="fixed inset-0 flex items-center justify-center p-4">
-          <Dialog.Panel className="bg-white rounded-2xl p-6 max-w-md w-full">
-            <Dialog.Title className="text-xl font-semibold text-indigo-800 mb-4">
+          <Dialog.Panel className="bg-white rounded-2xl p-6 max-w-md w-full shadow-atlas-xl ring-1 ring-amber-200/40">
+            <Dialog.Title
+              className="text-xl font-bold text-indigo-900 mb-4 pb-4 border-b border-amber-100"
+              style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
+            >
               {t('tailoring.booking.confirm_title')}
             </Dialog.Title>
             <div className="space-y-4">
-              <p className="text-gray-700">
+              <p className="text-gray-700 text-sm leading-relaxed">
                 {t('tailoring.booking.confirm_message')} {tailor.business_name}?
               </p>
-              <div className="flex justify-end gap-4">
+              <div className="flex justify-end gap-3 pt-2">
                 <button
-                  className="px-4 py-2 ring-2 ring-indigo-600 text-indigo-700 hover:bg-indigo-50 rounded-full disabled:opacity-50"
+                  className="px-5 py-2.5 ring-1 ring-indigo-200 text-indigo-700 hover:bg-indigo-50 rounded-full text-sm font-medium transition-colors disabled:opacity-50 focus:outline-none focus:ring-2 focus:ring-indigo-700"
                   onClick={() => setIsBookingModalOpen(false)}
                   disabled={bookingLoading}
                 >
                   {t('common.cancel')}
                 </button>
                 <button
-                  className={`px-4 py-2 bg-indigo-700 text-white rounded-full ${
-                    bookingLoading ? 'opacity-50 cursor-wait' : 'hover:bg-indigo-700'
+                  className={`px-5 py-2.5 bg-indigo-700 text-white rounded-full text-sm font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 ${
+                    bookingLoading ? 'opacity-60 cursor-wait' : 'hover:bg-indigo-800'
                   }`}
                   onClick={handleBooking}
                   disabled={bookingLoading}
                 >
                   {bookingLoading ? (
-                    <span className="flex items-center">
+                    <span className="flex items-center gap-2">
                       <svg
-                        className="animate-spin -ml-1 mr-2 h-4 w-4 text-white"
+                        className="animate-spin h-4 w-4 text-white flex-shrink-0"
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
                         viewBox="0 0 24 24"
+                        aria-hidden="true"
                       >
                         <circle
                           className="opacity-25"
@@ -393,12 +436,12 @@ export default function TailorProfilePage({ params }: { params: { id: string } }
                           r="10"
                           stroke="currentColor"
                           strokeWidth="4"
-                        ></circle>
+                        />
                         <path
                           className="opacity-75"
                           fill="currentColor"
                           d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                        ></path>
+                        />
                       </svg>
                       {t('common.processing')}
                     </span>

@@ -164,16 +164,18 @@ export default function Navbar() {
 
   return (
     <>
-      {/* ── Announcement strip ──────────────────────────────────────── */}
-      <div className="bg-gray-900 text-amber-50 py-2 text-center text-xs font-medium tracking-wide">
-        {t(
-          'nav.announcement',
-          'Free shipping across Morocco on orders over 500 MAD — Free returns within 14 days'
-        )}
+      {/* ── Announcement strip — Atlas indigo-950 surface ──────────── */}
+      <div className="bg-indigo-950 text-amber-100 py-2 text-center text-xs font-medium tracking-wide">
+        <span className="opacity-90">
+          {t(
+            'nav.announcement',
+            'Free shipping across Morocco on orders over 500 MAD — Free returns within 14 days'
+          )}
+        </span>
       </div>
 
-      {/* ── Sticky main bar ──────────────────────────────────────────── */}
-      <header className="sticky top-0 z-40 bg-amber-50/95 backdrop-blur border-b border-amber-200/60">
+      {/* ── Sticky main bar — parchment surface ──────────────────────── */}
+      <header className="sticky top-0 z-40 bg-amber-50/98 backdrop-blur-md border-b border-amber-200/60 shadow-atlas-sm">
         <div className="mx-auto max-w-7xl px-6 py-3 flex items-center justify-between gap-6">
 
           {/* ── Wordmark ─────────────────────────────────────────────── */}
@@ -181,7 +183,7 @@ export default function Navbar() {
             href="/"
             prefetch
             aria-label={t('chrome.navbar.brandHome', 'Beldify home')}
-            className="flex-shrink-0"
+            className="flex-shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30 rounded"
           >
             <span
               className="text-2xl font-bold text-indigo-800 tracking-tight"
@@ -199,7 +201,7 @@ export default function Navbar() {
                 key={link.href}
                 href={link.href}
                 prefetch
-                className="text-sm text-gray-700 hover:text-indigo-700 px-3 py-1.5 rounded-lg hover:bg-amber-100/60 transition whitespace-nowrap"
+                className="text-sm text-gray-700 hover:text-indigo-700 px-3 py-1.5 rounded-lg hover:bg-amber-100/70 transition-colors duration-150 whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30"
               >
                 {t(link.labelKey, link.fallback)}
               </Link>
@@ -219,7 +221,7 @@ export default function Navbar() {
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder={t('nav.search_placeholder', 'Search caftans, djellabas, tailors…')}
                 aria-label={t('nav.search_placeholder', 'Search caftans, djellabas, tailors…')}
-                className="w-full bg-white/70 border border-amber-200 rounded-full py-2 ps-11 pe-4 text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/30 focus:border-indigo-500 transition"
+                className="w-full bg-white/80 border border-amber-200 rounded-full py-2 ps-11 pe-4 text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-700/30 focus:border-indigo-700 transition-colors duration-200"
               />
             </form>
           </div>
@@ -282,7 +284,7 @@ export default function Navbar() {
             >
               <MessageCircle className="h-5 w-5" aria-hidden="true" />
               {unreadCount > 0 && (
-                <span className="absolute -top-1 -end-1 bg-amber-500 text-white text-[10px] font-bold rounded-full h-4 min-w-[1rem] px-1 flex items-center justify-center leading-none">
+                <span className="absolute -top-1 -end-1 bg-amber-500 text-amber-950 text-[10px] font-bold rounded-full h-4 min-w-[1rem] px-1 flex items-center justify-center leading-none">
                   {unreadCount}
                 </span>
               )}
@@ -307,7 +309,7 @@ export default function Navbar() {
             >
               <Heart className="h-5 w-5" aria-hidden="true" />
               {wishlistCount > 0 && (
-                <span className="absolute -top-1 -end-1 bg-amber-500 text-white text-[10px] font-bold rounded-full h-4 min-w-[1rem] px-1 flex items-center justify-center leading-none">
+                <span className="absolute -top-1 -end-1 bg-amber-500 text-amber-950 text-[10px] font-bold rounded-full h-4 min-w-[1rem] px-1 flex items-center justify-center leading-none">
                   {wishlistCount}
                 </span>
               )}
@@ -395,7 +397,7 @@ export default function Navbar() {
                               <Heart className="h-4 w-4" aria-hidden="true" />
                               {t('navigation.wishlist', 'Wishlist')}
                               {wishlistCount > 0 && (
-                                <span className="ms-auto bg-amber-500 text-white text-[10px] font-bold rounded-full h-4 min-w-[1rem] px-1 flex items-center justify-center">
+                                <span className="ms-auto bg-amber-500 text-amber-950 text-[10px] font-bold rounded-full h-4 min-w-[1rem] px-1 flex items-center justify-center">
                                   {wishlistCount}
                                 </span>
                               )}
@@ -552,13 +554,14 @@ export default function Navbar() {
               leaveFrom="translate-x-0"
               leaveTo="translate-x-full"
             >
-              <Dialog.Panel className="relative flex w-full max-w-xs flex-col overflow-y-auto bg-amber-50 pb-12 shadow-xl">
+              <Dialog.Panel className="relative flex w-full max-w-xs flex-col overflow-y-auto bg-amber-50 pb-16 shadow-atlas-xl">
                 {/* Panel header */}
-                <div className="flex items-center justify-between px-5 pt-5 pb-4 border-b border-amber-200/60">
+                <div className="flex items-center justify-between px-5 pt-5 pb-4 border-b border-amber-200/60 bg-white/60">
                   <Link
                     href="/"
                     onClick={() => setMobileMenuOpen(false)}
                     aria-label={t('chrome.navbar.brandHome', 'Beldify home')}
+                    className="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30 rounded"
                   >
                     <span
                       className="text-xl font-bold text-indigo-800 tracking-tight"
@@ -571,7 +574,7 @@ export default function Navbar() {
                     type="button"
                     onClick={() => setMobileMenuOpen(false)}
                     aria-label={t('chrome.navbar.closeMenu', 'Close menu')}
-                    className="flex items-center justify-center w-9 h-9 text-gray-500 hover:text-indigo-700 rounded-full hover:bg-amber-100 transition"
+                    className="flex items-center justify-center w-9 h-9 text-gray-500 hover:text-indigo-700 rounded-full hover:bg-amber-100 transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30"
                   >
                     <X className="h-5 w-5" aria-hidden="true" />
                   </button>
@@ -652,7 +655,7 @@ export default function Navbar() {
                     <Heart className="h-5 w-5" aria-hidden="true" />
                     <span className="text-xs">{t('navigation.wishlist', 'Wishlist')}</span>
                     {wishlistCount > 0 && (
-                      <span className="absolute top-1.5 end-1.5 bg-amber-500 text-white text-[9px] font-bold rounded-full h-4 min-w-[1rem] px-0.5 flex items-center justify-center">
+                      <span className="absolute top-1.5 end-1.5 bg-amber-500 text-amber-950 text-[9px] font-bold rounded-full h-4 min-w-[1rem] px-0.5 flex items-center justify-center">
                         {wishlistCount}
                       </span>
                     )}
@@ -666,7 +669,7 @@ export default function Navbar() {
                     <MessageCircle className="h-5 w-5" aria-hidden="true" />
                     <span className="text-xs">{t('navigation.messages', 'Messages')}</span>
                     {unreadCount > 0 && (
-                      <span className="absolute top-1.5 end-1.5 bg-amber-500 text-white text-[9px] font-bold rounded-full h-4 min-w-[1rem] px-0.5 flex items-center justify-center">
+                      <span className="absolute top-1.5 end-1.5 bg-amber-500 text-amber-950 text-[9px] font-bold rounded-full h-4 min-w-[1rem] px-0.5 flex items-center justify-center">
                         {unreadCount}
                       </span>
                     )}

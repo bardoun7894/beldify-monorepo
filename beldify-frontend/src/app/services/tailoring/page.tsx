@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Ruler, Send, Package } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
 const galleryImages = [
   {
@@ -27,133 +28,168 @@ const galleryImages = [
 const steps = [
   {
     icon: Ruler,
-    number: '01',
     title: 'Pick your tailor',
     body: 'Browse verified ateliers in Fez, Marrakech, Casablanca and Tetouan. Each listing shows specialities, reviews, and current availability.',
   },
   {
     icon: Send,
-    number: '02',
     title: 'Send your measurements',
     body: 'Use our guided measurement form — no tape-measure experience needed. Or book a 15-minute video call with your tailor for a guided session.',
   },
   {
     icon: Package,
-    number: '03',
     title: 'Receive your piece',
     body: 'Your garment is hand-finished and shipped worldwide. Most bespoke orders arrive in 2–4 weeks. One free alteration round is included.',
   },
 ];
+
+const PLAYFAIR = '"Playfair Display", ui-serif, Georgia, serif';
 
 export default function TailoringPage() {
   const { t } = useTranslation();
 
   return (
     <main className="min-h-screen bg-amber-50/40 text-gray-900">
-      {/* Editorial hero strip — DESIGN.md §6.4 */}
-      <section className="relative isolate overflow-hidden bg-indigo-900 text-white">
+      {/* ── Editorial hero — dark indigo-950 strip, asymmetric 12-col on desktop ── */}
+      <section className="relative isolate overflow-hidden bg-indigo-950 text-white">
+        {/* Zellige motif overlay (§13.1) */}
+        <div aria-hidden className="absolute inset-0 pointer-events-none bg-motif-zellige" />
         <div
           aria-hidden
           className="absolute inset-0 opacity-25 bg-[radial-gradient(circle_at_15%_15%,_#f59e0b_0,_transparent_45%),radial-gradient(circle_at_85%_60%,_#6366f1_0,_transparent_50%)]"
         />
         <div className="relative mx-auto max-w-7xl px-6 py-16 lg:py-24">
-          <p className="text-xs sm:text-sm uppercase tracking-[0.18em] text-amber-300 font-medium">
-            {t('tailoring.eyebrow', 'BESPOKE')}
-          </p>
-          <h1
-            className="mt-3 text-5xl sm:text-6xl lg:text-7xl font-bold leading-[1.05] tracking-tight"
-            style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
-          >
-            {t('tailoring.headline', 'Tailored to you,')}
-            <span className="block text-amber-300">
-              {t('tailoring.headlineLine2', 'by hand.')}
-            </span>
-          </h1>
-          <p className="mt-5 text-indigo-100 max-w-xl text-base sm:text-lg leading-relaxed">
-            {t(
-              'tailoring.sub',
-              'Our 120+ verified ateliers create bespoke Moroccan garments to your exact measurements — shipped anywhere in the world. No fitting room required.'
-            )}
-          </p>
-          <Link
-            href="/shops?type=tailor"
-            className="mt-8 inline-flex items-center gap-2 rounded-full bg-amber-400 px-6 py-3 text-sm font-semibold text-gray-900 transition hover:bg-amber-300"
-          >
-            {t('tailoring.heroCta', 'Start a tailoring order')}
-          </Link>
+          <div className="grid lg:grid-cols-12 lg:items-center gap-10 lg:gap-12">
+            {/* Copy — 7 of 12 cols, left-weighted editorial */}
+            <div className="lg:col-span-7">
+              <p className="text-xs sm:text-sm uppercase tracking-[0.18em] text-amber-300 font-medium">
+                {t('tailoring.eyebrow', 'BESPOKE')}
+              </p>
+              <h1
+                className="mt-3 text-5xl sm:text-6xl lg:text-7xl font-bold leading-[1.05] tracking-tight text-balance"
+                style={{ fontFamily: PLAYFAIR }}
+              >
+                {t('tailoring.headline', 'Tailored to you,')}
+                <span className="block text-amber-300">
+                  {t('tailoring.headlineLine2', 'by hand.')}
+                </span>
+              </h1>
+              <p className="mt-5 text-indigo-100 max-w-xl text-base sm:text-lg leading-relaxed">
+                {t(
+                  'tailoring.sub',
+                  'Our 120+ verified ateliers create bespoke Moroccan garments to your exact measurements — shipped anywhere in the world. No fitting room required.'
+                )}
+              </p>
+              <Button asChild variant="accent" size="lg" className="mt-8 rounded-full">
+                <Link href="/shops?type=tailor">
+                  {t('tailoring.heroCta', 'Start a tailoring order')}
+                </Link>
+              </Button>
+            </div>
+
+            {/* Atelier image — 5 of 12 cols, the asymmetric counterweight */}
+            <div className="lg:col-span-5">
+              <div className="relative aspect-[4/5] overflow-hidden rounded-2xl ring-1 ring-white/15 shadow-atlas-lg">
+                <Image
+                  src="https://pro.beldify.com/storage/categories/category_8.jpg"
+                  alt={t('tailoring.heroImageAlt', 'Hand-embroidered caftan detail, Moroccan atelier')}
+                  fill
+                  sizes="(min-width:1024px) 40vw, 100vw"
+                  priority
+                  className="object-cover"
+                />
+                <div
+                  aria-hidden
+                  className="absolute inset-0 bg-gradient-to-t from-indigo-950/50 via-transparent to-transparent"
+                />
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* 3-step flow — reusing indigo strip pattern from homepage */}
-      <section className="relative isolate overflow-hidden bg-indigo-900 text-white">
-        <div
-          aria-hidden
-          className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_20%_80%,_#f59e0b_0,_transparent_45%),radial-gradient(circle_at_80%_20%,_#6366f1_0,_transparent_50%)]"
-        />
-        <div className="relative mx-auto max-w-7xl px-6 py-16">
-          <div className="text-center mb-10">
-            <p className="text-xs uppercase tracking-[0.18em] text-amber-300 font-medium">
-              {t('tailoring.howItWorks.eyebrow', 'THE PROCESS')}
-            </p>
+      {/* ── How it works — parchment process section, editorial alternating rows ── */}
+      <section className="bg-amber-50">
+        <div className="mx-auto max-w-5xl px-6 py-16 lg:py-20">
+          <div className="max-w-2xl">
             <h2
-              className="mt-2 text-3xl sm:text-4xl font-bold"
-              style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
+              className="text-3xl sm:text-4xl font-bold text-indigo-950 text-balance"
+              style={{ fontFamily: PLAYFAIR }}
             >
               {t('tailoring.howItWorks.title', 'How it works')}
             </h2>
+            <p className="mt-3 text-sm sm:text-base text-indigo-900/70 leading-relaxed">
+              {t(
+                'tailoring.howItWorks.intro',
+                'Three steps from your measurements to a hand-finished Moroccan piece.'
+              )}
+            </p>
           </div>
-          <ul className="space-y-4 max-w-2xl mx-auto">
-            {steps.map(({ icon: Icon, number, title, body }, i) => (
+
+          <ol className="mt-12 space-y-10 lg:space-y-14">
+            {steps.map(({ icon: Icon, title, body }, i) => (
               <li
-                key={number}
-                className="flex gap-5 rounded-2xl bg-white/5 ring-1 ring-white/10 px-5 py-5"
+                key={title}
+                className={`flex flex-col gap-5 sm:flex-row sm:items-center sm:gap-8 ${
+                  i % 2 === 1 ? 'sm:flex-row-reverse' : ''
+                }`}
               >
-                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-amber-400 text-gray-900 font-bold">
-                  {i + 1}
-                </span>
-                <div>
-                  <p
-                    className="font-semibold text-white text-base"
-                    style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
+                <div className="flex items-center gap-4 sm:w-1/3 sm:shrink-0">
+                  <span
+                    className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-indigo-950 text-amber-300 shadow-atlas-sm"
+                    aria-hidden
+                  >
+                    <Icon className="h-6 w-6" />
+                  </span>
+                  <span
+                    className="text-4xl font-bold text-amber-500/80 tabular-nums"
+                    style={{ fontFamily: PLAYFAIR }}
+                    aria-hidden
+                  >
+                    {i + 1}
+                  </span>
+                </div>
+                <div className="sm:w-2/3">
+                  <h3
+                    className="text-xl font-bold text-indigo-950"
+                    style={{ fontFamily: PLAYFAIR }}
                   >
                     {t(`tailoring.steps.${i}.title`, title)}
-                  </p>
-                  <p className="mt-1 text-sm text-indigo-100/80">
+                  </h3>
+                  <p className="mt-2 text-sm sm:text-base text-indigo-900/75 leading-relaxed max-w-prose">
                     {t(`tailoring.steps.${i}.body`, body)}
                   </p>
                 </div>
               </li>
             ))}
-          </ul>
-          <div className="text-center mt-10">
-            <Link
-              href="/shops?type=tailor"
-              className="inline-flex items-center gap-2 rounded-full bg-amber-400 px-6 py-3 text-sm font-semibold text-gray-900 transition hover:bg-amber-300"
-            >
-              {t('tailoring.stepsCta', 'Start a tailoring order')}
-            </Link>
+          </ol>
+
+          <div className="mt-12">
+            <Button asChild variant="accent" size="lg" className="rounded-full">
+              <Link href="/shops?type=tailor">
+                {t('tailoring.stepsCta', 'Start a tailoring order')}
+              </Link>
+            </Button>
           </div>
         </div>
       </section>
 
-      {/* Gallery row */}
+      {/* ── Gallery row ── */}
       <section className="mx-auto max-w-7xl px-6 py-16">
-        <div className="mb-8">
-          <p className="text-xs uppercase tracking-[0.18em] text-[#855300] font-medium">
-            {t('tailoring.gallery.eyebrow', 'OUR ATELIERS')}
-          </p>
+        <div className="mb-8 flex items-end justify-between gap-4">
           <h2
-            className="mt-2 text-3xl sm:text-4xl font-bold text-gray-900"
-            style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
+            className="text-3xl sm:text-4xl font-bold text-indigo-950 text-balance"
+            style={{ fontFamily: PLAYFAIR }}
           >
             {t('tailoring.gallery.title', 'Crafted in Morocco')}
           </h2>
+          <span className="hidden h-px flex-1 bg-amber-200/70 sm:block" aria-hidden />
         </div>
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
           {galleryImages.map(({ src, alt }) => (
             <div
               key={src}
-              className="group relative aspect-[4/5] overflow-hidden rounded-2xl ring-1 ring-amber-200/60 shadow-sm"
+              className="group relative aspect-[4/5] overflow-hidden rounded-2xl ring-1 ring-amber-200/60 shadow-atlas-sm hover-lift"
             >
               <Image
                 src={src}
@@ -168,27 +204,26 @@ export default function TailoringPage() {
         </div>
       </section>
 
-      {/* Final CTA */}
+      {/* ── Final CTA ── */}
       <section className="mx-auto max-w-7xl px-6 pb-20">
-        <div className="rounded-2xl bg-indigo-50 border border-indigo-100 px-8 py-10 text-center">
+        <div className="rounded-2xl bg-amber-50 ring-1 ring-amber-200/60 shadow-atlas-sm px-8 py-10 text-center">
           <h3
-            className="text-2xl sm:text-3xl font-bold text-gray-900"
-            style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
+            className="text-2xl sm:text-3xl font-bold text-indigo-950 text-balance"
+            style={{ fontFamily: PLAYFAIR }}
           >
             {t('tailoring.finalCta.headline', 'Ready for something made just for you?')}
           </h3>
-          <p className="mt-3 text-sm text-gray-600 max-w-md mx-auto">
+          <p className="mt-3 text-sm text-indigo-900/70 max-w-md mx-auto">
             {t(
               'tailoring.finalCta.sub',
               'Browse our tailors, share your measurements, and receive a hand-finished piece in 2–4 weeks.'
             )}
           </p>
-          <Link
-            href="/shops?type=tailor"
-            className="mt-6 inline-flex items-center gap-2 rounded-full bg-indigo-600 px-6 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-700"
-          >
-            {t('tailoring.finalCta.cta', 'Start a tailoring order')}
-          </Link>
+          <Button asChild variant="default" size="lg" className="mt-6 rounded-full">
+            <Link href="/shops?type=tailor">
+              {t('tailoring.finalCta.cta', 'Start a tailoring order')}
+            </Link>
+          </Button>
         </div>
       </section>
     </main>

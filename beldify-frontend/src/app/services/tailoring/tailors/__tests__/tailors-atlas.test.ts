@@ -32,8 +32,9 @@ describe('services/tailoring/tailors/page.tsx — Atlas compliance', () => {
     expect(pageSrc).not.toContain('dark:');
   });
 
-  it('uses Atlas indigo-900 hero strip', () => {
-    expect(pageSrc).toContain('bg-indigo-900');
+  it('uses the Atlas indigo-950 dark hero strip (indigo-900 is off-scale)', () => {
+    expect(pageSrc).toContain('bg-indigo-950');
+    expect(pageSrc).not.toContain('bg-indigo-900');
   });
 
   it('uses next/image instead of <img>', () => {

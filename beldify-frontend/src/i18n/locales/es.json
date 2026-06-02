@@ -669,7 +669,17 @@
     },
     "order_number": "Número de pedido",
     "status": {
-      "label": "Estado del pedido"
+      "label": "Estado del pedido",
+      "values": {
+        "pending": "Pendiente",
+        "awaiting_payment": "Esperando pago",
+        "processing": "Procesando",
+        "confirmed": "Confirmado",
+        "shipped": "Enviado",
+        "delivered": "Entregado",
+        "cancelled": "Cancelado",
+        "refunded": "Reembolsado"
+      }
     },
     "shipping": {
       "title": "Dirección de envío"

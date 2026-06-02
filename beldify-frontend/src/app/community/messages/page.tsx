@@ -14,7 +14,6 @@ import { useTranslation } from 'react-i18next';
 import { useDirection } from '@/hooks/useDirection';
 import { convertStorageUrl } from '@/utils/storageUrls';
 import Image from 'next/image';
-import LoadingSpinner from '@/components/common/LoadingSpinner';
 import {
   MessagesSquare,
   Sparkles,
@@ -22,7 +21,7 @@ import {
   Search,
   ChevronRight
 } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 
 interface Shop {
   id: number | string;
@@ -55,6 +54,7 @@ export default function MessagesPage() {
   const { refreshUnreadCount } = useMessaging();
   const { t } = useTranslation();
   const { isRTL } = useDirection();
+  const prefersReducedMotion = useReducedMotion();
 
   useEffect(() => {
     const fetchConversations = async () => {
@@ -196,7 +196,7 @@ export default function MessagesPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-amber-50/30">
       {/* Editorial Hero Band */}
       <section className="bg-indigo-700 text-white py-12 px-6">
         <div className="max-w-7xl mx-auto">
@@ -224,11 +224,16 @@ export default function MessagesPage() {
       {/* Main Content */}
       <div className="container mx-auto max-w-6xl px-4 py-8">
         {isLoading ? (
-          <div className="flex justify-center items-center py-24">
-            <div className="text-center">
-              <LoadingSpinner className="h-12 w-12 mx-auto mb-4 text-indigo-700" />
-              <p className="text-indigo-700 font-medium">{t('common.loading')}</p>
-            </div>
+          <div className="space-y-3 py-4">
+            {[...Array(5)].map((_, i) => (
+              <div key={i} className="bg-white rounded-2xl ring-1 ring-amber-100 p-4 flex items-center gap-4 animate-pulse">
+                <div className="w-12 h-12 bg-amber-100/70 rounded-full shrink-0" />
+                <div className="flex-1 space-y-2">
+                  <div className="h-4 bg-amber-100/70 rounded-full w-1/3" />
+                  <div className="h-3 bg-amber-100/70 rounded-full w-2/3" />
+                </div>
+              </div>
+            ))}
           </div>
         ) : conversations.length === 0 ? (
           <div className="text-center py-16">
@@ -265,12 +270,12 @@ export default function MessagesPage() {
               <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
                 <div className="flex-1 max-w-md">
                   <div className="relative">
-                    <Search size={14} className="text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" />
+                    <Search size={14} className="text-gray-400 absolute start-3 top-1/2 -translate-y-1/2" />
                     <input
                       type="text"
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
-                      className="w-full pl-9 pr-4 py-2.5 text-sm border border-gray-300 rounded-2xl focus:ring-2 focus:ring-amber-300 focus:border-indigo-500"
+                      className="w-full ps-9 pe-4 py-2.5 text-sm border border-amber-200 rounded-2xl focus:ring-2 focus:ring-indigo-700/30 focus:border-indigo-700"
                       placeholder={t('community.messages.search_conversations', 'Search conversations...')}
                     />
                   </div>
@@ -306,10 +311,10 @@ export default function MessagesPage() {
                     return (
                       <motion.div
                         key={String(message.id)}
-                        initial={{ opacity: 0, y: 20 }}
+                        initial={prefersReducedMotion ? false : { opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -20 }}
-                        transition={{ duration: 0.3 }}
+                        exit={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: -20 }}
+                        transition={{ duration: prefersReducedMotion ? 0 : 0.3 }}
                       >
                         <Link
                           href={`/community/messages/${shopId}`}
@@ -343,7 +348,7 @@ export default function MessagesPage() {
                                       {t('common.online')}
                                     </span>
                                   )}
-                                  <span className="font-mono text-[10px] tracking-[0.15em] uppercase text-gray-500 whitespace-nowrap">
+                                  <span className="text-[11px] text-gray-500 whitespace-nowrap">
                                     {lastActive}
                                   </span>
                                 </div>
@@ -359,7 +364,7 @@ export default function MessagesPage() {
                                     {message.unread_count} {message.unread_count === 1 ? t('community.messages.new_message') : t('community.messages.new_messages')}
                                   </span>
                                 )}
-                                <ChevronRight size={14} className="text-gray-400 ml-auto" />
+                                <ChevronRight size={14} className="text-gray-400 ms-auto rtl:rotate-180" />
                               </div>
                             </div>
                           </div>

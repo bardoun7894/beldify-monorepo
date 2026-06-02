@@ -19,15 +19,15 @@ describe('products/[id]/page.tsx — Atlas visual compliance', () => {
   });
 
   // ── Card radius ──────────────────────────────────────────────────────────────
-  it('info pane uses Atlas card radius (rounded-lg, not rounded-2xl)', () => {
-    // The info pane moved from bg-amber-50 to bg-white for separation; rounded-lg stays
-    expect(pageSrc).toMatch(/bg-white.*ring-1 ring-amber-200 rounded-lg|bg-white.*shadow-atlas-sm.*rounded-lg/);
+  it('info pane uses Atlas card radius (rounded-2xl)', () => {
+    // The info pane moved from bg-amber-50 to bg-white for separation; Atlas radius is rounded-2xl (16px)
+    expect(pageSrc).toMatch(/bg-white ring-1 ring-amber-200 rounded-2xl/);
   });
 
   // ── Main image container radius ──────────────────────────────────────────────
-  it('main image container uses rounded-lg (Atlas 16px radius)', () => {
-    // The image container aspect-[4/5] should use rounded-lg
-    expect(pageSrc).toMatch(/aspect-\[4\/5\] rounded-lg/);
+  it('main image container uses rounded-2xl (Atlas 16px radius)', () => {
+    // The image container aspect-[4/5] should use rounded-2xl
+    expect(pageSrc).toMatch(/aspect-\[4\/5\] rounded-2xl/);
   });
 
   // ── Error state ──────────────────────────────────────────────────────────────
