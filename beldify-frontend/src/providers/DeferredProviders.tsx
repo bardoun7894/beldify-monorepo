@@ -19,6 +19,11 @@ const NotificationProvider = dynamic(
   { ssr: false }
 );
 
+const NotificationRealtimeBridge = dynamic(
+  () => import('@/components/notifications/NotificationRealtimeBridge'),
+  { ssr: false }
+);
+
 interface DeferredProvidersProps {
   children: ReactNode;
 }
@@ -45,6 +50,7 @@ export default function DeferredProviders({ children }: DeferredProvidersProps) 
     <MessagingProvider>
       <NotificationProvider>
         <RealtimeChatProvider>
+          <NotificationRealtimeBridge />
           {children}
         </RealtimeChatProvider>
       </NotificationProvider>
