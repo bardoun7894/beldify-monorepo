@@ -28,191 +28,195 @@ const ROOT = join(__dirname, '..', '..');
 const SRC = join(ROOT, 'src');
 
 const page = readFileSync(join(SRC, 'app/page.tsx'), 'utf-8');
+// HomeContent.tsx holds the presentational JSX extracted from page.tsx for i18n.
+// Tests that check for visual tokens in the homepage JSX must read homeContent.
+const homeContent = readFileSync(join(SRC, 'components/home/HomeContent.tsx'), 'utf-8');
 const newsletter = readFileSync(join(SRC, 'components/Newsletter.tsx'), 'utf-8');
 const megaOffers = readFileSync(join(SRC, 'components/MegaOffers.tsx'), 'utf-8');
 const featuredSections = readFileSync(join(SRC, 'components/home/FeaturedSections.tsx'), 'utf-8');
 
-// ─── page.tsx ─────────────────────────────────────────────────────────────────
+// ─── homepage (page.tsx + HomeContent.tsx) ────────────────────────────────────
+// The homepage JSX was extracted from page.tsx into HomeContent.tsx for i18n.
+// Visual token tests check homeContent (the presentational layer); structural
+// tests (server fetch, component composition) still check page.
 
 describe('page.tsx — Atlas visual port', () => {
   it('main uses bg-background (parchment) not bg-amber-50', () => {
-    expect(page).toContain('bg-background');
-    expect(page).not.toContain('bg-amber-50/40');
+    expect(homeContent).toContain('bg-background');
+    expect(homeContent).not.toContain('bg-amber-50/40');
   });
 
   it('announcement strip uses Atlas indigo background', () => {
     // Must use the CSS-var form (no bare bg-primary DEFAULT exists)
-    expect(page).toContain('bg-[hsl(var(--primary))]');
+    expect(homeContent).toContain('bg-[hsl(var(--primary))]');
   });
 
   it('announcement strip has Arabic copy', () => {
-    expect(page).toContain('شحن مجاني');
+    expect(homeContent).toContain('شحن مجاني');
   });
 
   it('hero gradient is dark indigo overlay (dark photographic hero)', () => {
     // JOB 2a: dark hero — light parchment veil replaced by Atlas indigo gradient
-    expect(page).toContain('from-atlas-primary/[0.85]');
-    expect(page).not.toContain('from-white/95');
+    expect(homeContent).toContain('from-atlas-primary/[0.85]');
+    expect(homeContent).not.toContain('from-white/95');
   });
 
   it('hero headline is Arabic-primary (JOB 2b)', () => {
     // The large primary H1 must contain the Arabic copy
-    expect(page).toContain('تُلبَس منذ قرون. مصنوعة لليوم.');
+    expect(homeContent).toContain('تُلبَس منذ قرون. مصنوعة لليوم.');
   });
 
   it('hero Arabic H1 uses font-arabic class (no inline Playfair)', () => {
     // Arabic H1 must use className="font-arabic" — Playfair has no Arabic glyphs
-    // We assert that the Arabic H1 element carries font-arabic in className
-    // and that no fontFamily inline style targeting that same Arabic text uses Playfair Display
-    expect(page).toContain('font-arabic');
+    expect(homeContent).toContain('font-arabic');
   });
 
   it('hero headline text is white on dark hero', () => {
     // After dark overlay, headline must be white text
-    expect(page).toContain('text-white');
+    expect(homeContent).toContain('text-white');
   });
 
   it('hero eyebrow pill uses primary/10 tint', () => {
-    expect(page).toContain('bg-atlas-primary/[0.1]');
+    expect(homeContent).toContain('bg-atlas-primary/[0.1]');
   });
 
   it('hero ify span uses Atlas indigo text', () => {
-    expect(page).toContain('text-[hsl(var(--primary))]');
-    expect(page).not.toContain('text-indigo-700');
+    expect(homeContent).toContain('text-[hsl(var(--primary))]');
+    expect(homeContent).not.toContain('text-indigo-700');
   });
 
   it('hero primary CTA uses Atlas indigo bg', () => {
-    expect(page).toContain('bg-[hsl(var(--primary))]');
+    expect(homeContent).toContain('bg-[hsl(var(--primary))]');
   });
 
   it('hero secondary CTA uses Atlas surface + outline ring', () => {
-    expect(page).toContain('ring-outline');
+    expect(homeContent).toContain('ring-outline');
   });
 
   it('trust strip uses Atlas surface not white/amber', () => {
-    expect(page).toContain('bg-background/80');
-    expect(page).not.toContain('bg-white/70');
+    expect(homeContent).toContain('bg-background/80');
+    expect(homeContent).not.toContain('bg-white/70');
   });
 
   it('trust strip border uses outline token', () => {
-    expect(page).toContain('border-outline');
-    expect(page).not.toContain('border-amber-200/60');
+    expect(homeContent).toContain('border-outline');
+    expect(homeContent).not.toContain('border-amber-200/60');
   });
 
   it('trust icon circles use primary/10 tint', () => {
-    expect(page).toContain('ring-atlas-primary/[0.2]');
+    expect(homeContent).toContain('ring-atlas-primary/[0.2]');
   });
 
   it('trust item text uses on-surface-variant', () => {
-    expect(page).toContain('text-on-surface-variant');
+    expect(homeContent).toContain('text-on-surface-variant');
   });
 
   it('souk eyebrow uses Atlas amber', () => {
-    expect(page).toContain('text-[hsl(var(--secondary))]');
+    expect(homeContent).toContain('text-[hsl(var(--secondary))]');
   });
 
   it('souk heading uses Atlas indigo text', () => {
     // h2 heading text should be Atlas indigo
-    expect(page).toContain('text-[hsl(var(--primary))]');
+    expect(homeContent).toContain('text-[hsl(var(--primary))]');
   });
 
   it('souk category card uses shadow-atlas-sm not shadow-sm', () => {
-    expect(page).toContain('shadow-atlas-sm');
+    expect(homeContent).toContain('shadow-atlas-sm');
   });
 
   it('category card item count badge uses end-3 logical prop (RTL safe)', () => {
-    expect(page).toContain('end-3');
+    expect(homeContent).toContain('end-3');
     // must NOT use right-3 in the badge
-    expect(page).not.toContain('right-3');
+    expect(homeContent).not.toContain('right-3');
   });
 
   it('category card text row uses start-4 end-4 logical props', () => {
-    expect(page).toContain('start-4');
-    expect(page).toContain('end-4');
-    expect(page).not.toContain('left-4 right-4');
+    expect(homeContent).toContain('start-4');
+    expect(homeContent).toContain('end-4');
+    expect(homeContent).not.toContain('left-4 right-4');
   });
 
   it('category name uses name_ar fallback', () => {
-    expect(page).toContain('name_ar');
+    expect(homeContent).toContain('name_ar');
   });
 
   it('tailoring strip uses Atlas indigo bg', () => {
-    expect(page).toContain('bg-[hsl(var(--primary))]');
-    expect(page).not.toContain('bg-indigo-900');
+    expect(homeContent).toContain('bg-[hsl(var(--primary))]');
+    expect(homeContent).not.toContain('bg-indigo-900');
   });
 
   it('tailoring radial gradient uses Atlas hex values', () => {
-    expect(page).toContain('#3b3b6d');
-    expect(page).toContain('#fea619');
-    expect(page).not.toContain('#6366f1');
-    expect(page).not.toContain('#f59e0b');
+    expect(homeContent).toContain('#3b3b6d');
+    expect(homeContent).toContain('#fea619');
+    expect(homeContent).not.toContain('#6366f1');
+    expect(homeContent).not.toContain('#f59e0b');
   });
 
   it('tailoring CTA button uses Atlas amber bg', () => {
-    expect(page).toContain('bg-[hsl(var(--secondary))]');
+    expect(homeContent).toContain('bg-[hsl(var(--secondary))]');
   });
 
   it('tailoring CTA button uses rounded-xl not rounded-full', () => {
     // The Atlas button radius is 12px (rounded-xl-equivalent via calc tokens)
     // We accept either rounded-xl or calc-based sm token
-    expect(page).toMatch(/rounded-xl|rounded-\[calc\(var\(--radius\)/);
+    expect(homeContent).toMatch(/rounded-xl|rounded-\[calc\(var\(--radius\)/);
   });
 
   it('tailoring step badges use Atlas amber', () => {
-    expect(page).toContain('bg-[hsl(var(--secondary))]');
+    expect(homeContent).toContain('bg-[hsl(var(--secondary))]');
   });
 
   it('ateliers section uses Atlas indigo heading', () => {
     // verified badge uses end-3
-    expect(page).toContain('end-3');
+    expect(homeContent).toContain('end-3');
   });
 
   it('atelier card uses shadow-atlas-sm', () => {
-    expect(page).toContain('shadow-atlas-sm');
+    expect(homeContent).toContain('shadow-atlas-sm');
   });
 
   it('atelier location text uses on-surface-variant', () => {
-    expect(page).toContain('text-on-surface-variant');
+    expect(homeContent).toContain('text-on-surface-variant');
   });
 
   it('atelier specialty text uses Atlas amber', () => {
-    expect(page).toContain('text-[hsl(var(--secondary))]');
+    expect(homeContent).toContain('text-[hsl(var(--secondary))]');
   });
 
   it('journal section uses bg-background not solid bg-white', () => {
-    expect(page).toContain('bg-background');
+    expect(homeContent).toContain('bg-background');
     // Only disallow the solid opaque bg-white class; bg-white/[x] opacity variants are fine for dark-hero overlays
-    expect(page).not.toContain('"bg-white"');
-    expect(page).not.toContain("'bg-white'");
+    expect(homeContent).not.toContain('"bg-white"');
+    expect(homeContent).not.toContain("'bg-white'");
   });
 
   it('journal article tag uses primary/10 tint', () => {
-    expect(page).toContain('bg-atlas-primary/[0.1]');
-    expect(page).not.toContain('bg-indigo-100');
+    expect(homeContent).toContain('bg-atlas-primary/[0.1]');
+    expect(homeContent).not.toContain('bg-indigo-100');
   });
 
   it('journal article title uses Atlas indigo text', () => {
-    expect(page).toContain('text-[hsl(var(--primary))]');
+    expect(homeContent).toContain('text-[hsl(var(--primary))]');
   });
 
   it('journal article excerpt uses on-surface-variant', () => {
-    expect(page).toContain('text-on-surface-variant');
+    expect(homeContent).toContain('text-on-surface-variant');
   });
 
   it('seller strip uses Atlas indigo bg', () => {
-    expect(page).not.toContain('bg-indigo-900');
+    expect(homeContent).not.toContain('bg-indigo-900');
   });
 
   it('seller strip open boutique button uses Atlas amber bg + rounded-xl', () => {
-    expect(page).toContain('bg-[hsl(var(--secondary))]');
+    expect(homeContent).toContain('bg-[hsl(var(--secondary))]');
   });
 
   it('AI listings chip uses primary-container', () => {
-    expect(page).toContain('bg-primary-container');
+    expect(homeContent).toContain('bg-primary-container');
   });
 
   it('announcement strip has dir=rtl', () => {
-    expect(page).toContain('dir="rtl"');
+    expect(homeContent).toContain('dir="rtl"');
   });
 });
 

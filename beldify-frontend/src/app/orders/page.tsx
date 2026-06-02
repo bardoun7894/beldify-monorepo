@@ -383,7 +383,7 @@ export default function OrdersPage() {
                         <div className="relative w-14 h-14 rounded-xl overflow-hidden bg-white shadow-atlas-sm flex-shrink-0">
                           <Image
                             src={item.primary_image || item.product_image || '/images/placeholder-product.jpg'}
-                            alt={item.product_name || 'Product'}
+                            alt={item.product_name || t('product.fallback_name')}
                             fill
                             sizes="56px"
                             className="object-cover"
@@ -396,7 +396,7 @@ export default function OrdersPage() {
                         </div>
                         <div className="flex-1 min-w-0">
                           <p className="font-semibold text-gray-900 truncate text-sm">
-                            {item.product_name || 'Unknown Product'}
+                            {item.product_name || t('product.unknown')}
                           </p>
                           <div className="flex items-center gap-3 mt-0.5">
                             <span className="text-xs text-gray-500">

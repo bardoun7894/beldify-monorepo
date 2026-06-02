@@ -29,29 +29,24 @@ export default function ShippingPage() {
 
   const shippingFaqs = [
     {
-      question: 'How can I track my order?',
-      answer:
-        'You can track your order by logging into your account and visiting the Orders section. There, you\'ll find tracking information for all your orders. Alternatively, you can use the tracking number provided in your shipping confirmation email.',
+      question: t('pages.shipping.faq1.question'),
+      answer: t('pages.shipping.faq1.answer'),
     },
     {
-      question: 'What are the shipping costs?',
-      answer:
-        'Shipping costs vary based on your location and the shipping method selected. Standard shipping within Morocco is 30 DH, express shipping is 50 DH, and international shipping starts from 150 DH.',
+      question: t('pages.shipping.faq2.question'),
+      answer: t('pages.shipping.faq2.answer'),
     },
     {
-      question: 'Do you ship internationally?',
-      answer:
-        'Yes, we ship internationally to most countries. International shipping rates start from 150 DH depending on the destination and package weight.',
+      question: t('pages.shipping.faq3.question'),
+      answer: t('pages.shipping.faq3.answer'),
     },
     {
-      question: 'How long will it take to receive my order?',
-      answer:
-        'Delivery times depend on your location and the shipping method selected. Standard shipping within Morocco takes 5-7 business days, express shipping takes 2-3 business days, and international shipping takes 7-14 business days.',
+      question: t('pages.shipping.faq4.question'),
+      answer: t('pages.shipping.faq4.answer'),
     },
     {
-      question: 'What should I do if my order hasn\'t arrived?',
-      answer:
-        'If your order hasn\'t arrived within the expected delivery timeframe, please contact our customer service team through the Contact Us page or via email at support@beldify.com.',
+      question: t('pages.shipping.faq5.question'),
+      answer: t('pages.shipping.faq5.answer'),
     },
   ];
 

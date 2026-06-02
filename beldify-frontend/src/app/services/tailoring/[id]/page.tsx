@@ -49,7 +49,7 @@ export default function TailorProfilePage({ params }: { params: { id: string } }
       const response = await tailorService.getTailor(params.id);
       setTailor(response.data);
     } catch (error: any) {
-      toast.error(error.message || 'Failed to load tailor data');
+      toast.error(error.message || t('tailoring.profile.load_error'));
     } finally {
       setLoading(false);
     }
@@ -62,7 +62,7 @@ export default function TailorProfilePage({ params }: { params: { id: string } }
       const response = await tailorService.getTimeSlots(params.id, selectedDate);
       setTimeSlots(response.data);
     } catch (error: any) {
-      toast.error(error.message || 'Failed to load time slots');
+      toast.error(error.message || t('tailoring.booking.slots_load_error'));
     }
   };
 
@@ -141,13 +141,13 @@ export default function TailorProfilePage({ params }: { params: { id: string } }
       id: 'custom-suit',
       name: t('tailoring.services.custom_suits.title'),
       price: t('tailoring.services.custom_suits.price'),
-      duration: '2-3 hours',
+      duration: t('tailoring.services.custom_suits.duration'),
     },
     {
       id: 'alterations',
       name: t('tailoring.services.alterations.title'),
       price: t('tailoring.services.alterations.price'),
-      duration: '1 hour',
+      duration: t('tailoring.services.alterations.duration'),
     },
   ];
 
@@ -156,17 +156,17 @@ export default function TailorProfilePage({ params }: { params: { id: string } }
       id: '1',
       author: 'Karim Alami',
       rating: 5,
-      comment: 'Excellent craftsmanship! My wedding suit was perfect.',
+      comment: t('tailoring.reviews.mock.1.comment'),
       date: '2024-12-15',
-      service: 'Custom Suit',
+      service: t('tailoring.reviews.mock.1.service'),
     },
     {
       id: '2',
       author: 'Youssef Benjelloun',
       rating: 4,
-      comment: 'Great attention to detail. Very professional service.',
+      comment: t('tailoring.reviews.mock.2.comment'),
       date: '2024-12-10',
-      service: 'Alterations',
+      service: t('tailoring.reviews.mock.2.service'),
     },
   ];
 
@@ -261,7 +261,7 @@ export default function TailorProfilePage({ params }: { params: { id: string } }
                   <div key={index} className="relative aspect-square rounded-2xl overflow-hidden ring-1 ring-amber-200/60">
                     <Image
                       src={image}
-                      alt={`Portfolio ${index + 1}`}
+                      alt={t('tailoring.profile.portfolio_image_alt', { index: index + 1 })}
                       fill
                       className="object-cover hover:scale-105 transition-transform duration-300"
                     />

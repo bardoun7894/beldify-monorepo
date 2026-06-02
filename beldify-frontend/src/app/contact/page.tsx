@@ -180,7 +180,7 @@ export default function ContactPage() {
                 id="phone"
                 type="tel"
                 autoComplete="tel"
-                placeholder="+212 (0) 7 XX XX XX XX"
+                placeholder={t('contact.form.phonePlaceholder')}
                 className="block w-full rounded-2xl border border-amber-200 bg-white px-4 py-2.5 text-sm text-gray-900 placeholder-gray-400 shadow-sm transition focus:border-amber-500 focus:outline-none focus:ring-2 focus:ring-amber-500/20"
               />
             </div>

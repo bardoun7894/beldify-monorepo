@@ -69,7 +69,14 @@ interface PaymentMethod {
   name: string;
   icon: string;
   description: string;
+  // cod = cash on delivery (Morocco-only, ≤ COD_MAX); transfer = offline
+  // money-transfer requiring an uploaded receipt; gateway = card/paypal (soon).
+  kind: 'cod' | 'transfer' | 'gateway';
 }
+
+// COD is allowed only within Morocco and up to this order total (MAD); mirrors
+// the server rule in OrderService::assertCodAllowed.
+const COD_MAX_AMOUNT = 500;
 
 type ShippingMethodKey = 'standard' | 'express' | 'pickup';
 
@@ -185,23 +192,79 @@ export default function CheckoutPage() {
   const getPaymentMethods = (): PaymentMethod[] => [
     {
       id: 'cod',
-      name: t('checkout.payment.methods.cod.title'),
+      kind: 'cod',
+      name: t('checkout.payment.methods.cod.title', 'Cash on delivery'),
       icon: '/icons/cod.svg',
-      description: t('checkout.payment.methods.cod.description'),
+      description: t('checkout.payment.methods.cod.description', 'Pay in cash when your order arrives'),
+    },
+    {
+      id: 'bank_transfer',
+      kind: 'transfer',
+      name: t('checkout.payment.methods.bank_transfer.title', 'Bank transfer'),
+      icon: '/icons/cod.svg',
+      description: t('checkout.payment.methods.bank_transfer.description', 'Transfer to our bank account, then upload the receipt'),
+    },
+    {
+      id: 'wafacash',
+      kind: 'transfer',
+      name: t('checkout.payment.methods.wafacash.title', 'Wafacash'),
+      icon: '/icons/cod.svg',
+      description: t('checkout.payment.methods.wafacash.description', 'Pay via Wafacash, then upload the receipt'),
+    },
+    {
+      id: 'cash_plus',
+      kind: 'transfer',
+      name: t('checkout.payment.methods.cash_plus.title', 'Cash Plus'),
+      icon: '/icons/cod.svg',
+      description: t('checkout.payment.methods.cash_plus.description', 'Pay via Cash Plus, then upload the receipt'),
+    },
+    {
+      id: 'western_union',
+      kind: 'transfer',
+      name: t('checkout.payment.methods.western_union.title', 'Western Union'),
+      icon: '/icons/cod.svg',
+      description: t('checkout.payment.methods.western_union.description', 'Send via Western Union, then upload the receipt'),
+    },
+    {
+      id: 'moneygram',
+      kind: 'transfer',
+      name: t('checkout.payment.methods.moneygram.title', 'MoneyGram'),
+      icon: '/icons/cod.svg',
+      description: t('checkout.payment.methods.moneygram.description', 'Send via MoneyGram, then upload the receipt'),
     },
     {
       id: 'paypal',
+      kind: 'gateway',
       name: t('checkout.payment.methods.paypal.title'),
       icon: '/icons/paypal.svg',
       description: t('checkout.payment.methods.paypal.description'),
     },
     {
       id: 'card',
+      kind: 'gateway',
       name: t('checkout.payment.methods.card.title'),
       icon: '/icons/visa.svg',
       description: t('checkout.payment.methods.card.description'),
     },
   ];
+
+  // COD eligibility mirrors the backend rule: Morocco only, ≤ COD_MAX_AMOUNT.
+  const codAllowed =
+    (cartState?.total_amount ?? 0) <= COD_MAX_AMOUNT &&
+    (shippingInfo.country || '').toUpperCase() === 'MA';
+
+  // Reason a method can't be picked (null = selectable).
+  const paymentDisabledReason = (method: PaymentMethod): string | null => {
+    if (method.kind === 'gateway') {
+      return t('checkout.payment.coming_soon', 'Coming soon');
+    }
+    if (method.kind === 'cod' && !codAllowed) {
+      return (cartState?.total_amount ?? 0) > COD_MAX_AMOUNT
+        ? t('checkout.payment.cod_over_limit', `Not available over ${COD_MAX_AMOUNT} MAD`)
+        : t('checkout.payment.cod_morocco_only', 'Only available inside Morocco');
+    }
+    return null;
+  };
 
   const handleLocationDetection = () => {
     setIsLoadingLocation(true);
@@ -378,15 +441,16 @@ export default function CheckoutPage() {
             stockAvailable.available_quantity === 0
           ) {
             throw new Error(
-              `Item Unavailable: This item is currently out of stock or the requested quantity exceeds our available stock. (${item.product.name})`
+              t('checkout.errors.item_unavailable', { name: item.product.name })
             );
           }
 
           if (stockAvailable.available_quantity < item.quantity) {
             throw new Error(
-              `Only ${stockAvailable.available_quantity} item${
-                stockAvailable.available_quantity !== 1 ? 's' : ''
-              } available for ${item.product.name}. Please update your cart.`
+              t('checkout.errors.insufficient_stock', {
+                count: stockAvailable.available_quantity,
+                name: item.product.name,
+              })
             );
           }
 
@@ -413,6 +477,12 @@ export default function CheckoutPage() {
         card: 'credit_card',
         paypal: 'paypal',
         cod: 'cash_on_delivery',
+        // Offline transfers are already canonical — pass through unchanged.
+        bank_transfer: 'bank_transfer',
+        wafacash: 'wafacash',
+        cash_plus: 'cash_plus',
+        western_union: 'western_union',
+        moneygram: 'moneygram',
       };
       const normalizedPaymentMethod = paymentMethodMap[selectedPayment] || selectedPayment;
 
@@ -427,24 +497,31 @@ export default function CheckoutPage() {
       }
 
       if (!shippingInfo.firstName || shippingInfo.firstName.trim().length < 2) {
-        toast.error('First name is required and must be at least 2 characters');
+        toast.error(t('checkout.validation.first_name_required'));
         return;
       }
 
       if (!shippingInfo.lastName || shippingInfo.lastName.trim().length < 2) {
-        toast.error('Last name is required and must be at least 2 characters');
+        toast.error(t('checkout.validation.last_name_required'));
         return;
       }
 
       const phoneDigits = shippingInfo.phone.replace(/\D/g, '');
       if (phoneDigits.length < 10) {
-        toast.error('Please enter a valid phone number with at least 10 digits');
+        toast.error(t('checkout.validation.phone_min_digits'));
         return;
       }
 
-      const availablePaymentMethods = ['credit_card', 'paypal', 'cash_on_delivery'];
+      const availablePaymentMethods = [
+        'cash_on_delivery',
+        'bank_transfer',
+        'wafacash',
+        'cash_plus',
+        'western_union',
+        'moneygram',
+      ];
       if (!availablePaymentMethods.includes(normalizedPaymentMethod)) {
-        toast.error('Please select a valid payment method');
+        toast.error(t('checkout.validation.payment_method_invalid'));
         return;
       }
 
@@ -541,7 +618,7 @@ export default function CheckoutPage() {
             `/order-confirmation?orderId=${encodeURIComponent(String(orderNumber))}`
           );
         } else {
-          toast.success('Order placed. Redirecting to your orders...');
+          toast.success(t('checkout.success.redirecting_orders'));
           router.push('/orders');
         }
       } else {
@@ -550,10 +627,10 @@ export default function CheckoutPage() {
           response.message?.includes('out of stock')
         ) {
           throw new Error(
-            'One or more items in your cart are no longer available in the requested quantity. Please review your cart and try again.'
+            t('checkout.errors.cart_items_unavailable')
           );
         }
-        throw new Error(response.message || 'Order creation failed');
+        throw new Error(response.message || t('checkout.errors.order_creation_failed'));
       }
     } catch (error: any) {
       logger.error('Order processing error:', error);
@@ -573,8 +650,18 @@ export default function CheckoutPage() {
   };
 
   const handlePaymentMethodSelect = (methodId: string) => {
+    const method = getPaymentMethods().find((m) => m.id === methodId);
+    if (method && paymentDisabledReason(method)) return; // not selectable
     setSelectedPayment(methodId);
   };
+
+  // If COD becomes ineligible (cart > limit or shipping leaves Morocco) while it
+  // is the selected method, fall back to the first transfer option.
+  useEffect(() => {
+    if (selectedPayment === 'cod' && !codAllowed) {
+      setSelectedPayment('bank_transfer');
+    }
+  }, [selectedPayment, codAllowed]);
 
   // ── Derived totals ────────────────────────────────────────────────────────
   const subtotal = cartState?.subtotal ?? 0;
@@ -688,10 +775,10 @@ export default function CheckoutPage() {
                 <div className="w-2.5 h-2.5 rounded-full bg-indigo-700" />
               )}
             </div>
-            {method.id !== 'cod' && (
+            {paymentDisabledReason(method) && (
               <div className="absolute inset-0 bg-white/85 backdrop-blur-[2px] flex items-center justify-center rounded-2xl">
                 <span className="text-xs font-medium text-gray-500 bg-white px-3 py-1 rounded-full shadow-atlas-sm ring-1 ring-amber-200">
-                  {t('checkout.payment.coming_soon', 'Coming soon')}
+                  {paymentDisabledReason(method)}
                 </span>
               </div>
             )}
@@ -1181,7 +1268,7 @@ export default function CheckoutPage() {
               <div className="relative w-12 h-12 flex-shrink-0 rounded-xl ring-1 ring-amber-200 overflow-hidden bg-amber-50">
                 <Image
                   src={getImageUrl(item.product.image_url, '/placeholder.png')}
-                  alt={productName || 'Product image'}
+                  alt={productName || t('checkout.summary.product_image_alt')}
                   fill
                   className="object-cover"
                   sizes="48px"

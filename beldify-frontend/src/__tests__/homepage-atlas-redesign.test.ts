@@ -6,72 +6,75 @@ const ROOT = join(__dirname, '..', '..');
 const SRC = join(ROOT, 'src');
 
 const pageContent = readFileSync(join(SRC, 'app/page.tsx'), 'utf-8');
+// HomeContent.tsx holds the presentational JSX extracted from page.tsx for i18n.
+// Visual token tests for homepage check homeContent (the presentational layer).
+const homeContent = readFileSync(join(SRC, 'components/home/HomeContent.tsx'), 'utf-8');
 const featuredSectionsContent = readFileSync(join(SRC, 'components/home/FeaturedSections.tsx'), 'utf-8');
 const megaOffersContent = readFileSync(join(SRC, 'components/MegaOffers.tsx'), 'utf-8');
 
 describe('Homepage Atlas redesign — page.tsx', () => {
   it('uses indigo-700 for primary brand CTAs (not hsl(var(--primary)) only)', () => {
-    expect(pageContent).toContain('indigo-700');
+    expect(homeContent).toContain('indigo-700');
   });
 
   it('uses amber-500 accent tokens', () => {
-    expect(pageContent).toContain('amber-500');
+    expect(homeContent).toContain('amber-500');
   });
 
   it('uses shadow-atlas-sm or shadow-atlas-md for cards (not plain shadow-md)', () => {
-    expect(pageContent).toContain('shadow-atlas-');
+    expect(homeContent).toContain('shadow-atlas-');
   });
 
   it('uses rounded-2xl on cards', () => {
-    expect(pageContent).toContain('rounded-2xl');
+    expect(homeContent).toContain('rounded-2xl');
   });
 
   it('has Playfair Display serif for headline', () => {
-    expect(pageContent).toContain('Playfair Display');
+    expect(homeContent).toContain('Playfair Display');
   });
 
   it('uses RTL logical properties (ps-/pe-) not left/right', () => {
     // Should NOT have raw left-N or right-N positional margin/padding in class lists
     // Check that if these classes exist they are isolated (not start-/end- replaceable)
-    expect(pageContent).not.toMatch(/className="[^"]*\bpl-\d+\b/);
-    expect(pageContent).not.toMatch(/className="[^"]*\bpr-\d+\b/);
+    expect(homeContent).not.toMatch(/className="[^"]*\bpl-\d+\b/);
+    expect(homeContent).not.toMatch(/className="[^"]*\bpr-\d+\b/);
   });
 
   it('has trust strip section with ShieldCheck icon', () => {
-    expect(pageContent).toContain('ShieldCheck');
+    expect(homeContent).toContain('ShieldCheck');
   });
 
   it('has currency in dirham format (درهم)', () => {
-    expect(pageContent).toContain('درهم');
+    expect(homeContent).toContain('درهم');
   });
 
   it('uses animate-fade-in-up for AI chip (defined in globals.css)', () => {
-    expect(pageContent).toContain('animate-fade-in-up');
+    expect(homeContent).toContain('animate-fade-in-up');
   });
 
   it('does not use gradient text background-clip pattern (AI slop)', () => {
-    expect(pageContent).not.toContain('bg-clip-text');
+    expect(homeContent).not.toContain('bg-clip-text');
   });
 
   it('does not have numbered section scaffolding 01/02/03 (AI slop)', () => {
-    expect(pageContent).not.toMatch(/["']0[1-9]\/0[1-9]["']/);
+    expect(homeContent).not.toMatch(/["']0[1-9]\/0[1-9]["']/);
   });
 
   it('uses hover-lift pattern for cards', () => {
-    expect(pageContent).toMatch(/hover:-translate-y-0\.5|hover-lift/);
+    expect(homeContent).toMatch(/hover:-translate-y-0\.5|hover-lift/);
   });
 
   it('uses next/image for all imagery (not <img>)', () => {
-    expect(pageContent).toContain("from 'next/image'");
-    expect(pageContent).not.toContain('<img ');
+    expect(homeContent).toContain("from 'next/image'");
+    expect(homeContent).not.toContain('<img ');
   });
 
   it('has focus rings on interactive elements', () => {
-    expect(pageContent).toContain('focus:ring');
+    expect(homeContent).toContain('focus:ring');
   });
 
   it('uses max-w-7xl container pattern', () => {
-    expect(pageContent).toContain('max-w-7xl');
+    expect(homeContent).toContain('max-w-7xl');
   });
 });
 

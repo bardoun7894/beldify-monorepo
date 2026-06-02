@@ -95,7 +95,7 @@ export default function LoginPage() {
       }
     } catch (error) {
       logger.error('Error handling stored action:', error);
-      toast.error('Failed to complete action. Please try again.');
+      toast.error(t('auth.action_failed'));
 
       // Clear stored data on error
       sessionStorage.removeItem('redirectAction');
@@ -199,7 +199,7 @@ export default function LoginPage() {
     script.onload = initializeGoogleButton;
     script.onerror = () => {
       logger.error('Failed to load Google Identity script');
-      toast.error('Google Sign-In is currently unavailable');
+      toast.error(t('auth.google_unavailable'));
     };
 
     document.head.appendChild(script);
@@ -262,7 +262,7 @@ export default function LoginPage() {
       logger.log('Google button initialized successfully');
     } catch (error) {
       logger.error('Error initializing Google button:', error);
-      toast.error('Failed to initialize Google Sign-In');
+      toast.error(t('auth.google_init_failed'));
     }
   };
 
@@ -277,7 +277,7 @@ export default function LoginPage() {
       const authResult = await googleAuth(response.credential, false); // false indicates this is login, not registration
 
       if (authResult.success) {
-        toast.success('Google login successful!');
+        toast.success(t('auth.google_login_success'));
 
         // First, try to handle stored actions (add to cart or purchase now)
         const handledStoredAction = await handleStoredAction();
@@ -298,7 +298,7 @@ export default function LoginPage() {
           }
         }
       } else {
-        toast.error(authResult.message || 'Login with Google failed');
+        toast.error(authResult.message || t('auth.google_login_failed'));
       }
     } catch (err: any) {
       logger.error('Google auth error:', err);

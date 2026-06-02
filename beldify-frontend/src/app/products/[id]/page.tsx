@@ -1010,7 +1010,7 @@ export default function ProductDetailsPage() {
           setSelectedVariant(defaultVariant);
         }
       } catch (error) {
-        setError('Failed to load product');
+        setError(t('errors.product_load_failed'));
           logger.error('Error fetching product:', error);
       } finally {
         setLoading(false);
@@ -1446,7 +1446,7 @@ export default function ProductDetailsPage() {
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-1.5 flex-wrap">
                 <span className="font-semibold text-gray-900 text-sm truncate">
-                  {product.shop?.name ?? 'Atelier Fassi'}
+                  {product.shop?.name ?? t('shop.default_name')}
                 </span>
                 <BadgeCheck className="h-4 w-4 text-indigo-700 shrink-0" aria-label={t('shop.verified', 'Verified')} />
               </div>

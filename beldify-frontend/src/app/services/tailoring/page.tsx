@@ -186,14 +186,14 @@ export default function TailoringPage() {
           <span className="hidden h-px flex-1 bg-amber-200/70 sm:block" aria-hidden />
         </div>
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-          {galleryImages.map(({ src, alt }) => (
+          {galleryImages.map(({ src, alt }, i) => (
             <div
               key={src}
               className="group relative aspect-[4/5] overflow-hidden rounded-2xl ring-1 ring-amber-200/60 shadow-atlas-sm hover-lift"
             >
               <Image
                 src={src}
-                alt={alt}
+                alt={t(`tailoring.gallery.alt.${i}`, alt)}
                 fill
                 sizes="(min-width:640px) 25vw, 50vw"
                 className="object-cover transition duration-500 group-hover:scale-105"

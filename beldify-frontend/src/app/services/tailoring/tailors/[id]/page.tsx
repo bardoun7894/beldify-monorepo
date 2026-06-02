@@ -48,26 +48,26 @@ const TailorDetailsPage = ({ params }: TailorDetailsPageProps) => {
     {
       id: 1,
       name: t('content.tailorDetail.service1Name', 'Custom Garment Design'),
-      price: '1500 - 3000 MAD',
-      duration: '2-3 weeks',
+      price: t('content.tailorDetail.service1Price', '1500 - 3000 MAD'),
+      duration: t('content.tailorDetail.service1Duration', '2-3 weeks'),
     },
     {
       id: 2,
       name: t('content.tailorDetail.service2Name', 'Alterations'),
-      price: '200 - 500 MAD',
-      duration: '2-5 days',
+      price: t('content.tailorDetail.service2Price', '200 - 500 MAD'),
+      duration: t('content.tailorDetail.service2Duration', '2-5 days'),
     },
     {
       id: 3,
       name: t('content.tailorDetail.service3Name', 'Wedding Attire'),
-      price: '5000+ MAD',
-      duration: '4-8 weeks',
+      price: t('content.tailorDetail.service3Price', '5000+ MAD'),
+      duration: t('content.tailorDetail.service3Duration', '4-8 weeks'),
     },
     {
       id: 4,
       name: t('content.tailorDetail.service4Name', 'Traditional Moroccan Wear'),
-      price: '2000 - 4000 MAD',
-      duration: '3-4 weeks',
+      price: t('content.tailorDetail.service4Price', '2000 - 4000 MAD'),
+      duration: t('content.tailorDetail.service4Duration', '3-4 weeks'),
     },
   ];
 
@@ -554,11 +554,11 @@ const TailorDetailsPage = ({ params }: TailorDetailsPageProps) => {
                   {[
                     {
                       label: t('content.tailorDetail.monFri', 'Monday - Friday'),
-                      value: '9:00 - 18:00',
+                      value: t('content.tailorDetail.monFriHours', '9:00 - 18:00'),
                     },
                     {
                       label: t('content.tailorDetail.saturday', 'Saturday'),
-                      value: '10:00 - 16:00',
+                      value: t('content.tailorDetail.satHours', '10:00 - 16:00'),
                     },
                     {
                       label: t('content.tailorDetail.sunday', 'Sunday'),

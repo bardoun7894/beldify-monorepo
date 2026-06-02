@@ -487,7 +487,7 @@ export default function OrderDetailsPage() {
                       <div className="relative w-20 h-20 rounded-xl overflow-hidden bg-amber-50/50 flex-shrink-0 shadow-atlas-sm">
                         <Image
                           src={item.primary_image || item.product_image || '/images/placeholder-product.jpg'}
-                          alt={item.product_name || 'Unknown Product'}
+                          alt={item.product_name || t('orders.items.unknown_product')}
                           fill
                           sizes="80px"
                           className="object-cover"
@@ -500,7 +500,7 @@ export default function OrderDetailsPage() {
                       </div>
                       <div className="flex-1 min-w-0">
                         <h3 className="text-sm font-semibold text-gray-900 leading-snug">
-                          {item.product_name || 'Unknown Product'}
+                          {item.product_name || t('orders.items.unknown_product')}
                         </h3>
                         <div className="mt-1 flex flex-wrap items-center gap-2">
                           {item.variant?.color && (

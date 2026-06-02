@@ -56,11 +56,18 @@ const createI18n = () => {
         },
       },
       defaultNS: 'common',
-      lng: 'ma', // Set default language to Moroccan Arabic
+      lng: 'ma', // Set default language to Moroccan Arabic (Darija)
       fallbackLng: ['ma', 'ar', 'fr', 'en'],
+      // Detection order is intentionally narrow: an explicit ?locale= query wins,
+      // then the cookie the LanguageSwitcher writes (NEXT_LOCALE), then localStorage.
+      // We deliberately DROP 'navigator' and 'htmlTag' so a first-time visitor with a
+      // non-Moroccan browser does NOT override the Darija ('ma') default — first visit
+      // falls through detection and lands on fallbackLng[0] = 'ma'.
       detection: {
-        order: ['path', 'htmlTag', 'cookie', 'localStorage', 'navigator'],
-        lookupFromPathIndex: 0,
+        order: ['querystring', 'cookie', 'localStorage'],
+        lookupQuerystring: 'locale',
+        lookupCookie: 'NEXT_LOCALE',
+        lookupLocalStorage: 'i18nextLng',
         caches: ['cookie', 'localStorage'],
       },
       interpolation: {

@@ -30,7 +30,7 @@ export default function TermsOfServicePage() {
             {t('pages.termsOfService.title')}
           </h1>
           <p className="mt-4 text-indigo-300 text-sm">
-            {t('pages.termsOfService.lastUpdated')}: May 18, 2025
+            {t('pages.termsOfService.lastUpdated')}: {t('pages.termsOfService.lastUpdatedDate')}
           </p>
         </div>
       </div>
@@ -211,9 +211,9 @@ export default function TermsOfServicePage() {
                 {t('content.termsOfService.section16Intro', 'If you have any questions about these Terms, please contact us at:')}
               </p>
               <address className="mt-4 not-italic text-gray-700 space-y-1">
-                <p>Email: legal@beldify.com</p>
-                <p>Phone: +212 (0) 7 08 15 03 51</p>
-                <p>Postal Address: 123 Medina Street, Tetouan, Morocco</p>
+                <p>{t('pages.termsOfService.contactEmail')}</p>
+                <p>{t('pages.termsOfService.contactPhone')}</p>
+                <p>{t('pages.termsOfService.contactAddress')}</p>
               </address>
             </div>
 

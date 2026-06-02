@@ -40,7 +40,75 @@
     "required": "Obligatorio",
     "checkBackSoon": "¡Vuelve pronto!",
     "item": "artículo",
-    "items": "artículos"
+    "items": "artículos",
+    "all": "Todo",
+    "apply": "Aplicar",
+    "browse_products": "Ver productos",
+    "clear": "Limpiar",
+    "currency_eur": "EUR",
+    "currency_mad": "MAD",
+    "currency_usd": "USD",
+    "go_to_first_page": "Ir a la primera página",
+    "go_to_last_page": "Ir a la última página",
+    "go_to_page": "Ir a la página {{page}}",
+    "hide": "Ocultar",
+    "language_code": "es",
+    "mad": "MAD",
+    "next_page": "Página siguiente",
+    "no_results": "Sin resultados",
+    "not_found": "No encontrado",
+    "optional": "Opcional",
+    "or_drag_drop": "o arrastrar y soltar",
+    "pagination": {
+      "goToPage": "Ir a la página",
+      "label": "Paginación",
+      "next": "Siguiente",
+      "page": "Página",
+      "previous": "Anterior"
+    },
+    "previous_page": "Página anterior",
+    "processing": "Procesando...",
+    "remove": "Eliminar",
+    "reset": "Restablecer",
+    "retry": "Reintentar",
+    "scroll_end": "Desplazar al final",
+    "scroll_start": "Desplazar al inicio",
+    "submitting": "Enviando...",
+    "title": "Beldify",
+    "tryAgain": "Intentar de nuevo",
+    "upload_images": "Subir imágenes",
+    "welcome": "Bienvenido",
+    "you": "Tú",
+    "refresh": "Actualizar",
+    "back_to": "Volver a",
+    "errorTitle": "Algo salió mal",
+    "remove_image": "Quitar imagen",
+    "childrens_traditional_wear": "Ropa Tradicional para Niños",
+    "childrens_traditional_wear_description": "Encuentra hermosa ropa tradicional para niños de todas las edades",
+    "currency_labels": {
+      "moroccan_dirham": "MAD"
+    },
+    "days_ago": "hace {{count}} día(s)",
+    "fast_delivery": "Entrega Rápida",
+    "hours_ago": "hace {{count}} hora(s)",
+    "just_now": "Justo ahora",
+    "last_seen": "Último visto {{time}}",
+    "loading_more": "Cargando más...",
+    "mens_traditional_wear": "Ropa Tradicional para Hombre",
+    "mens_traditional_wear_description": "Explora nuestra colección de ropa tradicional auténtica para hombre",
+    "minutes_ago": "hace {{count}} minuto(s)",
+    "more": "más",
+    "no_image_available": "Imagen no disponible",
+    "no_products_found": "No se encontraron productos",
+    "offline": "Sin conexión",
+    "online": "En línea",
+    "today": "Hoy",
+    "traditional_wear": "Ropa Tradicional",
+    "traditional_wear_description": "Descubre ropa tradicional auténtica para todas las ocasiones",
+    "view_all": "Ver Todo",
+    "womens_traditional_wear": "Ropa Tradicional para Mujer",
+    "womens_traditional_wear_description": "Explora nuestra selección de trajes tradicionales elegantes para mujer",
+    "yesterday": "Ayer"
   },
   "validation": {
     "required": "Este campo es obligatorio",
@@ -72,7 +140,53 @@
     "shoes": {
       "name": "Zapatos Tradicionales",
       "description": "Zapatos y pantuflas de cuero hechos a mano"
-    }
+    },
+    "collections_found": "colección",
+    "no_results_description": "Intenta ajustar el filtro o vuelve más tarde.",
+    "no_results_title": "No se encontraron categorías",
+    "topCategories": "Categorías principales",
+    "available": "categorías disponibles",
+    "browse": "Explorar Categorías",
+    "categories_list": {
+      "boys_traditional": "Ropa Tradicional para Niños",
+      "caftan": "Caftán",
+      "girls_dresses": "Vestidos para Niñas",
+      "jabador": "Jabador",
+      "mens_accessories": "Accesorios para Hombre",
+      "mens_kandora": "Kandora para Hombre",
+      "mens_shoes": "Zapatos para Hombre",
+      "takchita": "Takchita",
+      "womens_djellaba": "Djellaba para Mujer",
+      "womens_kandora": "Kandora para Mujer"
+    },
+    "comingSoon": "Próximamente",
+    "coming_soon": "Próximamente disponible",
+    "description": "Descubre nuestra amplia selección de categorías de moda tradicional y moderna marroquí",
+    "discoverMore": "Descubre miles de productos en todas las categorías",
+    "discoverMostPopular": "Descubre las categorías más populares que aman nuestros clientes",
+    "discover_popular": "Descubre las categorías más populares apreciadas por nuestros clientes",
+    "explore": "Explorar Categoría",
+    "exploreAllCategories": "Explora todas las categorías",
+    "explore_all": "Explorar todas las categorías",
+    "featured": {
+      "description": "Descubre nuestras categorías de productos más populares",
+      "title": "Categorías Destacadas"
+    },
+    "items": "producto",
+    "items_count": "{{count}} artículo(s)",
+    "more": "más",
+    "noCategories": "No hay categorías disponibles",
+    "no_categories_found": "No pudimos encontrar ninguna categoría en este momento. Por favor, vuelve más tarde.",
+    "no_categories_title": "No Se Encontraron Categorías",
+    "popularCategories": "Categorías Populares",
+    "popular_categories": "Categorías populares",
+    "product_count": "{{count}} productos",
+    "shopNow": "Comprar Ahora",
+    "shop_by_category": "Comprar por categoría",
+    "title": "Explora Nuestras Categorías",
+    "top_categories": "Mejores categorías",
+    "trending": "Tendencia",
+    "viewAll": "Ver Todo"
   },
   "auth": {
     "login": "Iniciar sesión",
@@ -103,7 +217,66 @@
     "sign_in_with_google": "Iniciar sesión con Google",
     "sign_in_with_apple": "Iniciar sesión con Apple",
     "provider_google": "Google",
-    "provider_apple": "Apple"
+    "provider_apple": "Apple",
+    "back_to_login": "Volver al inicio de sesión",
+    "bullet_bespoke": "Confección a medida bajo pedido",
+    "bullet_returns": "Devoluciones gratuitas en 14 días",
+    "bullet_verified": "Vendedores marroquíes verificados",
+    "check_email": "Revisa tu correo electrónico",
+    "check_spam": "Revisa tu carpeta de spam, o espera unos minutos e inténtalo de nuevo.",
+    "confirm_required": "Por favor, confirma tu contraseña",
+    "contact_required": "El número de contacto es obligatorio",
+    "didnt_receive": "¿No recibiste el correo?",
+    "email_placeholder": "ejemplo@correo.com",
+    "email_required": "El correo electrónico es obligatorio",
+    "enter_email": "tu@ejemplo.com",
+    "first_name_placeholder": "Nombre",
+    "first_name_required": "El nombre es obligatorio",
+    "get_back_in": "Volvamos a conectarte.",
+    "get_back_in_sub": "Te enviaremos un enlace de restablecimiento en segundos.",
+    "hide_password": "Ocultar contraseña",
+    "invalid_email": "Por favor, introduce un correo electrónico válido",
+    "join_circle": "Únete al círculo Beldify.",
+    "join_circle_sub": "Guarda tus favoritos, sigue talleres y reserva pruebas a medida.",
+    "last_name_placeholder": "Apellido",
+    "last_name_required": "El apellido es obligatorio",
+    "loading_google": "Cargando inicio de sesión con Google...",
+    "login_error": "Error al iniciar sesión. Comprueba tus credenciales.",
+    "login_subtitle": "Bienvenido. Introduce tus datos.",
+    "login_success": "¡Sesión iniciada correctamente!",
+    "logout_error": "Error al cerrar sesión. Inténtalo de nuevo.",
+    "logout_success": "Sesión cerrada correctamente.",
+    "password_fair": "Regular",
+    "password_placeholder": "••••••••",
+    "password_required": "La contraseña es obligatoria",
+    "password_strong": "Fuerte",
+    "password_too_short": "Usa al menos 8 caracteres",
+    "password_weak": "Débil",
+    "passwords_no_match": "Las contraseñas no coinciden",
+    "register_subtitle": "Únete a miles de clientes en todo Marruecos.",
+    "remembered_password": "¿Recuerdas tu contraseña?",
+    "resend_link": "Reenviar enlace",
+    "reset_failed": "Error al enviar el enlace. Inténtalo de nuevo.",
+    "reset_instructions": "Introduce tu correo y te enviaremos instrucciones para restablecer tu contraseña.",
+    "reset_instructions_sent": "Hemos enviado las instrucciones de restablecimiento a",
+    "reset_link_sent": "Enlace de restablecimiento enviado a tu correo",
+    "send_reset_link": "Enviar enlace de restablecimiento",
+    "sending": "Enviando...",
+    "show_password": "Mostrar contraseña",
+    "sign_up_with_google": "Registrarse con Google",
+    "welcome_back": "Bienvenido de nuevo a Beldify.",
+    "welcome_back_sub": "Continúa donde lo dejaste. Tu lista de deseos, pedidos y chats de confección te esperan.",
+    "registration_successful": "¡Registro exitoso!",
+    "registration_failed": "Error en el registro",
+    "google_signin_unavailable": "El inicio de sesión con Google no está disponible en este momento",
+    "google_signup_init_failed": "Error al inicializar el registro con Google",
+    "google_registration_failed": "El registro con Google falló",
+    "action_failed": "No se pudo completar la acción. Por favor, inténtalo de nuevo.",
+    "google_unavailable": "El inicio de sesión con Google no está disponible actualmente",
+    "google_init_failed": "Error al inicializar el inicio de sesión con Google",
+    "google_login_success": "¡Inicio de sesión con Google exitoso!",
+    "google_login_failed": "Error al iniciar sesión con Google",
+    "username": "Nombre de usuario"
   },
   "navigation": {
     "home": "Inicio",
@@ -135,14 +308,33 @@
       "es": "Español",
       "ma": "Dariya",
       "de": "Alemán"
-    }
+    },
+    "backToProducts": "Volver a productos",
+    "dark_mode": "Modo oscuro",
+    "light_mode": "Modo claro",
+    "messages": "Mensajes",
+    "register": "Registrarse",
+    "login": "Iniciar sesión",
+    "community": "Open Souk"
   },
   "category": {
     "popularCategories": "Categorías populares",
     "viewAll": "Ver todo",
     "items": "artículo",
     "noCategories": "No se encontraron categorías",
-    "topCategories": "Categorías principales"
+    "topCategories": "Categorías principales",
+    "comingSoon": "Próximamente",
+    "discoverMostPopular": "Descubre las categorías más populares que aman nuestros clientes",
+    "exploreAllCategories": "Explorar todas las categorías",
+    "not_found": "Categoría no encontrada",
+    "subcategories": "Subcategorías",
+    "all_categories": "Todas las categorías",
+    "discoverMore": "Descubre miles de productos en todas las categorías",
+    "empty": "No hay categorías para mostrar",
+    "featured": "Destacado",
+    "loadMore": "Cargar más categorías",
+    "trending": "Tendencia",
+    "view_all": "Ver todas las categorías"
   },
   "bestSellers": {
     "title": "Más vendidos",
@@ -160,17 +352,20 @@
     "mensTraditional": {
       "title": "Ropa tradicional masculina",
       "viewAll": "Ver todo",
-      "mensTraditionalDesc": "Descubre nuestra colección de ropa tradicional masculina auténtica"
+      "mensTraditionalDesc": "Descubre nuestra colección de ropa tradicional masculina auténtica",
+      "view_all": "Ver todo Ropa tradicional masculina"
     },
     "womensTraditional": {
       "title": "Ropa tradicional femenina",
       "viewAll": "Ver todo",
-      "womensTraditionalDesc": "Descubre nuestra colección de ropa tradicional femenina auténtica"
+      "womensTraditionalDesc": "Descubre nuestra colección de ropa tradicional femenina auténtica",
+      "view_all": "Ver todo Ropa tradicional femenina"
     },
     "childrensTraditional": {
       "title": "Ropa tradicional infantil",
       "viewAll": "Ver todo",
-      "childrensTraditionalDesc": "Descubre nuestra colección de ropa tradicional infantil auténtica"
+      "childrensTraditionalDesc": "Descubre nuestra colección de ropa tradicional infantil auténtica",
+      "view_all": "Ver todo Ropa tradicional infantil"
     },
     "featuredStores": {
       "title": "Tiendas destacadas",
@@ -269,7 +464,53 @@
     "request_custom_product": "Solicitar Producto Personalizado",
     "custom_product_description": "¿No encuentras lo que buscas? Crea una solicitud personalizada y conéctate con vendedores que puedan fabricarlo para ti.",
     "custom_request_message": "¡Hola! Estoy interesado en una versión personalizada de este producto. ¿Podrías ayudarme con un diseño personalizado?",
-    "url": "URL del Producto"
+    "url": "URL del Producto",
+    "add_to_wishlist": "Añadir a favoritos",
+    "bestseller": "Más vendido",
+    "category": "Categoría",
+    "custom_size": "Talla personalizada",
+    "custom_sizing": "Talla personalizada disponible",
+    "description_secondary": "Más detalles",
+    "details": "Detalles del producto",
+    "image_thumbnails": "Imágenes del producto",
+    "new": "Nuevo",
+    "no_products": "No se encontraron productos",
+    "read_journal": "Leer el diario",
+    "related": "Productos relacionados",
+    "select_color": "Seleccionar color",
+    "sizing_info": "Guía de tallas",
+    "stars": "estrellas",
+    "tabs": "Pestañas del producto",
+    "view": "Ver producto",
+    "view_all": "Ver todo",
+    "you_might_also_like": "También te podría gustar",
+    "express_delivery": "Entrega rápida",
+    "related_products": "Productos relacionados",
+    "fallback_name": "Producto",
+    "unknown": "Producto desconocido",
+    "add_to_cart_button": "Agregar al Carrito",
+    "additional_info": "Información Adicional",
+    "delivery_estimate_detail": "Envío rápido con seguimiento. Los tiempos de entrega varían según la ubicación.",
+    "explore_shop": "Explorar Tienda",
+    "money_back_guarantee_detail": "Transacciones seguras con garantía de devolución de dinero para artículos elegibles.",
+    "price_format": "{{price}} MAD",
+    "rating_label": "Calificación",
+    "rating_stars": "%{rating} ★",
+    "reviews_label": "Reseñas",
+    "reviews_product": "Reseñas",
+    "shop_name": "Tienda",
+    "stock": {
+      "available": "Disponible",
+      "decrease_quantity": "Disminuir cantidad",
+      "exceeded": "No puede exceder el stock disponible",
+      "in_stock": "{{count}} artículos en stock",
+      "increase_quantity": "Aumentar cantidad",
+      "low_stock": "¡Solo {{count}} restantes!",
+      "max_reached": "Cantidad máxima alcanzada ({{max}})",
+      "out_of_stock": "Agotado",
+      "ready_to_ship": "Listo para enviar hoy",
+      "selected": "Seleccionado"
+    }
   },
   "stock": {
     "in_stock": "En stock ({{count}})",
@@ -285,7 +526,15 @@
     "available": "Disponible",
     "remaining": "Restante",
     "unavailable": "Indisponible",
-    "select_options_for_availability": "Seleccione opciones para verificar disponibilidad"
+    "select_options_for_availability": "Seleccione opciones para verificar disponibilidad",
+    "in_stock_simple": "En stock",
+    "low_stock": "Pocas existencias",
+    "added": "¡Agregado!",
+    "custom_product_description": "¿No encuentras lo que buscas? Crea un pedido personalizado y ponte en contacto con los vendedores que pueden hacerlo para ti.",
+    "custom_request_message": "¡Hola! Estoy interesado en una versión personalizada de este producto. ¿Puedes ayudarme con un diseño personalizado?",
+    "request_custom_product": "Solicitar producto personalizado",
+    "url": "Enlace del producto",
+    "viewFullDetails": "Ver detalles completos"
   },
   "success": {
     "addedToCart": "Producto agregado exitosamente al carrito"
@@ -295,7 +544,10 @@
     "empty": {
       "title": "Tu carrito está vacío",
       "description": "Aún no has agregado productos a tu carrito",
-      "cta": "Explorar productos"
+      "cta": "Explorar productos",
+      "heading": "Tu bolsa está vacía.",
+      "subtitle": "Explora nuestra colección y encuentra algo que te guste.",
+      "trust": "Devoluciones gratis en 14 días · Artesanía marroquí auténtica"
     },
     "items": {
       "product": "Producto",
@@ -304,7 +556,8 @@
       "quantity": "Cantidad",
       "total": "Total",
       "remove": "Eliminar",
-      "update": "Actualizar"
+      "update": "Actualizar",
+      "sale": "Oferta"
     },
     "summary": {
       "title": "Resumen del pedido",
@@ -315,7 +568,10 @@
       "total": "Total",
       "proceed_to_checkout": "Proceder al pago",
       "checkout": "Finalizar compra",
-      "continue_shopping": "Continuar comprando"
+      "continue_shopping": "Continuar comprando",
+      "free": "Gratis",
+      "freeShippingHint": "Añade {{amount}} MAD más para envío gratis",
+      "kicker": "Resumen del pedido"
     },
     "coupon": {
       "label": "Cupón",
@@ -325,12 +581,15 @@
       "applied": "Cupón '{{code}}' aplicado",
       "removed": "Cupón eliminado",
       "invalid": "Cupón inválido",
-      "enter_code": "Por favor introduce un código de cupón"
+      "enter_code": "Por favor introduce un código de cupón",
+      "applied_label": "aplicado"
     },
     "quantity": {
       "increase": "Aumentar cantidad",
       "decrease": "Disminuir cantidad",
-      "max_limit": "La cantidad máxima disponible es {{max}}"
+      "max_limit": "La cantidad máxima disponible es {{max}}",
+      "current": "Cantidad: {{count}}",
+      "label": "Cantidad"
     },
     "notifications": {
       "removed": "Producto eliminado del carrito",
@@ -355,7 +614,51 @@
     "added_successfully": "Producto agregado al carrito",
     "removed_successfully": "Producto eliminado del carrito",
     "updated_successfully": "Carrito actualizado exitosamente",
-    "cleared_successfully": "Carrito vaciado exitosamente"
+    "cleared_successfully": "Carrito vaciado exitosamente",
+    "add_to_bag": "Añadir a la bolsa",
+    "added_success": "Añadido al carrito",
+    "aiSuggestions": "Completa el look",
+    "also_like": "También te puede gustar",
+    "bespoke": {
+      "cta": "Reservar consulta",
+      "headline": "¿Lo quieres hecho a tu medida?"
+    },
+    "continue_shopping": "Seguir comprando",
+    "heading": "Tu bolsa",
+    "mobileBar": {
+      "itemCount": "{{count}} artículos",
+      "label": "Resumen del carrito"
+    },
+    "payment_methods": "Visa · Mastercard · Pago contra reembolso",
+    "reassurance": {
+      "authentic": "Artesanía marroquí auténtica",
+      "delivery": "Entrega a todo el país",
+      "label": "Garantías de compra",
+      "support": "Soporte en AR / FR / EN",
+      "verified": "Vendedores verificados"
+    },
+    "shipping": {
+      "calculate": "Calcular envío",
+      "cost": "Coste de envío",
+      "enter_location": "Ingresa tu ubicación",
+      "free": "Gratis",
+      "select_city": "Selecciona una ciudad"
+    },
+    "sticky_bar": "Añadir a la bolsa",
+    "stock": {
+      "low": "Solo quedan {{remaining}}",
+      "max": "Cantidad máxima alcanzada",
+      "available": "{{count}} disponible(s)",
+      "level": "Nivel de Stock",
+      "max_reached": "Stock máximo alcanzado",
+      "warning": "Solo {{count}} quedan en stock"
+    },
+    "subtitle": "{{count}} artículos · listos cuando quieras",
+    "trust": {
+      "returns": "Devoluciones gratis en 14 días",
+      "secure": "Pagos seguros"
+    },
+    "adding": "Añadiendo al carrito..."
   },
   "products": {
     "title": "Productos",
@@ -472,6 +775,13 @@
       "remove_from_cart": "Quitar del carrito",
       "view_cart": "Ver carrito",
       "checkout": "Finalizar compra"
+    },
+    "results_label": "resultados",
+    "childrens_wear": {
+      "category": "Ropa Infantil",
+      "festive_set": "Conjunto Festivo Infantil",
+      "girls_caftan": "Caftan Niña",
+      "kids_kandora": "Kandora Infantil"
     }
   },
   "order": {
@@ -515,7 +825,18 @@
     "shipping": {
       "title": "Información de envío",
       "contact": "Información de contacto",
-      "address": "Dirección"
+      "address": "Dirección",
+      "form": {
+        "address": "Dirección",
+        "apartment": "Apartamento, bloque, etc. (opcional)",
+        "city": "Ciudad",
+        "country": "País",
+        "detecting_location": "Detectando tu ubicación...",
+        "postal_code": "Código postal",
+        "postal_code_placeholder": "Opcional",
+        "state": "Región",
+        "use_location": "Usar mi ubicación"
+      }
     },
     "summary": {
       "title": "Resumen del pedido",
@@ -525,7 +846,9 @@
       "total": "Total",
       "payment_method": "Método de pago",
       "payment_status": "Estado del pago"
-    }
+    },
+    "current": "Actual",
+    "current_status": "Estado actual"
   },
   "orders": {
     "title": "Mis pedidos",
@@ -540,7 +863,8 @@
     },
     "error": {
       "title": "¡Lo sentimos!",
-      "description": "Hubo un problema al cargar tus pedidos. Por favor intenta de nuevo"
+      "description": "Hubo un problema al cargar tus pedidos. Por favor intenta de nuevo",
+      "loading": "Error al cargar los pedidos. Inténtalo de nuevo."
     },
     "not_found": {
       "title": "Pedido no encontrado",
@@ -554,7 +878,10 @@
       "contact_seller": "Contactar vendedor",
       "contact_support": "Contactar soporte",
       "write_review": "Escribir reseña",
-      "download_invoice": "Descargar factura"
+      "download_invoice": "Descargar factura",
+      "clear_filters": "Limpiar filtros",
+      "invoice": "Factura",
+      "support": "Soporte"
     },
     "filter": {
       "all": "Todos los pedidos",
@@ -588,7 +915,8 @@
         "last_month": "Mes pasado",
         "pending": "Pedidos pendientes",
         "high_priority": "Alta prioridad"
-      }
+      },
+      "quick_filter_label": "Filtros rápidos"
     },
     "status": {
       "pending": "Pendiente",
@@ -612,7 +940,8 @@
       "number": "Número de seguimiento",
       "estimated_delivery": "Fecha estimada de entrega",
       "current": "Actual",
-      "current_status": "Estado actual"
+      "current_status": "Estado actual",
+      "cancelled_message": "Este pedido fue cancelado. Contacta con soporte si tienes preguntas."
     },
     "items": {
       "title": "Artículos pedidos",
@@ -622,14 +951,23 @@
       "size": "Talla: {{size}}",
       "product": "Producto",
       "product_image": "Imagen del producto",
-      "each": "cada uno"
+      "each": "cada uno",
+      "more": "artículos más",
+      "qty": "Cantidad",
+      "unknown_product": "Producto desconocido"
     },
     "summary": {
       "title": "Resumen del pedido",
       "subtotal": "Subtotal",
       "shipping": "Envío",
       "free": "Gratis",
-      "total": "Total"
+      "total": "Total",
+      "items": "Artículos",
+      "order_date": "Fecha del pedido",
+      "order_number": "Número de pedido",
+      "payment_status": "Estado del pago",
+      "total_amount": "Total",
+      "items_count": "{{count}} artículos"
     },
     "payment_status": {
       "paid": "Pagado",
@@ -655,17 +993,32 @@
       "more_items": "y {{count}} artículo más",
       "view_details": "Ver detalles",
       "shipping_to": "Envío a"
-    }
+    },
+    "no_results": {
+      "subtitle": "Intenta ajustar los filtros o el término de búsqueda.",
+      "title": "No se encontraron pedidos coincidentes"
+    },
+    "shipping": {
+      "address": "Dirección",
+      "contact": "Contacto",
+      "title": "Dirección de envío"
+    },
+    "subtitle": "pedidos",
+    "items_count": "Artículos",
+    "order_number": "Número de pedido",
+    "total_amount": "Cantidad total"
   },
   "order_confirmation": {
     "not_found": {
       "title": "Pedido no encontrado",
       "description": "No hemos encontrado el pedido que buscas.",
-      "cta": "Volver al inicio"
+      "cta": "Volver al inicio",
+      "view_orders": "Ver mis pedidos"
     },
     "success": {
       "title": "¡Gracias por tu pedido!",
-      "message": "Tu pedido ha sido realizado y está siendo procesado. Recibirás un correo de confirmación en breve."
+      "message": "Tu pedido ha sido realizado y está siendo procesado. Recibirás un correo de confirmación en breve.",
+      "confirmed": "Confirmado"
     },
     "order_number": "Número de pedido",
     "status": {
@@ -685,16 +1038,19 @@
       "title": "Dirección de envío"
     },
     "details": {
-      "title": "Detalles del pedido"
+      "title": "Detalles del pedido",
+      "items_list": "Artículos de tu pedido"
     },
     "items": {
-      "qty": "Cant"
+      "qty": "Cant",
+      "unknown": "Producto desconocido"
     },
     "summary": {
       "subtotal": "Subtotal",
       "shipping": "Envío",
       "tax": "Impuesto",
-      "total": "Total"
+      "total": "Total",
+      "free_shipping": "Gratis"
     },
     "actions": {
       "view_status": "Ver estado del pedido",
@@ -702,6 +1058,27 @@
     },
     "error": {
       "fetch_failed": "No se pudieron cargar los detalles del pedido"
+    },
+    "next_steps": {
+      "dispatch": "Enviaremos tu pedido y te mandaremos el número de seguimiento por correo.",
+      "processing": "Tu pedido está siendo revisado y preparado.",
+      "support": "¿Preguntas? Contáctanos cuando quieras desde la app.",
+      "title": "¿Qué pasa después?"
+    },
+    "trust": {
+      "note": "Tu compra está protegida por la Garantía Comprador de Beldify."
+    },
+    "proof": {
+      "title": "Completa tu pago",
+      "choose_file": "Elegir recibo (imagen o PDF)",
+      "reference": "Referencia de transferencia / nombre del remitente (opcional)",
+      "submit": "Subir recibo",
+      "uploading": "Subiendo…",
+      "success": "Recibo subido: lo verificaremos pronto",
+      "error": "No se pudo subir el recibo. Inténtalo de nuevo.",
+      "file_required": "Adjunta tu recibo de transferencia",
+      "under_review_title": "Pago en revisión",
+      "under_review_body": "Recibimos tu comprobante y confirmaremos tu pedido pronto."
     }
   },
   "checkout": {
@@ -727,7 +1104,9 @@
       "title": "Información de envío",
       "address_mode": {
         "manual": "Ingresar dirección manualmente",
-        "location": "Usar ubicación actual"
+        "location": "Usar ubicación actual",
+        "detected": "Ubicación Detectada",
+        "edit": "Editar"
       },
       "form": {
         "first_name": "Nombre",
@@ -740,7 +1119,34 @@
         "zip_code": "Código postal",
         "country": "País",
         "use_location": "Usar mi ubicación",
-        "detecting_location": "Detectando tu ubicación..."
+        "detecting_location": "Detectando tu ubicación...",
+        "apartment": "Apartamento, Suite, etc. (opcional)",
+        "postal_code": "Código Postal",
+        "postal_code_placeholder": "Opcional"
+      },
+      "errors": {
+        "address_failed": "No se pudo detectar tu dirección. Introdúcela manualmente.",
+        "location_failed": "Acceso a ubicación denegado. Introduce tu dirección manualmente.",
+        "location_not_supported": "La geolocalización no está disponible en tu navegador."
+      },
+      "methods": {
+        "express": {
+          "eta": "1–2 días hábiles",
+          "name": "Envío exprés"
+        },
+        "pickup": {
+          "eta": "Listo el siguiente día hábil",
+          "free": "Gratis",
+          "name": "Recogida en tienda — Tetuán"
+        },
+        "standard": {
+          "eta": "3–5 días hábiles",
+          "free": "Gratis",
+          "name": "Envío estándar"
+        }
+      },
+      "success": {
+        "location_detected": "Ubicación detectada — dirección completada."
       }
     },
     "payment": {
@@ -757,6 +1163,26 @@
         "card": {
           "title": "Tarjeta de crédito",
           "description": "Próximamente - Paga con Visa, Mastercard u otras tarjetas"
+        },
+        "bank_transfer": {
+          "title": "Transferencia bancaria",
+          "description": "Transfiere a nuestra cuenta y sube el recibo"
+        },
+        "wafacash": {
+          "title": "Wafacash",
+          "description": "Paga con Wafacash y sube el recibo"
+        },
+        "cash_plus": {
+          "title": "Cash Plus",
+          "description": "Paga con Cash Plus y sube el recibo"
+        },
+        "western_union": {
+          "title": "Western Union",
+          "description": "Envía con Western Union y sube el recibo"
+        },
+        "moneygram": {
+          "title": "MoneyGram",
+          "description": "Envía con MoneyGram y sube el recibo"
         }
       },
       "form": {
@@ -764,7 +1190,15 @@
         "card_holder": "Nombre del titular",
         "expiry_date": "Fecha de vencimiento",
         "cvv": "CVV"
-      }
+      },
+      "coming_soon": "Próximamente",
+      "descriptions": {
+        "card": "Próximamente - Paga de forma segura con tu tarjeta",
+        "cod": "Paga al recibir tu pedido",
+        "paypal": "Próximamente - Paga de forma segura a través de PayPal"
+      },
+      "cod_over_limit": "No disponible para más de 500 MAD",
+      "cod_morocco_only": "Solo disponible en Marruecos"
     },
     "order_summary": {
       "title": "Resumen del pedido",
@@ -779,13 +1213,28 @@
       "continue": "Continuar",
       "back": "Volver",
       "place_order": "Realizar pedido",
-      "processing": "Procesando..."
+      "processing": "Procesando...",
+      "back_to_shipping": "Volver a envío",
+      "continue_payment": "Continuar al pago"
     },
     "validation": {
       "required": "Este campo es obligatorio",
       "invalid_email": "Por favor ingresa un correo válido",
       "invalid_phone": "Por favor ingresa un número de teléfono válido",
-      "location_error": "No se pudo detectar tu ubicación. Por favor intenta de nuevo o ingresa la dirección manualmente"
+      "location_error": "No se pudo detectar tu ubicación. Por favor intenta de nuevo o ingresa la dirección manualmente",
+      "address_required": "La dirección es obligatoria",
+      "address_short": "La dirección es demasiado corta",
+      "city_required": "La ciudad es obligatoria",
+      "country_required": "Por favor selecciona un país",
+      "email_invalid": "Por favor ingresa un correo electrónico válido",
+      "email_required": "El correo electrónico es obligatorio",
+      "phone_invalid": "Por favor ingresa un número de teléfono válido",
+      "phone_required": "El número de teléfono es obligatorio",
+      "state_required": "La región es obligatoria",
+      "first_name_required": "El nombre es obligatorio y debe tener al menos 2 caracteres",
+      "last_name_required": "El apellido es obligatorio y debe tener al menos 2 caracteres",
+      "phone_min_digits": "Por favor ingrese un número de teléfono válido con al menos 10 dígitos",
+      "payment_method_invalid": "Por favor seleccione un método de pago válido"
     },
     "errors": {
       "shipping_info_incomplete": "Por favor completa toda la información de envío requerida",
@@ -799,10 +1248,74 @@
       "invalid_zip": "Por favor ingresa un código postal válido",
       "country_required": "Por favor selecciona tu país",
       "auth_required": "Necesitas iniciar sesión para continuar",
-      "shipping_info_required": "Se requiere información de envío para continuar"
+      "shipping_info_required": "Se requiere información de envío para continuar",
+      "item_unavailable": "Artículo no disponible: Este artículo está agotado o la cantidad solicitada supera nuestro stock disponible. ({{name}})",
+      "insufficient_stock": "Solo hay {{count}} artículo(s) disponible(s) para {{name}}. Por favor actualice su carrito.",
+      "cart_items_unavailable": "Uno o más artículos en su carrito ya no están disponibles en la cantidad solicitada. Por favor revise su carrito e intente de nuevo.",
+      "order_creation_failed": "Error al crear el pedido"
     },
     "success": {
-      "order_placed": "¡Tu pedido ha sido realizado exitosamente!"
+      "order_placed": "¡Tu pedido ha sido realizado exitosamente!",
+      "redirecting_orders": "Pedido realizado. Redirigiendo a tus pedidos..."
+    },
+    "address": {
+      "address": "Dirección",
+      "address_placeholder": "123 Calle Mohammed V",
+      "apartment": "Apartamento, piso…",
+      "apartment_placeholder": "Apto. 4B",
+      "city": "Ciudad",
+      "city_placeholder": "Casablanca",
+      "country": "País",
+      "full_name": "Nombre completo",
+      "full_name_placeholder": "Ahmed Benali",
+      "phone": "Teléfono",
+      "phone_placeholder": "+212 6 00 00 00 00",
+      "postal_code": "Código postal",
+      "state": "Región",
+      "state_placeholder": "Gran Casablanca",
+      "title": "Dirección de entrega"
+    },
+    "bespoke": {
+      "cta": "Explorar personalizado"
+    },
+    "contact": {
+      "email_label": "Correo electrónico",
+      "email_placeholder": "tu@ejemplo.com",
+      "title": "Contacto",
+      "updates_label": "Enviarme actualizaciones y ofertas"
+    },
+    "empty": {
+      "cta": "Volver a comprar",
+      "heading": "Tu bolsa está vacía — nada que enviar.",
+      "subtitle": "Encuentra algo que te guste y vuelve."
+    },
+    "heading": {
+      "title": "¿Dónde lo enviamos?",
+      "title_payment": "¿Cómo quieres pagar?"
+    },
+    "reassurance": {
+      "authentic": "Artesanía auténtica",
+      "returns": "Devoluciones gratis",
+      "section_label": "Por qué comprar con nosotros",
+      "support": "Soporte multilingüe",
+      "verified": "Vendedores verificados"
+    },
+    "stepper": {
+      "aria_label": "Progreso de compra",
+      "bag": "Bolsa",
+      "confirm": "Confirmar",
+      "delivery": "Envío",
+      "payment": "Pago"
+    },
+    "summary": {
+      "discount": "Descuento",
+      "items_list": "Artículos del pedido",
+      "kicker": "Resumen del pedido",
+      "shipping": "Envío",
+      "subtotal": "Subtotal",
+      "tax": "Impuestos",
+      "total": "Total",
+      "product_image_alt": "Imagen del producto"
     }
   },
   "profile": {
@@ -842,7 +1355,9 @@
       "state": "Estado/Provincia",
       "zip_code": "Código postal",
       "country": "País",
-      "select_country": "Seleccionar país"
+      "select_country": "Seleccionar país",
+      "postal_code": "Código Postal",
+      "postal_code_placeholder": "No es obligatorio"
     },
     "actions": {
       "save_changes": "Guardar cambios",
@@ -898,7 +1413,8 @@
       },
       "success_message": "Preferencias actualizadas exitosamente",
       "error_message": "Error al actualizar preferencias"
-    }
+    },
+    "edit_avatar": "Cambiar foto"
   },
   "errors": {
     "general": "Ocurrió un error",
@@ -934,7 +1450,13 @@
       "failed": "Este componente no pudo cargarse.",
       "namedFailed": "El componente {{name}} no pudo cargarse.",
       "retry": "Reintentar"
-    }
+    },
+    "failed_to_fetch_categories": "No se pudieron cargar las categorías.",
+    "fetch_failed_body": "Algo salió mal. Por favor, inténtalo de nuevo.",
+    "fetch_failed_title": "No se pudieron cargar los productos",
+    "productNotFoundDesc": "Este producto no se encontró o ya no está disponible.",
+    "something_went_wrong": "Algo salió mal",
+    "product_load_failed": "Error al cargar el producto"
   },
   "notifications": {
     "success": {
@@ -950,6 +1472,38 @@
       "place_order": "Error al realizar el pedido",
       "update_profile": "Error al actualizar el perfil",
       "save_address": "Error al guardar la dirección"
+    },
+    "changes_saved": "Cambios guardados correctamente.",
+    "error_saving": "Error al guardar cambios. Inténtalo de nuevo.",
+    "bell": {
+      "title": "Notificaciones",
+      "aria": "Notificaciones",
+      "ariaWithCount": "Notificaciones, {{count}} sin leer",
+      "markAllRead": "Marcar todo como leído",
+      "empty": "Aún no hay notificaciones",
+      "viewAll": "Ver todas las notificaciones",
+      "types": {
+        "order_placed": "Nuevo pedido realizado",
+        "order_status": "Estado del pedido actualizado",
+        "community_response": "Nueva respuesta en tu publicación",
+        "tailoring_booking": "Actualización de reserva de sastrería",
+        "new_message": "Nuevo mensaje"
+      }
+    },
+    "page": {
+      "title": "Notificaciones",
+      "total": "{{count}} notificaciones",
+      "emptyTitle": "Sin notificaciones",
+      "emptyDescription": "¡Estás al día! Te notificaremos cuando haya algo nuevo.",
+      "markRead": "Marcar como leído",
+      "pagination": "Página {{current}} de {{last}}",
+      "types": {
+        "order_placed": "Nuevo pedido realizado",
+        "order_status": "Estado del pedido actualizado",
+        "community_response": "Nueva respuesta en tu publicación",
+        "tailoring_booking": "Actualización de reserva de sastrería",
+        "new_message": "Nuevo mensaje"
+      }
     }
   },
   "filters": {
@@ -965,7 +1519,14 @@
     "in_stock": "En stock",
     "customizable": "Personalizable",
     "on_sale": "En oferta",
-    "new_arrivals": "Novedades"
+    "new_arrivals": "Novedades",
+    "active_filters_label": "Filtros activos",
+    "max_price_aria": "Precio máximo en MAD",
+    "min_price_aria": "Precio mínimo en MAD",
+    "open_drawer": "Abrir filtros",
+    "remove_filter": "Eliminar filtro",
+    "remove_filter_aria": "Eliminar este filtro",
+    "apply": "Aplicar"
   },
   "shops": {
     "title": "TIENDAS",
@@ -975,7 +1536,93 @@
     "checkBackSoon": "¡Vuelve pronto!",
     "list": {
       "eyebrow": "Mercado",
-      "headline": "Talleres seleccionados."
+      "headline": "Talleres seleccionados.",
+      "sub": "Descubre talleres marroquíes auténticos"
+    },
+    "browse": "Ver talleres",
+    "error": {
+      "title": "Algo salió mal"
+    },
+    "error_message": "No se pudo cargar esta tienda. Inténtalo de nuevo.",
+    "not_found": "Tienda no encontrada",
+    "search": {
+      "label": "Buscar tienda",
+      "placeholder": "Busca tiendas...",
+      "button": "Buscar",
+      "results": "Se encontraron {{count}} resultados"
+    },
+    "try_again": "Por favor, inténtalo más tarde",
+    "all": "Todas las tiendas",
+    "featured": "Destacado",
+    "filters": {
+      "sort": {
+        "label": "Ordenar por",
+        "options": {
+          "latest": "Más recientes",
+          "name_asc": "Nombre A–Z",
+          "name_desc": "Nombre Z–A",
+          "products": "Más productos"
+        }
+      },
+      "apply": "Aplicar filtros",
+      "categories": "Categorías",
+      "clear": "Limpiar filtros",
+      "location": "Ubicación",
+      "price_range": "Rango de precio",
+      "rating": "Calificación",
+      "title": "Filtros"
+    },
+    "nearby": "Cercano",
+    "noResults": "No se encontraron tiendas",
+    "products_count": "{{count}} producto",
+    "shop": {
+      "follow": "Seguir",
+      "following": "Siguiendo",
+      "about": "Acerca de la tienda",
+      "contact": "Contacto",
+      "customer_support": "Servicio al cliente",
+      "fast_shipping": "Envío rápido",
+      "fast_shipping_desc": "Entrega de 2 a 4 días con seguimiento",
+      "followers": "{{count}} seguidores",
+      "joinedDate": "Se unió en {{date}}",
+      "location": "Ubicación",
+      "products": "Productos",
+      "quality_guarantee": "Garantía de calidad",
+      "quality_guarantee_desc": "Productos tradicionales 100% hechos a mano",
+      "report": "Reportar",
+      "response_rate": "Tasa de respuesta {{rate}}%",
+      "response_time": "Responde dentro de {{time}}",
+      "reviews": "Reseñas",
+      "share": "Compartir",
+      "verified_seller": "Vendedor verificado",
+      "verified_seller_desc": "Este vendedor es confiable y está certificado",
+      "visit": "Visitar la tienda"
+    },
+    "tryDifferentSearch": "Intenta modificar tu búsqueda o filtros para encontrar lo que buscas",
+    "typeFilter": "Tipo de tienda",
+    "types": {
+      "all": "Todas las tiendas",
+      "company": "Empresa",
+      "distributor": "Distribuidor",
+      "individual": "Tienda individual",
+      "manufacturer": "Fabricante",
+      "regular": "Tienda regular"
+    },
+    "verified": "Verificado",
+    "clearFilters": "Limpiar filtros",
+    "noImage": "Imagen no disponible",
+    "no_shops": "No se encontró ninguna tienda",
+    "pagination": {
+      "next": "Siguiente",
+      "page": "Página {{current}} de {{total}}",
+      "previous": "Anterior"
+    },
+    "reviews_count": "{{count}} calificaciones",
+    "search_placeholder": "Buscar tiendas...",
+    "sort": {
+      "newest": "Más reciente",
+      "products": "Más productos",
+      "rating": "Mejores calificaciones"
     }
   },
   "footer": {
@@ -984,7 +1631,10 @@
       "services": "Servicios",
       "support": "Soporte",
       "company": "Empresa",
-      "help": "Ayuda"
+      "help": "Ayuda",
+      "footer": "Pie de página",
+      "quickLinks": "Enlaces rápidos",
+      "sellers": "Vendedores"
     },
     "shop": {
       "traditionalDresses": "Vestidos tradicionales",
@@ -998,7 +1648,8 @@
       "alterations": "Alteraciones",
       "measurements": "Medidas",
       "consultation": "Consultoría",
-      "consultations": "Consultorías"
+      "consultations": "Consultorías",
+      "custom_tailoring": "Confección personalizada"
     },
     "support": {
       "support": "Soporte",
@@ -1006,14 +1657,24 @@
       "faqs": "Preguntas frecuentes",
       "shippingInfo": "Información de envío",
       "returnsExchanges": "Devoluciones y cambios",
-      "sizeGuide": "Guía de tallas"
+      "sizeGuide": "Guía de tallas",
+      "contact": "Contáctanos",
+      "faq": "Preguntas frecuentes",
+      "returns": "Devoluciones e intercambios",
+      "shipping": "Información de envío",
+      "title": "Soporte"
     },
     "company": {
       "aboutUs": "Sobre nosotros",
       "ourArtisans": "Nuestros artesanos",
       "careers": "Empleo",
       "blog": "Blog",
-      "press": "Prensa"
+      "press": "Prensa",
+      "about": "Beldify",
+      "artisans": "Nuestros Maestros Artesanos",
+      "description": "Ofrecemos lo mejor de la moda marroquí tradicional y moderna",
+      "privacyPolicy": "Política de Privacidad",
+      "termsOfService": "Términos de Servicio"
     },
     "newsletter": "Boletín informativo",
     "rights": "Todos los derechos reservados",
@@ -1023,14 +1684,87 @@
       "instagram": "Instagram",
       "twitter": "Twitter"
     },
-    "copyright": "© 2025 Beldify. Todos los derechos reservados"
+    "copyright": "© 2025 Beldify. Todos los derechos reservados",
+    "tagline": "El hogar de la moda tradicional auténtica de Marruecos.",
+    "about": "Acerca de Beldify",
+    "becomeSeller": "Convertirse en vendedor",
+    "careers": "Carreras",
+    "commissions": "Comisiones",
+    "contactLink": "Contacto",
+    "faq": "Preguntas frecuentes",
+    "headingCompany": "Empresa",
+    "headingHelp": "Ayuda",
+    "headingSellers": "Vendedores",
+    "journal": "Revista",
+    "kids": "Niños",
+    "men": "Hombres",
+    "newArrivals": "Nuevas llegadas",
+    "press": "Prensa",
+    "privacy": "Privacidad",
+    "returns": "Devoluciones",
+    "rightsReserved": "Hecho con cuidado en Marruecos.",
+    "sellerDashboard": "Panel del vendedor",
+    "sellerSupport": "Soporte al vendedor",
+    "shipping": "Envío",
+    "tailoring": "Sastrería",
+    "women": "Mujeres",
+    "categories": {
+      "accessories": "Accesorios",
+      "jellaba": "Jalelaba",
+      "kaftan": "Caftán",
+      "new_arrivals": "Nuevas Llegadas",
+      "traditional": "Ropa Tradicional"
+    },
+    "company_info": {
+      "about": "Acerca de Nosotros",
+      "privacy": "Política de Privacidad",
+      "terms": "Términos de Uso",
+      "title": "Empresa"
+    },
+    "contact": {
+      "address": "123 Medina Street, Tetouan, Marruecos",
+      "email": "contact@beldify.com",
+      "phone": "+212 (0) 7 08 15 03 51"
+    },
+    "handcrafted": "Hecho a mano con orgullo en Marruecos",
+    "help": {
+      "contact": "Contáctanos",
+      "faq": "Preguntas Frecuentes",
+      "returns": "Devoluciones e Intercambios",
+      "shipping": "Información de Envío",
+      "size_guide": "Guía de Tallas"
+    },
+    "made_in": "Hecho con orgullo en Marruecos",
+    "quickLinks": {
+      "categories": "Categorías",
+      "community": "Souk Abierto",
+      "home": "Inicio",
+      "products": "Productos"
+    },
+    "quick_links": {
+      "categories": "Categorías",
+      "community": "Souk Abierto",
+      "home": "Inicio",
+      "products": "Productos",
+      "title": "Enlaces Rápidos"
+    },
+    "sellers": {
+      "become": "Convertirse en vendedor",
+      "becomeSeller": "Convertirse en vendedor",
+      "dashboard": "Panel de control del vendedor",
+      "sellerDashboard": "Panel de control del vendedor",
+      "sellerSupport": "Soporte para vendedores",
+      "support": "Soporte para vendedores",
+      "title": "Vendedores"
+    }
   },
   "sort": {
     "title": "Ordenar por",
     "newest": "Productos más nuevos",
     "price_low_high": "Precio: Menor a mayor",
     "price_high_low": "Precio: Mayor a menor",
-    "popular": "Más populares"
+    "popular": "Más populares",
+    "aria_label": "Ordenar productos"
   },
   "countries": {
     "ma": "Marruecos",
@@ -1039,7 +1773,17 @@
     "qa": "Qatar",
     "kw": "Kuwait",
     "bh": "Bahrein",
-    "om": "Omán"
+    "om": "Omán",
+    "MA": "Marruecos",
+    "SA": "Arabia Saudita",
+    "AE": "Emiratos Árabes Unidos",
+    "QA": "Catar",
+    "KW": "Kuwait",
+    "BH": "Baréin",
+    "OM": "Omán",
+    "FR": "Francia",
+    "GB": "Reino Unido",
+    "US": "Estados Unidos"
   },
   "size_guide": {
     "title": "Guía de tallas para ropa tradicional marroquí",
@@ -1219,7 +1963,12 @@
       "lastUpdated": "Última actualización",
       "userAgreement": "Acuerdo de Usuario de Beldify",
       "legalAssistance": "¿Necesitas asistencia legal?",
-      "clarification": "Si tienes alguna pregunta sobre nuestros términos o necesitas aclaración sobre alguna política, nuestro equipo de atención al cliente está disponible para ayudarte."
+      "clarification": "Si tienes alguna pregunta sobre nuestros términos o necesitas aclaración sobre alguna política, nuestro equipo de atención al cliente está disponible para ayudarte.",
+      "contactUs": "Contáctanos",
+      "lastUpdatedDate": "18 de mayo de 2025",
+      "contactEmail": "Correo electrónico: legal@beldify.com",
+      "contactPhone": "Teléfono: +212 (0) 7 08 15 03 51",
+      "contactAddress": "Dirección postal: 123 Calle Medina, Tetuán, Marruecos"
     },
     "contact": {
       "title": "Contáctanos",
@@ -1292,11 +2041,216 @@
         }
       ],
       "needHelp": "¿Necesitas Ayuda con tu Envío?",
-      "helpText": "Nuestro equipo de servicio al cliente está listo para ayudarte con cualquier pregunta sobre tu envío."
+      "helpText": "Nuestro equipo de servicio al cliente está listo para ayudarte con cualquier pregunta sobre tu envío.",
+      "contactSupport": "Contactar soporte",
+      "faq1": {
+        "question": "¿Cómo puedo rastrear mi pedido?",
+        "answer": "Puedes rastrear tu pedido iniciando sesión en tu cuenta y visitando la sección Pedidos. Allí encontrarás información de seguimiento de todos tus pedidos. También puedes usar el número de seguimiento proporcionado en tu correo de confirmación de envío."
+      },
+      "faq2": {
+        "question": "¿Cuáles son los costos de envío?",
+        "answer": "Los costos de envío varían según tu ubicación y el método de envío seleccionado. El envío estándar dentro de Marruecos es 30 DH, el envío exprés es 50 DH y el envío internacional comienza desde 150 DH."
+      },
+      "faq3": {
+        "question": "¿Realizáis envíos internacionales?",
+        "answer": "Sí, realizamos envíos internacionales a la mayoría de los países. Las tarifas de envío internacional comienzan desde 150 DH según el destino y el peso del paquete."
+      },
+      "faq4": {
+        "question": "¿Cuánto tiempo tardará en llegar mi pedido?",
+        "answer": "Los plazos de entrega dependen de tu ubicación y del método de envío seleccionado. El envío estándar dentro de Marruecos tarda de 5 a 7 días hábiles, el exprés de 2 a 3 días hábiles y el internacional de 7 a 14 días hábiles."
+      },
+      "faq5": {
+        "question": "¿Qué debo hacer si mi pedido no ha llegado?",
+        "answer": "Si tu pedido no ha llegado en el plazo de entrega previsto, por favor contacta con nuestro equipo de atención al cliente a través de la página Contáctanos o por correo electrónico a support@beldify.com."
+      }
     },
     "returns": {
       "title": "Devoluciones y Reembolsos",
-      "subtitle": "Nuestra política y proceso para devoluciones y reembolsos"
+      "subtitle": "Nuestra política y proceso para devoluciones y reembolsos",
+      "process": {
+        "contactSupport": "Contactar soporte",
+        "helpDescription": "Nuestro equipo de soporte está listo para ayudarte con tu devolución.",
+        "needHelp": "¿Necesitas ayuda?",
+        "title": "Nuestro Proceso de Devolución",
+        "contactButton": "Contactar soporte",
+        "helpText": "Si tienes preguntas sobre nuestro proceso de devolución, contáctate con nuestro equipo de servicio al cliente.",
+        "helpTitle": "¿Necesitas ayuda?",
+        "refundText1": "Los reembolsos se procesan dentro de 3-5 días hábiles después de que recibamos tu devolución.",
+        "refundText2": "El reembolso se acreditará a tu método de pago original.",
+        "refundText3": "Por favor, permita tiempo adicional para que su banco o compañía de tarjeta de crédito procese el reembolso.",
+        "refundTitle": "Información de Reembolso",
+        "shippingText1": "Proporcionamos una etiqueta de envío de retorno prepagada para devoluciones en EE.UU. Los clientes internacionales son responsables de los costos de envío de devolución.",
+        "shippingText2": "Para su protección, recomendamos utilizar un servicio de envío rastreable y comprar un seguro de envío.",
+        "shippingTitle": "Envío de Devolución",
+        "timeline1": "Día 1-2: Iniciar devolución y recibir etiqueta de devolución",
+        "timeline2": "Día 3-5: Empacar y enviar su devolución",
+        "timeline3": "Día 6-10: Recibimos e inspeccionamos su devolución",
+        "timeline4": "Día 11-14: Se procesa el reembolso",
+        "timelineTitle": "Cronograma de Devolución"
+      },
+      "returnShipping": {
+        "description": "Los gastos de envío de devolución pueden aplicarse según tu ubicación.",
+        "title": "Envío de devolución"
+      },
+      "exchanges": {
+        "description": "Nos encanta ayudarte a intercambiar artículos por un tamaño o color diferente, según la disponibilidad.",
+        "eligibilityDescription": "Para ser elegible para un intercambio, tu artículo debe cumplir con los siguientes criterios:",
+        "eligibilityTitle": "Elegibilidad de Intercambio",
+        "internationalDescription": "Los clientes internacionales son responsables de los costos de envío de devolución y cualquier impuesto o arancel aduanal aplicable para el artículo devuelto. Nosotros cubriremos el costo del envío del artículo de reemplazo a ti.",
+        "internationalTitle": "Intercambios Internacionales",
+        "priceDiffDescription": "Si el artículo de reemplazo es más caro, se te cobrará la diferencia. Si es más barato, reembolsaremos la diferencia a tu método de pago original.",
+        "priceDiffTitle": "Diferencias de Precio",
+        "processDescription": "Ten en cuenta que los intercambios están sujetos a disponibilidad de stock. Si tu reemplazo preferido no está disponible, emitiremos un reembolso en su lugar.",
+        "requestDescription": "Sigue estos pasos para solicitar un intercambio:",
+        "requestTitle": "Cómo Solicitar un Intercambio",
+        "title": "Intercambios",
+        "eligibility1": "El artículo debe ser sin usar, sin estrenar y en condición original con todas las etiquetas adjuntas",
+        "eligibility2": "El empaque original debe incluirse",
+        "eligibility3": "El cambio debe solicitarse dentro de 14 días de la entrega",
+        "eligibility4": "El artículo debe estar en stock para cambio",
+        "step1": "Inicia sesión en tu cuenta y ve a 'Historial de pedidos'",
+        "step2": "Selecciona el artículo que deseas cambiar y elige 'Cambiar' como motivo de devolución",
+        "step3": "Selecciona tu artículo de reemplazo preferido",
+        "step4": "Imprime la etiqueta de devolución y envía el artículo original",
+        "step5": "Una vez que recibamos tu devolución, enviaremos tu reemplazo"
+      },
+      "nonReturnableItems": {
+        "item1": "Artículos personalizados o hechos a medida",
+        "item2": "Prendas íntimas (ropa interior, trajes de baño, medias)",
+        "item3": "Artículos marcados como 'Venta Final' o liquidación",
+        "item4": "Artículos sin embalaje original o etiquetas",
+        "item5": "Artículos usados o dañados",
+        "item6": "Tarjetas de regalo y productos digitales",
+        "title": "No Elegible para Devolución"
+      },
+      "refunds": {
+        "description": "Una vez que recibimos tu devolución, la inspeccionaremos y te notificaremos que hemos recibido tu artículo devuelto. Te notificaremos inmediatamente sobre el estado de tu reembolso después de inspeccionar el artículo.",
+        "title": "Reembolsos",
+        "timeline": "Los reembolsos se procesarán dentro de 3-5 días hábiles después de que recibamos su devolución. El reembolso se acreditará a su método de pago original."
+      },
+      "returnableItems": {
+        "item1": "Ropa sin usar ni lavar con etiquetas",
+        "item2": "Accesorios sin usar con embalaje original",
+        "item3": "Artículos de belleza y cuidado personal sin abrir",
+        "item4": "Artículos defectuosos (dentro del período de garantía)",
+        "item5": "Artículos en condición original con todas las partes incluidas",
+        "title": "Elegible para Devolución"
+      },
+      "returnsPolicy": {
+        "policy1": "Queremos que estés completamente satisfecho con tu compra. Si no estás satisfecho, puedes devolver la mayoría de artículos dentro de 30 días desde la entrega para obtener un reembolso completo o un intercambio.",
+        "policy2": "Para ser elegible para una devolución, tu artículo debe estar sin usar y en el mismo estado en que lo recibiste. También debe estar en su embalaje original con todas las etiquetas adjuntas.",
+        "title": "Política de devoluciones"
+      },
+      "steps": {
+        "step1": {
+          "description": "Inicia tu devolución a través de nuestro portal en línea",
+          "name": "Iniciar devolución"
+        },
+        "step2": {
+          "description": "Empaca de forma segura tus artículos con el embalaje original",
+          "name": "Empacar artículos"
+        },
+        "step3": {
+          "description": "Usa nuestra etiqueta de devolución prepagada para enviar los artículos de regreso",
+          "name": "Enviar de vuelta"
+        },
+        "step4": {
+          "description": "Recibe tu reembolso una vez que procesemos la devolución",
+          "name": "Obtener reembolso"
+        }
+      },
+      "tabs": {
+        "exchanges": "Intercambios",
+        "returnProcess": "Proceso de devolución",
+        "returnsPolicy": "Política de devoluciones"
+      },
+      "availabilityText": "Los intercambios están sujetos a disponibilidad. Si tu reemplazo preferido no está disponible, emitiremos un reembolso en su lugar.",
+      "contactSupport": "Contactar soporte",
+      "contactText": "Si tienes preguntas sobre devoluciones e intercambios, nuestro equipo de servicio al cliente está aquí para ayudarte.",
+      "customItems": "Artículos personalizados o hechos a medida",
+      "defectiveProcess": "Si recibes un artículo defectuoso o dañado, contáctanos dentro de 48 horas de la entrega con fotos del defecto/daño.",
+      "defectiveReturn": "Proporcionaremos una etiqueta de envío de devolución prepagada para artículos defectuosos, y puedes elegir entre un reemplazo o un reembolso completo, incluidos los costos de envío original.",
+      "defectiveTitle": "Artículos defectuosos",
+      "eligibility": "Elegibilidad de devolución",
+      "eligibleItems": "Artículos elegibles",
+      "exchangeProcess": "Para cambiar un artículo por un tamaño o color diferente, sigue el mismo proceso que las devoluciones, pero selecciona 'Cambiar' en lugar de 'Devolver' y especifica tu reemplazo preferido.",
+      "exchangeTitle": "Cambios",
+      "giftCards": "Tarjetas de regalo y productos digitales",
+      "ineligibleItems": "Artículos no elegibles",
+      "initiateReturn": "Cómo iniciar una devolución",
+      "inspectionText": "Una vez que recibamos tu devolución, inspeccionaremos el artículo(s) para asegurar que cumplan con nuestros requisitos de elegibilidad de devolución.",
+      "internationalProcess": "Por favor, contáctate con nuestro equipo de servicio al cliente para obtener orientación sobre devoluciones internacionales antes de enviar cualquier artículo de vuelta a nosotros.",
+      "internationalText": "Los clientes internacionales son responsables de los costos de envío de devolución y cualquier arancel aduanal aplicable o impuestos incurridos durante el proceso de devolución.",
+      "internationalTitle": "Devoluciones internacionales",
+      "intimateItems": "Ropa íntima, prendas interiores y trajes de baño (por razones de higiene)",
+      "notLoggedIn": "Si finalizaste la compra como invitado, contáctate con nuestro servicio al cliente con tu número de pedido para iniciar una devolución.",
+      "processTitle": "Proceso de Devolución",
+      "questionsTitle": "¿Preguntas sobre Devoluciones?",
+      "refundTimeText": "Los reembolsos aprobados se procesarán dentro de 5-7 días hábiles y se emitirán a su método de pago original.",
+      "refundTitle": "Proceso de Reembolso",
+      "returnPolicy": "Política de Devoluciones",
+      "saleItems": "Artículos marcados como 'Venta Final' o comprados con un descuento significativo (superior al 50%)",
+      "shippingCostText": "Los costos de envío original no son reembolsables a menos que la devolución sea debido a nuestro error (artículo defectuoso, artículo equivocado enviado, etc.).",
+      "sizeExchange": "Cambios de Tamaño o Color",
+      "standardItems": "Los productos estándar pueden ser devueltos dentro de 30 días de la entrega, siempre que no hayan sido usados, no estén desgastados y estén en su empaque original con todas las etiquetas adjuntas.",
+      "step1": "1. Inicie sesión en su cuenta y navegue a 'Historial de Pedidos'.",
+      "step2": "2. Encuentre el pedido que contiene el/los artículo(s) que desea devolver y haga clic en 'Devolver Artículos'.",
+      "step3": "3. Seleccione los artículos que desea devolver y la razón de su devolución.",
+      "step4": "4. Imprima la etiqueta de envío de devolución y el formulario de autorización de devolución.",
+      "step5": "5. Empaque el/los artículo(s) de manera segura en su empaque original, si es posible.",
+      "step6": "6. Adjunte la etiqueta de envío al paquete y entreguelo en la ubicación del transportista especificada."
+    },
+    "faqs": {
+      "accountTitle": "Cuenta y pedidos",
+      "contactText": "Si no pudiste encontrar la respuesta a tu pregunta, nuestro equipo de soporte siempre está listo para ayudar.",
+      "contactUs": "Contáctanos",
+      "generalTitle": "Preguntas generales",
+      "paymentsTitle": "Pagos y seguridad",
+      "productsTitle": "Productos y tallas",
+      "returnsTitle": "Devoluciones e intercambios",
+      "stillHaveQuestions": "¿Aún tienes preguntas?",
+      "subtitle": "Encuentra respuestas a preguntas frecuentes sobre nuestros productos y servicios",
+      "title": "Preguntas frecuentes"
+    },
+    "sellers": {
+      "benefit1Text": "Acceda a clientes en todo el mundo con nuestro envío internacional y soporte multiidioma.",
+      "benefit1Title": "Alcance Global",
+      "benefit2Text": "Cree su perfil de vendedor y enumere productos rápidamente con nuestro panel intuitivo.",
+      "benefit2Title": "Configuración Fácil",
+      "benefit3Text": "Reciba pagos de forma segura con nuestro sistema confiable de procesamiento de pagos.",
+      "benefit3Title": "Pagos Seguros",
+      "benefit4Text": "Obtenga soporte dedicado para todas sus necesidades de venta, desde listados de productos hasta asistencia con envíos.",
+      "benefit4Title": "Soporte al Vendedor",
+      "benefitsTitle": "Beneficios de Vender con Nosotros",
+      "faqsTitle": "Preguntas Frecuentes del Vendedor",
+      "heroText": "Conecte con clientes en todo el mundo y haga crecer su negocio en nuestra plataforma confiable para moda y artesanías marroquíes.",
+      "heroTitle": "Expanda su Negocio con Beldify",
+      "howItWorksTitle": "Cómo Funciona",
+      "learnMore": "Aprende Más",
+      "readyToSell": "¿Listo para Comenzar a Vender?",
+      "registerCTA": "Registrarse como Vendedor",
+      "registerNow": "Regístrese Ahora en pro.beldify.com",
+      "registerText": "Únase a miles de vendedores exitosos en nuestra plataforma y lleve su negocio al siguiente nivel.",
+      "step1Text": "Regístrese para obtener una cuenta de vendedor en pro.beldify.com y complete su perfil con la información de su negocio.",
+      "step1Title": "Crear una Cuenta",
+      "step2Text": "Cargue su catálogo de productos con fotos, descripciones, precios e información de inventario.",
+      "step2Title": "Enumere sus Productos",
+      "step3Text": "Reciba notificaciones cuando los clientes realicen pedidos de sus productos.",
+      "step3Title": "Recibir Pedidos",
+      "step4Text": "Envíe pedidos a clientes y reciba pagos directamente en su cuenta.",
+      "step4Title": "Enviar y Recibir Pagos",
+      "subtitle": "Únase a nuestro mercado y muestre sus productos a clientes en todo el mundo",
+      "testimonial1Business": "Boutique Tradicional de Caftanes",
+      "testimonial1Name": "Fatima L.",
+      "testimonial1Text": "Desde que me uní a Beldify, mis ventas de caftanes han aumentado un 70%. La plataforma me ha ayudado a llegar a clientes en Europa y Oriente Medio a los que no podía acceder antes.",
+      "testimonial2Business": "Artículos de Cuero Artesanal",
+      "testimonial2Name": "Karim M.",
+      "testimonial2Text": "El panel de vendedor facilita la gestión de mi inventario y el seguimiento de pedidos. El equipo de soporte ha sido increíblemente útil con todas mis preguntas.",
+      "testimonial3Business": "Moda Marroquí Moderna",
+      "testimonial3Name": "Amina R.",
+      "testimonial3Text": "Beldify ha transformado mi pequeño negocio en una marca internacional. La exposición a clientes globales ha sido invaluable para el crecimiento.",
+      "testimonialsTitle": "Historias de Éxito de Vendedores",
+      "title": "Convertirse en Vendedor"
     }
   },
   "returns": {
@@ -1465,7 +2419,58 @@
     ],
     "readyToSell": "¿Listo para Empezar a Vender?",
     "registerText": "Únete a miles de vendedores exitosos en nuestra plataforma y lleva tu negocio al siguiente nivel.",
-    "registerNow": "Regístrate Ahora en pro.beldify.com"
+    "registerNow": "Regístrate Ahora en pro.beldify.com",
+    "commission": {
+      "body": "Sin cuota de registro. Sin suscripción mensual. Sin comisión de publicación. Solo pagas a Beldify cuando realizas una venta — y publicamos las tarifas exactas por categoría en nuestra página de ayuda al vendedor.",
+      "cta": "Solicitar vender",
+      "headline": "Comisión del 10–15%. Nada más."
+    },
+    "cta": {
+      "apply": "Solicitar vender",
+      "browse": "Ver vendedores"
+    },
+    "finalCta": {
+      "cta": "Solicitar vender",
+      "headline": "¿Listo para hacer crecer tu taller?",
+      "sub": "Las solicitudes se revisan en 3–5 días. Únete a más de 120 vendedores verificados y comienza a llegar a compradores en todo el mundo."
+    },
+    "headline": "Lleva tu taller",
+    "headlineLine2": "al mundo.",
+    "howItWorks": {
+      "sub": "Desde tu primera solicitud hasta tu primera venta, te guiamos en cada paso.",
+      "title": "Tres pasos para comenzar"
+    },
+    "stat1": "Talleres verificados ya en la plataforma",
+    "stat2": "Ciudades alcanzadas en todo el mundo",
+    "stat3": "Comisión — solo cuando vendes",
+    "steps": {
+      "apply": {
+        "body": "Completa nuestra breve solicitud en beldify.com/seller/register. Cuéntanos sobre tu taller, las piezas que haces y adjunta algunas fotos. La mayoría de solicitudes se revisan en 3–5 días hábiles.",
+        "title": "Solicitar"
+      },
+      "sell": {
+        "body": "Publica tus productos, establece tus precios y llega a miles de compradores en 23 ciudades de todo el mundo. Gestionamos los pagos y transferimos tus ganancias cada dos semanas sin comisiones ocultas.",
+        "title": "Empieza a vender"
+      },
+      "verify": {
+        "body": "Un curador de Beldify revisa tu artesanía e historia de marca. Una vez aprobado, recibes tu insignia Verificado, que genera confianza inmediata con los compradores.",
+        "title": "Obtén la verificación"
+      }
+    },
+    "sub": "Beldify conecta talleres marroquíes con compradores en 23 ciudades. Únete a más de 120 vendedores verificados que ya hacen crecer su negocio en nuestra plataforma.",
+    "testimonial": {
+      "1": {
+        "author": "Fatima Zahra",
+        "quote": "Unirme a Beldify transformó mi pequeño taller en un negocio próspero. Ahora vendo mis caftanes bordados a mano a clientes en Europa y Oriente Medio.",
+        "role": "Diseñadora de caftanes, Fez"
+      },
+      "2": {
+        "author": "Kamal Idrissi",
+        "quote": "El apoyo del equipo de Beldify ha sido excepcional. Me ayudaron a mejorar las fotos y descripciones de mis productos — mis ventas se duplicaron en el primer mes.",
+        "role": "Artesano joyero tradicional, Tánger"
+      },
+      "heading": "Los vendedores hablan por sí mismos"
+    }
   },
   "trust_badges": {
     "verified": "Tienda verificada",
@@ -1484,7 +2489,35 @@
     "learnMoreButton": "Saber más",
     "luxuryCaftans": "Caftanes de lujo",
     "discoverCollection": "Descubre nuestra colección exclusiva",
-    "shopNow": "Comprar ahora"
+    "shopNow": "Comprar ahora",
+    "aiChip": "Estilo de IA personalizado para ti",
+    "body": "Descubre caftanes, djellabas y sastrería de los mejores ateliers de Marruecos — entregados en todo el mundo.",
+    "ctaGhost": "Conoce a los sastres",
+    "ctaPrimary": "Compra en el mercado",
+    "eyebrow": "Artesanía auténtica marroquí",
+    "headline": "Usado durante siglos.",
+    "headlineAccent": "Hecho para hoy.",
+    "slide1": {
+      "button": "Compra ahora",
+      "description": "Amplia selección de productos de alta calidad a los mejores precios",
+      "subtitle": "Descubre las últimas tendencias de moda",
+      "title": "Experiencia de compra integral"
+    },
+    "discover": "Descubrir",
+    "exclusive_collection": "Colección Exclusiva",
+    "handcrafted": "Fabricado con materiales premium",
+    "slide2": {
+      "button": "Explora las ofertas",
+      "description": "No pierdas la oportunidad de obtener las mejores ofertas y descuentos exclusivos",
+      "subtitle": "Ahorra hasta el 70% en productos seleccionados",
+      "title": "Descuentos increíbles"
+    },
+    "slide3": {
+      "button": "Descubre más",
+      "description": "Descubre nuestra colección exclusiva de productos destacados diseñados especialmente para ti",
+      "subtitle": "Una colección única",
+      "title": "Productos exclusivos"
+    }
   },
   "community": {
     "verified_seller": "Vendedor verificado",
@@ -1582,7 +2615,8 @@
     "status": {
       "open": "Abierto",
       "in_progress": "En progreso",
-      "closed": "Cerrado"
+      "closed": "Cerrado",
+      "completed": "Completado"
     },
     "search_placeholder": "Buscar",
     "showing_results": "Mostrando resultados",
@@ -1610,8 +2644,164 @@
     "messages": {
       "sending_custom_request": "Enviando solicitud personalizada...",
       "custom_request_sent": "¡Solicitud personalizada enviada con éxito!",
-      "custom_request_error": "Error al enviar la solicitud personalizada"
-    }
+      "custom_request_error": "Error al enviar la solicitud personalizada",
+      "no_search_results": "Ninguna conversación coincide con tu búsqueda",
+      "recent_conversations": "Conversaciones recientes",
+      "search_conversations": "Buscar conversaciones...",
+      "conversation": "conversación",
+      "conversations": "conversaciones",
+      "no_conversations": "Aún no tienes conversaciones",
+      "no_messages": "Sin mensajes aún",
+      "start_conversation": "Inicia una conversación mensajeando a una tienda o vendedor",
+      "subtitle": "Mantente conectado con tiendas y vendedores",
+      "title": "Mensajes",
+      "unknown_shop": "Tienda desconocida",
+      "last_seen": "Última vista: {{time}}",
+      "new_message": "nuevo mensaje",
+      "new_messages": "nuevos mensajes",
+      "offline": "Sin conexión",
+      "online_now": "En línea ahora",
+      "reviews": "Reseñas",
+      "shop": "Tienda",
+      "your_conversations": "Tus Conversaciones"
+    },
+    "all_categories": "Todas las categorías",
+    "all_statuses": "Todos los estados",
+    "anonymous": "Anónimo",
+    "budget_hint": "Un presupuesto claro atrae ofertas más precisas.",
+    "category": {
+      "accessories": "Accesorios",
+      "clothing": "Ropa",
+      "footwear": "Calzado",
+      "other": "Otro",
+      "traditional": "Tradicional"
+    },
+    "error_category_required": "Por favor selecciona una categoría",
+    "error_description_min_length": "La descripción debe tener al menos 20 caracteres",
+    "error_invalid_price": "Por favor ingresa un precio válido",
+    "error_title_min_length": "El título debe tener al menos 5 caracteres",
+    "explore_community": "Explorar comunidad",
+    "filter_by_category": "Categoría",
+    "filter_by_status": "Estado",
+    "price_offer": "Oferta de precio",
+    "response_description": "Describe tu oferta",
+    "response_description_placeholder": "Cuéntale al comprador qué puedes hacer y cómo…",
+    "response_images": "Adjunta fotos de tu trabajo",
+    "seller": "Vendedor",
+    "seller_skills_label": "Tus habilidades artesanales",
+    "seller_skills_placeholder": "ej. djellaba, caftan, costura…",
+    "submit_response": "Enviar oferta",
+    "accept_offer": "Aceptar oferta",
+    "budget_guidance": "¿Cuál es el presupuesto aproximado para este proyecto?",
+    "contact_seller": "Contactar vendedor",
+    "drag_drop_images": "Arrastra y suelta imágenes aquí",
+    "error_image_size": "El tamaño de la imagen debe ser menor a 5MB",
+    "error_image_type": "Solo se permiten imágenes JPG, PNG, GIF y WebP",
+    "hide_images": "Ocultar imágenes",
+    "no_user_posts": "Aún no has creado ningún post",
+    "or_click_to_select": "o haz clic para explorar tus archivos",
+    "please_fix_errors": "Por favor corrige los siguientes errores:",
+    "reject_offer": "Rechazar oferta",
+    "response_status": {
+      "accepted": "Aceptado",
+      "rejected": "Rechazado",
+      "pending": "Pendiente"
+    },
+    "select_files": "Seleccionar archivos",
+    "seller_shop": "Tienda del vendedor",
+    "share_request": "Compartir solicitud",
+    "timeline_estimate": "¿Cuánto tiempo necesitas para completarlo?",
+    "timeline_section": "Tiempo que necesitas",
+    "view_images": "Ver imágenes",
+    "your_post": "Tu post",
+    "your_posts": "Tus posts",
+    "budget_section": "Presupuesto",
+    "category_name": "Categoría",
+    "create_request": "Crear solicitud",
+    "no_user_posts_description": "Aún no has publicado ninguna solicitud.",
+    "submit_request": "Enviar solicitud",
+    "browse_souk": "Explorar el zoco",
+    "category_label": "Categoría",
+    "completed_jobs": "Trabajos completados",
+    "confirm_accept_proposal": "¿Aceptar esta propuesta?",
+    "create_request_subtitle": "Dile a los sastres lo que necesitas",
+    "delivery_days_label": "Tiempo de entrega (días)",
+    "delivery_days_placeholder": "p. ej. 14",
+    "delivery_in_days": "Entrega en {{count}} días",
+    "description_label": "Descripción",
+    "description_placeholder": "Describe lo que quieres en detalle",
+    "drop_zone_label": "Arrastra y suelta las fotos aquí",
+    "images_attached": "{{count}} fotos adjuntas",
+    "photos_help": "Añade fotos para explicar tu idea",
+    "preview_empty": "Sin vista previa todavía",
+    "preview_label": "Vista previa",
+    "preview_tip": "Así lo verán los vendedores",
+    "proposal_subtitle": "Envía tu oferta al comprador",
+    "request_posted": "Solicitud publicada",
+    "section_photos": "Fotos",
+    "skills_help": "Elige las habilidades que necesitas",
+    "skills_label": "Habilidades",
+    "skills_selected": "{{count}} seleccionadas",
+    "status_open": "Abierto",
+    "submit_proposal": "Enviar propuesta",
+    "success_body": "Tu solicitud está activa. Los sastres responderán pronto.",
+    "success_title": "¡Solicitud enviada!",
+    "timeline_prefix": "Necesario antes de",
+    "title_label": "Título",
+    "title_placeholder": "p. ej. Caftán a medida para una boda",
+    "view_request": "Ver solicitud",
+    "error_failed_to_fetch_post": "No se pudo cargar la publicación",
+    "error_invalid_post_data": "Formato de datos de publicación no válido",
+    "post_image_alt_suffix": "imagen",
+    "post_thumbnail_alt_suffix": "Miniatura",
+    "prefill_title": "{{productName}} personalizado - Diseño similar solicitado",
+    "image_preview_alt": "Vista previa {{index}}",
+    "Create New": "Crear Nuevo",
+    "add_images": "Agregar Imágenes",
+    "back_to_community_page": "Volver a Solicitudes",
+    "back_to_post_page": "Volver al Publicación",
+    "budget_label": "Presupuesto",
+    "budget_max": "Presupuesto Máximo",
+    "budget_min": "Presupuesto Mínimo",
+    "budget_range": "Rango de Presupuesto",
+    "category_items": {
+      "accessories": "Accesorios",
+      "clothing": "Ropa",
+      "jewelry": "Joyas",
+      "other": "Otros",
+      "shoes": "Zapatos"
+    },
+    "comments": "Comentarios",
+    "download_attachment": "Descargar",
+    "drag_files_here": "Arrastra las imágenes aquí o haz clic para seleccionar imágenes",
+    "error_loading_messages": "Error al cargar los mensajes",
+    "error_sending_message": "Error al enviar el mensaje. Por favor, intenta de nuevo.",
+    "file_too_large": "El archivo es demasiado grande (máximo 10MB)",
+    "filter": "Filtro",
+    "image_formats_old": "Se aceptan JPG, PNG, GIF (máximo 2MB)",
+    "image_selected": "imagen seleccionada",
+    "images_selected": "imágenes seleccionadas",
+    "invalid_file_type": "Tipo de archivo no válido",
+    "load_more": "Cargar más",
+    "loading_messages": "Cargando mensajes...",
+    "messages_tab": "Mensajes",
+    "new_message_button": "Nuevo Mensaje",
+    "new_message_received": "¡Nuevo mensaje recibido!",
+    "no_messages_yet": "Sin mensajes aún. Envía un mensaje para comenzar.",
+    "no_user_posts_community": "Aún no has publicado ningún pedido",
+    "no_user_posts_main": "Aún no has publicado nada",
+    "post_your_request": "Publica tu solicitud",
+    "sending": "Enviando...",
+    "share_with_community": "Comparte tu solicitud",
+    "start_conversation": "Inicia una conversación",
+    "type_message": "Escribe tu mensaje...",
+    "unread": "Sin leer",
+    "verified_seller_badge": "Vendedor Verificado",
+    "verified_seller_badge_footer": "Vendedor Verificado",
+    "view_attachment": "Ver Adjunto",
+    "view_shop_button": "Ver Tienda",
+    "view_shop_button_footer": "Ver Tienda",
+    "your_post_detail": "Tu solicitud"
   },
   "pwa": {
     "banner": {
@@ -1645,7 +2835,22 @@
       "install_description": "¡Haz clic en el botón de instalación de abajo para añadir Beldify a tu dispositivo!",
       "install_button": "Instalar aplicación",
       "got_it_button": "¡Entendido!",
-      "remind_later": "Recordar más tarde"
+      "remind_later": "Recordar más tarde",
+      "android_steps": {
+        "step1": "1. Toca el menú (3 puntos) en Chrome",
+        "step2": "2. Selecciona \"Agregar a la pantalla de inicio\"",
+        "step3": "3. Toca \"Agregar\" para confirmar"
+      },
+      "android_title": "Instalar en Android:",
+      "close": "Cerrar",
+      "desktop_steps": {
+        "step1": "1. Haz clic en el icono de instalación en la barra de direcciones",
+        "step2": "2. Haz clic en \"Instalar\" en la ventana emergente",
+        "step3": "3. La aplicación aparecerá en tu menú de aplicaciones"
+      },
+      "desktop_title": "Instalar en computadora:",
+      "dismiss": "Descartar",
+      "maybe_later": "Quizás más tarde"
     },
     "button": {
       "install_app": "Instalar aplicación",
@@ -1677,10 +2882,61 @@
       "continue_browser": "Quedarse aquí"
     },
     "minimal_reminder": "¡Obtén una mejor experiencia con nuestra aplicación!",
-    "open": "Abrir aplicación"
+    "open": "Abrir aplicación",
+    "benefits": {
+      "exclusive_deals": "🔔 Alertas de ofertas exclusivas",
+      "lightning_fast": "⚡ Carga ultrarrápida",
+      "one_tap": "✨ Acceso con un toque desde la pantalla de inicio",
+      "save_favorites": "❤️ Guarda tus favoritos sin conexión"
+    },
+    "features": {
+      "fast_loading": "Carga rápida",
+      "home_screen_access": "Acceso desde la pantalla de inicio",
+      "offline_browsing": "Navegación sin conexión",
+      "push_notifications": "Notificaciones push"
+    },
+    "install": {
+      "button": "Instalar la aplicación",
+      "failed": "Falló la instalación de la aplicación",
+      "not_supported": "La instalación no es compatible con este dispositivo",
+      "success": "¡Aplicación instalada exitosamente!"
+    },
+    "notifications": {
+      "permission": {
+        "allow": "Permitir",
+        "deny": "Rechazar",
+        "message": "Mantente informado sobre nuevas ofertas y actualizaciones",
+        "title": "Activar notificaciones"
+      },
+      "welcome": {
+        "body": "Descubre nuestra colección de moda marroquí",
+        "title": "¡Bienvenido a Beldify!"
+      }
+    },
+    "offline": {
+      "message": "Algunas funciones pueden ser limitadas",
+      "retry": "Reintentar",
+      "title": "Estás sin conexión"
+    },
+    "share": {
+      "text": "¡Descubre Beldify - ¡La mejor plataforma de moda marroquí!",
+      "title": "Compartir Beldify"
+    },
+    "shortcuts": {
+      "cart": "Carrito",
+      "orders": "Pedidos",
+      "profile": "Perfil",
+      "shop": "Tienda"
+    },
+    "update": {
+      "available": "Actualización disponible",
+      "install": "Instalar actualización",
+      "later": "Más tarde"
+    }
   },
   "brand": {
-    "name": "Beldify"
+    "name": "Beldify",
+    "etymologySubtitle": "beldi (بلدي) — local, artesano, del país"
   },
   "chrome": {
     "navbar": {
@@ -1702,11 +2958,14 @@
     "categories": {
       "eyebrow": "Explorar",
       "headline": "El zoco, sala por sala.",
-      "error_description": "No pudimos cargar las categorías. Por favor, inténtalo de nuevo."
+      "error_description": "No pudimos cargar las categorías. Por favor, inténtalo de nuevo.",
+      "filter_by_gender": "Filtrar por género",
+      "subheadline": "Kaftans, djellabas y sastrería a medida — organizados por herencia, género y artesanía."
     },
     "products": {
       "eyebrow": "Mercado",
-      "headline": "El catálogo Beldify."
+      "headline": "El catálogo Beldify.",
+      "subheading": "Piezas artesanales de los mejores talleres de Marruecos"
     },
     "pdp": {
       "breadcrumb_label": "Ruta de navegación",
@@ -1714,6 +2973,10 @@
     },
     "product": {
       "out_of_stock": "Agotado"
+    },
+    "search": {
+      "headline": "Resultados de búsqueda",
+      "subheading": "Mostrando resultados de tu búsqueda"
     }
   },
   "megaOffers": {
@@ -1724,10 +2987,24 @@
     "moreItems": "artículos más",
     "viewAllCollections": "Ver todas las colecciones",
     "hot": "TENDENCIA",
-    "loadError": "Error al cargar las ofertas"
+    "loadError": "Error al cargar las ofertas",
+    "subtitle": "Ofertas exclusivas que no puedes perder",
+    "title": "Mega Ofertas",
+    "addToCart": "Añadir al carrito",
+    "comingSoon": "¡Nuevas ofertas próximamente!",
+    "exclusive": "Exclusivo",
+    "limitedTime": "Tiempo limitado",
+    "noOffers": "No hay mega ofertas disponibles en este momento.",
+    "off": "DESCUENTO",
+    "viewAll": "Ver todas las ofertas"
   },
   "newsletter": {
-    "eyebrow": "Mantente informado"
+    "eyebrow": "Mantente informado",
+    "privacy": "Sin spam. Cancela cuando quieras.",
+    "button": "Suscribirse",
+    "placeholder": "Ingresa tu correo",
+    "subtitle": "Suscríbete a nuestro boletín para ofertas exclusivas, nuevas llegadas e inspiración de moda marroquí tradicional.",
+    "title": "Mantente Actualizado"
   },
   "heroSlider": {
     "loadError": "Error al cargar los banners",
@@ -1739,7 +3016,69 @@
     "eyebrow": "Artesanía marroquí"
   },
   "reviews": {
-    "verified_buyer": "Comprador verificado"
+    "verified_buyer": "Comprador verificado",
+    "form": {
+      "content_required": "Por favor escribe una reseña antes de enviar.",
+      "image_too_large": "Imagen demasiado grande. Máximo 5 MB por foto.",
+      "max_images_reached": "Has alcanzado el límite máximo de fotos.",
+      "rating_required": "Por favor selecciona una puntuación.",
+      "submit_error": "No se pudo enviar tu reseña. Inténtalo de nuevo.",
+      "add_photos_label": "Agregar fotos",
+      "content_label": "Tu reseña",
+      "content_placeholder": "Comparte tu experiencia con este producto",
+      "submit_review": "Enviar reseña",
+      "title_label": "Título de la reseña",
+      "title_placeholder": "Ingresa un título para tu reseña",
+      "upload_image": "Subir imagen",
+      "your_rating": "Tu calificación"
+    },
+    "all_reviews_count": "Todas las reseñas ({{count}})",
+    "based_on": "Basado en",
+    "be_the_first": "Comparte tu experiencia con este producto",
+    "customer_reviews_for": "Reseñas de clientes para {{productName}}",
+    "fetch_error": "Error al cargar reseñas. Por favor intenta de nuevo.",
+    "filter_reviews_by_rating": "Filtrar por calificación",
+    "helpful": "Útil",
+    "load_more_reviews": "Cargar más reseñas",
+    "loading_more": "Cargando más reseñas...",
+    "loading_reviews": "Cargando reseñas...",
+    "no_reviews_yet": "Sin reseñas aún. ¡Sé el primero en reseñar este producto!",
+    "not_helpful": "No útil",
+    "rating_summary_title": "Resumen de calificaciones",
+    "read_more": "Leer más",
+    "review_image": "Imagen de reseña",
+    "reviews": "reseñas",
+    "sort_by_placeholder": "Ordenar por",
+    "sort_options": {
+      "highest_rating": "Calificación más alta",
+      "lowest_rating": "Calificación más baja",
+      "newest": "Más reciente",
+      "oldest": "Más antiguo",
+      "label": "Ordenar por",
+      "most_helpful": "Más útil"
+    },
+    "uploading": "Subiendo...",
+    "verified": "verificado",
+    "with_images": "con imágenes",
+    "write_review_button": "Escribir una reseña",
+    "add_photos": "Agregar fotos",
+    "drag_drop": "Arrastra y suelta imágenes aquí, o haz clic para seleccionar archivos",
+    "filter_reviews_label": "Filtrar reseñas",
+    "max_images": "Máximo 5 imágenes (2MB cada una)",
+    "rating_summary": "Resumen de calificación",
+    "review_content": "Tu reseña",
+    "review_error": "Error al enviar la reseña. Por favor, inténtalo de nuevo.",
+    "review_submitted": "¡Gracias por tu reseña!",
+    "review_title": "Título de la reseña",
+    "show_all": "Mostrar todo",
+    "stars": "Estrellas",
+    "submit_review": "Enviar reseña",
+    "upload_images": "Subir imágenes",
+    "verified_only": "Solo verificado",
+    "verified_purchase": "Compra verificada",
+    "with_images_only": "Con imágenes",
+    "write_review_form": "Escribe una reseña",
+    "your_rating": "Tu calificación"
   },
   "wishlist": {
     "title": "Mi lista de deseos",
@@ -1751,7 +3090,13 @@
     "add_to_cart": "Añadir al carrito",
     "remove": "Eliminar de la lista",
     "items_count_one": "{{count}} artículo",
-    "items_count_other": "{{count}} artículos"
+    "items_count_other": "{{count}} artículos",
+    "add": "Añadir a favoritos",
+    "added": "Añadido a favoritos",
+    "added_success": "Guardado en tu lista de deseos",
+    "removed": "Eliminado de favoritos",
+    "save": "Guardar",
+    "saved": "Guardado"
   },
   "account": {
     "wishlist": {
@@ -1910,7 +3255,17 @@
       "locationLabel": "Ubicación",
       "mobileCallLabel": "Llamar",
       "mobileWhatsAppLabel": "WhatsApp",
-      "mobileBookLabel": "Reservar cita"
+      "mobileBookLabel": "Reservar cita",
+      "service1Price": "1500 - 3000 MAD",
+      "service1Duration": "2-3 semanas",
+      "service2Price": "200 - 500 MAD",
+      "service2Duration": "2-5 días",
+      "service3Price": "5000+ MAD",
+      "service3Duration": "4-8 semanas",
+      "service4Price": "2000 - 4000 MAD",
+      "service4Duration": "3-4 semanas",
+      "monFriHours": "9:00 - 18:00",
+      "satHours": "10:00 - 16:00"
     }
   },
   "about": {
@@ -2078,7 +3433,8 @@
         "subjectRequired": "El asunto es obligatorio",
         "messageRequired": "El mensaje es obligatorio",
         "messageTooLong": "El mensaje debe tener menos de 500 caracteres"
-      }
+      },
+      "phonePlaceholder": "+212 (0) 7 XX XX XX XX"
     }
   },
   "offline": {
@@ -2087,5 +3443,564 @@
     "retry": "Reintentar",
     "back": "Atrás",
     "footnote": "Cuando vuelvas a estar en línea, todas las funciones estarán disponibles de nuevo."
+  },
+  "security": {
+    "change_password": "Cambiar contraseña",
+    "confirm_password": "Confirmar nueva contraseña",
+    "current_password": "Contraseña actual",
+    "error_message": "Error al actualizar la contraseña. Verifica tu contraseña actual e inténtalo de nuevo.",
+    "new_password": "Nueva contraseña",
+    "password_help": "Usa al menos 8 caracteres combinando letras, números y símbolos para una contraseña segura.",
+    "password_mismatch": "Las contraseñas no coinciden.",
+    "success_message": "Contraseña actualizada correctamente.",
+    "update_password": "Actualizar contraseña",
+    "updating": "Actualizando…"
+  },
+  "error": {
+    "body": "Lo sentimos, algo salió mal al cargar esta página. Puedes intentarlo de nuevo o volver al inicio.",
+    "contactUs": "Contactar soporte",
+    "digest": "Código de error",
+    "eyebrow": "Ocurrió un error",
+    "general": "Algo salió mal",
+    "goHome": "Ir al inicio",
+    "headline": "Error inesperado",
+    "persistsPrefix": "Si el problema persiste,",
+    "retry": "Intentar de nuevo"
+  },
+  "search": {
+    "browse_all_products": "Ver todos los productos",
+    "no_results_for": "Sin resultados para «{{query}}»",
+    "no_results_title": "No se encontró nada",
+    "popular_searches": "Búsquedas populares",
+    "tip_1": "Comprueba la ortografía",
+    "tip_2": "Prueba términos más generales",
+    "tip_3": "Explora las categorías de abajo",
+    "try_these_tips": "Prueba estos consejos"
+  },
+  "nav": {
+    "announcement": "Envío gratuito en pedidos superiores a 500 MAD",
+    "breadcrumb": "Ruta de navegación",
+    "browse": "Explorar",
+    "cart": "Carrito",
+    "home": "Inicio",
+    "search": "Buscar",
+    "search_placeholder": "Busca kaftans, djellabas…"
+  },
+  "bespoke": {
+    "body": "Cada punto cosido a tus medidas exactas. Nuestros artesanos confeccionan tu prenda desde cero.",
+    "cta": "Iniciar tu pedido a medida",
+    "eyebrow": "A medida",
+    "headline": "Tu prenda, a tu manera."
+  },
+  "genders": {
+    "children": "Niños",
+    "men": "Hombres",
+    "women": "Mujeres"
+  },
+  "tabs": {
+    "general": "General",
+    "preferences": "Preferencias",
+    "security": "Seguridad"
+  },
+  "trust": {
+    "authentic": "Artesanía 100% auténtica",
+    "returns": "Devoluciones fáciles en 14 días",
+    "ships": "Envíos a todo Marruecos"
+  },
+  "ai": {
+    "chip": {
+      "photoEnhance": "Mejora de foto",
+      "suggestedMeasurements": "Medidas sugeridas"
+    }
+  },
+  "pdp": {
+    "aiStyling": "Estilo IA",
+    "artisanMade": "Hecho artesanalmente"
+  },
+  "actions": {
+    "close": "Cerrar",
+    "save_changes": "Guardar cambios"
+  },
+  "common:actions": {
+    "save_changes": "Guardar cambios"
+  },
+  "home": {
+    "topCategories": "Categorías principales",
+    "hero": {
+      "eyebrow": "Artesanía marroquí auténtica",
+      "subtitle": "Usada durante siglos. Hecha para hoy.",
+      "etymology": "beldi (بلدي) — local, artesano, del país",
+      "description": "Caftanes, chilabas y sastrería a medida de los mejores talleres de Marruecos — entregados en todo el mundo.",
+      "cta_shop": "Comprar en el mercado",
+      "cta_tailors": "Conocer a los sastres",
+      "ai_chip": "Estilizado con IA para ti"
+    },
+    "trust": {
+      "verified_sellers": "Vendedores verificados",
+      "secure_payments": "Pagos seguros",
+      "returns": "Devoluciones en 14 días",
+      "support": "Soporte en AR / FR / EN"
+    },
+    "categories": {
+      "subtitle": "Explorar el zoco",
+      "empty": "Las categorías aparecerán aquí una vez que el catálogo esté activo."
+    },
+    "offers": {
+      "editorial_title": "Elegancia Tradicional",
+      "editorial_description": "Nuestras mejores creaciones de prêt-à-porter marroquí — caftanes y chilabas de temporada.",
+      "cta_shop_collection": "Comprar la colección",
+      "cta_explore": "Explorar ahora"
+    },
+    "tailoring": {
+      "headline": "¿Quieres que sea a tu medida?",
+      "description": "Encuentra un sastre marroquí, envía tus medidas y recibe una prenda a medida en 2–4 semanas.",
+      "cta": "Iniciar un pedido de sastrería",
+      "step1_title": "Elige tu sastre",
+      "step1_detail": "Explora los talleres verificados en Tetuán, Fez y Casablanca.",
+      "step2_title": "Enviar medidas",
+      "step2_detail": "Usa nuestro formulario guiado o sube un patrón existente.",
+      "step3_title": "Recibir tu prenda",
+      "step3_detail": "Acabado a mano y enviado a tu puerta en 2–4 semanas."
+    },
+    "ateliers": {
+      "subtitle": "Talleres seleccionados",
+      "view_all": "Todos los talleres"
+    },
+    "journal": {
+      "subtitle": "Historias del taller",
+      "view_all": "Todas las historias",
+      "read_time_suffix": "lectura"
+    },
+    "seller": {
+      "headline_line1": "Vende tu artesanía.",
+      "headline_line2": "Llega a Marruecos y más allá.",
+      "description": "Beldify ofrece a los talleres tetouaníes y artesanos independientes un escaparate profesional con listados asistidos por IA, gestión de pedidos y mensajería directa con compradores.",
+      "cta": "Abre tu boutique",
+      "ai_chip": "Listados asistidos por IA",
+      "stat_range_label": "Rango de precio típico",
+      "stat_sellers_label": "Vendedores activos",
+      "stat_protection_label": "Protección del comprador"
+    }
+  },
+  "journal": {
+    "from_the_journal": "Del diario"
+  },
+  "page": {
+    "loading": "Cargando…"
+  },
+  "roles": {
+    "vip": "VIP"
+  },
+  "shop": {
+    "about_heading": "Dentro de {{name}}",
+    "all_reviews": "Ver las {{count}} reseñas",
+    "atelier_image_alt": "Interior del taller {{n}}",
+    "bespoke_heading": "¿Tienes algo específico en mente?",
+    "bespoke_sub": "Encarga una pieza hecha a medida según tus dimensiones, elaborada con técnicas ancestrales.",
+    "cover_alt": "Portada del taller — {{name}}",
+    "discover_more": "Descubre más talleres",
+    "featured": "Destacado",
+    "five_stars": "5 estrellas",
+    "load_more": "Cargar más",
+    "message_atelier": "Enviar mensaje al taller",
+    "no_image": "Sin imagen",
+    "no_products_found": "No se encontraron productos en esta categoría.",
+    "no_reviews_sub": "Sé el primero en compartir tu experiencia con este taller.",
+    "no_reviews_title": "Aún no hay reseñas",
+    "reviews_heading": "Lo que dicen nuestros clientes",
+    "shop_image": "Imagen de la tienda",
+    "sort": {
+      "featured": "Destacados",
+      "newest": "Más recientes",
+      "price_asc": "Precio: menor a mayor",
+      "price_desc": "Precio: mayor a menor"
+    },
+    "sort_label": "Ordenar productos",
+    "stats": {
+      "no_reviews": "Sin reseñas",
+      "products": "Productos",
+      "response": "Respuesta",
+      "response_value": "Rápida",
+      "reviews": "{{count}} reseñas",
+      "years": "Años en Beldify"
+    },
+    "step1_desc": "Comparte tus medidas y visión de diseño por mensaje directo.",
+    "step1_title": "Enviar medidas",
+    "step2_desc": "Revisa las muestras de tela y finaliza los detalles del encargo.",
+    "step2_title": "Confirmar el diseño",
+    "step3_desc": "Tu pieza se cose a mano y se entrega en todo el mundo en 3–4 semanas.",
+    "step3_title": "Entrega artesanal",
+    "suspended": "Suspendido",
+    "tabs_label": "Categorías de productos",
+    "tagline_default": "Caftanes cosidos a mano y ropa tradicional masculina",
+    "verified": "Verificado por Beldify",
+    "visit": "Visitar tienda",
+    "city": {
+      "default": "Marruecos"
+    },
+    "staticAteliers": {
+      "maisonMarrakech": {
+        "subtitle": "Kaftanes contemporáneos · Marrakech"
+      },
+      "artisanDuCuir": {
+        "subtitle": "Artículos de cuero fino · Fez"
+      },
+      "zelligeStudio": {
+        "subtitle": "Plata artesanal · Esauira"
+      },
+      "atlasWeavers": {
+        "subtitle": "Textiles bereberes · Montañas del Atlas"
+      }
+    },
+    "description": {
+      "fallback": "Este atelier lleva directamente a ti la mejor artesanía marroquí. Cada pieza está cosida a mano con cuidado y precisión."
+    },
+    "staticReviews": {
+      "0": {
+        "text": "La artesanía es impresionante. Pedí un kaftan para mi boda, y el cosido a mano es impecable. Verdaderamente una obra de arte."
+      },
+      "1": {
+        "text": "Calidad increíble en la chilaba. La lana es suave pero estructurada, y los detalles son impecables. La reputación está bien merecida."
+      },
+      "2": {
+        "text": "Su servicio a medida fue un sueño. Me guiaron en la elección de telas y medidas por mensaje, y la pieza final queda perfectamente."
+      }
+    },
+    "toast": {
+      "loginToFollow": "Por favor inicia sesión para seguir esta tienda",
+      "actionFailed": "Acción fallida",
+      "authError": "Error de autenticación. Por favor vuelve a iniciar sesión",
+      "followSuccess": "Tienda {{action}} con éxito",
+      "genericError": "Se ha producido un error"
+    },
+    "default_name": "Atelier Fassi"
+  },
+  "tailoring": {
+    "booking": {
+      "error": "La reserva falló. Por favor, inténtalo de nuevo.",
+      "success": "¡Reserva confirmada! Tu sastre se pondrá en contacto contigo.",
+      "book_now": "Reservar ahora",
+      "choose_service": "Elige un servicio",
+      "confirm": "Confirmar",
+      "confirm_message": "¿Deseas confirmar tu cita con",
+      "confirm_title": "Confirmar reserva",
+      "select_date": "Elige la fecha",
+      "select_service": "Elige el servicio",
+      "select_time": "Elige la hora",
+      "title": "Reservar cita",
+      "slots_load_error": "Error al cargar los horarios disponibles"
+    },
+    "eyebrow": "A MEDIDA",
+    "finalCta": {
+      "cta": "Iniciar un pedido de confección",
+      "headline": "¿Listo para algo hecho especialmente para ti?",
+      "sub": "Explora nuestros sastres, comparte tus medidas y recibe una pieza terminada a mano en 2–4 semanas."
+    },
+    "gallery": {
+      "title": "Fabricado en Marruecos",
+      "alt": {
+        "0": "Taller de djellaba tradicional para hombres",
+        "1": "Detalle de caftán bordado a mano",
+        "2": "Takchita de boda en proceso de confección",
+        "3": "Tejido de brocado, taller de Fez"
+      }
+    },
+    "headline": "Hecho a tu medida,",
+    "headlineLine2": "a mano.",
+    "heroCta": "Iniciar un pedido de confección",
+    "heroImageAlt": "Detalle de caftán bordado a mano, taller marroquí",
+    "howItWorks": {
+      "intro": "Tres pasos desde tus medidas hasta tu pieza marroquí terminada a mano.",
+      "title": "Cómo funciona"
+    },
+    "measurements": {
+      "addToCart": "Añadir al carrito",
+      "breadcrumb": "Medidas",
+      "breadcrumbHome": "Inicio",
+      "breadcrumbLabel": "Ruta de navegación",
+      "breadcrumbTailoring": "Confección",
+      "eg": "ej.",
+      "eyebrow": "AJUSTE A MEDIDA",
+      "formTitle": "Tus medidas",
+      "guideHint": "Usa una cinta métrica flexible. Mantenla recta y paralela al suelo al tomar medidas de contorno.",
+      "guideTitle": "Guía de medidas",
+      "notes": "Notas adicionales",
+      "notesPlaceholder": "¿Alguna preferencia específica sobre el corte o el ajuste?",
+      "optional": "opcional",
+      "saveMeasurements": "Guardar medidas",
+      "subtitle": "Introduce tus medidas con precisión para un ajuste perfecto. Sigue la guía visual para cada medida.",
+      "title": "Medidas para caftán personalizado",
+      "unitCm": "cm",
+      "unitCmLabel": "Centímetros",
+      "unitIn": "pulg",
+      "unitInLabel": "Pulgadas",
+      "unitToggleLabel": "Unidad de medida"
+    },
+    "profile": {
+      "not_found": "No se encontró el perfil de este sastre.",
+      "about": "Acerca de",
+      "portfolio": "Galería de obras",
+      "reviews": "Reseñas",
+      "specialties": "Especialidades",
+      "load_error": "Error al cargar los datos del sastre",
+      "portfolio_image_alt": "Portfolio {{index}}",
+      "bio": "Con más de 15 años de experiencia en confección marroquí tradicional, me especializo en crear prendas personalizadas que combinan la artesanía tradicional con el estilo moderno"
+    },
+    "stepsCta": "Iniciar un pedido de confección",
+    "sub": "Más de 120 talleres verificados crean prendas marroquíes a medida según tus medidas exactas — enviadas a cualquier parte del mundo. Sin probador necesario.",
+    "services": {
+      "alterations": {
+        "price": "Comenzando desde 49 DH",
+        "title": "Alteraciones",
+        "duration": "1 hora",
+        "description": "Alteraciones profesionales de prendas para un ajuste perfecto"
+      },
+      "custom_suits": {
+        "price": "Comenzando desde 599 DH",
+        "title": "Trajes personalizados",
+        "duration": "2-3 horas",
+        "description": "Trajes hechos profesionalmente y ajustados según tus medidas precisas"
+      },
+      "traditional": {
+        "description": "Prendas marroquíes tradicionales personalizadas con toques modernos",
+        "price": "Desde 299 d.m",
+        "title": "Prendas tradicionales"
+      }
+    },
+    "tailors": {
+      "reviews": "Reseña",
+      "years": "Año",
+      "availability": {
+        "available": "Reservar cita",
+        "busy": "Unirse a la lista de espera",
+        "unavailable": "No disponible"
+      },
+      "description": "Ponte en contacto con nuestros sastres experimentados para satisfacer tus necesidades de ropa personalizada",
+      "experience": "Experiencia",
+      "title": "Nuestros sastres profesionales"
+    },
+    "reviews": {
+      "mock": {
+        "1": {
+          "comment": "¡Excelente artesanía! Mi traje de boda fue perfecto.",
+          "service": "Traje a medida"
+        },
+        "2": {
+          "comment": "Gran atención al detalle. Servicio muy profesional.",
+          "service": "Modificaciones"
+        }
+      }
+    },
+    "book_appointment": "Reservar cita",
+    "filters": {
+      "all_locations": "Todas las ubicaciones",
+      "all_specialties": "Todas las especialidades"
+    },
+    "page_description": "Experimenta el ajuste perfecto con nuestros servicios de confección especializados",
+    "page_title": "Servicios de confección personalizada",
+    "why_choose_us": {
+      "features": {
+        "craftsmanship": {
+          "description": "Años de experiencia en confección refinada",
+          "title": "Artesanía especializada"
+        },
+        "guarantee": {
+          "description": "Ajustes hasta que estés completamente satisfecho",
+          "title": "Garantía de ajuste perfecto"
+        },
+        "materials": {
+          "description": "Los mejores tejidos de todo el mundo",
+          "title": "Materiales de lujo"
+        }
+      },
+      "title": "Por qué elegir nuestros servicios de confección"
+    }
+  },
+  "preferences": {
+    "email_notifications": {
+      "description": "Recibe confirmaciones de pedido, actualizaciones de envío y alertas de cuenta por correo.",
+      "title": "Notificaciones por correo"
+    },
+    "error_message": "No se pudieron guardar las preferencias. Inténtalo de nuevo.",
+    "language": {
+      "description": "Este ajuste define el idioma de visualización en todo el sitio.",
+      "title": "Idioma"
+    },
+    "language_settings": "Idioma y zona horaria",
+    "marketing_emails": {
+      "description": "Recibe ofertas exclusivas, colecciones de temporada y promociones.",
+      "title": "Correos de marketing"
+    },
+    "newsletter": {
+      "description": "Mantente al día con las últimas noticias, tendencias e historias de Beldify.",
+      "title": "Boletín"
+    },
+    "notification_settings": "Configuración de notificaciones",
+    "order_updates": {
+      "description": "Recibe notificaciones cuando el estado de tu pedido cambie o sea enviado.",
+      "title": "Actualizaciones de pedido"
+    },
+    "success_message": "Preferencias guardadas correctamente.",
+    "timezone": {
+      "description": "Se usa para mostrar horarios de pedidos y estimaciones de entrega.",
+      "title": "Zona horaria"
+    }
+  },
+  "fields": {
+    "address": "Dirección",
+    "billing_address": "Dirección de facturación",
+    "city": "Ciudad",
+    "country": "País",
+    "email": "Correo electrónico",
+    "email_help": "Tu correo se usa para notificaciones de pedidos e inicio de sesión.",
+    "full_name": "Nombre completo",
+    "phone": "Teléfono",
+    "postal_code": "Código postal",
+    "select_country": "Selecciona un país",
+    "shipping_address": "Dirección de envío",
+    "shipping_info": "Información de envío",
+    "state": "Región / Estado",
+    "username": "Nombre de usuario"
+  },
+  "notFound": {
+    "body": "Esta página puede haberse movido o ya no existe. Verifica la URL o vuelve a la página de inicio.",
+    "browseProducts": "Ver productos",
+    "eyebrow": "Error 404",
+    "goHome": "Ir al inicio",
+    "headline": "Página no encontrada",
+    "links": {
+      "contact": "Contáctanos",
+      "faqs": "Preguntas frecuentes",
+      "shops": "Tiendas"
+    },
+    "quickLinks": "Enlaces rápidos",
+    "quickLinksLabel": "Enlaces rápidos"
+  },
+  "messages": {
+    "all_conversations": "Todas las conversaciones",
+    "connecting": "Conectando…",
+    "conversation": "Conversación",
+    "error_loading": "No se pudo cargar la conversación",
+    "error_sending": "No se pudo enviar el mensaje",
+    "live": "En línea",
+    "no_messages_yet": "Sin mensajes aún",
+    "offline": "Sin conexión",
+    "send": "Enviar",
+    "sign_in": "Iniciar sesión",
+    "sign_in_description": "Accede a tus conversaciones con talleres artesanales.",
+    "sign_in_required": "Inicia sesión para ver mensajes",
+    "start_conversation_hint": "Inicia la conversación, saluda al taller.",
+    "type_a_message": "Escribe un mensaje…"
+  },
+  "openSouk": {
+    "aiTranslateChip": "IA traduce tu solicitud a AR · EN · ES",
+    "brand": "Open Souk",
+    "eyebrow": "OPEN SOUK",
+    "feedEmptyBody": "Sé el primero en publicar una solicitud — los talleres están observando.",
+    "feedEmptyTitle": "El souk está abierto",
+    "headline": "Publica tu solicitud. Los talleres vienen a ti.",
+    "helperBody": "Un mercado inverso donde publicas una solicitud de confección y los talleres te envían ofertas. La IA traduce todo al idioma correcto.",
+    "helperStep1": "Toca el botón \"Publicar\"",
+    "helperStep2": "Añade un título, descripción y presupuesto",
+    "helperStep3": "Añade fotos de referencia para que los talleres sepan qué quieres",
+    "helperStep4": "Establece tu cronograma",
+    "helperStep5": "Publica y los talleres te enviarán mensajes con ofertas",
+    "helperTip": "Consejo: cuantos más detalles des, mejores ofertas recibirás.",
+    "helperTitle": "¿Qué es el Open Souk?",
+    "postCta": "Publicar en el Open Souk",
+    "subtitle": "Un mercado inverso donde los talleres de Tetuán compiten para hacer tu pieza.",
+    "budgetMax": "Presupuesto máx.",
+    "budgetMin": "Presupuesto mín.",
+    "budgetRange": "Rango de presupuesto",
+    "filters": "Filtros",
+    "proposals": "Propuestas",
+    "searchPlaceholder": "Buscar solicitudes...",
+    "skills": "Habilidades",
+    "sortBy": "Ordenar por",
+    "feedError": "No se pudieron cargar las solicitudes"
+  },
+  "seller": {
+    "register": {
+      "already_seller_body": "Accede a tu panel de vendedor para gestionar productos, pedidos y ganancias.",
+      "already_seller_title": "Ya tienes una cuenta de vendedor",
+      "benefit_global": "Alcance global: vende a compradores de todo el mundo",
+      "benefit_quality": "Plataforma curada para la artesanía marroquí",
+      "benefit_secure": "Pagos seguros y protección del comprador",
+      "business_type_company": "Empresa registrada",
+      "business_type_cooperative": "Cooperativa",
+      "business_type_individual": "Particular / Freelancer",
+      "business_type_label": "Tipo de negocio",
+      "contact_email_label": "Correo de contacto",
+      "contact_email_placeholder": "contacto@tunegocio.com",
+      "contact_phone_label": "Teléfono de contacto",
+      "contact_phone_placeholder": "+212 6 00 00 00 00",
+      "country_label": "País",
+      "dashboard_cta": "Ir al panel de vendedor",
+      "description_label": "Acerca de tu tienda",
+      "description_placeholder": "Describe tus productos, artesanía y qué hace tu tienda única...",
+      "error_generic": "Algo salió mal. Por favor, inténtalo de nuevo.",
+      "form_title": "Cuéntanos sobre tu tienda",
+      "login_cta": "Iniciar sesión",
+      "login_prompt_body": "Necesitas una cuenta para solicitar ser vendedor. Inicia sesión o crea una cuenta gratuita primero.",
+      "login_prompt_title": "Inicia sesión para continuar",
+      "logo_hint": "JPG o PNG, máximo 2 MB",
+      "logo_label": "Logo de la tienda",
+      "pending_body": "Tu solicitud de tienda está en revisión. Te notificaremos por correo electrónico en 3–5 días hábiles una vez que se tome una decisión.",
+      "pending_cta": "Volver al inicio",
+      "pending_title": "¡Solicitud recibida!",
+      "register_cta": "Crear cuenta",
+      "store_name_label": "Nombre de la tienda",
+      "store_name_placeholder": "El nombre de tu taller o negocio",
+      "submit_cta": "Solicitar venta",
+      "submitting": "Enviando...",
+      "subtitle": "Solicita unirte a Beldify y vende tus artesanías marroquíes a compradores de todo el mundo.",
+      "title": "Conviértete en Vendedor",
+      "validation_business_type": "Por favor selecciona un tipo de negocio",
+      "validation_country": "Por favor selecciona un país"
+    }
+  },
+  "header": {
+    "categories": "Categorías",
+    "community": "Souk abierto",
+    "language": "ES",
+    "login": "Iniciar sesión",
+    "logo_alt": "Logo Beldify",
+    "search_placeholder": "Buscar productos...",
+    "stores": "Tiendas"
+  },
+  "mega_offers": {
+    "subtitle": "Ofertas especiales que no debes perder",
+    "summer_collection": {
+      "description": "¡Descubre nuestra magnífica colección de esenciales de verano a precios imbatibles! Ofertas limitadas en productos premium que elevarán tu experiencia estival. ¡No pierdas esta oportunidad exclusiva de brillar esta temporada!",
+      "discount": "HASTA 70% DE DESCUENTO",
+      "time_left": "{{days}} días restantes",
+      "title": "Espectacular de Verano: Colección Exclusiva"
+    },
+    "title": "MEGA OFERTAS",
+    "view_collection": "Ver colección"
+  },
+  "stores": {
+    "check_back": "¡Vuelve pronto!",
+    "featuredStores": "Tiendas destacadas",
+    "featuredStoresDescription": "Descubre nuestras tiendas mejor calificadas y verificadas que ofrecen productos de calidad",
+    "noShopsFound": "No se encontraron tiendas",
+    "no_stores": "No se encontraron tiendas",
+    "subtitle": "Descubre nuestras tiendas mejor calificadas y verificadas que ofrecen productos de calidad",
+    "title": "TIENDAS"
+  },
+  "verification": {
+    "add_phone_description": "Añade tu número de teléfono para asegurar tu cuenta. ¡Haz clic en \"Enviar código de verificación\" para verificar tu teléfono!",
+    "code_placeholder": "Ingresa el código de verificación",
+    "code_sent": "Código de verificación enviado a tu teléfono",
+    "failed": "Falló la verificación del teléfono. Por favor, intenta de nuevo.",
+    "invalid_code": "Código de verificación inválido. Por favor, intenta de nuevo.",
+    "phone_placeholder": "Ingresa tu número de teléfono",
+    "send_code": "Enviar código de verificación",
+    "send_failed": "No se pudo enviar el código de verificación. Por favor, intenta de nuevo.",
+    "skip": "Omitir",
+    "success": "Número de teléfono verificado con éxito",
+    "verify": "Verificar",
+    "verify_phone": "Verifica tu teléfono",
+    "why_verify": "Tu número de teléfono se utilizará para actualizaciones de pedidos y seguridad de la cuenta."
   }
 }

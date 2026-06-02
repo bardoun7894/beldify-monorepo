@@ -124,12 +124,12 @@ export default function RegisterPage() {
       });
 
       if (response.data.status) {
-        toast.success('Registration successful!');
+        toast.success(t('auth.registration_successful'));
         // Redirect to dashboard or home page
         router.push('/profile');
       }
     } catch (err: any) {
-      const errorMsg = err.response?.data?.message || 'Registration failed';
+      const errorMsg = err.response?.data?.message || t('auth.registration_failed');
       setError(errorMsg);
       toast.error(errorMsg);
     } finally {
@@ -180,7 +180,7 @@ export default function RegisterPage() {
     script.onload = initializeGoogleButton;
     script.onerror = () => {
       logger.error('Failed to load Google Identity script');
-      toast.error('Google Sign-In is currently unavailable');
+      toast.error(t('auth.google_signin_unavailable'));
     };
 
     document.head.appendChild(script);
@@ -243,7 +243,7 @@ export default function RegisterPage() {
       logger.log('Google button initialized successfully');
     } catch (error) {
       logger.error('Error initializing Google button:', error);
-      toast.error('Failed to initialize Google Sign-Up');
+      toast.error(t('auth.google_signup_init_failed'));
     }
   };
 
@@ -262,12 +262,12 @@ export default function RegisterPage() {
         toast.success('Google registration successful!');
         router.push('/profile');
       } else {
-        setError(authResult.message || 'Registration failed');
-        toast.error(authResult.message || 'Registration with Google failed');
+        setError(authResult.message || t('auth.registration_failed'));
+        toast.error(authResult.message || t('auth.google_registration_failed'));
       }
     } catch (err: any) {
       logger.error('Google auth error:', err);
-      const errorMsg = err.message || 'Registration with Google failed';
+      const errorMsg = err.message || t('auth.google_registration_failed');
       setError(errorMsg);
       toast.error(errorMsg);
     } finally {
@@ -492,7 +492,7 @@ export default function RegisterPage() {
                   aria-invalid={!!fieldErrors.email}
                   aria-describedby={fieldErrors.email ? 'email-error' : undefined}
                   className={fieldErrors.email ? inputError : inputDefault}
-                  placeholder="example@mail.com"
+                  placeholder={t('auth.email_placeholder')}
                 />
               </div>
               {fieldErrors.email && (

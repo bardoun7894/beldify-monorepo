@@ -50,10 +50,10 @@ const ATELIER_IMAGES = [
 ];
 
 const STATIC_ATELIERS = [
-  { name: 'Maison Marrakech', subtitle: 'Contemporary Kaftans · Marrakech', slug: 'maison-marrakech' },
-  { name: "L'Artisan du Cuir", subtitle: 'Fine Leather Goods · Fez', slug: 'artisan-du-cuir' },
-  { name: 'Zellige Studio', subtitle: 'Handcrafted Silver · Essaouira', slug: 'zellige-studio' },
-  { name: 'Atlas Weavers', subtitle: 'Berber Textiles · Atlas Mts', slug: 'atlas-weavers' },
+  { name: 'Maison Marrakech', subtitle: 'Contemporary Kaftans · Marrakech', slug: 'maison-marrakech', i18nKey: 'maisonMarrakech' },
+  { name: "L'Artisan du Cuir", subtitle: 'Fine Leather Goods · Fez', slug: 'artisan-du-cuir', i18nKey: 'artisanDuCuir' },
+  { name: 'Zellige Studio', subtitle: 'Handcrafted Silver · Essaouira', slug: 'zellige-studio', i18nKey: 'zelligeStudio' },
+  { name: 'Atlas Weavers', subtitle: 'Berber Textiles · Atlas Mts', slug: 'atlas-weavers', i18nKey: 'atlasWeavers' },
 ];
 
 const TABS = [
@@ -85,18 +85,21 @@ const STATIC_REVIEWS = [
     city: 'Paris',
     initial: 'S',
     text: 'The craftsmanship is breathtaking. I ordered a caftan for my wedding, and the hand-stitching is flawless. Truly a piece of art.',
+    i18nKey: 'shop.staticReviews.0.text',
   },
   {
     name: 'James L.',
     city: 'London',
     initial: 'J',
     text: 'Incredible quality on the djellaba. The wool is soft yet structured, and the details are impeccable. The reputation is well-deserved.',
+    i18nKey: 'shop.staticReviews.1.text',
   },
   {
     name: 'Amina R.',
     city: 'Casablanca',
     initial: 'A',
     text: 'Their bespoke service was a dream. They guided me through fabric choices and measurements via message, and the final piece fits perfectly.',
+    i18nKey: 'shop.staticReviews.2.text',
   },
 ];
 
@@ -172,7 +175,7 @@ export default function ShopPage() {
     if (!shop?.id || isFollowActionLoading) return;
     const isAuth = await verifyAuthentication();
     if (!isAuth) {
-      toast.error('Please login to follow this shop', { duration: 3000, position: 'bottom-center', id: 'auth-login-required' });
+      toast.error(t('shop.toast.loginToFollow', 'Please login to follow this shop'), { duration: 3000, position: 'bottom-center', id: 'auth-login-required' });
       const currentPath = window.location.pathname;
       setTimeout(() => router.push(`/login?redirect=${encodeURIComponent(currentPath)}`), 1500);
       return;
@@ -182,21 +185,21 @@ export default function ShopPage() {
     setIsFollowing(!prev);
     try {
       const res = prev ? await shopService.unfollowShop(shop.id) : await shopService.followShop(shop.id);
-      if (res?.error) { setIsFollowing(prev); toast.error(res.error || 'Action failed'); return; }
+      if (res?.error) { setIsFollowing(prev); toast.error(res.error || t('shop.toast.actionFailed', 'Action failed')); return; }
       if (res?.isAuthenticated === false) {
         setIsFollowing(prev);
-        toast.error('Authentication error. Please login again', { duration: 3000, id: 'auth-error' });
+        toast.error(t('shop.toast.authError', 'Authentication error. Please login again'), { duration: 3000, id: 'auth-error' });
         setTimeout(() => router.push(`/login?redirect=${encodeURIComponent(window.location.pathname)}`), 1500);
         return;
       }
-      toast.success(`Successfully ${prev ? 'unfollowed' : 'followed'} shop`, { duration: 2000, id: 'follow-success' });
+      toast.success(t('shop.toast.followSuccess', 'Successfully {{action}} shop', { action: prev ? 'unfollowed' : 'followed' }), { duration: 2000, id: 'follow-success' });
       setTimeout(async () => {
         try {
           const ver = await shopService.checkFollowing(shop.id);
           if (ver.data?.isFollowing !== undefined) setIsFollowing(ver.data.isFollowing);
         } catch { /* silent */ }
       }, 1000);
-    } catch { setIsFollowing(isFollowing); toast.error('An error occurred'); }
+    } catch { setIsFollowing(isFollowing); toast.error(t('shop.toast.genericError', 'An error occurred')); }
     finally { setIsFollowActionLoading(false); }
   };
 
@@ -306,12 +309,13 @@ export default function ShopPage() {
   const productsCount = shop?.products_count ?? allProducts.length;
   const years = yearsOnBeldify(shop?.created_at);
   const isVerified = shop?.is_verified ?? shop?.profile?.is_verified ?? false;
-  const city = shop ? extractCity(shop) : 'Morocco';
+  const rawCity = shop ? extractCity(shop) : 'Morocco';
+  const city = rawCity === 'Morocco' ? t('shop.city.default', 'Morocco') : rawCity;
 
   const rawDescription = shop?.description ?? shop?.profile?.description ?? '';
   const descParagraphs = rawDescription
     ? rawDescription.split(/\n\n+/).filter(Boolean)
-    : ['This atelier brings the finest Moroccan craftsmanship directly to you. Each piece is hand-stitched with care and precision.'];
+    : [t('shop.description.fallback', 'This atelier brings the finest Moroccan craftsmanship directly to you. Each piece is hand-stitched with care and precision.')];
 
   const toggleFilter = (id: string) => {
     setActiveFilters((prev) => {
@@ -671,7 +675,7 @@ export default function ShopPage() {
                       {t('reviews.verified_buyer', 'Verified buyer')}
                     </p>
                     <blockquote>
-                      <p className="text-gray-600 text-sm leading-relaxed">&ldquo;{rev.text}&rdquo;</p>
+                      <p className="text-gray-600 text-sm leading-relaxed">&ldquo;{t(rev.i18nKey, rev.text)}&rdquo;</p>
                     </blockquote>
                   </figure>
                 ))}
@@ -803,7 +807,7 @@ export default function ShopPage() {
               >
                 {atelier.name}
               </h4>
-              <p className="mt-1 text-xs text-gray-500">{atelier.subtitle}</p>
+              <p className="mt-1 text-xs text-gray-500">{t(`shop.staticAteliers.${atelier.i18nKey}.subtitle`, atelier.subtitle)}</p>
             </Link>
           ))}
         </div>
