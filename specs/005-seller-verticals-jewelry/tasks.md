@@ -84,3 +84,7 @@ Reviewer verdict: CHANGES REQUESTED (targeted, not structural). Apply after WS-D
 - [x] R7 (P0 on main) `StoreRevenue::recordRevenue()` undefined but called in OrderObserver:52 + TailoringOrderObserver:39 → 500 on every order payment. Pre-existing breakage; define the method or fix observers.
 - [x] R8 `StoreRevenue.$fillable` lists nonexistent columns (order_id/tailoring_order_id/commission_rate) — model↔schema drift, mass-assignment silently drops.
 - [ ] R9 Flip `USE_MOCK=false` in verticalService.ts + customOrderService.ts before production launch.
+
+### Discovered during R7 verification (out-of-scope follow-ups)
+- [ ] R10 (P0, separate subsystem) `Commission::create()` in OrderObserver:41 / TailoringOrderObserver fails `commissions.commissionable_type NOT NULL` — the paid-order path 500s for a SECOND reason after R7. Part of the orders/commission subsystem, NOT jewelry. Needs its own scoped fix.
+- [ ] R11 (test infra) Sanctum-route test classes leak rate-limit state → flaky 429 under one-shot full-suite runs. Clear RateLimiter / disable throttle in base TestCase. (All 005 tests pass in isolation + in my combined fresh run.)
