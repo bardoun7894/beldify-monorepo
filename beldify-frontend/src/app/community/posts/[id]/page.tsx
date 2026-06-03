@@ -261,8 +261,12 @@ export default function PostDetailPage() {
   const hasMyProposal = post.hasMyProposal ?? post.has_my_proposal ?? false;
 
   // F4: only store owners / sellers can respond (respond route is role:store_owner).
-  // Consistent with seller/register/page.tsx:213
-  const isSeller = user?.role === 'seller' || (user as any)?.is_seller === true;
+  // Three signals for reliability: role string (seller/register pattern),
+  // is_seller flag, and user_type_id===2 (ProfileHeader pattern — most reliably populated).
+  const isSeller =
+    user?.role === 'seller' ||
+    (user as any)?.is_seller === true ||
+    user?.user_type_id === 2;
 
   // F3: normalise product_specifications (backend serialises as key→value object)
   // The community.ts type has string[] as placeholder; real API returns {[key:string]:string}.
