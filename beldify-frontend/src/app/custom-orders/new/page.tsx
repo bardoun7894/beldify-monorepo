@@ -1,19 +1,21 @@
 'use client';
 
 /**
- * T035 — Buyer: "Request custom piece" page
+ * "Request a Custom Piece" page.
  *
- * Route: /custom-orders/new?vertical=jewelry&store_id=12
- * Renders CustomOrderForm with the correct vertical and store.
+ * Default (primary): posts the request into the community **Open Souk** so other
+ * users / sellers can see it and respond — via RequestCustomPieceForm. Open to any
+ * logged-in (normal) user. Only Material is required.
  *
- * LIVE WIRING (WS-A): storeId comes from query param; vertical from query param.
- * Replace MOCK_STORE with GET /api/v1/stores/{id} once available.
+ * Secondary (?direct=1&store_id=&vertical=): the store-targeted custom-order
+ * pipeline (CustomOrderForm) for requesting directly from one specific seller.
  */
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
-import { ArrowLeft, Gem } from 'lucide-react';
+import { ArrowLeft } from 'lucide-react';
+import RequestCustomPieceForm from '@/components/community/RequestCustomPieceForm';
 import CustomOrderForm from '@/components/checkout/CustomOrderForm';
 import { VerticalSlug } from '@/services/verticalService';
 
@@ -21,20 +23,17 @@ const playfair = { fontFamily: '"Playfair Display", ui-serif, Georgia, serif' };
 
 const SUPPORTED_VERTICALS: VerticalSlug[] = ['jewelry', 'menswear', 'womenswear', 'tailor'];
 
-// LIVE WIRING (WS-A): replace with GET /api/v1/stores/{store_id}
-const MOCK_STORE = { id: 12, name: 'Atlas Bijoux' };
-
 export default function NewCustomOrderPage() {
   const { i18n } = useTranslation();
   const isRTL = i18n.language === 'ar';
   const searchParams = useSearchParams();
 
+  // Direct-to-seller mode (secondary): keeps the store-targeted pipeline reachable.
+  const isDirect = searchParams.get('direct') === '1';
   const rawVertical = (searchParams.get('vertical') ?? 'jewelry') as VerticalSlug;
-  const storeIdParam = searchParams.get('store_id');
-
   const vertical = SUPPORTED_VERTICALS.includes(rawVertical) ? rawVertical : 'jewelry';
-  const storeId = storeIdParam ? parseInt(storeIdParam) : MOCK_STORE.id;
-  const storeName = MOCK_STORE.name;
+  const storeIdParam = searchParams.get('store_id');
+  const storeId = storeIdParam ? parseInt(storeIdParam) : 0;
 
   return (
     <div className="min-h-screen bg-amber-50/50 pb-20" dir={isRTL ? 'rtl' : 'ltr'}>
@@ -42,7 +41,7 @@ export default function NewCustomOrderPage() {
       <header className="sticky top-0 z-20 bg-white/95 backdrop-blur-sm border-b border-amber-200 px-6 py-4">
         <div className="max-w-xl mx-auto flex items-center gap-3">
           <Link
-            href={`/categories/jewelry`}
+            href="/categories/jewelry"
             className="rounded-full p-1.5 hover:bg-amber-100 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30"
             aria-label={isRTL ? 'رجوع' : 'Back'}
           >
@@ -68,18 +67,27 @@ export default function NewCustomOrderPage() {
         </p>
 
         <div className="bg-white rounded-2xl ring-1 ring-amber-200 p-6 shadow-sm">
-          <CustomOrderForm
-            storeId={storeId}
-            storeName={storeName}
-            vertical={vertical}
-          />
+          {isDirect && storeId ? (
+            <CustomOrderForm storeId={storeId} storeName="" vertical={vertical} />
+          ) : (
+            <RequestCustomPieceForm />
+          )}
         </div>
+
+        {!isDirect && (
+          <p className="mt-4 text-center text-xs text-gray-500">
+            {isRTL ? 'تعرف على البائع الذي تريده؟ ' : 'Know the seller you want? '}
+            <Link href="/shops" className="font-medium text-indigo-700 hover:underline">
+              {isRTL ? 'اطلب مباشرة من متجر' : 'request directly from a shop'}
+            </Link>
+          </p>
+        )}
 
         {/* Trust signals */}
         <div className="mt-6 grid grid-cols-3 gap-3 text-center">
           {[
             { icon: '🔒', en: 'Secure', ar: 'آمن' },
-            { icon: '💬', en: 'Direct contact', ar: 'تواصل مباشر' },
+            { icon: '💬', en: 'Seen by artisans', ar: 'يراه الحرفيون' },
             { icon: '⭐', en: 'Verified artisans', ar: 'حرفيون موثوقون' },
           ].map(item => (
             <div key={item.en} className="rounded-xl bg-white ring-1 ring-amber-200 px-3 py-4">
