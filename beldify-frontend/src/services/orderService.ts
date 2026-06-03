@@ -244,6 +244,42 @@ class OrderService {
     }
   }
 
+  /**
+   * Upload an offline-transfer payment receipt for an order.
+   * Backend: POST /api/orders/{orderNumber}/payment-proof (multipart).
+   * Works for guests too — the shipping email proves ownership.
+   */
+  async uploadPaymentProof(
+    orderNumber: string,
+    file: File,
+    opts: { reference?: string; email?: string } = {}
+  ): Promise<void> {
+    try {
+      const formData = new FormData();
+      formData.append('file', file);
+      if (opts.reference) formData.append('reference', opts.reference);
+      if (opts.email) formData.append('email', opts.email);
+
+      const response = await api.post(
+        `/api/orders/${encodeURIComponent(orderNumber)}/payment-proof`,
+        formData,
+        { headers: { 'Content-Type': 'multipart/form-data' } }
+      );
+
+      if (response.data?.status === 'error') {
+        throw new Error(response.data?.message || 'Failed to upload payment proof');
+      }
+    } catch (error) {
+      logger.error('Error uploading payment proof:', error);
+      if (axios.isAxiosError(error)) {
+        throw new Error(
+          error.response?.data?.message || error.message || 'Failed to upload payment proof'
+        );
+      }
+      throw error;
+    }
+  }
+
   async createOrder(orderData: OrderData) {
     try {
       logger.log('Creating order with payload (raw):', orderData);

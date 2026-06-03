@@ -1221,7 +1221,11 @@
         "expiry_date": "تاريخ الانتهاء"
       },
       "cod_over_limit": "غير متاح لأكثر من 500 درهم",
-      "cod_morocco_only": "متاح داخل المغرب فقط"
+      "cod_morocco_only": "متاح داخل المغرب فقط",
+      "need_help_title": "لست متأكداً كيف تدفع؟",
+      "need_help_body": "راسلنا أو اتصل بنا وسنرشدك خطوة بخطوة.",
+      "whatsapp": "واتساب",
+      "call": "اتصل بنا"
     },
     "order_summary": {
       "title": "ملخص الطلب",

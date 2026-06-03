@@ -139,7 +139,7 @@ export default function Navbar() {
     if (searchQuery.trim()) {
       setSearchBarVisible(false);
       setMobileMenuOpen(false);
-      const searchUrl = `/search?q=${encodeURIComponent(searchQuery.trim())}`;
+      const searchUrl = `/products?q=${encodeURIComponent(searchQuery.trim())}`;
       router.prefetch(searchUrl);
       router.push(searchUrl);
     }

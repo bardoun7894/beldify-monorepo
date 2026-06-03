@@ -1210,7 +1210,11 @@
         "paypal": "Coming Soon - Pay securely via PayPal"
       },
       "cod_over_limit": "Not available over 500 MAD",
-      "cod_morocco_only": "Only available inside Morocco"
+      "cod_morocco_only": "Only available inside Morocco",
+      "need_help_title": "Not sure how to pay?",
+      "need_help_body": "Message or call us and we'll guide you through it.",
+      "whatsapp": "WhatsApp",
+      "call": "Call us"
     },
     "order_summary": {
       "title": "Order Summary",

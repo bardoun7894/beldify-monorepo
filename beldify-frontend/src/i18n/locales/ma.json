@@ -1143,7 +1143,11 @@
         "expiry_date": "تاريخ الصلاحية"
       },
       "cod_over_limit": "ماكاينش لأكثر من 500 درهم",
-      "cod_morocco_only": "غير فالمغرب"
+      "cod_morocco_only": "غير فالمغرب",
+      "need_help_title": "ما عرفتيش كيفاش تخلّص؟",
+      "need_help_body": "صيفط لينا واتساب ولا عيّط لينا ونعاونوك.",
+      "whatsapp": "واتساب",
+      "call": "عيّط لينا"
     },
     "order_summary": {
       "title": "ملخص لكوموند",
