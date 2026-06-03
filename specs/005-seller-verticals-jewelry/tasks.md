@@ -86,5 +86,5 @@ Reviewer verdict: CHANGES REQUESTED (targeted, not structural). Apply after WS-D
 - [ ] R9 Flip `USE_MOCK=false` in verticalService.ts + customOrderService.ts before production launch.
 
 ### Discovered during R7 verification (out-of-scope follow-ups)
-- [ ] R10 (P0, separate subsystem) `Commission::create()` in OrderObserver:41 / TailoringOrderObserver fails `commissions.commissionable_type NOT NULL` — the paid-order path 500s for a SECOND reason after R7. Part of the orders/commission subsystem, NOT jewelry. Needs its own scoped fix.
+- [x] R10 RESOLVED (parallel commit 3fa9d77c added commissionable_type/_id) `Commission::create()` in OrderObserver:41 / TailoringOrderObserver fails `commissions.commissionable_type NOT NULL` — the paid-order path 500s for a SECOND reason after R7. Part of the orders/commission subsystem, NOT jewelry. Needs its own scoped fix.
 - [ ] R11 (test infra) Sanctum-route test classes leak rate-limit state → flaky 429 under one-shot full-suite runs. Clear RateLimiter / disable throttle in base TestCase. (All 005 tests pass in isolation + in my combined fresh run.)
