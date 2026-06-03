@@ -1,39 +1,27 @@
 'use client';
 
 /**
- * "Request a Custom Piece" page.
+ * "Request a Custom Piece" — ONE simple flow for everyone.
  *
- * Default (primary): posts the request into the community **Open Souk** so other
- * users / sellers can see it and respond — via RequestCustomPieceForm. Open to any
- * logged-in (normal) user. Only Material is required.
+ * Renders the single RequestCustomPieceForm (posts to the community Open Souk so
+ * artisans/sellers can see and respond). Deliberately no "public vs specific shop"
+ * choice — most users are non-technical, so the flow is one form: pick a material,
+ * describe it, optionally add a photo, post.
  *
- * Secondary (?direct=1&store_id=&vertical=): the store-targeted custom-order
- * pipeline (CustomOrderForm) for requesting directly from one specific seller.
+ * Requesting directly from one specific shop is handled from that shop's own page,
+ * not as a choice here.
  */
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
 import RequestCustomPieceForm from '@/components/community/RequestCustomPieceForm';
-import CustomOrderForm from '@/components/checkout/CustomOrderForm';
-import { VerticalSlug } from '@/services/verticalService';
 
 const playfair = { fontFamily: '"Playfair Display", ui-serif, Georgia, serif' };
-
-const SUPPORTED_VERTICALS: VerticalSlug[] = ['jewelry', 'menswear', 'womenswear', 'tailor'];
 
 export default function NewCustomOrderPage() {
   const { i18n } = useTranslation();
   const isRTL = i18n.language === 'ar';
-  const searchParams = useSearchParams();
-
-  // Direct-to-seller mode (secondary): keeps the store-targeted pipeline reachable.
-  const isDirect = searchParams.get('direct') === '1';
-  const rawVertical = (searchParams.get('vertical') ?? 'jewelry') as VerticalSlug;
-  const vertical = SUPPORTED_VERTICALS.includes(rawVertical) ? rawVertical : 'jewelry';
-  const storeIdParam = searchParams.get('store_id');
-  const storeId = storeIdParam ? parseInt(storeIdParam) : 0;
 
   return (
     <div className="min-h-screen bg-amber-50/50 pb-20" dir={isRTL ? 'rtl' : 'ltr'}>
@@ -62,26 +50,13 @@ export default function NewCustomOrderPage() {
       <main className="max-w-xl mx-auto px-6 pt-8">
         <p className="text-sm text-gray-500 mb-6">
           {isRTL
-            ? 'أخبرنا بالمواصفات التي تريدها. المجال المطلوب فقط هو المادة — كل الباقي اختياري.'
-            : 'Tell us what you need. The only required field is Material — everything else is optional.'}
+            ? 'أخبرنا بما تريد. الحقل الوحيد المطلوب هو المادة — كل الباقي اختياري. سيراه الحرفيون ويردّون عليك.'
+            : 'Tell us what you want. The only required field is Material — everything else is optional. Artisans will see it and reply.'}
         </p>
 
         <div className="bg-white rounded-2xl ring-1 ring-amber-200 p-6 shadow-sm">
-          {isDirect && storeId ? (
-            <CustomOrderForm storeId={storeId} storeName="" vertical={vertical} />
-          ) : (
-            <RequestCustomPieceForm />
-          )}
+          <RequestCustomPieceForm />
         </div>
-
-        {!isDirect && (
-          <p className="mt-4 text-center text-xs text-gray-500">
-            {isRTL ? 'تعرف على البائع الذي تريده؟ ' : 'Know the seller you want? '}
-            <Link href="/shops" className="font-medium text-indigo-700 hover:underline">
-              {isRTL ? 'اطلب مباشرة من متجر' : 'request directly from a shop'}
-            </Link>
-          </p>
-        )}
 
         {/* Trust signals */}
         <div className="mt-6 grid grid-cols-3 gap-3 text-center">
