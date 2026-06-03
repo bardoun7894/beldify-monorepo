@@ -49,3 +49,6 @@ Gemini's key contribution was separating two decisions: (a) "replace existing vi
 
 ## Sources
 - [[daily/2026-05-21.md]] — Panel vote held in session 1295f6ce (afternoon) after APP_URL fix unblocked the admin dashboard; verdict documented here
+
+## See also
+- [[sources/panel-2026-05-21-admin-css-js-conflicts]]

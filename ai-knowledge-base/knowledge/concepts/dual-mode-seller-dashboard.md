@@ -64,3 +64,6 @@ A focused polish pass changed:
 
 ## Sources
 - [[daily/2026-05-31.md]] — Full dual-mode design spec created (10-agent workflow); all 18 seller views migrated to `seller_shell`; toggle dropdown replaces two-pill; light layer polish (2×2 KPI grid, MAD currency, no purple gradient); verified live in browser
+
+## See also
+- [[sources/gemini-2026-05-31-seller-dual-mode-reference-apply]]

@@ -40,3 +40,6 @@ The `Admin\ProductImageController::createGroupVariants` method uses a `VariantSi
 
 ## Sources
 - [[daily/2026-05-31.md]] — VariantWriteService extracted; double-encode bug fixed; `ProductVariantPunchListTest` (6 passing); all three controllers wired; missing `attributes` column migration created
+
+## See also
+- [[sources/panel-2026-05-30-product-mgmt-backend]]

@@ -130,3 +130,6 @@ The monorepo had no `main` branch; `001-api-alignment` was the integration branc
 ## Sources
 - [[daily/2026-05-24.md]] — Full Phase 1-4 Atlas frontend migration; parallel agent fan-out with git worktree isolation; Phase 4 gap analysis revealing 245 locale key gaps, 30 console.log leaks, 45 RTL leaks; checkout SyntaxError fixed; Phase 5 remediation plan recorded
 - [[daily/2026-06-02.md]] — Phase 5 execution (5 remaining screens via worktree agents); P0 palette fix sweep (`#6366f1`→`#3b3b6d`, purple→parchment, green gradient→indigo); CSS comment premature-close bug diagnosed + fixed; arbitrary-value slash build failure diagnosed + atlas-primary/atlas-secondary alpha tokens registered; frontend PR #1 → `001-api-alignment`, backend PR #3 → `main`, both merged and fast-forwarded to `origin/main`
+
+## See also
+- [[sources/gemini-2026-06-02-storefront-atlas-redesign-review]]

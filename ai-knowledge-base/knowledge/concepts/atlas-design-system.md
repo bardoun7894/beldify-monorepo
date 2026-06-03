@@ -67,3 +67,7 @@ Atlas tokens were extended to the Laravel admin backend on 2026-05-21. The share
 ## Sources
 - [[daily/2026-05-14.md]] — System created; palette finalized; DESIGN.md authored; all 16 pages ported to Atlas design; Stitch previews generated and deployed
 - [[daily/2026-05-21.md]] — FeaturedSections re-tokenized; admin chrome extended to Atlas; dashboard KPI tiles + Chart.js widgets built
+
+## See also
+- [[sources/gemini-2026-06-02-storefront-pages-drift-sweep]]
+- [[sources/gemini-2026-06-02-storefront-atlas-redesign-review]]

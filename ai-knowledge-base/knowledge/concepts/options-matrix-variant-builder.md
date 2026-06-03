@@ -43,3 +43,6 @@ The `VariantWriteService` refactor temporarily dropped `current_purchase_unit_pr
 
 ## Sources
 - [[daily/2026-05-31.md]] — Options-matrix variant builder implemented (frontend-engineer agent); verified end-to-end with product #14; `current_purchase_unit_price` regression found and fixed
+
+## See also
+- [[sources/panel-2026-05-30-product-mgmt-backend]]

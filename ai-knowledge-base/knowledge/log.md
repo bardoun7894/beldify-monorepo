@@ -154,3 +154,33 @@ Append-only log of compile and ingest operations.
   - Atlas indigo = `#252555`/`#3b3b6d`; Tailwind's `indigo-500` = `#6366f1` — they are different; workers must always reference DESIGN.md
   - sync-local.sh must run from monorepo root (`/Users/mohamedbardouni/projects/beldify`), never from inside `beldify-backend/`
   - Monorepo had no `main` branch; `001-api-alignment` was the integration branch; `origin/main` created by fast-forward post-merge
+
+## [2026-06-03T19:46:10+0100] ingest | raw/gemini/2026-06-02-storefront-atlas-redesign-review.md
+- Source: raw/gemini/2026-06-02-storefront-atlas-redesign-review.md
+- Source page: [[sources/gemini-2026-06-02-storefront-atlas-redesign-review]]
+- Concepts updated: [[concepts/atlas-design-system]], [[concepts/atlas-frontend-migration]]
+- Contradictions: none (rejected indigo-500 finding aligns with existing KB that #6366f1 ≠ Atlas Indigo)
+
+## [2026-06-03T19:46:10+0100] ingest | raw/gemini/2026-06-02-storefront-pages-drift-sweep.txt
+- Source: raw/gemini/2026-06-02-storefront-pages-drift-sweep.txt
+- Source page: [[sources/gemini-2026-06-02-storefront-pages-drift-sweep]]
+- Concepts updated: [[concepts/atlas-design-system]], [[concepts/tailwind-jit-dynamic-class-pitfalls]]
+- Contradictions: none
+
+## [2026-06-03T19:46:10+0100] ingest | raw/panel/2026-05-30-product-mgmt-backend.md
+- Source: raw/panel/2026-05-30-product-mgmt-backend.md
+- Source page: [[sources/panel-2026-05-30-product-mgmt-backend]]
+- Concepts updated: [[concepts/variant-write-service]], [[concepts/options-matrix-variant-builder]]
+- Contradictions: none
+
+## [2026-06-03T19:46:10+0100] ingest | raw/panel/2026-05-21-admin-css-js-conflicts.md
+- Source: raw/panel/2026-05-21-admin-css-js-conflicts.md
+- Source page: [[sources/panel-2026-05-21-admin-css-js-conflicts]]
+- Concepts updated: [[concepts/admin-panel-migration-decision]], [[concepts/admin-atlas-migration]]
+- Contradictions: none
+
+## [2026-06-03T19:46:10+0100] ingest | raw/gemini/2026-05-31-seller-dual-mode-reference-apply.md
+- Source: raw/gemini/2026-05-31-seller-dual-mode-reference-apply.md
+- Source page: [[sources/gemini-2026-05-31-seller-dual-mode-reference-apply]]
+- Concepts updated: [[concepts/dual-mode-seller-dashboard]]
+- Contradictions: none

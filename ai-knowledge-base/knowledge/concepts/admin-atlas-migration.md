@@ -316,3 +316,6 @@ After the APP_URL → MIME-type pipeline was unblocked (see [[concepts/admin-ass
 - [[daily/2026-05-28.md]] — Static service anti-pattern fix (43 files); V3 sidebar wiring; Atlas body skin fix (`:has()` → `body.bdv3-shell`, light-mode-fixes scoping, opcache); RTL `data-textdirection` fix; 128 pages ported via 3 parallel agent waves; Api/API Linux case fix; tailoring fabrics schema fix; 50-route guard sweep; storage permissions fix; prod-local git drift catch-up
 - [[daily/2026-05-29.md]] — Community pages full i18n (admin list + detail + seller view); Quick Actions CSS fix (admin PixInvent bundle, not Vite build); Storage::url null guard; display_name accessor; 8 correctness bug fixes; local Docker production mirror established (named volume, dual-apply pattern); 342-file checkpoint commit
 - [[daily/2026-05-31.md]] — Admin dashboard Atlas polish (impeccable); PRODUCT.md created; VariantWriteService + options-matrix builder; missing `product_variants.attributes` migration; unified admin product page; dual-mode seller dashboard design spec; all 18 seller views on seller_shell; blank seller icons (LA 1.1.0→1.3.0); community/show ParseError fixed
+
+## See also
+- [[sources/panel-2026-05-21-admin-css-js-conflicts]]

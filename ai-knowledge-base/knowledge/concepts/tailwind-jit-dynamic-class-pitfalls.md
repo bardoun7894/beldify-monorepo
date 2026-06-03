@@ -133,3 +133,6 @@ This pattern avoids Tailwind entirely for admin-specific components where the Vi
 ## Sources
 - [[daily/2026-05-21.md]] — Full admin audit surfaced all four patterns (morning); CI lint guard added after commissions correctness packet landed (afternoon session 1295f6ce)
 - [[daily/2026-05-29.md]] — Admin CSS bundle context variant discovered: Quick Actions buttons invisible because admin loads PixInvent CSS, not Vite build; fixed with scoped inline `<style>` block
+
+## See also
+- [[sources/gemini-2026-06-02-storefront-pages-drift-sweep]]

@@ -86,4 +86,8 @@
 | [[concepts/atlas-frontend-migration]] | Phase 5 (5 screens via worktree agents), P0 palette sweep, CSS build failures diagnosed, PRs merged to origin/main | concept | 2026-06-02 |
 | [[concepts/beldify-ecommerce-ui-skill]] | First real execution (7 surfaces); CSS build pitfalls discovered; seller dashboard Stitch IA port; IBM Plex Sans Arabic added | concept | 2026-06-02 |
 
-*(This index will populate as Claude Code captures conversations and you ingest documents.)*
+*(This index will populate as Claude Code captures conversations and you ingest documents.)*| [[sources/gemini-2026-06-02-storefront-atlas-redesign-review]] | Atlas storefront drift review (contrast/currency/RTL) + synthesis | source | 2026-06-03 |
+| [[sources/gemini-2026-06-02-storefront-pages-drift-sweep]] | ~30 Atlas drift findings across storefront pages | source | 2026-06-03 |
+| [[sources/panel-2026-05-30-product-mgmt-backend]] | Panel: variant split-brain, stale stock cache, description drift | source | 2026-06-03 |
+| [[sources/panel-2026-05-21-admin-css-js-conflicts]] | Panel: finish Atlas (not Filament), commissions-first + CI rules | source | 2026-06-03 |
+| [[sources/gemini-2026-05-31-seller-dual-mode-reference-apply]] | Plan: Simple/Advanced seller dashboard reference apply | source | 2026-06-03 |
