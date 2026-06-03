@@ -30,6 +30,7 @@ const Footer = () => {
       links: [
         { label: t('footer.becomeSeller', 'Become a seller'), href: '/seller/register' },
         { label: t('footer.sellerDashboard', 'Seller dashboard'), href: '/seller/dashboard' },
+        { label: t('footer.sellerCustomOrders', 'Custom orders'), href: '/seller/custom-orders' },
         { label: t('footer.sellerSupport', 'Seller support'), href: '/seller/support' },
         { label: t('footer.commissions', 'Commissions'), href: '/seller/commissions' },
       ],

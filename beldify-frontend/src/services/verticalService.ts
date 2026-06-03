@@ -82,7 +82,7 @@ const MOCK_CONFIGS: Record<VerticalSlug, VerticalConfig> = {
 // Public API
 // ─────────────────────────────────────────────────────────────────────────────
 
-const USE_MOCK = true; // LIVE WIRING (WS-A): set to false once endpoint is live
+const USE_MOCK = false; // LIVE WIRING (WS-A): flipped live — endpoint verified 2026-06-03
 
 /**
  * Fetch the field schema for a vertical.

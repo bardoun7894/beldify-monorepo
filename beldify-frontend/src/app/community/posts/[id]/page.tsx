@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams, useRouter } from 'next/navigation';
 import Image from 'next/image';
@@ -16,6 +16,8 @@ import {
   ChevronDown,
   ChevronUp,
   Send,
+  Package,
+  Gem,
 } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { getAuthToken } from '@/utils/authUtils';
@@ -59,6 +61,8 @@ export default function PostDetailPage() {
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [showResponseForm, setShowResponseForm] = useState(false);
   const [descExpanded, setDescExpanded] = useState(false);
+  // F5: once accept is called, show a "View your custom order" CTA
+  const [acceptedCustomOrderId, setAcceptedCustomOrderId] = useState<number | null>(null);
 
   useEffect(() => {
     if (!postId) return;
@@ -147,7 +151,15 @@ export default function PostDetailPage() {
 
     try {
       setIsSubmitting(true);
-      await updateResponseStatus(postId, responseId.toString(), 'accepted');
+      // F5: accept returns {success:true} — no custom_order_id yet (OS-P1-8 deferred).
+      // Capture it if the backend ever returns it; otherwise fall back to list link.
+      const result: any = await updateResponseStatus(postId, responseId.toString(), 'accepted');
+      if (result?.custom_order_id) {
+        setAcceptedCustomOrderId(result.custom_order_id);
+      } else {
+        // Signal that acceptance happened so we can show the CTA
+        setAcceptedCustomOrderId(0);
+      }
       const updatedPostData = await fetchCommunityPost(postId);
       setPost(updatedPostData);
       const updatedResponsesData = await fetchPostResponses(postId);
@@ -247,6 +259,20 @@ export default function PostDetailPage() {
 
   // hasMyProposal guard — backend 422s a second submit, so hide the form
   const hasMyProposal = post.hasMyProposal ?? post.has_my_proposal ?? false;
+
+  // F4: only store owners / sellers can respond (respond route is role:store_owner).
+  // Consistent with seller/register/page.tsx:213
+  const isSeller = user?.role === 'seller' || (user as any)?.is_seller === true;
+
+  // F3: normalise product_specifications (backend serialises as key→value object)
+  // The community.ts type has string[] as placeholder; real API returns {[key:string]:string}.
+  const rawSpecs = (post as any).product_specifications ?? (post as any).productSpecifications;
+  const productSpecs: Record<string, string> | null =
+    rawSpecs && typeof rawSpecs === 'object' && !Array.isArray(rawSpecs)
+      ? rawSpecs
+      : null;
+  const productColors: string[] = post.colors ?? [];
+  const productStyles: string[] = post.styles ?? [];
 
   const statusSteps: Array<{ key: string; label: string }> = [
     { key: 'open', label: t('community.status.open', 'Open') },
@@ -467,6 +493,72 @@ export default function PostDetailPage() {
                 </div>
               )}
 
+              {/* F3: Custom-piece specifications (product_specifications key→value) */}
+              {productSpecs && Object.keys(productSpecs).length > 0 && (
+                <div className="px-6 pb-6">
+                  <div className="flex items-start gap-2">
+                    <Gem size={14} className="text-amber-600 shrink-0 mt-0.5" />
+                    <div className="w-full">
+                      <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-3">
+                        {t('community.product_specifications', 'Custom Piece Specifications')}
+                      </p>
+                      <dl className="grid grid-cols-2 gap-x-4 gap-y-2.5">
+                        {Object.entries(productSpecs)
+                          .filter(([, v]) => v !== null && v !== undefined && String(v).trim() !== '')
+                          .map(([key, value]) => (
+                            <div key={key}>
+                              <dt className="text-[10px] uppercase tracking-wide text-amber-700 font-semibold">
+                                {key.replace(/_/g, ' ')}
+                              </dt>
+                              <dd className="text-sm font-medium text-gray-800 mt-0.5">
+                                {String(value)}
+                              </dd>
+                            </div>
+                          ))}
+                      </dl>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* F3: Colors */}
+              {productColors.length > 0 && (
+                <div className="px-6 pb-5">
+                  <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">
+                    {t('community.colors', 'Colors')}
+                  </p>
+                  <div className="flex flex-wrap gap-1.5">
+                    {productColors.map((color, i) => (
+                      <span
+                        key={i}
+                        className="px-2.5 py-1 text-xs font-medium bg-amber-50 text-amber-800 rounded-full ring-1 ring-amber-200"
+                      >
+                        {color}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* F3: Styles */}
+              {productStyles.length > 0 && (
+                <div className="px-6 pb-5">
+                  <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">
+                    {t('community.styles', 'Styles')}
+                  </p>
+                  <div className="flex flex-wrap gap-1.5">
+                    {productStyles.map((style, i) => (
+                      <span
+                        key={i}
+                        className="px-2.5 py-1 text-xs font-medium bg-indigo-50 text-indigo-700 rounded-full ring-1 ring-indigo-100"
+                      >
+                        {style}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+
               {/* Buyer card */}
               {buyerName && (
                 <div className="px-6 pb-6">
@@ -552,8 +644,28 @@ export default function PostDetailPage() {
 
           {/* ── RIGHT COLUMN: Proposals + proposal form ──────── */}
           <div className="space-y-4">
-            {/* Seller: submit proposal (form toggled inline) */}
-            {!isMyPost && postIsOpen && isAuthenticated && !hasMyProposal && (
+            {/* F5: Post-accept CTA — "View your custom order" */}
+            {acceptedCustomOrderId !== null && isMyPost && (
+              <div className="bg-emerald-50 rounded-2xl ring-1 ring-emerald-200 p-5">
+                <p className="text-sm font-semibold text-emerald-800 mb-3">
+                  {t('community.proposal_accepted', 'Proposal accepted!')}
+                </p>
+                <Link
+                  href={
+                    acceptedCustomOrderId > 0
+                      ? `/custom-orders/${acceptedCustomOrderId}`
+                      : '/custom-orders'
+                  }
+                  className="inline-flex items-center gap-2 px-5 py-2.5 min-h-[44px] text-sm font-semibold text-white bg-emerald-700 rounded-full hover:bg-emerald-800 transition-colors duration-200"
+                >
+                  <Package size={15} />
+                  {t('community.view_custom_order', 'View your custom order')}
+                </Link>
+              </div>
+            )}
+
+            {/* F4: Seller-only form gate */}
+            {!isMyPost && postIsOpen && isAuthenticated && !hasMyProposal && isSeller && (
               <div className="bg-white rounded-2xl ring-1 ring-amber-200 overflow-hidden">
                 {showResponseForm ? (
                   <ResponseForm
@@ -575,6 +687,18 @@ export default function PostDetailPage() {
                     </button>
                   </div>
                 )}
+              </div>
+            )}
+
+            {/* F4: Non-seller note (authed buyer, not the post owner, post is open) */}
+            {!isMyPost && postIsOpen && isAuthenticated && !isSeller && (
+              <div className="bg-amber-50 rounded-2xl ring-1 ring-amber-200 p-5">
+                <p className="text-sm text-amber-800">
+                  {t(
+                    'community.only_sellers_can_respond',
+                    'Only sellers can respond to requests. Register as a seller to submit a proposal.'
+                  )}
+                </p>
               </div>
             )}
 

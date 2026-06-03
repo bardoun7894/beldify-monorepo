@@ -141,7 +141,7 @@ export const STATUS_META: Record<CustomOrderStatus, StatusMeta> = {
 // Mock data — exact shapes from contracts.md
 // ─────────────────────────────────────────────────────────────────────────────
 
-const USE_MOCK = true; // LIVE WIRING (WS-A): set to false once endpoints are live
+const USE_MOCK = false; // LIVE WIRING (WS-A): flipped live — endpoints verified 2026-06-03
 
 const MOCK_CUSTOM_ORDER: CustomOrder = {
   id: 87,
@@ -231,6 +231,30 @@ export async function fetchCustomOrders(params?: {
 }
 
 /**
+ * Seller: list the custom orders for stores the current user owns.
+ * GET /api/v1/seller/custom-orders (paginated, same {data,meta} envelope as buyer list).
+ *
+ * NOTE: the list response uses detailed=false (no spec/progress/customer).
+ * Call fetchCustomOrder(id) after selection to load the full detail pane.
+ */
+export async function fetchSellerCustomOrders(params?: {
+  status?: CustomOrderStatus;
+  vertical?: VerticalSlug;
+  page?: number;
+}): Promise<CustomOrderListResponse> {
+  if (USE_MOCK) {
+    await new Promise(r => setTimeout(r, 0));
+    return {
+      data: [{ ...MOCK_CUSTOM_ORDER } as unknown as CustomOrderListItem],
+      meta: { current_page: 1, last_page: 1, per_page: 15, total: 1 },
+    };
+  }
+  // LIVE PATH
+  const res = await api.get<CustomOrderListResponse>('/api/v1/seller/custom-orders', { params });
+  return res.data;
+}
+
+/**
  * Seller: submit a quote for a requested order.
  * Only valid when order.status === 'requested' (409 otherwise — D4-RESOLVED).
  * LIVE WIRING (WS-A): replace mock body with api.post(`/api/v1/custom-orders/${id}/quote`, payload)
@@ -279,6 +303,7 @@ export const customOrderService = {
   submitCustomOrder,
   fetchCustomOrder,
   fetchCustomOrders,
+  fetchSellerCustomOrders,
   submitQuote,
   advanceCustomOrder,
 };

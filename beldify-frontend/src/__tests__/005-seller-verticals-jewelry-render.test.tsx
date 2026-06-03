@@ -61,10 +61,29 @@ vi.mock('@/lib/utils', () => ({
   cn: (...classes: (string | false | null | undefined)[]) => classes.filter(Boolean).join(' '),
 }));
 
-// Mock ONLY the network call layer, not the data structures
+// Mock ONLY the network call layer, not the data structures.
+// The get mock must return the correct envelope for verticals/{slug}/config
+// now that USE_MOCK=false — the live path calls api.get and reads res.data.data.
 vi.mock('@/lib/api', () => ({
   default: {
-    get: vi.fn().mockResolvedValue({ data: {} }),
+    get: vi.fn().mockImplementation((url: string) => {
+      if (url.includes('/verticals/')) {
+        // VerticalConfigController returns { data: { vertical, fields } }
+        return Promise.resolve({
+          data: {
+            data: {
+              vertical: 'jewelry',
+              fields: [
+                { key: 'material', label: 'Material', type: 'select', required: true, options: ['gold', 'silver'], group: null },
+                { key: 'purity',   label: 'Purity',   type: 'select', required: false, options: ['18k', '24k'], group: null },
+                { key: 'size',     label: 'Size',     type: 'text',   required: false, options: null, group: null },
+              ],
+            },
+          },
+        });
+      }
+      return Promise.resolve({ data: {} });
+    }),
     post: vi.fn().mockResolvedValue({ data: { data: { id: 87, status: 'requested' } } }),
   },
 }));

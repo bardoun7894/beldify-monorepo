@@ -7,16 +7,19 @@
  * - Send a quote (requested → quoted via QuoteForm)
  * - Advance status through lifecycle (via CustomOrderTimeline)
  *
- * LIVE WIRING (WS-A): replace MOCK_SELLER_ORDERS with GET /api/v1/seller/custom-orders
- * (seller-scoped endpoint, different from buyer /api/v1/custom-orders)
+ * F2 LIVE WIRING: replaced MOCK_SELLER_ORDERS with fetchSellerCustomOrders().
+ * The list response (detailed=false) omits spec/progress/customer.
+ * Selecting an order triggers fetchCustomOrder(id) to load the full detail.
  */
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Package, ChevronLeft } from 'lucide-react';
 import {
   CustomOrder,
+  CustomOrderListItem,
   STATUS_META,
   fetchCustomOrder,
+  fetchSellerCustomOrders,
 } from '@/services/customOrderService';
 import QuoteForm from '@/components/seller/QuoteForm';
 import CustomOrderTimeline from '@/components/seller/CustomOrderTimeline';
@@ -24,42 +27,81 @@ import { cn } from '@/lib/utils';
 
 const playfair = { fontFamily: '"Playfair Display", ui-serif, Georgia, serif' };
 
-// MOCK seller order list — LIVE WIRING (WS-A): GET /api/v1/seller/custom-orders
-const MOCK_SELLER_ORDERS: CustomOrder[] = [
-  {
-    id: 87,
-    store_id: 12,
-    vertical: 'jewelry',
-    spec: { material: 'gold', purity: '18k', engraving: 'لنا' },
-    notes: 'For a wedding, needed by end of month',
-    status: 'requested',
-    quote_amount: null,
-    deposit_amount: null,
-    deposit_paid: false,
-    eta: null,
-    delivery_date: null,
-    customer: { id: 44, display_name: 'FATIMA Z.' },
-    store: { id: 12, name: 'Atlas Bijoux', slug: 'atlas-bijoux' },
-    progress: [
-      { id: 1, status: 'requested', note: null, created_by: 44, created_at: '2026-06-02T10:00:00Z' },
-    ],
-    created_at: '2026-06-02T10:00:00Z',
-    updated_at: '2026-06-02T10:00:00Z',
-  },
-];
-
 export default function SellerCustomOrdersPage() {
   const { i18n } = useTranslation();
   const isRTL = i18n.language === 'ar';
 
-  const [orders, setOrders] = useState<CustomOrder[]>(MOCK_SELLER_ORDERS);
+  const [orders, setOrders] = useState<CustomOrderListItem[]>([]);
   const [selectedId, setSelectedId] = useState<number | null>(null);
+  const [selectedOrder, setSelectedOrder] = useState<CustomOrder | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isDetailLoading, setIsDetailLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const selectedOrder = orders.find(o => o.id === selectedId) ?? null;
+  // Load the seller's order list on mount
+  useEffect(() => {
+    const load = async () => {
+      setIsLoading(true);
+      setError(null);
+      try {
+        const res = await fetchSellerCustomOrders();
+        setOrders(res.data);
+      } catch {
+        setError(isRTL ? 'فشل تحميل الطلبات' : 'Failed to load orders');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    load();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // When a list item is selected, load the full detail (spec + progress + customer)
+  useEffect(() => {
+    if (selectedId === null) {
+      setSelectedOrder(null);
+      return;
+    }
+    const loadDetail = async () => {
+      setIsDetailLoading(true);
+      try {
+        const full = await fetchCustomOrder(selectedId);
+        setSelectedOrder(full);
+      } catch {
+        setSelectedOrder(null);
+        setError(isRTL ? 'فشل تحميل تفاصيل الطلب' : 'Failed to load order detail');
+      } finally {
+        setIsDetailLoading(false);
+      }
+    };
+    loadDetail();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedId]);
 
   const handleUpdate = (updated: CustomOrder) => {
-    setOrders(prev => prev.map(o => (o.id === updated.id ? updated : o)));
+    // Refresh selected order in detail pane
+    setSelectedOrder(updated);
+    // Also patch the list row status so it reflects without a full reload
+    setOrders(prev =>
+      prev.map(o => (o.id === updated.id ? { ...o, status: updated.status } : o))
+    );
   };
+
+  const handleBack = () => {
+    setSelectedId(null);
+    setSelectedOrder(null);
+  };
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-amber-50/50 flex items-center justify-center">
+        <div className="flex flex-col items-center gap-3">
+          <div className="h-12 w-12 rounded-2xl bg-amber-100 animate-pulse" />
+          <p className="text-sm text-gray-500">{isRTL ? 'جارٍ التحميل…' : 'Loading…'}</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-amber-50/50 pb-20" dir={isRTL ? 'rtl' : 'ltr'}>
@@ -68,7 +110,7 @@ export default function SellerCustomOrdersPage() {
         <div className="max-w-4xl mx-auto flex items-center gap-3">
           {selectedOrder && (
             <button
-              onClick={() => setSelectedId(null)}
+              onClick={handleBack}
               className="me-1 rounded-full p-1.5 hover:bg-amber-100 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30"
               aria-label={isRTL ? 'رجوع' : 'Back to list'}
             >
@@ -89,7 +131,14 @@ export default function SellerCustomOrdersPage() {
       </header>
 
       <main className="max-w-4xl mx-auto px-6 pt-8 space-y-6">
-        {!selectedOrder ? (
+        {/* Error banner */}
+        {error && (
+          <div className="rounded-2xl bg-rose-50 ring-1 ring-rose-200 px-5 py-4 text-sm text-rose-700">
+            {error}
+          </div>
+        )}
+
+        {!selectedId ? (
           <>
             {orders.length === 0 ? (
               <div className="flex flex-col items-center gap-3 py-16 text-center">
@@ -107,7 +156,6 @@ export default function SellerCustomOrdersPage() {
               <ul className="space-y-3" role="list" aria-label={isRTL ? 'قائمة الطلبات' : 'Orders list'}>
                 {orders.map(order => {
                   const meta = STATUS_META[order.status];
-                  const spec = order.spec;
                   return (
                     <li key={order.id}>
                       <button
@@ -118,7 +166,8 @@ export default function SellerCustomOrdersPage() {
                           <div className="min-w-0">
                             <div className="flex items-center gap-2 flex-wrap mb-1">
                               <span className="text-sm font-semibold text-gray-900">
-                                #{order.id} · {order.customer.display_name}
+                                #{order.id}
+                                {order.store && ` · ${order.store.name}`}
                               </span>
                               <span
                                 className={cn(
@@ -130,7 +179,7 @@ export default function SellerCustomOrdersPage() {
                               </span>
                             </div>
                             <p className="text-xs text-gray-500 truncate">
-                              {order.vertical} · {Object.entries(spec).filter(([, v]) => v).map(([k, v]) => `${k}: ${v}`).join(', ')}
+                              {order.vertical}
                             </p>
                           </div>
                           <ChevronLeft className="shrink-0 h-4 w-4 text-gray-300 rtl:rotate-180" aria-hidden />
@@ -142,7 +191,12 @@ export default function SellerCustomOrdersPage() {
               </ul>
             )}
           </>
-        ) : (
+        ) : isDetailLoading ? (
+          <div className="flex flex-col items-center gap-3 py-16">
+            <div className="h-10 w-10 rounded-2xl bg-amber-100 animate-pulse" />
+            <p className="text-sm text-gray-500">{isRTL ? 'جارٍ التحميل…' : 'Loading order…'}</p>
+          </div>
+        ) : selectedOrder ? (
           <div className="space-y-6">
             {/* Spec summary */}
             <div className="rounded-2xl ring-1 ring-amber-200 bg-white p-5">
@@ -165,6 +219,12 @@ export default function SellerCustomOrdersPage() {
                   <p className="text-sm text-gray-700">{selectedOrder.notes}</p>
                 </div>
               )}
+              {selectedOrder.customer && (
+                <div className="mt-4 pt-4 border-t border-amber-100">
+                  <p className="text-xs text-gray-400 mb-1">{isRTL ? 'المشتري' : 'Customer'}</p>
+                  <p className="text-sm font-medium text-gray-800">{selectedOrder.customer.display_name}</p>
+                </div>
+              )}
             </div>
 
             {/* Quote form — only for requested orders */}
@@ -173,7 +233,7 @@ export default function SellerCustomOrdersPage() {
             {/* Progress timeline */}
             <CustomOrderTimeline order={selectedOrder} onAdvanced={handleUpdate} />
           </div>
-        )}
+        ) : null}
       </main>
     </div>
   );
