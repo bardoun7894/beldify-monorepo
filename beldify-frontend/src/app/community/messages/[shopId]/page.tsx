@@ -4,7 +4,7 @@ import React, { useState, useEffect, useCallback, useRef } from 'react';
 import Link from 'next/link';
 import { useParams, useSearchParams, useRouter } from 'next/navigation';
 import { MessageSquare, ChevronLeft, Send, Loader2, ArrowLeft } from 'lucide-react';
-import { useTranslation } from '@/i18n/client';
+import { useTranslation } from 'react-i18next';
 import { useAuth } from '@/contexts/AuthContext';
 import { useRealtimeChat } from '@/contexts/RealtimeChatContext';
 import * as messagingService from '@/services/messagingService';
@@ -22,7 +22,7 @@ import { TypingIndicator } from '@/components/messaging/TypingIndicator';
  * messagingService.sendMessage(); both are keyed by the shop id.
  */
 export default function ConversationPage() {
-  const { t } = useTranslation('common');
+  const { t } = useTranslation();
   const { user, isAuthenticated } = useAuth();
   const { onMessageReceived, onUserTyping, sendTypingIndicator, isConnected, connectionStatus } = useRealtimeChat();
   const router = useRouter();

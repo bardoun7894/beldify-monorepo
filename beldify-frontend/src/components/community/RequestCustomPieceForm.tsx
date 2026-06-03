@@ -17,12 +17,13 @@
  * Backend (StoreCommunityPostRequest) requires title(min5)/description(min20)/category_id,
  * so those are auto-filled from Material + notes — the user never has to type them.
  */
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useTranslation } from 'react-i18next';
 import toast from '@/utils/toast';
 import { ChevronDown, ImagePlus, Loader2, X } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
+
 import { categoryService } from '@/services/categoryService';
 import { createCommunityPost } from '@/services/communityService';
 import type { Category } from '@/types/category';
@@ -45,7 +46,7 @@ export default function RequestCustomPieceForm() {
   const { i18n } = useTranslation();
   const isRTL = i18n.language === 'ar';
   const router = useRouter();
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, loading: authLoading } = useAuth();
 
   const [material, setMaterial] = useState<Material | ''>('');
   const [notes, setNotes] = useState('');
@@ -55,23 +56,47 @@ export default function RequestCustomPieceForm() {
   const [size, setSize] = useState('');
   const [images, setImages] = useState<File[]>([]);
   const [previews, setPreviews] = useState<string[]>([]);
+  // Ref keeps a live snapshot of object URLs so the unmount cleanup
+  // can revoke only those still alive at the time the component tears down.
+  const previewsRef = useRef<string[]>([]);
   const [showMore, setShowMore] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [categories, setCategories] = useState<Category[]>([]);
 
   // Login gate — "for normal users": any logged-in buyer can post.
+  // Wait until authLoading is false before redirecting so that a brief
+  // unauthenticated state during hydration does not create a redirect loop
+  // (old: redirect fired immediately → login → back to /custom-orders/new →
+  //  component re-mounted while still hydrating → redirect again).
+  // New: /login?redirect=/custom-orders/new (same path, loop-safe).
   useEffect(() => {
+    if (authLoading) return;
     if (!isAuthenticated) {
       router.push('/login?redirect=/custom-orders/new');
     }
-  }, [isAuthenticated, router]);
+  }, [authLoading, isAuthenticated, router]);
 
   useEffect(() => {
     categoryService
       .getAllCategories()
       .then((data) => setCategories(Array.isArray(data) ? data : []))
       .catch(() => setCategories([]));
+  }, []);
+
+  // Keep the ref in sync with state so the unmount cleanup has the live list.
+  useEffect(() => {
+    previewsRef.current = previews;
+  }, [previews]);
+
+  // Revoke any remaining object URLs when the component unmounts.
+  useEffect(() => {
+    return () => {
+      // Guard: revokeObjectURL may be unimplemented in some environments (jsdom).
+      if (typeof URL.revokeObjectURL === 'function') {
+        previewsRef.current.forEach((url) => URL.revokeObjectURL(url));
+      }
+    };
   }, []);
 
   const t = (en: string, ar: string) => (isRTL ? ar : en);
@@ -104,29 +129,68 @@ export default function RequestCustomPieceForm() {
 
   const removeImage = (idx: number) => {
     setImages((prev) => prev.filter((_, i) => i !== idx));
-    setPreviews((prev) => prev.filter((_, i) => i !== idx));
+    setPreviews((prev) => {
+      // Revoke the specific object URL being removed to free memory immediately.
+      // Guard: revokeObjectURL may be unimplemented in some environments (jsdom).
+      if (prev[idx] && typeof URL.revokeObjectURL === 'function') {
+        URL.revokeObjectURL(prev[idx]);
+      }
+      return prev.filter((_, i) => i !== idx);
+    });
   };
 
-  /** Resolve the Jewelry category id; fall back to the first category if not seeded yet. */
-  const resolveCategoryId = (): number | null => {
+  /**
+   * Resolve the Jewelry category id.
+   *
+   * Matches on slug or name (EN/AR) with a case-insensitive "jewel" / Arabic
+   * jewellery terms check.  Returns null in two distinct cases:
+   *   - categories not yet loaded → caller shows "still loading" message
+   *   - categories loaded but no jewelry found → caller shows "not found" message
+   * The previous `?? categories[0]` silent fallback has been removed: it would
+   * silently post the piece under the wrong category whenever the backend
+   * category seed didn't include a jewelry entry.
+   */
+  const resolveCategoryId = (): { id: number | null; loaded: boolean } => {
+    if (categories.length === 0) return { id: null, loaded: false };
     const jewelry = categories.find(
       (c) =>
         /jewel/i.test(c.slug ?? '') ||
         /jewel|مجوهرات|حلي/i.test(`${c.name ?? ''} ${c.name_en ?? ''} ${c.name_ar ?? ''}`)
     );
-    const chosen = jewelry ?? categories[0];
-    return chosen ? Number(chosen.id) : null;
+    return { id: jewelry ? Number(jewelry.id) : null, loaded: true };
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!material) {
-      setError(t('Please choose a material — it’s the only required field.', 'يرجى اختيار المادة — إنه الحقل المطلوب الوحيد.'));
+      setError(t("Please choose a material — it's the only required field.", "يرجى اختيار المادة — إنه الحقل المطلوب الوحيد."));
       return;
     }
-    const categoryId = resolveCategoryId();
+
+    // Budget validation (11b): both present → min must not exceed max.
+    if (budgetMin && budgetMax) {
+      const min = parseFloat(budgetMin);
+      const max = parseFloat(budgetMax);
+      if (!isNaN(min) && !isNaN(max) && min > max) {
+        setError(t('Budget minimum cannot be greater than the maximum.', 'يجب ألا تتجاوز الميزانية الدنيا الميزانية القصوى.'));
+        return;
+      }
+    }
+
+    const { id: categoryId, loaded: categoriesLoaded } = resolveCategoryId();
     if (!categoryId) {
-      setError(t('Categories are still loading — please try again in a moment.', 'لا تزال الفئات قيد التحميل — يرجى المحاولة مرة أخرى بعد لحظة.'));
+      // Distinguish between "still loading" and "no jewelry category found".
+      setError(
+        categoriesLoaded
+          ? t(
+              'No jewelry category found — please contact support.',
+              'لم يُعثر على فئة مجوهرات — يرجى التواصل مع الدعم.',
+            )
+          : t(
+              'Categories are still loading — please try again in a moment.',
+              'لا تزال الفئات قيد التحميل — يرجى المحاولة مرة أخرى بعد لحظة.',
+            )
+      );
       return;
     }
 

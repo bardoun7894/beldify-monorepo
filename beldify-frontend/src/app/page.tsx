@@ -1,17 +1,16 @@
 import HomeContent from '@/components/home/HomeContent';
+import { getHomeDataPayload } from './api/home/route';
 import logger from '@/utils/consoleLogger';
+import type { CommunityPost } from '@/types/community';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://pro.beldify.com';
 
 async function getHomeData() {
   try {
-    const response = await import('./api/home/route');
-    const handler = response.GET;
-    if (handler) {
-      const result = await handler();
-      return await result.json();
-    }
-    throw new Error('API handler not found');
+    // Call the data-layer function directly (no HTTP self-fetch anti-pattern).
+    // getHomeDataPayload() already contains its own try/catch and returns empty-
+    // array fallbacks on any backend error.
+    return await getHomeDataPayload();
   } catch (error) {
     logger.error('Error fetching home data:', error);
     return {
@@ -51,7 +50,31 @@ async function getTopCategories(): Promise<Category[]> {
   }
 }
 
+// Open Souk — 3 most-recent OPEN community briefs for the home preview rail.
+// Public endpoint, no auth. Backend returns a Laravel paginator resource
+// collection: { data: [...] }. Controller honors status, hard-codes latest(),
+// and paginates by `limit` (not per_page). json.data catches the envelope.
+async function getOpenSoukPosts(): Promise<CommunityPost[]> {
+  try {
+    const res = await fetch(
+      `${API_URL}/api/v1/community/posts?status=open&limit=3&sort=latest`,
+      { next: { revalidate: 300 } },
+    );
+    if (!res.ok) return [];
+    const json = await res.json();
+    const items = json.data ?? json.posts ?? json.community_posts ?? (Array.isArray(json) ? json : []);
+    return Array.isArray(items) ? items.slice(0, 3) : [];
+  } catch (e) {
+    logger.error('Failed to load Open Souk posts:', e);
+    return [];
+  }
+}
+
 export default async function Home() {
-  const [data, categories] = await Promise.all([getHomeData(), getTopCategories()]);
-  return <HomeContent categories={categories} data={data} />;
+  const [data, categories, openSoukPosts] = await Promise.all([
+    getHomeData(),
+    getTopCategories(),
+    getOpenSoukPosts(),
+  ]);
+  return <HomeContent categories={categories} data={data} openSoukPosts={openSoukPosts} />;
 }

@@ -22,6 +22,8 @@ import FeaturedSections from '@/components/home/FeaturedSections';
 import MegaOffers from '@/components/MegaOffers';
 import LoadingSpinner from '@/components/common/LoadingSpinner';
 import Newsletter from '@/components/Newsletter';
+import PostCard from '@/components/community/PostCard';
+import type { CommunityPost } from '@/types/community';
 
 type Category = {
   id: number;
@@ -34,10 +36,20 @@ type Category = {
   subcategories?: Category[];
 };
 
+// Backend shape confirmed from RecommendedController.php
+interface RecommendedTailor {
+  id: number;
+  name: string;
+  rating: number;
+  profile_image: string;
+  speciality?: string;
+  experience_years?: number;
+}
+
 interface HomeData {
   bestSellers?: unknown[];
   newArrivals?: unknown[];
-  recommendedTailors?: unknown[];
+  recommendedTailors?: RecommendedTailor[];
   recommendedSellers?: unknown[];
   specialOffers?: unknown[];
   megaOffers?: unknown[];
@@ -49,18 +61,40 @@ interface HomeData {
 interface HomeContentProps {
   categories: Category[];
   data: HomeData;
+  openSoukPosts?: CommunityPost[];
 }
 
-export default function HomeContent({ categories, data }: HomeContentProps) {
+export default function HomeContent({ categories, data, openSoukPosts = [] }: HomeContentProps) {
   const { t } = useTranslation();
 
-  const ateliers = [
+  // Static fallback ateliers — used when the API returns an empty array.
+  // Backend shape confirmed: RecommendedController returns { id, name, rating,
+  // profile_image, speciality, experience_years }. The live data replaces this
+  // when /api/recommended-tailors responds successfully.
+  const staticAteliers = [
     { name: 'Maison Tetouan', city: 'Tetouan', img: 'https://pro.beldify.com/storage/categories/category_7.jpg', specialty: 'Tarz-tetouani', rating: 4.9 },
     { name: 'Dar Fes Atelier', city: 'Fez', img: '/images/hero-atelier.jpg', specialty: 'Brocade & gold thread', rating: 4.8 },
     { name: 'Casablanca Couture', city: 'Casablanca', img: 'https://pro.beldify.com/storage/categories/category_14.jpg', specialty: 'Wedding & bespoke', rating: 4.7 },
     { name: 'Dar Marrakech', city: 'Marrakech', img: 'https://pro.beldify.com/storage/categories/category_4.jpg', specialty: 'Caftan & takchita', rating: 4.8 },
   ];
 
+  // Map live recommended-tailors to atelier card shape. profile_image is the
+  // atelier's photo, speciality maps to specialty. City is not provided by the
+  // endpoint; omit it (empty string) until a location field is available.
+  const liveAteliers = (data.recommendedTailors ?? []).map((tailor) => ({
+    name: tailor.name,
+    city: '',
+    img: tailor.profile_image || '/images/placeholder-product.svg',
+    specialty: tailor.speciality || '',
+    rating: tailor.rating,
+  }));
+
+  const ateliers = liveAteliers.length > 0 ? liveAteliers : staticAteliers;
+
+  // NOTE: `journal` is intentionally static. There is no backend /journal or
+  // /blog endpoint. These are editorial placeholders. When a CMS or blog API is
+  // available, replace this array with a dynamic fetch. Do not add a backend
+  // call here without an actual endpoint to target.
   const journal = [
     { tag: 'Craft', title: 'Inside a Fez brocade atelier', excerpt: 'How fourth-generation weavers in Fez still hand-thread gold into festival caftans.', author: 'Imane Bennani', readTime: '6 min', img: 'https://pro.beldify.com/storage/categories/category_4.jpg' },
     { tag: 'Wedding', title: 'A takchita built in 3 fittings', excerpt: 'Following one bride from sketch to ceremony with Maison Marrakech.', author: 'Salma El Aoud', readTime: '8 min', img: 'https://pro.beldify.com/storage/categories/category_14.jpg' },
@@ -141,11 +175,38 @@ export default function HomeContent({ categories, data }: HomeContentProps) {
             </p>
 
             <p className="mt-4 text-base leading-relaxed text-white/80 max-w-md ms-auto">
-              {t('home.hero.description', "Caftans, djellabas, and bespoke tailoring from Morocco’s finest ateliers — delivered worldwide.")}
+              {t('home.hero.description', "Caftans, djellabas, and bespoke tailoring from Morocco's finest ateliers — delivered worldwide.")}
             </p>
 
+            {/* Search entry — navigates to /products?q= on submit */}
+            <form
+              action="/products"
+              method="get"
+              role="search"
+              className="mt-6 flex items-center gap-2 max-w-md ms-auto"
+              aria-label={t('home.hero.search_label', 'Search the marketplace')}
+            >
+              <label htmlFor="hero-search" className="sr-only">
+                {t('home.hero.search_placeholder', 'Search caftans, djellabas…')}
+              </label>
+              <input
+                id="hero-search"
+                type="search"
+                name="q"
+                placeholder={t('home.hero.search_placeholder', 'Search caftans, djellabas…')}
+                className="flex-1 min-w-0 rounded-xl bg-white/10 border border-white/20 px-4 py-2.5 text-sm text-white placeholder:text-white/50 focus:outline-none focus:ring-2 focus:ring-amber-400/60 focus:border-amber-400/60 transition-colors duration-200"
+              />
+              <button
+                type="submit"
+                className="shrink-0 inline-flex items-center gap-1.5 rounded-xl bg-amber-500 px-4 py-2.5 text-sm font-semibold text-amber-950 hover:bg-amber-400 transition-all duration-200 hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-amber-500/40 min-h-[44px]"
+                aria-label={t('home.hero.search_btn', 'Search')}
+              >
+                {t('home.hero.search_btn', 'Search')}
+              </button>
+            </form>
+
             {/* CTAs */}
-            <div className="mt-8 flex flex-wrap gap-3 justify-end">
+            <div className="mt-6 flex flex-wrap gap-3 justify-end">
               <Link
                 href="/products"
                 className="inline-flex items-center gap-2 rounded-xl bg-indigo-700 px-6 py-3 text-sm font-semibold text-white shadow-atlas-sm transition-all duration-200 hover:bg-indigo-800 hover:-translate-y-0.5 hover:shadow-atlas-md focus:outline-none focus:ring-2 focus:ring-indigo-700/40 focus:ring-offset-2 focus:ring-offset-indigo-950"
@@ -163,11 +224,11 @@ export default function HomeContent({ categories, data }: HomeContentProps) {
               </Link>
             </div>
 
-            {/* AI personalisation chip */}
-            <div className="mt-6 flex justify-end">
+            {/* Discovery chip — decorative; describes a discovery aid, not a guarantee */}
+            <div className="mt-4 flex justify-end">
               <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-amber-500/20 text-amber-200 text-xs font-medium ring-1 ring-amber-500/25 animate-fade-in-up">
                 <Sparkles size={12} className="shrink-0" aria-hidden="true" />
-                {t('home.hero.ai_chip', 'AI styled for you')}
+                {t('home.hero.discovery_chip', 'Smart discovery — find your style')}
               </span>
             </div>
           </div>
@@ -449,6 +510,80 @@ export default function HomeContent({ categories, data }: HomeContentProps) {
         </div>
       </section>
 
+      {/* ── OPEN SOUK RAIL ────────────────────────────────────────────────── */}
+      <section className="mx-auto max-w-7xl px-6 py-16 sm:py-20">
+        <div className="flex items-end justify-between mb-10">
+          <div>
+            <div className="inline-flex items-center gap-2 rounded-full bg-amber-100 px-3.5 py-1.5 mb-4 text-xs font-medium text-amber-700 ring-1 ring-amber-200">
+              <Sparkles className="h-3.5 w-3.5" aria-hidden="true" />
+              {t('home.openSouk.eyebrow', 'Community marketplace')}
+            </div>
+            <h2
+              className="text-3xl sm:text-4xl font-bold text-gray-900"
+              style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
+            >
+              <span dir="rtl" lang="ar" className="font-arabic text-gray-900">
+                {t('home.openSouk.headingAr', 'السوق المفتوح')}
+              </span>
+            </h2>
+            <p className="mt-1 text-sm text-gray-500">
+              {t('home.openSouk.subtitle', 'Open Souk — post a brief, ateliers come to you')}
+            </p>
+          </div>
+          <Link
+            href="/community"
+            className="hidden sm:inline-flex items-center gap-1 text-sm font-semibold text-indigo-700 hover:text-indigo-800 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-indigo-700/30 rounded"
+            aria-label={t('home.openSouk.browseCta', 'Browse the souk')}
+          >
+            {t('home.openSouk.browseCta', 'Browse the souk')} <ArrowRight className="h-4 w-4" aria-hidden="true" />
+          </Link>
+        </div>
+
+        {openSoukPosts.length === 0 ? (
+          <div className="py-16 text-center rounded-2xl bg-amber-50 ring-1 ring-amber-200 shadow-atlas-sm">
+            <Sparkles className="h-10 w-10 text-amber-500 mx-auto mb-3" aria-hidden="true" />
+            <p className="text-sm text-gray-600 mb-5">
+              {t('home.openSouk.emptyBody', 'No open briefs yet. Be the first to post one and let ateliers come to you.')}
+            </p>
+            <Link
+              href="/community"
+              className="inline-flex items-center gap-2 rounded-xl bg-amber-500 px-6 py-3 text-sm font-semibold text-amber-950 transition-all duration-200 hover:bg-amber-400 hover:-translate-y-0.5 shadow-atlas-sm hover:shadow-atlas-md focus:outline-none focus:ring-2 focus:ring-amber-500/40 min-h-[44px]"
+              aria-label={t('home.openSouk.emptyCta', 'Be the first to post a brief')}
+            >
+              {t('home.openSouk.emptyCta', 'Be the first to post a brief')}
+              <ArrowRight className="h-4 w-4" aria-hidden="true" />
+            </Link>
+          </div>
+        ) : (
+          <>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
+              {openSoukPosts.map((post) => (
+                <PostCard key={post.id} post={post} />
+              ))}
+            </div>
+
+            {/* CTAs — primary post brief + secondary browse */}
+            <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
+              <Link
+                href="/community"
+                className="inline-flex items-center gap-2 rounded-xl bg-amber-500 px-6 py-3 text-sm font-semibold text-amber-950 transition-all duration-200 hover:bg-amber-400 hover:-translate-y-0.5 shadow-atlas-sm hover:shadow-atlas-md focus:outline-none focus:ring-2 focus:ring-amber-500/40 min-h-[44px]"
+                aria-label={t('home.openSouk.postCta', 'Post your brief')}
+              >
+                {t('home.openSouk.postCta', 'Post your brief')}
+                <ArrowRight className="h-4 w-4" aria-hidden="true" />
+              </Link>
+              <Link
+                href="/community"
+                className="inline-flex items-center gap-2 rounded-xl bg-white px-6 py-3 text-sm font-semibold text-indigo-700 ring-1 ring-indigo-200 transition-all duration-200 hover:bg-indigo-50 hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-indigo-700/30 min-h-[44px]"
+                aria-label={t('home.openSouk.browseCta', 'Browse the souk')}
+              >
+                {t('home.openSouk.browseCta', 'Browse the souk')}
+              </Link>
+            </div>
+          </>
+        )}
+      </section>
+
       {/* ── ATELIERS RAIL ─────────────────────────────────────────────────── */}
       <section className="mx-auto max-w-7xl px-6 py-16 sm:py-20">
         <div className="flex items-end justify-between mb-10">
@@ -640,14 +775,17 @@ export default function HomeContent({ categories, data }: HomeContentProps) {
                 نطاق الأسعار النموذجي للبائعين
               </p>
             </div>
-            {/* Supporting — two lighter proof points */}
+            {/* Supporting — two proof points using honest, non-fabricated copy */}
             <div className="grid grid-cols-2 gap-4">
               {[
-                { value: '+2,400', labelKey: 'home.seller.stat_sellers_label', labelFallback: 'Active sellers', labelAr: 'بائع نشيط' },
-                { value: '14-day returns', labelKey: 'home.seller.stat_protection_label', labelFallback: 'Buyer protection', labelAr: 'حماية المشتري' },
+                // "Growing community" — qualitative; avoids inventing a seller count
+                // that is not sourced from the API. Update with a real figure once
+                // a /api/stats or similar endpoint provides one.
+                { value: t('home.seller.stat_sellers_value', 'Growing'), labelKey: 'home.seller.stat_sellers_label', labelFallback: 'Seller community', labelAr: 'مجتمع بائعين نشيط' },
+                { value: '14-day', labelKey: 'home.seller.stat_protection_label', labelFallback: 'Buyer protection', labelAr: 'حماية المشتري' },
               ].map((s) => (
                 <div
-                  key={s.value}
+                  key={s.labelKey}
                   className="rounded-xl bg-white/5 ring-1 ring-white/10 px-5 py-4"
                 >
                   <p className="text-xl font-semibold text-white">{s.value}</p>

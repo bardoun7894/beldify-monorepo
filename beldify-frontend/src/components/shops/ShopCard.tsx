@@ -165,10 +165,14 @@ export default function ShopCard({ shop }: ShopCardProps) {
               </span>
             </div>
           )}
-          <div className="flex items-center gap-1.5 text-xs sm:text-sm text-gray-600">
-            <ShoppingBag className="h-3 w-3 sm:h-4 sm:w-4 text-amber-600 shrink-0" aria-hidden="true" />
-            <span className="font-medium">{t('shops.products_count', { count: shop.products_count || 0 })}</span>
-          </div>
+          {/* Fix 6: hide count entirely when products_count is null/undefined;
+              only render when a real number (including 0) is present */}
+          {shop.products_count != null && (
+            <div className="flex items-center gap-1.5 text-xs sm:text-sm text-gray-600">
+              <ShoppingBag className="h-3 w-3 sm:h-4 sm:w-4 text-amber-600 shrink-0" aria-hidden="true" />
+              <span className="font-medium">{t('shops.products_count', { count: shop.products_count })}</span>
+            </div>
+          )}
         </div>
       </div>
     </div>

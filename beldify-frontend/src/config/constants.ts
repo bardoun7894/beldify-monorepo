@@ -11,5 +11,6 @@ export const CONTABO_CONFIG = {
 export const S3_CONFIG = CONTABO_CONFIG;
 
 // API URL for backend services — single source of truth
-export const API_URL = process.env.NEXT_PUBLIC_API_URL!;
+// Fall back to production URL rather than crashing on missing env var.
+export const API_URL = process.env.NEXT_PUBLIC_API_URL ?? 'https://pro.beldify.com';
 export const API_BASE_URL = API_URL;

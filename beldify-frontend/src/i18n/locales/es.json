@@ -3546,6 +3546,10 @@
       "description": "Caftanes, chilabas y sastrería a medida de los mejores talleres de Marruecos — entregados en todo el mundo.",
       "cta_shop": "Comprar en el mercado",
       "cta_tailors": "Conocer a los sastres",
+      "search_label": "Buscar en el mercado",
+      "search_placeholder": "Buscar caftanes, chilabas…",
+      "search_btn": "Buscar",
+      "discovery_chip": "Descubrimiento inteligente — encuentra tu estilo",
       "ai_chip": "Estilizado con IA para ti"
     },
     "trust": {
@@ -3593,6 +3597,15 @@
       "stat_range_label": "Rango de precio típico",
       "stat_sellers_label": "Vendedores activos",
       "stat_protection_label": "Protección del comprador"
+    },
+    "openSouk": {
+      "eyebrow": "Mercado comunitario",
+      "headingAr": "السوق المفتوح",
+      "subtitle": "Open Souk — publica un brief y los talleres vienen a ti",
+      "postCta": "Publica tu brief",
+      "browseCta": "Explorar el zoco",
+      "emptyCta": "Sé el primero en publicar un brief",
+      "emptyBody": "Aún no hay briefs abiertos. Sé el primero en publicar uno y deja que los talleres vengan a ti."
     }
   },
   "journal": {

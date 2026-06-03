@@ -10,8 +10,8 @@ import FilterChips from '@/components/products/FilterChips';
 import NoSearchResults from '@/components/search/NoSearchResults';
 import { Product } from '@/lib/types';
 import { useTranslation } from 'react-i18next';
-import { Filter, RefreshCw, AlertCircle } from 'lucide-react';
-import { useSearchParams } from 'next/navigation';
+import { Filter, RefreshCw, AlertCircle, ChevronLeft, ChevronRight } from 'lucide-react';
+import { useSearchParams, useRouter } from 'next/navigation';
 import { API_BASE_URL } from '@/config/constants';
 import { Button } from '@/components/ui/button';
 
@@ -51,6 +51,25 @@ const fetcher = async (url: string) => {
   }
   return response.json();
 };
+
+/**
+ * buildPageWindow — windowed pagination helper.
+ * Returns an array of page numbers and '...' ellipsis sentinels.
+ * Example: [1, '...', 4, 5, 6, '...', 20]
+ */
+function buildPageWindow(current: number, last: number, wing = 1): (number | '...')[] {
+  const pages: (number | '...')[] = [];
+  const lo = Math.max(2, current - wing);
+  const hi = Math.min(last - 1, current + wing);
+
+  pages.push(1);
+  if (lo > 2) pages.push('...');
+  for (let i = lo; i <= hi; i++) pages.push(i);
+  if (hi < last - 1) pages.push('...');
+  if (last > 1) pages.push(last);
+
+  return pages;
+}
 
 // Loading skeleton for product grid — Atlas tokens
 function ProductGridSkeleton() {
@@ -93,43 +112,126 @@ function ErrorState({ message, onRetry }: { message: string; onRetry: () => void
   );
 }
 
+// Pagination meta from the backend additive contract (absent = graceful degrade)
+interface PaginationMeta {
+  current_page: number;
+  last_page: number;
+  per_page: number;
+  total: number;
+}
+
 export default function ProductsPage() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const shouldReduceMotion = useReducedMotion();
-  const [filters, setFilters] = useState<ProductFiltersState>({
-    colors: [],
-    sizes: [],
-    fabrics: [],
-  });
-  const [sortBy, setSortBy] = useState<string>('newest');
-  const [isMobileFiltersOpen, setIsMobileFiltersOpen] = useState(false);
+  const router = useRouter();
   const searchParams = useSearchParams();
 
-  // Debounce filter changes to reduce API calls
+  // Fix 9c: derive ALL filter/sort/page state from URL so back-button fully restores state.
+  // No local filter state — URL is the single source of truth.
+  const currentPage = Number(searchParams?.get('page')) || 1;
+  const currentSort = searchParams?.get('sort') || 'newest';
+
+  const filters: ProductFiltersState = {
+    category: searchParams?.get('category') || undefined,
+    minPrice: searchParams?.get('minPrice') ? Number(searchParams.get('minPrice')) : undefined,
+    maxPrice: searchParams?.get('maxPrice') ? Number(searchParams.get('maxPrice')) : undefined,
+    colors: searchParams?.get('colors') ? searchParams.get('colors')!.split(',') : [],
+    sizes: searchParams?.get('sizes') ? searchParams.get('sizes')!.split(',') : [],
+    fabrics: searchParams?.get('fabrics') ? searchParams.get('fabrics')!.split(',') : [],
+    customizable: searchParams?.get('customizable') === 'true' ? true : undefined,
+    inStock: searchParams?.get('inStock') === 'true' ? true : undefined,
+  };
+
+  const [isMobileFiltersOpen, setIsMobileFiltersOpen] = useState(false);
+
+  // Debounce is still used for the API key so we avoid a fetch on every keystroke;
+  // the URL is written immediately but the SWR key is debounced.
   const debouncedFilters = useDebounce(filters, 300);
-  const debouncedSortBy = useDebounce(sortBy, 300);
+  const debouncedSortBy = useDebounce(currentSort, 300);
+
+  // Helper: write filter/sort/page changes to URL (preserves existing params)
+  const updateUrl = useCallback(
+    (updates: Partial<ProductFiltersState & { sort: string; page: number; q: string }>) => {
+      const params = new URLSearchParams(searchParams?.toString() || '');
+
+      // Always reset to page 1 on filter or sort changes unless page is explicit
+      if (!('page' in updates)) params.delete('page');
+
+      if ('category' in updates) {
+        if (updates.category) params.set('category', updates.category);
+        else params.delete('category');
+      }
+      if ('minPrice' in updates) {
+        if (updates.minPrice != null) params.set('minPrice', updates.minPrice.toString());
+        else params.delete('minPrice');
+      }
+      if ('maxPrice' in updates) {
+        if (updates.maxPrice != null && updates.maxPrice !== Infinity) params.set('maxPrice', updates.maxPrice.toString());
+        else params.delete('maxPrice');
+      }
+      if ('colors' in updates) {
+        if (updates.colors && updates.colors.length > 0) params.set('colors', updates.colors.join(','));
+        else params.delete('colors');
+      }
+      if ('sizes' in updates) {
+        if (updates.sizes && updates.sizes.length > 0) params.set('sizes', updates.sizes.join(','));
+        else params.delete('sizes');
+      }
+      if ('fabrics' in updates) {
+        if (updates.fabrics && updates.fabrics.length > 0) params.set('fabrics', updates.fabrics.join(','));
+        else params.delete('fabrics');
+      }
+      if ('customizable' in updates) {
+        if (updates.customizable) params.set('customizable', 'true');
+        else params.delete('customizable');
+      }
+      if ('inStock' in updates) {
+        if (updates.inStock) params.set('inStock', 'true');
+        else params.delete('inStock');
+      }
+      if ('sort' in updates) {
+        if (updates.sort && updates.sort !== 'newest') params.set('sort', updates.sort);
+        else params.delete('sort');
+      }
+      if ('page' in updates) {
+        if (updates.page && updates.page > 1) params.set('page', updates.page.toString());
+        else params.delete('page');
+      }
+      if ('q' in updates) {
+        if (updates.q) params.set('q', updates.q);
+        else params.delete('q');
+      }
+
+      router.push(`/products?${params.toString()}`);
+    },
+    [searchParams, router]
+  );
 
   // Build query parameters
+  // NOTE: colors, sizes, and fabrics filter options inside <ProductFilters> are
+  // hardcoded for now — they will be replaced with API-driven values in a later sprint.
   const buildQueryString = useCallback(() => {
-    const searchTerm = searchParams?.get('q');
     const params = new URLSearchParams();
 
     if (debouncedFilters.category) params.append('category', debouncedFilters.category);
     if (debouncedFilters.minPrice) params.append('minPrice', debouncedFilters.minPrice.toString());
     if (debouncedFilters.maxPrice && debouncedFilters.maxPrice !== Infinity)
       params.append('maxPrice', debouncedFilters.maxPrice.toString());
-    if (debouncedFilters.customizable !== undefined)
-      params.append('customizable', debouncedFilters.customizable.toString());
-    if (debouncedFilters.inStock !== undefined) params.append('inStock', debouncedFilters.inStock.toString());
+    if (debouncedFilters.customizable) params.append('customizable', 'true');
+    if (debouncedFilters.inStock) params.append('inStock', 'true');
     if (debouncedFilters.colors.length > 0) params.append('colors', debouncedFilters.colors.join(','));
     if (debouncedFilters.sizes.length > 0) params.append('sizes', debouncedFilters.sizes.join(','));
     if (debouncedFilters.fabrics.length > 0) params.append('fabrics', debouncedFilters.fabrics.join(','));
+    const searchTerm = searchParams?.get('q');
     if (searchTerm) params.append('q', searchTerm);
-    params.append('locale', 'en');
+    // Fix 3: use the active i18n language so Arabic users receive Arabic product data
+    params.append('locale', i18n.language);
     params.append('sort', debouncedSortBy || 'newest');
+    // Fix 9b: pass page param to the backend when pagination meta is available
+    if (currentPage > 1) params.append('page', currentPage.toString());
 
     return `${API_BASE_URL}/api/products/all?${params.toString()}`;
-  }, [debouncedFilters, debouncedSortBy, searchParams]);
+  }, [debouncedFilters, debouncedSortBy, searchParams, i18n.language, currentPage]);
 
   // Use SWR for data fetching with caching and deduplication
   const { data, error, isLoading, mutate } = useSWR(
@@ -144,16 +246,25 @@ export default function ProductsPage() {
   );
 
   const products: Product[] = data?.data || [];
+  // Fix 9b: consume additive pagination meta; degrade gracefully when absent.
+  // Backend (ProductController::index) returns it under the `pagination` key.
+  const paginationMeta: PaginationMeta | undefined = data?.pagination;
 
   const handleFilterChange = (newFilters: Partial<ProductFiltersState>) => {
-    setFilters((prev) => ({ ...prev, ...newFilters }));
+    updateUrl(newFilters);
   };
 
   const handleSortChange = (value: string) => {
-    setSortBy(value);
+    updateUrl({ sort: value });
   };
 
-  // Generate filter chips from current filters — MAD currency
+  const handlePageChange = (page: number) => {
+    updateUrl({ page });
+    // Scroll to top on page change
+    if (typeof window !== 'undefined') window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  // Generate filter chips from current URL-derived filters — MAD currency
   const getFilterChips = () => {
     const chips: Array<{ id: string; label: string; type: any }> = [];
 
@@ -194,42 +305,36 @@ export default function ProductsPage() {
     return chips;
   };
 
-  // Handle removing a filter chip
+  // Handle removing a filter chip — writes to URL
   const handleRemoveChip = (chip: { id: string; type: string }) => {
-    const newFilters = { ...filters };
-
     switch (chip.type) {
       case 'color':
-        newFilters.colors = filters.colors.filter(c => `color-${c}` !== chip.id);
+        updateUrl({ colors: filters.colors.filter(c => `color-${c}` !== chip.id) });
         break;
       case 'size':
-        newFilters.sizes = filters.sizes.filter(s => `size-${s}` !== chip.id);
+        updateUrl({ sizes: filters.sizes.filter(s => `size-${s}` !== chip.id) });
         break;
       case 'fabric':
-        newFilters.fabrics = filters.fabrics.filter(f => `fabric-${f}` !== chip.id);
+        updateUrl({ fabrics: filters.fabrics.filter(f => `fabric-${f}` !== chip.id) });
         break;
       case 'price':
-        delete newFilters.minPrice;
-        delete newFilters.maxPrice;
+        updateUrl({ minPrice: undefined, maxPrice: undefined });
         break;
       case 'customizable':
-        newFilters.customizable = false;
+        updateUrl({ customizable: false });
         break;
       case 'inStock':
-        newFilters.inStock = false;
+        updateUrl({ inStock: false });
         break;
     }
-
-    setFilters(newFilters);
   };
 
-  // Clear all filters
+  // Clear all filters — navigate to base URL preserving only search + sort + locale
   const handleClearAllFilters = () => {
-    setFilters({
-      colors: [],
-      sizes: [],
-      fabrics: [],
-    });
+    const params = new URLSearchParams();
+    const q = searchParams?.get('q');
+    if (q) params.set('q', q);
+    router.push(`/products?${params.toString()}`);
   };
 
   const handleRetry = () => {
@@ -359,7 +464,7 @@ export default function ProductsPage() {
                 </span>
               </div>
 
-              <ProductSort value={sortBy} onChange={handleSortChange} />
+              <ProductSort value={currentSort} onChange={handleSortChange} />
             </div>
 
             {/* ── Active filter chips row ── */}
@@ -433,6 +538,75 @@ export default function ProductsPage() {
                 </motion.div>
               )}
             </AnimatePresence>
+
+            {/* ── Pagination — only shown when backend supplies meta ── */}
+            {paginationMeta && paginationMeta.last_page > 1 && (
+              <nav
+                aria-label={t('common.pagination.label', 'Page navigation')}
+                className="mt-10"
+              >
+                <div className="flex items-center justify-center gap-2">
+                  <Button
+                    variant="outline"
+                    className="rounded-full border-indigo-200 text-indigo-700 hover:bg-indigo-50 px-4 disabled:opacity-40 disabled:cursor-not-allowed"
+                    disabled={paginationMeta.current_page === 1}
+                    onClick={() => handlePageChange(paginationMeta.current_page - 1)}
+                    aria-label={t('common.pagination.previous', 'Previous page')}
+                  >
+                    <ChevronLeft className="h-4 w-4" aria-hidden="true" />
+                    <span className="sr-only">{t('common.pagination.previous', 'Previous')}</span>
+                  </Button>
+
+                  <div className="hidden sm:flex items-center gap-1">
+                    {buildPageWindow(paginationMeta.current_page, paginationMeta.last_page).map((entry, idx) =>
+                      entry === '...' ? (
+                        <span
+                          key={`ellipsis-${idx}`}
+                          className="w-10 h-10 flex items-center justify-center text-gray-400 text-sm select-none"
+                          aria-hidden="true"
+                        >
+                          …
+                        </span>
+                      ) : (
+                        <button
+                          key={entry}
+                          aria-current={entry === paginationMeta.current_page ? 'page' : undefined}
+                          aria-label={t('common.pagination.goToPage', 'Go to page {{page}}', { page: entry })}
+                          onClick={() => handlePageChange(entry as number)}
+                          className={`w-10 h-10 rounded-full text-sm font-medium transition focus-visible:ring-2 focus-visible:ring-indigo-700 focus-visible:ring-offset-1 ${
+                            entry === paginationMeta.current_page
+                              ? 'bg-indigo-700 text-white shadow-sm'
+                              : 'ring-1 ring-amber-200 text-gray-700 hover:bg-amber-50'
+                          }`}
+                        >
+                          {entry}
+                        </button>
+                      )
+                    )}
+                  </div>
+
+                  <div className="sm:hidden">
+                    <span className="text-sm text-gray-600 font-medium">
+                      {t('common.pagination.page', 'Page {{current}} of {{total}}', {
+                        current: paginationMeta.current_page,
+                        total: paginationMeta.last_page,
+                      })}
+                    </span>
+                  </div>
+
+                  <Button
+                    variant="outline"
+                    className="rounded-full border-indigo-200 text-indigo-700 hover:bg-indigo-50 px-4 disabled:opacity-40 disabled:cursor-not-allowed"
+                    disabled={paginationMeta.current_page === paginationMeta.last_page}
+                    onClick={() => handlePageChange(paginationMeta.current_page + 1)}
+                    aria-label={t('common.pagination.next', 'Next page')}
+                  >
+                    <ChevronRight className="h-4 w-4" aria-hidden="true" />
+                    <span className="sr-only">{t('common.pagination.next', 'Next')}</span>
+                  </Button>
+                </div>
+              </nav>
+            )}
           </motion.div>
         </div>
       </div>

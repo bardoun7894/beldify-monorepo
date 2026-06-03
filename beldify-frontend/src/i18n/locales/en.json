@@ -3522,6 +3522,10 @@
       "description": "Caftans, djellabas, and bespoke tailoring from Morocco's finest ateliers — delivered worldwide.",
       "cta_shop": "Shop the marketplace",
       "cta_tailors": "Meet the tailors",
+      "search_label": "Search the marketplace",
+      "search_placeholder": "Search caftans, djellabas…",
+      "search_btn": "Search",
+      "discovery_chip": "Smart discovery — find your style",
       "ai_chip": "AI styled for you"
     },
     "trust": {
@@ -3569,6 +3573,15 @@
       "stat_range_label": "Typical listing range",
       "stat_sellers_label": "Active sellers",
       "stat_protection_label": "Buyer protection"
+    },
+    "openSouk": {
+      "eyebrow": "Community marketplace",
+      "headingAr": "السوق المفتوح",
+      "subtitle": "Open Souk — post a brief, ateliers come to you",
+      "postCta": "Post your brief",
+      "browseCta": "Browse the souk",
+      "emptyCta": "Be the first to post a brief",
+      "emptyBody": "No open briefs yet. Be the first to post one and let ateliers come to you."
     }
   },
   "journal": {

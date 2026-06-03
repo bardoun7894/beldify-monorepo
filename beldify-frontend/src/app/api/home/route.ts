@@ -142,6 +142,76 @@ async function fetchMegaProductOffers() {
   }
 }
 
+// Mock data for recommended tailors — used as error fallback only.
+// Backend endpoint /api/recommended-tailors is live; mock only fires on fetch failure.
+const mockRecommendedTailors = [
+  {
+    id: 1,
+    name: 'Elite Fashion Studio',
+    rating: 4.8,
+    reviews: 128,
+    image: '/images/placeholder-product.svg',
+    specialties: ['Custom Suits', 'Traditional Wear'],
+    location: 'Downtown Fashion District',
+    experience: '15+ years',
+  },
+  {
+    id: 2,
+    name: 'Modern Stitch',
+    rating: 4.6,
+    reviews: 95,
+    image: '/images/placeholder-product.svg',
+    specialties: ['Wedding Attire', 'Formal Wear'],
+    location: 'Westside Mall',
+    experience: '10+ years',
+  },
+  {
+    id: 3,
+    name: 'Perfect Fit Tailoring',
+    rating: 4.9,
+    reviews: 156,
+    image: '/images/placeholder-product.svg',
+    specialties: ['Alterations', 'Bespoke Suits'],
+    location: 'Fashion Avenue',
+    experience: '20+ years',
+  },
+];
+
+// Mock data for recommended sellers — used as error fallback only.
+// Backend endpoint /api/recommended-sellers is live; mock only fires on fetch failure.
+const mockRecommendedSellers = [
+  {
+    id: 1,
+    name: 'Luxury Boutique',
+    rating: 4.9,
+    reviews: 245,
+    image: '/images/placeholder-product.svg',
+    categories: ['Designer Wear', 'Accessories'],
+    location: 'Fashion District',
+    topBrands: ['Gucci', 'Prada'],
+  },
+  {
+    id: 2,
+    name: 'Trendy Collections',
+    rating: 4.7,
+    reviews: 189,
+    image: '/images/placeholder-product.svg',
+    categories: ['Casual Wear', 'Streetwear'],
+    location: 'City Center Mall',
+    topBrands: ['Nike', 'Adidas'],
+  },
+  {
+    id: 3,
+    name: 'Fashion Forward',
+    rating: 4.6,
+    reviews: 167,
+    image: '/images/placeholder-product.svg',
+    categories: ['Contemporary', 'Vintage'],
+    location: 'Downtown Plaza',
+    topBrands: ['Zara', 'H&M'],
+  },
+];
+
 // Mock data for the home page
 const mockHomeData = {
   newArrivals: [
@@ -236,70 +306,6 @@ const mockHomeData = {
       category: "Children's Wear",
     },
   ],
-  recommendedTailors: [
-    {
-      id: 1,
-      name: 'Elite Fashion Studio',
-      rating: 4.8,
-      reviews: 128,
-      image: '/images/placeholder-product.svg',
-      specialties: ['Custom Suits', 'Traditional Wear'],
-      location: 'Downtown Fashion District',
-      experience: '15+ years',
-    },
-    {
-      id: 2,
-      name: 'Modern Stitch',
-      rating: 4.6,
-      reviews: 95,
-      image: '/images/placeholder-product.svg',
-      specialties: ['Wedding Attire', 'Formal Wear'],
-      location: 'Westside Mall',
-      experience: '10+ years',
-    },
-    {
-      id: 3,
-      name: 'Perfect Fit Tailoring',
-      rating: 4.9,
-      reviews: 156,
-      image: '/images/placeholder-product.svg',
-      specialties: ['Alterations', 'Bespoke Suits'],
-      location: 'Fashion Avenue',
-      experience: '20+ years',
-    },
-  ],
-  recommendedSellers: [
-    {
-      id: 1,
-      name: 'Luxury Boutique',
-      rating: 4.9,
-      reviews: 245,
-      image: '/images/placeholder-product.svg',
-      categories: ['Designer Wear', 'Accessories'],
-      location: 'Fashion District',
-      topBrands: ['Gucci', 'Prada'],
-    },
-    {
-      id: 2,
-      name: 'Trendy Collections',
-      rating: 4.7,
-      reviews: 189,
-      image: '/images/placeholder-product.svg',
-      categories: ['Casual Wear', 'Streetwear'],
-      location: 'City Center Mall',
-      topBrands: ['Nike', 'Adidas'],
-    },
-    {
-      id: 3,
-      name: 'Fashion Forward',
-      rating: 4.6,
-      reviews: 167,
-      image: '/images/placeholder-product.svg',
-      categories: ['Contemporary', 'Vintage'],
-      location: 'Downtown Plaza',
-      topBrands: ['Zara', 'H&M'],
-    },
-  ],
   specialOffers: [
     {
       id: '1',
@@ -318,7 +324,15 @@ const mockHomeData = {
   ],
 };
 
-export async function GET() {
+/**
+ * getHomeDataPayload — returns the home page data object directly (no HTTP).
+ *
+ * Exported so that the Next.js server component (app/page.tsx) can call it
+ * directly via import, avoiding the `await import('./api/home/route')` anti-
+ * pattern that causes bundler warnings and forces a self-HTTP call on some
+ * runtimes.  The GET handler below simply wraps this in NextResponse.json().
+ */
+export async function getHomeDataPayload() {
   try {
     logger.log('Fetching home data...');
 
@@ -363,40 +377,67 @@ export async function GET() {
       logger.error('Failed to fetch children\'s traditional clothes:', error);
       return mockHomeData.childrensTraditional; // Use mock data as fallback
     });
-    
+
     // Fetch mega product offers
     const megaOffers = await fetchMegaProductOffers().catch((error) => {
       logger.error('Failed to fetch mega product offers:', error);
       return []; // Empty array as fallback since we don't have mock data for this yet
     });
 
+    // Fetch recommended tailors from live backend endpoint.
+    // Falls back to mockRecommendedTailors on any error — backend may return
+    // various shapes; we pass the raw payload through so HomeContent can render
+    // whatever fields it recognises.
+    const recommendedTailors = await axios
+      .get(`${API_BASE_URL}/api/recommended-tailors`)
+      .then((r) => {
+        const items = r.data?.data ?? r.data?.tailors ?? (Array.isArray(r.data) ? r.data : []);
+        return Array.isArray(items) && items.length > 0 ? items : mockRecommendedTailors;
+      })
+      .catch((error) => {
+        logger.error('Failed to fetch recommended tailors:', error);
+        return mockRecommendedTailors;
+      });
+
+    // Fetch recommended sellers from live backend endpoint.
+    // Falls back to mockRecommendedSellers on any error.
+    const recommendedSellers = await axios
+      .get(`${API_BASE_URL}/api/recommended-sellers`)
+      .then((r) => {
+        const items = r.data?.data ?? r.data?.sellers ?? (Array.isArray(r.data) ? r.data : []);
+        return Array.isArray(items) && items.length > 0 ? items : mockRecommendedSellers;
+      })
+      .catch((error) => {
+        logger.error('Failed to fetch recommended sellers:', error);
+        return mockRecommendedSellers;
+      });
+
     // Create the response data
-    const responseData = {
+    return {
       ...mockHomeData,
       newArrivals: newArrivals.length > 0 ? newArrivals : mockHomeData.newArrivals,
       mensTraditional: mensTraditional.length > 0 ? mensTraditional : mockHomeData.mensTraditional,
       womensTraditional: womensTraditional.length > 0 ? womensTraditional : mockHomeData.womensTraditional,
       childrensTraditional: childrensTraditional.length > 0 ? childrensTraditional : mockHomeData.childrensTraditional,
       megaOffers,
-      bestSellers
+      bestSellers,
+      recommendedTailors,
+      recommendedSellers,
     };
-
-    // Return the response with real data (or fallback to mock data if API calls failed)
-    return NextResponse.json(responseData);
   } catch (error) {
-    logger.error('Error in home API:', error);
-    // Return a more detailed error response
-    return NextResponse.json(
-      {
-        error: 'Failed to fetch home data',
-        details: error instanceof Error ? error.message : 'Unknown error',
-        mockData: true,
-        bestSellers: [],
-        ...mockHomeData
-      },
-      { status: 200 } // Return 200 with mock data instead of 500
-    );
+    logger.error('Error building home data payload:', error);
+    return {
+      bestSellers: [],
+      ...mockHomeData,
+      recommendedTailors: mockRecommendedTailors,
+      recommendedSellers: mockRecommendedSellers,
+    };
   }
+}
+
+export async function GET() {
+  const data = await getHomeDataPayload();
+  return NextResponse.json(data);
 }
 
 export async function HEAD() {

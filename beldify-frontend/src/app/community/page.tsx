@@ -167,49 +167,56 @@ export default function CommunityPage() {
     loadPosts();
   }, [loadPosts]);
 
-  // ── Fetch user's own posts ───────────────────────────────────────────────
+  // ── Fetch user's own posts (server-side filter via user_id param) ──────────
+  // The backend GET /api/v1/community/posts supports ?user_id= for server-side
+  // filtering. We use a direct fetch here because fetchCommunityPosts does not
+  // forward the user_id key to the query string — editing the service is out of
+  // this packet's scope. The endpoint paginates via `limit` (not `per_page`).
+  // If the user is not logged in this effect never runs — no fetch is made.
   useEffect(() => {
-    if (!isAuthenticated || !user) return;
-    const fetch = async () => {
+    if (!isAuthenticated || !user?.id) return;
+    const controller = new AbortController();
+    const userId = String(user.id);
+
+    const fetchUserPosts = async () => {
       setLoadingUserPosts(true);
       try {
-        const allPostsResponse = await fetchCommunityPosts({}, 1, 100);
-        const userId = String(user.id);
-        const userEmail = user.email?.toLowerCase();
-        const userName = (
-          user.full_name_en || user.full_name_ar || user.username
-        )?.toLowerCase();
-
-        const filtered = allPostsResponse.data.filter(post => {
-          const postUserId = String(
-            post.userId ||
-            // @ts-expect-error possible backend format
-            post.user_id ||
-            post.user?.id ||
-            ''
-          );
-          const postUser = post.user as any;
-          const postUserEmail = postUser?.email?.toLowerCase() || '';
-          const postUserName = (
-            post.userName?.toLowerCase() ||
-            postUser?.name?.toLowerCase() ||
-            ''
-          );
-          return (
-            postUserId === userId ||
-            (userEmail && postUserEmail && userEmail === postUserEmail) ||
-            (userName && postUserName && userName === postUserName)
-          );
+        const params = new URLSearchParams({
+          user_id: userId,
+          limit: '20',
+          page: '1',
         });
-        setUserPosts(filtered);
+        const token =
+          typeof window !== 'undefined'
+            ? localStorage.getItem('token')
+            : null;
+        const res = await fetch(`/api/v1/community/posts?${params}`, {
+          signal: controller.signal,
+          credentials: 'include',
+          headers: {
+            Accept: 'application/json',
+            ...(token ? { Authorization: `Bearer ${token}` } : {}),
+          },
+        });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const json = await res.json();
+        if (!controller.signal.aborted) {
+          setUserPosts(Array.isArray(json?.data) ? json.data : []);
+        }
       } catch (err) {
-        logger.error('Error fetching user posts:', err);
+        if (!controller.signal.aborted) {
+          logger.error('Error fetching user posts:', err);
+        }
       } finally {
-        setLoadingUserPosts(false);
+        if (!controller.signal.aborted) {
+          setLoadingUserPosts(false);
+        }
       }
     };
-    fetch();
-  }, [isAuthenticated, user]);
+
+    fetchUserPosts();
+    return () => controller.abort();
+  }, [isAuthenticated, user?.id]);
 
   // ── Handlers ─────────────────────────────────────────────────────────────
   const handleFiltersChange = (next: JobFilters) => {

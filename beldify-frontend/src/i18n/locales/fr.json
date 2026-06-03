@@ -3495,6 +3495,10 @@
       "description": "Caftans, djellabas et sur-mesure des meilleurs ateliers du Maroc — livrés dans le monde entier.",
       "cta_shop": "Acheter sur la marketplace",
       "cta_tailors": "Rencontrer les tailleurs",
+      "search_label": "Rechercher dans la marketplace",
+      "search_placeholder": "Rechercher caftans, djellabas…",
+      "search_btn": "Rechercher",
+      "discovery_chip": "Découverte intelligente — trouvez votre style",
       "ai_chip": "Stylisé par l'IA pour vous"
     },
     "trust": {
@@ -3542,6 +3546,15 @@
       "stat_range_label": "Fourchette de prix typique",
       "stat_sellers_label": "Vendeurs actifs",
       "stat_protection_label": "Protection de l'acheteur"
+    },
+    "openSouk": {
+      "eyebrow": "Place de marché communautaire",
+      "headingAr": "السوق المفتوح",
+      "subtitle": "Open Souk — publiez un brief, les ateliers viennent à vous",
+      "postCta": "Publier votre brief",
+      "browseCta": "Parcourir le souk",
+      "emptyCta": "Soyez le premier à publier un brief",
+      "emptyBody": "Aucun brief ouvert pour l'instant. Soyez le premier à en publier un et laissez les ateliers venir à vous."
     }
   },
   "journal": {

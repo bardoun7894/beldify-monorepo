@@ -22,6 +22,25 @@ interface PaginationData {
   total: number;
 }
 
+/**
+ * buildPageWindow — windowed pagination helper.
+ * Returns page numbers with '...' ellipsis sentinels to avoid rendering 100+ buttons.
+ * Example (current=5, last=20): [1, '...', 4, 5, 6, '...', 20]
+ */
+function buildPageWindow(current: number, last: number, wing = 1): (number | '...')[] {
+  const pages: (number | '...')[] = [];
+  const lo = Math.max(2, current - wing);
+  const hi = Math.min(last - 1, current + wing);
+
+  pages.push(1);
+  if (lo > 2) pages.push('...');
+  for (let i = lo; i <= hi; i++) pages.push(i);
+  if (hi < last - 1) pages.push('...');
+  if (last > 1) pages.push(last);
+
+  return pages;
+}
+
 // ─── Skeleton Grid ────────────────────────────────────────────────────────────
 function ShopGridSkeleton() {
   return (
@@ -50,22 +69,29 @@ export default function ShopsPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
+  // Get current filter values from URL (derived before state so we can init from URL)
+  const currentPage = Number(searchParams?.get('page')) || 1;
+  const currentSearch = searchParams?.get('search') || '';
+  const currentType = searchParams?.get('type') || '';
+  const currentSort = searchParams?.get('sort') || 'latest';
+
   const [shops, setShops] = useState<Shop[]>([]);
   const [pagination, setPagination] = useState<PaginationData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [showFilters, setShowFilters] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
+  // Fix 10: initialise from URL so the input is populated on back-navigation
+  const [searchQuery, setSearchQuery] = useState(currentSearch);
   const searchInputRef = useRef<HTMLInputElement>(null);
 
-  // Get current filter values from URL
-  const currentPage = Number(searchParams?.get('page')) || 1;
-  const currentSearch = searchParams?.get('search') || '';
-  const currentType = searchParams?.get('type') || '';
-  const currentSort = searchParams?.get('sort') || 'latest';
   const [validSort, setValidSort] = useState<SortOption>(
     ['name_asc', 'name_desc', 'products_count', 'latest'].includes(currentSort) ? (currentSort as SortOption) : 'latest'
   );
+
+  // Fix 10: sync local searchQuery when the URL search param changes (back-button)
+  useEffect(() => {
+    setSearchQuery(currentSearch);
+  }, [currentSearch]);
 
   const fetchShops = async () => {
     setLoading(true);
@@ -288,22 +314,33 @@ export default function ShopsPage() {
                     {t('common.pagination.previous', 'Previous')}
                   </Button>
 
+                  {/* Fix 10: windowed range — safe at 100+ pages */}
                   <div className="hidden sm:flex items-center gap-1">
-                    {Array.from({ length: pagination.last_page }, (_, i) => i + 1).map((page) => (
-                      <button
-                        key={page}
-                        aria-current={page === pagination.current_page ? 'page' : undefined}
-                        aria-label={t('common.pagination.goToPage', 'Go to page {{page}}', { page })}
-                        onClick={() => handlePageChange(page)}
-                        className={`w-10 h-10 rounded-full text-sm font-medium transition focus-visible:ring-2 focus-visible:ring-indigo-700 focus-visible:ring-offset-1 ${
-                          page === pagination.current_page
-                            ? 'bg-indigo-700 text-white shadow-atlas-sm'
-                            : 'ring-1 ring-amber-200 text-gray-700 hover:bg-amber-50'
-                        }`}
-                      >
-                        {page}
-                      </button>
-                    ))}
+                    {buildPageWindow(pagination.current_page, pagination.last_page).map((entry, idx) =>
+                      entry === '...' ? (
+                        <span
+                          key={`ellipsis-${idx}`}
+                          className="w-10 h-10 flex items-center justify-center text-gray-400 text-sm select-none"
+                          aria-hidden="true"
+                        >
+                          …
+                        </span>
+                      ) : (
+                        <button
+                          key={entry}
+                          aria-current={entry === pagination.current_page ? 'page' : undefined}
+                          aria-label={t('common.pagination.goToPage', 'Go to page {{page}}', { page: entry })}
+                          onClick={() => handlePageChange(entry as number)}
+                          className={`w-10 h-10 rounded-full text-sm font-medium transition focus-visible:ring-2 focus-visible:ring-indigo-700 focus-visible:ring-offset-1 ${
+                            entry === pagination.current_page
+                              ? 'bg-indigo-700 text-white shadow-atlas-sm'
+                              : 'ring-1 ring-amber-200 text-gray-700 hover:bg-amber-50'
+                          }`}
+                        >
+                          {entry}
+                        </button>
+                      )
+                    )}
                   </div>
 
                   <div className="sm:hidden">
