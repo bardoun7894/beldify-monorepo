@@ -2518,6 +2518,8 @@
     "submitted_pending": "Thanks! Your review was submitted and will appear once approved."
   },
   "community": {
+    "respond_short": "Respond",
+    "respond_in_dashboard": "Reply in your seller dashboard",
     "verified_seller": "Verified Seller",
     "seller_response_description": "To respond to this post as a seller, use the button below",
     "view_shop": "View Shop",
@@ -3515,8 +3517,9 @@
     }
   },
   "pdp": {
-    "aiStyling": "AI Styling",
-    "artisanMade": "Artisan made"
+    "aiStyling": "AI styled for you",
+    "artisanMade": "Artisan made",
+    "complete_the_look": "Complete the look"
   },
   "actions": {
     "close": "Close",
@@ -3589,9 +3592,10 @@
       "stat_protection_label": "Buyer protection"
     },
     "openSouk": {
-      "eyebrow": "Community marketplace",
-      "headingAr": "السوق المفتوح",
-      "subtitle": "Open Souk — post a brief, ateliers come to you",
+      "eyebrow": "Live now",
+      "title": "Latest open requests",
+      "headingAr": "أحدث الطلبات",
+      "subtitle": "Open briefs waiting for offers — be the first to respond",
       "postCta": "Post your brief",
       "browseCta": "Browse the souk",
       "emptyCta": "Be the first to post a brief",

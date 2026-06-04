@@ -2370,6 +2370,8 @@
     }
   },
   "community": {
+    "respond_short": "Répondre",
+    "respond_in_dashboard": "Répondre depuis votre tableau de bord vendeur",
     "verified_seller": "Vendeur vérifié",
     "seller_response_description": "Pour répondre à cette demande en tant que vendeur, veuillez utiliser le bouton ci-dessous",
     "view_shop": "Voir le magasin",
@@ -3488,8 +3490,9 @@
     }
   },
   "pdp": {
-    "aiStyling": "Style IA",
-    "artisanMade": "Fait artisanalement"
+    "aiStyling": "Style IA pour vous",
+    "artisanMade": "Fait artisanalement",
+    "complete_the_look": "Complétez le look"
   },
   "actions": {
     "close": "Fermer",
@@ -3562,9 +3565,10 @@
       "stat_protection_label": "Protection de l'acheteur"
     },
     "openSouk": {
-      "eyebrow": "Place de marché communautaire",
-      "headingAr": "السوق المفتوح",
-      "subtitle": "Open Souk — publiez un brief, les ateliers viennent à vous",
+      "eyebrow": "En direct",
+      "title": "Dernières demandes ouvertes",
+      "headingAr": "أحدث الطلبات",
+      "subtitle": "Des briefs ouverts en attente d’offres — soyez le premier à répondre",
       "postCta": "Publier votre brief",
       "browseCta": "Parcourir le souk",
       "emptyCta": "Soyez le premier à publier un brief",

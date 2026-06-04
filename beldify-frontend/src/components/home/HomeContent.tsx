@@ -543,16 +543,19 @@ export default function HomeContent({ categories, data, openSoukPosts = [] }: Ho
               <Sparkles className="h-3.5 w-3.5" aria-hidden="true" />
               {t('home.openSouk.eyebrow', 'Community marketplace')}
             </div>
-            <h2
-              className="text-3xl sm:text-4xl font-bold text-gray-900"
-              style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
-            >
-              <span dir="rtl" lang="ar" className="font-arabic text-gray-900">
-                {t('home.openSouk.headingAr', 'السوق المفتوح')}
-              </span>
+            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900">
+              {isArabicScript ? (
+                <span dir="rtl" lang="ar" className="font-arabic text-gray-900">
+                  {t('home.openSouk.headingAr', 'أحدث الطلبات')}
+                </span>
+              ) : (
+                <span style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}>
+                  {t('home.openSouk.title', 'Latest open requests')}
+                </span>
+              )}
             </h2>
             <p className="mt-1 text-sm text-gray-500">
-              {t('home.openSouk.subtitle', 'Open Souk — post a brief, ateliers come to you')}
+              {t('home.openSouk.subtitle', 'Open briefs waiting for offers — be the first to respond')}
             </p>
           </div>
           <Link

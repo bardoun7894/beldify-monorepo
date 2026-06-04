@@ -11,11 +11,13 @@ import {
   Clock,
   Users,
   MapPin,
+  Reply,
 } from 'lucide-react';
 import { formatDistanceToNow } from 'date-fns';
 import { ar } from 'date-fns/locale';
 import type { CommunityPost } from '@/types/community';
 import { useDirection } from '@/hooks/useDirection';
+import { useAuth } from '@/contexts/AuthContext';
 
 interface PostCardProps {
   post: CommunityPost & {
@@ -119,7 +121,17 @@ function getInitials(name: string): string {
 export default function PostCard({ post, isUserPost = false }: PostCardProps) {
   const { t } = useTranslation();
   const { isRTL } = useDirection();
+  const { user } = useAuth();
   const [buyerImgError, setBuyerImgError] = React.useState(false);
+
+  // Sellers get a direct "Respond" deep-link into their dashboard for this brief.
+  const isSeller =
+    user?.role === 'seller' ||
+    (user as any)?.is_seller === true ||
+    (user as any)?.user_type_id === 2;
+  const canRespond = isSeller && !isUserPost && post.status === 'open';
+  const sellerRespondUrl =
+    `${(process.env.NEXT_PUBLIC_API_URL || 'https://pro.beldify.com').replace(/\/$/, '')}/seller/community/posts/${post.id}/respond`;
 
   const budgetDisplay = formatBudget(post);
 
@@ -150,6 +162,7 @@ export default function PostCard({ post, isUserPost = false }: PostCardProps) {
   const { pill: statusPill, dot: statusDot } = statusConfig(post.status);
 
   return (
+    <div className="relative h-full">
     <Link href={`/community/posts/${post.id}`} className="block group focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700 rounded-2xl">
       <article className="bg-white rounded-2xl ring-1 ring-amber-200 group-hover:ring-indigo-300 group-hover:-translate-y-0.5 group-hover:shadow-md transition-all duration-200 overflow-hidden h-full flex flex-col">
         {/* ── Image band ── */}
@@ -308,5 +321,18 @@ export default function PostCard({ post, isUserPost = false }: PostCardProps) {
         </div>
       </article>
     </Link>
+      {canRespond && (
+        <a
+          href={sellerRespondUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label={t('community.respond_short', 'Respond')}
+          className="absolute top-3 end-3 z-10 inline-flex items-center gap-1.5 rounded-full bg-indigo-700 px-3 py-1.5 text-[11px] font-semibold text-white shadow-md ring-1 ring-white/20 hover:bg-indigo-800 hover:-translate-y-0.5 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
+        >
+          <Reply size={12} className="rtl:-scale-x-100" />
+          {t('community.respond_short', 'Respond')}
+        </a>
+      )}
+    </div>
   );
 }

@@ -23,6 +23,7 @@ import {
   CheckCircle2,
   LogIn,
   Store,
+  ExternalLink,
 } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { getAuthToken } from '@/utils/authUtils';
@@ -793,6 +794,15 @@ export default function PostDetailPage() {
                         <Send size={14} />
                         {t('community.submit_proposal', 'Submit Proposal')}
                       </button>
+                      <a
+                        href={`${(process.env.NEXT_PUBLIC_API_URL || 'https://pro.beldify.com').replace(/\/$/, '')}/seller/community/posts/${postId}/respond`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="mt-2.5 w-full inline-flex items-center justify-center gap-2 px-6 py-3 min-h-[44px] text-sm font-semibold text-indigo-700 bg-white ring-1 ring-indigo-200 rounded-full hover:bg-indigo-50 transition-colors duration-200"
+                      >
+                        <ExternalLink size={14} />
+                        {t('community.respond_in_dashboard', 'Reply in your seller dashboard')}
+                      </a>
                     </motion.div>
                   )}
                 </AnimatePresence>

@@ -2670,6 +2670,8 @@
     "submitted_pending": "شكراً! تم إرسال تقييمك وسيظهر بعد الموافقة عليه."
   },
   "community": {
+    "respond_short": "جاوب",
+    "respond_in_dashboard": "جاوب من لوحة البائع",
     "verified_seller": "بائع موثق",
     "seller_response_description": "للرد على هذا الطلب كبائع، استخدم الزر أدناه",
     "view_shop": "شوف المتجر",
@@ -3701,7 +3703,8 @@
   },
   "pdp": {
     "aiStyling": "تنسيق بالذكاء الاصطناعي",
-    "artisanMade": "صنع يدوي"
+    "artisanMade": "صنع يدوي",
+    "complete_the_look": "أكمل الإطلالة"
   },
   "actions": {
     "close": "إغلاق",
@@ -3774,9 +3777,10 @@
       "stat_protection_label": "حماية المشتري"
     },
     "openSouk": {
-      "eyebrow": "سوق المجتمع",
-      "headingAr": "السوق المفتوح",
-      "subtitle": "السوق المفتوح — انشر طلبك، وتأتيك الورشات",
+      "eyebrow": "مباشر الآن",
+      "title": "أحدث الطلبات المفتوحة",
+      "headingAr": "أحدث الطلبات",
+      "subtitle": "طلبات مفتوحة كتسنا العروض — كن أول من يجاوب",
       "postCta": "انشر طلبك",
       "browseCta": "تصفّح السوق",
       "emptyCta": "كن أول من ينشر طلباً",

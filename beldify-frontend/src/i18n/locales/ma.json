@@ -2133,6 +2133,8 @@
     }
   },
   "community": {
+    "respond_short": "جاوب",
+    "respond_in_dashboard": "جاوب من لوحة البائع",
     "verified_seller": "بائع موثق",
     "seller_response_description": "باش ترد على هاد المنشور كبايع، استخدم البوطون لتحت",
     "view_shop": "شوف المتجر",
@@ -3388,7 +3390,8 @@
   },
   "pdp": {
     "aiStyling": "تنسيق بالذكاء الاصطناعي",
-    "artisanMade": "صناعة يدوية"
+    "artisanMade": "صناعة يدوية",
+    "complete_the_look": "أكمل الإطلالة"
   },
   "actions": {
     "close": "سد",
@@ -3461,9 +3464,10 @@
       "stat_protection_label": "حماية ديال المشتري"
     },
     "openSouk": {
-      "eyebrow": "سوق الجماعة",
-      "headingAr": "السوق المفتوح",
-      "subtitle": "السوق المفتوح — صيفط الطلب ديالك، والورشات يجيوك",
+      "eyebrow": "مباشر دابا",
+      "title": "أحدث الطلبات المفتوحة",
+      "headingAr": "أحدث الطلبات",
+      "subtitle": "طلبات مفتوحة كتسنا العروض — كن أول لي يجاوب",
       "postCta": "صيفط الطلب ديالك",
       "browseCta": "تصفّح السوق",
       "emptyCta": "كون اللول لي يصيفط طلب",
