@@ -2853,6 +2853,18 @@
     "check_back": "Revenez bientôt!"
   },
   "openSouk": {
+    "browseCta": "Parcourir les demandes",
+    "flowPostTitle": "Publiez votre demande",
+    "flowPostBody": "Décrivez la pièce voulue — titre, budget, photos.",
+    "flowBidsTitle": "Les ateliers viennent à vous",
+    "flowBidsBody": "Les ateliers de Tétouan envoient des offres avec prix et délai.",
+    "flowChooseTitle": "Choisissez & commandez",
+    "flowChooseBody": "Comparez les offres, choisissez votre atelier, c'est fabriqué pour vous.",
+    "nudgeTitle": "Vous ne trouvez pas ce que vous cherchez ?",
+    "nudgeBody": "Ne vous contentez pas du stock. Publiez une demande et laissez les ateliers du Maroc créer exactement ce que vous voulez.",
+    "nudgeCta": "Voir les demandes & publier la vôtre",
+    "nudgeDismiss": "Continuer à parcourir",
+    "nudgeCategoryHint": "Vous cherchez quelque chose en {{category}} ?",
     "brand": "Souk Ouvert",
     "eyebrow": "LE SOUK OUVERT",
     "headline": "Publiez votre brief. Les ateliers viennent à vous.",

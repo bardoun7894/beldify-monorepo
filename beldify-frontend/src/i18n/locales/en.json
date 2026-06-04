@@ -2953,6 +2953,18 @@
     }
   },
   "openSouk": {
+    "browseCta": "Browse open requests",
+    "flowPostTitle": "Post your request",
+    "flowPostBody": "Describe the piece you want — title, budget, photos.",
+    "flowBidsTitle": "Ateliers come to you",
+    "flowBidsBody": "Tetouani workshops send offers with price and timing.",
+    "flowChooseTitle": "Choose & order",
+    "flowChooseBody": "Compare offers, pick your atelier, and it's made for you.",
+    "nudgeTitle": "Can't find what you're looking for?",
+    "nudgeBody": "Don't settle for what's in stock. Post a request and let Morocco's ateliers make exactly what you want.",
+    "nudgeCta": "Browse requests & post yours",
+    "nudgeDismiss": "Keep browsing",
+    "nudgeCategoryHint": "Looking for something in {{category}}?",
     "brand": "Open Souk",
     "eyebrow": "OPEN SOUK",
     "headline": "Post your brief. Ateliers come to you.",

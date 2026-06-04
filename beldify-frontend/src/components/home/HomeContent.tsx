@@ -19,6 +19,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import '@/i18n/config';
 import FeaturedSections from '@/components/home/FeaturedSections';
+import OpenSoukHero from '@/components/home/OpenSoukHero';
 import MegaOffers from '@/components/MegaOffers';
 import LoadingSpinner from '@/components/common/LoadingSpinner';
 import Newsletter from '@/components/Newsletter';
@@ -361,6 +362,9 @@ export default function HomeContent({ categories, data, openSoukPosts = [] }: Ho
           </>
         )}
       </section>
+
+      {/* ── OPEN SOUK (reverse marketplace — core differentiator) ──────────── */}
+      <OpenSoukHero />
 
       {/* ── FEATURED PRODUCTS ─────────────────────────────────────────────── */}
       <Suspense fallback={<LoadingSpinner />}>

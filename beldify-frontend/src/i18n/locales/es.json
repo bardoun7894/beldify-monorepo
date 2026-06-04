@@ -3921,6 +3921,18 @@
     "type_a_message": "Escribe un mensaje…"
   },
   "openSouk": {
+    "browseCta": "Explorar solicitudes",
+    "flowPostTitle": "Publica tu solicitud",
+    "flowPostBody": "Describe la pieza que quieres — título, presupuesto, fotos.",
+    "flowBidsTitle": "Los talleres vienen a ti",
+    "flowBidsBody": "Los talleres de Tetuán envían ofertas con precio y plazo.",
+    "flowChooseTitle": "Elige y pide",
+    "flowChooseBody": "Compara ofertas, elige tu taller y se fabrica para ti.",
+    "nudgeTitle": "¿No encuentras lo que buscas?",
+    "nudgeBody": "No te conformes con el stock. Publica una solicitud y deja que los talleres de Marruecos creen exactamente lo que quieres.",
+    "nudgeCta": "Ver solicitudes y publicar la tuya",
+    "nudgeDismiss": "Seguir explorando",
+    "nudgeCategoryHint": "¿Buscas algo en {{category}}?",
     "aiTranslateChip": "IA traduce tu solicitud a AR · EN · ES",
     "brand": "Open Souk",
     "eyebrow": "OPEN SOUK",
