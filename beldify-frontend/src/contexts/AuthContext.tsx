@@ -487,7 +487,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         setIsAuthenticated(true);
         await checkAuth(false); // Re-check auth to ensure profile is fresh after registration
         toast.debug('Registration successful');
-        toast.success(response.data.message);
+        // Success toast is shown by the caller (register page) to avoid a
+        // double toast; auto-login state (token + user + isAuthenticated) is
+        // already set above so the post-register redirect stays authenticated.
         return { success: true, data: null, message: response.data.message };
       }
 

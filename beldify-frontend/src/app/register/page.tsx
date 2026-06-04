@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/contexts/AuthContext';
 import { useTranslation } from 'react-i18next';
@@ -114,22 +113,32 @@ export default function RegisterPage() {
         last_name: formData.last_name,
       };
 
-      // Include credentials to handle cookies
-      const response = await axios.post('/api/auth/register', submitData, {
-        withCredentials: true,
-        headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json',
-        },
-      });
+      // Use the AuthContext register() so the new account is signed in
+      // immediately (it stores the token + sets user/isAuthenticated) and a
+      // success toast is shown. Redirecting raw axios skipped that, which
+      // bounced the user to /login.
+      const result = await register(submitData);
 
-      if (response.data.status) {
-        toast.success(t('auth.registration_successful'));
-        // Redirect to dashboard or home page
-        router.push('/profile');
+      if (result?.success) {
+        toast.success(t('auth.registration_successful', 'Account created — welcome to Beldify!'));
+        const redirect = searchParams?.get('redirect') || '/profile';
+        router.push(redirect);
+      } else {
+        const msg = result?.message || t('auth.registration_failed', 'Registration failed. Please try again.');
+        setError(msg);
+        toast.error(msg);
       }
     } catch (err: any) {
-      const errorMsg = err.response?.data?.message || t('auth.registration_failed');
+      // AuthContext.register throws { message, errors } on validation failure.
+      const firstFieldError =
+        err?.errors && typeof err.errors === 'object'
+          ? (Object.values(err.errors)[0] as any)?.[0]
+          : undefined;
+      const errorMsg =
+        firstFieldError ||
+        err?.response?.data?.message ||
+        err?.message ||
+        t('auth.registration_failed', 'Registration failed. Please try again.');
       setError(errorMsg);
       toast.error(errorMsg);
     } finally {
