@@ -123,6 +123,7 @@ export default function PostCard({ post, isUserPost = false }: PostCardProps) {
   const { isRTL } = useDirection();
   const { user } = useAuth();
   const [buyerImgError, setBuyerImgError] = React.useState(false);
+  const [coverImgError, setCoverImgError] = React.useState(false);
 
   // Sellers get a direct "Respond" deep-link into their dashboard for this brief.
   const isSeller =
@@ -167,10 +168,11 @@ export default function PostCard({ post, isUserPost = false }: PostCardProps) {
       <article className="bg-white rounded-2xl ring-1 ring-amber-200 group-hover:ring-indigo-300 group-hover:-translate-y-0.5 group-hover:shadow-md transition-all duration-200 overflow-hidden h-full flex flex-col">
         {/* ── Image band ── */}
         <div className="relative h-44 bg-amber-50 shrink-0 overflow-hidden">
-          {post.images && post.images.length > 0 ? (
+          {post.images && post.images.length > 0 && getImageSrc(post.images[0]) && !coverImgError ? (
             <img
               src={getImageSrc(post.images[0])}
               alt={post.title}
+              onError={() => setCoverImgError(true)}
               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
               loading="lazy"
             />
