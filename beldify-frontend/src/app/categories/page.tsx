@@ -8,8 +8,104 @@ import { Loading } from '@/components/ui/loading';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import Image from 'next/image';
-import { SearchX } from 'lucide-react';
+import { SearchX, ArrowUpRight } from 'lucide-react';
 import logger from '@/utils/consoleLogger';
+
+// Jewel-tone accents cycled across the grid so cards read as a curated set even
+// before (or without) photography. Rooted in the Atlas indigo + saffron palette.
+const CARD_ACCENTS = [
+  'from-indigo-900 via-indigo-800 to-indigo-950',
+  'from-amber-700 via-amber-600 to-amber-800',
+  'from-violet-900 via-indigo-800 to-indigo-950',
+  'from-rose-800 via-rose-700 to-rose-900',
+  'from-emerald-800 via-teal-800 to-emerald-950',
+  'from-orange-700 via-amber-700 to-amber-900',
+];
+
+interface CategoryCardProps {
+  href: string;
+  image?: string | null;
+  name: string;
+  count?: number;
+  index: number;
+  accent: number;
+  isRTL: boolean;
+}
+
+function CategoryCard({ href, image, name, count, index, accent, isRTL }: CategoryCardProps) {
+  const [loaded, setLoaded] = useState(false);
+  const [errored, setErrored] = useState(false);
+  const showImage = !!image && !errored;
+  const monogram = (name || '?').trim().charAt(0).toUpperCase();
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.25, delay: Math.min(index * 0.04, 0.4) }}
+      className="h-full"
+    >
+      <Link
+        href={href}
+        aria-label={name}
+        className="group relative block aspect-[4/5] overflow-hidden rounded-2xl ring-1 ring-amber-200/60 shadow-atlas-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-atlas-md hover:ring-indigo-300/70"
+      >
+        {/* Themed gradient base — always present, so the card never looks empty */}
+        <div className={`absolute inset-0 bg-gradient-to-br ${CARD_ACCENTS[accent]}`} />
+
+        {/* Decorative monogram + sheen — visible until a real photo loads */}
+        <div
+          aria-hidden
+          className={`absolute inset-0 transition-opacity duration-500 ${showImage && loaded ? 'opacity-0' : 'opacity-100'}`}
+        >
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_28%_22%,_rgba(255,255,255,0.14),_transparent_55%)]" />
+          <span
+            className="absolute -bottom-5 end-2 select-none text-[7.5rem] leading-none font-bold text-white/10 transition-transform duration-500 group-hover:scale-110"
+            style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
+          >
+            {monogram}
+          </span>
+        </div>
+
+        {/* Real photo overlay (fades in once decoded; falls back to gradient on error) */}
+        {showImage && (
+          <Image
+            src={image as string}
+            alt={name}
+            fill
+            sizes="(min-width:1024px) 25vw, (min-width:640px) 33vw, 50vw"
+            className={`object-cover transition-all duration-500 group-hover:scale-105 ${loaded ? 'opacity-100' : 'opacity-0'}`}
+            onLoad={() => setLoaded(true)}
+            onError={() => setErrored(true)}
+          />
+        )}
+
+        {/* Legibility scrim for the label */}
+        <div className="absolute inset-0 bg-gradient-to-t from-indigo-950/85 via-indigo-950/15 to-transparent" />
+
+        {/* Item-count badge */}
+        {typeof count === 'number' && count > 0 && (
+          <span className="absolute top-3 end-3 rounded-full bg-white/95 px-2.5 py-1 text-[11px] font-semibold text-gray-900 shadow-atlas-sm backdrop-blur-sm">
+            {count.toLocaleString(isRTL ? 'ar-MA' : 'fr-MA')}
+          </span>
+        )}
+
+        {/* Name + hover affordance */}
+        <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-2 px-4 pb-5">
+          <h3
+            className="text-white text-base sm:text-lg font-semibold leading-tight drop-shadow-sm"
+            style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
+          >
+            {name}
+          </h3>
+          <span className="mb-0.5 shrink-0 translate-y-1 opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
+            <ArrowUpRight className="h-5 w-5 text-amber-300 rtl:-scale-x-100" aria-hidden />
+          </span>
+        </div>
+      </Link>
+    </motion.div>
+  );
+}
 
 export default function CategoriesPage() {
   const { t, i18n } = useTranslation();
@@ -160,56 +256,16 @@ export default function CategoriesPage() {
               const count = category.itemCount ?? category.productCount;
 
               return (
-                <motion.div
+                <CategoryCard
                   key={category.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.25, delay: Math.min(index * 0.04, 0.4) }}
-                  className="h-full"
-                >
-                  <Link
-                    href={`/categories/${category.slug || category.id}`}
-                    className="group relative aspect-[4/5] overflow-hidden rounded-2xl ring-1 ring-amber-200/60 bg-amber-50 shadow-atlas-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-atlas-md block"
-                    aria-label={displayName}
-                  >
-                    {/* Image */}
-                    {category.image ? (
-                      <Image
-                        src={category.image}
-                        alt={displayName}
-                        fill
-                        sizes="(min-width:1024px) 25vw, (min-width:640px) 33vw, 50vw"
-                        className="object-cover transition-transform duration-500 group-hover:scale-105"
-                        onError={(e) => {
-                          (e.currentTarget as HTMLImageElement).src = '/placeholder.png';
-                        }}
-                      />
-                    ) : (
-                      /* Amber-tinted placeholder */
-                      <div className="absolute inset-0 bg-gradient-to-br from-amber-100 to-indigo-100" />
-                    )}
-
-                    {/* Gradient overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-indigo-950/80 via-indigo-950/10 to-transparent" />
-
-                    {/* Item count badge */}
-                    {typeof count === 'number' && count > 0 && (
-                      <span className="absolute top-3 end-3 rounded-full bg-white/95 px-2.5 py-1 text-[11px] font-semibold text-gray-900 shadow-atlas-sm">
-                        {count.toLocaleString(isRTL ? 'ar-MA' : 'fr-MA')}
-                      </span>
-                    )}
-
-                    {/* Category name */}
-                    <div className="absolute bottom-0 start-0 end-0 px-4 pb-5">
-                      <h3
-                        className="text-white text-base sm:text-lg font-semibold leading-tight drop-shadow-sm"
-                        style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
-                      >
-                        {displayName}
-                      </h3>
-                    </div>
-                  </Link>
-                </motion.div>
+                  href={`/categories/${category.slug || category.id}`}
+                  image={category.image}
+                  name={displayName}
+                  count={typeof count === 'number' ? count : undefined}
+                  index={index}
+                  accent={index % CARD_ACCENTS.length}
+                  isRTL={isRTL}
+                />
               );
             })}
           </div>
