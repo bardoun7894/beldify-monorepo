@@ -461,7 +461,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       );
 
       if (response.data.status === 'success') {
-        const { token, user } = response.data;
+        // Backend nests the auth payload under `data`:
+        // { status, message, data: { user, token } }. Fall back to the flat
+        // shape just in case. Reading the wrong level stored "undefined" and
+        // broke auto-login after registration.
+        const authPayload = response.data.data ?? response.data;
+        const token = authPayload.token ?? authPayload.access_token ?? response.data.token;
+        const user = authPayload.user ?? response.data.user;
         localStorage.setItem('token', token);
         localStorage.setItem('token_timestamp', new Date().getTime().toString());
 
