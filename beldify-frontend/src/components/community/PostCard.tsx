@@ -6,12 +6,11 @@ import Link from 'next/link';
 import {
   ImageIcon,
   Wallet,
-  Calendar,
   User,
   MessageSquare,
-  Sparkles,
   Clock,
   Users,
+  MapPin,
 } from 'lucide-react';
 import { formatDistanceToNow } from 'date-fns';
 import { ar } from 'date-fns/locale';
@@ -28,7 +27,6 @@ interface PostCardProps {
 
 /** Format MAD budget range from various API shapes */
 function formatBudget(post: CommunityPost): string {
-  // Normalised budget object
   if (post.budget && typeof post.budget === 'object') {
     const min =
       typeof post.budget.min === 'string'
@@ -43,7 +41,6 @@ function formatBudget(post: CommunityPost): string {
       return `${min.toLocaleString()} – ${max.toLocaleString()} ${currency}`;
     }
   }
-  // Flat budget_min / budget_max fields
   const rawMin = post.budget_min;
   const rawMax = post.budget_max;
   if (rawMin != null && rawMax != null) {
@@ -65,7 +62,6 @@ function getImageSrc(image: string | { url?: string; image_path?: string } | any
   return '';
 }
 
-/** Relative time — respects locale */
 function timeAgo(dateString: string, isRTL: boolean): string {
   try {
     return formatDistanceToNow(new Date(dateString), {
@@ -77,26 +73,53 @@ function timeAgo(dateString: string, isRTL: boolean): string {
   }
 }
 
-/** Status pill classes — Atlas design-system colours */
-function statusPillClasses(status: string): string {
+function statusConfig(status: string): { pill: string; dot: string; label?: string } {
   switch (status) {
     case 'open':
-      return 'bg-amber-100 text-amber-800 ring-1 ring-amber-200'; // amber = pending/open
+      return {
+        pill: 'bg-amber-100 text-amber-800 ring-1 ring-amber-200',
+        dot: 'bg-amber-500 animate-pulse',
+      };
     case 'in_progress':
-      return 'bg-indigo-100 text-indigo-700 ring-1 ring-indigo-200'; // indigo = active
+      return {
+        pill: 'bg-indigo-100 text-indigo-700 ring-1 ring-indigo-200',
+        dot: 'bg-indigo-500',
+      };
     case 'completed':
-      return 'bg-emerald-100 text-emerald-700 ring-1 ring-emerald-200'; // green = done
+      return {
+        pill: 'bg-emerald-100 text-emerald-700 ring-1 ring-emerald-200',
+        dot: 'bg-emerald-500',
+      };
     default:
-      return 'bg-gray-100 text-gray-600';
+      return { pill: 'bg-gray-100 text-gray-600', dot: 'bg-gray-400' };
   }
 }
 
-// Tetouani craft keywords — show amber craft-origin pill
+// Tetouani craft keywords
 const TETOUANI_KEYWORDS = ['caftan', 'djellaba', 'kandora', 'takchita', 'tarz', 'zellige', 'babouche'];
+
+/** Deterministic gradient fallback for buyer avatars */
+function nameToGradient(name: string): string {
+  const GRADIENTS = [
+    'from-indigo-400 to-indigo-600',
+    'from-amber-400 to-amber-600',
+    'from-emerald-400 to-emerald-600',
+    'from-violet-400 to-violet-600',
+  ];
+  const code = name.charCodeAt(0) || 0;
+  return GRADIENTS[code % GRADIENTS.length];
+}
+
+function getInitials(name: string): string {
+  const parts = name.trim().split(/\s+/);
+  if (parts.length >= 2) return (parts[0][0] + parts[1][0]).toUpperCase();
+  return name.slice(0, 2).toUpperCase();
+}
 
 export default function PostCard({ post, isUserPost = false }: PostCardProps) {
   const { t } = useTranslation();
   const { isRTL } = useDirection();
+  const [buyerImgError, setBuyerImgError] = React.useState(false);
 
   const budgetDisplay = formatBudget(post);
 
@@ -109,16 +132,9 @@ export default function PostCard({ post, isUserPost = false }: PostCardProps) {
     (post as any).location?.toLowerCase()?.includes('tetouan') ||
     (post as any).location?.toLowerCase()?.includes('tétouan');
 
-  // Normalise required skills from both naming conventions
-  const skills: string[] =
-    post.required_skills ??
-    post.requiredSkills ??
-    [];
-
-  // proposal_count — both naming conventions
+  const skills: string[] = post.required_skills ?? post.requiredSkills ?? [];
   const proposalCount = post.proposal_count ?? post.proposalCount;
 
-  // Buyer info — prefer `buyer` mini-profile, fall back to legacy fields
   const buyerName =
     post.buyer?.name ||
     post.userName ||
@@ -131,12 +147,13 @@ export default function PostCard({ post, isUserPost = false }: PostCardProps) {
     post.user?.avatar;
 
   const postedAt = post.created_at || post.createdAt;
+  const { pill: statusPill, dot: statusDot } = statusConfig(post.status);
 
   return (
-    <Link href={`/community/posts/${post.id}`} className="block group">
-      <article className="bg-white rounded-2xl ring-1 ring-amber-200 hover:ring-amber-300 hover:-translate-y-0.5 hover:shadow-md transition-all duration-200 overflow-hidden h-full flex flex-col">
+    <Link href={`/community/posts/${post.id}`} className="block group focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700 rounded-2xl">
+      <article className="bg-white rounded-2xl ring-1 ring-amber-200 group-hover:ring-indigo-300 group-hover:-translate-y-0.5 group-hover:shadow-md transition-all duration-200 overflow-hidden h-full flex flex-col">
         {/* ── Image band ── */}
-        <div className="relative h-40 bg-amber-50 shrink-0 overflow-hidden">
+        <div className="relative h-44 bg-amber-50 shrink-0 overflow-hidden">
           {post.images && post.images.length > 0 ? (
             <img
               src={getImageSrc(post.images[0])}
@@ -145,15 +162,16 @@ export default function PostCard({ post, isUserPost = false }: PostCardProps) {
               loading="lazy"
             />
           ) : (
-            <div className="w-full h-full flex items-center justify-center">
-              <ImageIcon className="h-10 w-10 text-amber-200" />
+            <div className="w-full h-full flex flex-col items-center justify-center gap-2 bg-gradient-to-br from-amber-50 to-indigo-50">
+              <ImageIcon className="h-8 w-8 text-amber-200" />
             </div>
           )}
 
           {/* Status pill — top-start */}
           {post.status && (
-            <div className="absolute top-2 start-2">
-              <span className={`px-2.5 py-1 rounded-full text-[11px] font-semibold leading-none ${statusPillClasses(post.status)}`}>
+            <div className="absolute top-2.5 start-2.5">
+              <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-semibold ${statusPill}`}>
+                <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${statusDot}`} />
                 {t(`community.status.${post.status}`, post.status)}
               </span>
             </div>
@@ -161,8 +179,9 @@ export default function PostCard({ post, isUserPost = false }: PostCardProps) {
 
           {/* Tetouani craft origin badge */}
           {hasTetouaniKeyword && (
-            <div className="absolute bottom-2 start-2">
-              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-amber-100 text-amber-800 text-[10px] font-semibold uppercase tracking-wide ring-1 ring-amber-200">
+            <div className="absolute bottom-2.5 start-2.5">
+              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-amber-900/80 text-amber-100 text-[10px] font-semibold uppercase tracking-wide backdrop-blur-sm">
+                <MapPin size={9} />
                 {locationIsTetouan ? 'TETOUANI' : 'BESPOKE'}
               </span>
             </div>
@@ -170,8 +189,8 @@ export default function PostCard({ post, isUserPost = false }: PostCardProps) {
 
           {/* Your Post badge */}
           {isUserPost && (
-            <div className="absolute top-2 end-2">
-              <span className="px-2 py-1 bg-indigo-700 text-white rounded-full text-[11px] font-semibold">
+            <div className="absolute top-2.5 end-2.5">
+              <span className="px-2 py-1 bg-indigo-700 text-white rounded-full text-[11px] font-semibold shadow-sm">
                 {t('community.your_post', 'Your Post')}
               </span>
             </div>
@@ -179,13 +198,13 @@ export default function PostCard({ post, isUserPost = false }: PostCardProps) {
         </div>
 
         {/* ── Body ── */}
-        <div className="p-4 flex flex-col flex-1 gap-2.5">
+        <div className="p-4 flex flex-col flex-1 gap-2">
           {/* Category eyebrow */}
           {post.category && (
-            <p className="text-xs uppercase tracking-[0.14em] text-amber-700 font-medium leading-none">
+            <p className="text-[10px] uppercase tracking-[0.16em] text-amber-700 font-semibold leading-none">
               {typeof post.category === 'string'
                 ? t(`community.category.${post.category}`, post.category)
-                : post.category.name}
+                : (isRTL ? (post.category as any).name_ar ?? post.category.name : post.category.name)}
             </p>
           )}
 
@@ -207,7 +226,7 @@ export default function PostCard({ post, isUserPost = false }: PostCardProps) {
           {/* Required skills chips */}
           {skills.length > 0 && (
             <div className="flex flex-wrap gap-1">
-              {skills.slice(0, 4).map(skill => (
+              {skills.slice(0, 3).map(skill => (
                 <span
                   key={skill}
                   className="px-2 py-0.5 rounded-full bg-indigo-50 text-indigo-700 text-[10px] font-medium ring-1 ring-indigo-100"
@@ -215,25 +234,22 @@ export default function PostCard({ post, isUserPost = false }: PostCardProps) {
                   {skill}
                 </span>
               ))}
-              {skills.length > 4 && (
+              {skills.length > 3 && (
                 <span className="px-2 py-0.5 rounded-full bg-gray-50 text-gray-500 text-[10px] font-medium">
-                  +{skills.length - 4}
+                  +{skills.length - 3}
                 </span>
               )}
             </div>
           )}
 
-          {/* Metadata strip */}
+          {/* Budget + Timeline strip */}
           <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mt-auto">
-            {/* Budget */}
             {budgetDisplay && (
-              <span className="currency-mad inline-flex items-center gap-1 text-xs text-indigo-700 font-semibold">
-                <Wallet size={11} className="shrink-0 text-indigo-400" />
+              <span className="currency-mad inline-flex items-center gap-1 text-xs text-amber-800 font-semibold">
+                <Wallet size={11} className="shrink-0 text-amber-600" />
                 {budgetDisplay}
               </span>
             )}
-
-            {/* Timeline */}
             {post.timeline && (
               <span className="inline-flex items-center gap-1 text-xs text-gray-500">
                 <Clock size={11} className="shrink-0 text-gray-400" />
@@ -242,48 +258,48 @@ export default function PostCard({ post, isUserPost = false }: PostCardProps) {
             )}
           </div>
 
-          {/* Footer — buyer info + proposal count + posted-time */}
-          <div className="flex items-center justify-between pt-2.5 border-t border-amber-100 mt-1">
-            {/* Buyer */}
+          {/* Footer — buyer + proposals + time */}
+          <div className="flex items-center justify-between pt-2.5 border-t border-amber-100 mt-1 gap-2">
+            {/* Buyer avatar + name */}
             <div className="flex items-center gap-1.5 min-w-0">
-              {buyerAvatar ? (
+              {buyerAvatar && !buyerImgError ? (
                 <img
                   src={buyerAvatar}
                   alt={buyerName}
-                  className="w-6 h-6 rounded-full ring-1 ring-amber-300 object-cover shrink-0"
+                  className="w-6 h-6 rounded-full ring-1 ring-amber-200 object-cover shrink-0"
                   loading="lazy"
+                  onError={() => setBuyerImgError(true)}
                 />
               ) : (
-                <div className="w-6 h-6 bg-amber-100 rounded-full ring-1 ring-amber-200 flex items-center justify-center shrink-0">
-                  <User size={11} className="text-amber-800" />
+                <div
+                  className={`w-6 h-6 rounded-full bg-gradient-to-br ${nameToGradient(buyerName)} ring-1 ring-amber-200 flex items-center justify-center shrink-0`}
+                >
+                  <span className="text-[9px] font-bold text-white">
+                    {getInitials(buyerName)}
+                  </span>
                 </div>
               )}
-              <span className="text-xs text-gray-600 font-medium truncate max-w-[80px]">
+              <span className="text-xs text-gray-600 font-medium truncate max-w-[70px]">
                 {buyerName}
               </span>
             </div>
 
-            {/* Right column: proposal count + time */}
-            <div className="flex items-center gap-2.5 shrink-0">
+            {/* Right: proposal count + time */}
+            <div className="flex items-center gap-2 shrink-0">
               {proposalCount !== undefined && (
-                <span className="inline-flex items-center gap-0.5 text-[11px] text-gray-500">
-                  <Users size={11} className="shrink-0" />
-                  <span>
-                    {proposalCount}{' '}
-                    {t('openSouk.proposals', 'proposals')}
-                  </span>
+                <span className="inline-flex items-center gap-0.5 text-[11px] text-gray-500 font-medium">
+                  <Users size={10} className="shrink-0" />
+                  {proposalCount}
                 </span>
               )}
-
               {post.comments_count !== undefined && (
                 <span className="inline-flex items-center gap-0.5 text-[11px] text-gray-500">
-                  <MessageSquare size={11} className="shrink-0" />
+                  <MessageSquare size={10} className="shrink-0" />
                   {post.comments_count}
                 </span>
               )}
-
               {postedAt && (
-                <span className="text-[11px] text-gray-400">
+                <span className="text-[10px] text-gray-400">
                   {timeAgo(postedAt, isRTL)}
                 </span>
               )}

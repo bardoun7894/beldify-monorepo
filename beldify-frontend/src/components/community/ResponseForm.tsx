@@ -2,7 +2,8 @@
 
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ImageIcon, X, Wallet, Clock } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { ImageIcon, X, Wallet, Clock, Send, AlertCircle } from 'lucide-react';
 import { CommunityResponseFormData } from '@/types/community';
 import { useDirection } from '@/hooks/useDirection';
 import LoadingSpinner from '@/components/common/LoadingSpinner';
@@ -29,6 +30,9 @@ export default function ResponseForm({ onSubmit, onCancel, isLoading }: Response
 
   const [previewImages, setPreviewImages] = useState<string[]>([]);
   const [error, setError] = useState<string | null>(null);
+
+  const msgMax = 1000;
+  const msgLen = formData.description.length;
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
@@ -99,7 +103,6 @@ export default function ResponseForm({ onSubmit, onCancel, isLoading }: Response
         dataToSubmit.append('currency', formData.currency || 'MAD');
       }
 
-      // Append delivery_days if provided
       if (formData.delivery_days != null && formData.delivery_days > 0) {
         dataToSubmit.append('delivery_days', String(formData.delivery_days));
       }
@@ -122,123 +125,163 @@ export default function ResponseForm({ onSubmit, onCancel, isLoading }: Response
   };
 
   return (
-    <div className="bg-white rounded-2xl ring-1 ring-amber-200 overflow-hidden">
-      <div className="px-6 py-5 border-b border-amber-100">
-        <h3 className="font-semibold text-gray-900 text-base" style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}>
-          {t('community.submit_proposal', 'Submit Your Proposal')}
-        </h3>
-        <p className="text-sm text-gray-500 mt-0.5">
-          {t('community.proposal_subtitle', 'Describe your offer and pricing')}
-        </p>
+    <motion.div
+      initial={{ opacity: 0, y: -8 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -8 }}
+      transition={{ duration: 0.25, ease: [0.25, 1, 0.5, 1] }}
+      className="overflow-hidden"
+    >
+      {/* Form header */}
+      <div className="px-5 py-4 bg-indigo-950 flex items-center justify-between">
+        <div>
+          <h3 className="font-semibold text-white text-sm">
+            {t('community.submit_proposal', 'Submit Your Proposal')}
+          </h3>
+          <p className="text-xs text-indigo-300 mt-0.5">
+            {t('community.proposal_subtitle', 'Make a compelling offer to the buyer')}
+          </p>
+        </div>
+        <button
+          type="button"
+          onClick={onCancel}
+          className="text-indigo-300 hover:text-white transition-colors p-1.5 rounded-lg hover:bg-indigo-800"
+          aria-label={t('common.cancel', 'Cancel')}
+        >
+          <X size={16} />
+        </button>
       </div>
 
-      <div className="p-6">
+      <div className="p-5 bg-white">
         {error && (
-          <div className="bg-rose-50 ring-1 ring-rose-200 text-rose-700 p-4 rounded-2xl mb-6 text-sm">
-            {error}
-          </div>
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            className="flex items-start gap-2.5 bg-rose-50 ring-1 ring-rose-200 text-rose-700 p-3.5 rounded-xl mb-5 text-sm"
+          >
+            <AlertCircle size={15} className="shrink-0 mt-0.5" />
+            <span>{error}</span>
+          </motion.div>
         )}
 
         <form onSubmit={handleSubmit} className="space-y-5">
-          {/* Cover Message */}
+          {/* ── Bid panel: price + delivery in a highlighted card ── */}
+          <div className="bg-amber-50/70 rounded-2xl ring-1 ring-amber-200 p-4">
+            <p className="text-xs font-semibold text-amber-900 uppercase tracking-wide mb-3">
+              {t('community.your_bid', 'Your Bid')}
+            </p>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              {/* Price */}
+              <div>
+                <label htmlFor="price" className="block text-xs font-medium text-gray-700 mb-1.5">
+                  {t('community.price_offer', 'Proposed price')}
+                </label>
+                <div className="flex items-center gap-2">
+                  <div className="relative flex-1">
+                    <div className="absolute inset-y-0 start-0 ps-3 flex items-center pointer-events-none">
+                      <Wallet size={13} className="text-amber-600" />
+                    </div>
+                    <input
+                      type="number"
+                      name="price"
+                      id="price"
+                      min="0"
+                      step="1"
+                      value={formData.price || ''}
+                      onChange={handleNumberChange}
+                      className="ps-9 block w-full border border-amber-200 rounded-xl py-2.5 px-3 focus:outline-none focus:ring-2 focus:ring-indigo-700/30 focus:border-indigo-700 text-sm font-semibold transition-all duration-200 bg-white"
+                      placeholder="0"
+                    />
+                  </div>
+                  <select
+                    name="currency"
+                    value={formData.currency}
+                    onChange={handleChange}
+                    className="w-20 border border-amber-200 rounded-xl py-2.5 px-2.5 focus:outline-none focus:ring-2 focus:ring-indigo-700/30 focus:border-indigo-700 text-sm transition-all duration-200 bg-white"
+                  >
+                    <option value="MAD">MAD</option>
+                    <option value="USD">USD</option>
+                    <option value="EUR">EUR</option>
+                  </select>
+                </div>
+              </div>
+
+              {/* Delivery days */}
+              <div>
+                <label
+                  htmlFor="delivery_days"
+                  className="block text-xs font-medium text-gray-700 mb-1.5"
+                >
+                  {t('community.delivery_days_label', 'Delivery (days)')}
+                </label>
+                <div className="relative">
+                  <div className="absolute inset-y-0 start-0 ps-3 flex items-center pointer-events-none">
+                    <Clock size={13} className="text-indigo-500" />
+                  </div>
+                  <input
+                    type="number"
+                    id="delivery_days"
+                    name="delivery_days"
+                    min="1"
+                    max="365"
+                    step="1"
+                    value={formData.delivery_days ?? ''}
+                    onChange={handleDeliveryDaysChange}
+                    className="ps-9 block w-full border border-amber-200 rounded-xl py-2.5 px-3 focus:outline-none focus:ring-2 focus:ring-indigo-700/30 focus:border-indigo-700 text-sm font-semibold transition-all duration-200 bg-white"
+                    placeholder={t('community.delivery_days_placeholder', 'e.g. 14')}
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* ── Cover message ─────────────────────────────────────── */}
           <div>
-            <label
-              htmlFor="description"
-              className="block text-sm font-medium text-gray-900 mb-1.5"
-            >
-              {t('community.response_description', 'Cover message')}{' '}
-              <span className="text-rose-700" aria-hidden="true">*</span>
-            </label>
+            <div className="flex items-center justify-between mb-1.5">
+              <label
+                htmlFor="description"
+                className="block text-sm font-semibold text-gray-900"
+              >
+                {t('community.response_description', 'Cover message')}
+                <span className="text-rose-600 ms-0.5" aria-hidden="true">*</span>
+              </label>
+              <span
+                className={`text-[11px] font-mono ${
+                  msgLen > msgMax * 0.9 ? 'text-rose-600' : 'text-gray-400'
+                }`}
+              >
+                {msgLen}/{msgMax}
+              </span>
+            </div>
             <textarea
               id="description"
               name="description"
-              rows={4}
+              rows={5}
+              maxLength={msgMax}
               value={formData.description}
               onChange={handleChange}
               required
-              className={`w-full px-4 py-3 border border-amber-200 rounded-2xl focus:ring-2 focus:ring-indigo-700/30 focus:border-indigo-700 transition-all duration-200 resize-y text-sm ${
+              className={`w-full px-4 py-3 border border-amber-200 rounded-2xl focus:ring-2 focus:ring-indigo-700/30 focus:border-indigo-700 transition-all duration-200 resize-none text-sm leading-relaxed ${
                 isRTL ? 'text-right' : 'text-left'
               }`}
               placeholder={t(
                 'community.response_description_placeholder',
-                'Explain your approach, experience, and why you\'re the right fit…'
+                'Explain your approach, experience, and why you\'re the right fit for this request…'
               )}
               dir={isRTL ? 'rtl' : 'ltr'}
             />
           </div>
 
-          {/* Price + Delivery row */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {/* Price */}
-            <div>
-              <label htmlFor="price" className="block text-sm font-medium text-gray-900 mb-1.5">
-                {t('community.price_offer', 'Your price')}
-              </label>
-              <div className="flex items-center gap-2">
-                <div className="relative flex-1">
-                  <div className="absolute inset-y-0 start-0 ps-3 flex items-center pointer-events-none">
-                    <Wallet size={15} className="text-gray-400" />
-                  </div>
-                  <input
-                    type="number"
-                    name="price"
-                    id="price"
-                    min="0"
-                    step="0.01"
-                    value={formData.price || ''}
-                    onChange={handleNumberChange}
-                    className="ps-10 block w-full border border-amber-200 rounded-2xl py-3 px-4 focus:outline-none focus:ring-2 focus:ring-indigo-700/30 focus:border-indigo-700 text-sm transition-all duration-200"
-                    placeholder="0.00"
-                  />
-                </div>
-                <select
-                  name="currency"
-                  value={formData.currency}
-                  onChange={handleChange}
-                  className="block w-24 border border-amber-200 rounded-2xl py-3 px-3 focus:outline-none focus:ring-2 focus:ring-indigo-700/30 focus:border-indigo-700 text-sm transition-all duration-200"
-                >
-                  <option value="MAD">MAD</option>
-                  <option value="USD">USD</option>
-                  <option value="EUR">EUR</option>
-                </select>
-              </div>
-            </div>
-
-            {/* Delivery days */}
-            <div>
-              <label
-                htmlFor="delivery_days"
-                className="block text-sm font-medium text-gray-900 mb-1.5"
-              >
-                {t('community.delivery_days_label', 'Delivery in (days)')}
-              </label>
-              <div className="relative">
-                <div className="absolute inset-y-0 start-0 ps-3 flex items-center pointer-events-none">
-                  <Clock size={15} className="text-gray-400" />
-                </div>
-                <input
-                  type="number"
-                  id="delivery_days"
-                  name="delivery_days"
-                  min="1"
-                  max="365"
-                  step="1"
-                  value={formData.delivery_days ?? ''}
-                  onChange={handleDeliveryDaysChange}
-                  className="ps-10 block w-full border border-amber-200 rounded-2xl py-3 px-4 focus:outline-none focus:ring-2 focus:ring-indigo-700/30 focus:border-indigo-700 text-sm transition-all duration-200"
-                  placeholder={t('community.delivery_days_placeholder', 'e.g. 14')}
-                />
-              </div>
-            </div>
-          </div>
-
-          {/* Seller Skills */}
+          {/* ── Seller skills ──────────────────────────────────────── */}
           <div>
             <label
               htmlFor="sellerSkills"
-              className="block text-sm font-medium text-gray-900 mb-1.5"
+              className="block text-sm font-semibold text-gray-900 mb-1.5"
             >
-              {t('community.seller_skills_label', 'Your skills (comma-separated)')}
+              {t('community.seller_skills_label', 'Relevant skills')}
+              <span className="ms-1 text-[11px] font-normal text-gray-400">
+                {t('common.optional', '(optional)')}
+              </span>
             </label>
             <input
               type="text"
@@ -248,95 +291,68 @@ export default function ResponseForm({ onSubmit, onCancel, isLoading }: Response
                 'community.seller_skills_placeholder',
                 'e.g., Embroidery, Tailoring, Design'
               )}
-              className={`block w-full border border-amber-200 rounded-2xl py-3 px-4 focus:outline-none focus:ring-2 focus:ring-indigo-700/30 focus:border-indigo-700 text-sm transition-all duration-200 ${
+              className={`block w-full border border-amber-200 rounded-2xl py-2.5 px-4 focus:outline-none focus:ring-2 focus:ring-indigo-700/30 focus:border-indigo-700 text-sm transition-all duration-200 ${
                 isRTL ? 'text-right' : 'text-left'
               }`}
               value={(formData.sellerSkills || []).join(', ')}
               onChange={handleArrayChange}
               dir={isRTL ? 'rtl' : 'ltr'}
             />
+            <p className="mt-1 text-[11px] text-gray-400">
+              {t('community.skills_comma_hint', 'Separate with commas')}
+            </p>
           </div>
 
-          {/* Product Specifications */}
+          {/* ── Reference image upload ─────────────────────────────── */}
           <div>
+            <label className="block text-sm font-semibold text-gray-900 mb-2">
+              {t('community.response_images', 'Portfolio / reference images')}
+              <span className="ms-1 text-[11px] font-normal text-gray-400">
+                {t('common.optional', '(optional)')}
+              </span>
+            </label>
+
             <label
-              htmlFor="productSpecifications"
-              className="block text-sm font-medium text-gray-900 mb-1.5"
+              htmlFor="response-images"
+              className="flex flex-col items-center justify-center gap-2 cursor-pointer border-2 border-dashed border-amber-200 rounded-2xl py-6 px-4 hover:border-indigo-300 hover:bg-indigo-50/30 transition-all duration-200"
             >
-              {t(
-                'community.product_specifications_label',
-                'Product specifications (comma-separated)'
-              )}
-            </label>
-            <input
-              type="text"
-              name="productSpecifications"
-              id="productSpecifications"
-              placeholder={t(
-                'community.product_specifications_placeholder',
-                'e.g., Silk, Hand-stitched, Custom size'
-              )}
-              className={`block w-full border border-amber-200 rounded-2xl py-3 px-4 focus:outline-none focus:ring-2 focus:ring-indigo-700/30 focus:border-indigo-700 text-sm transition-all duration-200 ${
-                isRTL ? 'text-right' : 'text-left'
-              }`}
-              value={(formData.productSpecifications || []).join(', ')}
-              onChange={handleArrayChange}
-              dir={isRTL ? 'rtl' : 'ltr'}
-            />
-          </div>
-
-          {/* Images */}
-          <div>
-            <label className="block text-sm font-medium text-gray-900 mb-2">
-              {t('community.response_images', 'Portfolio images')}
-            </label>
-
-            {/* Upload zone */}
-            <div className="flex justify-center px-6 pt-5 pb-6 border-2 border-amber-200 border-dashed rounded-2xl hover:border-amber-300 transition-colors duration-200">
-              <div className="space-y-1 text-center">
-                <ImageIcon className="mx-auto h-10 w-10 text-amber-300" />
-                <div className="flex text-sm text-gray-600">
-                  <label
-                    htmlFor="response-images"
-                    className="relative cursor-pointer bg-transparent rounded-md font-medium text-indigo-700 hover:text-indigo-800 focus-within:outline-none"
-                  >
-                    <span>{t('common.upload_images', 'Upload images')}</span>
-                    <input
-                      id="response-images"
-                      name="images"
-                      type="file"
-                      multiple
-                      accept="image/*"
-                      className="sr-only"
-                      onChange={handleImageChange}
-                    />
-                  </label>
-                  <p className="ps-1">{t('common.or_drag_drop', 'or drag & drop')}</p>
-                </div>
-                <p className="text-xs text-gray-400">PNG, JPG, GIF up to 10MB</p>
+              <div className="w-10 h-10 rounded-full bg-amber-50 ring-1 ring-amber-200 flex items-center justify-center">
+                <ImageIcon size={18} className="text-amber-500" />
               </div>
-            </div>
+              <span className="text-sm font-medium text-indigo-700">
+                {t('common.upload_images', 'Upload images')}
+              </span>
+              <span className="text-xs text-gray-400">PNG, JPG, GIF — up to 10 MB</span>
+              <input
+                id="response-images"
+                name="images"
+                type="file"
+                multiple
+                accept="image/*"
+                className="sr-only"
+                onChange={handleImageChange}
+              />
+            </label>
 
-            {/* Image Previews */}
             {previewImages.length > 0 && (
-              <div className="mt-4 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+              <div className="mt-3 grid grid-cols-3 sm:grid-cols-4 gap-2.5">
                 {previewImages.map((src, index) => (
                   <div key={index} className="relative group">
-                    <div className="aspect-square w-full overflow-hidden rounded-2xl bg-amber-50 ring-1 ring-amber-200">
+                    <div className="aspect-square w-full overflow-hidden rounded-xl bg-amber-50 ring-1 ring-amber-200">
                       {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img
                         src={src}
-                        alt={`Preview ${index + 1}`}
+                        alt={`${t('community.preview', 'Preview')} ${index + 1}`}
                         className="h-full w-full object-cover object-center"
                       />
                     </div>
                     <button
                       type="button"
                       onClick={() => removeImage(index)}
-                      className="absolute -top-2 -end-2 bg-rose-700 text-white rounded-full p-1 shadow-md opacity-90 hover:opacity-100 transition-opacity min-h-[24px] min-w-[24px]"
+                      className="absolute -top-1.5 -end-1.5 bg-rose-700 text-white rounded-full p-0.5 shadow-sm opacity-0 group-hover:opacity-100 focus:opacity-100 transition-opacity min-h-[22px] min-w-[22px] flex items-center justify-center"
                       aria-label={t('common.remove_image', 'Remove image')}
                     >
-                      <X size={12} />
+                      <X size={11} />
                     </button>
                   </div>
                 ))}
@@ -344,8 +360,8 @@ export default function ResponseForm({ onSubmit, onCancel, isLoading }: Response
             )}
           </div>
 
-          {/* Form Actions */}
-          <div className="flex justify-end gap-3 pt-4 border-t border-amber-100">
+          {/* ── Form actions ─────────────────────────────────────────── */}
+          <div className="flex justify-end gap-3 pt-2">
             <button
               type="button"
               onClick={onCancel}
@@ -356,8 +372,8 @@ export default function ResponseForm({ onSubmit, onCancel, isLoading }: Response
             </button>
             <button
               type="submit"
-              disabled={isLoading}
-              className="inline-flex items-center gap-2 px-6 py-2.5 min-h-[44px] rounded-full text-sm font-semibold text-white bg-indigo-700 hover:bg-indigo-800 focus:outline-none focus:ring-2 focus:ring-indigo-700/30 transition-colors duration-200 disabled:opacity-70"
+              disabled={isLoading || !formData.description.trim()}
+              className="inline-flex items-center gap-2 px-6 py-2.5 min-h-[44px] rounded-full text-sm font-semibold text-white bg-indigo-700 hover:bg-indigo-800 focus:outline-none focus:ring-2 focus:ring-indigo-700/30 transition-colors duration-200 disabled:opacity-60 shadow-sm"
             >
               {isLoading ? (
                 <>
@@ -365,12 +381,15 @@ export default function ResponseForm({ onSubmit, onCancel, isLoading }: Response
                   {t('common.submitting', 'Submitting…')}
                 </>
               ) : (
-                t('community.submit_response', 'Submit Proposal')
+                <>
+                  <Send size={14} />
+                  {t('community.submit_response', 'Submit Proposal')}
+                </>
               )}
             </button>
           </div>
         </form>
       </div>
-    </div>
+    </motion.div>
   );
 }
