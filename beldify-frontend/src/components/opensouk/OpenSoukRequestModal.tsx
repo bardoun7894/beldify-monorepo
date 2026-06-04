@@ -63,7 +63,7 @@ export default function OpenSoukRequestModal({
                 aria-label={t('common.close', 'Close')}
                 className="absolute top-4 end-4 z-10 grid h-9 w-9 place-items-center rounded-full bg-white/80 text-gray-500 ring-1 ring-gray-200 hover:bg-white hover:text-gray-900 transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-700/30"
               >
-                <X className="h-4.5 w-4.5" aria-hidden />
+                <X className="h-4 w-4" aria-hidden />
               </button>
 
               {/* Header band */}

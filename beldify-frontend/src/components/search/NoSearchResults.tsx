@@ -3,7 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { useTranslation } from 'react-i18next';
-import { Search, Lightbulb, ArrowRight } from 'lucide-react';
+import { Search, Lightbulb, ArrowRight, Megaphone } from 'lucide-react';
 
 interface NoSearchResultsProps {
   query?: string;
@@ -90,7 +90,25 @@ export default function NoSearchResults({
             className="inline-flex items-center gap-2 text-sm font-medium text-indigo-700 hover:text-indigo-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30 rounded transition-colors"
           >
             {t('search.browse_all_products', 'Browse all products')}
-            <ArrowRight className="h-4 w-4 shrink-0" aria-hidden="true" />
+            <ArrowRight className="h-4 w-4 shrink-0 rtl:rotate-180" aria-hidden="true" />
+          </Link>
+        </div>
+
+        {/* OpenSouk — reverse-marketplace CTA (the core differentiator) */}
+        <div className="mt-6 rounded-2xl bg-indigo-700 p-5 text-center text-white shadow-atlas-sm">
+          <Megaphone className="h-6 w-6 mx-auto mb-2 text-amber-300" aria-hidden="true" />
+          <p className="text-sm font-semibold">
+            {t('openSouk.nudgeTitle', "Can't find what you're looking for?")}
+          </p>
+          <p className="mt-1 text-[13px] text-indigo-100 leading-snug">
+            {t('openSouk.nudgeBody', '')}
+          </p>
+          <Link
+            href="/community"
+            className="mt-3 inline-flex items-center gap-2 rounded-full bg-white px-5 py-2.5 text-sm font-bold text-indigo-800 transition-transform hover:-translate-y-0.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/60"
+          >
+            {t('openSouk.nudgeCta', 'Browse requests & post yours')}
+            <ArrowRight className="h-4 w-4 shrink-0 rtl:rotate-180" aria-hidden="true" />
           </Link>
         </div>
       </div>

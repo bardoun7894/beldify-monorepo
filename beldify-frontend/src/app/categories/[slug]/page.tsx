@@ -11,8 +11,10 @@ import ProductFilters from '@/components/products/ProductFilters';
 import ProductSort from '@/components/products/ProductSort';
 import CategoryDetailHero from '@/components/category/CategoryDetailHero';
 import { Product } from '@/lib/types';
-import { SlidersHorizontal, RefreshCw, PackageSearch } from 'lucide-react';
+import { RefreshCw, PackageSearch, SlidersHorizontal, Megaphone } from 'lucide-react';
 import logger from '@/utils/consoleLogger';
+import useOpenSoukNudge from '@/hooks/useOpenSoukNudge';
+import OpenSoukRequestModal from '@/components/opensouk/OpenSoukRequestModal';
 
 interface CategoryInfo {
   id: number;
@@ -55,6 +57,19 @@ export default function CategoryDetailPage() {
   });
   const [sortBy, setSortBy] = useState<string>('newest');
   const [isMobileFiltersOpen, setIsMobileFiltersOpen] = useState(false);
+
+  // OpenSouk nudge — invite buyers to post a request when they hit a dead-end
+  // (no products & no subcategories) or browse a long time without finding.
+  const osDeadEnd =
+    !loading &&
+    !!categoryData &&
+    (categoryData.products?.length ?? 0) === 0 &&
+    (categoryData.subCategories?.length ?? 0) === 0;
+  const openSouk = useOpenSoukNudge({
+    storageKey: 'category',
+    enabled: !loading && !!categoryData,
+    emptyResults: osDeadEnd,
+  });
 
   useEffect(() => {
     const fetchCategoryData = async () => {
@@ -136,6 +151,11 @@ export default function CategoryDetailPage() {
 
   return (
     <div className="min-h-screen bg-amber-50/40 pb-20">
+      <OpenSoukRequestModal
+        isOpen={openSouk.isOpen}
+        onClose={openSouk.close}
+        categoryName={categoryName || undefined}
+      />
       {/* ── Hero ──────────────────────────────────────────────────────── */}
       <CategoryDetailHero
         name={loading && !category ? '' : categoryName}
@@ -156,19 +176,13 @@ export default function CategoryDetailPage() {
             className="md:col-span-3 lg:col-span-2"
             aria-label={t('filters.title', 'الفلاتر')}
           >
-            <div className="bg-white rounded-2xl border border-amber-200 shadow-atlas-sm overflow-hidden sticky top-24">
-              <div className="p-4">
-                <h2 className="text-sm font-semibold text-gray-900 flex items-center gap-2 mb-4 uppercase tracking-[0.12em]">
-                  <SlidersHorizontal className="h-4 w-4 text-indigo-700 shrink-0" aria-hidden />
-                  {t('filters.title', 'الفلاتر')}
-                </h2>
-                <ProductFilters
-                  filters={filters}
-                  onChange={handleFilters}
-                  isMobileOpen={isMobileFiltersOpen}
-                  onMobileClose={() => setIsMobileFiltersOpen(false)}
-                />
-              </div>
+            <div className="sticky top-24">
+              <ProductFilters
+                filters={filters}
+                onChange={handleFilters}
+                isMobileOpen={isMobileFiltersOpen}
+                onMobileClose={() => setIsMobileFiltersOpen(false)}
+              />
             </div>
           </motion.aside>
 
@@ -253,7 +267,6 @@ export default function CategoryDetailPage() {
                           initial={{ opacity: 0, y: 16 }}
                           animate={{ opacity: 1, y: 0 }}
                           transition={{ delay: Math.min(index * 0.04, 0.3) }}
-                          className="rounded-2xl ring-1 ring-amber-200/60 overflow-hidden transition-all duration-200 hover:-translate-y-0.5 hover:shadow-atlas-md"
                         >
                           <ProductCard product={product} />
                         </motion.div>
@@ -307,27 +320,41 @@ export default function CategoryDetailPage() {
                     </motion.div>
 
                   ) : (
-                    /* Empty state */
+                    /* Empty state — intentional, not an error */
                     <motion.div
                       key="no-results"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
+                      initial={{ opacity: 0, y: 8 }}
+                      animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0 }}
-                      className="flex flex-col items-center justify-center py-16 text-center"
+                      transition={{ duration: 0.3 }}
+                      className="flex flex-col items-center justify-center py-20 text-center"
                     >
-                      <div className="w-14 h-14 rounded-full bg-amber-50 ring-1 ring-amber-200 flex items-center justify-center mb-5">
-                        <PackageSearch className="h-6 w-6 text-amber-400" aria-hidden />
+                      <div className="w-16 h-16 rounded-2xl bg-amber-50 ring-1 ring-amber-200 flex items-center justify-center mb-5 shadow-sm">
+                        <PackageSearch className="h-7 w-7 text-amber-400" aria-hidden />
                       </div>
-                      <p className="text-gray-500 text-sm mb-4">
-                        {t('products.no_results', 'لا توجد منتجات متاحة حالياً.')}
+                      <p
+                        className="text-gray-800 font-semibold mb-1.5"
+                        style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
+                      >
+                        {t('products.empty_title', 'قريباً في المخزون')}
+                      </p>
+                      <p className="text-gray-500 text-sm mb-6 max-w-[220px] leading-relaxed">
+                        {t('products.no_results_hint', 'هذا التصنيف لا يحتوي على منتجات حالياً — ارجع قريباً.')}
                       </p>
                       <button
                         onClick={() => window.location.reload()}
-                        className="inline-flex items-center gap-2 px-5 py-2 bg-indigo-50 text-indigo-700 rounded-full text-sm font-medium hover:bg-indigo-100 transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-700/30"
+                        className="inline-flex items-center gap-2 px-5 py-2.5 bg-indigo-700 text-white rounded-full text-sm font-semibold hover:bg-indigo-800 transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-700/30 shadow-sm"
                       >
                         <RefreshCw className="h-4 w-4" aria-hidden />
                         {t('common.refresh', 'تحديث')}
                       </button>
+                      <Link
+                        href="/community"
+                        className="mt-3 inline-flex items-center gap-2 px-5 py-2.5 bg-white text-indigo-700 ring-1 ring-indigo-200 rounded-full text-sm font-semibold hover:bg-indigo-50 transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-700/30"
+                      >
+                        <Megaphone className="h-4 w-4" aria-hidden />
+                        {t('openSouk.nudgeCta', 'Browse requests & post yours')}
+                      </Link>
                     </motion.div>
                   )}
                 </AnimatePresence>

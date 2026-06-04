@@ -103,7 +103,7 @@ export default function OpenSoukHero() {
                 className="flex items-start gap-4 rounded-2xl bg-white/10 p-4 ring-1 ring-white/15 backdrop-blur-sm"
               >
                 <span className="relative grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-amber-50 text-indigo-800 ring-1 ring-white/40">
-                  <Icon className="h-5.5 w-5.5" aria-hidden />
+                  <Icon className="h-5 w-5" aria-hidden />
                   <span className="absolute -top-2 -start-2 grid h-6 w-6 place-items-center rounded-full bg-indigo-950 text-[11px] font-bold text-amber-300 ring-2 ring-white/20">
                     {i + 1}
                   </span>

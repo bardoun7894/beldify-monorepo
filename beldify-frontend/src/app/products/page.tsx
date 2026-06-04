@@ -8,6 +8,8 @@ import ProductFilters from '@/components/products/ProductFilters';
 import ProductSort from '@/components/products/ProductSort';
 import FilterChips from '@/components/products/FilterChips';
 import NoSearchResults from '@/components/search/NoSearchResults';
+import useOpenSoukNudge from '@/hooks/useOpenSoukNudge';
+import OpenSoukRequestModal from '@/components/opensouk/OpenSoukRequestModal';
 import { Product } from '@/lib/types';
 import { useTranslation } from 'react-i18next';
 import { Filter, RefreshCw, AlertCircle, ChevronLeft, ChevronRight } from 'lucide-react';
@@ -250,6 +252,14 @@ export default function ProductsPage() {
   // Backend (ProductController::index) returns it under the `pagination` key.
   const paginationMeta: PaginationMeta | undefined = data?.pagination;
 
+  // OpenSouk nudge — when a search/listing yields nothing, or the user browses
+  // a long time without finding, invite them to post a request.
+  const openSouk = useOpenSoukNudge({
+    storageKey: 'products',
+    enabled: !isLoading && !error,
+    emptyResults: !isLoading && !error && products.length === 0,
+  });
+
   const handleFilterChange = (newFilters: Partial<ProductFiltersState>) => {
     updateUrl(newFilters);
   };
@@ -354,6 +364,11 @@ export default function ProductsPage() {
 
   return (
     <div className="min-h-screen bg-amber-50/40 pb-24 md:pb-16">
+      <OpenSoukRequestModal
+        isOpen={openSouk.isOpen}
+        onClose={openSouk.close}
+        categoryName={searchQuery || undefined}
+      />
 
       {/* ── Editorial indigo hero — Atlas §6.4 ── */}
       <section className="relative isolate overflow-hidden bg-indigo-950 text-white">
