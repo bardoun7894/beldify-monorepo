@@ -1,9 +1,12 @@
+// Contabo Object Storage was retired (creds return 401). Images are served from
+// the backend's local public disk. Relative image paths from the API
+// (e.g. "products/x.jpg") resolve against BASE_URL = {origin}/storage.
 export const CONTABO_CONFIG = {
-  ENDPOINT: process.env.NEXT_PUBLIC_CONTABO_ENDPOINT || 'https://eu2.contabostorage.com',
-  ACCOUNT_ID: process.env.NEXT_PUBLIC_CONTABO_ACCOUNT_ID || 'c7737d32901c47be91e8263ad074fd38',
-  BUCKET: process.env.NEXT_PUBLIC_CONTABO_BUCKET || 'beldify1storage',
+  ENDPOINT: process.env.NEXT_PUBLIC_STORAGE_ORIGIN || 'https://pro.beldify.com',
+  ACCOUNT_ID: '',
+  BUCKET: 'storage',
   get BASE_URL() {
-    return `${this.ENDPOINT}/${this.ACCOUNT_ID}/${this.BUCKET}`;
+    return process.env.NEXT_PUBLIC_STORAGE_URL || 'https://pro.beldify.com/storage';
   },
 } as const;
 
