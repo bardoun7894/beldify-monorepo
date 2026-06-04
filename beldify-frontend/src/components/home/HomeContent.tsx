@@ -65,7 +65,15 @@ interface HomeContentProps {
 }
 
 export default function HomeContent({ categories, data, openSoukPosts = [] }: HomeContentProps) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+
+  // Arabic-script locales (Modern Standard + Darija) read category names from
+  // name_ar; Latin locales (en/fr/es) prefer name_en. Falls back across the
+  // pair so a card never renders blank when one language is missing.
+  const lang = i18n.language || 'en';
+  const isArabicScript = lang.startsWith('ar') || lang === 'ma';
+  const catName = (c: Category) =>
+    isArabicScript ? c.name_ar || c.name_en : c.name_en || c.name_ar;
 
   // Static fallback ateliers — used when the API returns an empty array.
   // Backend shape confirmed: RecommendedController returns { id, name, rating,
@@ -264,11 +272,16 @@ export default function HomeContent({ categories, data, openSoukPosts = [] }: Ho
       <section className="mx-auto max-w-7xl px-6 py-16 sm:py-20">
         <div className="flex items-end justify-between mb-10">
           <div>
-            <h2
-              className="text-3xl sm:text-4xl font-bold text-gray-900"
-              style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
-            >
-              <span dir="rtl" lang="ar" className="font-arabic text-gray-900">تسوق في السوق</span>
+            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900">
+              {isArabicScript ? (
+                <span dir="rtl" lang="ar" className="font-arabic text-gray-900">
+                  {t('home.categories.title', 'تسوق في السوق')}
+                </span>
+              ) : (
+                <span style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}>
+                  {t('home.categories.title', 'Shop the souk')}
+                </span>
+              )}
             </h2>
             <p className="mt-1 text-sm text-gray-500">{t('home.categories.subtitle', 'Browse the souk')}</p>
           </div>
@@ -276,7 +289,7 @@ export default function HomeContent({ categories, data, openSoukPosts = [] }: Ho
             href="/categories"
             className="hidden sm:inline-flex items-center gap-1 text-sm font-semibold text-indigo-700 hover:text-indigo-800 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-indigo-700/30 rounded"
           >
-            كل الأصناف <ArrowRight className="h-4 w-4" aria-hidden="true" />
+            {t('home.categories.viewAll', 'All categories')} <ArrowRight className="h-4 w-4 rtl:rotate-180" aria-hidden="true" />
           </Link>
         </div>
 
@@ -297,32 +310,40 @@ export default function HomeContent({ categories, data, openSoukPosts = [] }: Ho
                 <Link
                   key={c.id}
                   href={`/categories/${c.slug || c.id}`}
-                  className={`group relative overflow-hidden rounded-2xl ring-1 ring-amber-200/50 bg-amber-50 shadow-atlas-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-atlas-md focus:outline-none focus:ring-2 focus:ring-indigo-700/30 ${featured ? 'sm:col-span-2 lg:col-span-2' : ''}`}
+                  aria-label={catName(c)}
+                  className={`group relative overflow-hidden rounded-2xl ring-1 ring-amber-200/50 bg-amber-50 shadow-atlas-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-atlas-md focus:outline-none focus:ring-2 focus:ring-indigo-700/40 focus:ring-offset-2 ${featured ? 'sm:col-span-2 lg:col-span-2' : ''}`}
                   style={{ aspectRatio: featured ? '8/5' : '4/5' }}
                 >
                   <Image
                     src={c.image}
-                    alt={c.name_ar || c.name_en}
+                    alt=""
                     fill
                     sizes={featured ? '(min-width:1024px) 50vw, (min-width:640px) 66vw, 100vw' : '(min-width:1024px) 25vw, (min-width:640px) 33vw, 50vw'}
-                    className="object-cover transition duration-500 group-hover:scale-105"
+                    className="object-cover transition duration-500 ease-out group-hover:scale-110"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
+                  {/* Stronger bottom gradient keeps the label legible over any image */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent" />
                   {typeof c.itemCount === 'number' && c.itemCount > 0 && (
-                    <span className="absolute top-3 end-3 rounded-full bg-white/95 px-2.5 py-0.5 text-[11px] font-semibold text-gray-900 shadow-sm">
+                    <span className="absolute top-3 end-3 inline-flex items-center gap-1 rounded-full bg-white/95 px-2.5 py-1 text-[11px] font-semibold text-gray-900 shadow-sm backdrop-blur-sm">
+                      <Package className="h-3 w-3 text-indigo-700" aria-hidden="true" />
                       {c.itemCount}
                     </span>
                   )}
-                  <div className="absolute bottom-4 start-4 end-4">
+                  <div className="absolute bottom-4 start-4 end-4 flex items-end justify-between gap-2">
                     <h3
-                      className="text-white font-semibold leading-tight drop-shadow-sm"
+                      dir={isArabicScript ? 'rtl' : 'ltr'}
+                      className={`text-white font-semibold leading-tight ${isArabicScript ? 'font-arabic' : ''}`}
                       style={{
-                        fontFamily: '"Playfair Display", ui-serif, Georgia, serif',
+                        fontFamily: isArabicScript ? undefined : '"Playfair Display", ui-serif, Georgia, serif',
                         fontSize: featured ? '1.75rem' : '1.125rem',
+                        textShadow: '0 1px 8px rgba(0,0,0,0.55)',
                       }}
                     >
-                      {c.name_ar || c.name_en}
+                      {catName(c)}
                     </h3>
+                    <span className="shrink-0 grid place-items-center h-8 w-8 rounded-full bg-white/0 text-white opacity-0 -translate-x-1 transition-all duration-300 group-hover:bg-white/95 group-hover:text-indigo-700 group-hover:opacity-100 group-hover:translate-x-0">
+                      <ArrowRight className="h-4 w-4 rtl:rotate-180" aria-hidden="true" />
+                    </span>
                   </div>
                 </Link>
                 );
@@ -334,7 +355,7 @@ export default function HomeContent({ categories, data, openSoukPosts = [] }: Ho
                 href="/categories"
                 className="inline-flex items-center gap-1 text-sm font-semibold text-indigo-700 hover:text-indigo-800"
               >
-                كل الأصناف <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                {t('home.categories.viewAll', 'All categories')} <ArrowRight className="h-4 w-4 rtl:rotate-180" aria-hidden="true" />
               </Link>
             </div>
           </>

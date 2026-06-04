@@ -3535,7 +3535,9 @@
       "support": "Support in AR / FR / EN"
     },
     "categories": {
+      "title": "Shop the souk",
       "subtitle": "Browse the souk",
+      "viewAll": "All categories",
       "empty": "Categories will appear here once the catalogue is live."
     },
     "offers": {

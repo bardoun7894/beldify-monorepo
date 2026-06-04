@@ -3508,7 +3508,9 @@
       "support": "Support AR / FR / EN"
     },
     "categories": {
+      "title": "Achetez au souk",
       "subtitle": "Parcourir le souk",
+      "viewAll": "Toutes les catégories",
       "empty": "Les catégories apparaîtront ici une fois le catalogue en ligne."
     },
     "offers": {

@@ -3559,7 +3559,9 @@
       "support": "Soporte en AR / FR / EN"
     },
     "categories": {
+      "title": "Compra en el zoco",
       "subtitle": "Explorar el zoco",
+      "viewAll": "Todas las categorías",
       "empty": "Las categorías aparecerán aquí una vez que el catálogo esté activo."
     },
     "offers": {
