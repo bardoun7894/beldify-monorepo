@@ -126,7 +126,7 @@ export default function StoreSettingsPage() {
   const activeVertical = pendingVertical ?? storeType;
 
   return (
-    <div className="min-h-screen bg-amber-50/50 pb-20">
+    <div className="min-h-screen bg-canvas pb-20">
       {/* ── Header ── */}
       <header className="sticky top-0 z-20 bg-white/95 backdrop-blur-sm border-b border-amber-200 px-6 py-4">
         <div className="max-w-3xl mx-auto flex items-center justify-between gap-4">

@@ -94,7 +94,7 @@ export default function SellerCustomOrdersPage() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-amber-50/50 flex items-center justify-center">
+      <div className="min-h-screen bg-canvas flex items-center justify-center">
         <div className="flex flex-col items-center gap-3">
           <div className="h-12 w-12 rounded-2xl bg-amber-100 animate-pulse" />
           <p className="text-sm text-gray-500">{isRTL ? 'جارٍ التحميل…' : 'Loading…'}</p>
@@ -104,7 +104,7 @@ export default function SellerCustomOrdersPage() {
   }
 
   return (
-    <div className="min-h-screen bg-amber-50/50 pb-20" dir={isRTL ? 'rtl' : 'ltr'}>
+    <div className="min-h-screen bg-canvas pb-20" dir={isRTL ? 'rtl' : 'ltr'}>
       {/* ── Header ── */}
       <header className="sticky top-0 z-20 bg-white/95 backdrop-blur-sm border-b border-amber-200 px-6 py-4">
         <div className="max-w-4xl mx-auto flex items-center gap-3">

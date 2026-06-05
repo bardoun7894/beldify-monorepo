@@ -249,7 +249,7 @@ export default function PostDetailPage() {
   // ── Loading state ─────────────────────────────────────────────────────────
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-amber-50/30 flex items-center justify-center">
+      <div className="min-h-screen bg-canvas flex items-center justify-center">
         <div className="flex flex-col items-center gap-4">
           <div className="w-14 h-14 rounded-2xl bg-indigo-950 flex items-center justify-center">
             <LoadingSpinner className="h-6 w-6 text-amber-400" />
@@ -263,7 +263,7 @@ export default function PostDetailPage() {
   // ── Error / not found ─────────────────────────────────────────────────────
   if (error || !post) {
     return (
-      <div className="min-h-screen bg-amber-50/30 py-12">
+      <div className="min-h-screen bg-canvas py-12">
         <div className="max-w-7xl mx-auto px-6">
           <div className="max-w-lg mx-auto text-center">
             <div className="bg-white rounded-2xl p-8 ring-1 ring-rose-200">
@@ -339,7 +339,7 @@ export default function PostDetailPage() {
   const postedAt = post.created_at ?? post.createdAt;
 
   return (
-    <div className="min-h-screen bg-amber-50/30">
+    <div className="min-h-screen bg-canvas">
       {/* ── Editorial header band ─────────────────────────────────────── */}
       <div className="bg-indigo-950 text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4">

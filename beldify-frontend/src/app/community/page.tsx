@@ -245,7 +245,7 @@ export default function CommunityPage() {
 
   // ── Render ────────────────────────────────────────────────────────────────
   return (
-    <div className="min-h-screen bg-amber-50/30">
+    <div className="min-h-screen bg-canvas">
 
       {/* ── Editorial hero strip ── */}
       <section className="bg-indigo-700 text-white py-12 px-6">

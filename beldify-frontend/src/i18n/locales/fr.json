@@ -1,4 +1,13 @@
 {
+  "share": {
+    "share": "Partager",
+    "share_product": "Partager ce produit",
+    "share_shop": "Partager l'atelier",
+    "whatsapp": "WhatsApp",
+    "facebook": "Facebook",
+    "copy_link": "Copier le lien",
+    "copied": "Lien copié !"
+  },
   "common": {
     "search": "Rechercher des produits...",
     "filter": "Filtrer",
@@ -510,7 +519,8 @@
     },
     "variant_price": "Prix de la Variante",
     "visit_external_website": "Visiter le Site Web",
-    "visit_store": "Visiter la Boutique"
+    "visit_store": "Visiter la Boutique",
+    "be_first_review": "Nouveau — soyez le premier à donner un avis"
   },
   "stock": {
     "in_stock": "En stock ({{count}})",
@@ -529,6 +539,9 @@
     "select_options_for_availability": "Sélectionnez les options pour vérifier la disponibilité",
     "in_stock_simple": "En stock",
     "low_stock": "Stock faible",
+    "only_left": "Plus que {{count}} en stock",
+    "made_to_order": "Fabriqué à la commande",
+    "made_to_order_ships": "Fabriqué à la commande — expédié en ~3 jours",
     "added": "Ajouté!",
     "custom_product_description": "Vous ne trouvez pas ce que vous cherchez? Créez une demande personnalisée et contactez les vendeurs qui peuvent la réaliser.",
     "custom_request_message": "Bonjour! Je suis intéressé par une version personnalisée de ce produit. Pouvez-vous m'aider à créer un design sur mesure?",
@@ -1162,11 +1175,11 @@
         },
         "paypal": {
           "title": "PayPal",
-          "description": "Bientôt disponible - Payez en toute sécurité avec PayPal"
+          "description": "Payez en toute sécurité avec PayPal"
         },
         "card": {
           "title": "Carte bancaire",
-          "description": "Bientôt disponible - Payez par Visa, Mastercard ou autres cartes"
+          "description": "Payez par Visa, Mastercard ou autres cartes"
         },
         "bank_transfer": {
           "title": "Virement bancaire",
@@ -3460,7 +3473,10 @@
     "cart": "Panier",
     "home": "Accueil",
     "search": "Rechercher",
-    "search_placeholder": "Rechercher des kaftans, djellabas…"
+    "search_placeholder": "Rechercher des kaftans, djellabas…",
+    "jewelry": "Bijoux",
+    "tailoring": "Couture",
+    "journal": "Journal"
   },
   "bespoke": {
     "body": "Chaque point cousu à vos mesures exactes. Nos artisans créent votre vêtement de A à Z.",
@@ -3492,7 +3508,8 @@
   "pdp": {
     "aiStyling": "Style IA pour vous",
     "artisanMade": "Fait artisanalement",
-    "complete_the_look": "Complétez le look"
+    "complete_the_look": "Complétez le look",
+    "trustedArtisan": "Vendeur artisan vérifié"
   },
   "actions": {
     "close": "Fermer",

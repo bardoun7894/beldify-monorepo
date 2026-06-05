@@ -78,7 +78,7 @@ export default function TailorProfilePage({ params }: { params: { id: string } }
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-amber-50/40 flex items-center justify-center">
+      <div className="min-h-screen bg-canvas flex items-center justify-center">
         {/* Atlas-styled loading skeleton */}
         <div className="w-full max-w-3xl px-6 space-y-6 animate-pulse">
           <div className="h-48 rounded-2xl bg-indigo-950/80" />
@@ -95,7 +95,7 @@ export default function TailorProfilePage({ params }: { params: { id: string } }
 
   if (!tailor) {
     return (
-      <div className="min-h-screen bg-amber-50/40 flex items-center justify-center px-6">
+      <div className="min-h-screen bg-canvas flex items-center justify-center px-6">
         <div className="text-center max-w-sm">
           <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-indigo-50 ring-1 ring-amber-200/60">
             <Ruler className="h-8 w-8 text-indigo-400" />
@@ -126,7 +126,7 @@ export default function TailorProfilePage({ params }: { params: { id: string } }
   const reviews = tailor.reviews ?? [];
 
   return (
-    <div className="min-h-screen bg-amber-50/40">
+    <div className="min-h-screen bg-canvas">
       {/* Hero Section — Atlas §6.4 editorial dark strip + §13.2 zellige motif */}
       <section className="relative isolate overflow-hidden bg-indigo-950 py-16 sm:py-20">
         {/* Zellige motif overlay */}

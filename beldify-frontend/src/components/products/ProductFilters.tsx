@@ -44,22 +44,22 @@ function FilterSection({ title, children, defaultOpen = true }: FilterSectionPro
   const [isOpen, setIsOpen] = useState(defaultOpen);
 
   return (
-    <div className="border-b border-amber-100 last:border-none">
+    <div className="border-b border-amber-100/80 last:border-none">
       <button
         type="button"
-        className="flex w-full items-center justify-between py-3.5 text-sm font-semibold text-gray-800 hover:text-indigo-700 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30"
+        className="flex w-full items-center justify-between py-3 text-xs font-semibold text-gray-500 uppercase tracking-[0.12em] hover:text-indigo-700 transition-colors duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30 focus-visible:rounded"
         onClick={() => setIsOpen(!isOpen)}
         aria-expanded={isOpen}
       >
         <span>{title}</span>
         {isOpen ? (
-          <Minus className="h-4 w-4 text-gray-400 shrink-0" aria-hidden="true" />
+          <Minus className="h-3.5 w-3.5 text-gray-300 shrink-0" aria-hidden="true" />
         ) : (
-          <Plus className="h-4 w-4 text-gray-400 shrink-0" aria-hidden="true" />
+          <Plus className="h-3.5 w-3.5 text-gray-300 shrink-0" aria-hidden="true" />
         )}
       </button>
       {isOpen && (
-        <div className="pb-4">
+        <div className="pb-3.5">
           {children}
         </div>
       )}
@@ -178,7 +178,10 @@ export default function ProductFilters({
             <label htmlFor="minPrice" className="text-xs font-medium text-gray-500 mb-1.5 block">
               {t('filters.min', 'Minimum')}
             </label>
-            <div className="relative">
+            {/* dir="ltr" on wrapper: both pe-14 (padding-inline-end) and right-3
+                resolve to the physical right edge, so the MAD suffix never
+                collides with the left-aligned numeral in RTL page context. */}
+            <div className="relative" dir="ltr">
               <input
                 type="number"
                 id="minPrice"
@@ -189,12 +192,11 @@ export default function ProductFilters({
                     minPrice: e.target.value ? Number(e.target.value) : undefined,
                   })
                 }
-                className="w-full ps-3 pe-14 py-2.5 rounded-2xl border border-amber-200 text-sm text-gray-800 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-700/30 focus:border-indigo-700 transition-colors"
+                className="w-full pl-3 pr-14 py-2.5 rounded-2xl border border-amber-200 text-sm text-gray-800 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-700/30 focus:border-indigo-700 transition-colors"
                 placeholder="0"
-                dir="ltr"
                 aria-label={t('filters.min_price_aria', 'Minimum price in MAD')}
               />
-              <span className="absolute end-3 top-1/2 -translate-y-1/2 text-xs text-gray-400 pointer-events-none">
+              <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-400 pointer-events-none select-none">
                 {t('product.currency', 'MAD')}
               </span>
             </div>
@@ -203,7 +205,8 @@ export default function ProductFilters({
             <label htmlFor="maxPrice" className="text-xs font-medium text-gray-500 mb-1.5 block">
               {t('filters.max', 'Maximum')}
             </label>
-            <div className="relative">
+            {/* dir="ltr" on wrapper: both pr-14 and right-3 stay on physical right. */}
+            <div className="relative" dir="ltr">
               <input
                 type="number"
                 id="maxPrice"
@@ -214,12 +217,11 @@ export default function ProductFilters({
                     maxPrice: e.target.value ? Number(e.target.value) : undefined,
                   })
                 }
-                className="w-full ps-3 pe-14 py-2.5 rounded-2xl border border-amber-200 text-sm text-gray-800 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-700/30 focus:border-indigo-700 transition-colors"
+                className="w-full pl-3 pr-14 py-2.5 rounded-2xl border border-amber-200 text-sm text-gray-800 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-700/30 focus:border-indigo-700 transition-colors"
                 placeholder="5,000"
-                dir="ltr"
                 aria-label={t('filters.max_price_aria', 'Maximum price in MAD')}
               />
-              <span className="absolute end-3 top-1/2 -translate-y-1/2 text-xs text-gray-400 pointer-events-none">
+              <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-400 pointer-events-none select-none">
                 {t('product.currency', 'MAD')}
               </span>
             </div>
@@ -229,41 +231,48 @@ export default function ProductFilters({
 
       {/* Colors */}
       <FilterSection title={t('filters.colors', 'Colors')}>
-        <div className="grid grid-cols-6 gap-2.5">
+        <div className="flex flex-wrap gap-2">
           {availableColors.map((color) => {
             const isSelected = filters.colors.includes(color.id);
+            const label = isRTL ? color.ar : color.en;
             return (
-              <div key={color.id} className="relative group">
+              <div key={color.id} className="relative group/swatch">
                 <button
                   type="button"
                   onClick={() => toggleFilter('colors', color.id)}
-                  aria-label={isRTL ? color.ar : color.en}
+                  aria-label={label}
                   aria-pressed={isSelected}
-                  className={`w-full aspect-square rounded-full border-2 transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30 focus-visible:ring-offset-1
-                    ${isSelected
-                      ? 'border-indigo-700 ring-2 ring-indigo-700/20 scale-110'
-                      : 'border-amber-200 hover:border-indigo-400 hover:scale-105'
-                    }`}
+                  className={`w-7 h-7 rounded-full border-2 transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/40 focus-visible:ring-offset-2 touch-manipulation ${
+                    isSelected
+                      ? 'border-indigo-700 scale-110 shadow-md'
+                      : 'border-transparent hover:border-indigo-300 hover:scale-105'
+                  }`}
                   style={{
                     backgroundColor: color.id,
-                    boxShadow: color.id === '#FFFFFF' ? 'inset 0 0 0 1px rgba(0,0,0,0.12)' : undefined,
+                    boxShadow: isSelected
+                      ? undefined
+                      : color.id === '#FFFFFF'
+                      ? 'inset 0 0 0 1px rgba(0,0,0,0.15), 0 0 0 1px rgba(0,0,0,0.08)'
+                      : '0 0 0 1px rgba(0,0,0,0.08)',
                   }}
                 >
                   {isSelected && (
                     <span
-                      className="flex h-full w-full items-center justify-center text-white drop-shadow-md text-xs"
+                      className="flex h-full w-full items-center justify-center drop-shadow text-[10px] font-bold"
+                      style={{ color: color.id === '#FFFFFF' || color.id === '#FFFF00' ? '#4338ca' : '#fff' }}
                       aria-hidden="true"
                     >
                       ✓
                     </span>
                   )}
                 </button>
-                {/* Tooltip */}
+                {/* Tooltip — physical centering avoids RTL -translate-x-1/2 quirk */}
                 <div
                   role="tooltip"
-                  className="pointer-events-none absolute bottom-full start-1/2 -translate-x-1/2 mb-1.5 whitespace-nowrap rounded-lg bg-gray-900 px-2 py-1 text-xs text-white opacity-0 group-hover:opacity-100 transition-opacity duration-150"
+                  aria-hidden="true"
+                  className="pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 mb-2 whitespace-nowrap rounded-lg bg-gray-900 px-2 py-1 text-[10px] text-white opacity-0 group-hover/swatch:opacity-100 transition-opacity duration-150 z-30"
                 >
-                  {isRTL ? color.ar : color.en}
+                  {label}
                 </div>
               </div>
             );
@@ -273,7 +282,7 @@ export default function ProductFilters({
 
       {/* Sizes */}
       <FilterSection title={t('filters.sizes', 'Sizes')}>
-        <div className="grid grid-cols-3 gap-2">
+        <div className="flex flex-wrap gap-2">
           {availableSizes.map((size) => {
             const isSelected = filters.sizes.includes(size);
             return (
@@ -282,10 +291,10 @@ export default function ProductFilters({
                 type="button"
                 onClick={() => toggleFilter('sizes', size)}
                 aria-pressed={isSelected}
-                className={`py-2.5 text-sm font-medium rounded-xl transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30 touch-manipulation min-h-[44px] ${
+                className={`px-3 py-1.5 text-xs font-semibold rounded-xl transition-all duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30 touch-manipulation min-h-[36px] min-w-[40px] ${
                   isSelected
-                    ? 'bg-indigo-700 text-white shadow-atlas-sm hover:bg-indigo-800'
-                    : 'bg-amber-50 text-gray-700 border border-amber-200 hover:border-indigo-300 hover:bg-indigo-50 hover:text-indigo-700'
+                    ? 'bg-indigo-700 text-white shadow-sm hover:bg-indigo-800'
+                    : 'bg-amber-50 text-gray-600 border border-amber-200 hover:border-indigo-300 hover:bg-indigo-50 hover:text-indigo-700'
                 }`}
               >
                 {size}
@@ -297,19 +306,38 @@ export default function ProductFilters({
 
       {/* Fabrics */}
       <FilterSection title={t('filters.fabrics', 'Fabric')}>
-        <div className="space-y-2.5">
+        <div className="space-y-2">
           {availableFabrics.map((fabric) => {
             const isSelected = filters.fabrics?.includes(fabric);
+            const fabricLabel = t(`filters.fabric.${fabric.toLowerCase()}`, fabric);
             return (
-              <label key={fabric} className="flex items-center gap-3 cursor-pointer group">
+              <label
+                key={fabric}
+                className="flex items-center gap-2.5 cursor-pointer group/fab py-0.5 touch-manipulation"
+              >
+                <span
+                  className={`relative flex h-4 w-4 shrink-0 items-center justify-center rounded border transition-colors duration-150 ${
+                    isSelected
+                      ? 'bg-indigo-700 border-indigo-700'
+                      : 'border-amber-300 bg-white group-hover/fab:border-indigo-400'
+                  }`}
+                  aria-hidden="true"
+                >
+                  {isSelected && (
+                    <svg className="h-2.5 w-2.5 text-white" viewBox="0 0 10 8" fill="none">
+                      <path d="M1 4l3 3 5-6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  )}
+                </span>
                 <input
                   type="checkbox"
                   checked={isSelected || false}
                   onChange={() => toggleFilter('fabrics', fabric)}
-                  className="w-4 h-4 rounded text-indigo-700 border-amber-200 focus:ring-indigo-700/20 cursor-pointer"
+                  aria-label={fabricLabel}
+                  className="sr-only"
                 />
-                <span className={`text-sm transition-colors ${isSelected ? 'text-indigo-700 font-medium' : 'text-gray-600 group-hover:text-gray-900'}`}>
-                  {t(`filters.fabric.${fabric.toLowerCase()}`, fabric)}
+                <span className={`text-sm leading-none transition-colors duration-150 ${isSelected ? 'text-indigo-700 font-medium' : 'text-gray-600 group-hover/fab:text-gray-900'}`}>
+                  {fabricLabel}
                 </span>
               </label>
             );
@@ -364,30 +392,34 @@ export default function ProductFilters({
 
   // Desktop sidebar
   const DesktopFilters = () => (
-    <div className="hidden md:block bg-white rounded-2xl ring-1 ring-amber-200 shadow-atlas-sm">
+    <div className="hidden md:block bg-white rounded-2xl ring-1 ring-amber-200/80 shadow-atlas-sm overflow-hidden">
       {/* Header */}
-      <div className="px-4 pt-4 pb-3 border-b border-amber-100 flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <SlidersHorizontal className="h-4 w-4 text-indigo-700" aria-hidden="true" />
-          <h2 className="text-sm font-semibold text-gray-900">{t('filters.title', 'Filters')}</h2>
+      <div className="px-4 pt-4 pb-3 border-b border-amber-100 flex items-center justify-between gap-3">
+        <div className="flex items-center gap-2 min-w-0">
+          <div className="p-1.5 bg-indigo-50 rounded-lg shrink-0">
+            <SlidersHorizontal className="h-3.5 w-3.5 text-indigo-700" aria-hidden="true" />
+          </div>
+          <h2 className="text-sm font-bold text-gray-900 truncate">{t('filters.title', 'الفلاتر')}</h2>
         </div>
-        <button
-          type="button"
-          onClick={clearAll}
-          className="text-xs font-medium text-indigo-700 hover:text-indigo-800 hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30 rounded transition-colors"
-        >
-          {t('filters.clear_all', 'Clear all')}
-        </button>
+        {activeBadges.length > 0 && (
+          <button
+            type="button"
+            onClick={clearAll}
+            className="shrink-0 text-[10px] font-semibold text-rose-600 hover:text-rose-700 bg-rose-50 hover:bg-rose-100 px-2 py-1 rounded-full focus:outline-none focus-visible:ring-2 focus-visible:ring-rose-600/30 transition-colors"
+          >
+            {t('filters.clear_all', 'مسح الكل')}
+          </button>
+        )}
       </div>
 
       {/* Active badges strip */}
       {activeBadges.length > 0 && (
-        <div className="px-4 py-2.5 border-b border-amber-100 bg-amber-50/60">
+        <div className="px-4 py-2.5 border-b border-amber-100 bg-amber-50/50">
           <div className="flex flex-wrap gap-1.5">
             {activeBadges.map((badge) => (
               <span
                 key={badge.id}
-                className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs bg-white text-amber-700 border border-amber-200 font-medium"
+                className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] bg-white text-indigo-700 border border-indigo-200 font-semibold shadow-sm"
               >
                 {badge.type === 'price' ? (
                   <span className="currency-mad">{badge.label}</span>
@@ -398,9 +430,9 @@ export default function ProductFilters({
                   type="button"
                   onClick={() => removeBadge(badge)}
                   aria-label={t('filters.remove_filter', `Remove ${badge.label}`)}
-                  className="ms-0.5 rounded-full hover:bg-amber-100 p-0.5 transition-colors focus:outline-none focus-visible:ring-1 focus-visible:ring-indigo-700/30"
+                  className="ms-0.5 rounded-full hover:bg-indigo-100 p-0.5 transition-colors focus:outline-none focus-visible:ring-1 focus-visible:ring-indigo-700/30"
                 >
-                  <X className="h-3 w-3" aria-hidden="true" />
+                  <X className="h-2.5 w-2.5" aria-hidden="true" />
                 </button>
               </span>
             ))}
@@ -408,7 +440,7 @@ export default function ProductFilters({
         </div>
       )}
 
-      <div className="px-4 py-1">
+      <div className="px-4 pt-1 pb-3">
         <FiltersContent />
       </div>
     </div>

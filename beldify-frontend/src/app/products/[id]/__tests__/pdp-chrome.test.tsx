@@ -48,6 +48,8 @@ vi.mock('@/services/api', () => ({
         stock: 10,
       },
     }),
+    // Required by the page-level related-products partition fetch (Task C)
+    getRelatedProducts: vi.fn().mockResolvedValue({ products: [] }),
   },
 }));
 

@@ -81,10 +81,10 @@ export default function HomeContent({ categories, data, openSoukPosts = [] }: Ho
   // profile_image, speciality, experience_years }. The live data replaces this
   // when /api/recommended-tailors responds successfully.
   const staticAteliers = [
-    { name: 'Maison Tetouan', city: 'Tetouan', img: 'https://pro.beldify.com/storage/categories/category_7.jpg', specialty: 'Tarz-tetouani', rating: 4.9 },
+    { name: 'Maison Tetouan', city: 'Tetouan', img: 'https://pro.beldify.com/storage/categories/category_7_jabador.png', specialty: 'Tarz-tetouani', rating: 4.9 },
     { name: 'Dar Fes Atelier', city: 'Fez', img: '/images/hero-atelier.jpg', specialty: 'Brocade & gold thread', rating: 4.8 },
-    { name: 'Casablanca Couture', city: 'Casablanca', img: 'https://pro.beldify.com/storage/categories/category_14.jpg', specialty: 'Wedding & bespoke', rating: 4.7 },
-    { name: 'Dar Marrakech', city: 'Marrakech', img: 'https://pro.beldify.com/storage/categories/category_4.jpg', specialty: 'Caftan & takchita', rating: 4.8 },
+    { name: 'Casablanca Couture', city: 'Casablanca', img: 'https://pro.beldify.com/storage/categories/category_14_wedding-dresses.png', specialty: 'Wedding & bespoke', rating: 4.7 },
+    { name: 'Dar Marrakech', city: 'Marrakech', img: 'https://pro.beldify.com/storage/categories/category_4_caftan.png', specialty: 'Caftan & takchita', rating: 4.8 },
   ];
 
   // Map live recommended-tailors to atelier card shape. profile_image is the
@@ -105,9 +105,9 @@ export default function HomeContent({ categories, data, openSoukPosts = [] }: Ho
   // available, replace this array with a dynamic fetch. Do not add a backend
   // call here without an actual endpoint to target.
   const journal = [
-    { tag: 'Craft', title: 'Inside a Fez brocade atelier', excerpt: 'How fourth-generation weavers in Fez still hand-thread gold into festival caftans.', author: 'Imane Bennani', readTime: '6 min', img: 'https://pro.beldify.com/storage/categories/category_4.jpg' },
-    { tag: 'Wedding', title: 'A takchita built in 3 fittings', excerpt: 'Following one bride from sketch to ceremony with Maison Marrakech.', author: 'Salma El Aoud', readTime: '8 min', img: 'https://pro.beldify.com/storage/categories/category_14.jpg' },
-    { tag: 'Heritage', title: 'Sizing a djellaba, the Moroccan way', excerpt: 'A field guide to measurements that travel — with no tape measure surprises.', author: 'Karim Lahlou', readTime: '5 min', img: 'https://pro.beldify.com/storage/categories/category_5.jpg' },
+    { tag: 'Craft', title: 'Inside a Fez brocade atelier', excerpt: 'How fourth-generation weavers in Fez still hand-thread gold into festival caftans.', author: 'Imane Bennani', readTime: '6 min', img: 'https://pro.beldify.com/storage/categories/category_4_caftan.png' },
+    { tag: 'Wedding', title: 'A takchita built in 3 fittings', excerpt: 'Following one bride from sketch to ceremony with Maison Marrakech.', author: 'Salma El Aoud', readTime: '8 min', img: 'https://pro.beldify.com/storage/categories/category_14_wedding-dresses.png' },
+    { tag: 'Heritage', title: 'Sizing a djellaba, the Moroccan way', excerpt: 'A field guide to measurements that travel — with no tape measure surprises.', author: 'Karim Lahlou', readTime: '5 min', img: 'https://pro.beldify.com/storage/categories/category_5_womens-djellaba.png' },
   ];
 
   return (
@@ -151,9 +151,9 @@ export default function HomeContent({ categories, data, openSoukPosts = [] }: Ho
               lang="ar"
               className="font-arabic mt-5 text-5xl sm:text-6xl lg:text-7xl font-bold leading-[1.1] tracking-tight text-white"
             >
-              تُلبَس منذ قرون.
+              لباس ديال زمان.
               <br />
-              <span className="text-amber-400">مصنوعة لليوم.</span>
+              <span className="text-amber-400">مصنوع لليوم.</span>
             </h1>
 
             {/* English subtitle — italic, lighter weight */}
@@ -251,10 +251,10 @@ export default function HomeContent({ categories, data, openSoukPosts = [] }: Ho
       >
         <div className="mx-auto max-w-7xl px-6 py-6 grid grid-cols-2 sm:grid-cols-4 gap-6">
           {([
-            { labelKey: 'home.trust.verified_sellers', labelFallback: 'Verified sellers', labelAr: 'بائعون موثوقون', Icon: ShieldCheck },
+            { labelKey: 'home.trust.verified_sellers', labelFallback: 'Verified sellers', labelAr: 'بياعة موثوقين', Icon: ShieldCheck },
             { labelKey: 'home.trust.secure_payments', labelFallback: 'Secure payments', labelAr: 'دفع آمن', Icon: Lock },
-            { labelKey: 'home.trust.returns', labelFallback: '14-day returns', labelAr: 'إرجاع 14 يوماً', Icon: RotateCcw },
-            { labelKey: 'home.trust.support', labelFallback: 'Support AR / FR / EN', labelAr: 'دعم متعدد اللغات', Icon: Headphones },
+            { labelKey: 'home.trust.returns', labelFallback: '14-day returns', labelAr: 'الرجوع حتى لـ14 يوم', Icon: RotateCcw },
+            { labelKey: 'home.trust.support', labelFallback: 'Support AR / FR / EN', labelAr: 'مساعدة بثلاث لغات', Icon: Headphones },
           ] as const).map(({ labelKey, labelFallback, labelAr, Icon }) => (
             <div key={labelKey} className="flex flex-col items-center gap-2 text-center">
               <span className="h-10 w-10 rounded-full bg-amber-100 flex items-center justify-center ring-1 ring-amber-200 text-indigo-700">
@@ -422,7 +422,7 @@ export default function HomeContent({ categories, data, openSoukPosts = [] }: Ho
           <div className="relative overflow-hidden rounded-2xl bg-amber-50 ring-1 ring-amber-200 shadow-atlas-md">
             <div className="absolute inset-0">
               <Image
-                src="https://pro.beldify.com/storage/categories/category_5.jpg"
+                src="https://pro.beldify.com/storage/categories/category_5_womens-djellaba.png"
                 alt="Collection festive"
                 fill
                 sizes="(min-width:1024px) 50vw, 100vw"
@@ -435,10 +435,10 @@ export default function HomeContent({ categories, data, openSoukPosts = [] }: Ho
                 className="text-3xl sm:text-4xl font-bold text-gray-900 leading-tight"
                 style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
               >
-                مجموعة المناسبات
+                كوليكسيون المناسبات
               </h2>
               <p className="mt-4 text-gray-600 text-base max-w-sm">
-                قفاطين وتكشيطات مثالية للأعراس والاحتفالات — مُطرَّزة بيدين تتشقّق من الحب.
+                قفاطين وتكاشط للأعراس والمناسبات، مطرّزين باليد وبالحب.
               </p>
               <Link
                 href="/products?category=festive"
@@ -481,7 +481,7 @@ export default function HomeContent({ categories, data, openSoukPosts = [] }: Ho
           <div>
             <div className="inline-flex items-center gap-2 rounded-full bg-amber-500/20 px-3.5 py-1.5 mb-5 text-xs font-medium text-amber-300 ring-1 ring-amber-500/30">
               <Scissors className="h-3.5 w-3.5" aria-hidden="true" />
-              خياطة بالمقاس
+              خياطة على القياس
             </div>
             <h2
               className="text-3xl sm:text-4xl font-bold leading-tight"
@@ -800,7 +800,7 @@ export default function HomeContent({ categories, data, openSoukPosts = [] }: Ho
                 <span className="currency-mad">299–5,999 درهم</span>
               </p>
               <p dir="rtl" lang="ar" className="text-xs text-indigo-300/70 font-arabic mt-1">
-                نطاق الأسعار النموذجي للبائعين
+                الأثمنة اللي كيعرضو البياعة غالباً
               </p>
             </div>
             {/* Supporting — two proof points using honest, non-fabricated copy */}
@@ -809,8 +809,8 @@ export default function HomeContent({ categories, data, openSoukPosts = [] }: Ho
                 // "Growing community" — qualitative; avoids inventing a seller count
                 // that is not sourced from the API. Update with a real figure once
                 // a /api/stats or similar endpoint provides one.
-                { value: t('home.seller.stat_sellers_value', 'Growing'), labelKey: 'home.seller.stat_sellers_label', labelFallback: 'Seller community', labelAr: 'مجتمع بائعين نشيط' },
-                { value: '14-day', labelKey: 'home.seller.stat_protection_label', labelFallback: 'Buyer protection', labelAr: 'حماية المشتري' },
+                { value: t('home.seller.stat_sellers_value', 'Growing'), labelKey: 'home.seller.stat_sellers_label', labelFallback: 'Seller community', labelAr: 'مجتمع ديال البياعة كيكبر' },
+                { value: '14-day', labelKey: 'home.seller.stat_protection_label', labelFallback: 'Buyer protection', labelAr: 'حماية الشاري' },
               ].map((s) => (
                 <div
                   key={s.labelKey}

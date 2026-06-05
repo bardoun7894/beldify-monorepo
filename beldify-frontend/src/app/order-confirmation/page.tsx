@@ -27,7 +27,7 @@ const playfair = { fontFamily: '"Playfair Display", ui-serif, Georgia, serif' };
 // ── Loading skeleton ──────────────────────────────────────────────────────────
 function OrderConfirmationSkeleton() {
   return (
-    <div className="min-h-screen bg-amber-50/40 py-12" aria-busy="true" aria-label="Loading order details">
+    <div className="min-h-screen bg-canvas py-12" aria-busy="true" aria-label="Loading order details">
       <div className="max-w-7xl mx-auto px-6">
         <div className="max-w-3xl mx-auto space-y-4">
           {/* Success hero skeleton */}
@@ -103,7 +103,7 @@ export default function OrderConfirmationPage() {
   // ── Not found state ───────────────────────────────────────────────────────
   if (!orderId || !order) {
     return (
-      <div className="min-h-screen bg-amber-50/40 py-12">
+      <div className="min-h-screen bg-canvas py-12">
         <div className="max-w-7xl mx-auto px-6">
           <div className="max-w-2xl mx-auto text-center">
             <div className="bg-white rounded-2xl shadow-atlas-sm ring-1 ring-amber-200 p-10">
@@ -180,7 +180,7 @@ export default function OrderConfirmationPage() {
 
   return (
     <div
-      className={`min-h-screen bg-amber-50/40 py-10 sm:py-14 ${isRTL ? 'rtl' : 'ltr'}`}
+      className={`min-h-screen bg-canvas py-10 sm:py-14 ${isRTL ? 'rtl' : 'ltr'}`}
       dir={isRTL ? 'rtl' : 'ltr'}
     >
       <div className="max-w-7xl mx-auto px-6">

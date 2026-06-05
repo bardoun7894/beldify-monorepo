@@ -84,6 +84,11 @@ module.exports = {
         // distinct keys give Tailwind a splittable color for opacity support.
         "atlas-primary": "hsl(var(--primary) / <alpha-value>)",
         "atlas-secondary": "hsl(var(--secondary) / <alpha-value>)",
+        // ── Page canvas ───────────────────────────────────────────
+        // Warm off-white used as the storefront page background. Replaces
+        // the old flat amber-50 full-page wash — amber now lives only in
+        // cards/badges/CTAs as an accent, not behind the whole page.
+        canvas: "#FAFAF7",
       },
       fontFamily: {
         sans: ["var(--font-sans)"],

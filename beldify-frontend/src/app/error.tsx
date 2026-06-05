@@ -19,7 +19,7 @@ export default function Error({
   }, [error]);
 
   return (
-    <main className="min-h-screen bg-amber-50/40 text-gray-900 flex flex-col">
+    <main className="min-h-screen bg-canvas text-gray-900 flex flex-col">
       {/* Top decorative strip */}
       <div className="h-1.5 bg-gradient-to-r from-rose-700 via-amber-500 to-indigo-700" aria-hidden />
 

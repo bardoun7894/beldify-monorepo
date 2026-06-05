@@ -1,4 +1,13 @@
 {
+  "share": {
+    "share": "Share",
+    "share_product": "Share this product",
+    "share_shop": "Share atelier",
+    "whatsapp": "WhatsApp",
+    "facebook": "Facebook",
+    "copy_link": "Copy link",
+    "copied": "Link copied!"
+  },
   "common": {
     "search": "Search for products...",
     "filter": "Filter",
@@ -529,7 +538,8 @@
     "unknown": "Unknown Product",
     "price_format": "{{price}} MAD",
     "rating": "%{rating} ★",
-    "visit_external_website": "Visit Website"
+    "visit_external_website": "Visit Website",
+    "be_first_review": "New — be the first to review"
   },
   "stock": {
     "in_stock": "In stock ({{count}})",
@@ -548,6 +558,9 @@
     "select_options_for_availability": "Select options to check availability",
     "in_stock_simple": "In stock",
     "low_stock": "Low stock",
+    "only_left": "Only {{count}} left",
+    "made_to_order": "Made to order",
+    "made_to_order_ships": "Made to order — ships in ~3 days",
     "added": "Added!",
     "custom_product_description": "Can't find what you're looking for? Create a custom request and contact sellers who can make it for you.",
     "custom_request_message": "Hi! I'm interested in a custom version of this product. Can you help me with a personal design?",
@@ -1170,11 +1183,11 @@
         },
         "paypal": {
           "title": "PayPal",
-          "description": "Coming Soon - Pay securely with PayPal"
+          "description": "Pay securely with PayPal"
         },
         "card": {
           "title": "Credit Card",
-          "description": "Coming Soon - Pay with Visa, Mastercard, or other cards"
+          "description": "Pay with Visa, Mastercard, or other cards"
         },
         "bank_transfer": {
           "title": "Bank transfer",
@@ -3487,7 +3500,10 @@
     "cart": "Cart",
     "home": "Home",
     "search": "Search",
-    "search_placeholder": "Search for kaftans, djellabas…"
+    "search_placeholder": "Search for kaftans, djellabas…",
+    "jewelry": "Jewelry",
+    "tailoring": "Tailoring",
+    "journal": "Journal"
   },
   "bespoke": {
     "body": "Every stitch made to your exact measurements. Our artisans craft your garment from scratch — your fabric, your fit, your story.",
@@ -3519,7 +3535,8 @@
   "pdp": {
     "aiStyling": "AI styled for you",
     "artisanMade": "Artisan made",
-    "complete_the_look": "Complete the look"
+    "complete_the_look": "Complete the look",
+    "trustedArtisan": "Verified artisan seller"
   },
   "actions": {
     "close": "Close",

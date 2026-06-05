@@ -92,7 +92,7 @@ export default function CartPage() {
   // ── Loading skeleton ─────────────────────────────────────────────────────────
   if (isInitialLoading || state === null) {
     return (
-      <div className="min-h-screen bg-amber-50/40">
+      <div className="min-h-screen bg-canvas">
         <div className="max-w-7xl mx-auto px-6 py-16">
           <div className="animate-pulse space-y-6">
             {/* Breadcrumb skeleton */}
@@ -129,7 +129,7 @@ export default function CartPage() {
   // ── Empty state ──────────────────────────────────────────────────────────────
   if (state.items.length === 0) {
     return (
-      <div className={`min-h-screen bg-amber-50/40 ${isRTL ? 'rtl' : 'ltr'}`}>
+      <div className={`min-h-screen bg-canvas ${isRTL ? 'rtl' : 'ltr'}`}>
         <EmptyCartState />
         <ReassuranceStrip t={t} />
         <div className="max-w-7xl mx-auto px-6 pb-16">
@@ -148,7 +148,7 @@ export default function CartPage() {
   const totalAmount = state.total_amount ?? 0;
 
   return (
-    <div className={`min-h-screen bg-amber-50/40 ${isRTL ? 'rtl' : 'ltr'}`}>
+    <div className={`min-h-screen bg-canvas ${isRTL ? 'rtl' : 'ltr'}`}>
 
       {/* ── Page header ─────────────────────────────────────────────────────── */}
       <header className="bg-amber-50/60 border-b border-indigo-100 pt-8 pb-10 px-6">

@@ -255,9 +255,8 @@ export default function CheckoutPage() {
 
   // Reason a method can't be picked (null = selectable).
   const paymentDisabledReason = (method: PaymentMethod): string | null => {
-    if (method.kind === 'gateway') {
-      return t('checkout.payment.coming_soon', 'Coming soon');
-    }
+    // Online gateways (card / PayPal) are bypassed — no real charge is taken.
+    // The order is created with payment_status 'pending' for manual confirmation.
     if (method.kind === 'cod' && !codAllowed) {
       return (cartState?.total_amount ?? 0) > COD_MAX_AMOUNT
         ? t('checkout.payment.cod_over_limit', `Not available over ${COD_MAX_AMOUNT} MAD`)
@@ -519,6 +518,10 @@ export default function CheckoutPage() {
         'cash_plus',
         'western_union',
         'moneygram',
+        // Bypassed online gateways — accepted; order is created without a real
+        // charge (backend sets payment_status 'pending' for these).
+        'credit_card',
+        'paypal',
       ];
       if (!availablePaymentMethods.includes(normalizedPaymentMethod)) {
         toast.error(t('checkout.validation.payment_method_invalid'));
@@ -673,7 +676,7 @@ export default function CheckoutPage() {
   // ── Empty cart state ──────────────────────────────────────────────────────
   if (!cartState?.items?.length) {
     return (
-      <div className={`min-h-screen bg-amber-50/40 ${isRTL ? 'rtl' : 'ltr'}`}>
+      <div className={`min-h-screen bg-canvas ${isRTL ? 'rtl' : 'ltr'}`}>
         <div className="max-w-7xl mx-auto px-6 py-24 flex flex-col items-center text-center">
           <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-amber-50 ring-2 ring-amber-200 mb-8 shadow-atlas-sm">
             <ShoppingBag className="w-9 h-9 text-amber-500" />
@@ -1421,7 +1424,7 @@ export default function CheckoutPage() {
   ];
 
   return (
-    <div className={`min-h-screen bg-amber-50/40 ${isRTL ? 'rtl' : 'ltr'}`}>
+    <div className={`min-h-screen bg-canvas ${isRTL ? 'rtl' : 'ltr'}`}>
       {/* ── Progress stepper strip ─────────────────────────────────────────── */}
       <div className="bg-amber-50 border-b border-amber-200 py-5">
         <div className="max-w-7xl mx-auto px-6">

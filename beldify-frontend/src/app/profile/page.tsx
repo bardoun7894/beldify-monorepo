@@ -33,7 +33,7 @@ export default function ProfilePage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-amber-50 px-4">
+      <div className="min-h-screen flex items-center justify-center bg-canvas px-4">
         <div className="flex flex-col items-center gap-4 p-8 bg-white rounded-2xl shadow-atlas-md border border-amber-100">
           <div className="relative">
             <div className="w-16 h-16 rounded-full ring-2 ring-amber-200 bg-amber-50 flex items-center justify-center">
@@ -68,7 +68,7 @@ export default function ProfilePage() {
     // spring, tab x-transitions, whileHover/whileTap) honour the OS setting; CSS
     // transitions are already gated by the global prefers-reduced-motion block.
     <MotionConfig reducedMotion="user">
-    <div className="min-h-screen bg-amber-50 py-8 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-canvas py-8 px-4 sm:px-6 lg:px-8">
       <div className="max-w-5xl mx-auto">
         {/* ── Breadcrumbs: Home / My Account / Profile ── */}
         <Breadcrumbs

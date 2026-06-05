@@ -169,7 +169,7 @@ export default function OrderDetailsPage() {
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        className={`min-h-screen bg-amber-50/40 ${isRTL ? 'rtl' : 'ltr'}`}
+        className={`min-h-screen bg-canvas ${isRTL ? 'rtl' : 'ltr'}`}
         dir={isRTL ? 'rtl' : 'ltr'}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
@@ -204,7 +204,7 @@ export default function OrderDetailsPage() {
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        className={`min-h-screen bg-amber-50/40 ${isRTL ? 'rtl' : 'ltr'}`}
+        className={`min-h-screen bg-canvas ${isRTL ? 'rtl' : 'ltr'}`}
         dir={isRTL ? 'rtl' : 'ltr'}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
@@ -242,7 +242,7 @@ export default function OrderDetailsPage() {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.4, ease: [0.33, 1, 0.68, 1] }}
-      className={`min-h-screen bg-amber-50/40 ${isRTL ? 'rtl' : 'ltr'}`}
+      className={`min-h-screen bg-canvas ${isRTL ? 'rtl' : 'ltr'}`}
       dir={isRTL ? 'rtl' : 'ltr'}
     >
       {/* Solid parchment sticky header (no glassmorphism) */}

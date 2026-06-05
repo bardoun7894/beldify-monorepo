@@ -133,7 +133,7 @@ export default function SellerRegisterPage() {
   // ── Unauthenticated state — prompt to log in ──────────────────────────────
   if (!isAuthenticated) {
     return (
-      <div className={`min-h-screen bg-amber-50/40 ${isRTL ? 'rtl' : 'ltr'}`} dir={isRTL ? 'rtl' : 'ltr'}>
+      <div className={`min-h-screen bg-canvas ${isRTL ? 'rtl' : 'ltr'}`} dir={isRTL ? 'rtl' : 'ltr'}>
         <div className="max-w-7xl mx-auto px-6 py-24 flex flex-col items-center text-center">
           {/* Icon */}
           <div className="w-20 h-20 rounded-full bg-indigo-50 ring-2 ring-indigo-200 flex items-center justify-center mb-8 shadow-atlas-sm">
@@ -178,7 +178,7 @@ export default function SellerRegisterPage() {
   // ── Pending/submitted state ───────────────────────────────────────────────
   if (submitted) {
     return (
-      <div className={`min-h-screen bg-amber-50/40 ${isRTL ? 'rtl' : 'ltr'}`} dir={isRTL ? 'rtl' : 'ltr'}>
+      <div className={`min-h-screen bg-canvas ${isRTL ? 'rtl' : 'ltr'}`} dir={isRTL ? 'rtl' : 'ltr'}>
         <div className="max-w-7xl mx-auto px-6 py-24 flex flex-col items-center text-center">
           <div className="w-20 h-20 rounded-full bg-indigo-50 ring-4 ring-indigo-100 flex items-center justify-center mb-8">
             <CheckCircle className="w-10 h-10 text-indigo-700" strokeWidth={1.5} aria-hidden="true" />
@@ -213,7 +213,7 @@ export default function SellerRegisterPage() {
   const isSeller = user?.role === 'seller' || (user as any)?.is_seller === true;
   if (isAuthenticated && isSeller) {
     return (
-      <div className={`min-h-screen bg-amber-50/40 ${isRTL ? 'rtl' : 'ltr'}`} dir={isRTL ? 'rtl' : 'ltr'}>
+      <div className={`min-h-screen bg-canvas ${isRTL ? 'rtl' : 'ltr'}`} dir={isRTL ? 'rtl' : 'ltr'}>
         <div className="max-w-7xl mx-auto px-6 py-24 flex flex-col items-center text-center">
           <div className="w-20 h-20 rounded-full bg-amber-50 ring-2 ring-amber-200 flex items-center justify-center mb-8 shadow-atlas-sm">
             <Store className="w-9 h-9 text-amber-600" aria-hidden="true" />
@@ -247,7 +247,7 @@ export default function SellerRegisterPage() {
 
   // ── Authenticated — show onboarding form ─────────────────────────────────
   return (
-    <div className={`min-h-screen bg-amber-50/40 ${isRTL ? 'rtl' : 'ltr'}`} dir={isRTL ? 'rtl' : 'ltr'}>
+    <div className={`min-h-screen bg-canvas ${isRTL ? 'rtl' : 'ltr'}`} dir={isRTL ? 'rtl' : 'ltr'}>
       {/* Hero header */}
       <div className="bg-indigo-950 py-16 relative overflow-hidden">
         <div

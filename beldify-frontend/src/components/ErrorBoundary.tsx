@@ -84,7 +84,7 @@ function DefaultErrorFallback({ error, retry }: { error: Error; retry: () => voi
   const isDevelopment = process.env.NODE_ENV === 'development';
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-amber-50/40 px-4">
+    <div className="min-h-screen flex items-center justify-center bg-canvas px-4">
       <div className="max-w-md w-full bg-white rounded-2xl shadow-lg p-8 text-center">
         <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-rose-100 mb-4">
           <ExclamationTriangleIcon className="h-6 w-6 text-rose-700" />

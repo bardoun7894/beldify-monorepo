@@ -22,7 +22,7 @@ export default function AboutPage() {
         'about.values.craftsmanship.body',
         'Every piece on Beldify is hand-finished by a verified Moroccan artisan. We work directly with ateliers in Fez, Marrakech, Casablanca and Tetouan to ensure the traditions of zellige stitching, brocade weaving and hand-embroidery survive another generation.'
       ),
-      image: 'https://pro.beldify.com/storage/categories/category_7.jpg',
+      image: 'https://pro.beldify.com/storage/categories/category_7_jabador.png',
       imageAlt: t('about.values.craftsmanship.imageAlt', 'A tailor working on a djellaba in a Fez atelier'),
     },
     {
@@ -32,7 +32,7 @@ export default function AboutPage() {
         'about.values.fairTrade.body',
         'We publish our commission rates openly (10–15 %) and pay sellers bi-weekly. No hidden fees, no race to the bottom on price. When you buy on Beldify, the artisan receives a living wage and keeps full creative control.'
       ),
-      image: 'https://pro.beldify.com/storage/categories/category_14.jpg',
+      image: 'https://pro.beldify.com/storage/categories/category_14_wedding-dresses.png',
       imageAlt: t('about.values.fairTrade.imageAlt', 'A seller reviewing an order on a phone'),
       reverse: true,
     },
@@ -43,7 +43,7 @@ export default function AboutPage() {
         'about.values.tailoring.body',
         'Our guided measurement form and video call option mean you never need to set foot in a medina to get a piece fitted perfectly. Pick your tailor, share your measurements, receive your garment in 2–4 weeks.'
       ),
-      image: 'https://pro.beldify.com/storage/categories/category_4.jpg',
+      image: 'https://pro.beldify.com/storage/categories/category_4_caftan.png',
       imageAlt: t('about.values.tailoring.imageAlt', 'Measuring tape on a caftan fabric'),
     },
     {
@@ -53,14 +53,14 @@ export default function AboutPage() {
         'about.values.community.body',
         'Beldify started as a WhatsApp group between three friends who were tired of seeing their grandmothers\' atelier struggle to reach customers abroad. Today we are a platform connecting 120+ ateliers with shoppers in 23 cities worldwide — and growing.'
       ),
-      image: 'https://pro.beldify.com/storage/categories/category_8.jpg',
+      image: 'https://pro.beldify.com/storage/categories/category_8_mens-kandora.png',
       imageAlt: t('about.values.community.imageAlt', 'Community of Moroccan artisans'),
       reverse: true,
     },
   ];
 
   return (
-    <main className="min-h-screen bg-amber-50/40 text-gray-900">
+    <main className="min-h-screen bg-canvas text-gray-900">
       {/* Editorial hero strip — DESIGN.md §6.4 */}
       <section className="relative isolate overflow-hidden bg-indigo-900 text-white">
         <div

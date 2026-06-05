@@ -144,20 +144,13 @@ const nextConfig = {
     ];
   },
 
-  // Override Next.js's default `Cache-Control: immutable` on app-router chunks
-  // so Cloudflare doesn't pin a stale dev-mode chunk for a year. We run `next dev`
-  // in production hosting, which emits chunks with stable filenames (no content
-  // hash) so cache busting via query alone can't be relied on.
-  async headers() {
-    return [
-      {
-        source: '/_next/static/chunks/app/:path*',
-        headers: [
-          { key: 'Cache-Control', value: 'public, max-age=60, must-revalidate' },
-        ],
-      },
-    ];
-  },
+  // NOTE: A second `async headers()` used to live here and silently overrode the
+  // comprehensive one above (duplicate object key — last one wins), disabling the
+  // security headers, `/api` no-store, and `/_next/static` immutable caching. It
+  // also documented running `next dev` in production, which is what made every
+  // navigation re-download unminified, uncacheable chunks. Both are fixed: prod
+  // now runs a real `next build` + `next start` (content-hashed, immutable chunks),
+  // so the single headers() above is the source of truth.
 }
 
 module.exports = withBundleAnalyzer(nextConfig);

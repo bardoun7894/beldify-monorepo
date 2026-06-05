@@ -48,7 +48,7 @@ export default function CustomOrderTrackingPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-amber-50/50 flex items-center justify-center">
+      <div className="min-h-screen bg-canvas flex items-center justify-center">
         <Loader2 className="h-8 w-8 animate-spin text-indigo-600" aria-label={isRTL ? 'جارٍ التحميل' : 'Loading'} />
       </div>
     );
@@ -56,7 +56,7 @@ export default function CustomOrderTrackingPage() {
 
   if (error || !order) {
     return (
-      <div className="min-h-screen bg-amber-50/50 flex items-center justify-center px-6">
+      <div className="min-h-screen bg-canvas flex items-center justify-center px-6">
         <div className="flex flex-col items-center gap-4 text-center max-w-sm">
           <div className="h-16 w-16 rounded-2xl bg-rose-50 ring-1 ring-rose-200 flex items-center justify-center">
             <XCircle className="h-8 w-8 text-rose-600" aria-hidden />
@@ -76,7 +76,7 @@ export default function CustomOrderTrackingPage() {
   const isJewelry = order.vertical === 'jewelry';
 
   return (
-    <div className="min-h-screen bg-amber-50/50 pb-20" dir={isRTL ? 'rtl' : 'ltr'}>
+    <div className="min-h-screen bg-canvas pb-20" dir={isRTL ? 'rtl' : 'ltr'}>
       {/* ── Header ── */}
       <header className="sticky top-0 z-20 bg-white/95 backdrop-blur-sm border-b border-amber-200 px-6 py-4">
         <div className="max-w-xl mx-auto flex items-center gap-3">

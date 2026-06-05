@@ -356,14 +356,14 @@ export default function ProductsPage() {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-amber-50/40">
+      <div className="min-h-screen bg-canvas">
         <ErrorState message={error.message} onRetry={handleRetry} />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-amber-50/40 pb-24 md:pb-16">
+    <div className="min-h-screen bg-canvas pb-24 md:pb-16">
       <OpenSoukRequestModal
         isOpen={openSouk.isOpen}
         onClose={openSouk.close}

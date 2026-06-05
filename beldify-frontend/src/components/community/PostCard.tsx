@@ -18,6 +18,7 @@ import { ar } from 'date-fns/locale';
 import type { CommunityPost } from '@/types/community';
 import { useDirection } from '@/hooks/useDirection';
 import { useAuth } from '@/contexts/AuthContext';
+import ShareButton from '@/components/share/ShareButton';
 
 interface PostCardProps {
   post: CommunityPost & {
@@ -323,6 +324,14 @@ export default function PostCard({ post, isUserPost = false }: PostCardProps) {
         </div>
       </article>
     </Link>
+      {/* Share — sibling of <Link> (never nested) so it shares the request
+          without navigating. Offset sits over the image band (fixed h-44). */}
+      <ShareButton
+        variant="icon"
+        className="absolute top-[8.25rem] end-3 z-10"
+        url={`/community/posts/${post.id}`}
+        title={post.title}
+      />
       {canRespond && (
         <a
           href={sellerRespondUrl}

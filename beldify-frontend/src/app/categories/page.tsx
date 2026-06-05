@@ -148,7 +148,7 @@ export default function CategoriesPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-amber-50/40 flex items-center justify-center">
+      <div className="min-h-screen bg-canvas flex items-center justify-center">
         <div className="flex flex-col items-center gap-4">
           <Loading size="lg" />
           <p className="text-gray-500 animate-pulse text-sm font-arabic">
@@ -161,7 +161,7 @@ export default function CategoriesPage() {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-amber-50/40 flex flex-col items-center justify-center px-4">
+      <div className="min-h-screen bg-canvas flex flex-col items-center justify-center px-4">
         <div className="bg-white border border-amber-200 rounded-2xl p-10 max-w-md w-full text-center shadow-atlas-sm">
           <div className="text-rose-700 mb-4 text-base font-medium">{error}</div>
           <p className="text-gray-500 mb-8 text-sm">
@@ -180,7 +180,7 @@ export default function CategoriesPage() {
   }
 
   return (
-    <div className="min-h-screen bg-amber-50/40 pb-20">
+    <div className="min-h-screen bg-canvas pb-20">
       {/* ── Editorial hero strip ─────────────────────────────────────── */}
       <section className="relative isolate overflow-hidden bg-indigo-950 text-white">
         {/* Ambient radial light — amber warm left, indigo accent right */}

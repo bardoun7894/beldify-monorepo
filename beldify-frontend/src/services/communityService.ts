@@ -71,11 +71,12 @@ const getAuthToken = (): string | null => {
   return null;
 };
 
-// Function to get CSRF token
+// Function to get CSRF token — uses same-origin Next.js route to avoid CORS
 const getCsrfToken = async () => {
   try {
-    // Use API_BASE_URL, not API_V1_URL for CSRF cookies
-    const response = await axios.get(`${API_BASE_URL}/csrf-cookie`, { withCredentials: true });
+    // Use the same-origin Next.js proxy route; never call pro.beldify.com directly
+    // from the browser (cross-origin CORS block).
+    const response = await axios.get('/api/csrf-token', { withCredentials: true });
     logger.log('CSRF token response:', response.data);
     return true;
   } catch (error) {
@@ -87,7 +88,7 @@ const getCsrfToken = async () => {
 
 // Create axios instance with default configuration
 const axiosInstance = axios.create({
-  baseURL: API_V1_URL, // Use the v1 API endpoint
+  baseURL: LOCAL_API_BASE, // Route through Next.js same-origin proxy at /api
   headers: {
     'Content-Type': 'application/json',
     'Accept': 'application/json',
@@ -247,11 +248,10 @@ export const createCommunityPost = async (formData: FormData): Promise<Community
  * Update an existing community post
  */
 export const updateCommunityPost = async (id: string, formData: FormData): Promise<CommunityPost> => {
-  // We need to append the _method field for the backend to recognize it as a PUT request
-  // when sent with multipart/form-data
-  formData.append('_method', 'PUT');
-  
-  return axiosInstance.post<PostCreationResponse>(`/community/posts/${id}`, formData, {
+  // Use PUT directly — the Next.js route handler at /api/community/posts/[id]
+  // exports a PUT handler. The _method spoofing trick is only needed for
+  // Laravel when called directly; the Next proxy dispatches on real HTTP verbs.
+  return axiosInstance.put<PostCreationResponse>(`/community/posts/${id}`, formData, {
     headers: {
       'Content-Type': 'multipart/form-data',
     },

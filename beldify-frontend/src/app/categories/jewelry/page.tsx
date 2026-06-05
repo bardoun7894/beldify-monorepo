@@ -95,7 +95,7 @@ export default function JewelryCategoryPage() {
   };
 
   return (
-    <div className="min-h-screen bg-amber-50/50 pb-20" dir={isRTL ? 'rtl' : 'ltr'}>
+    <div className="min-h-screen bg-canvas pb-20" dir={isRTL ? 'rtl' : 'ltr'}>
       {/* ── Hero ── */}
       <div className="bg-indigo-950 text-white px-6 py-12">
         <div className="max-w-5xl mx-auto">

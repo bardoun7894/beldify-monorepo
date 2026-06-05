@@ -24,7 +24,7 @@ export default function NewCustomOrderPage() {
   const isRTL = i18n.language === 'ar';
 
   return (
-    <div className="min-h-screen bg-amber-50/50 pb-20" dir={isRTL ? 'rtl' : 'ltr'}>
+    <div className="min-h-screen bg-canvas pb-20" dir={isRTL ? 'rtl' : 'ltr'}>
       {/* ── Header ── */}
       <header className="sticky top-0 z-20 bg-white/95 backdrop-blur-sm border-b border-amber-200 px-6 py-4">
         <div className="max-w-xl mx-auto flex items-center gap-3">

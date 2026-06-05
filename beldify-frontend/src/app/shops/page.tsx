@@ -150,7 +150,7 @@ export default function ShopsPage() {
 
   if (error) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center bg-amber-50/40 gap-5 px-6">
+      <div className="min-h-screen flex flex-col items-center justify-center bg-canvas gap-5 px-6">
         <div className="rounded-2xl bg-white ring-1 ring-rose-200 shadow-atlas-sm px-10 py-10 flex flex-col items-center gap-4 max-w-sm w-full text-center">
           <div className="h-14 w-14 rounded-full bg-rose-50 ring-1 ring-rose-200 flex items-center justify-center">
             <ShoppingBagIcon className="h-7 w-7 text-rose-700" aria-hidden="true" />
@@ -171,7 +171,7 @@ export default function ShopsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-amber-50/40 pb-16">
+    <div className="min-h-screen bg-canvas pb-16">
       {/* Editorial hero — indigo-950 surface, no eyebrow kicker */}
       <section className="relative isolate overflow-hidden bg-indigo-950">
         <div

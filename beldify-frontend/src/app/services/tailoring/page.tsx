@@ -8,19 +8,19 @@ import { Button } from '@/components/ui/button';
 
 const galleryImages = [
   {
-    src: 'https://pro.beldify.com/storage/categories/category_7.jpg',
+    src: 'https://pro.beldify.com/storage/categories/category_7_jabador.png',
     alt: "Men's traditional djellaba atelier",
   },
   {
-    src: 'https://pro.beldify.com/storage/categories/category_8.jpg',
+    src: 'https://pro.beldify.com/storage/categories/category_8_mens-kandora.png',
     alt: 'Hand-embroidered caftan detail',
   },
   {
-    src: 'https://pro.beldify.com/storage/categories/category_14.jpg',
+    src: 'https://pro.beldify.com/storage/categories/category_14_wedding-dresses.png',
     alt: 'Wedding takchita in progress',
   },
   {
-    src: 'https://pro.beldify.com/storage/categories/category_4.jpg',
+    src: 'https://pro.beldify.com/storage/categories/category_4_caftan.png',
     alt: 'Brocade weaving, Fez atelier',
   },
 ];
@@ -49,7 +49,7 @@ export default function TailoringPage() {
   const { t } = useTranslation();
 
   return (
-    <main className="min-h-screen bg-amber-50/40 text-gray-900">
+    <main className="min-h-screen bg-canvas text-gray-900">
       {/* ── Editorial hero — dark indigo-950 strip, asymmetric 12-col on desktop ── */}
       <section className="relative isolate overflow-hidden bg-indigo-950 text-white">
         {/* Zellige motif overlay (§13.1) */}
@@ -91,7 +91,7 @@ export default function TailoringPage() {
             <div className="lg:col-span-5">
               <div className="relative aspect-[4/5] overflow-hidden rounded-2xl ring-1 ring-white/15 shadow-atlas-lg">
                 <Image
-                  src="https://pro.beldify.com/storage/categories/category_8.jpg"
+                  src="https://pro.beldify.com/storage/categories/category_8_mens-kandora.png"
                   alt={t('tailoring.heroImageAlt', 'Hand-embroidered caftan detail, Moroccan atelier')}
                   fill
                   sizes="(min-width:1024px) 40vw, 100vw"

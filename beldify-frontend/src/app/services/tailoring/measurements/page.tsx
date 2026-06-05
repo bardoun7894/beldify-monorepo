@@ -36,7 +36,7 @@ export default function MeasurementsPage() {
   );
 
   return (
-    <div className="min-h-screen bg-amber-50/40">
+    <div className="min-h-screen bg-canvas">
       {/* ── Editorial hero strip — Atlas indigo-950 dark surface ── */}
       <section className="relative isolate overflow-hidden bg-indigo-950 text-white">
         <div

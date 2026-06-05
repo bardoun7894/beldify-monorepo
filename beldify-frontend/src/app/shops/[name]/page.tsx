@@ -10,6 +10,7 @@ import { shopService } from '@/services/shopService';
 import { useParams, useRouter } from 'next/navigation';
 import { getImageUrl, handleImageError } from '@/utils/imageUtils';
 import { default as ProductCard } from '@/components/products/ProductCard';
+import ShareButton from '@/components/share/ShareButton';
 import {
   Star,
   BadgeCheck,
@@ -43,10 +44,10 @@ function extractCity(shop: Shop): string {
 }
 
 const ATELIER_IMAGES = [
-  'https://pro.beldify.com/storage/categories/category_4.jpg',
-  'https://pro.beldify.com/storage/categories/category_7.jpg',
-  'https://pro.beldify.com/storage/categories/category_14.jpg',
-  'https://pro.beldify.com/storage/categories/category_8.jpg',
+  'https://pro.beldify.com/storage/categories/category_4_caftan.png',
+  'https://pro.beldify.com/storage/categories/category_7_jabador.png',
+  'https://pro.beldify.com/storage/categories/category_14_wedding-dresses.png',
+  'https://pro.beldify.com/storage/categories/category_8_mens-kandora.png',
 ];
 
 const STATIC_ATELIERS = [
@@ -106,7 +107,7 @@ const STATIC_REVIEWS = [
 // ─── Loading skeleton ────────────────────────────────────────────────────────
 function ShopProfileSkeleton() {
   return (
-    <div className="bg-amber-50/40 min-h-screen">
+    <div className="bg-canvas min-h-screen">
       {/* Cover skeleton */}
       <div className="h-72 sm:h-[28rem] bg-amber-100/70 animate-pulse" />
       {/* Stats card skeleton */}
@@ -331,7 +332,7 @@ export default function ShopPage() {
 
   if (error || !shop) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center bg-amber-50/40 gap-5 px-6">
+      <div className="min-h-screen flex flex-col items-center justify-center bg-canvas gap-5 px-6">
         <div className="rounded-2xl bg-white ring-1 ring-amber-200 shadow-atlas-sm px-10 py-12 flex flex-col items-center gap-4 max-w-sm w-full text-center">
           <p
             className="text-5xl font-bold text-indigo-700"
@@ -359,7 +360,7 @@ export default function ShopPage() {
   // ── render ─────────────────────────────────────────────────────────────────
 
   return (
-    <div className="bg-amber-50/40 min-h-screen">
+    <div className="bg-canvas min-h-screen">
 
       {/* ── 1. Cover Hero ──────────────────────────────────────────────────── */}
       <section className="relative h-72 sm:h-[28rem] overflow-hidden bg-indigo-950">
@@ -516,6 +517,14 @@ export default function ShopPage() {
                 ? t('shops.shop.following', 'Following')
                 : t('shops.shop.follow', 'Follow Atelier')}
           </button>
+
+          {/* Share the atelier — sellers paste this into their bio/Status to
+              funnel their own audience into Beldify. */}
+          <ShareButton
+            className="mt-8 ltr:ml-3 rtl:mr-3 align-top"
+            title={shop?.name}
+            label={t('share.share_shop', 'Share atelier')}
+          />
         </div>
 
         {/* Right: 2×2 staggered image grid */}

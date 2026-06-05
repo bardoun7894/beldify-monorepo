@@ -57,7 +57,7 @@ export default function ReturnsPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-amber-50 py-16 sm:py-20" dir={isRTL ? 'rtl' : 'ltr'}>
+    <div className="min-h-screen bg-canvas py-16 sm:py-20" dir={isRTL ? 'rtl' : 'ltr'}>
       <div className="max-w-7xl mx-auto px-6">
         {/* Page header */}
         <div className="text-center mb-12">

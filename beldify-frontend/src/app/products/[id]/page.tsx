@@ -7,7 +7,10 @@ import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
 import ReviewsSection from '@/components/reviews/ReviewsSection';
 import RelatedProducts from '@/components/products/RelatedProducts';
+import ShareButton from '@/components/share/ShareButton';
 import { productService } from '@/services/api';
+import { Product } from '@/lib/types';
+import { partitionShelves } from './partitionShelves';
 import { useDirection } from '@/hooks/useDirection';
 import { formatPrice } from '@/utils/formatters';
 import { getColorName, useLazyColorName } from '@/utils/colorNamer';
@@ -27,6 +30,7 @@ import {
   Plus,
   Minus,
   ChevronDown,
+  Sparkles,
 } from 'lucide-react';
 import { useCart } from '@/contexts/CartContext';
 import { useAuth } from '@/contexts/AuthContext';
@@ -86,7 +90,15 @@ interface ProductDetails {
   name_ar?: string;
   description: string;
   price: number;
-  stock?: number; // Main product stock quantity (matches backend API)
+  /** Hybrid-stock object for variant-less products (new backend contract).
+   *  quantity: null = made-to-order (unlimited production, always purchasable).
+   *  Legacy scalar `quantity` field kept for backward compatibility only. */
+  stock?: {
+    id: string;
+    quantity: number | null;
+    in_stock: boolean;
+    made_to_order: boolean;
+  } | null;
   quantity?: number | string; // Legacy field for backward compatibility
   main_image?: string;
   images: ProductImage[];
@@ -149,10 +161,15 @@ export default function ProductDetailsPage() {
   const [selectedSize, setSelectedSize] = useState<VariantSize | null>(null);
   const [selectedFabric, setSelectedFabric] = useState<VariantFabric | null>(null);
   const [selectedImage, setSelectedImage] = useState<ProductImage | null>(null);
+  // Fetched once; partitioned between "Complete the look" (first 4) and
+  // "You might also like" (next 4) so the two shelves show distinct items.
+  const [allRelatedProducts, setAllRelatedProducts] = useState<Product[]>([]);
 
   // State for active main image index in the simple gallery
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [activeTab, setActiveTab] = useState<'description' | 'specs' | 'sizing' | 'reviews'>('description');
+  // Click-to-zoom lightbox state
+  const [isZoomed, setIsZoomed] = useState(false);
   const { addItem } = useCart();
   const { user, isAuthenticated } = useAuth();
   const { isInWishlist, addToWishlist, removeFromWishlist } = useWishlist();
@@ -275,57 +292,31 @@ export default function ProductDetailsPage() {
         return true;
       }
     } else if (product) {
-      // For products WITHOUT variants, check main product stock
-      // Use 'stock' field first (matches backend API), fallback to 'quantity' for backward compatibility
-      const productStock = product.stock ?? product.quantity;
-      logger.log('Checking main product stock:', {
-        productId: product.id,
-        stock: product.stock,
-        quantity: product.quantity,
-        finalStock: productStock,
-        stockType: typeof productStock,
-        requestedQty: quantity
-      });
-
-      // Check if main product is out of stock
-      // Handle various edge cases: null, undefined, 0, "0", empty string, false, negative values, invalid strings
-      if (productStock === null || productStock === undefined || productStock === 0 || productStock === "0" || productStock === "") {
-        logger.log('Button disabled: Main product out of stock');
-        return true;
-      }
-      
-      // Handle boolean false separately
-      if (typeof productStock === 'boolean' && productStock === false) {
-        logger.log('Button disabled: Main product out of stock');
-        return true;
-      }
-
-      // Convert to number and validate
-      let availableStock;
-      if (typeof productStock === 'string') {
-        availableStock = parseInt(productStock);
-        // Handle invalid string conversions (NaN) or negative values
-        if (isNaN(availableStock) || availableStock <= 0) {
-          logger.log('Button disabled: Invalid or negative stock value');
+      // For products WITHOUT variants, use the hybrid-stock object (new backend contract)
+      if (product.stock) {
+        // New stock object path: use in_stock flag directly
+        if (product.stock.in_stock === false) {
+          logger.log('Button disabled: product.stock.in_stock is false');
           return true;
         }
-      } else if (typeof productStock === 'number') {
-        // Handle negative numbers
-        if (productStock <= 0) {
-          logger.log('Button disabled: Negative or zero stock');
+        // made_to_order and in_stock === true → always purchasable (null quantity = unlimited)
+        // If quantity is a finite number, check it covers the requested amount
+        if (
+          product.stock.quantity !== null &&
+          typeof product.stock.quantity === 'number' &&
+          quantity > product.stock.quantity
+        ) {
+          logger.log('Button disabled: Requested quantity exceeds main product stock');
           return true;
         }
-        availableStock = productStock;
       } else {
-        // Handle any other unexpected types
-        logger.log('Button disabled: Invalid stock type');
-        return true;
-      }
-
-      // Check if requested quantity exceeds available stock
-      if (quantity > availableStock) {
-        logger.log('Button disabled: Requested quantity exceeds main product stock');
-        return true;
+        // Legacy fallback: no stock object — use quantity field
+        const legacyStock = product.quantity;
+        const legacyNum = typeof legacyStock === 'string' ? parseInt(legacyStock) : legacyStock;
+        if (!legacyNum || legacyNum <= 0) {
+          logger.log('Button disabled: Legacy stock unavailable');
+          return true;
+        }
       }
     }
 
@@ -858,6 +849,27 @@ export default function ProductDetailsPage() {
     }
 
     try {
+      // ── Variant-less path (hybrid-stock backend contract) ──────────────────
+      // When a product has no variants, use product.stock object to add by stock_id.
+      if (product && product.variants.length === 0 && product.stock) {
+        const stockId = Number(product.stock.id);
+        const loadingToast = toast.loading('Adding to cart...');
+        try {
+          await addItem(Number(product.stock.id), quantity, 'stock');
+        } catch (error) {
+          logger.error('Variant-less cart error:', {
+            stockId,
+            error: error instanceof Error ? error.message : 'Unknown error'
+          });
+          throw error;
+        }
+        toast.dismiss(loadingToast);
+        toast.success(t('success.addedToCart'), { icon: '🛒', duration: 3000 });
+        setQuantity(1);
+        return;
+      }
+
+      // ── Variant path ───────────────────────────────────────────────────────
       // Enhanced checks to ensure selectedVariant is valid
       if (!selectedVariant || typeof selectedVariant.id !== 'string') {
         logger.error('Invalid selectedVariant:', selectedVariant);
@@ -962,8 +974,13 @@ export default function ProductDetailsPage() {
           itemId = Number(selectedVariant.id);
           idType = 'variant';
           logger.log('Using variant_id for purchase:', itemId);
+        } else if (product.stock?.id) {
+          // Variant-less product: use the hybrid stock object id (current backend contract)
+          itemId = Number(product.stock.id);
+          idType = 'stock';
+          logger.log('Using stock.id for purchase:', itemId);
         } else if (product.stock_id) {
-          // Otherwise fall back to stock_id
+          // Legacy fallback: top-level scalar stock_id
           itemId = Number(product.stock_id);
           logger.log('Using stock_id for purchase:', itemId);
         } else {
@@ -1020,9 +1037,21 @@ export default function ProductDetailsPage() {
     fetchProduct();
   }, [id]);
 
+  // Fetch 8 related products once; split into two distinct shelf slices:
+  //   [0..3] → "Complete the look" up-sell shelf
+  //   [4..7] → "You might also like" shelf
+  // This guarantees the two shelves always show different items.
+  useEffect(() => {
+    if (!id) return;
+    const productId = Array.isArray(id) ? id[0] : id;
+    productService.getRelatedProducts(productId, 8)
+      .then((data) => setAllRelatedProducts(data.products || []))
+      .catch(() => setAllRelatedProducts([]));
+  }, [id]);
+
   if (loading) {
     return (
-      <div className="bg-amber-50 min-h-screen">
+      <div className="bg-canvas min-h-screen">
         <div className="max-w-7xl mx-auto px-6 pt-6 pb-16">
           {/* Breadcrumb skeleton */}
           <div className="flex items-center gap-2 mb-8">
@@ -1062,7 +1091,7 @@ export default function ProductDetailsPage() {
                 ))}
               </div>
               <div className="flex gap-2">
-                {['S', 'M', 'L', 'XL'].map((_, i) => (
+                {[0, 1, 2, 3].map((i) => (
                   <div key={i} className="h-8 w-14 rounded-full bg-amber-100/70 animate-pulse" />
                 ))}
               </div>
@@ -1077,7 +1106,7 @@ export default function ProductDetailsPage() {
 
   if (error || !product) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-amber-50">
+      <div className="min-h-screen flex items-center justify-center bg-canvas">
         <div className="flex flex-col items-center gap-4 text-center px-6 max-w-sm">
           <div className="h-16 w-16 rounded-2xl bg-rose-50 ring-1 ring-rose-200 flex items-center justify-center">
             <XCircle className="h-8 w-8 text-rose-700" aria-hidden />
@@ -1143,43 +1172,29 @@ export default function ProductDetailsPage() {
   // Get the stock status for the current variant or main product
   const stockStatus = (() => {
     if (selectedVariant) {
-      return selectedVariant.quantity > 0 
-        ? `${t('stock.in_stock')} (${selectedVariant.quantity})` 
+      return selectedVariant.quantity > 0
+        ? `${t('stock.in_stock')} (${selectedVariant.quantity})`
         : t('stock.out_of_stock');
     }
-    
-    if (product) {
-      const productStock = product.stock ?? product.quantity;
-      
-      // Handle edge cases for stock status display
-       if (productStock === null || productStock === undefined || productStock === 0 || productStock === "0" || productStock === "") {
-         return t('stock.out_of_stock');
-       }
-       
-       // Handle boolean false separately
-       if (typeof productStock === 'boolean' && productStock === false) {
-        return t('stock.out_of_stock');
+
+    if (product && product.stock) {
+      // New hybrid-stock object path
+      if (!product.stock.in_stock) return t('stock.out_of_stock');
+      if (product.stock.made_to_order) return t('stock.made_to_order', 'Made to order');
+      if (product.stock.quantity !== null) {
+        return `${t('stock.in_stock_simple', 'In stock')} (${product.stock.quantity})`;
       }
-      
-      // Convert to number and validate
-      let stockValue;
-      if (typeof productStock === 'string') {
-        stockValue = parseInt(productStock);
-        if (isNaN(stockValue) || stockValue <= 0) {
-          return t('stock.out_of_stock');
-        }
-      } else if (typeof productStock === 'number') {
-        if (productStock <= 0) {
-          return t('stock.out_of_stock');
-        }
-        stockValue = productStock;
-      } else {
-        return t('stock.out_of_stock');
-      }
-      
-      return `${t('stock.in_stock')} (${stockValue})`;
+      return t('stock.in_stock_simple', 'In stock');
     }
-    
+
+    // Legacy fallback
+    if (product) {
+      const legacyStock = product.quantity;
+      const legacyNum = typeof legacyStock === 'string' ? parseInt(legacyStock) : legacyStock;
+      if (!legacyNum || legacyNum <= 0) return t('stock.out_of_stock');
+      return `${t('stock.in_stock_simple', 'In stock')} (${legacyNum})`;
+    }
+
     return t('stock.out_of_stock');
   })();
 
@@ -1220,13 +1235,11 @@ export default function ProductDetailsPage() {
     ? t('product.new', 'NEW')
     : displayCategory || '';
 
-  // Size pills — use variant sizes if present, else default
-  const sizePills: string[] = availableSizes.length > 0
-    ? availableSizes.map(s => s.name)
-    : ['S', 'M', 'L', 'XL'];
+  // Size pills — only from real variant sizes; render nothing when no sizes available
+  const sizePills: string[] = availableSizes.map(s => s.name);
 
   return (
-    <div className="bg-amber-50 min-h-screen pb-20 md:pb-16">
+    <div className="bg-canvas min-h-screen pb-20 md:pb-16">
     <main className="max-w-7xl mx-auto" role="main">
       {/* ── 1. Breadcrumb strip ── */}
       <nav className="px-6 py-4 text-sm text-gray-500" aria-label={t('catalog.pdp.breadcrumb_label', 'Breadcrumb')}>
@@ -1264,7 +1277,14 @@ export default function ProductDetailsPage() {
         {/* ── Left: Image gallery ── */}
         <div className="flex flex-col gap-4">
           {/* Main image — 4:5 aspect, warm parchment bg, Atlas rounded-2xl */}
-          <div className="relative w-full aspect-[4/5] rounded-2xl overflow-hidden ring-1 ring-amber-200 bg-amber-50 shadow-atlas-sm group">
+          <div
+            className="relative w-full aspect-[4/5] rounded-2xl overflow-hidden ring-1 ring-amber-200 bg-amber-50 shadow-atlas-sm group cursor-zoom-in"
+            onClick={() => getCurrentImageUrl() && setIsZoomed(true)}
+            role="button"
+            aria-label={t('product.zoom_image', 'Zoom image')}
+            tabIndex={0}
+            onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); getCurrentImageUrl() && setIsZoomed(true); } }}
+          >
             {getCurrentImageUrl() ? (
               <Image
                 src={getCurrentImageUrl()}
@@ -1386,9 +1406,15 @@ export default function ProductDetailsPage() {
             )}
           </div>
 
-          {/* Rating row */}
-          {product.rating != null && (
+          {/* Rating row — real stars only once reviews exist; a brand-new product
+              shows a positive Saffron-amber "new" badge instead of empty grey stars
+              (avoids the negative "0.0 (0 reviews)" social-proof penalty). */}
+          {(product.reviews_count ?? 0) > 0 ? (
             <div className="flex items-center gap-2 text-sm">
+              {/* Numeric score — prominent social proof anchor */}
+              <span className="font-bold text-gray-900 tabular-nums">
+                {(product.rating ?? 0).toFixed(1)}
+              </span>
               {/* Spoken label announces the rating rounded to the nearest half, so it
                   agrees with the rendered half-star fill (e.g. 3.4 → "3.5 stars"). */}
               <span
@@ -1423,53 +1449,82 @@ export default function ProductDetailsPage() {
                 ({product.reviews_count ?? 0} {t('product.reviews', 'reviews')})
               </a>
             </div>
+          ) : (
+            <a
+              href="#reviews"
+              className="inline-flex items-center gap-1.5 self-start rounded-full bg-amber-100/80 px-3 py-1 text-xs font-semibold text-amber-700 ring-1 ring-amber-200 hover:bg-amber-100 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30"
+            >
+              <Sparkles className="h-3.5 w-3.5" aria-hidden />
+              {t('product.be_first_review', 'New — be the first to review')}
+            </a>
           )}
 
-          {/* Seller card — rich editorial block */}
-          <div className="flex items-center gap-3 bg-amber-50 ring-1 ring-amber-200 rounded-2xl px-4 py-3">
-            {/* Shop logo / monogram */}
-            <div className="shrink-0 h-10 w-10 rounded-full bg-indigo-700 flex items-center justify-center shadow-atlas-sm">
-              {product.shop?.logo ? (
-                <Image
-                  src={buildImageUrl(product.shop.logo)}
-                  alt={product.shop.name ?? 'Shop'}
-                  width={40}
-                  height={40}
-                  className="rounded-full object-cover"
-                />
-              ) : (
-                <span className="text-white font-semibold text-sm">
-                  {(product.shop?.name ?? 'A').charAt(0).toUpperCase()}
-                </span>
-              )}
-            </div>
-            <div className="flex-1 min-w-0">
-              <div className="flex items-center gap-1.5 flex-wrap">
-                <span className="font-semibold text-gray-900 text-sm truncate">
-                  {product.shop?.name ?? t('shop.default_name')}
-                </span>
-                <BadgeCheck className="h-4 w-4 text-indigo-700 shrink-0" aria-label={t('shop.verified', 'Verified')} />
-              </div>
-              {product.shop?.location && (
-                <p className="font-mono text-[10px] tracking-[0.2em] uppercase text-gray-500 mt-0.5">
-                  {product.shop.location} · {t('pdp.artisanMade', 'artisan made')}
-                </p>
-              )}
-            </div>
-            {product.shop?.url_name && (
+          {/* Seller card — clickable when the shop has a public page; always
+              balanced via justify-between + an always-present subtitle, so a shop
+              with no location/url never leaves a gaping void on one side. */}
+          {(() => {
+            const shopName = product.shop?.name ?? t('shop.default_name');
+            const subtitle = product.shop?.location
+              ? `${product.shop.location} · ${t('pdp.artisanMade', 'artisan made')}`
+              : t('pdp.trustedArtisan', 'Verified artisan seller');
+            const inner = (
+              <>
+                <div className="flex items-center gap-3 min-w-0">
+                  {/* Shop logo / monogram */}
+                  <div className="shrink-0 h-11 w-11 rounded-full bg-indigo-700 flex items-center justify-center shadow-atlas-sm overflow-hidden">
+                    {product.shop?.logo ? (
+                      <Image
+                        src={buildImageUrl(product.shop.logo)}
+                        alt={shopName}
+                        width={44}
+                        height={44}
+                        className="rounded-full object-cover"
+                      />
+                    ) : (
+                      <span className="text-white font-semibold text-sm">
+                        {shopName.charAt(0).toUpperCase()}
+                      </span>
+                    )}
+                  </div>
+                  <div className="min-w-0">
+                    <div className="flex items-center gap-1.5">
+                      <span className="font-semibold text-gray-900 text-sm truncate">
+                        {shopName}
+                      </span>
+                      <BadgeCheck className="h-4 w-4 text-indigo-700 shrink-0" aria-label={t('shop.verified', 'Verified')} />
+                    </div>
+                    <p className="text-xs text-gray-500 truncate mt-0.5">{subtitle}</p>
+                  </div>
+                </div>
+                {product.shop?.url_name && (
+                  <span className="shrink-0 inline-flex items-center gap-1 rounded-full bg-indigo-50 px-3.5 py-2 text-xs font-semibold text-indigo-700 group-hover/seller:bg-indigo-100 transition-colors">
+                    {t('shop.visit', 'Visit shop')}
+                    <ArrowRight className="h-3.5 w-3.5 rtl:rotate-180" aria-hidden />
+                  </span>
+                )}
+              </>
+            );
+            return product.shop?.url_name ? (
               <Link
                 href={`/shops/${product.shop.url_name}`}
-                className="shrink-0 text-xs text-indigo-700 hover:text-indigo-900 font-medium underline-offset-2 hover:underline transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30 rounded"
+                className="group/seller flex items-center justify-between gap-3 bg-amber-50 ring-1 ring-amber-200 rounded-2xl px-4 py-3 hover:ring-indigo-300 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30"
                 aria-label={t('shop.visit', 'Visit shop')}
               >
-                {t('shop.visit', 'Visit shop')}
+                {inner}
               </Link>
-            )}
-          </div>
+            ) : (
+              <div className="flex items-center justify-between gap-3 bg-amber-50 ring-1 ring-amber-200 rounded-2xl px-4 py-3">
+                {inner}
+              </div>
+            );
+          })()}
 
-          {/* Description — 3 lines, styled */}
+          {/* Description — 3 lines, styled. dir="auto" lets the browser detect the
+              text's language from the first strong character, so an English blurb on
+              an RTL page renders left-aligned with punctuation in the right place
+              instead of a period floating to the wrong side. */}
           {product.description && (
-            <p className="text-gray-600 text-sm leading-relaxed line-clamp-3 border-s-2 border-amber-300 ps-3">
+            <p dir="auto" className="text-gray-600 text-sm leading-relaxed line-clamp-3 border-s-2 border-amber-300 ps-3 text-start">
               {product.description}
             </p>
           )}
@@ -1509,46 +1564,48 @@ export default function ProductDetailsPage() {
             </fieldset>
           )}
 
-          {/* Size pills */}
-          <fieldset>
-            <div className="flex items-center justify-between mb-2">
-              <legend className="text-sm font-medium text-gray-800">
-                {t('product.size', 'Size')}
-              </legend>
-            </div>
-            <div className="flex flex-wrap gap-2" role="radiogroup">
-              {sizePills.map((sizeName) => {
-                const sizeObj = availableSizes.find(s => s.name === sizeName);
-                const isSelected = sizeObj
-                  ? selectedSize?.id === sizeObj.id
-                  : false;
-                const isAvail = sizeObj
-                  ? !selectedColor || product.variants.some(
-                      v => v.size?.id === sizeObj.id && v.color?.id === selectedColor.id && v.quantity > 0
-                    )
-                  : true;
-                return (
-                  <button
-                    key={sizeName}
-                    onClick={() => sizeObj && isAvail && handleSizeSelection(sizeObj)}
-                    disabled={!!sizeObj && !isAvail}
-                    role="radio"
-                    aria-checked={isSelected}
-                    className={cn(
-                      'px-4 py-1.5 rounded-full text-sm font-medium transition-all duration-200',
-                      isSelected
-                        ? 'bg-indigo-700 text-white'
-                        : isAvail
-                          ? 'bg-white ring-1 ring-amber-200 text-gray-700 hover:ring-indigo-300'
-                          : 'bg-gray-100 text-gray-400 ring-1 ring-gray-200 cursor-not-allowed'
-                    )}
-                  >
-                    {sizeName}
-                  </button>
-                );
-              })}
-            </div>
-          </fieldset>
+          {/* Size pills — only rendered when real variant sizes are present */}
+          {availableSizes.length > 0 && (
+            <fieldset>
+              <div className="flex items-center justify-between mb-2">
+                <legend className="text-sm font-medium text-gray-800">
+                  {t('product.size', 'Size')}
+                </legend>
+              </div>
+              <div className="flex flex-wrap gap-2" role="radiogroup">
+                {sizePills.map((sizeName) => {
+                  const sizeObj = availableSizes.find(s => s.name === sizeName);
+                  const isSelected = sizeObj
+                    ? selectedSize?.id === sizeObj.id
+                    : false;
+                  const isAvail = sizeObj
+                    ? !selectedColor || product.variants.some(
+                        v => v.size?.id === sizeObj.id && v.color?.id === selectedColor.id && v.quantity > 0
+                      )
+                    : true;
+                  return (
+                    <button
+                      key={sizeName}
+                      onClick={() => sizeObj && isAvail && handleSizeSelection(sizeObj)}
+                      disabled={!!sizeObj && !isAvail}
+                      role="radio"
+                      aria-checked={isSelected}
+                      className={cn(
+                        'px-4 py-1.5 rounded-full text-sm font-medium transition-all duration-200',
+                        isSelected
+                          ? 'bg-indigo-700 text-white'
+                          : isAvail
+                            ? 'bg-white ring-1 ring-amber-200 text-gray-700 hover:ring-indigo-300'
+                            : 'bg-gray-100 text-gray-400 ring-1 ring-gray-200 cursor-not-allowed'
+                      )}
+                    >
+                      {sizeName}
+                    </button>
+                  );
+                })}
+              </div>
+            </fieldset>
+          )}
 
           {/* Fabric picker (if present) */}
           {availableFabrics.length > 0 && (
@@ -1627,17 +1684,42 @@ export default function ProductDetailsPage() {
                   <Plus className="h-3.5 w-3.5 text-gray-700" aria-hidden />
                 </button>
               </div>
-              {/* Stock indicator */}
+              {/* Stock indicator — variant path */}
               {selectedVariant && (
                 <span className={cn(
                   'text-xs font-medium rounded-full px-2.5 py-1',
                   selectedVariant.quantity > 0
-                    ? 'bg-emerald-50 text-emerald-700 ring-1 ring-emerald-200'
+                    ? selectedVariant.quantity <= 5
+                      ? 'bg-amber-50 text-amber-700 ring-1 ring-amber-200'
+                      : 'bg-emerald-50 text-emerald-700 ring-1 ring-emerald-200'
                     : 'bg-rose-50 text-rose-700 ring-1 ring-rose-200'
                 )}>
                   {selectedVariant.quantity > 0
-                    ? `${selectedVariant.quantity} ${t('stock.available', 'available')}`
+                    ? selectedVariant.quantity <= 5
+                      ? t('stock.only_left', 'Only {{count}} left', { count: selectedVariant.quantity })
+                      : `${selectedVariant.quantity} ${t('stock.available', 'available')}`
                     : t('stock.out_of_stock', 'Out of stock')}
+                </span>
+              )}
+              {/* Stock indicator — variant-less (hybrid-stock) path */}
+              {!selectedVariant && product.variants.length === 0 && product.stock && (
+                <span className={cn(
+                  'text-xs font-medium rounded-full px-2.5 py-1',
+                  !product.stock.in_stock
+                    ? 'bg-rose-50 text-rose-700 ring-1 ring-rose-200'
+                    : product.stock.made_to_order
+                      ? 'bg-indigo-50 text-indigo-700 ring-1 ring-indigo-200'
+                      : product.stock.quantity !== null && product.stock.quantity <= 5
+                        ? 'bg-amber-50 text-amber-700 ring-1 ring-amber-200'
+                        : 'bg-emerald-50 text-emerald-700 ring-1 ring-emerald-200'
+                )}>
+                  {!product.stock.in_stock
+                    ? t('stock.out_of_stock', 'Out of stock')
+                    : product.stock.made_to_order
+                      ? t('stock.made_to_order', 'Made to order')
+                      : product.stock.quantity !== null && product.stock.quantity <= 5
+                        ? t('stock.only_left', 'Only {{count}} left', { count: product.stock.quantity })
+                        : t('stock.in_stock_simple', 'In stock')}
                 </span>
               )}
             </div>
@@ -1664,7 +1746,12 @@ export default function ProductDetailsPage() {
             >
               <ShoppingBag className="h-5 w-5" aria-hidden />
               {(() => {
-                if (!product?.variants || product.variants.length === 0) return t('cart.add_to_bag', 'Add to bag');
+                if (!product?.variants || product.variants.length === 0) {
+                  // Variant-less: reflect stock state in the label
+                  if (product?.stock && !product.stock.in_stock) return t('stock.out_of_stock', 'Out of stock');
+                  if (product?.stock?.made_to_order) return t('stock.made_to_order', 'Made to order');
+                  return t('cart.add_to_bag', 'Add to bag');
+                }
                 if (!selectedVariant) return t('product.select_options', 'Select options');
                 if (isOutOfStock(selectedVariant)) return t('stock.out_of_stock', 'Out of stock');
                 return t('cart.add_to_bag', 'Add to bag');
@@ -1685,6 +1772,15 @@ export default function ProductDetailsPage() {
               <Heart className={cn('h-4 w-4', wishlisted ? 'fill-rose-600 text-rose-600' : '')} aria-hidden />
               {wishlisted ? t('wishlist.saved', 'Saved') : t('wishlist.save', 'Save for later')}
             </button>
+
+            {/* Tertiary CTA: Share — spreads the product link to WhatsApp/social,
+                pulling buyers back into the app (sale always closes in-app). */}
+            <ShareButton
+              block
+              title={product?.name}
+              text={product?.price != null ? formatPrice(product.price) : undefined}
+              label={t('share.share_product', 'Share this product')}
+            />
           </div>
 
           {/* Trust strip — 3 micro-pills in a warm row */}
@@ -1710,6 +1806,42 @@ export default function ProductDetailsPage() {
           </div>
         </div>
       </section>
+
+      {/* ── Click-to-zoom lightbox overlay ── */}
+      {isZoomed && getCurrentImageUrl() && (
+        <div
+          role="dialog"
+          aria-label={t('product.zoom_image', 'Zoom image')}
+          aria-modal="true"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-gray-950/80 backdrop-blur-sm p-4"
+          onClick={() => setIsZoomed(false)}
+          onKeyDown={(e) => { if (e.key === 'Escape') setIsZoomed(false); }}
+          tabIndex={-1}
+        >
+          <div
+            className="relative max-w-3xl w-full max-h-[90vh] aspect-[4/5] rounded-2xl overflow-hidden shadow-2xl"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <Image
+              src={getCurrentImageUrl()}
+              alt={displayName}
+              fill
+              className="object-contain"
+              sizes="(max-width: 768px) 100vw, 768px"
+              priority
+            />
+          </div>
+          <button
+            aria-label={t('product.close_zoom', 'Close zoom')}
+            className="absolute top-4 end-4 bg-white/90 backdrop-blur-sm rounded-full p-2.5 shadow-atlas-sm hover:bg-white transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30"
+            onClick={() => setIsZoomed(false)}
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+      )}
 
       {/* ── 3. Tabs section ── */}
       <section className="px-6 mb-16" aria-label={t('product.tabs', 'Product tabs')} id="product-tabs">
@@ -1865,34 +1997,75 @@ export default function ProductDetailsPage() {
         </div>
       </section>
 
-      {/* TODO (brief 3.2): when an AI-curated "complete the look" shelf is added here, prepend
-           the Sparkles chip per brief delta 3.2:
-           <div className="flex items-center gap-2 mb-4">
-             <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-amber-100 text-amber-800 text-xs font-medium ring-1 ring-amber-200">
-               <Sparkles size={12} className="shrink-0" />
-               {t('pdp.aiStyling', 'AI styled for you')}
-             </span>
-           </div>
-           No shelf exists currently — skipped per conditional rule. */}
+      {/* ── 5a & 5b. Up-sell shelves — rendered only when data is available ──
+           Heuristic v1: partitionShelves() splits 8 related products into two
+           disjoint slices. When ≤ 4 are returned only "Complete the look" is
+           shown so the two shelves never display the same items.
+           A true complementary cross-sell engine needs a dedicated backend
+           endpoint — flagged as a follow-up. */}
+      {(() => {
+        const { completeLook, alsoLike } = partitionShelves(allRelatedProducts);
+        return (
+          <>
+            {/* 5a — Complete the look */}
+            {completeLook.length > 0 && (
+              <section
+                className="px-6 mb-12"
+                aria-label={t('pdp.complete_the_look', 'Complete the look')}
+              >
+                {/* Warmer container visually distinguishes this from "You might also like" */}
+                <div className="rounded-2xl bg-amber-50/60 ring-1 ring-amber-100 px-6 pt-6 pb-2">
+                  {/* Sparkles AI chip eyebrow */}
+                  <div className="flex items-center gap-2 mb-4">
+                    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-amber-100 text-amber-800 text-xs font-medium ring-1 ring-amber-200">
+                      <Sparkles size={12} className="shrink-0" aria-hidden />
+                      {t('pdp.aiStyling', 'AI styled for you')}
+                    </span>
+                  </div>
+                  {/* Section heading */}
+                  <div className="flex items-baseline justify-between flex-wrap gap-4 mb-2">
+                    <h2
+                      className="text-2xl sm:text-3xl font-bold text-gray-900"
+                      style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
+                    >
+                      {t('pdp.complete_the_look', 'Complete the look')}
+                    </h2>
+                  </div>
+                  <RelatedProducts
+                    products={completeLook}
+                    showHeading={false}
+                  />
+                </div>
+              </section>
+            )}
 
-      {/* ── 5. You might also like ── */}
-      <section className="px-6 mb-16" aria-label={t('product.related', 'You might also like')}>
-        <div className="flex items-baseline justify-between mb-8 flex-wrap gap-4">
-          <h2
-            className="text-2xl sm:text-3xl font-bold text-gray-900"
-            style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
-          >
-            {t('product.you_might_also_like', 'You might also like')}
-          </h2>
-          <Link
-            href="/products"
-            className="text-sm text-indigo-700 hover:text-indigo-900 underline underline-offset-2 font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30 rounded"
-          >
-            {t('product.view_all', 'View all')}
-          </Link>
-        </div>
-        <RelatedProducts productId={product.id} limit={4} />
-      </section>
+            {/* 5b — You might also like (only rendered when alsoLike is non-empty
+                 to guarantee the two shelves never show duplicates) */}
+            {alsoLike.length > 0 && (
+              <section className="px-6 mb-16" aria-label={t('product.related', 'You might also like')}>
+                <div className="flex items-baseline justify-between mb-8 flex-wrap gap-4">
+                  <h2
+                    className="text-2xl sm:text-3xl font-bold text-gray-900"
+                    style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
+                  >
+                    {t('product.you_might_also_like', 'You might also like')}
+                  </h2>
+                  <Link
+                    href="/products"
+                    className="text-sm text-indigo-700 hover:text-indigo-900 underline underline-offset-2 font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30 rounded"
+                  >
+                    {t('product.view_all', 'View all')}
+                  </Link>
+                </div>
+                <RelatedProducts
+                  products={alsoLike}
+                  showHeading={false}
+                />
+              </section>
+            )}
+          </>
+        );
+      })()}
 
       {/* Mobile sticky add-to-bag bar — safe-area aware */}
       <div
@@ -1919,7 +2092,16 @@ export default function ProductDetailsPage() {
             )}
           >
             <ShoppingBag className="h-4 w-4" aria-hidden />
-            {t('cart.add_to_bag', 'Add to bag')}
+            {(() => {
+              if (!product?.variants || product.variants.length === 0) {
+                if (product?.stock && !product.stock.in_stock) return t('stock.out_of_stock', 'Out of stock');
+                if (product?.stock?.made_to_order) return t('stock.made_to_order', 'Made to order');
+                return t('cart.add_to_bag', 'Add to bag');
+              }
+              if (!selectedVariant) return t('product.select_options', 'Select options');
+              if (isOutOfStock(selectedVariant)) return t('stock.out_of_stock', 'Out of stock');
+              return t('cart.add_to_bag', 'Add to bag');
+            })()}
           </button>
           <button
             type="button"

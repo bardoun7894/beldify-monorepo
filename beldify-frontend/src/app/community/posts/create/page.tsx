@@ -497,7 +497,7 @@ export default function CreatePostPage() {
   // ── SUCCESS STATE ──────────────────────────────────────────────────────────
   if (submitted) {
     return (
-      <div className="min-h-screen bg-amber-50/30 flex flex-col">
+      <div className="min-h-screen bg-canvas flex flex-col">
         <div className="bg-indigo-950 text-white py-4 px-6">
           <div className="max-w-7xl mx-auto">
             <p className="text-amber-400 text-xs uppercase tracking-[0.18em] font-semibold">
@@ -567,7 +567,7 @@ export default function CreatePostPage() {
 
   // ── FORM STATE ─────────────────────────────────────────────────────────────
   return (
-    <div className="min-h-screen bg-amber-50/30">
+    <div className="min-h-screen bg-canvas">
       {/* Editorial Hero Band */}
       <section className="bg-indigo-950 text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-8">

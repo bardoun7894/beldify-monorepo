@@ -51,7 +51,7 @@ export default function WishlistPage() {
   // ── Loading skeleton ──────────────────────────────────────────────
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-amber-50 py-16 sm:py-20 pb-20">
+      <div className="min-h-screen bg-canvas py-16 sm:py-20 pb-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="animate-pulse space-y-8">
             {/* Header skeleton */}
@@ -85,7 +85,7 @@ export default function WishlistPage() {
   // ── Empty state ───────────────────────────────────────────────────
   if (wishlistItems.length === 0) {
     return (
-      <div className="min-h-screen bg-amber-50 py-16 sm:py-24" dir={isRTL ? 'rtl' : 'ltr'}>
+      <div className="min-h-screen bg-canvas py-16 sm:py-24" dir={isRTL ? 'rtl' : 'ltr'}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="mx-auto max-w-md text-center">
             <div className="rounded-2xl border border-amber-100 bg-white p-10 shadow-atlas-md">
@@ -120,7 +120,7 @@ export default function WishlistPage() {
 
   // ── Main wishlist ─────────────────────────────────────────────────
   return (
-    <div className="min-h-screen bg-amber-50 py-10 sm:py-16 pb-24 md:pb-10" dir={isRTL ? 'rtl' : 'ltr'}>
+    <div className="min-h-screen bg-canvas py-10 sm:py-16 pb-24 md:pb-10" dir={isRTL ? 'rtl' : 'ltr'}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         {/* ── Breadcrumbs: Home / My Account / Wishlist ── */}
         <Breadcrumbs

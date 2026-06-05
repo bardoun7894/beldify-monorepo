@@ -180,7 +180,7 @@ export default function OrdersPage() {
 
   if (error) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center p-4 bg-amber-50/40">
+      <div className="min-h-screen flex flex-col items-center justify-center p-4 bg-canvas">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -207,7 +207,7 @@ export default function OrdersPage() {
 
   if (orders.length === 0) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center p-4 bg-amber-50/40">
+      <div className="min-h-screen flex flex-col items-center justify-center p-4 bg-canvas">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -241,7 +241,7 @@ export default function OrdersPage() {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.4, ease: [0.33, 1, 0.68, 1] }}
-      className={`min-h-screen bg-amber-50/40 ${isRTL ? 'rtl' : 'ltr'}`}
+      className={`min-h-screen bg-canvas ${isRTL ? 'rtl' : 'ltr'}`}
       dir={isRTL ? 'rtl' : 'ltr'}
     >
       {/* Page header — solid parchment surface (no glassmorphism) */}

@@ -1,4 +1,13 @@
 {
+  "share": {
+    "share": "Compartir",
+    "share_product": "Compartir este producto",
+    "share_shop": "Compartir taller",
+    "whatsapp": "WhatsApp",
+    "facebook": "Facebook",
+    "copy_link": "Copiar enlace",
+    "copied": "¡Enlace copiado!"
+  },
   "common": {
     "search": "Buscar productos...",
     "filter": "Filtrar",
@@ -510,7 +519,8 @@
       "out_of_stock": "Agotado",
       "ready_to_ship": "Listo para enviar hoy",
       "selected": "Seleccionado"
-    }
+    },
+    "be_first_review": "Nuevo — sé el primero en opinar"
   },
   "stock": {
     "in_stock": "En stock ({{count}})",
@@ -529,6 +539,9 @@
     "select_options_for_availability": "Seleccione opciones para verificar disponibilidad",
     "in_stock_simple": "En stock",
     "low_stock": "Pocas existencias",
+    "only_left": "Solo quedan {{count}}",
+    "made_to_order": "Hecho a pedido",
+    "made_to_order_ships": "Hecho a pedido — envío en ~3 días",
     "added": "¡Agregado!",
     "custom_product_description": "¿No encuentras lo que buscas? Crea un pedido personalizado y ponte en contacto con los vendedores que pueden hacerlo para ti.",
     "custom_request_message": "¡Hola! Estoy interesado en una versión personalizada de este producto. ¿Puedes ayudarme con un diseño personalizado?",
@@ -1162,11 +1175,11 @@
         },
         "paypal": {
           "title": "PayPal",
-          "description": "Próximamente - Paga de forma segura con PayPal"
+          "description": "Paga de forma segura con PayPal"
         },
         "card": {
           "title": "Tarjeta de crédito",
-          "description": "Próximamente - Paga con Visa, Mastercard u otras tarjetas"
+          "description": "Paga con Visa, Mastercard u otras tarjetas"
         },
         "bank_transfer": {
           "title": "Transferencia bancaria",
@@ -3499,7 +3512,10 @@
     "cart": "Carrito",
     "home": "Inicio",
     "search": "Buscar",
-    "search_placeholder": "Busca kaftans, djellabas…"
+    "search_placeholder": "Busca kaftans, djellabas…",
+    "jewelry": "Joyería",
+    "tailoring": "Sastrería",
+    "journal": "Revista"
   },
   "bespoke": {
     "body": "Cada punto cosido a tus medidas exactas. Nuestros artesanos confeccionan tu prenda desde cero.",
@@ -3531,7 +3547,8 @@
   "pdp": {
     "aiStyling": "Estilizado por IA",
     "artisanMade": "Hecho artesanalmente",
-    "complete_the_look": "Completa el look"
+    "complete_the_look": "Completa el look",
+    "trustedArtisan": "Vendedor artesano verificado"
   },
   "actions": {
     "close": "Cerrar",

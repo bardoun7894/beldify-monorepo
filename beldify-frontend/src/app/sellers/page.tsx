@@ -35,7 +35,7 @@ export default function SellersPage() {
   ];
 
   return (
-    <main className="min-h-screen bg-amber-50/40 text-gray-900">
+    <main className="min-h-screen bg-canvas text-gray-900">
       {/* Hero — generous, asymmetric, no eyebrow */}
       <section className="relative isolate overflow-hidden bg-indigo-950">
         {/* Subtle decorative wash — not glassmorphism, not gradient-clip text */}

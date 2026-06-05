@@ -60,8 +60,6 @@ interface Category {
 }
 
 const staticNavLinks = [
-  { labelKey: 'nav.fashion', fallback: 'Fashion', href: '/categories/fashion' },
-  { labelKey: 'nav.home_decor', fallback: 'Home & Decor', href: '/categories/home-decor' },
   { labelKey: 'nav.jewelry', fallback: 'Jewelry', href: '/categories/jewelry' },
   { labelKey: 'nav.tailoring', fallback: 'Tailoring', href: '/tailoring' },
   { labelKey: 'nav.journal', fallback: 'Journal', href: '/journal' },
@@ -276,48 +274,53 @@ export default function Navbar() {
               )}
             </Menu>
 
-            {/* Messages */}
-            <Link
-              href="/community/messages"
-              prefetch
-              aria-label={`Messages${unreadCount > 0 ? `, ${unreadCount} unread` : ''}`}
-              className="relative flex items-center justify-center w-9 h-9 text-gray-600 hover:text-indigo-700 rounded-full hover:bg-amber-100/60 transition"
-            >
-              <MessageCircle className="h-5 w-5" aria-hidden="true" />
-              {unreadCount > 0 && (
-                <span className="absolute -top-1 -end-1 bg-amber-500 text-amber-950 text-[10px] font-bold rounded-full h-4 min-w-[1rem] px-1 flex items-center justify-center leading-none">
-                  {unreadCount}
-                </span>
-              )}
-            </Link>
+            {/* Account-only icons — Messages, Notifications, Orders, Wishlist */}
+            {user && (
+              <>
+                {/* Messages */}
+                <Link
+                  href="/community/messages"
+                  prefetch
+                  aria-label={`Messages${unreadCount > 0 ? `, ${unreadCount} unread` : ''}`}
+                  className="relative flex items-center justify-center w-9 h-9 text-gray-600 hover:text-indigo-700 rounded-full hover:bg-amber-100/60 transition"
+                >
+                  <MessageCircle className="h-5 w-5" aria-hidden="true" />
+                  {unreadCount > 0 && (
+                    <span className="absolute -top-1 -end-1 bg-amber-500 text-amber-950 text-[10px] font-bold rounded-full h-4 min-w-[1rem] px-1 flex items-center justify-center leading-none">
+                      {unreadCount}
+                    </span>
+                  )}
+                </Link>
 
-            {/* Notifications */}
-            <NotificationBell />
+                {/* Notifications */}
+                <NotificationBell />
 
-            {/* Orders */}
-            <Link
-              href="/orders"
-              prefetch
-              aria-label={t('navigation.orders', 'Orders')}
-              className="relative flex items-center justify-center w-9 h-9 text-gray-600 hover:text-indigo-700 rounded-full hover:bg-amber-100/60 transition"
-            >
-              <Package className="h-5 w-5" aria-hidden="true" />
-            </Link>
+                {/* Orders */}
+                <Link
+                  href="/orders"
+                  prefetch
+                  aria-label={t('navigation.orders', 'Orders')}
+                  className="relative flex items-center justify-center w-9 h-9 text-gray-600 hover:text-indigo-700 rounded-full hover:bg-amber-100/60 transition"
+                >
+                  <Package className="h-5 w-5" aria-hidden="true" />
+                </Link>
 
-            {/* Wishlist */}
-            <Link
-              href="/wishlist"
-              prefetch
-              aria-label={`Wishlist${wishlistCount > 0 ? `, ${wishlistCount} items` : ''}`}
-              className="relative flex items-center justify-center w-9 h-9 text-gray-600 hover:text-indigo-700 rounded-full hover:bg-amber-100/60 transition"
-            >
-              <Heart className="h-5 w-5" aria-hidden="true" />
-              {wishlistCount > 0 && (
-                <span className="absolute -top-1 -end-1 bg-amber-500 text-amber-950 text-[10px] font-bold rounded-full h-4 min-w-[1rem] px-1 flex items-center justify-center leading-none">
-                  {wishlistCount}
-                </span>
-              )}
-            </Link>
+                {/* Wishlist */}
+                <Link
+                  href="/wishlist"
+                  prefetch
+                  aria-label={`Wishlist${wishlistCount > 0 ? `, ${wishlistCount} items` : ''}`}
+                  className="relative flex items-center justify-center w-9 h-9 text-gray-600 hover:text-indigo-700 rounded-full hover:bg-amber-100/60 transition"
+                >
+                  <Heart className="h-5 w-5" aria-hidden="true" />
+                  {wishlistCount > 0 && (
+                    <span className="absolute -top-1 -end-1 bg-amber-500 text-amber-950 text-[10px] font-bold rounded-full h-4 min-w-[1rem] px-1 flex items-center justify-center leading-none">
+                      {wishlistCount}
+                    </span>
+                  )}
+                </Link>
+              </>
+            )}
 
             {/* Cart */}
             <Link
@@ -575,8 +578,8 @@ export default function Navbar() {
                     </span>
                   </Link>
                   <div className="flex items-center gap-1">
-                    {/* Notifications (mobile) */}
-                    <NotificationBell />
+                    {/* Notifications (mobile) — account only */}
+                    {user && <NotificationBell />}
                     <button
                       type="button"
                       onClick={() => setMobileMenuOpen(false)}
@@ -639,7 +642,7 @@ export default function Navbar() {
                 </div>
 
                 {/* Quick links */}
-                <div className="grid grid-cols-3 gap-2 px-5 py-4 border-b border-amber-200/60">
+                <div className={cn('grid gap-2 px-5 py-4 border-b border-amber-200/60', user ? 'grid-cols-3' : 'grid-cols-1')}>
                   <Link
                     href="/cart"
                     onClick={() => setMobileMenuOpen(false)}
@@ -654,34 +657,38 @@ export default function Navbar() {
                       </span>
                     )}
                   </Link>
-                  <Link
-                    href="/wishlist"
-                    onClick={() => setMobileMenuOpen(false)}
-                    className="flex flex-col items-center gap-1 py-3 bg-white rounded-xl text-gray-700 hover:text-indigo-700 border border-amber-200 transition relative"
-                    aria-label={`Wishlist${wishlistCount > 0 ? `, ${wishlistCount} items` : ''}`}
-                  >
-                    <Heart className="h-5 w-5" aria-hidden="true" />
-                    <span className="text-xs">{t('navigation.wishlist', 'Wishlist')}</span>
-                    {wishlistCount > 0 && (
-                      <span className="absolute top-1.5 end-1.5 bg-amber-500 text-amber-950 text-[9px] font-bold rounded-full h-4 min-w-[1rem] px-0.5 flex items-center justify-center">
-                        {wishlistCount}
-                      </span>
-                    )}
-                  </Link>
-                  <Link
-                    href="/community/messages"
-                    onClick={() => setMobileMenuOpen(false)}
-                    className="flex flex-col items-center gap-1 py-3 bg-white rounded-xl text-gray-700 hover:text-indigo-700 border border-amber-200 transition relative"
-                    aria-label={`Messages${unreadCount > 0 ? `, ${unreadCount} unread` : ''}`}
-                  >
-                    <MessageCircle className="h-5 w-5" aria-hidden="true" />
-                    <span className="text-xs">{t('navigation.messages', 'Messages')}</span>
-                    {unreadCount > 0 && (
-                      <span className="absolute top-1.5 end-1.5 bg-amber-500 text-amber-950 text-[9px] font-bold rounded-full h-4 min-w-[1rem] px-0.5 flex items-center justify-center">
-                        {unreadCount}
-                      </span>
-                    )}
-                  </Link>
+                  {user && (
+                    <>
+                      <Link
+                        href="/wishlist"
+                        onClick={() => setMobileMenuOpen(false)}
+                        className="flex flex-col items-center gap-1 py-3 bg-white rounded-xl text-gray-700 hover:text-indigo-700 border border-amber-200 transition relative"
+                        aria-label={`Wishlist${wishlistCount > 0 ? `, ${wishlistCount} items` : ''}`}
+                      >
+                        <Heart className="h-5 w-5" aria-hidden="true" />
+                        <span className="text-xs">{t('navigation.wishlist', 'Wishlist')}</span>
+                        {wishlistCount > 0 && (
+                          <span className="absolute top-1.5 end-1.5 bg-amber-500 text-amber-950 text-[9px] font-bold rounded-full h-4 min-w-[1rem] px-0.5 flex items-center justify-center">
+                            {wishlistCount}
+                          </span>
+                        )}
+                      </Link>
+                      <Link
+                        href="/community/messages"
+                        onClick={() => setMobileMenuOpen(false)}
+                        className="flex flex-col items-center gap-1 py-3 bg-white rounded-xl text-gray-700 hover:text-indigo-700 border border-amber-200 transition relative"
+                        aria-label={`Messages${unreadCount > 0 ? `, ${unreadCount} unread` : ''}`}
+                      >
+                        <MessageCircle className="h-5 w-5" aria-hidden="true" />
+                        <span className="text-xs">{t('navigation.messages', 'Messages')}</span>
+                        {unreadCount > 0 && (
+                          <span className="absolute top-1.5 end-1.5 bg-amber-500 text-amber-950 text-[9px] font-bold rounded-full h-4 min-w-[1rem] px-0.5 flex items-center justify-center">
+                            {unreadCount}
+                          </span>
+                        )}
+                      </Link>
+                    </>
+                  )}
                 </div>
 
                 {/* Nav links */}

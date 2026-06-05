@@ -102,7 +102,7 @@ export default function CategoryPage() {
   // ── Error state ──────────────────────────────────────────────────────────────
   if (error) {
     return (
-      <div className="min-h-screen bg-amber-50/40 flex items-center justify-center px-4">
+      <div className="min-h-screen bg-canvas flex items-center justify-center px-4">
         <div className="bg-white rounded-2xl border border-amber-200 shadow-atlas-sm p-10 max-w-md w-full text-center">
           <p className="text-rose-700 mb-4 font-medium">{error}</p>
           <button
@@ -119,7 +119,7 @@ export default function CategoryPage() {
   // ── Not found ────────────────────────────────────────────────────────────────
   if (!categoryData && !loading) {
     return (
-      <div className="min-h-screen bg-amber-50/40 flex items-center justify-center px-4">
+      <div className="min-h-screen bg-canvas flex items-center justify-center px-4">
         <div className="bg-white rounded-2xl border border-amber-200 shadow-atlas-sm p-10 max-w-md w-full text-center">
           <p className="text-gray-500">{t('category.not_found', 'التصنيف غير موجود')}</p>
         </div>
@@ -134,7 +134,7 @@ export default function CategoryPage() {
   const productCount = category?.itemCount ?? categoryData?.products?.length ?? 0;
 
   return (
-    <div className="min-h-screen bg-amber-50/40 pb-20">
+    <div className="min-h-screen bg-canvas pb-20">
       {/* ── Hero ─────────────────────────────────────────────────────── */}
       <CategoryDetailHero
         name={loading && !category ? '' : categoryName}
