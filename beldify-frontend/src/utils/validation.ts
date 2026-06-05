@@ -17,23 +17,38 @@ export const passwordSchema = z.string()
   .regex(/[0-9]/, 'Password must contain at least one number')
   .regex(/[^A-Za-z0-9]/, 'Password must contain at least one special character');
 
-// Registration schema
+// Registration schema — must mirror the actual register form payload
+// (first_name/last_name/username/contact_number) and the Laravel backend
+// contract (AuthController::register). Names allow non-ASCII (Arabic) input.
 export const registrationSchema = z.object({
-  name: z.string()
-    .min(2, 'Name must be at least 2 characters')
+  first_name: z.string()
+    .min(1, 'First name is required')
     .max(100, 'Name is too long')
-    .regex(/^[a-zA-Z\s]+$/, 'Name can only contain letters and spaces')
+    .trim(),
+  last_name: z.string()
+    .min(1, 'Last name is required')
+    .max(100, 'Name is too long')
+    .trim(),
+  full_name_en: z.string().max(255, 'Name is too long').trim().optional(),
+  username: z.string()
+    .min(1, 'Username is required')
+    .max(255, 'Username is too long')
     .trim(),
   email: emailSchema,
-  password: passwordSchema,
+  // Backend enforces Password::min(8) only; the form's strength meter is
+  // advisory. Keep the proxy in sync so it never hard-blocks valid passwords.
+  password: z.string()
+    .min(8, 'Password must be at least 8 characters')
+    .max(100, 'Password is too long'),
   password_confirmation: z.string(),
-  phone: z.string()
-    .optional()
+  contact_number: z.string()
+    .max(20, 'Phone number is too long')
     .refine((val) => !val || /^\+?[1-9]\d{1,14}$/.test(val), {
       message: 'Invalid phone number format'
-    }),
-  terms: z.boolean().optional(),
-}).refine((data) => data.password === data.password_confirmation, {
+    })
+    .optional(),
+// Forward any extra/legacy keys to Laravel rather than silently stripping them.
+}).passthrough().refine((data) => data.password === data.password_confirmation, {
   message: "Passwords don't match",
   path: ["password_confirmation"],
 });
