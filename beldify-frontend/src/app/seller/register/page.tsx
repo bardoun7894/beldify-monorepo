@@ -197,13 +197,21 @@ export default function SellerRegisterPage() {
             )}
           </p>
 
-          <Link
-            href="/"
-            className="inline-flex items-center justify-center gap-2 bg-indigo-700 hover:bg-indigo-800 text-white rounded-full py-3 px-8 text-sm font-semibold transition-all duration-200 hover-lift focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700/50"
-          >
-            {t('seller.register.pending_cta', 'Back to home')}
-            <ArrowRight className="w-4 h-4 rtl:rotate-180" aria-hidden="true" />
-          </Link>
+          <div className="flex flex-col sm:flex-row gap-3 justify-center">
+            <Link
+              href="/seller/onboarding"
+              className="inline-flex items-center justify-center gap-2 bg-indigo-700 hover:bg-indigo-800 text-white rounded-full py-3 px-8 text-sm font-semibold transition-all duration-200 hover-lift focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700/50"
+            >
+              {t('seller.register.track_application_cta', 'Track your application')}
+              <ArrowRight className="w-4 h-4 rtl:rotate-180" aria-hidden="true" />
+            </Link>
+            <Link
+              href="/"
+              className="inline-flex items-center justify-center gap-2 bg-amber-50 hover:bg-amber-100 text-gray-800 ring-1 ring-amber-200 rounded-full py-3 px-8 text-sm font-semibold transition-all duration-200 hover-lift focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-400/50"
+            >
+              {t('seller.register.pending_cta', 'Back to home')}
+            </Link>
+          </div>
         </div>
       </div>
     );
