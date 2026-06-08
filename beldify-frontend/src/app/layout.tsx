@@ -52,13 +52,15 @@ const ibmPlexArabic = IBM_Plex_Sans_Arabic({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://www.beldify.com'),
   title: 'Beldify',
   description: 'Bringing Moroccan Traditional Fashion to the Modern World',
   manifest: '/manifest.json',
   appleWebApp: {
     capable: true,
-    statusBarStyle: 'default',
+    statusBarStyle: 'black-translucent',
     title: 'Beldify',
+    // iOS splash screens — fallback to the one icon we have
     startupImage: [
       '/icons/apple-icon-180.png',
     ],

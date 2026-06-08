@@ -1333,6 +1333,10 @@
       "tax": "Impuestos",
       "total": "Total",
       "product_image_alt": "Imagen del producto"
+    },
+    "quote": {
+      "loading": "Calculando el total…",
+      "load_error": "No se pudo calcular el total. Inténtalo de nuevo."
     }
   },
   "profile": {
@@ -3888,6 +3892,14 @@
     "order_updates": {
       "description": "Recibe notificaciones cuando el estado de tu pedido cambie o sea enviado.",
       "title": "Actualizaciones de pedido"
+    },
+    "push_notifications": {
+      "title": "Notificaciones push",
+      "description": "Recibe alertas de pedidos y mensajes incluso cuando Beldify está cerrado",
+      "enabled": "Notificaciones push activadas",
+      "disabled": "Notificaciones push desactivadas",
+      "error": "No se pudieron activar las notificaciones push",
+      "blocked": "Bloqueadas en la configuración del navegador — actívalas para recibir alertas"
     },
     "success_message": "Preferencias guardadas correctamente.",
     "timezone": {

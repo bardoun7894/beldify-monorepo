@@ -11,7 +11,7 @@
   "common": {
     "back_to": "رجع ل",
     "search": "قلب على لحوايج...",
-    "filter": "فيلتراج",
+    "filter": "فلتر",
     "noResults": "ما كاين والو",
     "openMenu": "حل لمينيو",
     "closeMenu": "سد لمينيو",
@@ -24,18 +24,18 @@
       "save_changes": "سجل تعديلات",
       "tryAgain": "عاود جرب",
       "search": "قلب",
-      "clearFilters": "مسح لفيلتراج",
-      "filters": "فيلتراج"
+      "clearFilters": "حيد الفلاتر",
+      "filters": "الفلاتر"
     },
     "notifications": {
       "changes_saved": "تسجلات تعديلات مزيان",
       "error_saving": "وقع مشكل فتسجيل تعديلات"
     },
     "try_again": "عاود جرب",
-    "loading": "جاري التحميل...",
-    "loading_experience": "جاري تحميل تجربتك...",
+    "loading": "كنحمّلو...",
+    "loading_experience": "كنوجدو ليك الصفحة...",
     "error": "وقع مشكل",
-    "success": "تم بنجاح",
+    "success": "دازت العملية مزيان",
     "cancel": "لغي",
     "save": "سجل",
     "edit": "بدل",
@@ -48,7 +48,7 @@
     "or": "ولا",
     "required_fields": "* خاصك تعمر هاد لحوايج",
     "required": "ضروري",
-    "checkBackSoon": "ارجعوا غادي!",
+    "checkBackSoon": "رجع شوفنا قريب",
     "item": "حاجة",
     "items": "حوايج",
     "all": "الكل",
@@ -67,8 +67,8 @@
     "next_page": "الصفحة الجاية",
     "no_results": "ما لقينا والو",
     "not_found": "ما لقيناش",
-    "optional": "اختياري",
-    "or_drag_drop": "ولا سحب وإفلات",
+    "optional": "ماشي ضروري",
+    "or_drag_drop": "ولا جرّ الملف لهنا",
     "pagination": {
       "goToPage": "روح للصفحة",
       "label": "التصفّح",
@@ -81,8 +81,8 @@
     "remove": "حيّد",
     "reset": "رجّع للأصل",
     "retry": "عاود جرّب",
-    "scroll_end": "سكرول للآخر",
-    "scroll_start": "سكرول للبداية",
+    "scroll_end": "مشي للآخر",
+    "scroll_start": "مشي للبداية",
     "submitting": "كنرسلو...",
     "title": "بيلديفاي",
     "tryAgain": "عاود جرّب",
@@ -92,8 +92,8 @@
     "refresh": "حدّث",
     "errorTitle": "وقع شي مشكل",
     "remove_image": "حيّد التصويرة",
-    "childrens_traditional_wear": "ملابس جونان تقليدية",
-    "childrens_traditional_wear_description": "لقى ملابس تقليدية رائعة للدرارير من جميع الأعمار",
+    "childrens_traditional_wear": "لباس تقليدي للصغار",
+    "childrens_traditional_wear_description": "لقى لباس تقليدي زوين للصغار من جميع الأعمار",
     "currency_labels": {
       "moroccan_dirham": "د.م."
     },
@@ -102,21 +102,21 @@
     "hours_ago": "منذ {{count}} ساعة",
     "just_now": "هاك التو",
     "last_seen": "آخر ظهور {{time}}",
-    "loading_more": "كاي حمل المزيد...",
+    "loading_more": "كنحمّلو كثر...",
     "mens_traditional_wear": "ملابس رجالية تقليدية",
-    "mens_traditional_wear_description": "استكشف تشكيلتنا من الملابس التقليدية الأصيلة للرجال",
+    "mens_traditional_wear_description": "شوف التشكيلة ديالنا من اللباس التقليدي الأصيل للرجال",
     "minutes_ago": "منذ {{count}} دقيقة",
     "more": "المزيد",
-    "no_image_available": "ما كاين الصورة",
-    "no_products_found": "ما كاين المنتجات",
+    "no_image_available": "ما كايناش تصويرة",
+    "no_products_found": "ما لقينا حتى منتوج",
     "offline": "غير متصل",
     "online": "متصل",
     "today": "اليوم",
     "traditional_wear": "الملابس التقليدية",
-    "traditional_wear_description": "اكتشف الملابس التقليدية الأصيلة لكل المناسبات",
+    "traditional_wear_description": "شوف اللباس التقليدي الأصيل لجميع المناسبات",
     "view_all": "شوف كولشي",
     "womens_traditional_wear": "ملابس نسائية تقليدية",
-    "womens_traditional_wear_description": "تصفح تشكيلتنا من الملابس التقليدية الأنيقة للنساء",
+    "womens_traditional_wear_description": "شوف التشكيلة ديالنا من اللباس التقليدي الأنيق للعيالات",
     "yesterday": "البارح"
   },
   "validation": {
@@ -126,30 +126,30 @@
     "maxLength": "ما يفوتش {{count}} حروف"
   },
   "categories": {
-    "browse": "تصفح الكاطيكوريات",
-    "title": "استكشف الكاطيكوريات ديالنا",
-    "description": "اكتشف مجموعتنا الواسعة من الأزياء المغربية التقليدية والعصرية",
-    "available": "كاطيكوريات متوفرة",
-    "shop_by_category": "تسوق حسب الكاطيكوري",
-    "product_count": "{{count}} منتوجات",
-    "explore": "استكشف",
-    "no_categories_title": "ما لقينا حتى كاطيكوري",
-    "no_categories_found": "ما قدرناش نلقاو كاطيكوريات دابا. عاود شوف من بعد.",
-    "popularCategories": "كاطيكوريات مشهورة",
+    "browse": "شوف الأصناف",
+    "title": "تعرّف على الأصناف ديالنا",
+    "description": "شوف التشكيلة الكبيرة ديالنا من اللباس المغربي التقليدي والعصري",
+    "available": "أصناف متوفرة",
+    "shop_by_category": "تسوّق على حساب الصنف",
+    "product_count": "{{count}} منتوج",
+    "explore": "شوف الصنف",
+    "no_categories_title": "ما لقينا حتى صنف",
+    "no_categories_found": "ما لقينا حتى صنف دابا. رجع شوف من بعد.",
+    "popularCategories": "الأصناف المشهورة",
     "viewAll": "شوف كولشي",
     "items": "منتوج",
-    "noCategories": "ما كاين حتى كاطيكوري",
-    "topCategories": "أحسن كاطيكوريات",
+    "noCategories": "ما كاين حتى صنف",
+    "topCategories": "أحسن الأصناف",
     "featured": {
-      "title": "كاطيكوريات مميزة",
-      "description": "اكتشف كاطيكوريات المنتوجات الأكثر شعبية"
+      "title": "أصناف مميزة",
+      "description": "شوف أصناف المنتوجات اللي كيعجبو الناس كثر"
     },
     "more": "أكثر",
-    "shopNow": "تسوق دابا",
+    "shopNow": "تسوّق دابا",
     "trending": "رائج",
-    "discoverMostPopular": "اكتشف الكاطيكوريات الأكثر شعبية اللي كيحبوها الزبناء ديالنا",
-    "exploreAllCategories": "استكشف جميع الكاطيكوريات",
-    "discoverMore": "اكتشف آلاف المنتوجات في جميع الكاطيكوريات",
+    "discoverMostPopular": "شوف الأصناف اللي كيعجبو الزبناء ديالنا كثر",
+    "exploreAllCategories": "شوف الأصناف كاملين",
+    "discoverMore": "شوف آلاف المنتوجات فالأصناف كاملين",
     "comingSoon": "قريبا",
     "collections_found": "تصنيف",
     "no_results_description": "جرب تبدل الفلتر أو ارجع لاحقاً.",
@@ -159,18 +159,18 @@
       "name": "الإكسسوارات"
     },
     "categories_list": {
-      "boys_traditional": "ملابس جونان تقليدية",
+      "boys_traditional": "لباس تقليدي للولاد",
       "caftan": "القفطان",
-      "girls_dresses": "دراري جونات",
+      "girls_dresses": "فساتن البنات",
       "jabador": "الجبادور",
       "mens_accessories": "إكسسوارات رجال",
       "mens_kandora": "قندورة رجال",
-      "mens_shoes": "شحاطات رجال",
+      "mens_shoes": "صبابط الرجال",
       "takchita": "التقشيطة",
-      "womens_djellaba": "جلابة نساء",
-      "womens_kandora": "قندورة نساء"
+      "womens_djellaba": "جلابة العيالات",
+      "womens_kandora": "قندورة العيالات"
     },
-    "coming_soon": "قريب جداااا",
+    "coming_soon": "غادي يتوفر قريب",
     "discover_popular": "شوف الأقسام اللي كايحبها الزبناء",
     "djellaba": {
       "description": "ملابس تقليدية مريحة للحياة اليومية",
@@ -179,7 +179,7 @@
     "explore_all": "شوف الأقسام كولهم",
     "items_count": "{{count}} حاجة",
     "jabador": {
-      "description": "ملابس مراكشية عصرية للرجال",
+      "description": "لباس مغربي عصري للرجال",
       "name": "الجبادورات"
     },
     "kaftan": {
@@ -188,8 +188,8 @@
     },
     "popular_categories": "الأقسام الراجة",
     "shoes": {
-      "description": "شحاطات وشبشب من الجلد اليدوي",
-      "name": "الشحاطات التقليدية"
+      "description": "صبابط وبلاغي من الجلد مخدومين باليد",
+      "name": "الصبابط التقليدية"
     },
     "takchita": {
       "description": "ملابس احتفالية أنيقة من قطعتين",
@@ -198,23 +198,23 @@
     "top_categories": "أحسن الأقسام"
   },
   "category": {
-    "popularCategories": "كاطيكوريات مشهورة",
+    "popularCategories": "الأصناف المشهورة",
     "viewAll": "شوف كولشي",
     "items": "منتوجات",
-    "noCategories": "ما كاين حتى كاطيكوري",
-    "topCategories": "أحسن كاطيكوريات",
+    "noCategories": "ما كاين حتى صنف",
+    "topCategories": "أحسن الأصناف",
     "trending": "رائج",
-    "discoverMostPopular": "اكتشف الكاطيكوريات الأكثر شعبية اللي كيحبوها الزبناء ديالنا",
-    "exploreAllCategories": "استكشف جميع الكاطيكوريات",
-    "discoverMore": "اكتشف آلاف المنتوجات في جميع الكاطيكوريات",
+    "discoverMostPopular": "شوف الأصناف اللي كيعجبو الزبناء ديالنا كثر",
+    "exploreAllCategories": "شوف الأصناف كاملين",
+    "discoverMore": "شوف آلاف المنتوجات فالأصناف كاملين",
     "comingSoon": "قريبا",
     "featured": "مميز",
-    "not_found": "ما شفنا هذ الفئة",
+    "not_found": "ما لقيناش هاد الصنف",
     "subcategories": "الفئات الصغيرة",
-    "all_categories": "الأقسام كولهم",
-    "empty": "ماشي كاين حتا قسم",
-    "loadMore": "حمل المزيد من الأقسام",
-    "view_all": "شوف الأقسام كولهم"
+    "all_categories": "الأصناف كاملين",
+    "empty": "ما كاين حتى صنف",
+    "loadMore": "حمّل أصناف خرين",
+    "view_all": "شوف الأصناف كاملين"
   },
   "auth": {
     "login": "دخل",
@@ -225,22 +225,22 @@
     "email": "لإيمايل",
     "password": "كلمة المرور",
     "login_title": "مرحبا بيك من جديد",
-    "register_title": "نضم لبلديفاي ليوم",
-    "or_continue_with": "ولا كمل بيميل ديالك",
+    "register_title": "نضم لبلديفاي اليوم",
+    "or_continue_with": "ولا كمّل بالإيميل ديالك",
     "remember_me": "تفكرني",
     "forgot_password": "نسيتي كلمة المرور؟",
     "dont_have_account": "ماعندكش حساب؟",
     "create_account": "سجل حساب جديد",
     "full_name": "سميتك كاملة",
-    "first_name": "سميتك لأولى",
-    "last_name": "سميتك لأخيرة",
+    "first_name": "سميتك",
+    "last_name": "النسب ديالك",
     "contact_number": "نمرة تيليفون",
     "password_confirmation": "أكد كلمة المرور",
-    "already_have_account": "عندك حساب بالفعل؟",
+    "already_have_account": "عندك حساب من قبل؟",
     "sign_in": "دخل",
-    "username_generated": "تم توليد سميت المستخدم: {{username}}",
-    "registering": "جاري تسجيل حسابك...",
-    "logging_in": "جاري تسجيل الدخول...",
+    "username_generated": "وجدنا ليك اسم المستخدم: {{username}}",
+    "registering": "كنسجلو الحساب ديالك...",
+    "logging_in": "كندخلوك للحساب...",
     "login_required": "خاصك تدخل باش تصيفط لكوموندات لخاصة",
     "logo_alt": "بلديفاي",
     "sign_in_with_google": "دخل بـ Google",
@@ -250,7 +250,7 @@
     "back_to_login": "ارجع للدخول",
     "bullet_bespoke": "تفصيل على القياس ديالك",
     "bullet_returns": "إرجاع مجاني ف 14 يوم",
-    "bullet_verified": "بائعين مغاربة موثوقين",
+    "bullet_verified": "بياعة مغاربة موثوقين",
     "check_email": "شوف الإيميل ديالك",
     "check_spam": "شوف في مجلد السبام، ولا استنى شوية وعاود.",
     "confirm_required": "كاخصك تأكد كلمة السر",
@@ -262,35 +262,35 @@
     "first_name_placeholder": "الاسم الأول",
     "first_name_required": "الاسم الأول مطلوب",
     "get_back_in": "خلينا ندخلوك من جديد.",
-    "get_back_in_sub": "غادي نعيتوك رابط باش تبدل كلمة السر دابا.",
+    "get_back_in_sub": "غادي نصيفطو ليك رابط باش تبدل كلمة السر.",
     "hide_password": "خبي كلمة السر",
     "invalid_email": "دخل إيميل صحيح",
     "join_circle": "انضم لعيلة بلديفاي.",
-    "join_circle_sub": "حفظ المفضلين ديالك، تابع الصانعين، وحجز قياسات على المقاس.",
+    "join_circle_sub": "حفظ المفضلة ديالك، تابع الصناع، وحجز خدمة على القياس.",
     "last_name_placeholder": "الكنية",
     "last_name_required": "الكنية مطلوبة",
     "loading_google": "كيتحمل تسجيل الدخول بـ Google...",
     "login_error": "فشل الدخول. شوف الإيميل ولا كلمة السر.",
     "login_subtitle": "مرحبا بيك. دخل المعلومات ديالك.",
-    "login_success": "دخلت بنجاح!",
+    "login_success": "دخلتي للحساب ديالك!",
     "logout_error": "ما خرجتش. عاود مرة أخرى.",
     "logout_success": "خرجت بنجاح.",
     "password_fair": "معقولة",
     "password_placeholder": "••••••••",
     "password_required": "كلمة السر مطلوبة",
     "password_strong": "قوية",
-    "password_too_short": "خدم على الأقل 8 حروف",
+    "password_too_short": "خاص كلمة السر يكون فيها على الأقل 8 حروف",
     "password_weak": "ضعيفة",
     "passwords_no_match": "كلمتين السر ما كيتطابقوش",
     "register_subtitle": "انضم لآلاف الزبائن فالمغرب كامل.",
     "remembered_password": "تذكرت كلمة السر ديالك؟",
     "resend_link": "عاود إرسال الرابط",
-    "reset_failed": "ما تقدرناش نعيتوك الرابط. عاود مرة أخرى.",
-    "reset_instructions": "دخل الإيميل ديالك وغادي نعيتوك التعليمات باش تبدل كلمة السر.",
-    "reset_instructions_sent": "عيتناك التعليمات باش تبدل كلمة السر على",
-    "reset_link_sent": "تعيتاك الرابط على الإيميل ديالك",
-    "send_reset_link": "ابعت الرابط",
-    "sending": "كيتعيت...",
+    "reset_failed": "ما قدرناش نصيفطو ليك الرابط. عاود حاول.",
+    "reset_instructions": "دخل الإيميل ديالك وغادي نصيفطو ليك طريقة تبديل كلمة السر.",
+    "reset_instructions_sent": "صيفطنا ليك طريقة تبديل كلمة السر فـ",
+    "reset_link_sent": "صيفطنا الرابط للإيميل ديالك",
+    "send_reset_link": "صيفط الرابط",
+    "sending": "كنصيفطو...",
     "show_password": "شوف كلمة السر",
     "sign_up_with_google": "سجل بـ Google",
     "welcome_back": "مرحبا بيك مرة أخرى فبلديفاي.",
@@ -303,12 +303,12 @@
     "action_failed": "ما قدرناش نكملو هاد العملية. عاود حاول.",
     "google_unavailable": "تسجيل الدخول بـ Google ماشي متاح دابا",
     "google_init_failed": "ما قدرناش نحضّرو تسجيل الدخول بـ Google",
-    "google_login_success": "تسجيل الدخول بـ Google تم بنجاح!",
+    "google_login_success": "دخلتي للحساب بـ Google!",
     "google_login_failed": "فشل تسجيل الدخول بـ Google"
   },
   "navigation": {
     "home": "الرئيسية",
-    "categories": "لكاطيكوريات",
+    "categories": "الأصناف",
     "community": "السوق المفتوح",
     "wishlist": "لمفضلة",
     "cart": "لقفة",
@@ -320,7 +320,7 @@
     "newArrivals": "لجديد",
     "deals": "لعروض",
     "search": "قلب على لحوايج...",
-    "featuredCategories": "كاطيكوريات مميزة",
+    "featuredCategories": "أصناف مميزة",
     "tailors": "لخياطة",
     "stores": "لمحلات",
     "dashboard": "طابلو دبور",
@@ -328,7 +328,7 @@
     "orders": "لكوموند",
     "account": "لكونط",
     "logout": "خرج",
-    "subcategories": "لكاطيكوريات الفرعية",
+    "subcategories": "الأصناف الفرعية",
     "featuredProducts": "لمنتجات مميزة",
     "language": "للغة",
     "languages": {
@@ -392,8 +392,8 @@
     "childrensTraditional": {
       "title": "لباس تقليدي للدراري",
       "viewAll": "شوف كولشي",
-      "childrensTraditionalDesc": "اكتشف مجموعتنا من الملابس التقليدية الأصيلة للأطفال",
-      "view_all": "شوف الكل من اللباس التقليدي للطفال"
+      "childrensTraditionalDesc": "شوف التشكيلة ديالنا من اللباس التقليدي الأصيل للصغار",
+      "view_all": "شوف لباس الصغار كامل"
     },
     "featuredStores": {
       "title": "المحلات المميزة",
@@ -443,15 +443,15 @@
     "newBadge": "جديد",
     "saveAmount": "ربح {{amount}} درهم",
     "addToWishlist": "زيد للمفضلة",
-    "description": "تفاصيل لمنتوج",
+    "description": "تفاصيل المنتوج",
     "size": "لقياس",
     "color": "لون",
     "fabric": "لقماش",
     "variant_price": "الثمن على حسب اللون او القياس",
-    "quantity": "لعدد",
-    "sku": "نمرة لمنتوج",
-    "price": "تمن",
-    "total": "لمجموع",
+    "quantity": "الكمية",
+    "sku": "رمز المنتوج",
+    "price": "الثمن",
+    "total": "المجموع",
     "selectSize": "ختار لقياس",
     "selectColor": "ختار لون",
     "selectFabric": "ختار لقماش",
@@ -459,38 +459,38 @@
     "add_to_cart": "زيد فلقفة",
     "buy_now": "شري دابا",
     "arrives_tomorrow": "غادي يوصل غدا",
-    "no_image": "ما كاين تصويرة",
+    "no_image": "ما كايناش تصويرة",
     "rating": "%{rating} ★",
     "reviews_count": "(%{count})",
     "price_percentage": "%{price} درهم",
     "currency": "درهم",
-    "price_unavailable": "تمن ما كاينش",
+    "price_unavailable": "الثمن ما متوفرش",
     "discount_percent": "%{percent}% تخفيض",
     "off": "تخفيض",
-    "visit_store": "زور لمحل",
-    "visit_external_website": "زور لموقع",
-    "products": "لمنتوجات",
-    "product_information": "معلومات على لمنتوج",
-    "select_options": "ختار لمواصفات",
+    "visit_store": "زور الحانوت",
+    "visit_external_website": "زور الموقع",
+    "products": "المنتوجات",
+    "product_information": "معلومات على المنتوج",
+    "select_options": "ختار المواصفات",
     "purchase_now": "شري دابا",
-    "free_delivery": "ليفريزون فابور",
-    "delivery_estimate": "غادي يوصل ف 2-4 أيام ديال لخدمة",
+    "free_delivery": "التوصيل بالمجان",
+    "delivery_estimate": "غادي يوصل فـ2 حتى لـ4 أيام ديال الخدمة",
     "secure_transaction": "تعامل آمن",
     "money_back_guarantee": "ضمانة ترجع ليك فلوسك إلا ما عجبكش",
-    "select_options_prompt": "ختار لمواصفات ديال لمنتوج باش تشوف واش كاين",
-    "options_affect_availability": "لون، لقياس، ولقماش كيأثرو على واش كاين لمنتوج",
+    "select_options_prompt": "ختار مواصفات المنتوج باش تشوف واش متوفر",
+    "options_affect_availability": "اللون والقياس والقماش كيبدلو التوفر ديال المنتوج",
     "select_quantity_prompt": "ختار شحال بغيتي تشري",
-    "select_options_required": "ختار كاع لمواصفات لمطلوبة باش تزيد هاد لمنتوج للقفة.",
+    "select_options_required": "ختار المواصفات المطلوبة كاملين باش تزيد هاد المنتوج للقفة.",
     "color_images_available": "تصاور ديال {{colorGroup}} كاينين",
     "size_not_available_for_color": "{{sizeName}} - ما كاينش لهاد لون",
-    "image_alt": "تصويرة ديال لمنتوج",
+    "image_alt": "تصويرة ديال المنتوج",
     "discount_badge": "%{{discountPercentage}} تخفيض",
     "added": "تزاد",
     "viewFullDetails": "شوف تفاصيل كاملة",
     "request_custom_product": "طلب منتوج مخصص",
-    "custom_product_description": "ما لقيتيش اللي كتقلب عليه؟ دير طلب مخصص وتواصل مع البائعين اللي يقدرو يديروليك.",
-    "custom_request_message": "السلام! انا مهتم بنسخة مخصوصة من هاد لمنتوج. واش تقدر تعاوني فتصميم شخصي؟",
-    "url": "رابط لمنتوج",
+    "custom_product_description": "ما لقيتيش اللي كتقلب عليه؟ نشر طلب خاص وخلي الصناع يقترحو عليك.",
+    "custom_request_message": "السلام، بغيت نسخة خاصة من هاد المنتوج. واش تقدر تعاونّي نصايبو على حساب الطلب ديالي؟",
+    "url": "رابط المنتوج",
     "add_to_wishlist": "زيد للمفضلة",
     "bestseller": "الأكثر مبيعاً",
     "category": "الصنف",
@@ -511,15 +511,15 @@
     "view_all": "شوف الكل",
     "you_might_also_like": "ممكن يعجبك كذلك",
     "express_delivery": "التوصيل بالسرعة",
-    "related_products": "الحاجات اللي شبهتهم",
+    "related_products": "منتوجات مشابهة",
     "fallback_name": "منتوج",
     "unknown": "منتوج ماعرفناهش",
     "about_this_item": "على هاد المنتوج",
-    "add_to_cart_button": "ضيف للسلة",
+    "add_to_cart_button": "زيد فلقفة",
     "additional_info": "معلومات زيادة",
-    "delivery_estimate_detail": "الشحن سريع مع تتبع الطلبية. الوقت ديال التسليم يتغير حسب الماكان.",
-    "explore_shop": "اكتشف المتجر",
-    "money_back_guarantee_detail": "معاملات آمنة مع ضمان مرجع الفلوس للمنتجات اللي تستاهل.",
+    "delivery_estimate_detail": "توصيل سريع مع تتبع الطلبية. المدة كتبدل على حساب البلاصة.",
+    "explore_shop": "شوف الحانوت",
+    "money_back_guarantee_detail": "الدفع آمن، وتقدر ترجع فلوسك فالمنتوجات اللي داخلة فشروط الرجوع.",
     "price_format": "{{price}} درهم",
     "rating_label": "التقييم",
     "rating_stars": "%{rating} ★",
@@ -535,8 +535,8 @@
       "increase_quantity": "زيد الكمية",
       "low_stock": "بقا غير {{count}} واحد!",
       "max_reached": "وصلت للحد الأقصى ({{max}})",
-      "out_of_stock": "ما فيش ستوك",
-      "ready_to_ship": "جاهز للشحن فالأول",
+      "out_of_stock": "ما بقاش فالستوك",
+      "ready_to_ship": "واجد باش يتصيفط",
       "selected": "مختار"
     },
     "be_first_review": "جديد — كون أول واحد يقيّم"
@@ -562,8 +562,8 @@
     "select_options_for_availability": "ختار لخيارات باش تشوف لتوفر",
     "in_stock_simple": "متوفر",
     "added": "زادت في الكاريتو!",
-    "custom_product_description": "ما دير شنو بغيتي؟ خليك أمر خاص وقول لشي بيع كيدير ليك حنا",
-    "custom_request_message": "السلام! أنا بغيت نسخة خاصة ديهذا المنتج. واخا تساعدني في التصميم؟",
+    "custom_product_description": "ما لقيتيش شنو بغيتي؟ نشر طلب خاص وخلي الصناع يقترحو عليك.",
+    "custom_request_message": "السلام، بغيت نسخة خاصة من هاد المنتوج. واش تقدر تعاونّي نصايبو؟",
     "request_custom_product": "طلب منتج على الطلب",
     "url": "لينك ديالمنتج",
     "viewFullDetails": "شوف التفاصيل الكاملة"
@@ -577,29 +577,29 @@
       "title": "لقفة خاوية",
       "description": "مازال ما زدتي حتى منتوج فلقفة",
       "cta": "شوف لمنتوجات",
-      "heading": "شكارتك خاوية.",
-      "subtitle": "شوف الكوليكسيون ديالنا و لقا شي حاجة تعجبك.",
+      "heading": "لقفة ديالك خاوية.",
+      "subtitle": "شوف المنتوجات ديالنا ولقا شي حاجة تعجبك.",
       "trust": "إرجاع مجاني 14 يوم · صنعة مغربية أصيلة"
     },
     "items": {
-      "product": "لمنتوج",
-      "price": "تمن",
-      "price_with_currency": "تمن: {{price}} درهم",
-      "quantity": "لعدد",
-      "total": "لمجموع",
+      "product": "المنتوج",
+      "price": "الثمن",
+      "price_with_currency": "الثمن: {{price}} درهم",
+      "quantity": "الكمية",
+      "total": "المجموع",
       "remove": "حيد",
       "update": "بدل",
       "sale": "سولد"
     },
     "summary": {
-      "title": "ملخص لكوموند",
-      "subtotal": "لمجموع لفرعي",
-      "shipping": "ليفريزون",
-      "tax": "TVA",
-      "total": "لمجموع لكامل",
-      "proceed_to_checkout": "سير لخلاص",
+      "title": "ملخص الطلب",
+      "subtotal": "المجموع قبل التوصيل",
+      "shipping": "التوصيل",
+      "tax": "الضريبة",
+      "total": "المجموع",
+      "proceed_to_checkout": "كمّل للخلاص",
       "checkout": "خلص",
-      "continue_shopping": "كمل تقلاب",
+      "continue_shopping": "كمّل التسوق",
       "free": "بالمجان",
       "freeShippingHint": "زيد {{amount}} درهم باش يكون التوصيل مجاني",
       "kicker": "ملخص الطلب",
@@ -639,7 +639,7 @@
     "add_to_bag": "زيد للشكارة",
     "added_success": "تزاد للشكارة",
     "aiSuggestions": "كمّل السطايل",
-    "also_like": "يمكن يعجبك كذا",
+    "also_like": "يمكن يعجبوك حتى هادو",
     "bespoke": {
       "cta": "حجز موعد",
       "headline": "بغيتيه على قياسك؟"
@@ -650,13 +650,13 @@
       "applied": "تطبقت القسيمة: {{code}}",
       "apply": "طبق",
       "enter_code": "دخل كود القسيمة",
-      "invalid": "كود القسيمة ما صحيح",
+      "invalid": "كود التخفيض ما صحيحش",
       "placeholder": "دخل كود القسيمة",
       "remove": "شطب",
       "removed": "تشطبت القسيمة",
-      "label": "كود التخفيف"
+      "label": "كود التخفيض"
     },
-    "heading": "شكارتك",
+    "heading": "لقفة ديالك",
     "mobileBar": {
       "itemCount": "{{count}} حاجات",
       "label": "ملخص الشكارة"
@@ -666,8 +666,8 @@
       "authentic": "صنعة مغربية أصيلة",
       "delivery": "التوصيل لجميع المدن",
       "label": "ضمانات الشراء",
-      "support": "الدعم بالعربية / الفرنسية / الإنجليزية",
-      "verified": "بائعين موثوقين"
+      "support": "المساعدة بالدارجة والفرنسية والإنجليزية",
+      "verified": "بياعة موثوقين"
     },
     "shipping": {
       "calculate": "حسب التوصيل",
@@ -683,9 +683,9 @@
       "available": "{{count}} متاح",
       "level": "مستوى الستك",
       "max_reached": "وصلنا للحد الأقصى",
-      "warning": "غير {{count}} دارج فالستك"
+      "warning": "بقاو غير {{count}} فالستوك"
     },
-    "subtitle": "{{count}} حاجات · غير قول",
+    "subtitle": "{{count}} منتوج فلقفة",
     "trust": {
       "returns": "إرجاع مجاني 14 يوم",
       "secure": "دفع آمن"
@@ -693,27 +693,27 @@
     "adding": "كنضيفو للسلة..."
   },
   "products": {
-    "title": "لمنتوجات",
+    "title": "المنتوجات",
     "results": "{{count}} منتوج",
-    "no_results": "ما تلقا حتى منتوج",
+    "no_results": "ما لقينا حتى منتوج",
     "add_to_cart": "زيد فلقفة",
-    "customize": "خصص",
-    "quick_view": "شوف بسرعة",
+    "customize": "فصّلو على قياسك",
+    "quick_view": "شوف التفاصيل",
     "out_of_stock": "ما بقاش",
     "in_stock": "كاين",
-    "sale": "صولد",
-    "search": "قلب على لمنتوجات...",
+    "sale": "تخفيض",
+    "search": "قلّب على المنتوجات...",
     "results_plural": "منتوجات",
     "loading": "تسنى شوية...",
     "error": {
-      "fetch": "وقع مشكل فتحميل لمنتوجات",
-      "general": "وقع مشكل ما متوقعش"
+      "fetch": "ما قدرناش نحمّلو المنتوجات",
+      "general": "وقع شي مشكل ما متوقعش"
     },
     "results_count": "{{count}} منتوج",
-    "express": "ليفريزون سريع",
+    "express": "توصيل سريع",
     "arrives_tomorrow": "غادي يوصل غدا",
     "buy_now": "شري دابا",
-    "no_image": "ما كاين تصويرة",
+    "no_image": "ما كايناش تصويرة",
     "rating": "{{rating}} ★",
     "reviews": "({{count}} تقييم)",
     "reviews_plural": "({{count}} تقييمات)",
@@ -728,9 +728,9 @@
       "popular": "مشهور"
     },
     "filters": {
-      "price_range": "نطاق تمن",
-      "min_price": "أقل تمن",
-      "max_price": "أكبر تمن",
+      "price_range": "بين جوج أثمنة",
+      "min_price": "أقل ثمن",
+      "max_price": "أعلى ثمن",
       "colors": "لوان",
       "color_black": "كحل",
       "color_white": "بيض",
@@ -792,7 +792,7 @@
         "brocade_fassi": "بروكار فاسي",
         "silk_fassi": "حرير فاسي",
         "traditional_caftan": "قفطان تقليدي",
-        "luxury_takchita": "تكشيطة غالية",
+        "luxury_takchita": "تكشيطة فاخرة",
         "moroccan_djellaba": "جلابة مغربية",
         "embroidered_jabador": "جبدور مطرز"
       }
@@ -1041,19 +1041,19 @@
     "total_amount": "المبلغ الكلي"
   },
   "checkout": {
-    "title": "لخلاص",
+    "title": "الخلاص",
     "steps": {
-      "shipping": "ليفريزون",
-      "payment": "لخلاص",
-      "review": "لمراجعة"
+      "shipping": "التوصيل",
+      "payment": "الخلاص",
+      "review": "المراجعة"
     },
     "shipping": {
-      "title": "معلومات ليفريزون",
+      "title": "معلومات التوصيل",
       "address_mode": {
         "edit": "تعديل",
         "detected": "لقينا بلاصتك",
         "manual": "دخل لعنوان بيديك",
-        "location": "ستعمل لموقع لحالي"
+        "location": "ستعمل بلاصتي الحالية"
       },
       "form": {
         "address": "لعنوان",
@@ -1065,9 +1065,9 @@
         "country": "لبلاد",
         "use_location": "ستعمل بلاصتي",
         "detecting_location": "كنقلبو على بلاصتك...",
-        "email": "البريد الإليكتروني",
-        "first_name": "الإسم الأول",
-        "last_name": "الإسم الأخير",
+        "email": "الإيميل",
+        "first_name": "الاسم",
+        "last_name": "النسب",
         "phone": "التليفون",
         "zip_code": "رمز البريد"
       },
@@ -1098,7 +1098,7 @@
     },
     "personal": {
       "title": "معلومات شخصية",
-      "description": "معلومات باش نأكدو طلبك ونخبروك فين وصلات لكوموند",
+      "description": "هاد المعلومات باش نأكدو الطلب ونخبروك فين وصل",
       "first_name": "سميتك لولى",
       "last_name": "سمية لعائلة",
       "full_name": "سميتك لولى",
@@ -1108,7 +1108,7 @@
       "optional": "ماشي ضروري"
     },
     "payment": {
-      "title": "طريقة لخلاص",
+      "title": "طريقة الخلاص",
       "methods": {
         "cod": {
           "title": "الخلاص عند التوصيل",
@@ -1155,15 +1155,15 @@
         "cvv": "رمز التحقق",
         "expiry_date": "تاريخ الصلاحية"
       },
-      "cod_over_limit": "ماكاينش لأكثر من 500 درهم",
+      "cod_over_limit": "الدفع عند التوصيل ما متاحش فوق 500 درهم",
       "cod_morocco_only": "غير فالمغرب"
     },
     "order_summary": {
-      "title": "ملخص لكوموند",
-      "subtotal": "لمجموع لفرعي",
-      "shipping": "ليفريزون",
-      "tax": "TVA",
-      "total": "لمجموع لكامل",
+      "title": "ملخص الطلب",
+      "subtotal": "المجموع قبل التوصيل",
+      "shipping": "التوصيل",
+      "tax": "الضريبة",
+      "total": "المجموع",
       "items": "{{count}} منتوجات"
     },
     "actions": {
@@ -1207,10 +1207,10 @@
       "country_required": "ختار بلادك",
       "auth_required": "خاصك تدخل لكونط ديالك باش تكمل",
       "shipping_info_required": "خاص معلومات ليفريزون باش تكمل",
-      "item_unavailable": "المنتج مش متوفر: هاد المنتج خلص من المخزن أو الكمية اللي طلبتي كتعدي اللي عندنا. ({{name}})",
-      "insufficient_stock": "ما كاينش غير {{count}} قطعة من {{name}}. عدّل السلة ديالك.",
-      "cart_items_unavailable": "واحد أو أكتر من المنتجات فالسلة ديالك ما بقاوش متوفرين بالكمية اللي طلبتي. راجع السلة وعاود.",
-      "order_creation_failed": "مخدمتش إنشاء الطلبية"
+      "item_unavailable": "هاد المنتوج ما بقاش متوفر، ولا الكمية اللي طلبتي كثر من اللي كاين. ({{name}})",
+      "insufficient_stock": "كاينين غير {{count}} قطع من {{name}}. بدّل الكمية فلقفة ديالك.",
+      "cart_items_unavailable": "شي منتوجات فلقفة ديالك ما بقاوش متوفرين بالكمية اللي طلبتي. راجع لقفة وعاود.",
+      "order_creation_failed": "ما قدرناش نسجلو الطلب ديالك"
     },
     "success": {
       "order_placed": "تسجلات لكوموند ديالك بنجاح!",
@@ -1244,8 +1244,8 @@
     },
     "empty": {
       "cta": "ارجع للتسوق",
-      "heading": "ما كاين والو باش نبعتو",
-      "subtitle": "دور على شي حاجة عجباتك وارجع."
+      "heading": "لقفة ديالك خاوية",
+      "subtitle": "قلّب على شي حاجة تعجبك ومن بعد رجع للخلاص."
     },
     "heading": {
       "title": "فين نبعتوها ليك؟",
@@ -1255,8 +1255,8 @@
       "authentic": "صناعة أصيلة",
       "returns": "إرجاع بلا تمن",
       "section_label": "علاش تشري معنا",
-      "support": "دعم بجوج لغات",
-      "verified": "بائعين موثوقين"
+      "support": "مساعدة بثلاث لغات",
+      "verified": "بياعة موثوقين"
     },
     "stepper": {
       "aria_label": "مراحل الطلبية",
@@ -1274,6 +1274,10 @@
       "tax": "الضريبة",
       "total": "المجموع",
       "product_image_alt": "صورة المنتج"
+    },
+    "quote": {
+      "loading": "كنحسبو المجموع…",
+      "load_error": "ماقدرناش نحسبو المجموع. عاود حاول."
     }
   },
   "profile": {
@@ -1294,7 +1298,7 @@
       "preferences": "تفضيلات"
     },
     "default_user_name": "لمستخدم",
-    "title": "لبروفيل",
+    "title": "البروفيل ديالي",
     "member_since": "عضو من ",
     "no_email": "ما كاينش إيمايل",
     "personal_info": "معلومات شخصية",
@@ -1333,13 +1337,13 @@
     },
     "security": {
       "change_password": "بدل لموت دو باس",
-      "current_password": "لموت دو باس لحالي",
-      "new_password": "لموت دو باس جديد",
-      "confirm_password": "أكد لموت دو باس جديد",
-      "password_help": "خاص لموت دو باس يكون فيه على لأقل 8 حروف",
-      "password_mismatch": "لموت دو باس ما متطابقينش",
-      "success_message": "تبدل لموت دو باس بنجاح",
-      "error_message": "ما نجحش تبديل لموت دو باس"
+      "current_password": "كلمة السر الحالية",
+      "new_password": "كلمة السر الجديدة",
+      "confirm_password": "أكد كلمة السر الجديدة",
+      "password_help": "خاص كلمة السر يكون فيها على الأقل 8 حروف",
+      "password_mismatch": "كلمتي السر ما متطابقينش",
+      "success_message": "تبدلات كلمة السر",
+      "error_message": "ما قدرناش نبدلو كلمة السر"
     },
     "preferences": {
       "title": "تفضيلات",
@@ -1357,8 +1361,8 @@
         "description": "توصل بإشعارات على حالة لكوموند ديالك"
       },
       "newsletter": {
-        "title": "نيوزليتر",
-        "description": "شارك فنيوزليتر ديالنا لسيمانية"
+        "title": "رسائل الجديد",
+        "description": "توصل برسالة كل سيمانة فيها الجديد والعروض"
       },
       "language_settings": "إعدادات للغة",
       "language": {
@@ -1369,8 +1373,8 @@
         "title": "توقيت",
         "description": "ختار توقيت ديال منطقتك"
       },
-      "success_message": "تحدثو تفضيلات بنجاح",
-      "error_message": "ما نجحش تحديث تفضيلات"
+      "success_message": "تسجلات التفضيلات ديالك",
+      "error_message": "ما قدرناش نسجلو التفضيلات"
     },
     "edit_avatar": "بدل الصورة"
   },
@@ -1431,14 +1435,14 @@
       "update_profile": "ما قدرناش نحدثو لبروفيل",
       "save_address": "ما قدرناش نسجلو لعنوان"
     },
-    "changes_saved": "التعديلات تحفظت بنجاح.",
-    "error_saving": "وقع خطأ فالحفظ. حاول مرة أخرى.",
+    "changes_saved": "تسجلات التعديلات.",
+    "error_saving": "ما قدرناش نسجلو التعديلات. عاود حاول.",
     "bell": {
       "title": "الإشعارات",
       "aria": "الإشعارات",
-      "ariaWithCount": "الإشعارات، {{count}} مقروءاش",
-      "markAllRead": "علم بحال مقروء كولو",
-      "empty": "ما كاين إشعارات",
+      "ariaWithCount": "الإشعارات، {{count}} ما تقراوش",
+      "markAllRead": "علّمهم كاملين كمقريين",
+      "empty": "ما كاين حتى إشعار",
       "viewAll": "شوف كولشي",
       "types": {
         "order_placed": "طلبية جديدة",
@@ -1449,15 +1453,15 @@
         "review_posted": "تقييم جديد على منتوجك",
         "new_follower": "متابع جديد",
         "back_in_stock": "المنتوج رجع متوفر",
-        "price_drop": "تنقص التمن"
+        "price_drop": "هبط الثمن"
       }
     },
     "page": {
       "title": "الإشعارات",
       "total": "{{count}} إشعار",
-      "emptyTitle": "ما كاين إشعارات",
-      "emptyDescription": "كولشي في الترتيب! غنعلموك منين كيكون شي جديد.",
-      "markRead": "علم بحال مقروء",
+      "emptyTitle": "ما كاين حتى إشعار",
+      "emptyDescription": "كلشي هاني. غادي نخبروك ملي يكون شي جديد.",
+      "markRead": "علّم كمقري",
       "pagination": "صفحة {{current}} من {{last}}",
       "types": {
         "order_placed": "طلبية جديدة",
@@ -1468,7 +1472,7 @@
         "review_posted": "تقييم جديد على منتوجك",
         "new_follower": "متابع جديد",
         "back_in_stock": "المنتوج رجع متوفر",
-        "price_drop": "تنقص التمن"
+        "price_drop": "هبط الثمن"
       }
     }
   },
@@ -1497,13 +1501,13 @@
   "shops": {
     "title": "المحلات",
     "featuredStores": "المحلات المميزة",
-    "featuredStoresDescription": "اكتشف متاجرنا الأعلى تقييماً والموثقة التي تقدم منتجات عالية الجودة",
+    "featuredStoresDescription": "شوف الحوانت الموثوقين واللي عندهم أحسن التقييمات",
     "noShopsFound": "ما لقينا حتى محل",
-    "checkBackSoon": "ارجعوا غادي!",
+    "checkBackSoon": "رجع شوفنا قريب",
     "list": {
       "eyebrow": "السوق",
       "headline": "ورشات مختارة.",
-      "sub": "اكتشف حوانيت مغربية أصيلة"
+      "sub": "شوف حوانت مغربية أصيلة"
     },
     "browse": "شوف الحوانيت",
     "error": {
@@ -1514,8 +1518,8 @@
     "search": {
       "label": "قلّب على حانوت",
       "placeholder": "دور على الحوانيت...",
-      "button": "شدّ",
-      "results": "الحنا على {{count}} نتيجة"
+      "button": "قلّب",
+      "results": "لقينا {{count}} نتيجة"
     },
     "try_again": "عاود حاول من بعد",
     "all": "كل الحوانيت",
@@ -1527,58 +1531,58 @@
           "latest": "الجدد",
           "name_asc": "السمية أ-ي",
           "name_desc": "السمية ي-أ",
-          "products": "أكثر منتجات"
+          "products": "أكثر المنتوجات"
         }
       },
       "apply": "طبق الفلاتر",
-      "categories": "الفئات",
-      "clear": "سح الفلاتر",
+      "categories": "الأصناف",
+      "clear": "حيد الفلاتر",
       "location": "الموقع",
-      "price_range": "رانج السعر",
+      "price_range": "بين جوج أثمنة",
       "rating": "التقييم",
       "title": "الفلاتر"
     },
     "nearby": "القريب",
-    "noResults": "ما حنينا حوانيت",
-    "products_count": "{{count}} منتاج",
+    "noResults": "ما لقينا حتى حانوت",
+    "products_count": "{{count}} منتوج",
     "shop": {
       "follow": "تبع",
       "following": "تابع",
-      "about": "علاش المتجر",
+      "about": "على الحانوت",
       "contact": "تواصل",
       "customer_support": "خدمة الزبائن",
-      "fast_shipping": "الشحن السريع",
-      "fast_shipping_desc": "الوصول من 2 إلى 4 يوميات معا التتبع",
+      "fast_shipping": "توصيل سريع",
+      "fast_shipping_desc": "كيوصل فـ2 حتى لـ4 أيام مع التتبع",
       "followers": "{{count}} متابع",
       "joinedDate": "دخل في {{date}}",
       "location": "الموقع",
       "products": "المنتجات",
       "quality_guarantee": "ضمان الجودة",
-      "quality_guarantee_desc": "منتجات تقليدية 100% مصنوعة بيد",
+      "quality_guarantee_desc": "منتوجات تقليدية مخدومة باليد",
       "report": "سجل شكاية",
       "response_rate": "معدل الرد {{rate}}%",
       "response_time": "يرد في {{time}}",
       "reviews": "التقييمات",
       "share": "شارك",
-      "verified_seller": "باع موثوق",
-      "verified_seller_desc": "هاد الباع موثوق ومعتمد",
-      "visit": "زور المتجر"
+      "verified_seller": "بايع موثوق",
+      "verified_seller_desc": "هاد البايع موثوق ومعتمد",
+      "visit": "زور الحانوت"
     },
-    "tryDifferentSearch": "بدل البحث أو الفلاتر باش تلقى لي دير عليه",
+    "tryDifferentSearch": "بدل البحث ولا الفلاتر باش تلقى شنو كتقلب عليه",
     "types": {
       "regular": "متجر عادي"
     },
     "verified": "موثوق",
-    "clearFilters": "سح الفلاتر",
-    "noImage": "ماكاش صورة",
-    "no_shops": "ما كاين متجر",
+    "clearFilters": "حيد الفلاتر",
+    "noImage": "ما كايناش تصويرة",
+    "no_shops": "ما كاين حتى حانوت",
     "pagination": {
       "next": "الجاي",
       "page": "الصفحة {{current}} من {{total}}",
       "previous": "السابق"
     },
     "reviews_count": "{{count}} تقييم",
-    "search_placeholder": "شدّ على المتاجر...",
+    "search_placeholder": "قلّب على الحوانت...",
     "sort": {
       "newest": "الجديد",
       "products": "منتجات بزاف",
@@ -1626,9 +1630,9 @@
       "services": "خدمات",
       "help": "مساعدة",
       "company": "شركة",
-      "footer": "تذييل الصفحة",
+      "footer": "آخر الصفحة",
       "quickLinks": "الروابط السريعة",
-      "sellers": "البائعين",
+      "sellers": "البياعة",
       "support": "الدعم"
     },
     "categories": {
@@ -1636,7 +1640,7 @@
       "kaftan": "قفطان",
       "jellaba": "جلابة",
       "accessories": "أكسيسوارات",
-      "new_arrivals": "جا جديد"
+      "new_arrivals": "الجديد"
     },
     "services": {
       "custom_tailoring": "تفصيل خاص",
@@ -1670,7 +1674,7 @@
       "instagram": "إنستاغرام",
       "twitter": "تويتر"
     },
-    "newsletter": "نيوزليتر",
+    "newsletter": "رسائل الجديد",
     "copyright": "© 2025 Beldify. كولشي محفوظ",
     "shop": "تسوّق",
     "women": "نساء",
@@ -1678,7 +1682,7 @@
     "kids": "دراري",
     "tailoring": "الخياطة",
     "newArrivals": "جديد",
-    "headingSellers": "البايعين",
+    "headingSellers": "البياعة",
     "becomeSeller": "ولّي بايع",
     "sellerDashboard": "لوحة البايع",
     "sellerSupport": "الدعم ديال البايعين",
@@ -1707,7 +1711,7 @@
       "email": "contact@beldify.com",
       "phone": "+212 (0) 7 08 15 03 51"
     },
-    "description": "اكتشف أجمل اللباس والحرفة المغربية. بلديفاي كتربط ليك مع الصناع والمصممين المغاربة الصحيح.",
+    "description": "شوف أجمل اللباس والصنعة المغربية. بلديفاي كتوصلّك بالصناع والمصممين المغاربة.",
     "handcrafted": "صنع بكل فخر فالمغرب",
     "made_in": "صنع بكل فخر فالمغرب",
     "quickLinks": {
@@ -1721,17 +1725,17 @@
       "community": "السوق المفتوح",
       "home": "الرئيسية",
       "products": "المنتجات",
-      "title": "الروابط البسيطة"
+      "title": "روابط سريعة"
     },
     "rights": "جميع الحقوق محفوظة.",
     "sellers": {
-      "become": "كن بائع",
-      "becomeSeller": "كن بائع",
-      "dashboard": "لوحة تحكم البائع",
-      "sellerDashboard": "لوحة تحكم البائع",
-      "sellerSupport": "دعم البائعين",
-      "support": "دعم البائعين",
-      "title": "البائعين"
+      "become": "ولّي بايع",
+      "becomeSeller": "ولّي بايع",
+      "dashboard": "لوحة البايع",
+      "sellerDashboard": "لوحة البايع",
+      "sellerSupport": "مساعدة البياعة",
+      "support": "مساعدة البياعة",
+      "title": "البياعة"
     },
     "support": {
       "contact": "اتصل بنا",
@@ -1835,7 +1839,7 @@
         ],
         "yourRightsContact": "باش تطلب ممارسة هاد الحقوق، كيتقدر تتواصل معانا من خلال صفحة اتصل بنا.",
         "childrenPrivacy": "خصوصية الأطفال",
-        "childrenPrivacyDescription": "خدماتنا ماموجهاش للي عندهم أقل من 16 عام. ما كنجمعوش معلومات شخصية من الأطفال بشكل متعمد. إلا كنت واليد ولا ولي أمر وعندك شك أن ولدك داك المعلومات الشخصية ديالو، يرجى الاتصال بيا.",
+        "childrenPrivacyDescription": "الخدمات ديالنا ما موجهاش للي عندهم أقل من 16 عام، وما كنجمعوش معلومات الأطفال عن قصد. إلا كنتي ولي أمر وعندك شي تساؤل، تواصل معانا.",
         "internationalTransfers": "نقل البيانات للخارج",
         "internationalTransfersDescription": "لمعلومات ديالك ممكن تتنقل و تخزن فبلدان أخرى غير البلاد ديالك. فاش كيتم نقل لمعلومات ديالك دولياً، كناستعملو تدابير حماية مناسبة باش نحميوها وفقاً لسياسة الخصوصية هادي و للتشريع الجاري به العمل.",
         "changes": "التغييرات فسياسة الخصوصية هادي",
@@ -1956,104 +1960,104 @@
       }
     },
     "returns": {
-      "title": "الرجاع والاسترداد",
-      "subtitle": "سياستنا ونظامنا ديال الرجاع والاسترداد",
+      "title": "الرجوع ورجوع الفلوس",
+      "subtitle": "كلشي على سياسة وطريقة الرجوع والتبديل",
       "process": {
         "contactSupport": "تواصل مع الدعم",
         "helpDescription": "فريق الدعم ديالنا خدّام باش يساعدك فالإرجاع.",
         "needHelp": "محتاج مساعدة؟",
-        "title": "قاش كنرجعو الحاجات",
-        "contactButton": "توصل بخدمة الزباينة",
-        "helpText": "إذا عندك سؤال على عملية الإرجاع، توصل بفريق خدمة الزباينة ديالنا.",
-        "helpTitle": "بحاجة لمساعدة؟",
-        "refundText1": "المبلغ كايرجع وسط 3 إلى 5 أيام عملية زوج ما نوصل المنتوج المرجوع.",
+        "title": "كيفاش كيدوز الرجوع",
+        "contactButton": "تواصل مع المساعدة",
+        "helpText": "إلا عندك سؤال على الرجوع، تواصل مع فريق المساعدة ديالنا.",
+        "helpTitle": "محتاج للمساعدة؟",
+        "refundText1": "الفلوس كترجع فـ3 حتى لـ5 أيام عمل من بعد ما يوصلنا المنتوج.",
         "refundText2": "المبلغ كايرجع على الطريقة الأصلية ديالك.",
-        "refundText3": "سيب وقت إضافي للبنك ولا الشركة ديالة البطاقة باش تعالج المبلغ.",
-        "refundTitle": "معلومات الاسترجاع",
-        "shippingText1": "كاتعطيك تصريح إرجاع مدفوع مسبقا للإرجاعات الأمريكية. الزباينة الدوليين مسؤولين على كلفة الإرجاع.",
-        "shippingText2": "باش تحمي راسك، كنصيح استعمل خدمة شحن متتبعة واشتري تأمين الشحن.",
-        "shippingTitle": "شحن الإرجاع",
+        "refundText3": "البنك ولا شركة الكارط يقدرو يحتاجو شوية ديال الوقت باش يبان المبلغ.",
+        "refundTitle": "معلومات رجوع الفلوس",
+        "shippingText1": "مصاريف الرجوع كتبدل على حساب البلاصة ديالك.",
+        "shippingText2": "كننصحوك تستعمل توصيل فيه التتبع باش يبقى الطرد محمي.",
+        "shippingTitle": "توصيل الرجوع",
         "timeline1": "اليوم 1-2: بدا الإرجاع واستقبل التصريح",
-        "timeline2": "اليوم 3-5: حزم وشحت الإرجاع ديالك",
-        "timeline3": "اليوم 6-10: نوصلنا الإرجاع ونفتشوه",
+        "timeline2": "اليوم 3-5: غلّف وصيفط المنتوج",
+        "timeline3": "اليوم 6-10: كيوصلنا المنتوج وكنفحصوه",
         "timeline4": "اليوم 11-14: المبلغ كايرجع",
         "timelineTitle": "جدول الإرجاع"
       },
       "returnShipping": {
-        "description": "قد تتطبق تكاليف شحن الإرجاع حسب موقعك.",
-        "title": "شحن الإرجاع"
+        "description": "ممكن تكون كاينة مصاريف الرجوع على حساب البلاصة ديالك.",
+        "title": "توصيل الرجوع"
       },
       "exchanges": {
-        "description": "نحنا فرحانين نساعدك تبدّل الحاجة بحجم أو لون آخر، لكن هاد الشي يكون موجود.",
-        "eligibilityDescription": "بحال كنتي تريد تبدّل الحاجة، لازم تكون متوفرة الشروط هاديك:",
-        "eligibilityTitle": "شنو الحاجات اللي يمكن تبدّلهم",
-        "internationalDescription": "المشتريين من البرّا دسّاس الماروك، هوما ملزومين يدفعو تمن الرجعة وكاين فيه التاكسات أو الضرايب. نحنا نتدّو نحنا تمن توصيل الحاجة الجديدة ليك.",
-        "internationalTitle": "التبديل للناس من برّا",
-        "priceDiffDescription": "إلا كانت الحاجة الجديدة اغلى، غادي نقول لك تدفع الفرق. وإلا كانت أرخص، غادي نرجع لك الفرق فلحساب ديالك.",
-        "priceDiffTitle": "إلا كان التمن مختلف",
-        "processDescription": "التبديل كايعتمد على الحاجات اللي متوفرة. إلا ما تقدرشنا نلقاو الحاجة اللي تريد، غادي نرجع لك التمن.",
-        "requestDescription": "بّع هاد الخطوات باش تبدّل الحاجة ديالك:",
-        "requestTitle": "قاش تبدّل الحاجة",
+        "description": "نقدرو نعاونوك تبدل المنتوج بقياس ولا لون آخر، على حساب التوفر.",
+        "eligibilityDescription": "باش يتقبل التبديل، خاص المنتوج يحترم هاد الشروط:",
+        "eligibilityTitle": "شروط التبديل",
+        "internationalDescription": "الزبناء اللي برا المغرب كيتكلفو بمصاريف الرجوع وأي رسوم جمركية.",
+        "internationalTitle": "التبديل من برا المغرب",
+        "priceDiffDescription": "إلا كان البديل أغلى كتخلص الفرق، وإلا كان أرخص كنرجعو ليك الفرق.",
+        "priceDiffTitle": "الفرق فالثمن",
+        "processDescription": "التبديل كيبقى على حساب الستوك. إلا البديل ما متوفرش، كنرجعو ليك فلوسك.",
+        "requestDescription": "تبع هاد الخطوات باش تبدل المنتوج:",
+        "requestTitle": "كيفاش تطلب التبديل",
         "title": "التبديل",
-        "eligibility1": "المنتوج ما لازم يكون استعمل ولا لبس ويكون فحالة الأصل مع جميع الوسوم",
-        "eligibility2": "الحزمة الأصلية ديالة لازم تكون معاها",
-        "eligibility3": "التبديل لازم يتطلب وسط 14 يوم من الوصول",
-        "eligibility4": "المنتوج لازم يكون متوفر للتبديل",
-        "step1": "ادخل على الحساب ديالك وروح على 'تاريخ الطلبيات'",
+        "eligibility1": "خاص المنتوج ما يكونش تستعمل ولا تلبس، ويبقى بحالتو الأصلية",
+        "eligibility2": "خاص التغليف والعلامات الأصلية يبقاو معاه",
+        "eligibility3": "خاصك تطلب التبديل فـ14 يوم من التوصيل",
+        "eligibility4": "خاص المنتوج البديل يكون متوفر",
+        "step1": "دخل للحساب ديالك ومشي للطلبات",
         "step2": "اختار المنتوج اللي بغيت تبدله واختار 'تبديل' كسبب الإرجاع",
         "step3": "اختار المنتوج البديل اللي بغيت",
-        "step4": "اطبع التصريح ديال الإرجاع وشحت المنتوج الأصلي",
-        "step5": "زوج ما نوصل المنتوج المرجوع، كايشحتوك البديل"
+        "step4": "طبع ورقة الرجوع وصيفط المنتوج الأصلي",
+        "step5": "ملي يوصلنا المنتوج، غادي نصيفطو ليك البديل"
       },
       "nonReturnableItems": {
-        "item1": "الحاجات اللي تقدّ ليك من غير ما يكون عندك حاجات معاك",
-        "item2": "الملابس الداخلية (تحتاني, لباس البحر, الشراريب)",
-        "item3": "الحاجات اللي كتبو عليها 'حاجة نهائية' أو تقليل التمن",
-        "item4": "الحاجات بلا العلبة الأصلية أو التاگ",
-        "item5": "الحاجات اللي استعملتهم أو فيهم عيب",
-        "item6": "الكروت الكادو والحاجات الرقمية",
-        "title": "الحاجات اللي ما تقدرش ترجعهم"
+        "item1": "المنتوجات المخدومين على القياس ولا المخصصين",
+        "item2": "الملابس الداخلية ولباس البحر والتقاشر",
+        "item3": "المنتوجات اللي مكتوب عليهم البيع النهائي",
+        "item4": "المنتوجات بلا التغليف ولا العلامات الأصلية",
+        "item5": "المنتوجات المستعملين ولا المتضررين",
+        "item6": "بطاقات الهدايا والمنتوجات الرقمية",
+        "title": "المنتوجات اللي ما كتقبلش الرجوع"
       },
       "refunds": {
-        "description": "إلا وصلتنا الحاجة ديالك، غادي نتفرّجو فيها ونقول لك أننا وصلتنا. بعد ما نتفرّجو، غادي نقول لك على الرجعة دالتمن.",
-        "title": "الرجعة ديالتمن",
-        "timeline": "المبالغ كايترجع وسط 3 إلى 5 أيام عملية زوج ما نوصل المنتوج المرجوع. المبلغ كايرجع على الطريقة الأصلية ديالك."
+        "description": "ملي يوصلنا المنتوج، كنفحصوه وكنخبروك واش تقبل الرجوع.",
+        "title": "رجوع الفلوس",
+        "timeline": "الفلوس كترجع فـ3 حتى لـ5 أيام عمل من بعد ما يوصلنا المنتوج، بنفس طريقة الدفع."
       },
       "returnableItems": {
-        "item1": "الملابس لم تلبس، لم تغسّل، والتاگ مايزال عليها",
-        "item2": "الحاجات الجميلة اللي ما استعملتهمش والعلبة مايزال معاهم",
-        "item3": "الحاجات ديالجمال اللي ما فتحتهمش",
-        "item4": "الحاجات اللي فيهم عيب (لحد الوقت اللي يقول الضمان)",
-        "item5": "الحاجات ما توقّاش من حيتها وكلشي موجود فيها",
-        "title": "الحاجات اللي يمكن ترجعها"
+        "item1": "اللباس اللي ما تلبسش وما تغسلش والعلامات باقين فيه",
+        "item2": "الإكسسوارات اللي ما تستعملوش وباقيين فالتغليف الأصلي",
+        "item3": "منتوجات التجميل والعناية اللي ما تحلوش",
+        "item4": "المنتوجات اللي فيهم عيب وداخلين فالضمان",
+        "item5": "المنتوجات اللي باقين بحالتهم الأصلية وكلشي موجود معاهم",
+        "title": "المنتوجات اللي كتقبل الرجوع"
       },
       "returnsPolicy": {
-        "policy1": "نحنا غادين تكون أنت فرحان بالحاجات اللي اشريت. إلا ما فرحتش، يمكك ترجع أغلب الحاجات فداخل 30 نهار من التوصيل، والتمن يرجع ليك أو تبدّل.",
-        "policy2": "باش ترجع الحاجة، لازم ما تستعملهاش وتكون جاية ليك بحالها. لازم تكون فالعلبة الأصلية وكلشي معاها بحالو.",
-        "title": "سيّاسة الرجعة"
+        "policy1": "بغيناك تكون راضي على الشراء ديالك. إلا ما عجبكش المنتوج، تقدر ترجع أغلب المنتوجات فـ30 يوم من التوصيل.",
+        "policy2": "باش يتقبل الرجوع، خاص المنتوج ما يكونش تستعمل ويبقى بحالتو وتغليفو الأصلي.",
+        "title": "سياسة الرجوع"
       },
       "steps": {
         "step1": {
-          "description": "ابدأ الرجعة من عندنا في الموقع",
-          "name": "ابدأ الرجعة"
+          "description": "بدا طلب الرجوع من الموقع ديالنا",
+          "name": "بدا الرجوع"
         },
         "step2": {
-          "description": "ڭلّس الحاجة بحسن بالعلبة الأصلية",
-          "name": "ڭلّس الحاجة"
+          "description": "غلّف المنتوج مزيان فالتغليف الأصلي",
+          "name": "غلّف المنتوج"
         },
         "step3": {
-          "description": "استعمل النيّة ديالنا اللي ما دار فيها شي باش ترجع الحاجات",
-          "name": "رجّع الحاجات"
+          "description": "ستعمل ورقة الرجوع وصيفط المنتوج",
+          "name": "صيفط المنتوج"
         },
         "step4": {
-          "description": "تقبّل التمن ديالك إلا كملنا معالجة الرجعة",
-          "name": "تقبّل التمن"
+          "description": "غادي ترجع ليك فلوسك من بعد ما نعالجو الرجوع",
+          "name": "رجوع الفلوس"
         }
       },
       "tabs": {
         "exchanges": "التبديل",
-        "returnProcess": "قاش كنرجعو",
-        "returnsPolicy": "سيّاسة الرجعة"
+        "returnProcess": "طريقة الرجوع",
+        "returnsPolicy": "سياسة الرجوع"
       },
       "availabilityText": "التبديلات خاضعة للتوفر. إذا المنتوج اللي بغيت ما كاينش، كايعطيوك المبلغ بدل.",
       "contactSupport": "توصل بخدمة الزباينة",
@@ -2069,8 +2073,8 @@
       "giftCards": "بطاقات الهدايا والمنتجات الرقمية",
       "ineligibleItems": "المنتجات اللي ما كتقدر ترجعها",
       "initiateReturn": "كيفاش تبدا الإرجاع",
-      "inspectionText": "زوج ما نوصل المنتوج المرجوع، كايفتشوه باش تأكدوا إنه يحقق شروط الإرجاع ديالنا.",
-      "internationalProcess": "توصل بفريق خدمة الزباينة ديالنا قبل ما تشحت أي حاجة للإرجاع الدولي.",
+      "inspectionText": "ملي يوصلنا المنتوج المرجوع، كنفحصوه باش نتأكدو بلي داخل فشروط الرجوع.",
+      "internationalProcess": "تواصل مع فريق المساعدة قبل ما تصيفط شي منتوج من برا المغرب.",
       "internationalText": "الزباينة من الدول الأخرى مسؤولين على كلفة الإرجاع وأي ضرائب جمركية ولا تاكسات أخرى على الإرجاع.",
       "internationalTitle": "الإرجاع الدولي",
       "intimateItems": "الملابس الداخلية والملابس الحساسة والملابس السباحة (لسباب صحية)",
@@ -2080,28 +2084,28 @@
       "refundTimeText": "المبالغ المعتمدة كايترجع وسط 5 إلى 7 أيام عملية على الطريقة الأصلية ديالك.",
       "refundTitle": "عملية الاسترجاع",
       "returnPolicy": "سياسة الإرجاع",
-      "saleItems": "المنتجات اللي مكتوب عليها 'بيع نهائي' ولا المنتجات الغالية ديسكونت بزاف (أكثر من 50%)",
-      "shippingCostText": "كلفة الشحن الأولى ما كتراجعش إلا إذا الإرجاع هوا غلطة منا (منتوج معيب، طلبية غلط، إلخ).",
+      "saleItems": "المنتوجات اللي مكتوب عليهم البيع النهائي ولا عندهم تخفيض كثر من 50%",
+      "shippingCostText": "مصاريف التوصيل الأولى ما كترجعش إلا إلا كان الغلط من عندنا.",
       "sizeExchange": "تبديلات الحجم واللون",
-      "standardItems": "المنتجات العادية كتقدر ترجعها وسط 30 يوم من الوصول، بشرط ما تستعملش ولا تلبس وتكون فالحزمة الأصلية مع جميع الوسوم.",
-      "step1": "1. ادخل على الحساب ديالك وروح على 'تاريخ الطلبيات'.",
-      "step2": "2. لقا الطلبية اللي فيها المنتوج اللي بغيت ترجعه واضغط على 'إرجاع المنتجات'.",
+      "standardItems": "تقدر ترجع المنتوجات العادية فـ30 يوم من التوصيل، بشرط ما تكونش تستعملات وتبقى فالتغليف الأصلي.",
+      "step1": "1. دخل للحساب ديالك ومشي للطلبات.",
+      "step2": "2. لقى الطلب اللي فيه المنتوج اللي بغيتي ترجع واختار رجوع المنتوجات.",
       "step3": "3. اختار المنتجات اللي بغيت ترجعها والسبب.",
-      "step4": "4. اطبع التصريح ديال الإرجاع والتصريح بالإرجاع.",
-      "step5": "5. حزم المنتجات بشكل آمن فالحزمة الأصلية إن أمكن.",
-      "step6": "6. حط التصريح على الحزمة واشحتها عند الناقل المحدد."
+      "step4": "4. طبع ورقة الرجوع.",
+      "step5": "5. غلّف المنتوجات مزيان فالتغليف الأصلي إلا كان موجود.",
+      "step6": "6. لصق ورقة الرجوع وصيفط الطرد."
     },
     "faqs": {
-      "account": "[{\"question\": \"كيفاش نعمل حساب?\", \"answer\": \"يمكن تعملي حساب بضرطة على زر 'التسجيل' في الزاوية العلوية لليمين من الموقع ديالنا. خاصك تعطيني الإيميل ديالك وتعملي رمز سري، أو يمكن تسجلي بحسابك ديال جوجل.\"}, {\"question\": \"نقدر نشري بدون ما نعملو حساب?\", \"answer\": \"آه، يمكن تصفحي وتشري بدون ما تعملي حساب. بصح إذا عملتي حساب، يمكن تتبعي الطلبيات ديالك، وتحفظي المنتجات لي بغيتي، وتشري بطريقة أسهل.\"}, {\"question\": \"كيفاش نتتبع الطلب ديالي؟\", \"answer\": \"إذا اتشحنت الطلبية ديالك، غاتوصل ليك رسالة إيميل فيها معلومات التتبع. يمكن كذلك تشوفي حالة الطلب ديالك من الحساب ديالك تحت 'سجل الطلبيات'.\"}, {\"question\": \"كيفاش نبدل الرمز السري ديالي؟\", \"answer\": \"يمكن تبدلي الرمز السري ديالك بضرطة على 'نسيت الرمز السري' في صفحة التسجيل. غنبعتو ليك رسالة إيميل فيها الطريقة باش تعملي رمز سري جديد.\"}]",
+      "account": "[{\"question\": \"كيفاش ندير حساب؟\", \"answer\": \"ضغط على زر التسجيل، دخل الإيميل ديالك واختار كلمة سر، ولا تسجّل بحساب Google.\"}, {\"question\": \"نقدر نشري بلا حساب؟\", \"answer\": \"آه، تقدر تشري بلا حساب. ولكن الحساب كيعاونك تتبع الطلبات وتحفظ المفضلة ديالك.\"}, {\"question\": \"كيفاش نتبع الطلب ديالي؟\", \"answer\": \"ملي يتصيفط الطلب ديالك، غادي يوصلك إيميل فيه معلومات التتبع. وتقدر تشوف الحالة من صفحة الطلبات ديالك.\"}, {\"question\": \"كيفاش نبدل كلمة السر؟\", \"answer\": \"ضغط على 'نسيتي كلمة السر؟' فصفحة الدخول، وغادي نصيفطو ليك رابط باش تبدلها.\"}]",
       "accountTitle": "الحساب والطلبيات",
       "contactText": "إذا ما لقيتش الجواب ديال السؤال ديالك، فريق الدعم ديالنا دايما جاهزين يساعدوك.",
-      "contactUs": "اتصل بنا",
+      "contactUs": "تواصل معانا",
       "generalTitle": "الأسئلة العامة",
       "paymentsTitle": "الدفع والأمان",
       "productsTitle": "المنتجات والقياسات",
       "returnsTitle": "الإرجاع والتبديلات",
       "stillHaveQuestions": "واش عندك أسئلة أخرى؟",
-      "subtitle": "لقا الجوابات على الأسئلة الشائعة على المنتجات والخدمات ديالنا",
+      "subtitle": "لقى الجواب على الأسئلة الشائعة على المنتوجات والخدمات ديالنا",
       "title": "الأسئلة الشائعة"
     },
     "sellers": {
@@ -2440,39 +2444,39 @@
     "privacy": "ما غادي نصيفطو ليك غير المفيد. تقدر تحبس الرسائل فأي وقت."
   },
   "returns": {
-    "title": "لرجاع و التبديل",
-    "subtitle": "سياستنا و نظامنا ديال لرجاع والتبديل",
+    "title": "الرجوع والتبديل",
+    "subtitle": "كلشي على طريقة الرجوع والتبديل",
     "returnsPolicy": {
-      "title": "سياسة لرجاع",
+      "title": "سياسة الرجوع",
       "policy1": "بغيناك تكون راضي تماما على شرا ديالك. إلى ماكنتيش راضي، يمكن ليك ترجع أغلب السلع فمدة 30 يوم من تاريخ التسليم باش تاخد المبلغ كامل أو تبدلها.",
       "policy2": "باش تكون مقبول للإرجاع، خاص السلعة تكون مامستعملاش ونفس الحالة لي تسلمتيها بها. خاصها تكون فالتغليف الأصلي مع جميع العلامات ملصقين بها."
     },
     "refunds": {
-      "title": "الاسترداد",
+      "title": "رجوع الفلوس",
       "description": "منين نتوصلو بلرجاع ديالك، غادي نفحصوه ونعلموك بلي توصلنا بالسلعة المرجوعة. غادي نعلموك فالحين بحالة لاسترداد ديالك بعدما نفحصو السلعة.",
       "timeline": "الاستردادات غادي تتعالج فمدة 3-5 أيام عمل من بعد ما نتوصلو بلرجاع ديالك. التعويض غادي يتحط ففوسيلة الأداء الأصلية ديالك."
     },
     "tabs": {
-      "returnsPolicy": "سياسة لرجاع",
+      "returnsPolicy": "سياسة الرجوع",
       "exchanges": "التبديل",
       "returnProcess": "عملية لرجاع"
     },
     "steps": {
       "step1": {
-        "name": "بدء لرجاع",
-        "description": "بدا لرجاع ديالك من خلال لموقع الإلكتروني ديالنا"
+        "name": "بدا الرجوع",
+        "description": "بدا طلب الرجوع من الموقع ديالنا"
       },
       "step2": {
         "name": "تعليب السلع",
         "description": "علب السلع ديالك بشكل آمن مع التغليف الأصلي"
       },
       "step3": {
-        "name": "لإرسال",
-        "description": "ستعمل ملصق لرجاع لمدفوع مسبقا باش ترسل السلع"
+        "name": "الإرسال",
+        "description": "ستعمل ورقة الرجوع باش تصيفط السلع"
       },
       "step4": {
-        "name": "استلام لاسترداد",
-        "description": "استلم لاسترداد ديالك من بعد ما نعالجو لرجاع"
+        "name": "رجوع الفلوس",
+        "description": "غادي ترجع ليك فلوسك من بعد ما نعالجو الرجوع"
       }
     },
     "returnableItems": {
@@ -2485,7 +2489,7 @@
     },
     "nonReturnableItems": {
       "title": "السلع غير القابلة للإرجاع",
-      "item1": "السلع المصنوعة حسبالكوموندأو المخصصة",
+      "item1": "السلع المصنوعة على حساب الطلب ولا المخصصة",
       "item2": "الملابس الداخلية (لبس داخلي، مايوهات، تقاشر)",
       "item3": "السلع لي معلمين ب 'بيع نهائي' ولا تخفيضات",
       "item4": "السلع بلا تغليف ولا علامات أصلية",
@@ -2497,7 +2501,7 @@
       "description": "سعيدين باش نعاونوك تبدل لسلع بمقاس ولا لون مختلف، حسب التوفر.",
       "requestTitle": "كيفاش تطلب التبديل",
       "requestDescription": "تبع هاد لخطوات باش تبدل شي سلعة:",
-      "step1": "تكونكتى لحسابك وسير ل 'سجل لكوموندات'",
+      "step1": "دخل للحساب ديالك وسير للطلبات",
       "step2": "ختار السلعة لي بغيتي تبدلها واختار 'تبديل' كسبب الإرجاع",
       "step3": "ختار السلعة البديلة لي مفضلة عندك",
       "step4": "طبع ملصق لرجاع وعاود صيفط السلعة الأصلية",
@@ -2521,7 +2525,7 @@
       "timeline2": "يوم 3-5: علب وصيفط لرجاع ديالك",
       "timeline3": "يوم 6-10: نستلمو ونفحصو لرجاع ديالك",
       "timeline4": "يوم 11-14: كيتعالج الاسترداد",
-      "shippingTitle": "أرسال لرجاع",
+      "shippingTitle": "إرسال الرجوع",
       "shippingText1": "كنوفرو ملصق لرجاع مدفوع مسبقا للمشتريين فالمغرب. لمشتريين الدوليين كيتحملو تكاليف لإرسال ديال لرجاع.",
       "shippingText2": "لحمايتك، كنوصيو باستعمال خدمة أرسال يمكن تتبعها وشرى تأمين أرسال.",
       "refundTitle": "معلومات الاسترداد",
@@ -2529,8 +2533,8 @@
       "refundText2": "التعويض غادي يتحط ففوسيلة الأداء الأصلية ديالك.",
       "refundText3": "عافاك سمح بوقت إضافي باش لبنك ولا شركة الكارط ديالك تعالج الاسترداد.",
       "helpTitle": "محتاج للمساعدة؟",
-      "helpText": "إلى عندك شي سؤال على عملية لرجاع ديالنا، عافاك تواصل مع فريق خدمة لزبناء.",
-      "contactButton": "تواصل مع لدعم"
+      "helpText": "إلا عندك شي سؤال على الرجوع، تواصل مع فريق المساعدة.",
+      "contactButton": "تواصل مع المساعدة"
     }
   },
   "hero": {
@@ -2933,14 +2937,14 @@
     "submitted_pending": "شكراً! تصيفط الرأي ديالك وغادي يبان من بعد ما يتقبل."
   },
   "wishlist": {
-    "title": "ولاعتي / لمفضلة",
-    "empty_title": "ولاعتك خاوية",
-    "empty_description": "حيّد الحوايج لي كيعجبوك باش تشريهم من بعد",
-    "start_shopping": "بدأ الشراء",
-    "removed_success": "تحيّد المنتج من ولاعتك",
+    "title": "المفضلة ديالي",
+    "empty_title": "المفضلة ديالك خاوية",
+    "empty_description": "حفظ المنتوجات اللي عجبوك باش تلقاهم من بعد",
+    "start_shopping": "بدا التسوق",
+    "removed_success": "تحيّد المنتوج من المفضلة",
     "continue_shopping": "كمّل الشراء",
     "add_to_cart": "زيد للقفة",
-    "remove": "حيّد من ولاعتك",
+    "remove": "حيّد من المفضلة",
     "items_count_one": "حاجة واحدة",
     "items_count_other": "{{count}} حوايج",
     "add": "زيد للمفضلة",
@@ -2954,7 +2958,7 @@
     "wishlist": {
       "continue_shopping": "كمّل الشراء",
       "add_to_cart": "زيد للقفة",
-      "remove": "حيّد من ولاعتك"
+      "remove": "حيّد من المفضلة"
     },
     "returns": {
       "tabs_label": "سير فالإرجاع والاسترداد",
@@ -3081,7 +3085,7 @@
       },
       "fairTrade": {
         "title": "تجارة عادلة، أثمنة شفافة",
-        "body": "كنشريو معدلات العمولة ديالنا بشكل واضح (10–15%) وكنعطيو للبايعين فلوسهم كل أسبوعين.",
+        "body": "كنوضحو نسبة العمولة ديالنا من الأول (10–15%) وكنخلصو البياعة كل أسبوعين.",
         "imageAlt": "بايع كيراجع الطلبية فالتيليفون"
       },
       "tailoring": {
@@ -3090,7 +3094,7 @@
         "imageAlt": "مقياس على قماش القفطان"
       },
       "community": {
-        "title": "مجتمع، مش بس سوق",
+        "title": "مجتمع، ماشي غير سوق",
         "body": "بلدي فاي بدات كمجموعة واتساب بين ثلاث أصدقاء. اليوم كنوصلو أكثر من 120 ورشة بزبناء من 23 مدينة.",
         "imageAlt": "مجتمع الصانعين المغاربة"
       }
@@ -3098,7 +3102,7 @@
     "cta": {
       "headline": "واش مستعد تشوف؟",
       "sub": "شوف الورشات المعتمدة، اكتشف الجديد، أو ابدأ طلبية على القياس دابا.",
-      "shop": "تسوق فالسوق",
+      "shop": "تسوّق فالسوق",
       "ateliers": "شوف الورشات"
     }
   },
@@ -3209,16 +3213,16 @@
       }
     },
     "form": {
-      "heading": "بعثلنا رسالة",
+      "heading": "صيفط لينا رسالة",
       "firstName": "الاسم الأول",
       "lastName": "النسب",
       "email": "الإيميل",
-      "phone": "التيليفون (اختياري)",
+      "phone": "التيليفون (ماشي ضروري)",
       "subject": "الموضوع",
       "message": "الرسالة",
       "maxChars": "حد أقصى 500 حرف",
-      "send": "بعث الرسالة",
-      "sending": "كيتبعث…",
+      "send": "صيفط الرسالة",
+      "sending": "كنصيفطو…",
       "thankYou": "شكراً — غادي نتواصلو معك قريباً!",
       "validation": {
         "firstNameRequired": "الاسم الأول واجب",
@@ -3592,7 +3596,7 @@
       "book_now": "احجز دابا",
       "choose_service": "اختار الخدمة",
       "confirm": "أكد",
-      "confirm_message": "واخا تأكد الموعد ديالك مع",
+      "confirm_message": "واش نأكدو الموعد ديالك مع",
       "confirm_title": "تأكيد الحجز",
       "select_date": "اختار التاريخ",
       "select_service": "اختار الخدمة",
@@ -3604,7 +3608,7 @@
     "finalCta": {
       "cta": "بدّا طلب خياطة",
       "headline": "واش كتحب حاجة مصنوعة خصيصاً ليك؟",
-      "sub": "شوف الخيّاطين ديالنا، عطيهم القياسات ديالك، وسلّم قطعتك المصنوعة بيد في 2–4 أسابيع."
+      "sub": "شوف الخياطين ديالنا، صيفط ليهم القياسات، وتوصّل بالقطعة ديالك فـ2 حتى لـ4 سيمانات."
     },
     "gallery": {
       "title": "مصنوع فالمغرب",
@@ -3620,11 +3624,11 @@
     "heroCta": "بدّا طلب خياطة",
     "heroImageAlt": "تفصيلة قفطان مطرّز بيد، عند الخيّاط المغربي",
     "howItWorks": {
-      "intro": "تلات خطوات من القياسات حتى تصلّك قطعتك المغربية المصنوعة بيد.",
+      "intro": "ثلاث خطوات من القياسات حتى توصلك القطعة المغربية مخدومة باليد.",
       "title": "كيفاش كيخدم"
     },
     "measurements": {
-      "addToCart": "زيد للكارو",
+      "addToCart": "زيد فلقفة",
       "breadcrumb": "القياسات",
       "breadcrumbHome": "الصفحة الرئيسية",
       "breadcrumbLabel": "مسار التنقل",
@@ -3632,12 +3636,12 @@
       "eg": "مثلاً",
       "eyebrow": "مفصّل على قدّك",
       "formTitle": "القياسات ديالك",
-      "guideHint": "خدم بمتر لاستيك. خلّيه مستقيم وموازي للأرض منين تقيس الأطواف.",
+      "guideHint": "استعمل متر ديال الخياطة، وخليه مستقيم وموازي للأرض ملي تقيس.",
       "guideTitle": "دليل القياس",
       "notes": "ملاحظات إضافية",
       "notesPlaceholder": "واش عندك أي تفضيل على القطع ولا الشكل؟",
-      "optional": "اختياري",
-      "saveMeasurements": "حفظ القياسات",
+      "optional": "ماشي ضروري",
+      "saveMeasurements": "سجّل القياسات",
       "subtitle": "دخل القياسات ديالك بدقة باش تجي زوينة. تبّع الدليل لكل قياس.",
       "title": "قياسات القفطان المفصّل",
       "unitCm": "سم",
@@ -3648,31 +3652,31 @@
     },
     "profile": {
       "not_found": "ما لقيناش بروفيل هاد الخيّاط.",
-      "about": "علاش",
+      "about": "على الخياط",
       "portfolio": "الشغل ديالو",
       "reviews": "الآراء",
-      "specialties": "المتخصصات",
+      "specialties": "التخصصات",
       "load_error": "ما قدرناش نحملو معطيات الخياط",
       "portfolio_image_alt": "معرض الأعمال {{index}}",
-      "bio": "بزاف من 15 سنة في الخياطة المغاربية التقليدية، وكنختص في الحوايج المخصصة لي كتجمع بين الحرفية التقليدية وأسلوب عصري"
+      "bio": "عندي كثر من 15 عام ديال الخبرة فالخياطة المغربية التقليدية، وكنخدم قطع على القياس كتجمع بين الصنعة التقليدية والستايل العصري."
     },
     "stepsCta": "بدّا طلب خياطة",
-    "sub": "فوق 120 خيّاط موثوق عندنا يصنعو لك لباس مغربي على قدّك بالضبط — يوصل لأي مكان فالعالم. ما محتاجش تجي.",
+    "sub": "خياطين مغاربة موثوقين كيصايبو ليك لباس على القياس، ويوصلوه ليك فين ما كنتي.",
     "services": {
       "alterations": {
         "price": "تبدا من 49 د.م",
         "title": "التعديلات",
         "duration": "ساعة",
-        "description": "تعديلات احترافية بحال تلقا الحجم الصحيح"
+        "description": "تعديلات احترافية باش يجيك اللباس على قياسك"
       },
       "custom_suits": {
         "price": "تبدا من 599 د.م",
         "title": "الجلابيب المخصصة",
         "duration": "2-3 ساعات",
-        "description": "بدلات مصنوعة براحة وفصلة على قياساتك"
+        "description": "قطع مفصّلة براحة وعلى القياسات ديالك"
       },
       "traditional": {
-        "description": "حوايج مغاربية تقليدية مخصصة مع اللمسات العصرية",
+        "description": "لباس مغربي تقليدي على القياس بلمسة عصرية",
         "price": "تابدا من 299 د.م",
         "title": "الحوايج التقليدية"
       }
@@ -3682,10 +3686,10 @@
       "years": "سنة",
       "availability": {
         "available": "حجز موعد",
-        "busy": "زيد راسك في القايمة",
+        "busy": "زيد سميتك فاللائحة",
         "unavailable": "ما متاحش"
       },
-      "description": "تواصل مع الخياطين ديالنا ليدخبرة باش يديروا لك شنو بتاع الخياطة المخصصة",
+      "description": "تواصل مع خياطين عندهم الخبرة باش يصايبو ليك قطعة على القياس",
       "experience": "الخبرة",
       "title": "الخياطين ديالنا المحترفين"
     },
@@ -3706,24 +3710,24 @@
       "all_locations": "كل الأماكن",
       "all_specialties": "كل التخصصات"
     },
-    "page_description": "دوز التقاس الصحيح مع الخياطة المتخصصة ديالنا",
+    "page_description": "لقى خياط محترف يصايب ليك القطعة على قياسك",
     "page_title": "خدمات الخياطة على الطلب",
     "why_choose_us": {
       "features": {
         "craftsmanship": {
-          "description": "سنوات من الخبرة في الخياطة ديالة شي حاجة",
-          "title": "الحرفية المتخصصة"
+          "description": "سنين ديال الخبرة فالصنعة والخياطة على القياس",
+          "title": "صنعة متقونة"
         },
         "guarantee": {
-          "description": "تعديلات باش تكون رضيان تمام",
-          "title": "ضمان الحجم الصحيح"
+          "description": "تعديلات باش تجيك القطعة على قياسك",
+          "title": "ضمان القياس"
         },
         "materials": {
-          "description": "أقمشة فاخرة من كل الدنيا",
-          "title": "المواد الفاخرة"
+          "description": "أثواب مختارة بجودة عالية",
+          "title": "أثواب بجودة عالية"
         }
       },
-      "title": "واخا تختار الخياطة ديالنا"
+      "title": "علاش تختار الخياطة ديالنا"
     }
   },
   "preferences": {
@@ -3749,6 +3753,14 @@
     "order_updates": {
       "description": "تصلك إشعارات فين تبدل حالة طلبيتك أو تتشحن.",
       "title": "تحديثات الطلبية"
+    },
+    "push_notifications": {
+      "title": "الإشعارات الفورية",
+      "description": "تصلك تنبيهات الطلبيات والرسائل حتى ملي بلدياي مغلقة",
+      "enabled": "تفعّلات الإشعارات الفورية",
+      "disabled": "تعطّلات الإشعارات الفورية",
+      "error": "ما قدرناش نفعّلو الإشعارات الفورية",
+      "blocked": "محظورة في إعدادات المتصفح — فعّلها باش تستقبل التنبيهات"
     },
     "success_message": "تحفظو التفضيلات بنجاح.",
     "timezone": {
@@ -3863,6 +3875,103 @@
       "title": "كن بايع",
       "validation_business_type": "اختار نوع الحانوت ديالك",
       "validation_country": "اختار البلاصة ديالك"
+    },
+    "onboarding": {
+      "eyebrow": "رحلة البائع",
+      "title": "رحلة الانضمام للبائع",
+      "subtitle": "تتبع تقدمك وأكمل كل خطوة للبدء.",
+      "overall_progress": "التقدم العام",
+      "profile_pct": "الملف الشخصي",
+      "products_count": "المنتجات",
+      "complete_profile_cta": "إكمال الملف الشخصي",
+      "add_product_cta": "إضافة منتج",
+      "login_title": "سجل الدخول لعرض رحلة البائع الخاصة بك",
+      "login_body": "يجب أن تكون مسجلاً للوصول إلى لوحة الانضمام.",
+      "sign_in": "تسجيل الدخول",
+      "not_started_title": "لم تتقدم بعد",
+      "not_started_body": "تقدم لتصبح بائعاً على بلدفاي وابدأ رحلتك.",
+      "apply_cta": "التقدم للبيع",
+      "fetch_error": "تعذر تحميل حالة الانضمام.",
+      "unknown_error": "حدث خطأ غير معروف.",
+      "status_active_title": "متجرك معتمد ومباشر!",
+      "status_active_body": "يمكن للمشترين اكتشاف منتجاتك وشرائها.",
+      "status_suspended_title": "تم تعليق متجرك",
+      "status_suspended_body": "يرجى التواصل مع الدعم لحل هذه المشكلة.",
+      "status_pending_title": "الطلب قيد المراجعة",
+      "status_needs_details": "يرجى إكمال ملفك الشخصي لتسريع المراجعة.",
+      "status_pending_body": "سنخبرك بمجرد اتخاذ قرار."
+    },
+    "profile": {
+      "eyebrow": "ملف المتجر",
+      "title": "إكمال ملفك الشخصي",
+      "login_title": "سجل الدخول لتعديل ملفك الشخصي",
+      "sign_in": "تسجيل الدخول",
+      "suspended_title": "تم تعليق متجرك",
+      "suspended_body": "يرجى التواصل مع الدعم لحل هذه المشكلة.",
+      "fetch_error": "تعذر تحميل ملفك الشخصي.",
+      "save_success": "تم حفظ الملف الشخصي!",
+      "save_error": "فشل الحفظ. يرجى المحاولة مرة أخرى.",
+      "validation_error": "يرجى مراجعة بياناتك.",
+      "saving": "جارٍ الحفظ...",
+      "save_cta": "حفظ الملف الشخصي",
+      "store_name_label": "اسم المتجر",
+      "store_name_placeholder": "اسم متجرك",
+      "contact_email_label": "البريد الإلكتروني للتواصل",
+      "contact_phone_label": "الهاتف",
+      "description_label": "وصف المتجر",
+      "description_placeholder": "أخبر المشترين عن متجرك...",
+      "address_label": "العنوان",
+      "address_placeholder": "عنوان الشارع",
+      "city_label": "المدينة",
+      "country_label": "البلد",
+      "logo_label": "شعار المتجر",
+      "logo_hint": "JPG أو PNG، بحد أقصى 2 ميجابايت",
+      "logo_preview_alt": "شعار المتجر",
+      "banner_label": "لافتة المتجر",
+      "banner_hint": "يُوصى بـ 1440×400 بكسل",
+      "banner_preview_alt": "لافتة المتجر",
+      "shipping_policy_label": "سياسة الشحن",
+      "shipping_policy_placeholder": "كيف تشحن؟ وقت التسليم المقدر...",
+      "return_policy_label": "سياسة الإرجاع",
+      "return_policy_placeholder": "ما هي سياسة الإرجاع والاسترداد؟",
+      "section_basic": "المعلومات الأساسية",
+      "section_location": "الموقع",
+      "section_images": "الصور",
+      "section_policies": "السياسات"
+    },
+    "product": {
+      "eyebrow": "المنتجات",
+      "title": "إضافة منتج جديد",
+      "login_title": "سجل الدخول لإضافة منتج",
+      "sign_in": "تسجيل الدخول",
+      "suspended_title": "تم تعليق متجرك",
+      "suspended_body": "لا يمكنك إضافة منتجات أثناء تعليق متجرك. يرجى التواصل مع الدعم.",
+      "create_success": "تمت إضافة المنتج!",
+      "create_error": "فشل إنشاء المنتج. يرجى المحاولة مرة أخرى.",
+      "validation_error": "يرجى مراجعة بياناتك.",
+      "validation_name": "اسم المنتج (بالإنجليزية) مطلوب.",
+      "validation_category": "يرجى اختيار فئة.",
+      "validation_price": "يرجى إدخال سعر صحيح.",
+      "validation_quantity": "يرجى إدخال كمية صحيحة.",
+      "submitting": "جارٍ الإرسال...",
+      "submit_cta": "إضافة المنتج",
+      "name_en_label": "اسم المنتج (بالإنجليزية)",
+      "name_en_placeholder": "مثال: قفطان مغربي ملكي",
+      "name_ar_label": "اسم المنتج (بالعربية)",
+      "description_label": "الوصف",
+      "description_placeholder": "صِف منتجك...",
+      "description_ar_label": "الوصف (بالعربية)",
+      "category_label": "الفئة",
+      "price_mad_label": "السعر (درهم)",
+      "quantity_label": "الكمية",
+      "is_active_label": "إدراج المنتج كنشط (مرئي للمشترين)",
+      "image_upload_hint": "انقر لرفع صورة المنتج",
+      "image_hint_size": "JPG أو PNG أو WebP - بحد أقصى 5 ميجابايت",
+      "image_preview_alt": "معاينة المنتج",
+      "remove_image": "إزالة الصورة",
+      "section_info": "معلومات المنتج",
+      "section_pricing": "الفئة والتسعير",
+      "section_image": "صورة المنتج"
     }
   },
   "size_guide": {
@@ -3958,18 +4067,18 @@
     "view_collection": "شوف المجموعة"
   },
   "stores": {
-    "check_back": "رجع بزاف قريب!",
-    "featuredStores": "البوتيقات المميزة",
-    "featuredStoresDescription": "شوف بوتيقاتنا الحيح والمحققة لي كتقدم منتجات ديالة شي حاجة",
-    "noShopsFound": "ما لقاش واي بوتيقة",
-    "no_stores": "ما لقاش واي بوتيقة",
-    "subtitle": "شوف بوتيقاتنا الحيح والمحققة لي كتقدم منتجات ديالة شي حاجة",
+    "check_back": "رجع شوفنا قريب",
+    "featuredStores": "الحوانت المميزة",
+    "featuredStoresDescription": "شوف الحوانت الموثوقين واللي عندهم أحسن التقييمات",
+    "noShopsFound": "ما لقينا حتى حانوت",
+    "no_stores": "ما لقينا حتى حانوت",
+    "subtitle": "شوف حوانت مغربية موثوقة ومنتوجات بجودة عالية",
     "title": "المحلات"
   },
   "verification": {
-    "add_phone_description": "زيد رقم التيليفون ديالك باش تحمي الحساب. طقس على \"شيح الرمز\" باش تحقق من التيليفون!",
+    "add_phone_description": "زيد نمرة التيليفون ديالك باش تحمي الحساب، ومن بعد ضغط على صيفط الرمز.",
     "code_placeholder": "دير الرمز ديالتحقق",
-    "code_sent": "تم شيح الرمز على التيليفون ديالك",
+    "code_sent": "تصيفط الرمز للتيليفون ديالك",
     "failed": "التحقق من التيليفون فشل. حاول مرة خرى",
     "invalid_code": "الرمز ما صحيحش. حاول مرة خرى",
     "phone_placeholder": "دير رقم التيليفون ديالك",

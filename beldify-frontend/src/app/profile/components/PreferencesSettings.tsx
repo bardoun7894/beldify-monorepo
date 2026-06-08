@@ -3,10 +3,11 @@
 import { useState } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import toast from '@/utils/toast';
-import { Bell, Globe, Mail } from 'lucide-react';
+import { Bell, Globe, Mail, Smartphone } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import logger from '@/utils/consoleLogger';
 import { Button } from '@/components/ui/button';
+import { useWebPush } from '@/hooks/useWebPush';
 
 /** Reusable Atlas toggle row */
 function ToggleRow({
@@ -97,6 +98,14 @@ export default function PreferencesSettings() {
   const { t } = useTranslation(['profile', 'common']);
   const { user, updatePreferences } = useAuth();
   const [loading, setLoading] = useState(false);
+  const {
+    isSupported: isPushSupported,
+    isSubscribed: isPushSubscribed,
+    isLoading: isPushLoading,
+    permission: pushPermission,
+    subscribe: subscribePush,
+    unsubscribe: unsubscribePush,
+  } = useWebPush();
   const [preferences, setPreferences] = useState({
     email_notifications: user?.preferences?.email_notifications ?? true,
     marketing_emails: user?.preferences?.marketing_emails ?? false,
@@ -167,6 +176,31 @@ export default function PreferencesSettings() {
             checked={preferences.newsletter}
             onToggle={() => handleToggle('newsletter')}
           />
+          {/* Native Web Push toggle — only shown when supported by the browser */}
+          {isPushSupported && pushPermission !== 'denied' && (
+            <ToggleRow
+              id="pref-push-notifications"
+              icon={Smartphone}
+              title={t('preferences.push_notifications.title')}
+              description={
+                pushPermission === 'denied'
+                  ? t('preferences.push_notifications.blocked')
+                  : t('preferences.push_notifications.description')
+              }
+              checked={isPushSubscribed}
+              onToggle={async () => {
+                if (isPushLoading) return;
+                if (isPushSubscribed) {
+                  const ok = await unsubscribePush();
+                  if (ok) toast.success(t('preferences.push_notifications.disabled'));
+                } else {
+                  const ok = await subscribePush();
+                  if (ok) toast.success(t('preferences.push_notifications.enabled'));
+                  else toast.error(t('preferences.push_notifications.error'));
+                }
+              }}
+            />
+          )}
         </div>
       </section>
 

@@ -1333,6 +1333,10 @@
       "tax": "Taxes",
       "total": "Total",
       "product_image_alt": "Image du produit"
+    },
+    "quote": {
+      "loading": "Calcul du total…",
+      "load_error": "Impossible de calculer le total. Veuillez réessayer."
     }
   },
   "profile": {
@@ -3850,6 +3854,14 @@
       "description": "Soyez averti dès que votre commande est mise à jour ou expédiée.",
       "title": "Mises à jour de commande"
     },
+    "push_notifications": {
+      "title": "Notifications push",
+      "description": "Recevez des alertes commandes et messages même quand Beldify est fermé",
+      "enabled": "Notifications push activées",
+      "disabled": "Notifications push désactivées",
+      "error": "Impossible d'activer les notifications push",
+      "blocked": "Bloquées dans les paramètres du navigateur — activez-les pour recevoir des alertes"
+    },
     "success_message": "Préférences enregistrées avec succès.",
     "timezone": {
       "description": "Utilisé pour afficher les horaires de commande et les estimations de livraison.",
@@ -3924,6 +3936,40 @@
       "title": "Devenir vendeur",
       "validation_business_type": "Veuillez sélectionner un type d'entreprise",
       "validation_country": "Veuillez sélectionner un pays"
+    },
+    "onboarding": {
+      "eyebrow": "Parcours vendeur",
+      "title": "Votre intégration vendeur",
+      "subtitle": "Suivez votre progression et complétez chaque étape pour lancer votre boutique.",
+      "overall_progress": "Progression globale",
+      "profile_pct": "Profil",
+      "products_count": "Produits",
+      "complete_profile_cta": "Compléter le profil",
+      "add_product_cta": "Ajouter un produit",
+      "status_active_title": "Votre boutique est approuvée et en ligne!",
+      "status_active_body": "Les acheteurs peuvent découvrir et acheter vos produits.",
+      "status_suspended_title": "Votre boutique a été suspendue",
+      "status_suspended_body": "Veuillez contacter le support pour résoudre ce problème.",
+      "status_pending_title": "Demande en cours d'examen",
+      "status_pending_body": "Nous vous notifierons une fois la décision prise."
+    },
+    "profile": {
+      "eyebrow": "Profil de la boutique",
+      "title": "Compléter votre profil",
+      "save_cta": "Enregistrer le profil",
+      "store_name_label": "Nom de la boutique",
+      "contact_email_label": "Email de contact",
+      "contact_phone_label": "Téléphone",
+      "description_label": "Description de la boutique"
+    },
+    "product": {
+      "eyebrow": "Produits",
+      "title": "Ajouter un produit",
+      "submit_cta": "Ajouter le produit",
+      "name_en_label": "Nom du produit (anglais)",
+      "category_label": "Catégorie",
+      "price_mad_label": "Prix (MAD)",
+      "quantity_label": "Quantité"
     }
   },
   "size_guide": {

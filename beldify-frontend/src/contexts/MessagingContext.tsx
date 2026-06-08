@@ -4,14 +4,16 @@ import React, { createContext, useContext, useState, useEffect, useRef, useCallb
 import { getUnreadCount } from '@/services/messagingService';
 import logger from '@/utils/consoleLogger';
 import { useAuth } from './AuthContext';
-import useFCM from '@/hooks/useFCM';
-import { requestNotificationPermission } from '@/utils/fcm';
 import toast from '@/utils/toast';
+
+// Note: Firebase/FCM removed. Push notifications now handled via native Web Push
+// through useWebPush hook + the Serwist service worker push/notificationclick handlers.
 
 interface MessagingContextType {
   unreadCount: number;
   refreshUnreadCount: () => Promise<void>;
   isLoading: boolean;
+  /** @deprecated FCM removed — always empty string. Will be removed. */
   fcmToken: string;
   hasNotificationPermission: boolean;
   requestNotificationPermission: () => Promise<boolean>;
@@ -35,18 +37,15 @@ export const MessagingProvider: React.FC<{ children: React.ReactNode }> = ({ chi
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [hasNotificationPermission, setHasNotificationPermission] = useState<boolean>(false);
   const { isAuthenticated, user } = useAuth();
-  
-  // FCM Integration – useFCM always returns a safe state, even when messaging is disabled
-  const { token: fcmToken, notification: fcmNotification, setNotification: setFCMNotification, error: fcmError } = useFCM();
-  
+
   // Use refs to track the last check time and prevent duplicate calls
   const lastCheckedRef = useRef<number>(0);
   const isRefreshingRef = useRef<boolean>(false);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   // Debounce function to prevent multiple rapid calls
-  const debounce = (func: (...args: any[]) => void, wait: number) => {
-    return (...args: any[]) => {
+  const debounce = (func: (...args: unknown[]) => void, wait: number) => {
+    return (...args: unknown[]) => {
       if (timeoutRef.current) {
         clearTimeout(timeoutRef.current);
       }
@@ -61,14 +60,14 @@ export const MessagingProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     if (!isAuthenticated || !user || isRefreshingRef.current) {
       return;
     }
-    
+
     const now = Date.now();
     const timeSinceLastCheck = now - lastCheckedRef.current;
-    
+
     // Prevent checking more than once every 5 seconds
     if (timeSinceLastCheck < 5000 && lastCheckedRef.current !== 0) {
       if (process.env.NODE_ENV === 'development') {
-        logger.log('Skipping unread count check - last check was', Math.round(timeSinceLastCheck/1000), 'seconds ago');
+        logger.log('Skipping unread count check - last check was', Math.round(timeSinceLastCheck / 1000), 'seconds ago');
       }
       return;
     }
@@ -76,10 +75,10 @@ export const MessagingProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     try {
       isRefreshingRef.current = true;
       setIsLoading(true);
-      
+
       // Pass the last checked timestamp to the API for optimization
       const result = await getUnreadCount(lastCheckedRef.current);
-      
+
       // Only update state if the count has changed
       if (result.count !== unreadCount) {
         setUnreadCount(result.count);
@@ -89,7 +88,7 @@ export const MessagingProvider: React.FC<{ children: React.ReactNode }> = ({ chi
       } else if (process.env.NODE_ENV === 'development') {
         logger.log('Unread count unchanged:', result.count);
       }
-      
+
       // Update the last checked timestamp
       lastCheckedRef.current = now;
     } catch (error) {
@@ -118,7 +117,7 @@ export const MessagingProvider: React.FC<{ children: React.ReactNode }> = ({ chi
 
     // Initial check
     debouncedRefresh();
-    
+
     const interval = setInterval(() => {
       debouncedRefresh();
     }, 30000); // 30 seconds
@@ -131,15 +130,22 @@ export const MessagingProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     };
   }, [isAuthenticated, user, debouncedRefresh]);
 
-  // Handle FCM notification permission request
+  // Native notification permission handler (no Firebase dependency)
   const handleRequestNotificationPermission = useCallback(async (): Promise<boolean> => {
     try {
       // Guard: Notification API requires secure context (HTTPS or localhost)
       if (typeof window === 'undefined' || !('Notification' in window)) {
         return false;
       }
-      const granted = await requestNotificationPermission();
+      const permission = await Notification.requestPermission();
+      const granted = permission === 'granted';
       setHasNotificationPermission(granted);
+
+      if (!granted) {
+        logger.log('Notification permission denied');
+      } else {
+        logger.log('Notification permission granted');
+      }
       return granted;
     } catch (error) {
       logger.error('Error requesting notification permission:', error);
@@ -147,34 +153,12 @@ export const MessagingProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     }
   }, []);
 
-  // Handle FCM notifications globally
-  useEffect(() => {
-    if (fcmNotification) {
-      // Show notification toast
-      toast.success(`${fcmNotification.title}: ${fcmNotification.body}`, {
-        duration: 5000,
-        onClick: () => {
-          // Navigate to conversation if we're not already there
-          if (fcmNotification.data?.sender_id) {
-            window.location.href = `/community/messages/${fcmNotification.data.sender_id}`;
-          }
-        }
-      });
-      
-      // Refresh unread count when we receive a notification
-      refreshUnreadCount();
-      
-      // Clear notification
-      setFCMNotification(null);
-    }
-  }, [fcmNotification, setFCMNotification, refreshUnreadCount]);
-
   // Check notification permission on mount
   useEffect(() => {
     if (typeof window !== 'undefined' && 'Notification' in window) {
       try {
-        const permission = Notification.permission === 'granted';
-        setHasNotificationPermission(permission);
+        const granted = Notification.permission === 'granted';
+        setHasNotificationPermission(granted);
       } catch {
         // Notification API may throw in insecure contexts
         setHasNotificationPermission(false);
@@ -196,7 +180,7 @@ export const MessagingProvider: React.FC<{ children: React.ReactNode }> = ({ chi
         unreadCount,
         refreshUnreadCount,
         isLoading,
-        fcmToken,
+        fcmToken: '', // deprecated — FCM removed
         hasNotificationPermission,
         requestNotificationPermission: handleRequestNotificationPermission,
       }}
