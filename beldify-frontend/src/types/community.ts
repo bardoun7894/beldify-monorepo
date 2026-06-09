@@ -147,6 +147,13 @@ export interface CommunityResponse {
   createdAt?: string;
   updatedAt?: string;
   accepted?: boolean;
+  // Open Souk edit-cap (Laravel-only feature; surfaced for parity — the storefront
+  // never calls an updateResponse endpoint, editing happens in the seller dashboard).
+  editCount?: number;
+  editsRemaining?: number;
+  isMine?: boolean;
+  // Set on the ACCEPTED proposal — the bridged custom_order id (Contact-after-accept).
+  customOrderId?: string | number | null;
 }
 
 export interface MessageAttachment {

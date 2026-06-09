@@ -15,7 +15,6 @@ import {
   Wrench,
   ChevronDown,
   ChevronUp,
-  Send,
   Package,
   Gem,
   Users,
@@ -32,13 +31,11 @@ import {
   fetchCommunityPost,
   fetchPostResponses,
   updateResponseStatus,
-  createCommunityResponse,
 } from '@/services/communityService';
 import { CommunityPost, CommunityResponse, CommunityImage } from '@/types/community';
 import { S3_CONFIG, API_BASE_URL } from '@/config/constants';
 import LoadingSpinner from '@/components/common/LoadingSpinner';
 import ResponseCard from '@/components/community/ResponseCard';
-import ResponseForm from '@/components/community/ResponseForm';
 import { formatDistanceToNow } from 'date-fns';
 import { ar } from 'date-fns/locale';
 
@@ -97,7 +94,6 @@ export default function PostDetailPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [activeImageIndex, setActiveImageIndex] = useState(0);
-  const [showResponseForm, setShowResponseForm] = useState(false);
   const [descExpanded, setDescExpanded] = useState(false);
   const [buyerAvatarError, setBuyerAvatarError] = useState(false);
   // F5: once accept is called, show a "View your custom order" CTA
@@ -222,30 +218,6 @@ export default function PostDetailPage() {
     }
   };
 
-  const handleSubmitResponse = async (formData: FormData) => {
-    if (!isAuthenticated) {
-      router.push(`/login?redirect=/community/posts/${postId}`);
-      return;
-    }
-
-    try {
-      setIsSubmitting(true);
-      await createCommunityResponse(postId, formData);
-
-      const updatedPostData = await fetchCommunityPost(postId);
-      setPost(updatedPostData);
-      const updatedResponsesData = await fetchPostResponses(postId);
-      setResponses(updatedResponsesData || []);
-
-      setShowResponseForm(false);
-    } catch (err) {
-      console.error('Error submitting response:', err);
-      setError(t('community.error_submitting_response'));
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
-
   // ── Loading state ─────────────────────────────────────────────────────────
   if (isLoading) {
     return (
@@ -292,9 +264,13 @@ export default function PostDetailPage() {
   // hasMyProposal guard — backend 422s a second submit, so hide the form
   const hasMyProposal = post.hasMyProposal ?? post.has_my_proposal ?? false;
 
-  // F4: only store owners / sellers can respond
+  // F4: only store owners / sellers can respond. `store_owner` is the canonical
+  // seller role (see project memory beldify-seller-role-model); legacy `seller`,
+  // is_seller, and user_type_id===2 are kept for backward compatibility.
   const isSeller =
+    user?.role === 'store_owner' ||
     user?.role === 'seller' ||
+    (user as any)?.is_store_owner === true ||
     (user as any)?.is_seller === true ||
     user?.user_type_id === 2;
 
@@ -755,57 +731,39 @@ export default function PostDetailPage() {
               )}
             </AnimatePresence>
 
-            {/* F4: Seller-only form gate */}
+            {/* F1: Sellers submit/edit ONLY in the Laravel dashboard (pro.beldify.com).
+                The storefront PDP shows a read-only "Reply in your dashboard" CTA — no
+                inline ResponseForm. Build/edit happens once, in Laravel. */}
             {!isMyPost && postIsOpen && isAuthenticated && !hasMyProposal && isSeller && (
               <div className="bg-white rounded-2xl ring-1 ring-amber-200 overflow-hidden">
-                <AnimatePresence mode="wait">
-                  {showResponseForm ? (
-                    <ResponseForm
-                      key="form"
-                      onSubmit={handleSubmitResponse}
-                      onCancel={() => setShowResponseForm(false)}
-                      isLoading={isSubmitting}
-                    />
-                  ) : (
-                    <motion.div
-                      key="cta"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
-                      className="p-5"
-                    >
-                      <div className="flex items-center gap-2.5 mb-3">
-                        <div className="w-8 h-8 rounded-full bg-amber-100 ring-1 ring-amber-200 flex items-center justify-center shrink-0">
-                          <Store size={14} className="text-amber-700" />
-                        </div>
-                        <div>
-                          <p className="text-sm font-semibold text-gray-900">
-                            {t('community.interested_q', 'Interested in this job?')}
-                          </p>
-                          <p className="text-xs text-gray-500">
-                            {t('community.seller_response_description', 'Submit your proposal directly to the buyer.')}
-                          </p>
-                        </div>
-                      </div>
-                      <button
-                        onClick={() => setShowResponseForm(true)}
-                        className="w-full inline-flex items-center justify-center gap-2 px-6 py-3 min-h-[44px] text-sm font-semibold text-white bg-indigo-700 rounded-full hover:bg-indigo-800 transition-colors duration-200 shadow-sm"
-                      >
-                        <Send size={14} />
-                        {t('community.submit_proposal', 'Submit Proposal')}
-                      </button>
-                      <a
-                        href={`${(process.env.NEXT_PUBLIC_API_URL || 'https://pro.beldify.com').replace(/\/$/, '')}/seller/community/posts/${postId}/respond`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="mt-2.5 w-full inline-flex items-center justify-center gap-2 px-6 py-3 min-h-[44px] text-sm font-semibold text-indigo-700 bg-white ring-1 ring-indigo-200 rounded-full hover:bg-indigo-50 transition-colors duration-200"
-                      >
-                        <ExternalLink size={14} />
-                        {t('community.respond_in_dashboard', 'Reply in your seller dashboard')}
-                      </a>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  className="p-5"
+                >
+                  <div className="flex items-center gap-2.5 mb-3">
+                    <div className="w-8 h-8 rounded-full bg-amber-100 ring-1 ring-amber-200 flex items-center justify-center shrink-0">
+                      <Store size={14} className="text-amber-700" />
+                    </div>
+                    <div>
+                      <p className="text-sm font-semibold text-gray-900">
+                        {t('community.interested_q', 'Interested in this job?')}
+                      </p>
+                      <p className="text-xs text-gray-500">
+                        {t('community.seller_response_description', 'Submit your proposal directly to the buyer.')}
+                      </p>
+                    </div>
+                  </div>
+                  <a
+                    href={`${(process.env.NEXT_PUBLIC_API_URL || 'https://pro.beldify.com').replace(/\/$/, '')}/seller/community/posts/${postId}/respond`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full inline-flex items-center justify-center gap-2 px-6 py-3 min-h-[44px] text-sm font-semibold text-white bg-indigo-700 rounded-full hover:bg-indigo-800 transition-colors duration-200 shadow-sm"
+                  >
+                    <ExternalLink size={14} />
+                    {t('community.respond_in_dashboard', 'Reply in your seller dashboard')}
+                  </a>
+                </motion.div>
               </div>
             )}
 
@@ -858,7 +816,7 @@ export default function PostDetailPage() {
                   {t('community.proposals', 'Proposals')}
                 </h2>
                 <span className="text-xs text-gray-400 font-medium bg-gray-100 px-2.5 py-0.5 rounded-full">
-                  {responses.length}
+                  {proposalCount}
                 </span>
               </div>
 
@@ -900,19 +858,18 @@ export default function PostDetailPage() {
         </div>
       </div>
 
-      {/* ── Mobile sticky CTA: seller submit proposal ───────────────────── */}
-      {!isMyPost && postIsOpen && isAuthenticated && !hasMyProposal && isSeller && !showResponseForm && (
+      {/* ── Mobile sticky CTA: reply in the seller dashboard (F1 — Laravel-only) ── */}
+      {!isMyPost && postIsOpen && isAuthenticated && !hasMyProposal && isSeller && (
         <div className="lg:hidden fixed bottom-0 start-0 end-0 z-30 px-4 pb-4 pt-3 bg-white/90 backdrop-blur-sm border-t border-amber-200">
-          <button
-            onClick={() => {
-              setShowResponseForm(true);
-              window.scrollTo({ top: 0, behavior: 'smooth' });
-            }}
+          <a
+            href={`${(process.env.NEXT_PUBLIC_API_URL || 'https://pro.beldify.com').replace(/\/$/, '')}/seller/community/posts/${postId}/respond`}
+            target="_blank"
+            rel="noopener noreferrer"
             className="w-full inline-flex items-center justify-center gap-2 px-6 py-3.5 min-h-[48px] text-sm font-semibold text-white bg-indigo-700 rounded-full hover:bg-indigo-800 transition-colors duration-200 shadow-md"
           >
-            <Send size={15} />
-            {t('community.submit_proposal', 'Submit Proposal')}
-          </button>
+            <ExternalLink size={15} />
+            {t('community.respond_in_dashboard', 'Reply in your seller dashboard')}
+          </a>
         </div>
       )}
     </div>

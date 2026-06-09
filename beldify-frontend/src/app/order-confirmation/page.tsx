@@ -21,6 +21,10 @@ import toast from '@/utils/toast';
 import logger from '@/utils/consoleLogger';
 import { usePWATriggers } from '@/hooks/usePWATriggers';
 import { getImageUrl } from '@/utils/imageUtils';
+import PaymentProofUpload from '@/components/checkout/PaymentProofUpload';
+import { useAuth } from '@/contexts/AuthContext';
+import { useWebPush } from '@/hooks/useWebPush';
+import PostOrderPushPrompt from '@/components/pwa/PostOrderPushPrompt';
 
 const playfair = { fontFamily: '"Playfair Display", ui-serif, Georgia, serif' };
 
@@ -65,6 +69,8 @@ export default function OrderConfirmationPage() {
   const [loading, setLoading] = useState(true);
   const { triggerOnOrderComplete } = usePWATriggers();
   const isRTL = i18n.language === 'ar';
+  const { isAuthenticated } = useAuth();
+  const { isSubscribed, isLoading: pushLoading, subscribe } = useWebPush();
 
   const formatAmount = (amount: number) =>
     new Intl.NumberFormat(i18n.language, {
@@ -81,6 +87,29 @@ export default function OrderConfirmationPage() {
         return;
       }
 
+      // ── Guest path: read from sessionStorage stash first ──────────────────
+      // After a guest buyNow checkout, the confirmation page has no auth token
+      // to call the authenticated /orders/{id} endpoint. The checkout page stashes
+      // the order data in sessionStorage under `beldify_last_order`.
+      try {
+        const raw = typeof window !== 'undefined'
+          ? sessionStorage.getItem('beldify_last_order')
+          : null;
+        if (raw) {
+          const stash = JSON.parse(raw) as Order;
+          // Only use if it matches the orderId in the URL
+          if (stash.order_number === orderId) {
+            setOrder(stash);
+            triggerOnOrderComplete();
+            setLoading(false);
+            return;
+          }
+        }
+      } catch {
+        // Malformed stash — fall through to API fetch
+      }
+
+      // ── Authenticated path: fetch from server ─────────────────────────────
       try {
         const orderDetails = await orderService.getOrderDetails(orderId);
         setOrder(orderDetails);
@@ -362,6 +391,11 @@ export default function OrderConfirmationPage() {
             </div>
           </div>
 
+          {/* ── Receipt upload card (transfer orders awaiting payment) ───── */}
+          {order.payment_status === 'awaiting_payment' && (
+            <PaymentProofUpload order={order} />
+          )}
+
           {/* ── What's next card ─────────────────────────────────────────── */}
           <div className="bg-indigo-50 rounded-2xl ring-1 ring-indigo-200 p-6">
             <h2 className="text-base font-semibold text-gray-900 mb-4" style={playfair}>
@@ -391,6 +425,14 @@ export default function OrderConfirmationPage() {
               ))}
             </ol>
           </div>
+
+          {/* ── Push / register prompt ───────────────────────────────────── */}
+          <PostOrderPushPrompt
+            isAuthenticated={isAuthenticated}
+            isSubscribed={isSubscribed}
+            isLoading={pushLoading}
+            onSubscribe={subscribe}
+          />
 
           {/* ── Actions ──────────────────────────────────────────────────── */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">

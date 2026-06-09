@@ -3,7 +3,7 @@ import axios from 'axios';
 import api from '@/lib/api';
 import logger from '@/utils/consoleLogger';
 
-export interface OrderItem { 
+export interface OrderItem {
   id: string;
   product_name: string;
   product_image?: string;
@@ -16,6 +16,7 @@ export interface OrderItem {
     name: string;
     description?: string;
     image?: string;
+    image_url?: string;
   };
   variant?: {
     color?: string;
@@ -27,7 +28,8 @@ export interface Order {
   id: string;
   order_number: string;
   status: 'pending' | 'processing' | 'shipped' | 'delivered' | 'cancelled';
-  payment_status: 'pending' | 'paid' | 'failed';
+  payment_method?: string;
+  payment_status: 'pending' | 'paid' | 'failed' | 'awaiting_payment' | 'pending_verification' | 'rejected';
   total_amount: number;
   created_at: string;
   items: OrderItem[];
@@ -43,7 +45,6 @@ export interface Order {
   };
   shipping_amount?: number;
   tax_amount?: number;
-  payment_method?: string;
 }
 
 export interface ShippingInfo {
@@ -231,6 +232,53 @@ class OrderService {
   }
 
   /**
+   * Public quote endpoint — resolves authoritative totals + COD eligibility.
+   * No auth required (guest-safe). POST /api/orders/quote
+   */
+  async getCheckoutQuote(payload: {
+    items: Array<{ stock_id?: number; quantity: number }>;
+    country?: string;
+    coupon_code?: string | null;
+  }): Promise<{
+    subtotal: number;
+    tax_amount: number;
+    shipping_amount: number;
+    discount_amount: number;
+    total_amount: number;
+    cod_allowed: boolean;
+    cod_max: number;
+    currency: string;
+  }> {
+    const response = await api.post('/api/orders/quote', payload);
+    return response.data;
+  }
+
+  /**
+   * Upload payment proof / receipt for an offline transfer order.
+   * Public — no auth required so guests can upload after placing an order.
+   * POST /api/orders/{orderNumber}/payment-proof
+   * The file field name is a single constant — change it here if the backend
+   * team confirms a different name.
+   */
+  async uploadPaymentProof(
+    orderNumber: string,
+    file: File,
+    opts?: { reference?: string; email?: string }
+  ): Promise<void> {
+    // Backend (PaymentProofController@store) expects the upload under `file`.
+    const PAYMENT_PROOF_FIELD = 'file' as const;
+
+    const form = new FormData();
+    form.append(PAYMENT_PROOF_FIELD, file);
+    if (opts?.reference) form.append('reference', opts.reference);
+    if (opts?.email) form.append('email', opts.email);
+
+    await api.post(`/api/orders/${orderNumber}/payment-proof`, form, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    });
+  }
+
+  /**
    * Payout account + how-to-pay instructions for an offline transfer method.
    */
   async getPaymentInstructions(
@@ -311,6 +359,58 @@ class OrderService {
     }
   }
 
+  /**
+   * Guest (unauthenticated) COD checkout.
+   * Posts to POST /api/orders/checkout — a public endpoint that requires no auth.
+   * Payload shape mirrors createOrder but without the auth-only fields (customer_id).
+   */
+  async createCheckoutOrder(payload: {
+    items: Array<{
+      stock_id?: number;
+      variant_id?: number;
+      quantity: number;
+      unit_price: number;
+      product_id?: number;
+      store_id?: number;
+    }>;
+    shipping_info: {
+      first_name?: string;
+      last_name?: string;
+      email?: string;
+      phone?: string;
+      address?: string;
+      apartment?: string;
+      city?: string;
+      state?: string;
+      zip_code?: string;
+      country?: string;
+    };
+    payment_method: string;
+    subtotal: number;
+    total_amount: number;
+    shipping_amount: number;
+    tax_amount: number;
+    discount_amount: number;
+    coupon_code?: string | null;
+  }) {
+    try {
+      logger.log('Creating guest checkout order:', payload);
+      const response = await api.post('/api/orders/checkout', payload);
+      logger.log('Guest checkout response:', response.data);
+      return response.data;
+    } catch (error: any) {
+      logger.error('Error creating guest checkout order:', {
+        status: error.response?.status,
+        data: error.response?.data,
+        message: error.message,
+      });
+      if (axios.isAxiosError(error)) {
+        throw new Error(error.response?.data?.message || error.message || 'Failed to create order');
+      }
+      throw error;
+    }
+  }
+
   async processPayment(
     amount: number,
     paymentInfo: PaymentInfo,
@@ -366,7 +466,7 @@ class OrderService {
     const taxRates: Record<TaxCountryCode, number> = {
       MA: 0.2,
       US: 0.08,
-      DEFAULT: 0.1, 
+      DEFAULT: 0.1,
     };
 
     const country = state.substring(0, 2).toUpperCase();
@@ -375,6 +475,29 @@ class OrderService {
     const taxRate = taxRates[countryCode] || taxRates.DEFAULT;
 
     return subtotal * taxRate;
+  }
+
+  /**
+   * Re-add all items from a past order into the authenticated user's cart
+   * at current prices and stock levels.
+   *
+   * POST /api/orders/{orderNumber}/reorder
+   *
+   * Returns a summary of what was added and what was skipped (with reasons).
+   * Skipped items are products that are out of stock or no longer available.
+   */
+  async reorder(orderNumber: string): Promise<{
+    items_added: number;
+    items_skipped: number;
+    skipped: Array<{ stock_id: number; reason: string }>;
+  }> {
+    const response = await api.post(`/api/orders/${orderNumber}/reorder`);
+    const isSuccess =
+      response.data?.status === 'success' || response.data?.success === true;
+    if (isSuccess && response.data?.data) {
+      return response.data.data;
+    }
+    throw new Error(response.data?.message || 'Reorder failed');
   }
 }
 

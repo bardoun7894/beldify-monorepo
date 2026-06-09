@@ -11,13 +11,13 @@ import { useParams, useRouter } from 'next/navigation';
 import { getImageUrl, handleImageError } from '@/utils/imageUtils';
 import { default as ProductCard } from '@/components/products/ProductCard';
 import ShareButton from '@/components/share/ShareButton';
+import FollowShopButton from './FollowShopButton';
 import {
   Star,
   BadgeCheck,
   MapPin,
   MessageCircle,
   ArrowRight,
-  Heart,
   Filter,
 } from 'lucide-react';
 import logger from '@/utils/consoleLogger';
@@ -489,34 +489,14 @@ export default function ShopPage() {
             ))}
           </div>
 
-          {/* Follow CTA */}
-          <button
-            onClick={handleFollow}
-            disabled={isFollowActionLoading}
-            aria-pressed={isFollowing}
-            aria-label={
-              isFollowActionLoading
-                ? t('common.loading', 'Loading…')
-                : isFollowing
-                  ? t('shops.shop.following', 'Following this atelier')
-                  : t('shops.shop.follow', 'Follow this atelier')
-            }
-            className={`mt-8 inline-flex items-center gap-2 rounded-full px-6 py-2.5 text-sm font-semibold transition disabled:opacity-50 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-indigo-700 ${
-              isFollowing
-                ? 'bg-white ring-1 ring-amber-200 text-gray-900 hover:bg-amber-50'
-                : 'bg-indigo-700 text-white hover:bg-indigo-800'
-            }`}
-          >
-            <Heart
-              className={`h-4 w-4 ${isFollowing ? 'fill-rose-500 text-rose-500' : ''}`}
-              aria-hidden="true"
-            />
-            {isFollowActionLoading
-              ? t('common.loading', 'Loading…')
-              : isFollowing
-                ? t('shops.shop.following', 'Following')
-                : t('shops.shop.follow', 'Follow Atelier')}
-          </button>
+          {/* Follow CTA — investment framing per hooked §1 ethics spec */}
+          <FollowShopButton
+            shopName={shop.name}
+            isFollowing={isFollowing}
+            isLoading={isFollowActionLoading}
+            onToggle={handleFollow}
+            className="mt-8"
+          />
 
           {/* Share the atelier — sellers paste this into their bio/Status to
               funnel their own audience into Beldify. */}

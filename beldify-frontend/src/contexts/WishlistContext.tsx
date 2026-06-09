@@ -27,10 +27,17 @@ interface WishlistItem {
   };
 }
 
+export interface WishlistNotifyOpts {
+  notify_back_in_stock?: boolean;
+  notify_price_drop?: boolean;
+  target_price?: number;
+}
+
 interface WishlistContextType {
   wishlistItems: WishlistItem[];
   isInWishlist: (productId: number) => boolean;
-  addToWishlist: (productId: number) => Promise<void>;
+  addToWishlist: (productId: number, opts?: WishlistNotifyOpts) => Promise<void>;
+  updateWishlistNotifications: (productId: number, opts: WishlistNotifyOpts) => Promise<void>;
   removeFromWishlist: (productId: number) => Promise<void>;
   refreshWishlist: () => Promise<void>;
   isLoading: boolean;
@@ -76,7 +83,7 @@ export function WishlistProvider({ children }: { children: React.ReactNode }) {
     return wishlistItems.some((item) => item.product_id === productId);
   };
 
-  const addToWishlist = async (productId: number) => {
+  const addToWishlist = async (productId: number, opts?: WishlistNotifyOpts) => {
     if (!isAuthenticated) {
       toast.error('Please login to add items to your wishlist');
       return;
@@ -84,12 +91,16 @@ export function WishlistProvider({ children }: { children: React.ReactNode }) {
 
     try {
       setIsLoading(true);
-      const response = await axios.post('/api/wishlist', {
+      const body: Record<string, unknown> = {
         product_id: productId,
-        notify_price_drop: false,
-        notify_back_in_stock: false,
+        notify_price_drop: opts?.notify_price_drop ?? false,
+        notify_back_in_stock: opts?.notify_back_in_stock ?? false,
         notes: '',
-      });
+      };
+      if (opts?.target_price !== undefined) {
+        body.target_price = opts.target_price;
+      }
+      const response = await axios.post('/api/wishlist', body);
 
       if (response.data.success) {
         await refreshWishlist();
@@ -102,6 +113,32 @@ export function WishlistProvider({ children }: { children: React.ReactNode }) {
       } else {
         toast.error('Failed to add item to wishlist');
       }
+      throw error;
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const updateWishlistNotifications = async (productId: number, opts: WishlistNotifyOpts) => {
+    if (!isAuthenticated) {
+      toast.error('Please login to manage your wishlist');
+      return;
+    }
+
+    try {
+      setIsLoading(true);
+      const body: Record<string, unknown> = {
+        notify_back_in_stock: opts.notify_back_in_stock ?? false,
+        notify_price_drop: opts.notify_price_drop ?? false,
+      };
+      if (opts.target_price !== undefined) {
+        body.target_price = opts.target_price;
+      }
+      await axios.put(`/api/wishlist/${productId}`, body);
+      await refreshWishlist();
+    } catch (error: any) {
+      logger.error('Error updating wishlist notifications:', error);
+      toast.error(error.response?.data?.message || 'Failed to update wishlist notifications');
       throw error;
     } finally {
       setIsLoading(false);
@@ -135,6 +172,7 @@ export function WishlistProvider({ children }: { children: React.ReactNode }) {
         wishlistItems,
         isInWishlist,
         addToWishlist,
+        updateWishlistNotifications,
         removeFromWishlist,
         refreshWishlist,
         isLoading,

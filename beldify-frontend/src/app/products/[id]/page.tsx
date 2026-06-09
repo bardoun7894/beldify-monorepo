@@ -8,6 +8,7 @@ import { useParams, useRouter } from 'next/navigation';
 import ReviewsSection from '@/components/reviews/ReviewsSection';
 import RelatedProducts from '@/components/products/RelatedProducts';
 import ShareButton from '@/components/share/ShareButton';
+import NotifyMeButton from '@/components/products/NotifyMeButton';
 import { productService } from '@/services/api';
 import { Product } from '@/lib/types';
 import { partitionShelves } from './partitionShelves';
@@ -1009,6 +1010,65 @@ export default function ProductDetailsPage() {
   };
 
 
+  // ── Guest "Buy now" handler ────────────────────────────────────────────────
+  // Writes a minimal buy-now object to sessionStorage and navigates to
+  // /checkout?buyNow=1.  Does NOT touch the server cart or CartContext.
+  // No auth required — this is the guest COD entry point.
+  const handleBuyNow = () => {
+    if (!product) return;
+
+    // Require variant selection when the product has variants
+    if (product.variants && product.variants.length > 0 && !selectedVariant) {
+      toast.error(t('product.select_options', 'Select options first'));
+      return;
+    }
+
+    if (shouldDisableButton()) {
+      toast.error(t('stock.out_of_stock', 'Out of stock'));
+      return;
+    }
+
+    // Resolve stock_id — same precedence as handlePurchaseNow and handleAddToCart
+    let stockId: number | undefined;
+    let variantId: number | undefined;
+
+    if (selectedVariant && selectedVariant.id) {
+      variantId = Number(selectedVariant.id);
+    } else if (product.stock?.id) {
+      stockId = Number(product.stock.id);
+    } else if (product.stock_id) {
+      stockId = Number(product.stock_id);
+    } else {
+      stockId = Number(product.id);
+    }
+
+    const unitPrice = displayPrice;
+    const imageUrl = getCurrentImageUrl() || product.main_image || '';
+
+    const buyNowItem = {
+      product_id: Number(product.id),
+      stock_id: stockId,
+      variant_id: variantId,
+      store_id: product.store_id || 0,
+      quantity,
+      unit_price: unitPrice,
+      name: product.name,
+      name_ar: product.name_ar,
+      image: imageUrl,
+      ts: Date.now(),
+    };
+
+    try {
+      sessionStorage.setItem('beldify_buy_now', JSON.stringify(buyNowItem));
+    } catch {
+      // sessionStorage unavailable (private browsing restrictions)
+      toast.error(t('errors.session_storage_unavailable', 'Unable to proceed — please enable cookies'));
+      return;
+    }
+
+    router.push('/checkout?buyNow=1');
+  };
+
   useEffect(() => {
     const fetchProduct = async () => {
       try {
@@ -1758,7 +1818,24 @@ export default function ProductDetailsPage() {
               })()}
             </button>
 
-            {/* Secondary CTA: Save to wishlist */}
+            {/* Secondary CTA: Buy now — guest COD path, no account required */}
+            <button
+              type="button"
+              data-testid="buy-now-button"
+              onClick={handleBuyNow}
+              disabled={shouldDisableButton()}
+              className={cn(
+                'w-full rounded-full py-3.5 flex items-center justify-center gap-2 text-sm font-semibold transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-500/40',
+                shouldDisableButton()
+                  ? 'bg-gray-100 text-gray-400 cursor-not-allowed ring-1 ring-gray-200'
+                  : 'bg-amber-400 hover:bg-amber-300 text-gray-900 shadow-atlas-sm hover:shadow-atlas-md active:scale-[0.98]'
+              )}
+            >
+              {t('product.buy_now', 'Buy now')}
+              <ArrowRight className="h-4 w-4 rtl:rotate-180" aria-hidden />
+            </button>
+
+            {/* Tertiary CTA: Save to wishlist */}
             <button
               type="button"
               onClick={handleWishlistToggle}
@@ -1772,6 +1849,34 @@ export default function ProductDetailsPage() {
               <Heart className={cn('h-4 w-4', wishlisted ? 'fill-rose-600 text-rose-600' : '')} aria-hidden />
               {wishlisted ? t('wishlist.saved', 'Saved') : t('wishlist.save', 'Save for later')}
             </button>
+
+            {/* Notify me — back-in-stock (OOS) or price-drop (in-stock).
+                OOS: prominent, replaces the buy button's call to action.
+                In-stock: secondary, shown below the wishlist save button.
+                isProductOOS derives from variant-path and hybrid-stock-path
+                to avoid using shouldDisableButton() which also fires for
+                "no variant selected" — a different condition. */}
+            {(() => {
+              const isProductOOS =
+                // Variant path: variant selected and is out of stock
+                (selectedVariant && isOutOfStock(selectedVariant)) ||
+                // Variant-less hybrid-stock path: stock object says not in stock
+                (!selectedVariant && product.variants.length === 0 && product.stock && !product.stock.in_stock) ||
+                // Legacy fallback: no stock object, quantity ≤ 0
+                (!selectedVariant && product.variants.length === 0 && !product.stock && (() => {
+                  const n = typeof product.quantity === 'string' ? parseInt(product.quantity) : product.quantity;
+                  return !n || (n as number) <= 0;
+                })());
+
+              return (
+                <NotifyMeButton
+                  productId={Number(product.id)}
+                  currentPrice={displayPrice}
+                  isOutOfStock={!!isProductOOS}
+                  isRTL={isRTL}
+                />
+              );
+            })()}
 
             {/* Tertiary CTA: Share — spreads the product link to WhatsApp/social,
                 pulling buyers back into the app (sale always closes in-app). */}

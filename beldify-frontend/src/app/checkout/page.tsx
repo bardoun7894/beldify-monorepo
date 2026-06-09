@@ -7,7 +7,7 @@ import Image from 'next/image';
 import { cartService } from '@/services/api';
 import { useCart } from '@/contexts/CartContext';
 import toast from '@/utils/toast';
-import { orderService } from '@/services/orderService';
+import { orderService, type Order } from '@/services/orderService';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '@/hooks/useAuth';
 import logger from '@/utils/consoleLogger';
@@ -37,9 +37,22 @@ const playfair = { fontFamily: '"Playfair Display", ui-serif, Georgia, serif' };
 // ── Shipping config — single source of truth ──────────────────────────────────
 // Free-shipping threshold and standard/express method prices live here so the
 // method card and the order summary can never drift apart.
+// Note: for the buyNow path, authoritative shipping comes from the quote endpoint.
 const FREE_SHIPPING_THRESHOLD = 500;
 const STANDARD_SHIPPING_PRICE = 30;
 const EXPRESS_SHIPPING_PRICE = 70;
+
+// ── Quote shape ───────────────────────────────────────────────────────────────
+interface CheckoutQuote {
+  subtotal: number;
+  tax_amount: number;
+  shipping_amount: number;
+  discount_amount: number;
+  total_amount: number;
+  cod_allowed: boolean;
+  cod_max: number;
+  currency: string;
+}
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 interface ShippingInfo {
@@ -116,6 +129,20 @@ const getCountryName = (code: string, t: (k: string) => string) => {
   return country ? t(`countries.${country.code.toLowerCase()}`) : code;
 };
 
+// ── Buy-now item type ─────────────────────────────────────────────────────────
+interface BuyNowItem {
+  product_id: number;
+  stock_id?: number;
+  variant_id?: number;
+  store_id: number;
+  quantity: number;
+  unit_price: number;
+  name: string;
+  name_ar?: string;
+  image: string;
+  ts: number;
+}
+
 // ── Main component ────────────────────────────────────────────────────────────
 export default function CheckoutPage() {
   const router = useRouter();
@@ -124,6 +151,33 @@ export default function CheckoutPage() {
   const { user, isAuthenticated } = useAuth();
   const isRTL = i18n.language === 'ar';
   const { triggerOnCheckout } = usePWATriggers();
+
+  // ── Buy-now guest mode ────────────────────────────────────────────────────
+  // Read buyNow flag and sessionStorage item client-side (avoids Suspense
+  // boundary that useSearchParams requires in Next.js 15 App Router).
+  const [isBuyNow, setIsBuyNow] = useState(false);
+  const [buyNowItem, setBuyNowItem] = useState<BuyNowItem | null>(null);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('buyNow') !== '1') return;
+
+    try {
+      const raw = sessionStorage.getItem('beldify_buy_now');
+      if (!raw) return;
+      const parsed: BuyNowItem = JSON.parse(raw);
+      // Reject stale items (older than 30 min)
+      if (Date.now() - parsed.ts > 30 * 60 * 1000) {
+        sessionStorage.removeItem('beldify_buy_now');
+        return;
+      }
+      setIsBuyNow(true);
+      setBuyNowItem(parsed);
+    } catch {
+      // Malformed JSON — ignore, fall through to regular cart path
+    }
+  }, []);
 
   // Locale-aware currency formatter — shared with order-confirmation so the same
   // cart renders identical digits/grouping across both screens (Arabic numerals).
@@ -143,6 +197,11 @@ export default function CheckoutPage() {
   const [isLoadingLocation, setIsLoadingLocation] = useState(false);
   const [sendUpdates, setSendUpdates] = useState(true);
   const [shippingMethod, setShippingMethod] = useState<ShippingMethodKey>('standard');
+
+  // ── Quote state (buyNow path only) ───────────────────────────────────────
+  const [quote, setQuote] = useState<CheckoutQuote | null>(null);
+  const [quoteLoading, setQuoteLoading] = useState(false);
+  const [quoteError, setQuoteError] = useState<string | null>(null);
 
   // Form validation state
   const [validationErrors, setValidationErrors] = useState<Record<string, string>>({});
@@ -189,7 +248,11 @@ export default function CheckoutPage() {
     setShippingInfo((prev) => ({ ...prev, [name]: value }));
   };
 
-  const getPaymentMethods = (): PaymentMethod[] => [
+  const getPaymentMethods = (): PaymentMethod[] => {
+    // Phase 1 guest "Buy Now" is COD-only.  The submit path already hardcodes
+    // payment_method: 'cod'; hiding all other methods prevents a confusing UX
+    // where a guest selects "Bank transfer" but the order is always placed as COD.
+    const allMethods: PaymentMethod[] = [
     {
       id: 'cod',
       kind: 'cod',
@@ -247,18 +310,30 @@ export default function CheckoutPage() {
       description: t('checkout.payment.methods.card.description'),
     },
   ];
+    return allMethods;
+  };
 
-  // COD eligibility mirrors the backend rule: Morocco only, ≤ COD_MAX_AMOUNT.
-  const codAllowed =
-    (cartState?.total_amount ?? 0) <= COD_MAX_AMOUNT &&
-    (shippingInfo.country || '').toUpperCase() === 'MA';
+  // COD eligibility — for buyNow we trust the backend quote; for cart we mirror
+  // the backend rule client-side (Morocco only, ≤ COD_MAX_AMOUNT).
+  const effectiveTotalForCod = isBuyNow
+    ? (buyNowItem ? buyNowItem.unit_price * buyNowItem.quantity : 0)
+    : (cartState?.total_amount ?? 0);
+  const codAllowed = isBuyNow
+    ? (quote ? quote.cod_allowed : (
+        effectiveTotalForCod <= COD_MAX_AMOUNT &&
+        (shippingInfo.country || '').toUpperCase() === 'MA'
+      ))
+    : (
+        effectiveTotalForCod <= COD_MAX_AMOUNT &&
+        (shippingInfo.country || '').toUpperCase() === 'MA'
+      );
 
   // Reason a method can't be picked (null = selectable).
   const paymentDisabledReason = (method: PaymentMethod): string | null => {
     // Online gateways (card / PayPal) are bypassed — no real charge is taken.
     // The order is created with payment_status 'pending' for manual confirmation.
     if (method.kind === 'cod' && !codAllowed) {
-      return (cartState?.total_amount ?? 0) > COD_MAX_AMOUNT
+      return effectiveTotalForCod > COD_MAX_AMOUNT
         ? t('checkout.payment.cod_over_limit', `Not available over ${COD_MAX_AMOUNT} MAD`)
         : t('checkout.payment.cod_morocco_only', 'Only available inside Morocco');
     }
@@ -414,12 +489,14 @@ export default function CheckoutPage() {
     try {
       setIsProcessing(true);
 
-      if (!user?.id) {
+      // Auth wall — skip for guest buy-now path
+      if (!isBuyNow && !user?.id) {
         toast.error(t('checkout.errors.auth_required'));
         return;
       }
 
-      for (const item of cartState.items) {
+      // Server-cart stock loop — skip for buy-now (no server cart involved)
+      if (!isBuyNow) for (const item of cartState.items) {
         try {
           const stockAvailable = await cartService.checkStock(item.stock_id);
 
@@ -569,38 +646,81 @@ export default function CheckoutPage() {
       };
       if (countryMap[normalizedCountry]) normalizedCountry = countryMap[normalizedCountry];
 
-      const orderData = {
-        items: cartState.items.map((item) => ({
-          product_id: item.product.id,
-          quantity: item.quantity,
-          unit_price: String(item.unit_price),
-          ...(item.stock_id && { stock_id: item.stock_id }),
-          ...(item.variant_id && { variant_id: item.variant_id }),
-          store_id: item.store?.id || 0,
-        })),
-        shipping_info: {
-          first_name: (shippingInfo.firstName || '').trim(),
-          last_name: (shippingInfo.lastName || '').trim(),
-          email: (shippingInfo.email || '').trim().toLowerCase(),
-          phone: (shippingInfo.phone?.replace(/\D/g, '') || '').trim(),
-          address: (shippingInfo.address || '').trim(),
-          apartment: (shippingInfo.apartment || '').trim(),
-          city: (shippingInfo.city || '').trim(),
-          state: (shippingInfo.state || '').trim(),
-          zip_code: (shippingInfo.postalCode || '').trim(),
-          country: normalizedCountry,
-        },
-        payment_method: normalizedPaymentMethod,
-        status: 'pending',
-        subtotal: String(cartState.subtotal),
-        tax_amount: String(cartState.tax_amount),
-        shipping_amount: String(cartState.shipping_amount),
-        discount_amount: String(cartState.discount_amount),
-        total_amount: String(cartState.total_amount),
-        coupon_code: cartState.coupon_code || null,
+      // ── Common shipping info shape ──────────────────────────────────────────
+      const shippingPayload = {
+        first_name: (shippingInfo.firstName || '').trim(),
+        last_name: (shippingInfo.lastName || '').trim(),
+        email: (shippingInfo.email || '').trim().toLowerCase(),
+        phone: (shippingInfo.phone?.replace(/\D/g, '') || '').trim(),
+        address: (shippingInfo.address || '').trim(),
+        apartment: (shippingInfo.apartment || '').trim(),
+        city: (shippingInfo.city || '').trim(),
+        state: (shippingInfo.state || '').trim(),
+        zip_code: (shippingInfo.postalCode || '').trim(),
+        country: normalizedCountry,
       };
 
-      const response = await orderService.createOrder(orderData);
+      let response: any;
+
+      if (isBuyNow && buyNowItem) {
+        // ── Guest path — POST /api/orders/checkout ──────────────────────────
+        // Use quote numbers (authoritative) when available; guard against no-quote
+        if (!quote && !quoteLoading) {
+          toast.error(t('checkout.quote.load_error', 'Could not calculate order total. Please try again.'));
+          return;
+        }
+
+        const buyNowSubtotalFinal = quote ? quote.subtotal : buyNowItem.unit_price * buyNowItem.quantity;
+        const buyNowShippingFinal = quote ? quote.shipping_amount : 0;
+        const buyNowTaxFinal = quote ? quote.tax_amount : 0;
+        const buyNowDiscountFinal = quote ? quote.discount_amount : 0;
+        const buyNowTotalFinal = quote ? quote.total_amount : buyNowSubtotalFinal;
+
+        const checkoutPayload = {
+          items: [
+            {
+              product_id: buyNowItem.product_id,
+              quantity: buyNowItem.quantity,
+              unit_price: buyNowItem.unit_price,
+              ...(buyNowItem.stock_id ? { stock_id: buyNowItem.stock_id } : {}),
+              ...(buyNowItem.variant_id ? { variant_id: buyNowItem.variant_id } : {}),
+              store_id: buyNowItem.store_id ?? 0,
+            },
+          ],
+          shipping_info: shippingPayload,
+          payment_method: normalizedPaymentMethod,
+          subtotal: buyNowSubtotalFinal,
+          tax_amount: buyNowTaxFinal,
+          shipping_amount: buyNowShippingFinal,
+          discount_amount: buyNowDiscountFinal,
+          total_amount: buyNowTotalFinal,
+          coupon_code: null,
+        };
+
+        response = await (orderService as any).createCheckoutOrder(checkoutPayload);
+      } else {
+        // ── Authenticated cart path — POST /api/orders ──────────────────────
+        const orderData = {
+          items: cartState.items.map((item) => ({
+            product_id: item.product.id,
+            quantity: item.quantity,
+            unit_price: String(item.unit_price),
+            ...(item.stock_id && { stock_id: item.stock_id }),
+            ...(item.variant_id && { variant_id: item.variant_id }),
+            store_id: item.store?.id || 0,
+          })),
+          shipping_info: shippingPayload,
+          payment_method: normalizedPaymentMethod,
+          status: 'pending',
+          subtotal: String(cartState.subtotal),
+          tax_amount: String(cartState.tax_amount),
+          shipping_amount: String(cartState.shipping_amount),
+          discount_amount: String(cartState.discount_amount),
+          total_amount: String(cartState.total_amount),
+          coupon_code: cartState.coupon_code || null,
+        };
+        response = await orderService.createOrder(orderData);
+      }
 
       if (response.success || response.status === 'success') {
         const orderNumber =
@@ -613,7 +733,38 @@ export default function CheckoutPage() {
           response?.data?.id ||
           response?.id;
 
-        await clearCart();
+        if (isBuyNow) {
+          // Guest path: clear the buy-now stash and save order data for confirmation
+          try { sessionStorage.removeItem('beldify_buy_now'); } catch { /* noop */ }
+          // Stash enough for the confirmation page (no auth, can't fetch from server)
+          try {
+            const orderData = response?.data?.order || response?.data || response?.order || {};
+            const guestOrderStash = {
+              order_number: orderNumber,
+              payment_status: orderData.payment_status ||
+                (normalizedPaymentMethod === 'cash_on_delivery' ? 'pending' : 'awaiting_payment'),
+              payment_method: normalizedPaymentMethod,
+              total_amount: totalAmount,
+              shipping_amount: shippingAmount,
+              tax_amount: taxAmount,
+              items: [{
+                id: String(buyNowItem.product_id),
+                product_name: buyNowItem.name,
+                quantity: buyNowItem.quantity,
+                unit_price: buyNowItem.unit_price,
+                product: {
+                  name: buyNowItem.name,
+                  image_url: buyNowItem.image,
+                },
+              }],
+              shipping_info: shippingPayload,
+              created_at: new Date().toISOString(),
+            };
+            sessionStorage.setItem('beldify_last_order', JSON.stringify(guestOrderStash));
+          } catch { /* noop */ }
+        } else {
+          await clearCart();
+        }
         toast.success(t('checkout.success.order_placed'));
 
         if (orderNumber) {
@@ -658,6 +809,38 @@ export default function CheckoutPage() {
     setSelectedPayment(methodId);
   };
 
+  // ── Fetch quote whenever buyNow item or delivery country changes ──────────
+  // This drives authoritative totals and COD eligibility for the guest path.
+  useEffect(() => {
+    if (!isBuyNow || !buyNowItem) return;
+
+    let cancelled = false;
+    const fetchQuote = async () => {
+      setQuoteLoading(true);
+      setQuoteError(null);
+      try {
+        const result = await orderService.getCheckoutQuote({
+          items: [{ stock_id: buyNowItem.stock_id, quantity: buyNowItem.quantity }],
+          country: shippingInfo.country || 'MA',
+          coupon_code: null,
+        });
+        if (!cancelled) setQuote(result);
+      } catch {
+        if (!cancelled) {
+          setQuoteError(t('checkout.quote.load_error', 'Could not calculate order total. Please try again.'));
+          setQuote(null);
+        }
+      } finally {
+        if (!cancelled) setQuoteLoading(false);
+      }
+    };
+
+    fetchQuote();
+    return () => {
+      cancelled = true;
+    };
+  }, [isBuyNow, buyNowItem, shippingInfo.country]); // eslint-disable-line react-hooks/exhaustive-deps
+
   // If COD becomes ineligible (cart > limit or shipping leaves Morocco) while it
   // is the selected method, fall back to the first transfer option.
   useEffect(() => {
@@ -666,15 +849,29 @@ export default function CheckoutPage() {
     }
   }, [selectedPayment, codAllowed]);
 
-  // ── Derived totals ────────────────────────────────────────────────────────
-  const subtotal = cartState?.subtotal ?? 0;
-  const shippingAmount = cartState?.shipping_amount ?? 0;
-  const taxAmount = cartState?.tax_amount ?? 0;
-  const discountAmount = cartState?.discount_amount ?? 0;
-  const totalAmount = cartState?.total_amount ?? 0;
+  // ── Derived totals — branch on isBuyNow ─────────────────────────────────
+  // For the buyNow path, use quote numbers once available; fall back to item
+  // math only while the quote is still loading (avoids a flash of wrong total).
+  const buyNowSubtotalDerived = buyNowItem ? buyNowItem.unit_price * buyNowItem.quantity : 0;
+  const subtotal = isBuyNow
+    ? (quote ? quote.subtotal : buyNowSubtotalDerived)
+    : (cartState?.subtotal ?? 0);
+  const shippingAmount = isBuyNow
+    ? (quote ? quote.shipping_amount : 0)
+    : (cartState?.shipping_amount ?? 0);
+  const taxAmount = isBuyNow
+    ? (quote ? quote.tax_amount : 0)
+    : (cartState?.tax_amount ?? 0);
+  const discountAmount = isBuyNow
+    ? (quote ? quote.discount_amount : 0)
+    : (cartState?.discount_amount ?? 0);
+  const totalAmount = isBuyNow
+    ? (quote ? quote.total_amount : buyNowSubtotalDerived)
+    : (cartState?.total_amount ?? 0);
 
   // ── Empty cart state ──────────────────────────────────────────────────────
-  if (!cartState?.items?.length) {
+  // Skip for buy-now guests — they have no server cart.
+  if (!isBuyNow && !cartState?.items?.length) {
     return (
       <div className={`min-h-screen bg-canvas ${isRTL ? 'rtl' : 'ltr'}`}>
         <div className="max-w-7xl mx-auto px-6 py-24 flex flex-col items-center text-center">
@@ -1263,36 +1460,77 @@ export default function CheckoutPage() {
 
       {/* Line items */}
       <ul className="space-y-3 mb-5" aria-label={t('checkout.summary.items_list', 'Order items')}>
-        {cartState.items.map((item) => {
-          const productName =
-            i18n.language === 'ar' ? item.product.name_ar : item.product.name;
-          return (
-            <li key={item.id} className="flex items-center gap-3">
-              <div className="relative w-12 h-12 flex-shrink-0 rounded-xl ring-1 ring-amber-200 overflow-hidden bg-amber-50">
-                <Image
-                  src={getImageUrl(item.product.image_url, '/placeholder.png')}
-                  alt={productName || t('checkout.summary.product_image_alt')}
-                  fill
-                  className="object-cover"
-                  sizes="48px"
-                />
-                {/* Quantity badge */}
-                <span className="absolute -top-1.5 -end-1.5 w-5 h-5 rounded-full bg-indigo-700 text-white text-[10px] font-bold flex items-center justify-center leading-none">
-                  {item.quantity}
-                </span>
-              </div>
-              <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium text-gray-900 truncate">
-                  {productName}
-                </p>
-              </div>
-              <span className="text-sm font-semibold text-indigo-700 flex-shrink-0 tabular-nums currency-mad">
-                {formatAmount(item.unit_price * item.quantity)} MAD
+        {isBuyNow && buyNowItem ? (
+          // ── Guest buy-now: render single item from sessionStorage ──────────
+          <li className="flex items-center gap-3">
+            <div className="relative w-12 h-12 flex-shrink-0 rounded-xl ring-1 ring-amber-200 overflow-hidden bg-amber-50">
+              <Image
+                src={getImageUrl(buyNowItem.image, '/placeholder.png')}
+                alt={(i18n.language === 'ar' ? buyNowItem.name_ar : undefined) || buyNowItem.name || t('checkout.summary.product_image_alt')}
+                fill
+                className="object-cover"
+                sizes="48px"
+              />
+              <span className="absolute -top-1.5 -end-1.5 w-5 h-5 rounded-full bg-indigo-700 text-white text-[10px] font-bold flex items-center justify-center leading-none">
+                {buyNowItem.quantity}
               </span>
-            </li>
-          );
-        })}
+            </div>
+            <div className="flex-1 min-w-0">
+              <p className="text-sm font-medium text-gray-900 truncate">
+                {(i18n.language === 'ar' ? buyNowItem.name_ar : undefined) || buyNowItem.name}
+              </p>
+            </div>
+            <span className="text-sm font-semibold text-indigo-700 flex-shrink-0 tabular-nums currency-mad">
+              {formatAmount(buyNowItem.unit_price * buyNowItem.quantity)} MAD
+            </span>
+          </li>
+        ) : (
+          // ── Authenticated cart path ────────────────────────────────────────
+          cartState.items.map((item) => {
+            const productName =
+              i18n.language === 'ar' ? item.product.name_ar : item.product.name;
+            return (
+              <li key={item.id} className="flex items-center gap-3">
+                <div className="relative w-12 h-12 flex-shrink-0 rounded-xl ring-1 ring-amber-200 overflow-hidden bg-amber-50">
+                  <Image
+                    src={getImageUrl(item.product.image_url, '/placeholder.png')}
+                    alt={productName || t('checkout.summary.product_image_alt')}
+                    fill
+                    className="object-cover"
+                    sizes="48px"
+                  />
+                  {/* Quantity badge */}
+                  <span className="absolute -top-1.5 -end-1.5 w-5 h-5 rounded-full bg-indigo-700 text-white text-[10px] font-bold flex items-center justify-center leading-none">
+                    {item.quantity}
+                  </span>
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-medium text-gray-900 truncate">
+                    {productName}
+                  </p>
+                </div>
+                <span className="text-sm font-semibold text-indigo-700 flex-shrink-0 tabular-nums currency-mad">
+                  {formatAmount(item.unit_price * item.quantity)} MAD
+                </span>
+              </li>
+            );
+          })
+        )}
       </ul>
+
+      {/* Quote loading / error state (buyNow only) */}
+      {isBuyNow && quoteLoading && (
+        <div className="flex items-center gap-2 text-xs text-indigo-600 py-2">
+          <svg className="animate-spin h-3.5 w-3.5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" aria-hidden="true">
+            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+          </svg>
+          {t('checkout.quote.loading', 'Calculating total…')}
+        </div>
+      )}
+      {isBuyNow && quoteError && !quoteLoading && (
+        <p className="text-xs text-rose-600 py-2" role="alert">{quoteError}</p>
+      )}
 
       <div className="border-t border-amber-200 pt-4 space-y-2 text-sm">
         <div className="flex justify-between">

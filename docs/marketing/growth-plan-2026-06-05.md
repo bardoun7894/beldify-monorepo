@@ -162,4 +162,28 @@ Each sprint is shippable on its own and improves a distinct number (reach → co
 
 ---
 
+## 8. Shipped log
+
+- **2026-06-06 — Share-to-WhatsApp buttons** (PDP, shop, OpenSouk feed). Reusable `components/share/ShareButton.tsx`; native share sheet on mobile, WhatsApp/Facebook/Copy-link menu on desktop. Shares in-app links only (commission-safe). i18n in all 5 locales.
+- **2026-06-06 — OG / link-preview tags** (PDP + shop). Server `layout.tsx` + `generateMetadata` fetch product/shop and emit OpenGraph + Twitter cards so shared links show photo + name + price. `metadataBase` added to root layout; shared helpers in `utils/seo.ts`. Verified against prod API shape.
+
+- **2026-06-06 — Guest checkout ("Buy Now", COD + transfer)**. Logged-out buyers can purchase from the PDP without an account.
+  - Frontend: PDP "Buy now" → `sessionStorage` → `/checkout?buyNow=1`; checkout guest path skips the auth wall, sources the single item, and submits to the public `POST /orders/checkout`. Totals + COD eligibility now come from a new server **quote** endpoint (no client-fabricated totals). Payment-method split: COD when total ≤ cap (Morocco), else transfer (Wafacash/Cash Plus/bank) + **receipt upload** — the previously-orphaned `PaymentProofUpload` is now mounted on order-confirmation for `awaiting_payment` orders (guest + logged-in). Guest confirmation reads order from `sessionStorage` (no authed refetch).
+  - Backend: new public `POST /orders/quote` (server-trusted subtotal/tax/shipping/`cod_allowed`, shared `computeCheckoutTotals` helper so quote and order never drift); **tax set to 0** (no VAT, prices final) in `config/cart.php`. Guest receipt upload via existing public `POST /orders/{orderNumber}/payment-proof` (field `file` + guest `email` ownership).
+  - Verified: backend 7 quote tests + 9 COD tests pass; frontend tsc/eslint/`build:dev` all green.
+
+### ⚠️ Caveats / required before prod
+- **Tax env:** zeroing tax is store-wide via `config/cart.php`. If prod `.env` sets `CART_TAX_RATE` to non-zero it still applies — **devops must confirm prod has `CART_TAX_RATE=0`** (or no override). The legacy admin `createOrder` path still has a hardcoded `0.15` fallback (storefront unaffected).
+- **Runtime smoke test pending:** compile + contracts verified, but a live end-to-end run (place a guest COD order; place a transfer order + upload receipt) on the dev stack is not yet done.
+- **COD cap stays 500** — items above route to transfer + receipt (more friction; the Moroccan norm for big-ticket).
+
+### Still open (Sprint 2+)
+- Phone-OTP on guest orders (anti-fraud for COD; needs an SMS provider).
+- Seller WhatsApp notification on new order (backend already fires in-app `OrderPlacedNotification`; extend to WhatsApp + add opt-in seller WhatsApp field).
+- Phase 2: full local guest cart (multi-item browsing) + merge-on-login.
+- Seller link-in-bio landing page + QR codes.
+- OpenSouk social feed (own spec).
+
+---
+
 *This is a living document. Update KPIs and sprint status as we ship.*
