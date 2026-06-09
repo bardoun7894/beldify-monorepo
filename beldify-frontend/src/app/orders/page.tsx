@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useTranslation } from 'react-i18next';
 import { motion, useReducedMotion } from 'framer-motion';
 import { orderService, Order, OrderItem } from '@/services/orderService';
@@ -26,7 +26,8 @@ import {
   MapPin,
   Archive,
   Sparkles,
-  ChevronRight
+  ChevronRight,
+  RefreshCw,
 } from 'lucide-react';
 import logger from '@/utils/consoleLogger';
 
@@ -36,12 +37,54 @@ export default function OrdersPage() {
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [reorderingId, setReorderingId] = useState<string | null>(null);
   const { t, i18n } = useTranslation();
   const searchParams = useSearchParams();
+  const router = useRouter();
   const isRTL = i18n.language === 'ar';
   const shouldReduceMotion = useReducedMotion();
   const [statusFilter, setStatusFilter] = useState<'all' | 'pending' | 'processing' | 'shipped' | 'delivered' | 'cancelled'>('all');
   const [query, setQuery] = useState('');
+
+  // Handle "Buy it again" — re-adds past order items to cart at current prices
+  const handleReorder = async (orderNumber: string, orderId: string) => {
+    if (reorderingId) return; // prevent double-tap
+    setReorderingId(orderId);
+    try {
+      const result = await orderService.reorder(orderNumber);
+      if (result.items_skipped > 0 && result.items_added === 0) {
+        // FLAG: i18n key orders.reorder.all_skipped — hardcoded AR+EN pending i18n audit
+        toast(
+          i18n.language === 'ar'
+            ? 'لم تتوفر المنتجات حالياً'
+            : 'Items are out of stock and could not be added.',
+          'error'
+        );
+        return;
+      }
+      const skippedNote =
+        result.items_skipped > 0
+          ? i18n.language === 'ar'
+            ? ` (${result.items_skipped} منتج غير متوفر)`
+            : ` (${result.items_skipped} item${result.items_skipped > 1 ? 's' : ''} out of stock)`
+          : '';
+      // FLAG: i18n key orders.reorder.added — hardcoded AR+EN pending i18n audit
+      toast(
+        (i18n.language === 'ar' ? 'أُضيف إلى سلة التسوق' : 'Added to your cart') + skippedNote,
+        'success'
+      );
+      router.push('/cart');
+    } catch (err) {
+      logger.error('Reorder error:', err);
+      // FLAG: i18n key orders.reorder.error — hardcoded AR+EN pending i18n audit
+      toast(
+        i18n.language === 'ar' ? 'حدث خطأ، يرجى المحاولة مجدداً' : 'Something went wrong. Please try again.',
+        'error'
+      );
+    } finally {
+      setReorderingId(null);
+    }
+  };
 
   // Format date based on locale - Modern style
   const formatOrderDate = (date: string | null | undefined): string => {
@@ -419,7 +462,7 @@ export default function OrdersPage() {
 
                 {/* Order footer */}
                 <div className="px-5 sm:px-6 py-4 bg-amber-50/20 border-t border-amber-100">
-                  <div className="flex items-center justify-between gap-4">
+                  <div className="flex items-center justify-between gap-3 flex-wrap">
                     <div className="min-w-0">
                       {order.shipping_address && (
                         <span className="flex items-center gap-1.5 text-sm text-gray-500">
@@ -430,14 +473,32 @@ export default function OrdersPage() {
                         </span>
                       )}
                     </div>
-                    <Link
-                      href={`/orders/${order.order_number}`}
-                      className="inline-flex items-center gap-2 px-5 py-2.5 bg-indigo-700 text-white text-sm font-medium rounded-2xl hover:bg-indigo-800 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-atlas-md flex-shrink-0 focus:ring-2 focus:ring-indigo-700/30 focus:outline-none"
-                    >
-                      <Eye className="w-4 h-4" strokeWidth={1.5} />
-                      {t('orders.actions.view_details')}
-                      <ChevronRight className={`w-3.5 h-3.5 ${isRTL ? 'rotate-180' : ''}`} strokeWidth={2} />
-                    </Link>
+                    <div className="flex items-center gap-2 flex-shrink-0">
+                      {/* "Buy it again" — re-adds past order items to cart at current prices.
+                          Second-person, calm copy. No "!", no urgency, no shame.
+                          AR: اشترِ مرة أخرى  /  EN: Buy it again  (FLAG: pending i18n key orders.actions.buy_again) */}
+                      <button
+                        type="button"
+                        onClick={() => handleReorder(order.order_number, order.id)}
+                        disabled={reorderingId === order.id}
+                        className="inline-flex items-center gap-1.5 px-4 py-2.5 border border-indigo-200 text-indigo-700 text-sm font-medium rounded-2xl hover:bg-indigo-50 transition-all duration-200 flex-shrink-0 focus:ring-2 focus:ring-indigo-700/30 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed"
+                        aria-label={i18n.language === 'ar' ? 'اشترِ مرة أخرى' : 'Buy it again'}
+                      >
+                        <RefreshCw
+                          className={`w-3.5 h-3.5 ${reorderingId === order.id ? 'animate-spin' : ''}`}
+                          strokeWidth={2}
+                        />
+                        {i18n.language === 'ar' ? 'اشترِ مرة أخرى' : 'Buy it again'}
+                      </button>
+                      <Link
+                        href={`/orders/${order.order_number}`}
+                        className="inline-flex items-center gap-2 px-5 py-2.5 bg-indigo-700 text-white text-sm font-medium rounded-2xl hover:bg-indigo-800 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-atlas-md flex-shrink-0 focus:ring-2 focus:ring-indigo-700/30 focus:outline-none"
+                      >
+                        <Eye className="w-4 h-4" strokeWidth={1.5} />
+                        {t('orders.actions.view_details')}
+                        <ChevronRight className={`w-3.5 h-3.5 ${isRTL ? 'rotate-180' : ''}`} strokeWidth={2} />
+                      </Link>
+                    </div>
                   </div>
                 </div>
               </motion.div>

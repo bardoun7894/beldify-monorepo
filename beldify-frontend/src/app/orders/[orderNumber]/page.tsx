@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { motion, useReducedMotion } from 'framer-motion';
 import { orderService, Order, OrderItem } from '@/services/orderService';
 import toast from '@/utils/toast';
@@ -24,6 +25,7 @@ import {
   MessageSquare,
   XCircle,
   Star,
+  RefreshCw,
 } from 'lucide-react';
 import logger from '@/utils/consoleLogger';
 
@@ -51,12 +53,55 @@ export default function OrderDetailsPage() {
   const [order, setOrder] = useState<Order | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [reordering, setReordering] = useState(false);
   const { t, i18n } = useTranslation();
   const params = useParams();
   const searchParams = useSearchParams();
+  const router = useRouter();
   const isRTL = i18n.language === 'ar';
   const shouldReduceMotion = useReducedMotion();
   const orderNumber = params?.orderNumber as string;
+
+  // Handle "Buy it again" — re-adds this order's items to cart at current prices.
+  // Second-person, calm copy. No "!", no urgency, no shame (hooked §1 ethics).
+  const handleReorder = async () => {
+    if (reordering || !orderNumber) return;
+    setReordering(true);
+    try {
+      const result = await orderService.reorder(orderNumber);
+      if (result.items_skipped > 0 && result.items_added === 0) {
+        // FLAG: i18n key orders.reorder.all_skipped — hardcoded AR+EN pending i18n audit
+        toast(
+          i18n.language === 'ar'
+            ? 'لم تتوفر المنتجات حالياً'
+            : 'Items are out of stock and could not be added.',
+          'error'
+        );
+        return;
+      }
+      const skippedNote =
+        result.items_skipped > 0
+          ? i18n.language === 'ar'
+            ? ` (${result.items_skipped} منتج غير متوفر)`
+            : ` (${result.items_skipped} item${result.items_skipped > 1 ? 's' : ''} out of stock)`
+          : '';
+      // FLAG: i18n key orders.reorder.added — hardcoded AR+EN pending i18n audit
+      toast(
+        (i18n.language === 'ar' ? 'أُضيف إلى سلة التسوق' : 'Added to your cart') + skippedNote,
+        'success'
+      );
+      router.push('/cart');
+    } catch (err) {
+      logger.error('Reorder error:', err);
+      // FLAG: i18n key orders.reorder.error — hardcoded AR+EN pending i18n audit
+      toast(
+        i18n.language === 'ar' ? 'حدث خطأ، يرجى المحاولة مجدداً' : 'Something went wrong. Please try again.',
+        'error'
+      );
+    } finally {
+      setReordering(false);
+    }
+  };
 
   // Format date based on locale
   const formatDate = (date: string | null | undefined) => {
@@ -559,22 +604,41 @@ export default function OrderDetailsPage() {
               initial={shouldReduceMotion ? false : { y: 16, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 0.4, delay: 0.15, ease: [0.33, 1, 0.68, 1] }}
-              className="md:hidden grid grid-cols-2 gap-3"
+              className="md:hidden space-y-3"
             >
+              {/* "Buy it again" — full-width on mobile for easy thumb reach.
+                  Second-person, calm copy. No "!", no urgency (hooked §1 ethics).
+                  AR: اشترِ مرة أخرى  /  EN: Buy it again
+                  FLAG: i18n key orders.actions.buy_again pending i18n audit */}
               <button
-                className="px-4 py-3 bg-amber-50 text-gray-700 text-sm font-medium rounded-2xl ring-1 ring-amber-200 hover:bg-amber-100 transition-all duration-200 flex items-center justify-center gap-2 focus:ring-2 focus:ring-indigo-700/30 focus:outline-none"
-                aria-label={t('orders.actions.invoice')}
+                type="button"
+                onClick={handleReorder}
+                disabled={reordering}
+                className="w-full px-4 py-3 border border-indigo-200 text-indigo-700 text-sm font-medium rounded-2xl hover:bg-indigo-50 transition-all duration-200 flex items-center justify-center gap-2 focus:ring-2 focus:ring-indigo-700/30 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed"
+                aria-label={i18n.language === 'ar' ? 'اشترِ مرة أخرى' : 'Buy it again'}
               >
-                <FileText className="w-4 h-4" strokeWidth={1.5} />
-                {t('orders.actions.invoice')}
+                <RefreshCw
+                  className={`w-4 h-4 ${reordering ? 'animate-spin' : ''}`}
+                  strokeWidth={1.5}
+                />
+                {i18n.language === 'ar' ? 'اشترِ مرة أخرى' : 'Buy it again'}
               </button>
-              <button
-                className="px-4 py-3 bg-indigo-700 text-white text-sm font-medium rounded-2xl hover:bg-indigo-800 transition-all duration-200 flex items-center justify-center gap-2 focus:ring-2 focus:ring-indigo-700/30 focus:outline-none"
-                aria-label={t('orders.actions.support')}
-              >
-                <MessageSquare className="w-4 h-4" strokeWidth={1.5} />
-                {t('orders.actions.support')}
-              </button>
+              <div className="grid grid-cols-2 gap-3">
+                <button
+                  className="px-4 py-3 bg-amber-50 text-gray-700 text-sm font-medium rounded-2xl ring-1 ring-amber-200 hover:bg-amber-100 transition-all duration-200 flex items-center justify-center gap-2 focus:ring-2 focus:ring-indigo-700/30 focus:outline-none"
+                  aria-label={t('orders.actions.invoice')}
+                >
+                  <FileText className="w-4 h-4" strokeWidth={1.5} />
+                  {t('orders.actions.invoice')}
+                </button>
+                <button
+                  className="px-4 py-3 bg-indigo-700 text-white text-sm font-medium rounded-2xl hover:bg-indigo-800 transition-all duration-200 flex items-center justify-center gap-2 focus:ring-2 focus:ring-indigo-700/30 focus:outline-none"
+                  aria-label={t('orders.actions.support')}
+                >
+                  <MessageSquare className="w-4 h-4" strokeWidth={1.5} />
+                  {t('orders.actions.support')}
+                </button>
+              </div>
             </motion.div>
           </div>
 
@@ -677,8 +741,25 @@ export default function OrderDetailsPage() {
                 </div>
               </div>
 
-              {/* Action buttons — desktop only (mobile shows its own in-flow grid above) */}
+              {/* Action buttons — desktop only (mobile shows its own in-flow section above) */}
               <div className="mt-5 space-y-2.5 hidden md:block">
+                {/* "Buy it again" — top of desktop actions, calm second-person copy.
+                    No "!", no urgency (hooked §1 ethics).
+                    AR: اشترِ مرة أخرى  /  EN: Buy it again
+                    FLAG: i18n key orders.actions.buy_again pending i18n audit */}
+                <button
+                  type="button"
+                  onClick={handleReorder}
+                  disabled={reordering}
+                  className="w-full px-4 py-2.5 border border-indigo-200 text-indigo-700 text-sm font-medium rounded-2xl hover:bg-indigo-50 transition-all duration-200 flex items-center justify-center gap-2 focus:ring-2 focus:ring-indigo-700/30 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed"
+                  aria-label={i18n.language === 'ar' ? 'اشترِ مرة أخرى' : 'Buy it again'}
+                >
+                  <RefreshCw
+                    className={`w-4 h-4 flex-shrink-0 ${reordering ? 'animate-spin' : ''}`}
+                    strokeWidth={1.5}
+                  />
+                  {i18n.language === 'ar' ? 'اشترِ مرة أخرى' : 'Buy it again'}
+                </button>
                 <button
                   className="w-full px-4 py-2.5 bg-indigo-700 text-white text-sm font-medium rounded-2xl hover:bg-indigo-800 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-atlas-md flex items-center justify-center gap-2 focus:ring-2 focus:ring-indigo-700/30 focus:outline-none"
                   aria-label={t('orders.actions.download_invoice')}
@@ -695,7 +776,7 @@ export default function OrderDetailsPage() {
                 </button>
                 {order.status === 'delivered' && (
                   <button
-                    className="w-full px-4 py-2.5 border border-indigo-200 text-indigo-700 text-sm font-medium rounded-2xl hover:bg-indigo-50 transition-all duration-200 flex items-center justify-center gap-2 focus:ring-2 focus:ring-indigo-700/30 focus:outline-none"
+                    className="w-full px-4 py-2.5 bg-amber-50 text-gray-700 text-sm font-medium rounded-2xl ring-1 ring-amber-100 hover:bg-amber-100 transition-all duration-200 flex items-center justify-center gap-2 focus:ring-2 focus:ring-indigo-700/30 focus:outline-none"
                     aria-label={t('orders.actions.write_review')}
                   >
                     <Star className="w-4 h-4 flex-shrink-0" strokeWidth={1.5} />

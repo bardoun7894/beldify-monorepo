@@ -472,13 +472,17 @@ export function EnhancedPWAProvider({ children }: { children: ReactNode }) {
         break;
     }
     
-    // Auto-show on engagement actions disabled. The user-action-driven prompt
-    // is only opened via `promptInstall()` (footer install button etc.).
-    void shouldTrigger;
+    if (shouldTrigger) {
+      setShowInstallPrompt(true);
+    }
   };
 
   const checkOptimalTiming = () => {
-    // Auto-show on optimal-timing heuristic disabled.
+    if (isInstalled || checkRecentlyDismissed()) return;
+    const timing = calculateOptimalTiming();
+    if (timing.shouldShow) {
+      setShowInstallPrompt(true);
+    }
   };
 
   const checkRecentlyDismissed = () => {
