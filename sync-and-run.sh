@@ -28,6 +28,9 @@ rsync -avz --delete \
   ~/projects/beldify/ \
   "$REMOTE:$REMOTE_DIR/"
 
+echo "🔐 Restoring storage/cache ownership (rsync -avz from macOS stamps files uid 501 → www-data can't write → optimize:clear + every request 500s)..."
+ssh "$REMOTE" "docker exec $BACKEND_CT sh -lc 'chown -R www-data:www-data storage bootstrap/cache && find storage bootstrap/cache -type d -exec chmod 775 {} \;'"
+
 echo "🔗 Repairing backend API->Api case-sensitivity symlink (rsync --delete wipes it)..."
 ssh "$REMOTE" "docker exec $BACKEND_CT sh -lc 'cd app/Http/Controllers && ln -sfn Api API && composer dump-autoload -o >/dev/null 2>&1 && php artisan optimize:clear >/dev/null 2>&1'"
 
