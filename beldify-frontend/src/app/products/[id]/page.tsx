@@ -415,7 +415,7 @@ export default function ProductDetailsPage() {
         }
       }
     }
-    return '/placeholder-product.jpg'; // Ultimate fallback
+    return '/placeholder-product.svg'; // Ultimate fallback
   };
 
   // Enhanced variant selection logic with debugging

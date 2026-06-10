@@ -409,7 +409,7 @@ export default function OrdersPage() {
                       >
                         <div className="relative w-14 h-14 rounded-xl overflow-hidden bg-white shadow-atlas-sm flex-shrink-0">
                           <Image
-                            src={item.primary_image || item.product_image || '/images/placeholder-product.jpg'}
+                            src={item.primary_image || item.product_image || '/images/placeholder-product.svg'}
                             alt={item.product_name || t('product.fallback_name')}
                             fill
                             sizes="56px"
@@ -417,7 +417,7 @@ export default function OrdersPage() {
                             loading="lazy"
                             onError={(e) => {
                               const target = e.target as HTMLImageElement;
-                              target.src = '/images/placeholder-product.jpg';
+                              target.src = '/images/placeholder-product.svg';
                             }}
                           />
                         </div>

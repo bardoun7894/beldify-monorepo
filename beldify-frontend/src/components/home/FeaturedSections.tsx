@@ -35,7 +35,7 @@ interface NormalizedProduct {
   reviews: number;
 }
 
-const PLACEHOLDER = '/placeholder-product.jpg';
+const PLACEHOLDER = '/placeholder-product.svg';
 
 function normalize(items?: IncomingProduct[]): NormalizedProduct[] {
   if (!Array.isArray(items)) return [];

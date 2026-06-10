@@ -612,7 +612,7 @@ export default function OrderDetailsPage() {
                     <div className="flex items-start gap-4">
                       <div className="relative w-20 h-20 rounded-xl overflow-hidden bg-gray-50 flex-shrink-0 shadow-atlas-sm">
                         <Image
-                          src={item.primary_image || item.product_image || '/images/placeholder-product.jpg'}
+                          src={item.primary_image || item.product_image || '/images/placeholder-product.svg'}
                           alt={item.product_name || t('orders.items.unknown_product')}
                           fill
                           sizes="80px"
@@ -620,7 +620,7 @@ export default function OrderDetailsPage() {
                           loading="lazy"
                           onError={(e) => {
                             const target = e.target as HTMLImageElement;
-                            target.src = '/images/placeholder-product.jpg';
+                            target.src = '/images/placeholder-product.svg';
                           }}
                         />
                       </div>
