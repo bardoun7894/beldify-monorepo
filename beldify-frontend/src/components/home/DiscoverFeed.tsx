@@ -88,7 +88,7 @@ function MarketCard({ product, isArabicScript }: MarketCardProps) {
         aria-label={name}
       >
         {/* Image */}
-        <div className="relative aspect-[3/4] overflow-hidden rounded-t-2xl bg-amber-50">
+        <div className="relative aspect-[3/4] overflow-hidden rounded-t-2xl bg-gray-100">
           <Image
             src={imgSrc}
             alt=""
@@ -136,10 +136,10 @@ function MarketCard({ product, isArabicScript }: MarketCardProps) {
 function SkeletonCard() {
   return (
     <div className="animate-pulse overflow-hidden rounded-2xl bg-white ring-1 ring-amber-100 shadow-atlas-sm">
-      <div className="aspect-[3/4] bg-amber-50" />
+      <div className="aspect-[3/4] bg-gray-100" />
       <div className="p-2.5 space-y-2">
-        <div className="h-3 w-3/4 rounded bg-amber-100" />
-        <div className="h-3 w-1/2 rounded bg-amber-50" />
+        <div className="h-3 w-3/4 rounded bg-gray-200" />
+        <div className="h-3 w-1/2 rounded bg-gray-100" />
       </div>
     </div>
   );
@@ -212,7 +212,7 @@ export default function DiscoverFeed() {
         className="mx-auto max-w-7xl px-4 py-16"
         aria-label={t('discover.sectionLabel', 'Discover more')}
       >
-        <div className="rounded-2xl bg-amber-50 ring-1 ring-amber-200 px-6 py-12 text-center">
+        <div className="rounded-2xl bg-gray-50 ring-1 ring-gray-200 px-6 py-12 text-center">
           <p className="text-sm text-gray-600">
             {t('discover.empty', 'Produits bientôt disponibles.')}
           </p>

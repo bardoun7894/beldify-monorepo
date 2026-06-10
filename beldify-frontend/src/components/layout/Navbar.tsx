@@ -171,7 +171,7 @@ export default function Navbar() {
       </div>
 
       {/* ── Sticky main bar — parchment surface ──────────────────────── */}
-      <header className="sticky top-0 z-40 bg-amber-50 border-b border-amber-200/60 shadow-atlas-sm">
+      <header className="sticky top-0 z-40 bg-white border-b border-gray-200 shadow-atlas-sm">
         <div className="mx-auto max-w-7xl px-6 py-3 flex items-center justify-between gap-6">
 
           {/* ── Wordmark ─────────────────────────────────────────────── */}
@@ -197,7 +197,7 @@ export default function Navbar() {
                 key={link.href}
                 href={link.href}
                 prefetch
-                className="text-sm text-gray-700 hover:text-indigo-700 px-3 py-1.5 rounded-lg hover:bg-amber-100/70 transition-colors duration-150 whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30"
+                className="text-sm text-gray-700 hover:text-indigo-700 px-3 py-1.5 rounded-lg hover:bg-gray-100 transition-colors duration-150 whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30"
               >
                 {t(link.labelKey, link.fallback)}
               </Link>
@@ -256,7 +256,7 @@ export default function Navbar() {
                               onClick={() => handleLanguageChange(lang)}
                               className={cn(
                                 'block w-full text-left px-4 py-2 text-sm transition',
-                                active ? 'bg-amber-50 text-indigo-700' : 'text-gray-700',
+                                active ? 'bg-indigo-50 text-indigo-700' : 'text-gray-700',
                                 i18n.language === lang ? 'font-semibold text-indigo-700' : ''
                               )}
                             >
@@ -279,7 +279,7 @@ export default function Navbar() {
                   href="/community/messages"
                   prefetch
                   aria-label={`Messages${unreadCount > 0 ? `, ${unreadCount} unread` : ''}`}
-                  className="relative flex items-center justify-center w-9 h-9 text-gray-600 hover:text-indigo-700 rounded-full hover:bg-amber-100/60 transition"
+                  className="relative flex items-center justify-center w-9 h-9 text-gray-600 hover:text-indigo-700 rounded-full hover:bg-gray-100 transition"
                 >
                   <MessageCircle className="h-5 w-5" aria-hidden="true" />
                   {unreadCount > 0 && (
@@ -297,7 +297,7 @@ export default function Navbar() {
                   href="/orders"
                   prefetch
                   aria-label={t('navigation.orders', 'Orders')}
-                  className="relative flex items-center justify-center w-9 h-9 text-gray-600 hover:text-indigo-700 rounded-full hover:bg-amber-100/60 transition"
+                  className="relative flex items-center justify-center w-9 h-9 text-gray-600 hover:text-indigo-700 rounded-full hover:bg-gray-100 transition"
                 >
                   <Package className="h-5 w-5" aria-hidden="true" />
                 </Link>
@@ -307,7 +307,7 @@ export default function Navbar() {
                   href="/wishlist"
                   prefetch
                   aria-label={`Wishlist${wishlistCount > 0 ? `, ${wishlistCount} items` : ''}`}
-                  className="relative flex items-center justify-center w-9 h-9 text-gray-600 hover:text-indigo-700 rounded-full hover:bg-amber-100/60 transition"
+                  className="relative flex items-center justify-center w-9 h-9 text-gray-600 hover:text-indigo-700 rounded-full hover:bg-gray-100 transition"
                 >
                   <Heart className="h-5 w-5" aria-hidden="true" />
                   {wishlistCount > 0 && (
@@ -324,7 +324,7 @@ export default function Navbar() {
               href="/cart"
               prefetch
               aria-label={`Cart${cartItemCount > 0 ? `, ${cartItemCount} items` : ''}`}
-              className="relative flex items-center justify-center w-9 h-9 text-gray-600 hover:text-indigo-700 rounded-full hover:bg-amber-100/60 transition"
+              className="relative flex items-center justify-center w-9 h-9 text-gray-600 hover:text-indigo-700 rounded-full hover:bg-gray-100 transition"
             >
               <ShoppingBag className="h-5 w-5" aria-hidden="true" />
               {cartItemCount > 0 && (
@@ -367,7 +367,7 @@ export default function Navbar() {
                               href="/profile"
                               className={cn(
                                 'flex items-center gap-2 px-4 py-2 text-sm transition',
-                                active ? 'bg-amber-50 text-indigo-700' : 'text-gray-700'
+                                active ? 'bg-indigo-50 text-indigo-700' : 'text-gray-700'
                               )}
                             >
                               <User className="h-4 w-4" aria-hidden="true" />
@@ -381,7 +381,7 @@ export default function Navbar() {
                               href="/orders"
                               className={cn(
                                 'flex items-center gap-2 px-4 py-2 text-sm transition',
-                                active ? 'bg-amber-50 text-indigo-700' : 'text-gray-700'
+                                active ? 'bg-indigo-50 text-indigo-700' : 'text-gray-700'
                               )}
                             >
                               <Package className="h-4 w-4" aria-hidden="true" />
@@ -395,7 +395,7 @@ export default function Navbar() {
                               href="/wishlist"
                               className={cn(
                                 'flex items-center gap-2 px-4 py-2 text-sm transition relative',
-                                active ? 'bg-amber-50 text-indigo-700' : 'text-gray-700'
+                                active ? 'bg-indigo-50 text-indigo-700' : 'text-gray-700'
                               )}
                             >
                               <Heart className="h-4 w-4" aria-hidden="true" />
@@ -415,7 +415,7 @@ export default function Navbar() {
                               onClick={handleLogout}
                               className={cn(
                                 'flex items-center gap-2 w-full px-4 py-2 text-sm transition',
-                                active ? 'bg-amber-50 text-indigo-700' : 'text-gray-700'
+                                active ? 'bg-indigo-50 text-indigo-700' : 'text-gray-700'
                               )}
                             >
                               {t('navigation.logout', 'Sign out')}
@@ -446,7 +446,7 @@ export default function Navbar() {
               type="button"
               onClick={() => setSearchBarVisible(true)}
               aria-label={t('nav.search_placeholder', 'Search')}
-              className="flex items-center justify-center w-9 h-9 text-gray-600 hover:text-indigo-700 rounded-full hover:bg-amber-100/60 transition"
+              className="flex items-center justify-center w-9 h-9 text-gray-600 hover:text-indigo-700 rounded-full hover:bg-gray-100 transition"
             >
               <Search className="h-5 w-5" aria-hidden="true" />
             </button>
@@ -456,7 +456,7 @@ export default function Navbar() {
               href="/cart"
               prefetch
               aria-label={`Cart${cartItemCount > 0 ? `, ${cartItemCount} items` : ''}`}
-              className="relative flex items-center justify-center w-9 h-9 text-gray-600 hover:text-indigo-700 rounded-full hover:bg-amber-100/60 transition"
+              className="relative flex items-center justify-center w-9 h-9 text-gray-600 hover:text-indigo-700 rounded-full hover:bg-gray-100 transition"
             >
               <ShoppingBag className="h-5 w-5" aria-hidden="true" />
               {cartItemCount > 0 && (
@@ -473,7 +473,7 @@ export default function Navbar() {
               aria-expanded={mobileMenuOpen}
               aria-haspopup="dialog"
               aria-label={t('chrome.navbar.openMenu', 'Open main menu')}
-              className="flex items-center justify-center w-9 h-9 text-gray-600 hover:text-indigo-700 rounded-full hover:bg-amber-100/60 transition"
+              className="flex items-center justify-center w-9 h-9 text-gray-600 hover:text-indigo-700 rounded-full hover:bg-gray-100 transition"
             >
               <MenuIcon className="h-5 w-5" aria-hidden="true" />
             </button>
@@ -558,7 +558,7 @@ export default function Navbar() {
               leaveFrom="translate-x-0"
               leaveTo="translate-x-full"
             >
-              <Dialog.Panel className="relative flex w-full max-w-xs flex-col overflow-y-auto bg-amber-50 pb-16 shadow-atlas-xl">
+              <Dialog.Panel className="relative flex w-full max-w-xs flex-col overflow-y-auto bg-white pb-16 shadow-atlas-xl">
                 {/* Panel header */}
                 <div className="flex items-center justify-between px-5 pt-5 pb-4 border-b border-amber-200/60 bg-white">
                   <Link
@@ -581,7 +581,7 @@ export default function Navbar() {
                       type="button"
                       onClick={() => setMobileMenuOpen(false)}
                       aria-label={t('chrome.navbar.closeMenu', 'Close menu')}
-                      className="flex items-center justify-center w-9 h-9 text-gray-500 hover:text-indigo-700 rounded-full hover:bg-amber-100 transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30"
+                      className="flex items-center justify-center w-9 h-9 text-gray-500 hover:text-indigo-700 rounded-full hover:bg-gray-100 transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30"
                     >
                       <X className="h-5 w-5" aria-hidden="true" />
                     </button>
@@ -699,7 +699,7 @@ export default function Navbar() {
                         key={link.href}
                         href={link.href}
                         onClick={() => setMobileMenuOpen(false)}
-                        className="block py-2 px-3 text-sm text-gray-700 hover:text-indigo-700 hover:bg-amber-100/60 rounded-lg transition"
+                        className="block py-2 px-3 text-sm text-gray-700 hover:text-indigo-700 hover:bg-gray-100 rounded-lg transition"
                       >
                         {t(link.labelKey, link.fallback)}
                       </Link>
@@ -719,7 +719,7 @@ export default function Navbar() {
                           key={category.id}
                           href={getLocalizedHref(`/categories/${category.slug}`)}
                           onClick={() => setMobileMenuOpen(false)}
-                          className="flex items-center justify-between py-2 px-3 text-sm text-gray-700 hover:text-indigo-700 hover:bg-amber-100/60 rounded-lg transition"
+                          className="flex items-center justify-between py-2 px-3 text-sm text-gray-700 hover:text-indigo-700 hover:bg-gray-100 rounded-lg transition"
                         >
                           <span>{i18n.language === 'ar' ? category.name_ar : category.name_en}</span>
                           {category.itemCount > 0 && (
@@ -744,8 +744,8 @@ export default function Navbar() {
                         className={cn(
                           'px-3 py-2 text-sm rounded-xl transition',
                           i18n.language === lang
-                            ? 'bg-amber-100 text-amber-700 font-semibold border border-amber-300'
-                            : 'bg-white text-gray-700 hover:bg-amber-50 border border-amber-200'
+                            ? 'bg-indigo-50 text-indigo-700 font-semibold border border-indigo-200'
+                            : 'bg-white text-gray-700 hover:bg-gray-50 border border-gray-200'
                         )}
                       >
                         {t(`navigation.languages.${lang}`, lang.toUpperCase())}

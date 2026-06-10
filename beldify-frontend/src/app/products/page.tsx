@@ -42,10 +42,10 @@ function ProductGridSkeleton({ count = 4 }: { count?: number }) {
     <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-5">
       {[...Array(count)].map((_, i) => (
         <div key={i} className="animate-pulse">
-          <div className="bg-amber-100/70 aspect-square rounded-2xl mb-3" />
-          <div className="h-3.5 bg-amber-100/70 rounded-full w-3/4 mb-2" />
-          <div className="h-3 bg-amber-100/70 rounded-full w-1/2 mb-3" />
-          <div className="h-3 bg-amber-100/70 rounded-full w-1/3" />
+          <div className="bg-gray-200/70 aspect-square rounded-2xl mb-3" />
+          <div className="h-3.5 bg-gray-200/70 rounded-full w-3/4 mb-2" />
+          <div className="h-3 bg-gray-200/70 rounded-full w-1/2 mb-3" />
+          <div className="h-3 bg-gray-200/70 rounded-full w-1/3" />
         </div>
       ))}
     </div>
@@ -452,7 +452,7 @@ export default function ProductsPage() {
             className="md:col-span-9"
           >
             {/* ── Sticky sort / control bar ── */}
-            <div className="sticky top-[64px] z-20 bg-amber-50/90 backdrop-blur-sm border border-amber-200 rounded-2xl px-4 py-3 mb-4 shadow-atlas-sm">
+            <div className="sticky top-[64px] z-20 bg-white/95 backdrop-blur-sm border border-gray-200 rounded-2xl px-4 py-3 mb-4 shadow-atlas-sm">
               {/* Top row: mobile filter trigger + result count */}
               <div className="flex items-center justify-between gap-3 mb-3">
                 <div className="flex items-center gap-3">
@@ -507,7 +507,7 @@ export default function ProductsPage() {
                       className={`inline-flex items-center gap-1.5 whitespace-nowrap px-3.5 py-2 rounded-full text-xs font-semibold transition-all duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30 shrink-0 min-h-[36px] ${
                         isActive
                           ? 'bg-indigo-700 text-white shadow-sm'
-                          : 'bg-white text-gray-700 border border-amber-200 hover:border-indigo-300 hover:text-indigo-700'
+                          : 'bg-white text-gray-700 border border-gray-200 hover:border-indigo-300 hover:text-indigo-700'
                       }`}
                     >
                       <Icon className="h-3 w-3" aria-hidden="true" />
@@ -597,7 +597,7 @@ export default function ProductsPage() {
                 <p className="text-sm text-gray-400 font-medium">
                   {t('products.end_of_list', 'All products loaded')}
                 </p>
-                <div className="mt-2 mx-auto w-12 h-px bg-amber-200" aria-hidden="true" />
+                <div className="mt-2 mx-auto w-12 h-px bg-gray-200" aria-hidden="true" />
               </motion.div>
             )}
 

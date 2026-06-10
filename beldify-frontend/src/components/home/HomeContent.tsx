@@ -218,7 +218,7 @@ export default function HomeContent({ categories, data, openSoukPosts = [] }: Ho
       {/* ── CATEGORY CHIPS RAIL ───────────────────────────────────────────── */}
       {categories.length > 0 && (
         <section
-          className="border-b border-amber-200/40 bg-white"
+          className="border-b border-gray-100 bg-white"
           aria-label={t('home.categories.rail_label', 'Browse categories')}
         >
           <div
@@ -233,7 +233,7 @@ export default function HomeContent({ categories, data, openSoukPosts = [] }: Ho
                 className="group snap-start shrink-0 flex flex-col items-center gap-1.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/40 rounded-xl"
                 aria-label={catName(c)}
               >
-                <span className="relative flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-full bg-amber-50 ring-1 ring-amber-200 transition-all duration-200 group-hover:ring-indigo-700 group-hover:ring-2">
+                <span className="relative flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-full bg-gray-50 ring-1 ring-gray-200 transition-all duration-200 group-hover:ring-indigo-700 group-hover:ring-2">
                   <Image
                     src={c.image}
                     alt=""
@@ -267,7 +267,7 @@ export default function HomeContent({ categories, data, openSoukPosts = [] }: Ho
 
       {/* ── TRUST STRIP ───────────────────────────────────────────────────── */}
       <section
-        className="border-y border-amber-200/40 bg-amber-50"
+        className="border-y border-gray-100 bg-gray-50"
         aria-label={t('home.trust.label', 'Why shop with Beldify')}
       >
         <div className="mx-auto max-w-7xl px-4 sm:px-6 py-5 grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6">
@@ -278,7 +278,7 @@ export default function HomeContent({ categories, data, openSoukPosts = [] }: Ho
             { labelKey: 'home.trust.support', labelFallback: 'Support AR / FR / EN', labelAr: 'مساعدة بثلاث لغات', Icon: Headphones },
           ] as const).map(({ labelKey, labelFallback, labelAr, Icon }) => (
             <div key={labelKey} className="flex flex-col items-center gap-2 text-center">
-              <span className="h-10 w-10 rounded-full bg-amber-100 flex items-center justify-center ring-1 ring-amber-200 text-indigo-700">
+              <span className="h-10 w-10 rounded-full bg-white flex items-center justify-center ring-1 ring-gray-200 text-indigo-700">
                 <Icon className="h-5 w-5" strokeWidth={1.8} aria-hidden="true" />
               </span>
               <span className="text-xs sm:text-sm font-medium text-gray-700 leading-snug">
@@ -316,7 +316,7 @@ export default function HomeContent({ categories, data, openSoukPosts = [] }: Ho
         </div>
 
         {categories.length === 0 ? (
-          <div className="py-16 text-center rounded-2xl bg-amber-50 ring-1 ring-amber-200">
+          <div className="py-16 text-center rounded-2xl bg-gray-50 ring-1 ring-gray-200">
             <Package className="h-10 w-10 text-amber-500 mx-auto mb-3" aria-hidden="true" />
             <p className="text-sm text-gray-600">{t('home.categories.empty', 'Categories will appear here once the catalogue is live.')}</p>
           </div>
@@ -333,7 +333,7 @@ export default function HomeContent({ categories, data, openSoukPosts = [] }: Ho
                   key={c.id}
                   href={`/categories/${c.slug || c.id}`}
                   aria-label={catName(c)}
-                  className={`group relative overflow-hidden rounded-2xl ring-1 ring-amber-200/50 bg-amber-50 shadow-atlas-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-atlas-md focus:outline-none focus:ring-2 focus:ring-indigo-700/40 focus:ring-offset-2 ${featured ? 'sm:col-span-2 lg:col-span-2' : ''}`}
+                  className={`group relative overflow-hidden rounded-2xl ring-1 ring-gray-200 bg-white shadow-atlas-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-atlas-md focus:outline-none focus:ring-2 focus:ring-indigo-700/40 focus:ring-offset-2 ${featured ? 'sm:col-span-2 lg:col-span-2' : ''}`}
                   style={{ aspectRatio: featured ? '8/5' : '4/5' }}
                 >
                   <Image
@@ -440,7 +440,7 @@ export default function HomeContent({ categories, data, openSoukPosts = [] }: Ho
           </div>
 
           {/* Right — warm parchment card with image */}
-          <div className="relative overflow-hidden rounded-2xl bg-amber-50 ring-1 ring-amber-200 shadow-atlas-md">
+          <div className="relative overflow-hidden rounded-2xl bg-gray-50 ring-1 ring-gray-200 shadow-atlas-md">
             <div className="absolute inset-0">
               <Image
                 src="https://pro.beldify.com/storage/categories/category_5_womens-djellaba.png"
@@ -449,7 +449,7 @@ export default function HomeContent({ categories, data, openSoukPosts = [] }: Ho
                 sizes="(min-width:1024px) 50vw, 100vw"
                 className="object-cover opacity-30"
               />
-              <div className="absolute inset-0 bg-amber-50/95" />
+              <div className="absolute inset-0 bg-white/95" />
             </div>
             <div className="relative px-8 py-16 sm:px-12 sm:py-20">
               <h2
@@ -560,7 +560,7 @@ export default function HomeContent({ categories, data, openSoukPosts = [] }: Ho
       <section className="mx-auto max-w-7xl px-4 sm:px-6 py-12 sm:py-16">
         <div className="flex items-end justify-between mb-10">
           <div>
-            <div className="inline-flex items-center gap-2 rounded-full bg-amber-100 px-3.5 py-1.5 mb-4 text-xs font-medium text-amber-700 ring-1 ring-amber-200">
+            <div className="inline-flex items-center gap-2 rounded-full bg-indigo-50 px-3.5 py-1.5 mb-4 text-xs font-medium text-indigo-700 ring-1 ring-indigo-100">
               <Sparkles className="h-3.5 w-3.5" aria-hidden="true" />
               {t('home.openSouk.eyebrow', 'Community marketplace')}
             </div>
@@ -589,7 +589,7 @@ export default function HomeContent({ categories, data, openSoukPosts = [] }: Ho
         </div>
 
         {openSoukPosts.length === 0 ? (
-          <div className="py-16 text-center rounded-2xl bg-amber-50 ring-1 ring-amber-200 shadow-atlas-sm">
+          <div className="py-16 text-center rounded-2xl bg-gray-50 ring-1 ring-gray-200 shadow-atlas-sm">
             <Sparkles className="h-10 w-10 text-amber-500 mx-auto mb-3" aria-hidden="true" />
             <p className="text-sm text-gray-600 mb-5">
               {t('home.openSouk.emptyBody', 'No open briefs yet. Be the first to post one and let ateliers come to you.')}
@@ -660,7 +660,7 @@ export default function HomeContent({ categories, data, openSoukPosts = [] }: Ho
             <Link
               key={a.name}
               href="/shops"
-              className="group relative overflow-hidden rounded-2xl ring-1 ring-amber-200/50 bg-amber-50 shadow-atlas-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-atlas-md focus:outline-none focus:ring-2 focus:ring-indigo-700/30"
+              className="group relative overflow-hidden rounded-2xl ring-1 ring-gray-200 bg-white shadow-atlas-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-atlas-md focus:outline-none focus:ring-2 focus:ring-indigo-700/30"
             >
               <div className="relative aspect-[5/4] overflow-hidden">
                 <Image
@@ -701,7 +701,7 @@ export default function HomeContent({ categories, data, openSoukPosts = [] }: Ho
       </section>
 
       {/* ── THE JOURNAL ───────────────────────────────────────────────────── */}
-      <section className="bg-amber-50 border-t border-amber-200/40">
+      <section className="bg-gray-50 border-t border-gray-100">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 py-12 sm:py-16">
           <div className="flex items-end justify-between mb-10">
             <div>
@@ -726,7 +726,7 @@ export default function HomeContent({ categories, data, openSoukPosts = [] }: Ho
             {journal.map((a, idx) => (
               <article
                 key={a.title}
-                className={`group rounded-2xl overflow-hidden ring-1 ring-amber-200/50 bg-white shadow-atlas-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-atlas-md ${idx === 0 ? 'md:row-span-2 md:flex md:flex-col' : ''}`}
+                className={`group rounded-2xl overflow-hidden ring-1 ring-gray-200 bg-white shadow-atlas-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-atlas-md ${idx === 0 ? 'md:row-span-2 md:flex md:flex-col' : ''}`}
               >
                 <div className={`relative overflow-hidden ${idx === 0 ? 'md:flex-1' : 'aspect-[16/10]'}`}>
                   <Image

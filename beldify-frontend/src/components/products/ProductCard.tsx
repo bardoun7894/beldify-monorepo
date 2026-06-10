@@ -191,7 +191,7 @@ const ProductCard = memo(function ProductCard({
           </div>
 
           {/* Image area */}
-          <div className="absolute inset-0 bg-gradient-to-br from-amber-50/60 to-gray-100">
+          <div className="absolute inset-0 bg-gradient-to-br from-gray-50 to-gray-100">
             {imgFailed || imageSrc === '/placeholder-product.svg' ? (
               <div className="flex flex-col items-center justify-center w-full h-full gap-2">
                 <div className="image-placeholder">
