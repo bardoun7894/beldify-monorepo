@@ -929,27 +929,6 @@ export default function CheckoutPage() {
     };
   }, [isBuyNow, buyNowItem, shippingInfo.country]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  // ── Task 1: Load dynamic shipping methods ────────────────────────────────
-  // Fetch whenever subtotal changes. On failure, dynamicShippingMethods stays []
-  // and renderDeliveryStep falls back to the hardcoded shippingMethodOptions below.
-  useEffect(() => {
-    let cancelled = false;
-    const load = async () => {
-      setShippingMethodsLoading(true);
-      try {
-        const methods = await shippingService.getMethods(subtotal);
-        if (!cancelled) setDynamicShippingMethods(methods);
-      } catch {
-        // getMethods never throws (it catches internally), but guard just in case
-        if (!cancelled) setDynamicShippingMethods([]);
-      } finally {
-        if (!cancelled) setShippingMethodsLoading(false);
-      }
-    };
-    load();
-    return () => { cancelled = true; };
-  }, [subtotal]); // eslint-disable-line react-hooks/exhaustive-deps
-
   // ── Task 2: Load saved addresses for authenticated users ──────────────────
   useEffect(() => {
     if (!isAuthenticated) return;
@@ -1014,6 +993,28 @@ export default function CheckoutPage() {
   const totalAmount = isBuyNow
     ? (quote ? quote.total_amount : buyNowSubtotalDerived)
     : (cartState?.total_amount ?? 0);
+
+  // ── Task 1: Load dynamic shipping methods ────────────────────────────────
+  // Fetch whenever subtotal changes. On failure, dynamicShippingMethods stays []
+  // and renderDeliveryStep falls back to the hardcoded shippingMethodOptions below.
+  // Must stay below the derived `subtotal` (TDZ) and above the empty-cart return.
+  useEffect(() => {
+    let cancelled = false;
+    const load = async () => {
+      setShippingMethodsLoading(true);
+      try {
+        const methods = await shippingService.getMethods(subtotal);
+        if (!cancelled) setDynamicShippingMethods(methods);
+      } catch {
+        // getMethods never throws (it catches internally), but guard just in case
+        if (!cancelled) setDynamicShippingMethods([]);
+      } finally {
+        if (!cancelled) setShippingMethodsLoading(false);
+      }
+    };
+    load();
+    return () => { cancelled = true; };
+  }, [subtotal]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // ── Empty cart state ──────────────────────────────────────────────────────
   // Skip for buy-now guests — they have no server cart.
