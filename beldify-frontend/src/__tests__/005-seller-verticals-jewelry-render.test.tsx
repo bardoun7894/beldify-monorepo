@@ -44,7 +44,13 @@ vi.mock('next/image', () => ({
 
 vi.mock('react-i18next', () => ({
   useTranslation: () => ({
-    t: (key: string, fallback?: string) => fallback ?? key,
+    t: (key: string, fallback?: string | Record<string, unknown>, options?: Record<string, unknown>) => {
+      // Resolve the fallback string (second arg may be options object instead of string)
+      const fb: string = typeof fallback === 'string' ? fallback : (key as string);
+      // Apply simple interpolation for {{key}} placeholders
+      const vars: Record<string, unknown> = (typeof fallback === 'object' ? fallback : options) ?? {};
+      return fb.replace(/\{\{(\w+)\}\}/g, (_, k) => String(vars[k] ?? `{{${k}}}`));
+    },
     i18n: { language: 'en' },
   }),
 }));

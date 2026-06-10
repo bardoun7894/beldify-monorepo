@@ -23,7 +23,7 @@ import { cn } from '@/lib/utils';
 const playfair = { fontFamily: '"Playfair Display", ui-serif, Georgia, serif' };
 
 export default function CustomOrderTrackingPage() {
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
   const isRTL = i18n.language === 'ar';
   const params = useParams();
   const id = params ? Number(params.id) : null;
@@ -34,7 +34,7 @@ export default function CustomOrderTrackingPage() {
 
   useEffect(() => {
     if (!id || isNaN(id)) {
-      setError(isRTL ? 'معرّف الطلب غير صحيح.' : 'Invalid order ID.');
+      setError(t('customOrders.error.invalid_id', 'Invalid order ID.'));
       setLoading(false);
       return;
     }
@@ -42,14 +42,14 @@ export default function CustomOrderTrackingPage() {
     // LIVE WIRING (WS-A): fetchCustomOrder uses USE_MOCK flag in customOrderService.ts
     fetchCustomOrder(id)
       .then(data => setOrder(data))
-      .catch(() => setError(isRTL ? 'تعذّر تحميل الطلب.' : 'Failed to load order.'))
+      .catch(() => setError(t('customOrders.error.load_order', 'Failed to load order.')))
       .finally(() => setLoading(false));
-  }, [id, isRTL]);
+  }, [id, t]); // eslint-disable-line react-hooks/exhaustive-deps
 
   if (loading) {
     return (
       <div className="min-h-screen bg-canvas flex items-center justify-center">
-        <Loader2 className="h-8 w-8 animate-spin text-indigo-600" aria-label={isRTL ? 'جارٍ التحميل' : 'Loading'} />
+        <Loader2 className="h-8 w-8 animate-spin text-indigo-600" aria-label={t('customOrders.loading_aria', 'Loading')} />
       </div>
     );
   }
@@ -66,7 +66,7 @@ export default function CustomOrderTrackingPage() {
             href="/orders"
             className="rounded-full bg-indigo-700 hover:bg-indigo-800 text-white px-5 py-2.5 text-sm font-semibold transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30"
           >
-            {isRTL ? 'طلباتي' : 'My Orders'}
+            {t('customOrders.my_orders', 'My Orders')}
           </Link>
         </div>
       </div>
@@ -83,13 +83,13 @@ export default function CustomOrderTrackingPage() {
           <Link
             href="/orders"
             className="rounded-full p-1.5 hover:bg-amber-100 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30"
-            aria-label={isRTL ? 'رجوع' : 'Back to orders'}
+            aria-label={t('customOrders.back_to_orders', 'Back to orders')}
           >
             <ArrowLeft className="h-5 w-5 rtl:rotate-180 text-gray-600" aria-hidden />
           </Link>
           <div>
             <p className="text-xs uppercase tracking-[0.18em] text-amber-700 font-medium">
-              {isRTL ? 'تتبع الطلب' : 'Order Tracking'} · #{order.id}
+              {t('customOrders.tracking_eyebrow', 'Order Tracking')} · #{order.id}
             </p>
             <h1 className="text-xl font-bold text-gray-900" style={isRTL ? undefined : playfair}>
               {order.store.name}
@@ -108,7 +108,7 @@ export default function CustomOrderTrackingPage() {
         {!isJewelry && Object.keys(order.spec).length > 0 && (
           <div className="rounded-2xl ring-1 ring-gray-200 bg-white p-5">
             <p className="text-xs uppercase tracking-[0.18em] text-amber-700 font-medium mb-3">
-              {isRTL ? 'تفاصيل الطلب' : 'Order Spec'}
+              {t('customOrders.order_spec', 'Order Spec')}
             </p>
             <dl className="grid grid-cols-2 gap-3">
               {Object.entries(order.spec)
@@ -127,7 +127,7 @@ export default function CustomOrderTrackingPage() {
         {order.notes && (
           <div className="rounded-2xl ring-1 ring-gray-200 bg-white px-5 py-4">
             <p className="text-xs uppercase tracking-[0.18em] text-amber-700 font-medium mb-1">
-              {isRTL ? 'ملاحظاتك' : 'Your Notes'}
+              {t('customOrders.your_notes', 'Your Notes')}
             </p>
             <p className="text-sm text-gray-700">{order.notes}</p>
           </div>

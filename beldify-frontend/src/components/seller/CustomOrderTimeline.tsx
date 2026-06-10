@@ -29,7 +29,7 @@ export interface CustomOrderTimelineProps {
 }
 
 export default function CustomOrderTimeline({ order, onAdvanced }: CustomOrderTimelineProps) {
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
   const isRTL = i18n.language === 'ar';
 
   const [selectedNext, setSelectedNext] = useState<CustomOrderStatus | ''>('');
@@ -54,7 +54,7 @@ export default function CustomOrderTimeline({ order, onAdvanced }: CustomOrderTi
       setSelectedNext('');
       setNote('');
     } catch {
-      setAdvanceError(isRTL ? 'تعذّر تحديث الحالة.' : 'Failed to advance order status.');
+      setAdvanceError(t('customOrders.timeline.error_advance', 'Failed to advance order status.'));
     } finally {
       setAdvancing(false);
     }
@@ -65,7 +65,7 @@ export default function CustomOrderTimeline({ order, onAdvanced }: CustomOrderTi
       {/* ── Current status pill ── */}
       <div className="flex items-center gap-3 flex-wrap">
         <span className="text-sm font-medium text-gray-500">
-          {isRTL ? 'الحالة:' : 'Status:'}
+          {t('customOrders.timeline.status_label', 'Status:')}
         </span>
         <span
           className={cn(
@@ -73,7 +73,7 @@ export default function CustomOrderTimeline({ order, onAdvanced }: CustomOrderTi
             currentMeta.pillClass
           )}
         >
-          {isRTL ? currentMeta.labelAr : currentMeta.label}
+          {t(`customOrders.status.${order.status}`, currentMeta.label)}
         </span>
       </div>
 
@@ -81,14 +81,14 @@ export default function CustomOrderTimeline({ order, onAdvanced }: CustomOrderTi
       <div className="rounded-2xl ring-1 ring-gray-200 bg-white overflow-hidden">
         <div className="px-5 py-3 border-b border-gray-100">
           <p className="text-xs uppercase tracking-[0.18em] text-amber-700 font-medium">
-            {isRTL ? 'سجل التقدم' : 'Progress Log'}
+            {t('customOrders.timeline.progress_log', 'Progress Log')}
           </p>
         </div>
 
-        <ol className="divide-y divide-gray-100" aria-label={isRTL ? 'سجل التقدم' : 'Progress history'}>
+        <ol className="divide-y divide-gray-100" aria-label={t('customOrders.timeline.progress_history_aria', 'Progress history')}>
           {progress.length === 0 && (
             <li className="px-5 py-4 text-sm text-gray-400">
-              {isRTL ? 'لا يوجد سجل بعد.' : 'No progress entries yet.'}
+              {t('customOrders.timeline.no_progress', 'No progress entries yet.')}
             </li>
           )}
           {progress.map((entry, idx) => {
@@ -109,7 +109,7 @@ export default function CustomOrderTimeline({ order, onAdvanced }: CustomOrderTi
                         meta.pillClass
                       )}
                     >
-                      {isRTL ? meta.labelAr : meta.label}
+                      {t(`customOrders.status.${entry.status}`, meta.label)}
                     </span>
                     <time
                       dateTime={entry.created_at}
@@ -134,7 +134,7 @@ export default function CustomOrderTimeline({ order, onAdvanced }: CustomOrderTi
       {allowedNext.length > 0 && (
         <form onSubmit={handleAdvance} className="rounded-2xl ring-1 ring-gray-200 bg-white p-5 space-y-4">
           <p className="text-xs uppercase tracking-[0.18em] text-amber-700 font-medium">
-            {isRTL ? 'تقديم الحالة' : 'Advance Status'}
+            {t('customOrders.timeline.advance_status', 'Advance Status')}
           </p>
 
           {advanceError && (
@@ -146,7 +146,7 @@ export default function CustomOrderTimeline({ order, onAdvanced }: CustomOrderTi
           {/* Next status selector */}
           <div className="space-y-1.5">
             <label htmlFor="next-status" className="text-sm font-medium text-gray-700">
-              {isRTL ? 'الحالة التالية' : 'Next Status'}
+              {t('customOrders.timeline.next_status', 'Next Status')}
               <span className="text-rose-600 ms-1" aria-label="required">*</span>
             </label>
             <select
@@ -157,13 +157,13 @@ export default function CustomOrderTimeline({ order, onAdvanced }: CustomOrderTi
               className="w-full rounded-xl border border-gray-200 px-3.5 py-2.5 text-sm bg-white focus:border-indigo-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30"
             >
               <option value="">
-                {isRTL ? 'اختر الحالة…' : 'Select status…'}
+                {t('customOrders.timeline.select_status', 'Select status…')}
               </option>
               {allowedNext.map(status => {
                 const meta = STATUS_META[status];
                 return (
                   <option key={status} value={status}>
-                    {isRTL ? meta.labelAr : meta.label}
+                    {t(`customOrders.status.${status}`, meta.label)}
                   </option>
                 );
               })}
@@ -173,8 +173,8 @@ export default function CustomOrderTimeline({ order, onAdvanced }: CustomOrderTi
           {/* Optional note */}
           <div className="space-y-1.5">
             <label htmlFor="advance-note" className="flex items-center gap-1.5 text-sm font-medium text-gray-700">
-              {isRTL ? 'ملاحظة' : 'Note'}
-              <span className="text-[10px] text-gray-400 font-normal">{isRTL ? 'اختياري' : 'optional'}</span>
+              {t('customOrders.timeline.note_label', 'Note')}
+              <span className="text-[10px] text-gray-400 font-normal">{t('customOrders.optional', 'optional')}</span>
             </label>
             <textarea
               id="advance-note"
@@ -182,7 +182,7 @@ export default function CustomOrderTimeline({ order, onAdvanced }: CustomOrderTi
               value={note}
               onChange={e => setNote(e.target.value)}
               maxLength={2000}
-              placeholder={isRTL ? 'أضف ملاحظة…' : 'Add a note…'}
+              placeholder={t('customOrders.timeline.note_placeholder', 'Add a note…')}
               className="w-full rounded-xl border border-gray-200 px-3.5 py-2.5 text-sm bg-white focus:border-indigo-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30 resize-none"
             />
           </div>
@@ -201,8 +201,8 @@ export default function CustomOrderTimeline({ order, onAdvanced }: CustomOrderTi
               ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden />
               : <ChevronRight className="h-4 w-4 rtl:rotate-180" aria-hidden />}
             {advancing
-              ? (isRTL ? 'جارٍ التحديث…' : 'Updating…')
-              : (isRTL ? 'تحديث الحالة' : 'Update Status')}
+              ? t('customOrders.timeline.updating', 'Updating…')
+              : t('customOrders.timeline.update_cta', 'Update Status')}
           </button>
         </form>
       )}
@@ -210,7 +210,7 @@ export default function CustomOrderTimeline({ order, onAdvanced }: CustomOrderTi
       {/* Terminal state message */}
       {allowedNext.length === 0 && (
         <div className="rounded-2xl bg-gray-50 ring-1 ring-gray-200 px-5 py-4 text-sm text-gray-500">
-          {isRTL ? 'هذا الطلب في حالة نهائية.' : 'This order has reached a terminal state.'}
+          {t('customOrders.timeline.terminal_state', 'This order has reached a terminal state.')}
         </div>
       )}
     </div>

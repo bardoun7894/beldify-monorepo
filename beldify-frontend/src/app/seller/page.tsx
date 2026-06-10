@@ -51,6 +51,8 @@ function StatusBadge({ status }: { status: string }) {
 
 // ── Onboarding banner ─────────────────────────────────────────────────────────
 function OnboardingBanner({ status }: { status: OnboardingStatusData }) {
+  const { t } = useTranslation();
+
   if (status.store_status === 'suspended') {
     return (
       <div className="flex items-center gap-3 p-3 rounded-xl bg-rose-50 ring-1 ring-rose-200 text-sm">
@@ -64,9 +66,9 @@ function OnboardingBanner({ status }: { status: OnboardingStatusData }) {
     return (
       <div className="flex items-center gap-3 p-3 rounded-xl bg-emerald-50 ring-1 ring-emerald-200 text-sm">
         <CheckCircle className="w-4 h-4 text-emerald-600 shrink-0" aria-hidden="true" />
-        <span className="text-emerald-800 font-medium">Store active and live</span>
+        <span className="text-emerald-800 font-medium">{t('seller.onboarding_banner.active', 'Store active and live')}</span>
         <Link href="/seller/onboarding" className="ms-auto text-xs text-emerald-600 hover:underline shrink-0">
-          View journey
+          {t('seller.onboarding_banner.view_journey', 'View journey')}
         </Link>
       </div>
     );
@@ -82,12 +84,12 @@ function OnboardingBanner({ status }: { status: OnboardingStatusData }) {
       <div className="flex-1 min-w-0">
         <p className="text-amber-800 font-medium">
           {isPending
-            ? 'Application under review'
-            : `Complete your store setup — ${pct}% done`}
+            ? t('seller.onboarding_banner.pending', 'Application under review')
+            : t('seller.onboarding_banner.progress', 'Complete your store setup — {{pct}}% done', { pct })}
         </p>
         {!isPending && (
           <p className="text-amber-700 text-xs mt-0.5">
-            Finish your profile to unlock all features and start selling.
+            {t('seller.onboarding_banner.finish_hint', 'Finish your profile to unlock all features and start selling.')}
           </p>
         )}
       </div>

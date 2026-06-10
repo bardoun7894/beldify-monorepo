@@ -119,7 +119,13 @@
     "errorTitle": "Er is iets misgegaan",
     "remove_image": "Afbeelding verwijderen",
     "go_back": "Ga terug",
-    "dismiss": "Sluiten"
+    "dismiss": "Sluiten",
+    "copy": "Kopiëren",
+    "read_more": "Meer lezen",
+    "saving": "Opslaan…",
+    "show_less": "Minder weergeven",
+    "show_more": "Meer weergeven",
+    "need_help": "Hulp nodig?"
   },
   "validation": {
     "required": "Dit veld is verplicht",
@@ -328,7 +334,8 @@
     "verify_email_resent": "Verificatie e-mail verzonden! Controleer je inbox.",
     "rate_limit": "Te veel verzoeken. Wacht alsjeblieft even.",
     "resend_failed": "Fout bij verzenden. Probeer het opnieuw.",
-    "verify_email_banner": "Verifieer alsjeblieft je e-mailadres om alle functies vrij te geven."
+    "verify_email_banner": "Verifieer alsjeblieft je e-mailadres om alle functies vrij te geven.",
+    "signInRequired": "Meld je aan om je aanvragen in te zien"
   },
   "navigation": {
     "home": "Start",
@@ -367,7 +374,9 @@
     "dark_mode": "Donkere modus",
     "light_mode": "Lichte modus",
     "messages": "Berichten",
-    "register": "Registreren"
+    "register": "Registreren",
+    "login_short": "Aanmelden",
+    "openSouk": "Open Souk"
   },
   "category": {
     "popularCategories": "Populaire categorieën",
@@ -594,7 +603,10 @@
     "tab_description": "Beschrijving",
     "tab_specs": "Specificaties",
     "tab_sizing": "Maatvoering",
-    "tab_reviews": "Beoordelingen"
+    "tab_reviews": "Beoordelingen",
+    "close_zoom": "Zoom sluiten",
+    "free_shipping": "Gratis verzending",
+    "zoom_image": "Afbeelding vergroten"
   },
   "stock": {
     "in_stock": "In voorraad ({{count}})",
@@ -658,7 +670,8 @@
       "continue_shopping": "Verder winkelen",
       "free": "Gratis",
       "freeShippingHint": "Voeg {{amount}} MAD toe voor gratis verzending",
-      "kicker": "Besteloverzicht"
+      "kicker": "Besteloverzicht",
+      "checkout_darija": "Afrekenen"
     },
     "coupon": {
       "label": "Promotiecode",
@@ -871,7 +884,10 @@
       "festive_set": "Feestelijk kindersetje",
       "girls_caftan": "Meisjes Kaftan",
       "kids_kandora": "Kinderen Kandora"
-    }
+    },
+    "empty_title": "Binnenkort op voorraad",
+    "end_of_list": "Alle producten geladen",
+    "no_results_hint": "Deze categorie bevat momenteel geen producten — kom later terug."
   },
   "order": {
     "title": "Bestelling #{{orderNumber}}",
@@ -973,7 +989,8 @@
       "contact_seller": "Neem Contact op met Verkoper",
       "cancel_order": "Bestelling Annuleren",
       "request_return": "Retourverzoek Indienen",
-      "return_request": "Retourverzoek"
+      "return_request": "Retourverzoek",
+      "back_to_order": "Terug naar bestelling"
     },
     "filter": {
       "all": "Alle Bestellingen",
@@ -1117,7 +1134,20 @@
         "pending": "In Behandeling"
       },
       "load_error": "Kon bestelling niet laden",
-      "not_found": "Bestelling niet gevonden"
+      "not_found": "Bestelling niet gevonden",
+      "bill_to": "Factuur aan",
+      "brand_tagline": "Marokkaanse Handwerkmarktplaats",
+      "cancelled_msg": "Geen factuur beschikbaar voor geannuleerde bestellingen.",
+      "col_item": "Artikel",
+      "col_qty": "Hoeveelheid",
+      "col_total": "Totaal",
+      "col_unit": "Eenheid",
+      "download_print": "Factuur downloaden / afdrukken",
+      "invoice_label": "FACTUUR",
+      "payment_method": "Betaalmethode",
+      "payment_status": "Betalingsstatus",
+      "ship_to": "Verzenden naar",
+      "title": "Factuur"
     },
     "reorder": {
       "added": "Toegevoegd aan je winkelwagen",
@@ -1332,7 +1362,8 @@
       "need_help_title": "Niet zeker hoe je moet betalen?",
       "need_help_body": "Stuur ons een bericht of bel ons en we helpen je eraan.",
       "whatsapp": "WhatsApp",
-      "call": "Bel ons"
+      "call": "Bel ons",
+      "cod_subtitle": "Betaal wanneer je het ontvangt — betaling bij ontvangst"
     },
     "order_summary": {
       "title": "Bestellingsoverzicht",
@@ -1349,7 +1380,9 @@
       "place_order": "Bestelling Plaatsen",
       "processing": "Verwerken...",
       "back_to_shipping": "Terug naar Verzending",
-      "continue_payment": "Doorgaan naar betaling"
+      "continue_payment": "Doorgaan naar betaling",
+      "confirm_order": "Bestelling bevestigen",
+      "continue_to_confirm": "Ga naar bevestiging"
     },
     "validation": {
       "required": "Dit veld is verplicht",
@@ -1411,7 +1444,8 @@
       "saved_addresses": "Opgeslagen adressen",
       "type_new": "Voer een nieuw adres in",
       "default_badge": "Standaard",
-      "save_for_next": "Sla dit adres op voor volgende bestellingen"
+      "save_for_next": "Sla dit adres op voor volgende bestellingen",
+      "extra_fields_toggle": "Voeg extra details toe (appartementnummer, postcode)"
     },
     "bespoke": {
       "cta": "Ontdek op maat gemaakte items"
@@ -1463,6 +1497,14 @@
     "quote": {
       "loading": "Totaal wordt berekend…",
       "load_error": "Kon het bestellingtotaal niet berekenen. Probeer het opnieuw."
+    },
+    "guest": {
+      "have_account": "Heb je een account? Meld je aan"
+    },
+    "progress": {
+      "bag": "Winkelwagen",
+      "confirm": "Bevestiging",
+      "info": "Informatie"
     }
   },
   "profile": {
@@ -1615,11 +1657,14 @@
     "shop_not_found": "Winkelgegevens niet beschikbaar",
     "boundary": {
       "title": "Er is iets misgegaan",
-      "body": "We bieden onze excuses aan voor het ongemak. Probeer de pagina te vernieuwen.",
+      "body": "Er is een onverwachte fout opgetreden. Vernieuw de pagina.",
       "devDetails": "Foutgegevens (Ontwikkeling)",
       "errorLabel": "Fout:",
       "retry": "Opnieuw proberen",
-      "reload": "Pagina vernieuwen"
+      "reload": "Pagina vernieuwen",
+      "oops": "Oeps!",
+      "refresh": "Pagina vernieuwen",
+      "home": "Naar startpagina"
     },
     "api": {
       "title": "Kon gegevens niet laden",
@@ -1637,7 +1682,8 @@
     "productNotFoundDesc": "Dit product kon niet worden gevonden of is niet meer beschikbaar.",
     "something_went_wrong": "Er is iets misgegaan",
     "product_load_failed": "Kon product niet laden",
-    "stock_unavailable": "Item is niet beschikbaar"
+    "stock_unavailable": "Item is niet beschikbaar",
+    "session_storage_unavailable": "Kan niet doorgaan — schakel alstublieft cookies in"
   },
   "notifications": {
     "success": {
@@ -1692,7 +1738,8 @@
         "new_follower": "Nieuwe volger",
         "back_in_stock": "Weer in voorraad",
         "price_drop": "Prijsdaling"
-      }
+      },
+      "loadError": "Kon meldingen niet laden. Controleer je verbinding en probeer het opnieuw."
     }
   },
   "filters": {
@@ -2601,7 +2648,9 @@
     },
     "titleLine1": "Ontdek vakantie-elegantie",
     "titleLine2": "Met authentieke Marokkaanse mode",
-    "welcomeBadge": "🌙 Gelukkig Eid voor onze souk!"
+    "welcomeBadge": "🌙 Gelukkig Eid voor onze souk!",
+    "banner_alt": "Kaftan-collectie",
+    "atelier_alt": "Marokkaans atelier"
   },
   "verification": {
     "verify_phone": "Verifieer je telefoonnummer",
@@ -2968,7 +3017,30 @@
     "no_user_posts_main": "Je hebt nog geen verzoeken gemaakt",
     "post_your_request": "Plaats Je Verzoek",
     "share_with_community": "Deel Je Verzoek",
-    "your_post_detail": "Jouw Verzoek"
+    "your_post_detail": "Jouw Verzoek",
+    "colors": "Kleuren",
+    "interested_q": "Geïnteresseerd in deze klus?",
+    "job_progress": "Voortgang",
+    "login_cta_body": "Meld je aan bij je verkoopaccount om op deze aanvraag te reageren.",
+    "login_to_propose": "Wil je een voorstel indienen?",
+    "no_proposals_yet": "Wees de eerste ambachtsman die reageert!",
+    "no_proposals_yet_title": "Nog geen voorstellen",
+    "posted_by": "Geplaatst door",
+    "preview": "Voorbeeld",
+    "proposal_accepted": "Voorstel geaccepteerd!",
+    "proposal_already_submitted": "Je hebt al een voorstel voor deze klus ingediend.",
+    "proposals": "voorstellen",
+    "reference_images": "Referentieafbeeldingen",
+    "request": "aanvraag",
+    "requirements": "Vereisten",
+    "response_image_alt": "Reactieafbeelding",
+    "skills_comma_hint": "Scheid met komma's",
+    "styles": "Stijlen",
+    "thumbnail": "Miniatuur",
+    "view_custom_order": "Bekijk je aangepaste bestelling",
+    "view_image": "Afbeelding weergeven",
+    "view_portfolio": "Bekijk portfolio",
+    "your_bid": "Jouw bod"
   },
   "pwa": {
     "banner": {
@@ -3099,7 +3171,8 @@
       "available": "Update Beschikbaar",
       "install": "Installeer Update",
       "later": "Later"
-    }
+    },
+    "app_icon_alt": "App-pictogram"
   },
   "brand": {
     "name": "Beldify",
@@ -3158,7 +3231,13 @@
     "searchPlaceholder": "Zoek verzoeken...",
     "skills": "Vaardigheden",
     "sortBy": "Sorteren op",
-    "feedError": "Kon verzoeken niet laden"
+    "feedError": "Kon verzoeken niet laden",
+    "sort": {
+      "budgetAsc": "Budget: Laag → Hoog",
+      "budgetDesc": "Budget: Hoog → Laag",
+      "latest": "Nieuwste",
+      "oldest": "Oudste"
+    }
   },
   "catalog": {
     "categories": {
@@ -3289,7 +3368,8 @@
       "section15Title": "15. Beëindiging",
       "section15p1": "We kunnen je account en toegang tot onze Services onmiddellijk opzeggen of opschorten, zonder voorafgaande kennisgeving of aansprakelijkheid, om welke reden dan ook, inclusief maar niet beperkt tot als je deze Voorwaarden schendt. Na beëindiging eindigt je recht om de Services te gebruiken onmiddellijk.",
       "section16Title": "16. Contactgegevens",
-      "section16Intro": "Als je vragen hebt over deze Voorwaarden, neem alsjeblieft contact met ons op:"
+      "section16Intro": "Als je vragen hebt over deze Voorwaarden, neem alsjeblieft contact met ons op:",
+      "sellerTermsLink": "Verkoopvoorwaarden"
     },
     "tailors": {
       "eyebrow": "Professionele Services",
@@ -3574,7 +3654,8 @@
     "type_a_message": "Typ een bericht…",
     "send": "Verzenden",
     "error_loading": "Laden van gesprek mislukt",
-    "error_sending": "Verzenden van bericht mislukt"
+    "error_sending": "Verzenden van bericht mislukt",
+    "typing_aria": "De ander is aan het typen"
   },
   "seller": {
     "register": {
@@ -3613,7 +3694,8 @@
       "validation_country": "Selecteer een land",
       "benefit_global": "Bereik wereldwijd — verkoop aan kopers overal",
       "benefit_quality": "Gecureerd platform voor Marokkaans vakmanschap",
-      "benefit_secure": "Veilige betalingen en bescherming van kopers"
+      "benefit_secure": "Veilige betalingen en bescherming van kopers",
+      "track_application_cta": "Volg je aanvraag"
     },
     "onboarding": {
       "eyebrow": "Verkopers Traject",
@@ -3721,10 +3803,33 @@
       "edit_eyebrow": "Voorraad",
       "section_attributes": "Productkenmerken",
       "vertical_required": "{{field}} is verplicht voor dit producttype.",
-      "vertical_save_failed": "Product opgeslagen, maar de aangepaste kenmerken konden niet worden opgeslagen. Bewerk het product om ze toe te voegen."
+      "vertical_save_failed": "Product opgeslagen, maar de aangepaste kenmerken konden niet worden opgeslagen. Bewerk het product om ze toe te voegen.",
+      "danger_zone": "Gevarenzone",
+      "delete_confirm_prompt": "Weet je het zeker?",
+      "delete_confirm_yes": "Ja, verwijderen",
+      "delete_cta": "Product verwijderen",
+      "delete_error": "Kon product niet verwijderen. Probeer het opnieuw.",
+      "delete_success": "Product verwijderd.",
+      "delete_warning": "Het verwijderen van dit product is permanent en kan niet ongedaan worden gemaakt.",
+      "deleting": "Verwijderen...",
+      "load_error": "Kon product niet laden. Probeer het opnieuw."
     },
     "products": {
-      "edit_aria": "Bewerk {{name}}"
+      "edit_aria": "Bewerk {{name}}",
+      "add_first_product": "Voeg je eerste product toe",
+      "add_product": "Product toevoegen",
+      "back_to_list": "Terug naar producten",
+      "col_name": "Product",
+      "col_price": "Prijs (MAD)",
+      "col_status": "Status",
+      "col_stock": "Voorraad",
+      "eyebrow": "Inventaris",
+      "fetch_error": "Kon producten niet laden.",
+      "no_products": "Nog geen producten",
+      "no_products_sub": "Voeg je eerste product toe om te beginnen met verkopen.",
+      "status_active": "Actief",
+      "status_inactive": "Inactief",
+      "title": "Mijn producten"
     },
     "store_settings": {
       "profile_section_title": "Winkelprofiel",
@@ -3740,10 +3845,51 @@
       "save_success": "Winkelprofiel opgeslagen",
       "save_error": "Kon profiel niet opslaan. Probeer het opnieuw.",
       "validation_error": "Corrigeer de onderstaande fouten en probeer opnieuw.",
-      "fetch_error": "Kon winkelprofiel niet laden."
+      "fetch_error": "Kon winkelprofiel niet laden.",
+      "address_label": "Adres",
+      "address_placeholder": "Straat, plaats, land",
+      "current_badge": "Huidige",
+      "description_label": "Winkelbeschrijving",
+      "description_placeholder": "Vertel kopers over je winkel...",
+      "email_label": "Contacte-mailadres",
+      "eyebrow": "Winkelinstellingen",
+      "fields_for_vertical": "Velden voor deze categorie",
+      "name_label": "Winkelnaam",
+      "name_placeholder": "Bijv. Atlas Bijoux",
+      "phone_label": "Telefoonnummer",
+      "profile_saved": "Winkelprofiel opgeslagen!",
+      "profile_section": "Winkelinformatie",
+      "saved": "Opgeslagen",
+      "title": "Winkelprofiel",
+      "vertical_legend": "Winkelcategorie",
+      "vertical_save_error": "Kon winkeltype niet bijwerken. Probeer het opnieuw.",
+      "vertical_saved": "Winkeltype bijgewerkt!",
+      "vertical_section": "Winkeltype",
+      "verticals": {
+        "regular": "Normale winkel",
+        "regular_desc": "Verkoop kant-en-klare producten. Geen aangepaste besteleringsconfiguratie.",
+        "jewelry": "Sieraden",
+        "jewelry_desc": "Verkoop kant-en-klare en op maat gemaakte sieraadstukken met materiaal-, zuiverheid-, edelsteen- en afwerkingsvelden.",
+        "new_badge": "Nieuw",
+        "menswear": "Herenkleding",
+        "menswear_desc": "Kant-en-klare en op maat gemaakte herenkleding met maatgeving en stofselectie.",
+        "womenswear": "Dameskleding",
+        "womenswear_desc": "Kant-en-klare en op maat gemaakte dameskleding met maatgeving en stofselectie.",
+        "tailor": "Kleermakerszaak",
+        "tailor_desc": "Volledige kleermakersdiensten met maatgeving, stofcatalogus en aangepaste bestellingen."
+      }
     },
     "nav": {
-      "messages": "Berichten"
+      "messages": "Berichten",
+      "aria_label": "Verkoopnavigatie",
+      "custom_orders": "Aangepaste bestellingen",
+      "dashboard": "Dashboard",
+      "earnings": "Inkomsten",
+      "mobile_aria_label": "Verkoopnavigatie mobiel",
+      "orders": "Bestellingen",
+      "products": "Producten",
+      "profile": "Profiel",
+      "store_settings": "Winkelinstellingen"
     },
     "messages": {
       "eyebrow": "Verkopers Hub",
@@ -3782,6 +3928,87 @@
       "kpi_commission": "Commissie",
       "recent_orders": "Recente Bestellingen",
       "view_all_orders": "Alle bestellingen weergeven"
+    },
+    "earnings": {
+      "breakdown_heading": "Financieel overzicht",
+      "chart_heading": "Opbrengsten per dag",
+      "chart_sub": "Toont laatste ${earnings.period} dagen in ${earnings.currency}",
+      "commission": "Platformcommissie",
+      "eyebrow": "Verkoopportaal",
+      "fetch_error": "Kon gegevens over inkomsten niet laden.",
+      "gross": "Brutoinkomsten",
+      "kpi_commission": "Betaalde commissie",
+      "kpi_gross": "Brutoinkomsten",
+      "kpi_net": "Nettoinkomsten",
+      "kpi_orders": "Bestellingen",
+      "net": "Nettoinkomsten",
+      "title": "Inkomsten",
+      "no_daily_data": "Geen dagelijkse gegevens beschikbaar",
+      "chart_aria": "Verdiengrafiek per dag"
+    },
+    "layout": {
+      "become_seller_cta": "Word verkooper",
+      "credit_chip_aria": "AI-tegoedsaldo",
+      "hub_label": "Verkoopportaal",
+      "not_seller_title": "Je bent nog geen verkooper",
+      "storefront_link": "← Terug naar winkel"
+    },
+    "order_detail": {
+      "back": "Bestellingen",
+      "col_product": "Product",
+      "col_qty": "Hoeveelheid",
+      "col_total": "Totaal",
+      "col_unit": "Eenheid",
+      "col_variant": "Variant",
+      "commission": "Commissie (${order.commission_rate}%)",
+      "customer_heading": "Klant",
+      "eyebrow": "Besteldetails",
+      "fetch_error": "Kon bestelling niet laden.",
+      "financials_heading": "Samenvatting",
+      "items_heading": "Artikelen",
+      "net": "Netto voor jou",
+      "shipping_heading": "Afleveradres",
+      "status_updated": "Bestelstatus bijgewerkt",
+      "subtotal": "Subtotaal",
+      "suspended_error": "Je winkel is opgeschort — kan bestellingen niet bijwerken.",
+      "update_btn": "Status bijwerken",
+      "update_error": "Kon bestelstatus niet bijwerken.",
+      "update_status_label": "Bestelstatus bijwerken",
+      "updating": "Bijwerken…"
+    },
+    "orders": {
+      "col_customer": "Klant",
+      "col_items": "Artikelen",
+      "col_number": "Bestelling",
+      "col_status": "Status",
+      "col_total": "Totaal",
+      "eyebrow": "Verkoopportaal",
+      "filter_label": "Filteren op status",
+      "next_page": "Volgende pagina",
+      "no_orders": "Nog geen bestellingen",
+      "no_orders_sub": "Bestellingen verschijnen hier zodra klanten in je winkel kopen.",
+      "pagination_info": "Pagina ${meta.current_page} van ${meta.last_page} — ${meta.total} bestellingen",
+      "prev_page": "Vorige pagina",
+      "title": "Bestellingen"
+    },
+    "onboarding_banner": {
+      "active": "Winkel actief en live",
+      "view_journey": "Bekijk traject",
+      "pending": "Aanvraag in behandeling",
+      "progress": "Voltooi je winkelinstelling — {{pct}}% klaar",
+      "finish_hint": "Maak je profiel af om alle functies te ontgrendelen en te beginnen met verkopen."
+    },
+    "quote": {
+      "error_amount": "Offertebedrag is verplicht en moet > 0 zijn",
+      "error_deposit": "Aanbetaling moet tussen 0 en offertebedrag liggen",
+      "error_eta": "ETA moet een toekomstige datum zijn",
+      "error_submit": "Kan offerte niet verzenden. Probeer het opnieuw.",
+      "section_title": "Verzend een offerte",
+      "amount_label": "Offertebedrag (MAD)",
+      "deposit_label": "Aanbetaling (MAD)",
+      "eta_label": "Geschatte leveringsdatum (ETA)",
+      "sending": "Verzenden…",
+      "send_cta": "Offerte verzenden"
     }
   },
   "security": {
@@ -3843,7 +4070,8 @@
   "tabs": {
     "general": "Algemeen",
     "preferences": "Voorkeuren",
-    "security": "Beveiliging"
+    "security": "Beveiliging",
+    "addresses": "Adressen"
   },
   "trust": {
     "authentic": "100% authentieke ambachtskwaliteit",
@@ -3891,13 +4119,21 @@
     "copy_slogan": "Kopieer slogan",
     "copy_description": "Kopieer beschrijving",
     "applied": "Toegepast op winkelbeschrijving.",
-    "apply_description": "Toepassen op beschrijving"
+    "apply_description": "Toepassen op beschrijving",
+    "chip": {
+      "suggestedMeasurements": "Door AI voorgestelde maten"
+    }
   },
   "pdp": {
     "aiStyling": "AI-gestyld voor jou",
     "artisanMade": "Handgemaakt",
     "complete_the_look": "Maak de look compleet",
-    "trustedArtisan": "Geverifieerde ambachtsseller"
+    "trustedArtisan": "Geverifieerde ambachtsseller",
+    "howToBuy": {
+      "cod_note": "Betaling bij ontvangst — je hebt geen creditcard nodig",
+      "title": "Hoe koop ik?",
+      "trigger": "Hoe koop ik?"
+    }
   },
   "actions": {
     "close": "Sluiten",
@@ -3945,7 +4181,8 @@
       "cta_shop_collection": "Shop de collectie",
       "cta_explore": "Ontdek nu",
       "festive_title": "Feestcollectie",
-      "festive_description": "Kaftans en takchita's voor bruiloften en speciale gelegenheden, met liefde met de hand geborduurd."
+      "festive_description": "Kaftans en takchita's voor bruiloften en speciale gelegenheden, met liefde met de hand geborduurd.",
+      "cta_explore_aria": "Bekijk de feestcollectie"
     },
     "tailoring": {
       "headline": "Wil je het op maat laten maken?",
@@ -3957,7 +4194,8 @@
       "step2_detail": "Gebruik ons geleide formulier of upload een bestaand patroon.",
       "step3_title": "Ontvang je stuk",
       "step3_detail": "Met de hand afgewerkt en verzonden naar je deur in 2–4 weken.",
-      "badge_ar": "خياطة على القياس"
+      "badge_ar": "خياطة على القياس",
+      "steps_label": "Hoe maatwerk werkt"
     },
     "ateliers": {
       "subtitle": "Geselecteerde ateliers",
@@ -3979,7 +4217,10 @@
       "stat_range_label": "Typisch bereik advertenties",
       "stat_sellers_label": "Actieve verkopers",
       "stat_protection_label": "Kopersbeveiliging",
-      "stat_sellers_value": "Groeiend"
+      "stat_sellers_value": "Groeiend",
+      "stat_range_value": "299–5.999 MAD",
+      "stat_range_hint": "Wat verkopers doorgaans vragen",
+      "stat_protection_value": "14 dagen"
     },
     "openSouk": {
       "eyebrow": "Live nu",
@@ -4091,7 +4332,9 @@
       "label_ar": "تابِع المتجر",
       "following": "Gevolgd",
       "following_ar": "تتابِع"
-    }
+    },
+    "reviews_aggregate": "{{count}} geverifieerde beoordelingen",
+    "reviews_aggregate_sub": "Beoordelingen worden verzameld van geverifieerde kopers na levering."
   },
   "tailoring": {
     "booking": {
@@ -4152,7 +4395,17 @@
       "unitCmLabel": "Centimeters",
       "unitIn": "in",
       "unitInLabel": "Inches",
-      "unitToggleLabel": "Meeteenheid"
+      "unitToggleLabel": "Meeteenheid",
+      "chest": "Borstomvang",
+      "diagramChest": "Borstomvang",
+      "diagramHips": "Heupomvang",
+      "diagramLength": "Lengte",
+      "diagramWaist": "Taille",
+      "hips": "Heupomvang",
+      "length": "Lengte",
+      "saveError": "Kon maten niet opslaan",
+      "saved": "Maten opgeslagen",
+      "waist": "Taille"
     },
     "profile": {
       "not_found": "Dit kleermakers profiel kon niet worden gevonden.",
@@ -4162,7 +4415,8 @@
       "specialties": "Specialiteiten",
       "load_error": "Kleermakers gegevens konden niet worden geladen",
       "portfolio_image_alt": "Portfolio {{index}}",
-      "bio": "Met meer dan 15 jaar ervaring in traditionele Marokkaanse kleermakerij, specialiseer ik me in het maken van maatkleding die traditioneel vakmanschap combineert met moderne stijl"
+      "bio": "Met meer dan 15 jaar ervaring in traditionele Marokkaanse kleermakerij, specialiseer ik me in het maken van maatkleding die traditioneel vakmanschap combineert met moderne stijl",
+      "no_reviews": "Nog geen beoordelingen"
     },
     "stepsCta": "Start een kleermaakbewerking",
     "sub": "Onze 120+ geverifieerde ateliers maken maatwerk Marokkaanse kledingstukken naar jouw exacte maten — verzonden overal ter wereld. Geen paskamer nodig.",
@@ -4590,7 +4844,20 @@
     "cta_title": "Een op maat gemaakt stuk aanvragen",
     "cta_sub": "Ontwerp je sieraden samen met een vertrouwd ambachtsman.",
     "cta_button": "Maatwerk bestelling",
-    "load_error": "Laden van producten mislukt"
+    "load_error": "Laden van producten mislukt",
+    "fields": {
+      "material": "Materiaal",
+      "purity": "Zuiverheid",
+      "weight_grams": "Gewicht",
+      "size": "Maat",
+      "gemstone_type": "Edelsteen",
+      "gemstone_count": "Aantal edelstenen",
+      "gemstone_carat": "Karaat",
+      "engraving": "Gravering",
+      "finish": "Afwerking",
+      "specs_aria": "Sieraad-specificaties",
+      "piece_specs": "Stukspecificaties"
+    }
   },
   "notify_me": {
     "back_in_stock": "Stel me op de hoogte als het weer voorradig is",
@@ -4720,5 +4987,133 @@
       "usualSizeLabel": "Je gebruikelijke maat (optioneel)",
       "weightLabel": "Gewicht (kg)"
     }
+  },
+  "discover": {
+    "empty": "Producten komen binnenkort beschikbaar.",
+    "endOfFeed": "Je hebt alles gezien — dagelijks komen nieuwe artikelen erbij",
+    "heading": "Meer om van te genieten",
+    "sectionLabel": "Ontdek meer",
+    "subheading": "Nieuwe stukken dagelijks toegevoegd door Marokkaanse ambachtslui",
+    "viewAll": "Bladeren door alle producten"
+  },
+  "editPost": {
+    "blockedTitle": "Bewerking niet beschikbaar",
+    "blockedUnknown": "Deze aanvraag kan nu niet worden bewerkt.",
+    "existingPhotos": "Bestaande foto's",
+    "formSubtitle": "Wijzigingen zijn onmiddellijk zichtbaar voor alle ambachtslui",
+    "formTitle": "Werk je maatwerk aanvraag bij",
+    "newPhotos": "nieuwe foto('s) om toe te voegen",
+    "pageTitle": "Bewerk je aanvraag",
+    "photosSubtitle": "Voeg nieuwe foto's toe (bestaande foto's worden behouden)",
+    "saveChanges": "Wijzigingen opslaan",
+    "validationErrors": "Corrigeer alstublieft de gemarkeerde fouten hierboven."
+  },
+  "myPosts": {
+    "actionError": "Kon deze actie niet uitvoeren. Probeer het opnieuw.",
+    "actionForbidden": "Je bent niet gemachtigd om deze actie op dit bericht uit te voeren.",
+    "actionValidationError": "Deze actie kan niet worden voltooid. Het bericht kan actieve voorstellen hebben.",
+    "cardTitle": "Je Open Souk aanvragen",
+    "closeRequest": "Sluit aanvraag",
+    "confirmCloseAction": "Ja, sluit het",
+    "confirmCloseTitle": "Deze aanvraag sluiten?",
+    "confirmDeleteAction": "Ja, verwijder het",
+    "confirmDeleteTitle": "Deze aanvraag verwijderen?",
+    "editNotAllowed": "Kan op dit moment niet bewerken",
+    "emptyTitle": "Je hebt nog geen aanvragen geplaatst",
+    "loadError": "Kon je aanvragen niet laden. Probeer het opnieuw.",
+    "loginBody": "Je Open Souk aanvragen wachten op je — meld je aan om ze te beheren.",
+    "navLink": "Mijn aanvragen",
+    "newRequest": "Nieuwe aanvraag",
+    "pageTitle": "Mijn aanvragen"
+  },
+  "pagination": {
+    "label": "Paginering",
+    "next": "Volgende pagina",
+    "previous": "Vorige pagina"
+  },
+  "customOrders": {
+    "error": {
+      "load_orders": "Kan bestellingen niet laden",
+      "load_detail": "Kan besteldetails niet laden",
+      "invalid_id": "Ongeldig bestel-ID.",
+      "load_order": "Kan bestelling niet laden.",
+      "submit": "Kan je aanvraag niet verzenden. Probeer het opnieuw."
+    },
+    "loading": "Laden…",
+    "back_to_list": "Terug naar lijst",
+    "seller_dashboard": "Verkopersdashboard",
+    "order_title": "Bestelling #{{id}}",
+    "page_title": "Aangepaste bestellingen",
+    "empty_title": "Nog geen aangepaste bestellingen",
+    "empty_sub": "Nieuwe aanvragen verschijnen hier.",
+    "orders_list_aria": "Bestelingslijst",
+    "loading_order": "Bestelling laden…",
+    "order_spec": "Bestelspecificatie",
+    "buyer_notes": "Notities koper",
+    "customer": "Klant",
+    "back": "Terug",
+    "custom_order_eyebrow": "Aangepaste bestelling",
+    "request_title": "Vraag een aangepast stuk aan",
+    "new_intro": "Vertel ons wat je wilt. Het enige verplichte veld is Materiaal — alles anders is optioneel. Ambachtslieden zien het en geven reactie.",
+    "trust": {
+      "secure": "Veilig",
+      "seen_by_artisans": "Gezien door ambachtslieden",
+      "verified_artisans": "Geverifieerde ambachtslieden"
+    },
+    "loading_aria": "Laden",
+    "my_orders": "Mijn bestellingen",
+    "back_to_orders": "Terug naar bestellingen",
+    "tracking_eyebrow": "Bestelingvolging",
+    "your_notes": "Jouw notities",
+    "select_placeholder": "Selecteren…",
+    "loading_fields": "Velden laden…",
+    "no_fields": "Geen aangepaste velden voor deze verticaal.",
+    "optional": "optioneel",
+    "field_required": "{{label}} is verplicht",
+    "timeline": {
+      "error_advance": "Kan bestelstatus niet wijzigen.",
+      "status_label": "Status:",
+      "progress_log": "Voortgangslogboek",
+      "progress_history_aria": "Voortgangsgeschiedenis",
+      "no_progress": "Nog geen voortgangsvermeldingen.",
+      "advance_status": "Status wijzigen",
+      "next_status": "Volgende status",
+      "select_status": "Selecteer status…",
+      "note_label": "Notitie",
+      "note_placeholder": "Voeg een notitie toe…",
+      "updating": "Bijwerken…",
+      "update_cta": "Status bijwerken",
+      "terminal_state": "Deze bestelling heeft een eindstatus bereikt.",
+      "current_status": "Huidige status",
+      "quote_details": "Offertedetails",
+      "quote_amount": "Offertebedrag",
+      "deposit": "Aanbetaling",
+      "paid": "Betaald",
+      "eta": "ETA",
+      "order_progress": "Bestellingsvoortgang",
+      "order_stages_aria": "Bestelstadia",
+      "current_badge": "Huidig",
+      "cancelled": "Deze bestelling is geannuleerd.",
+      "activity_log": "Activiteitenlogboek",
+      "activity_log_aria": "Activiteitenlogboek"
+    },
+    "status": {
+      "requested": "Aangevraagd",
+      "quoted": "Geofferd",
+      "deposit_paid": "Aanbetaling betaald",
+      "in_progress": "Bezig",
+      "ready": "Klaar",
+      "delivered": "Bezorgd",
+      "closed": "Gesloten",
+      "cancelled": "Geannuleerd"
+    },
+    "submitted_title": "Aanvraag verzonden!",
+    "submitted_desc": "Je aanvraag #{{id}} is in behandeling. De verkoper neemt binnenkort contact met je op.",
+    "track_order": "Bestel volgen",
+    "go_back": "Ga terug",
+    "notes_label": "Notities",
+    "notes_placeholder": "Aanvullende details…",
+    "sending": "Verzenden…",
+    "send_request": "Aanvraag verzenden"
   }
 }

@@ -4,6 +4,7 @@ import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { ChevronRight } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { Category } from '@/types/category';
 
 interface SubcategoriesGridProps {
@@ -19,6 +20,7 @@ export default function SubcategoriesGrid({
   showMoreLink,
   colorsScheme = 'default',
 }: SubcategoriesGridProps) {
+  const { t } = useTranslation();
   if (!subcategories || subcategories.length === 0) return null;
 
   const accentClass =
@@ -38,7 +40,7 @@ export default function SubcategoriesGrid({
               href={showMoreLink}
               className={`inline-flex items-center gap-1 text-sm font-medium rounded-full px-3 py-1 transition-colors duration-200 ${accentClass}`}
             >
-              View all <ChevronRight className="h-4 w-4" aria-hidden="true" />
+              {t('common.viewAll', 'View all')} <ChevronRight className="h-4 w-4" aria-hidden="true" />
             </Link>
           )}
         </div>

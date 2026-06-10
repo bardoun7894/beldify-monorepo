@@ -15,7 +15,7 @@ export default function HeroContent() {
         <div className="absolute inset-0 -z-10">
           <Image
             src="/images/hero-atelier.jpg"
-            alt="Moroccan atelier"
+            alt={t('hero.atelier_alt', 'Moroccan atelier')}
             fill
             priority
             sizes="100vw"

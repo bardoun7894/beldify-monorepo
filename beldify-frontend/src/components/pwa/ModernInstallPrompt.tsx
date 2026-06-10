@@ -121,7 +121,7 @@ export default function ModernInstallPrompt() {
                           <div className="h-12 w-12 sm:h-16 sm:w-16 rounded-xl sm:rounded-2xl bg-white shadow-lg flex items-center justify-center">
                             <Image
                               src="/icons/manifest-icon-192.maskable.png"
-                              alt="App Icon"
+                              alt={t('pwa.app_icon_alt', 'App icon')}
                               width={32}
                               height={32}
                               className="sm:w-12 sm:h-12 rounded-lg sm:rounded-xl"

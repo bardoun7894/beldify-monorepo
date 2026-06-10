@@ -178,18 +178,17 @@ export default function HomeContent({ categories, data, openSoukPosts = [], hero
       >
         <div className="mx-auto max-w-7xl px-4 sm:px-6 py-5 grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6">
           {([
-            { labelKey: 'home.trust.free_delivery', labelFallback: 'Free delivery +500 MAD', labelAr: 'توصيل مجاني فوق 500 درهم', Icon: Truck },
-            { labelKey: 'home.trust.verified_sellers', labelFallback: 'Verified sellers', labelAr: 'بياعة موثوقين', Icon: ShieldCheck },
-            { labelKey: 'home.trust.returns', labelFallback: '14-day returns', labelAr: 'الرجوع حتى لـ14 يوم', Icon: RotateCcw },
-            { labelKey: 'home.trust.support', labelFallback: 'Support AR / FR / EN', labelAr: 'مساعدة بثلاث لغات', Icon: Headphones },
-          ] as const).map(({ labelKey, labelFallback, labelAr, Icon }) => (
+            { labelKey: 'home.trust.free_delivery', labelFallback: 'Free delivery +500 MAD', Icon: Truck },
+            { labelKey: 'home.trust.verified_sellers', labelFallback: 'Verified sellers', Icon: ShieldCheck },
+            { labelKey: 'home.trust.returns', labelFallback: '14-day returns', Icon: RotateCcw },
+            { labelKey: 'home.trust.support', labelFallback: 'Support AR / FR / EN', Icon: Headphones },
+          ] as const).map(({ labelKey, labelFallback, Icon }) => (
             <div key={labelKey} className="flex flex-col items-center gap-2 text-center">
               <span className="h-10 w-10 rounded-full bg-white flex items-center justify-center ring-1 ring-gray-200 text-indigo-700">
                 <Icon className="h-5 w-5" strokeWidth={1.8} aria-hidden="true" />
               </span>
-              <span className="text-xs sm:text-sm font-medium text-gray-700 leading-snug">
-                <span lang="ar" dir="rtl" className="block font-arabic text-gray-900">{labelAr}</span>
-                <span className="text-gray-500">{t(labelKey, labelFallback)}</span>
+              <span className="text-xs sm:text-sm font-medium text-gray-900 leading-snug">
+                {t(labelKey, labelFallback)}
               </span>
             </div>
           ))}
@@ -350,7 +349,7 @@ export default function HomeContent({ categories, data, openSoukPosts = [], hero
             <div className="absolute inset-0">
               <Image
                 src="https://pro.beldify.com/storage/categories/category_5_womens-djellaba.png"
-                alt="Collection festive"
+                alt={t('home.offers.festive_title', 'Occasions Collection')}
                 fill
                 sizes="(min-width:1024px) 50vw, 100vw"
                 className="object-cover opacity-30"
@@ -370,7 +369,7 @@ export default function HomeContent({ categories, data, openSoukPosts = [], hero
               <Link
                 href="/products?category=festive"
                 className="mt-8 inline-flex items-center gap-2 rounded-xl bg-indigo-700 px-6 py-3 text-sm font-semibold text-white transition-all duration-200 hover:bg-indigo-800 hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-indigo-700/30 min-h-[44px]"
-                aria-label="Explore festive collection"
+                aria-label={t('home.offers.cta_explore_aria', 'Explore festive collection')}
               >
                 {t('home.offers.cta_explore', 'Explore now')}
                 <ArrowRight className="h-4 w-4" aria-hidden="true" />
@@ -430,7 +429,7 @@ export default function HomeContent({ categories, data, openSoukPosts = [], hero
           </div>
 
           {/* Steps */}
-          <ol className="space-y-4" aria-label="How tailoring works">
+          <ol className="space-y-4" aria-label={t('home.tailoring.steps_label', 'How tailoring works')}>
             {[
               {
                 step: t('home.tailoring.step1_title', 'Pick your tailor'),
@@ -724,10 +723,10 @@ export default function HomeContent({ categories, data, openSoukPosts = [], hero
                 className="mt-1.5 text-3xl sm:text-4xl font-bold text-amber-400"
                 style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
               >
-                <span className="currency-mad">299–5,999 درهم</span>
+                <span className="currency-mad">{t('home.seller.stat_range_value', '299–5,999 MAD')}</span>
               </p>
-              <p dir="rtl" lang="ar" className="text-xs text-indigo-300/70 font-arabic mt-1">
-                الأثمنة اللي كيعرضو البياعة غالباً
+              <p className="text-xs text-indigo-300/70 mt-1">
+                {t('home.seller.stat_range_hint', 'What sellers typically charge')}
               </p>
             </div>
             {/* Supporting — two proof points using honest, non-fabricated copy */}
@@ -736,8 +735,8 @@ export default function HomeContent({ categories, data, openSoukPosts = [], hero
                 // "Growing community" — qualitative; avoids inventing a seller count
                 // that is not sourced from the API. Update with a real figure once
                 // a /api/stats or similar endpoint provides one.
-                { value: t('home.seller.stat_sellers_value', 'Growing'), labelKey: 'home.seller.stat_sellers_label', labelFallback: 'Seller community', labelAr: 'مجتمع ديال البياعة كيكبر' },
-                { value: '14-day', labelKey: 'home.seller.stat_protection_label', labelFallback: 'Buyer protection', labelAr: 'حماية الشاري' },
+                { value: t('home.seller.stat_sellers_value', 'Growing'), labelKey: 'home.seller.stat_sellers_label', labelFallback: 'Seller community' },
+                { value: t('home.seller.stat_protection_value', '14-day'), labelKey: 'home.seller.stat_protection_label', labelFallback: 'Buyer protection' },
               ].map((s) => (
                 <div
                   key={s.labelKey}
@@ -745,7 +744,6 @@ export default function HomeContent({ categories, data, openSoukPosts = [], hero
                 >
                   <p className="text-xl font-semibold text-white">{s.value}</p>
                   <p className="text-xs text-indigo-200 mt-1">{t(s.labelKey, s.labelFallback)}</p>
-                  <p dir="rtl" lang="ar" className="text-xs text-indigo-300/70 font-arabic mt-0.5">{s.labelAr}</p>
                 </div>
               ))}
             </div>

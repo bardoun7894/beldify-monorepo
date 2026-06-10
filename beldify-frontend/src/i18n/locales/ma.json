@@ -119,7 +119,13 @@
     "womens_traditional_wear_description": "شوف التشكيلة ديالنا من اللباس التقليدي الأنيق للعيالات",
     "yesterday": "البارح",
     "go_back": "رجع",
-    "dismiss": "سد"
+    "dismiss": "سد",
+    "copy": "نسخ",
+    "read_more": "شوف الباقي",
+    "saving": "كاتخزن…",
+    "show_less": "شوف أقل",
+    "show_more": "شوف أكتر",
+    "need_help": "محتاج مساعدة؟"
   },
   "validation": {
     "required": "خاصك تعمر هاد لخانة",
@@ -347,7 +353,8 @@
     "verify_email_resent": "تصيفط إيميل التأكيد! شوف البوات ديالك.",
     "rate_limit": "بزاف ديال الطلبات. تسنى شوية.",
     "resend_failed": "ما تصيفطش. عاود مرة أخرى.",
-    "verify_email_banner": "أكد الإيميل ديالك باش تستافد من كولشي."
+    "verify_email_banner": "أكد الإيميل ديالك باش تستافد من كولشي.",
+    "signInRequired": "دخل باش تشوف الطلبات ديالك"
   },
   "navigation": {
     "home": "الرئيسية",
@@ -386,7 +393,9 @@
     "dark_mode": "الوضع الداكن",
     "light_mode": "الوضع الفاتح",
     "messages": "الرسائل",
-    "register": "سجّل دابا"
+    "register": "سجّل دابا",
+    "login_short": "دخول",
+    "openSouk": "السوق المفتوح"
   },
   "megaOffers": {
     "title": "عروض كبار",
@@ -594,7 +603,10 @@
     "tab_description": "الوصف",
     "tab_specs": "المواصفات",
     "tab_sizing": "المقاسات",
-    "tab_reviews": "التقييمات"
+    "tab_reviews": "التقييمات",
+    "close_zoom": "قفل التكبير",
+    "free_shipping": "شحن مجاني",
+    "zoom_image": "كبّر الصورة"
   },
   "stock": {
     "in_stock": "كاين فالستوك ({{count}})",
@@ -658,7 +670,8 @@
       "free": "بالمجان",
       "freeShippingHint": "زيد {{amount}} درهم باش يكون التوصيل مجاني",
       "kicker": "ملخص الطلب",
-      "discount": "الخصم"
+      "discount": "الخصم",
+      "checkout_darija": "كمّل الشراء"
     },
     "quantity": {
       "increase": "زيد العدد",
@@ -871,7 +884,10 @@
       "festive_set": "مجموعة احتفالية للصغار",
       "girls_caftan": "قفطان للبنات",
       "kids_kandora": "قندورة للصغار"
-    }
+    },
+    "empty_title": "قريباً في المخزون",
+    "end_of_list": "كل المنتوجات تحملت",
+    "no_results_hint": "هاد التصنيف ما فيه منتوجات دابا — رجع قريبا."
   },
   "order": {
     "title": "طلبية نمرة {{orderNumber}}",
@@ -973,7 +989,8 @@
       "clear_filters": "نضّي التصفية",
       "cancel_order": "لغي الطلبية",
       "request_return": "طلب الرجوع",
-      "return_request": "طلب الرجوع"
+      "return_request": "طلب الرجوع",
+      "back_to_order": "رجع للطلب"
     },
     "filter": {
       "all": "كاع الطلبيات",
@@ -1117,7 +1134,20 @@
         "pending": "كيتسنى"
       },
       "load_error": "ما قدرناش نجيبو الطلب",
-      "not_found": "الطلب ما كاينش"
+      "not_found": "الطلب ما كاينش",
+      "bill_to": "الفاتورة باسم",
+      "brand_tagline": "سوق الحرف المغربية",
+      "cancelled_msg": "ما كاينة فاتورة للطلبات الملغاة.",
+      "col_item": "المنتوج",
+      "col_qty": "الكمية",
+      "col_total": "المجموع",
+      "col_unit": "الوحدة",
+      "download_print": "حمّل / اطبع الفاتورة",
+      "invoice_label": "الفاتورة",
+      "payment_method": "طريقة الدفع",
+      "payment_status": "حالة الدفع",
+      "ship_to": "الشحن لـ",
+      "title": "الفاتورة"
     },
     "reorder": {
       "added": "تضافت للسيلة ديالك",
@@ -1260,7 +1290,8 @@
       "need_help_title": "ما عرفتيش كيفاش تخلّص؟",
       "need_help_body": "صيفط لينا واتساب ولا عيّط لينا ونعاونوك.",
       "whatsapp": "واتساب",
-      "call": "عيّط لينا"
+      "call": "عيّط لينا",
+      "cod_subtitle": "خلّص ملي توصلك السلعة — الدفع عند الاستلام"
     },
     "order_summary": {
       "title": "ملخص الطلب",
@@ -1277,7 +1308,9 @@
       "place_order": "أكد الطلبية",
       "processing": "كنعالجو طلبك...",
       "back_to_shipping": "ارجع للتوصيل",
-      "continue_payment": "كمّل للدفع"
+      "continue_payment": "كمّل للدفع",
+      "confirm_order": "أكّد الطلب",
+      "continue_to_confirm": "كمّل للتأكيد"
     },
     "validation": {
       "required": "خاصك تعمر هاد لخانة",
@@ -1339,7 +1372,8 @@
       "saved_addresses": "العناوين المسجلين",
       "type_new": "دخل عنوان جديد",
       "default_badge": "الأساسي",
-      "save_for_next": "سجل هاد العنوان للطلبيات الجاية"
+      "save_for_next": "سجل هاد العنوان للطلبيات الجاية",
+      "extra_fields_toggle": "زيد تفاصيل أخرى (الشقة، الكود البريدي)"
     },
     "bespoke": {
       "cta": "شوف االخياطة الخاصة"
@@ -1386,6 +1420,14 @@
     "quote": {
       "loading": "كنحسبو المجموع…",
       "load_error": "ماقدرناش نحسبو المجموع. عاود حاول."
+    },
+    "guest": {
+      "have_account": "عندك حساب؟ دخل"
+    },
+    "progress": {
+      "bag": "السلة",
+      "confirm": "التأكيد",
+      "info": "المعلومات"
     }
   },
   "profile": {
@@ -1537,12 +1579,15 @@
     "variantNotAvailable": "هاد لموديل ما متوفرش",
     "shop_not_found": "معلومات المتجر ماموجودينش",
     "boundary": {
-      "title": "وقع شي خطأ",
-      "body": "سمح لينا. عافاك عاود الصفحة.",
+      "title": "وقع شي مشكل",
+      "body": "وقع مشكل ماكناش متوقعينو. عاود حمّل الصفحة.",
       "devDetails": "تفاصيل الخطأ (للمطورين)",
       "errorLabel": "الخطأ:",
       "retry": "عاود حاول",
-      "reload": "عاود الصفحة"
+      "reload": "عاود الصفحة",
+      "oops": "سمح لينا!",
+      "refresh": "عاود تحميل الصفحة",
+      "home": "الصفحة الرئيسية"
     },
     "api": {
       "title": "ما تحملاتش المعطيات",
@@ -1560,7 +1605,8 @@
     "productNotFoundDesc": "هاد االمنتوج ما تلقاش أو ما عادش متاح.",
     "something_went_wrong": "وقع مشكل",
     "product_load_failed": "ما قدرناش نحيدو المنتج",
-    "stock_unavailable": "هاد المنتوج ما كاينش دابا"
+    "stock_unavailable": "هاد المنتوج ما كاينش دابا",
+    "session_storage_unavailable": "ما يمكنش كمّل — فعّل الكوكيز"
   },
   "notifications": {
     "success": {
@@ -1615,7 +1661,8 @@
         "new_follower": "متابع جديد",
         "back_in_stock": "المنتوج رجع متوفر",
         "price_drop": "هبط الثمن"
-      }
+      },
+      "loadError": "ما تحملت الإشعارات. شد على الاتصال و حاول بعد."
     }
   },
   "filters": {
@@ -2674,7 +2721,30 @@
     "verified_seller_badge_footer": "بايع متحقق",
     "view_attachment": "شوف الملحق",
     "view_shop_button": "شوف المتجر",
-    "view_shop_button_footer": "شوف المتجر"
+    "view_shop_button_footer": "شوف المتجر",
+    "colors": "الألوان",
+    "interested_q": "راجي الشغل هاد؟",
+    "job_progress": "التقدم",
+    "login_cta_body": "دخل لحسابك باش تجاوب على الطلب هاد.",
+    "login_to_propose": "بغيتي تقدم عرض؟",
+    "no_proposals_yet": "كن أول حرفي يجاوب!",
+    "no_proposals_yet_title": "ما حيت عروض بعد",
+    "posted_by": "الطالب",
+    "preview": "العاين",
+    "proposal_accepted": "العرض تم قبوله!",
+    "proposal_already_submitted": "كانت عطيت عرض ليهاد الشغلة بالفعل.",
+    "proposals": "عروض",
+    "reference_images": "الصور المرجعية",
+    "request": "طلب",
+    "requirements": "الشروط",
+    "response_image_alt": "صورة الرد",
+    "skills_comma_hint": "فصل بالفواصل",
+    "styles": "الأساليب",
+    "thumbnail": "الصورة الصغيرة",
+    "view_custom_order": "شوف الطلب ديالك",
+    "view_image": "شوف الصورة",
+    "view_portfolio": "شوف الأعمال",
+    "your_bid": "العرض ديالك"
   },
   "newsletter": {
     "title": "بقا على بال بالجديد",
@@ -2852,7 +2922,9 @@
       "description": "اكتشف االمجموعة الحصرية ديالنا من المنتوجات المتميزة والمصممة خصيصا ليك",
       "subtitle": "تشكيلة ما فيها مثيل",
       "title": "منتوجات حصرية"
-    }
+    },
+    "banner_alt": "كوليكسيون القفطان",
+    "atelier_alt": "ورشة مغربية"
   },
   "sellers": {
     "title": "ولي بائع",
@@ -3092,7 +3164,8 @@
       "available": "تحديث متوفر",
       "install": "سيب التحديث",
       "later": "بعد شوية"
-    }
+    },
+    "app_icon_alt": "أيقونة التطبيق"
   },
   "brand": {
     "name": "بلديفاي",
@@ -3399,7 +3472,8 @@
       "section8p2": "ما تقدري تستعملي أو تنسخي أو توزعي أو تبدلي أو تاعملي أعمال مشتقة من أو تعرضي بشكل علني أو تلعبي بشكل علني أو تعيدي نشر أو تنزلي أو تخزني أو تبعثي أي محتوى من الخدمات ديالنا، إلا حسب اللي قلنا في الشروط ديال الخدمة أو بإذن كتابي منا قدام.",
       "section9Title": "9. المحتوى اللي تاعملوه المستعملات",
       "section9p1": "كاين حيت تضيفي محتوى للخدمات ديالنا (كيما التقييمات أو التعليقات أو المشاركات في قسم المجتمع ديالنا)، انتي تعطي Beldify حق حصري وبدون رسوم وأبدي وما قدرو نلغيوه وممكن نعطيوه لغيرنا باش نستعملو أو ننسخو أو نبدلو أو نكيفو أو نعرضو أو نترجمو أو نتاعملو أعمال مشتقة من أو نوزعو أو نعرضو المحتوى ديالك في كول العالم وفي أي وسيط.",
-      "section9p2": "انتي قلتي وضمنتي بأنك محتوى ديالك ما يخرق حقوق الناس الأخرى، فيه حقوق الخصوصية والإعلانات والنشر وحقوق العلامات التجارية أو حقوق الملكية الفكرية الأخرى، وبأنه يطيع الشروط ديال الخدمة وكول القوانين والقواعد اللي متاحة."
+      "section9p2": "انتي قلتي وضمنتي بأنك محتوى ديالك ما يخرق حقوق الناس الأخرى، فيه حقوق الخصوصية والإعلانات والنشر وحقوق العلامات التجارية أو حقوق الملكية الفكرية الأخرى، وبأنه يطيع الشروط ديال الخدمة وكول القوانين والقواعد اللي متاحة.",
+      "sellerTermsLink": "شروط البياع"
     }
   },
   "about": {
@@ -3671,7 +3745,8 @@
     "type_a_message": "كتب رسالة…",
     "send": "إرسال",
     "error_loading": "تعذّر تحميل المحادثة",
-    "error_sending": "تعذّر إرسال الرسالة"
+    "error_sending": "تعذّر إرسال الرسالة",
+    "typing_aria": "الطرف الآخر كيكتب"
   },
   "security": {
     "change_password": "بدّل كلمة السر",
@@ -3732,7 +3807,8 @@
   "tabs": {
     "general": "العام",
     "preferences": "التفضيلات",
-    "security": "الأمان"
+    "security": "الأمان",
+    "addresses": "العناوين"
   },
   "trust": {
     "authentic": "صناعة يدوية أصيلة 100%",
@@ -3780,13 +3856,21 @@
     "copy_slogan": "كوبي الشعار",
     "copy_description": "كوبي الوصف",
     "applied": "تطبّق على وصف المتجر.",
-    "apply_description": "طبّق على الوصف"
+    "apply_description": "طبّق على الوصف",
+    "chip": {
+      "suggestedMeasurements": "القياسات المقترحة من الذكاء الاصطناعي"
+    }
   },
   "pdp": {
     "aiStyling": "تنسيق بالذكاء الاصطناعي",
     "artisanMade": "صناعة يدوية",
     "complete_the_look": "أكمل الإطلالة",
-    "trustedArtisan": "بائع حرفي موثوق"
+    "trustedArtisan": "بائع حرفي موثوق",
+    "howToBuy": {
+      "cod_note": "الدفع عند الاستلام — ما محتاجش بطاقة بنكية",
+      "title": "كيفاش نشري؟",
+      "trigger": "كيفاش نشري؟"
+    }
   },
   "actions": {
     "close": "سد",
@@ -3811,7 +3895,16 @@
       "ai_chip": "اقتراحات على ذوقك",
       "carousel_prev": "الصورة السابقة",
       "carousel_next": "الصورة الجاية",
-      "section_label": "الصفحة الرئيسية"
+      "section_label": "الصفحة الرئيسية",
+      "art_slide1_headline": "التوصيل بلاش فوق 500 درهم",
+      "art_slide1_subline": "قفاطن وجلابيب من ورشات مغربية موثوقة",
+      "art_slide1_cta": "تسوّق دابا",
+      "art_slide2_headline": "خياطة على القياس ديالك",
+      "art_slide2_subline": "ختار الورشة، صيفط القياسات، توصلك القطعة حتى للدار",
+      "art_slide2_cta": "بدا طلب الخياطة",
+      "art_slide3_headline": "السوق المفتوح — نشر طلبك وخلي الورشات يتنافسو",
+      "art_slide3_subline": "الخياطين ديالنا يتنافسو على مشروعك",
+      "art_slide3_cta": "نشر طلب دابا"
     },
     "trust": {
       "verified_sellers": "بياعة موثوقين",
@@ -3834,7 +3927,8 @@
       "cta_shop_collection": "شوف الكوليكسيون",
       "cta_explore": "شوف كثر",
       "festive_title": "كوليكسيون المناسبات",
-      "festive_description": "قفاطين وتكاشط للأعراس والمناسبات، مطرّزين باليد وبالحب."
+      "festive_description": "قفاطين وتكاشط للأعراس والمناسبات، مطرّزين باليد وبالحب.",
+      "cta_explore_aria": "اكتشف كوليكسيون المناسبات"
     },
     "tailoring": {
       "headline": "بغيتيها مخيطة على قياسك؟",
@@ -3846,7 +3940,8 @@
       "step2_detail": "عمّر الفورم ديالنا ولا حمّل الباترون اللي عندك.",
       "step3_title": "توصّل بالقطعة ديالك",
       "step3_detail": "مكمّلة باليد وغادي توصلك حتى لباب دارك فـ2 حتى لـ4 سيمانات.",
-      "badge_ar": "خياطة على القياس"
+      "badge_ar": "خياطة على القياس",
+      "steps_label": "كيفاش كتخدم الخياطة"
     },
     "ateliers": {
       "subtitle": "ورشات مختارة بعناية",
@@ -3868,7 +3963,10 @@
       "stat_range_label": "الأثمنة اللي كيتباع بها غالباً",
       "stat_sellers_value": "كيكبر",
       "stat_sellers_label": "مجتمع ديال البياعة",
-      "stat_protection_label": "حماية الشاري"
+      "stat_protection_label": "حماية الشاري",
+      "stat_range_value": "299–5,999 درهم",
+      "stat_range_hint": "الأثمنة اللي كيعرضو البياعة غالباً",
+      "stat_protection_value": "14 يوم"
     },
     "openSouk": {
       "eyebrow": "السوق خدام دابا",
@@ -3980,7 +4078,9 @@
       "label_ar": "تبع المتجر",
       "following": "كتبع",
       "following_ar": "كتبع"
-    }
+    },
+    "reviews_aggregate": "{{count}} رأي من الزبناء",
+    "reviews_aggregate_sub": "الآراء تتجمع من الزبناء بعد الوصول."
   },
   "tailoring": {
     "booking": {
@@ -4041,7 +4141,17 @@
       "unitCmLabel": "سنتيمتر",
       "unitIn": "إنش",
       "unitInLabel": "إنشات",
-      "unitToggleLabel": "وحدة القياس"
+      "unitToggleLabel": "وحدة القياس",
+      "chest": "الصدر",
+      "diagramChest": "الصدر",
+      "diagramHips": "الأرداف",
+      "diagramLength": "الطول",
+      "diagramWaist": "الخصر",
+      "hips": "الأرداف",
+      "length": "الطول",
+      "saveError": "ما تخزنت القياسات",
+      "saved": "القياسات اتخزنت",
+      "waist": "الخصر"
     },
     "profile": {
       "not_found": "ما لقيناش بروفيل هاد الخيّاط.",
@@ -4051,7 +4161,8 @@
       "specialties": "التخصصات",
       "load_error": "ما قدرناش نحملو معطيات الخياط",
       "portfolio_image_alt": "معرض الأعمال {{index}}",
-      "bio": "عندي كثر من 15 عام ديال الخبرة فالخياطة المغربية التقليدية، وكنخدم قطع على القياس كتجمع بين الصنعة التقليدية والستايل العصري."
+      "bio": "عندي كثر من 15 عام ديال الخبرة فالخياطة المغربية التقليدية، وكنخدم قطع على القياس كتجمع بين الصنعة التقليدية والستايل العصري.",
+      "no_reviews": "ما كاينة آراء بعد"
     },
     "stepsCta": "بدّا طلب خياطة",
     "sub": "خياطين مغاربة موثوقين كيصايبو ليك لباس على القياس، ويوصلوه ليك فين ما كنتي.",
@@ -4228,7 +4339,13 @@
     "searchPlaceholder": "قلّب على الطلبات...",
     "skills": "المهارات",
     "sortBy": "رتّب حسب",
-    "feedError": "ما قدرناش نجيبو الطلبات"
+    "feedError": "ما قدرناش نجيبو الطلبات",
+    "sort": {
+      "budgetAsc": "الميزانية: من الضعيفة للعالية",
+      "budgetDesc": "الميزانية: من العالية للضعيفة",
+      "latest": "الأحدث",
+      "oldest": "الأقدم"
+    }
   },
   "seller": {
     "register": {
@@ -4267,7 +4384,8 @@
       "subtitle": "قدم طلبتك باش تنضم لـ Beldify وتبيع المنتوجات التقليدية ديالك للمشترين فالعالم كامل.",
       "title": "كن بايع",
       "validation_business_type": "اختار نوع المتجر ديالك",
-      "validation_country": "اختار البلاصة ديالك"
+      "validation_country": "اختار البلاصة ديالك",
+      "track_application_cta": "تتبع الطلب ديالك"
     },
     "onboarding": {
       "eyebrow": "رحلة البائع",
@@ -4375,10 +4493,33 @@
       "edit_eyebrow": "السطوك",
       "section_attributes": "خصائص المنتج",
       "vertical_required": "{{field}} خاصو يتعمر لهاد نوع د المنتج.",
-      "vertical_save_failed": "تسجل المنتج، ولكن ما تسجلوش الخصائص المخصصة ديالو. عدّل المنتج باش تزيدهم."
+      "vertical_save_failed": "تسجل المنتج، ولكن ما تسجلوش الخصائص المخصصة ديالو. عدّل المنتج باش تزيدهم.",
+      "danger_zone": "المنطقة الخطيرة",
+      "delete_confirm_prompt": "أنت متأكد؟",
+      "delete_confirm_yes": "أيه، حذفه",
+      "delete_cta": "حذف المنتوج",
+      "delete_error": "ما تحذّف المنتوج. حاول بعد.",
+      "delete_success": "المنتوج اتحذف.",
+      "delete_warning": "حذف المنتوج هاد دائم و ما يمكن تلغيه.",
+      "deleting": "كاتحذف...",
+      "load_error": "ما تحمّل المنتوج. حاول بعد."
     },
     "products": {
-      "edit_aria": "بدّل {{name}}"
+      "edit_aria": "بدّل {{name}}",
+      "add_first_product": "زيد أول منتوج",
+      "add_product": "زيد منتوج",
+      "back_to_list": "رجع للمنتوجات",
+      "col_name": "المنتوج",
+      "col_price": "السعر (درهم)",
+      "col_status": "الحالة",
+      "col_stock": "المخزون",
+      "eyebrow": "المخزون",
+      "fetch_error": "ما تحملت المنتوجات.",
+      "no_products": "ما كاينة منتوجات بعد",
+      "no_products_sub": "زيد أول منتوج باش تبدي تبيع.",
+      "status_active": "نشيط",
+      "status_inactive": "معطّل",
+      "title": "المنتوجات ديالي"
     },
     "store_settings": {
       "profile_section_title": "البروفيل ديال الحانوت",
@@ -4394,10 +4535,51 @@
       "save_success": "تسجل البروفيل ديال الحانوت",
       "save_error": "ما تسجلش البروفيل. عاود مرة أخرى.",
       "validation_error": "صحح الأخطاء لي لتحت وعاود.",
-      "fetch_error": "ما قدرناش نجيبو البروفيل ديال الحانوت."
+      "fetch_error": "ما قدرناش نجيبو البروفيل ديال الحانوت.",
+      "address_label": "العنوان",
+      "address_placeholder": "الشارع، المدينة، البلد",
+      "current_badge": "الحالي",
+      "description_label": "وصف المتجر",
+      "description_placeholder": "قول للزبناء على المتجر ديالك...",
+      "email_label": "البريد الإلكتروني",
+      "eyebrow": "إعدادات المتجر",
+      "fields_for_vertical": "الحقول ديال هاد التصنيف",
+      "name_label": "اسم المتجر",
+      "name_placeholder": "مثال: Atlas Bijoux",
+      "phone_label": "رقم الهاتف",
+      "profile_saved": "الملف الشخصي انخزن!",
+      "profile_section": "معلومات المتجر",
+      "saved": "انخزن",
+      "title": "ملف المتجر",
+      "vertical_legend": "تصنيف المتجر",
+      "vertical_save_error": "ما تحدّث نوع المتجر. حاول بعد.",
+      "vertical_saved": "نوع المتجر اتحدّث!",
+      "vertical_section": "نوع المتجر",
+      "verticals": {
+        "regular": "متجر عادي",
+        "regular_desc": "بيع المنتجات الجاهزة. بلاش تكوين مخصص.",
+        "jewelry": "المجوهرات",
+        "jewelry_desc": "بيع المجوهرات الجاهزة والمخصصة مع حقول المادة والنقاء والأحجار الكريمة.",
+        "new_badge": "جديد",
+        "menswear": "ملابس رجالية",
+        "menswear_desc": "ملابس رجالية جاهزة وعلى الطلب مع القياسات واختيار الأقمشة.",
+        "womenswear": "ملابس نسائية",
+        "womenswear_desc": "ملابس نسائية جاهزة وعلى الطلب مع القياسات واختيار الأقمشة.",
+        "tailor": "متجر الخياطة",
+        "tailor_desc": "خدمة خياطة كاملة مع القياسات وكتالوج الأقمشة والطلبات المخصصة."
+      }
     },
     "nav": {
-      "messages": "الرسائل"
+      "messages": "الرسائل",
+      "aria_label": "التنقل للبياع",
+      "custom_orders": "طلبات مخصصة",
+      "dashboard": "لوحة التحكم",
+      "earnings": "الأرباح",
+      "mobile_aria_label": "التنقل للبياع على الجوال",
+      "orders": "الطلبات",
+      "products": "المنتوجات",
+      "profile": "الملف الشخصي",
+      "store_settings": "إعدادات المتجر"
     },
     "messages": {
       "eyebrow": "فضاء البائع",
@@ -4436,6 +4618,87 @@
       "kpi_commission": "العمولة",
       "recent_orders": "آخر الطلبيات",
       "view_all_orders": "شوف كاع الطلبيات"
+    },
+    "earnings": {
+      "breakdown_heading": "تفاصيل مالية",
+      "chart_heading": "الأرباح كل يوم",
+      "chart_sub": "كاتبان آخر ${earnings.period} يوم في ${earnings.currency}",
+      "commission": "عمولة المنصة",
+      "eyebrow": "مركز البياع",
+      "fetch_error": "ما تحملت بيانات الأرباح.",
+      "gross": "المبلغ الإجمالي",
+      "kpi_commission": "العمولة المدفوعة",
+      "kpi_gross": "الأرباح الإجمالية",
+      "kpi_net": "الأرباح الصافية",
+      "kpi_orders": "الطلبات",
+      "net": "الأرباح الصافية",
+      "title": "الأرباح",
+      "no_daily_data": "ما كايناش معطيات يومية",
+      "chart_aria": "مبيان الأرباح بالنهار"
+    },
+    "layout": {
+      "become_seller_cta": "كن بياع",
+      "credit_chip_aria": "رصيد الرصيد الذكي",
+      "hub_label": "مركز البياع",
+      "not_seller_title": "أنت ما كاتبيع بعد",
+      "storefront_link": "← رجع للمتجر"
+    },
+    "order_detail": {
+      "back": "الطلبات",
+      "col_product": "المنتوج",
+      "col_qty": "الكمية",
+      "col_total": "المجموع",
+      "col_unit": "الوحدة",
+      "col_variant": "النوع",
+      "commission": "العمولة (${order.commission_rate}%)",
+      "customer_heading": "الزبون",
+      "eyebrow": "تفاصيل الطلب",
+      "fetch_error": "ما تحمّل الطلب.",
+      "financials_heading": "الملخص",
+      "items_heading": "المنتوجات",
+      "net": "النقي ليك",
+      "shipping_heading": "عنوان الشحن",
+      "status_updated": "الطلب تحدّث",
+      "subtotal": "المجموع الجزئي",
+      "suspended_error": "المتجر ديالك معطّل — ما يمكن تحدّث الطلبات.",
+      "update_btn": "حدّث الحالة",
+      "update_error": "ما تحدّثت حالة الطلب.",
+      "update_status_label": "حدّث حالة الطلب",
+      "updating": "كاتحدّث…"
+    },
+    "orders": {
+      "col_customer": "الزبون",
+      "col_items": "المنتوجات",
+      "col_number": "الطلب",
+      "col_status": "الحالة",
+      "col_total": "المجموع",
+      "eyebrow": "مركز البياع",
+      "filter_label": "صفّي حسب الحالة",
+      "next_page": "الصفحة الجاية",
+      "no_orders": "ما كاينة طلبات بعد",
+      "no_orders_sub": "الطلبات غادي تضهر هنا ملي يشري الزبناء من المتجر ديالك.",
+      "pagination_info": "الصفحة ${meta.current_page} من ${meta.last_page} — ${meta.total} طلب",
+      "prev_page": "الصفحة السابقة",
+      "title": "الطلبات"
+    },
+    "onboarding_banner": {
+      "active": "المتجر خدام وأونلاين",
+      "view_journey": "شوف المسار",
+      "pending": "الطلب كيتراجع",
+      "progress": "كمّل إعداد المتجر ديالك — {{pct}}٪ سالينة",
+      "finish_hint": "كمّل البروفيل ديالك باش تحل جميع الميزات وتبدا تبيع."
+    },
+    "quote": {
+      "error_amount": "مبلغ العرض مطلوب وتقع يكون أكتر من الصفر",
+      "error_deposit": "العربون تقع يكون بين 0 وقيمة العرض",
+      "error_eta": "تاريخ التسليم تقع يكون في المستقبل",
+      "error_submit": "ما قدرناش نبعتو العرض. حاول مرة أخرى.",
+      "section_title": "بعت العرض السعري",
+      "amount_label": "مبلغ العرض (درهم)",
+      "deposit_label": "العربون (درهم)",
+      "eta_label": "تاريخ التسليم المتوقع",
+      "sending": "جاري الإرسال…",
+      "send_cta": "بعت العرض"
     }
   },
   "size_guide": {
@@ -4573,7 +4836,20 @@
     "cta_title": "اطلب قطعة خاصة بيك",
     "cta_sub": "صمّم مجوهراتك مع معلم موثوق.",
     "cta_button": "طلب خاص",
-    "load_error": "تعذّر تحميل المنتوجات"
+    "load_error": "تعذّر تحميل المنتوجات",
+    "fields": {
+      "material": "المادة",
+      "purity": "النقاء",
+      "weight_grams": "الوزن",
+      "size": "المقاس",
+      "gemstone_type": "الحجر الكريم",
+      "gemstone_count": "عدد الأحجار",
+      "gemstone_carat": "القيراط",
+      "engraving": "النقش",
+      "finish": "التشطيب",
+      "specs_aria": "مواصفات المجوهرات",
+      "piece_specs": "مواصفات القطعة"
+    }
   },
   "notify_me": {
     "back_in_stock": "نبهني ملي يرجع",
@@ -4703,5 +4979,133 @@
       "errorMessage": "وقع مشكل. عاود المحاولة.",
       "provenance": "مدعوم بالذكاء الاصطناعي · مساعد بيلديفاي"
     }
+  },
+  "discover": {
+    "empty": "المنتوجات غادي تكون متاحة قريبا.",
+    "endOfFeed": "شفتي كل حاجة — منتوجات جديدة كاتزاف كل يوم",
+    "heading": "أشياء أخرى بحال",
+    "sectionLabel": "اكتشف أكتر",
+    "subheading": "قطع جديدة كل يوم من الحرفيين المغاربة",
+    "viewAll": "شوف جميع المنتوجات"
+  },
+  "editPost": {
+    "blockedTitle": "التعديل ما ممكنش دابا",
+    "blockedUnknown": "الطلب هاد ما يمكن تعدله دابا.",
+    "existingPhotos": "الصور الموجودة",
+    "formSubtitle": "التعديلات غادي تكون مرئية للحرفيين ديالاً",
+    "formTitle": "حدّث الطلب ديالك",
+    "newPhotos": "صورة(صور) جديدة باش تزيد",
+    "pageTitle": "عدّل الطلب ديالك",
+    "photosSubtitle": "زيد صور جديدة (الصور القديمة غادي تبقى)",
+    "saveChanges": "خزن التعديلات",
+    "validationErrors": "صحح الأخطاء اللي كاينة فوق."
+  },
+  "myPosts": {
+    "actionError": "ما تمّت العملية. حاول بعد.",
+    "actionForbidden": "ما ممكنش تعمل هاد على الطلب هاد.",
+    "actionValidationError": "العملية هاد ما تمّت. الطلب فيه عروض نشيطة.",
+    "cardTitle": "طلبات السوق المفتوح ديالك",
+    "closeRequest": "قفل الطلب",
+    "confirmCloseAction": "أيه، قفله",
+    "confirmCloseTitle": "قفل الطلب هاد؟",
+    "confirmDeleteAction": "أيه، حذفه",
+    "confirmDeleteTitle": "حذف الطلب هاد؟",
+    "editNotAllowed": "ما يمكنش تعدّل دابا",
+    "emptyTitle": "ما طلبتي أي حاجة بعد",
+    "loadError": "ما تحملت الطلبات. حاول بعد.",
+    "loginBody": "طلبات السوق المفتوح ديالك كاتستنى — دخل باش تسيّرهم.",
+    "navLink": "الطلبات ديالي",
+    "newRequest": "طلب جديد",
+    "pageTitle": "الطلبات ديالي"
+  },
+  "pagination": {
+    "label": "الترقيم",
+    "next": "الصفحة الجاية",
+    "previous": "الصفحة السابقة"
+  },
+  "customOrders": {
+    "error": {
+      "load_orders": "فشل تحميل الطلبات",
+      "load_detail": "فشل تحميل تفاصيل الطلب",
+      "invalid_id": "الرقم ديال الطلب ما صحيح.",
+      "load_order": "ما قدرناش نحملو الطلب.",
+      "submit": "ما قدرناش نبعتو الطلب ديالك. حاول مرة أخرى."
+    },
+    "loading": "جاري التحميل…",
+    "back_to_list": "رجع",
+    "seller_dashboard": "لوحة التحكم ديالي البايع",
+    "order_title": "الطلب #{{id}}",
+    "page_title": "طلبات التصنيع المخصص",
+    "empty_title": "ما عندك حتى طلب مخصص بحال هاد",
+    "empty_sub": "الطلبات الجديدة غتظهر هنا.",
+    "orders_list_aria": "لائحة الطلبات",
+    "loading_order": "جاري التحميل…",
+    "order_spec": "تفاصيل الطلب",
+    "buyer_notes": "ملاحظات المشتري",
+    "customer": "المشتري",
+    "back": "رجع",
+    "custom_order_eyebrow": "طلب مخصص",
+    "request_title": "طلب قطعة مخصصة",
+    "new_intro": "قول لينا شنو لي بغيتي. الحقل الوحيد المطلوب هو المادة — باقي الحقول اختياري. الحرفيين غيشوفو وغيردو عليك.",
+    "trust": {
+      "secure": "آمن",
+      "seen_by_artisans": "الحرفيين يشوفوه",
+      "verified_artisans": "حرفيين معروفين"
+    },
+    "loading_aria": "جاري التحميل",
+    "my_orders": "الطلبات ديالي",
+    "back_to_orders": "رجع",
+    "tracking_eyebrow": "تتبع الطلب",
+    "your_notes": "الملاحظات ديالك",
+    "select_placeholder": "اختار…",
+    "loading_fields": "جاري التحميل…",
+    "no_fields": "ما عندش حقول مخصصة لهاد التخصص.",
+    "optional": "اختياري",
+    "field_required": "{{label}} مطلوب",
+    "timeline": {
+      "error_advance": "ما قدرناش نحدتو الحالة.",
+      "status_label": "الحالة:",
+      "progress_log": "سجل التقدم",
+      "progress_history_aria": "سجل التقدم",
+      "no_progress": "ما عندش سجل بحال هاد.",
+      "advance_status": "حدت الحالة",
+      "next_status": "الحالة الجاية",
+      "select_status": "اختار الحالة…",
+      "note_label": "ملاحظة",
+      "note_placeholder": "ضيف ملاحظة…",
+      "updating": "جاري التحديث…",
+      "update_cta": "حدت الحالة",
+      "terminal_state": "هاد الطلب وصل لحالة نهائية.",
+      "current_status": "الحالة الحالية",
+      "quote_details": "تفاصيل العرض",
+      "quote_amount": "المبلغ الإجمالي",
+      "deposit": "العربون",
+      "paid": "مدفوع",
+      "eta": "تاريخ التسليم المتوقع",
+      "order_progress": "مراحل الطلب",
+      "order_stages_aria": "مراحل الطلب",
+      "current_badge": "الحالي",
+      "cancelled": "هاد الطلب اتملغى.",
+      "activity_log": "سجل الأحداث",
+      "activity_log_aria": "سجل الأحداث"
+    },
+    "status": {
+      "requested": "مقدم",
+      "quoted": "مسعر",
+      "deposit_paid": "العربون مدفوع",
+      "in_progress": "جاري التنفيذ",
+      "ready": "جاهز",
+      "delivered": "تم التسليم",
+      "closed": "مغلق",
+      "cancelled": "ملغى"
+    },
+    "submitted_title": "الطلب تاعك اتبعت!",
+    "submitted_desc": "الطلب ديالك رقم #{{id}} قيد المراجعة. البائع غيتواصل معاك قريب.",
+    "track_order": "تتبع الطلب",
+    "go_back": "رجع",
+    "notes_label": "ملاحظات",
+    "notes_placeholder": "أي تفاصيل إضافية…",
+    "sending": "جاري الإرسال…",
+    "send_request": "بعت الطلب"
   }
 }

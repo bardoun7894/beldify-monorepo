@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 interface ErrorMessageProps {
   message: string;
@@ -6,6 +7,7 @@ interface ErrorMessageProps {
 }
 
 const ErrorMessage: React.FC<ErrorMessageProps> = ({ message, retry }) => {
+  const { t } = useTranslation();
   return (
     <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded relative" role="alert">
       <div className="flex items-center">
@@ -22,7 +24,7 @@ const ErrorMessage: React.FC<ErrorMessageProps> = ({ message, retry }) => {
             className="bg-red-600 hover:bg-red-700 text-white font-medium py-1 px-3 rounded text-sm transition-colors"
             type="button"
           >
-            Try Again
+            {t('common.try_again', 'Try again')}
           </button>
         </div>
       )}

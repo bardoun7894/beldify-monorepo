@@ -8,12 +8,16 @@
  * The component is pure presentational — it just animates while mounted.
  */
 
+import { useTranslation } from 'react-i18next';
+
 export function TypingIndicator() {
+  const { t } = useTranslation();
+
   return (
     <div
       className="flex items-end gap-2"
       role="status"
-      aria-label="The other person is typing"
+      aria-label={t('messages.typing_aria', 'The other person is typing')}
     >
       {/* Match the small avatar placeholder used in received bubbles */}
       <div className="mb-0.5 h-7 w-7 shrink-0 rounded-full bg-atlas-secondary/20" aria-hidden="true" />

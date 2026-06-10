@@ -1,14 +1,16 @@
 'use client';
 
 import { useState } from 'react';
-import { 
-  ChatBubbleLeftRightIcon, 
-  XMarkIcon, 
-  PhoneIcon, 
-  EnvelopeIcon 
+import {
+  ChatBubbleLeftRightIcon,
+  XMarkIcon,
+  PhoneIcon,
+  EnvelopeIcon
 } from '@heroicons/react/24/outline';
+import { useTranslation } from 'react-i18next';
 
 export default function FloatingSupportButton() {
+  const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
 
   const supportOptions = [
@@ -36,7 +38,7 @@ export default function FloatingSupportButton() {
         <div className="mb-4">
           <div className="bg-white rounded-lg shadow-xl border border-gray-200 overflow-hidden">
             <div className="bg-indigo-600 px-4 py-2">
-              <h3 className="text-white font-medium text-sm">Need Help?</h3>
+              <h3 className="text-white font-medium text-sm">{t('common.need_help', 'Need Help?')}</h3>
             </div>
             <div className="p-2">
               {supportOptions.map((option, index) => (

@@ -36,7 +36,7 @@ export interface MadeToOrderTimelineProps {
 }
 
 export default function MadeToOrderTimeline({ order }: MadeToOrderTimelineProps) {
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
   const isRTL = i18n.language === 'ar';
 
   const currentMeta = STATUS_META[order.status];
@@ -65,10 +65,10 @@ export default function MadeToOrderTimeline({ order }: MadeToOrderTimelineProps)
         </div>
         <div>
           <p className="text-xs text-gray-400 font-medium uppercase tracking-wide">
-            {isRTL ? 'الحالة الحالية' : 'Current Status'}
+            {t('customOrders.timeline.current_status', 'Current Status')}
           </p>
           <span className={cn('inline-flex items-center rounded-full px-3 py-1 text-sm font-semibold ring-1', currentMeta.pillClass)}>
-            {isRTL ? currentMeta.labelAr : currentMeta.label}
+            {t(`customOrders.status.${order.status}`, currentMeta.label)}
           </span>
         </div>
       </div>
@@ -77,13 +77,13 @@ export default function MadeToOrderTimeline({ order }: MadeToOrderTimelineProps)
       {(order.quote_amount || order.eta) && (
         <div className="rounded-2xl ring-1 ring-gray-200 bg-white p-5">
           <p className="text-xs uppercase tracking-[0.18em] text-amber-700 font-medium mb-4">
-            {isRTL ? 'تفاصيل العرض' : 'Quote Details'}
+            {t('customOrders.timeline.quote_details', 'Quote Details')}
           </p>
           <dl className="grid grid-cols-2 sm:grid-cols-3 gap-4">
             {order.quote_amount && (
               <div>
                 <dt className="text-[10px] uppercase tracking-wide text-gray-400 font-medium mb-0.5">
-                  {isRTL ? 'المبلغ الإجمالي' : 'Quote Amount'}
+                  {t('customOrders.timeline.quote_amount', 'Quote Amount')}
                 </dt>
                 <dd className="text-sm font-bold text-indigo-700 tabular-nums">
                   {formatPrice(parseFloat(order.quote_amount))}
@@ -93,12 +93,12 @@ export default function MadeToOrderTimeline({ order }: MadeToOrderTimelineProps)
             {order.deposit_amount && (
               <div>
                 <dt className="text-[10px] uppercase tracking-wide text-gray-400 font-medium mb-0.5">
-                  {isRTL ? 'العربون' : 'Deposit'}
+                  {t('customOrders.timeline.deposit', 'Deposit')}
                 </dt>
                 <dd className="text-sm font-semibold text-gray-900 tabular-nums">
                   {formatPrice(parseFloat(order.deposit_amount))}
                   {order.deposit_paid && (
-                    <CheckCircle2 className="inline-block h-3.5 w-3.5 text-emerald-600 ms-1.5 mb-0.5" aria-label={isRTL ? 'مدفوع' : 'Paid'} />
+                    <CheckCircle2 className="inline-block h-3.5 w-3.5 text-emerald-600 ms-1.5 mb-0.5" aria-label={t('customOrders.timeline.paid', 'Paid')} />
                   )}
                 </dd>
               </div>
@@ -106,7 +106,7 @@ export default function MadeToOrderTimeline({ order }: MadeToOrderTimelineProps)
             {order.eta && (
               <div>
                 <dt className="text-[10px] uppercase tracking-wide text-gray-400 font-medium mb-0.5">
-                  {isRTL ? 'تاريخ التسليم المتوقع' : 'ETA'}
+                  {t('customOrders.timeline.eta', 'ETA')}
                 </dt>
                 <dd className="text-sm font-semibold text-gray-900">
                   {new Date(order.eta).toLocaleDateString(isRTL ? 'ar-MA' : 'en-GB', {
@@ -124,10 +124,10 @@ export default function MadeToOrderTimeline({ order }: MadeToOrderTimelineProps)
         <div className="rounded-2xl ring-1 ring-gray-200 bg-white overflow-hidden">
           <div className="px-5 py-3 border-b border-gray-100">
             <p className="text-xs uppercase tracking-[0.18em] text-amber-700 font-medium">
-              {isRTL ? 'مراحل الطلب' : 'Order Progress'}
+              {t('customOrders.timeline.order_progress', 'Order Progress')}
             </p>
           </div>
-          <ol className="px-5 py-4 space-y-4" aria-label={isRTL ? 'مراحل الطلب' : 'Order stages'}>
+          <ol className="px-5 py-4 space-y-4" aria-label={t('customOrders.timeline.order_stages_aria', 'Order stages')}>
             {LIFECYCLE.map((status, idx) => {
               const meta = STATUS_META[status];
               const isDone = currentIdx > idx || (currentIdx === idx);
@@ -149,11 +149,11 @@ export default function MadeToOrderTimeline({ order }: MadeToOrderTimelineProps)
                         'text-sm font-medium',
                         isCurrent ? 'text-indigo-700 font-semibold' : isDone ? 'text-gray-700' : 'text-gray-300'
                       )}>
-                        {isRTL ? meta.labelAr : meta.label}
+                        {t(`customOrders.status.${status}`, meta.label)}
                       </span>
                       {isCurrent && (
                         <span className={cn('inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-semibold ring-1', meta.pillClass)}>
-                          {isRTL ? 'الحالي' : 'Current'}
+                          {t('customOrders.timeline.current_badge', 'Current')}
                         </span>
                       )}
                     </div>
@@ -180,7 +180,7 @@ export default function MadeToOrderTimeline({ order }: MadeToOrderTimelineProps)
       {/* ── Cancelled banner ── */}
       {isCancelled && (
         <div className="rounded-2xl bg-rose-50 ring-1 ring-rose-200 px-5 py-4 text-sm text-rose-700">
-          {isRTL ? 'تم إلغاء هذا الطلب.' : 'This order has been cancelled.'}
+          {t('customOrders.timeline.cancelled', 'This order has been cancelled.')}
         </div>
       )}
 
@@ -189,10 +189,10 @@ export default function MadeToOrderTimeline({ order }: MadeToOrderTimelineProps)
         <div className="rounded-2xl ring-1 ring-gray-200 bg-white overflow-hidden">
           <div className="px-5 py-3 border-b border-gray-100">
             <p className="text-xs uppercase tracking-[0.18em] text-amber-700 font-medium">
-              {isRTL ? 'سجل الأحداث' : 'Activity Log'}
+              {t('customOrders.timeline.activity_log', 'Activity Log')}
             </p>
           </div>
-          <ol className="divide-y divide-gray-100" aria-label={isRTL ? 'سجل الأحداث' : 'Activity log'}>
+          <ol className="divide-y divide-gray-100" aria-label={t('customOrders.timeline.activity_log_aria', 'Activity log')}>
             {[...progress].reverse().map(entry => {
               const meta = STATUS_META[entry.status];
               return (
@@ -203,7 +203,7 @@ export default function MadeToOrderTimeline({ order }: MadeToOrderTimelineProps)
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 flex-wrap">
                       <span className={cn('inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-semibold ring-1', meta.pillClass)}>
-                        {isRTL ? meta.labelAr : meta.label}
+                        {t(`customOrders.status.${entry.status}`, meta.label)}
                       </span>
                       <time dateTime={entry.created_at} className="text-[10px] text-gray-400">
                         {new Date(entry.created_at).toLocaleDateString(isRTL ? 'ar-MA' : 'en-GB', {

@@ -33,7 +33,7 @@ function FieldInput({
   value,
   onChange,
   showError,
-  isRTL,
+  isRTL: _isRTL,
 }: {
   field: VerticalField;
   value: string;
@@ -63,7 +63,7 @@ function FieldInput({
         aria-required={field.required}
       >
         <option value="">
-          {isRTL ? 'اختر…' : 'Select…'}
+          {t('customOrders.select_placeholder', 'Select…')}
         </option>
         {field.options.map(opt => (
           <option key={opt} value={opt}>{opt}</option>
@@ -101,7 +101,7 @@ export default function VerticalProductForm({
   onChange,
   showErrors = false,
 }: VerticalProductFormProps) {
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
   const isRTL = i18n.language === 'ar';
 
   const [fields, setFields] = useState<VerticalField[]>([]);
@@ -144,7 +144,7 @@ export default function VerticalProductForm({
     return (
       <div className="flex items-center gap-2 text-sm text-gray-400 py-4">
         <Loader2 className="h-4 w-4 animate-spin" aria-hidden />
-        <span>{isRTL ? 'جارٍ التحميل…' : 'Loading fields…'}</span>
+        <span>{t('customOrders.loading_fields', 'Loading fields…')}</span>
       </div>
     );
   }
@@ -152,9 +152,7 @@ export default function VerticalProductForm({
   if (fields.length === 0) {
     return (
       <p className="text-sm text-gray-400 py-2">
-        {isRTL
-          ? 'لا توجد حقول مخصصة لهذا التخصص.'
-          : 'No custom fields for this vertical.'}
+        {t('customOrders.no_fields', 'No custom fields for this vertical.')}
       </p>
     );
   }
@@ -174,7 +172,7 @@ export default function VerticalProductForm({
             )}
             {!field.required && (
               <span className="text-[10px] text-gray-400 font-normal">
-                {isRTL ? 'اختياري' : 'optional'}
+                {t('customOrders.optional', 'optional')}
               </span>
             )}
           </label>
@@ -187,7 +185,7 @@ export default function VerticalProductForm({
           />
           {showErrors && field.required && !values[field.key] && (
             <p className="text-xs text-rose-600" role="alert">
-              {isRTL ? `${field.label} مطلوب` : `${field.label} is required`}
+              {t('customOrders.field_required', '{{label}} is required', { label: field.label })}
             </p>
           )}
         </div>
@@ -218,7 +216,7 @@ export default function VerticalProductForm({
               </span>
               <div className="flex items-center gap-1.5 text-gray-400">
                 <span className="text-[10px] uppercase tracking-wide">
-                  {isRTL ? 'اختياري' : 'optional'}
+                  {t('customOrders.optional', 'optional')}
                 </span>
                 {isExpanded
                   ? <ChevronUp className="h-4 w-4" aria-hidden />
@@ -236,7 +234,7 @@ export default function VerticalProductForm({
                     >
                       {field.label}
                       <span className="text-[10px] text-gray-400 font-normal">
-                        {isRTL ? 'اختياري' : 'optional'}
+                        {t('customOrders.optional', 'optional')}
                       </span>
                     </label>
                     <FieldInput

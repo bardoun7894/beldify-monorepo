@@ -28,7 +28,7 @@ import { cn } from '@/lib/utils';
 const playfair = { fontFamily: '"Playfair Display", ui-serif, Georgia, serif' };
 
 export default function SellerCustomOrdersPage() {
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
   const isRTL = i18n.language === 'ar';
 
   const [orders, setOrders] = useState<CustomOrderListItem[]>([]);
@@ -47,7 +47,7 @@ export default function SellerCustomOrdersPage() {
         const res = await fetchSellerCustomOrders();
         setOrders(res.data);
       } catch {
-        setError(isRTL ? 'فشل تحميل الطلبات' : 'Failed to load orders');
+        setError(t('customOrders.error.load_orders', 'Failed to load orders'));
       } finally {
         setIsLoading(false);
       }
@@ -69,7 +69,7 @@ export default function SellerCustomOrdersPage() {
         setSelectedOrder(full);
       } catch {
         setSelectedOrder(null);
-        setError(isRTL ? 'فشل تحميل تفاصيل الطلب' : 'Failed to load order detail');
+        setError(t('customOrders.error.load_detail', 'Failed to load order detail'));
       } finally {
         setIsDetailLoading(false);
       }
@@ -97,7 +97,7 @@ export default function SellerCustomOrdersPage() {
       <div className="min-h-screen bg-canvas flex items-center justify-center">
         <div className="flex flex-col items-center gap-3">
           <div className="h-12 w-12 rounded-2xl bg-gray-100 animate-pulse" />
-          <p className="text-sm text-gray-500">{isRTL ? 'جارٍ التحميل…' : 'Loading…'}</p>
+          <p className="text-sm text-gray-500">{t('customOrders.loading', 'Loading…')}</p>
         </div>
       </div>
     );
@@ -112,19 +112,19 @@ export default function SellerCustomOrdersPage() {
             <button
               onClick={handleBack}
               className="me-1 rounded-full p-1.5 hover:bg-amber-100 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30"
-              aria-label={isRTL ? 'رجوع' : 'Back to list'}
+              aria-label={t('customOrders.back_to_list', 'Back to list')}
             >
               <ChevronLeft className="h-5 w-5 rtl:rotate-180 text-gray-600" aria-hidden />
             </button>
           )}
           <div>
             <p className="text-xs uppercase tracking-[0.18em] text-amber-700 font-medium">
-              {isRTL ? 'لوحة تحكم البائع' : 'Seller Dashboard'}
+              {t('customOrders.seller_dashboard', 'Seller Dashboard')}
             </p>
             <h1 className="text-2xl font-bold text-gray-900" style={isRTL ? undefined : playfair}>
               {selectedOrder
-                ? (isRTL ? `طلب #${selectedOrder.id}` : `Order #${selectedOrder.id}`)
-                : (isRTL ? 'طلبات التصنيع المخصص' : 'Custom Orders')}
+                ? t('customOrders.order_title', 'Order #{{id}}', { id: selectedOrder.id })
+                : t('customOrders.page_title', 'Custom Orders')}
             </h1>
           </div>
         </div>
@@ -146,14 +146,14 @@ export default function SellerCustomOrdersPage() {
                   <Package className="h-6 w-6 text-amber-600" aria-hidden />
                 </div>
                 <p className="text-base font-semibold text-gray-700">
-                  {isRTL ? 'لا توجد طلبات مخصصة بعد' : 'No custom orders yet'}
+                  {t('customOrders.empty_title', 'No custom orders yet')}
                 </p>
                 <p className="text-sm text-gray-400">
-                  {isRTL ? 'ستظهر الطلبات الجديدة هنا.' : 'New requests will appear here.'}
+                  {t('customOrders.empty_sub', 'New requests will appear here.')}
                 </p>
               </div>
             ) : (
-              <ul className="space-y-3" role="list" aria-label={isRTL ? 'قائمة الطلبات' : 'Orders list'}>
+              <ul className="space-y-3" role="list" aria-label={t('customOrders.orders_list_aria', 'Orders list')}>
                 {orders.map(order => {
                   const meta = STATUS_META[order.status];
                   return (
@@ -175,7 +175,7 @@ export default function SellerCustomOrdersPage() {
                                   meta.pillClass
                                 )}
                               >
-                                {isRTL ? meta.labelAr : meta.label}
+                                {t(`customOrders.status.${order.status}`, meta.label)}
                               </span>
                             </div>
                             <p className="text-xs text-gray-500 truncate">
@@ -194,14 +194,14 @@ export default function SellerCustomOrdersPage() {
         ) : isDetailLoading ? (
           <div className="flex flex-col items-center gap-3 py-16">
             <div className="h-10 w-10 rounded-2xl bg-gray-100 animate-pulse" />
-            <p className="text-sm text-gray-500">{isRTL ? 'جارٍ التحميل…' : 'Loading order…'}</p>
+            <p className="text-sm text-gray-500">{t('customOrders.loading_order', 'Loading order…')}</p>
           </div>
         ) : selectedOrder ? (
           <div className="space-y-6">
             {/* Spec summary */}
             <div className="rounded-2xl ring-1 ring-gray-200 bg-white p-5">
               <p className="text-xs uppercase tracking-[0.18em] text-amber-700 font-medium mb-3">
-                {isRTL ? 'تفاصيل الطلب' : 'Order Spec'}
+                {t('customOrders.order_spec', 'Order Spec')}
               </p>
               <dl className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                 {Object.entries(selectedOrder.spec)
@@ -215,13 +215,13 @@ export default function SellerCustomOrdersPage() {
               </dl>
               {selectedOrder.notes && (
                 <div className="mt-4 pt-4 border-t border-gray-100">
-                  <p className="text-xs text-gray-400 mb-1">{isRTL ? 'ملاحظات المشتري' : 'Buyer notes'}</p>
+                  <p className="text-xs text-gray-400 mb-1">{t('customOrders.buyer_notes', 'Buyer notes')}</p>
                   <p className="text-sm text-gray-700">{selectedOrder.notes}</p>
                 </div>
               )}
               {selectedOrder.customer && (
                 <div className="mt-4 pt-4 border-t border-gray-100">
-                  <p className="text-xs text-gray-400 mb-1">{isRTL ? 'المشتري' : 'Customer'}</p>
+                  <p className="text-xs text-gray-400 mb-1">{t('customOrders.customer', 'Customer')}</p>
                   <p className="text-sm font-medium text-gray-800">{selectedOrder.customer.display_name}</p>
                 </div>
               )}

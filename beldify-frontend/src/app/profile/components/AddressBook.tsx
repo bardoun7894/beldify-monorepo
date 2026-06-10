@@ -392,7 +392,7 @@ function AddressForm({
               value={form.apartment}
               onChange={handleChange}
               autoComplete="address-line2"
-              placeholder="Apt 4B"
+              placeholder={t('checkout.address.apartment_placeholder', 'Apt 4B')}
             />
           </div>
 
@@ -410,7 +410,7 @@ function AddressForm({
                 onChange={handleChange}
                 required
                 autoComplete="address-level2"
-                placeholder="Casablanca"
+                placeholder={t('checkout.address.city_placeholder', 'Casablanca')}
               />
             </div>
             <div>

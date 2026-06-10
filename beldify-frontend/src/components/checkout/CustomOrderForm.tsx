@@ -29,11 +29,11 @@ const VERTICAL_ICONS: Record<string, React.ReactNode> = {
   tailor:     <Scissors className="h-5 w-5" aria-hidden />,
 };
 
-const VERTICAL_LABELS: Record<string, { en: string; ar: string }> = {
-  jewelry:    { en: 'Jewelry',           ar: 'مجوهرات' },
-  menswear:   { en: "Men's Clothing",    ar: 'ملابس رجالية' },
-  womenswear: { en: "Women's Clothing",  ar: 'ملابس نسائية' },
-  tailor:     { en: 'Tailoring',         ar: 'خياطة' },
+const VERTICAL_LABEL_KEYS: Record<string, { key: string; fallback: string }> = {
+  jewelry:    { key: 'seller.store_settings.verticals.jewelry',    fallback: 'Jewelry' },
+  menswear:   { key: 'seller.store_settings.verticals.menswear',   fallback: "Men's Clothing" },
+  womenswear: { key: 'seller.store_settings.verticals.womenswear', fallback: "Women's Clothing" },
+  tailor:     { key: 'seller.store_settings.verticals.tailor',     fallback: 'Tailoring' },
 };
 
 export interface CustomOrderFormProps {
@@ -43,7 +43,7 @@ export interface CustomOrderFormProps {
 }
 
 export default function CustomOrderForm({ storeId, storeName, vertical }: CustomOrderFormProps) {
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
   const isRTL = i18n.language === 'ar';
   const router = useRouter();
 
@@ -68,9 +68,10 @@ export default function CustomOrderForm({ storeId, storeName, vertical }: Custom
       .finally(() => setLoadingFields(false));
   }, [vertical]);
 
-  const verticalLabel = isRTL
-    ? VERTICAL_LABELS[vertical]?.ar ?? vertical
-    : VERTICAL_LABELS[vertical]?.en ?? vertical;
+  const verticalLabel = t(
+    VERTICAL_LABEL_KEYS[vertical]?.key ?? `seller.store_settings.verticals.${vertical}`,
+    VERTICAL_LABEL_KEYS[vertical]?.fallback ?? vertical
+  );
 
   const handleChange = (key: string, value: string) => {
     setValues(prev => ({ ...prev, [key]: value }));
@@ -116,9 +117,7 @@ export default function CustomOrderForm({ storeId, storeName, vertical }: Custom
       setOrderId(order.id);
       setSubmitted(true);
     } catch {
-      setError(isRTL
-        ? 'تعذّر إرسال طلبك. يرجى المحاولة مجدداً.'
-        : 'Failed to submit your request. Please try again.');
+      setError(t('customOrders.error.submit', 'Failed to submit your request. Please try again.'));
     } finally {
       setSubmitting(false);
     }
@@ -133,12 +132,10 @@ export default function CustomOrderForm({ storeId, storeName, vertical }: Custom
         </div>
         <div>
           <h2 className="text-xl font-bold text-gray-900" style={isRTL ? undefined : playfair}>
-            {isRTL ? 'تم إرسال طلبك!' : 'Request Submitted!'}
+            {t('customOrders.submitted_title', 'Request Submitted!')}
           </h2>
           <p className="text-sm text-gray-500 mt-1">
-            {isRTL
-              ? `طلبك رقم #${orderId} قيد المراجعة. سيتواصل معك البائع قريباً.`
-              : `Your request #${orderId} is under review. The seller will contact you soon.`}
+            {t('customOrders.submitted_desc', 'Your request #{{id}} is under review. The seller will contact you soon.', { id: orderId })}
           </p>
         </div>
         <div className="flex gap-3 flex-wrap justify-center">
@@ -146,13 +143,13 @@ export default function CustomOrderForm({ storeId, storeName, vertical }: Custom
             onClick={() => router.push(`/custom-orders/${orderId}`)}
             className="inline-flex items-center gap-2 rounded-full bg-indigo-700 hover:bg-indigo-800 text-white px-5 py-2.5 text-sm font-semibold transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30"
           >
-            {isRTL ? 'تتبع الطلب' : 'Track Order'}
+            {t('customOrders.track_order', 'Track Order')}
           </button>
           <button
             onClick={() => router.back()}
             className="inline-flex items-center rounded-full bg-white ring-1 ring-gray-200 hover:ring-indigo-300 px-5 py-2.5 text-sm font-medium text-gray-700 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30"
           >
-            {isRTL ? 'رجوع' : 'Go Back'}
+            {t('customOrders.go_back', 'Go Back')}
           </button>
         </div>
       </div>
@@ -168,7 +165,7 @@ export default function CustomOrderForm({ storeId, storeName, vertical }: Custom
         </div>
         <div>
           <p className="text-xs uppercase tracking-[0.18em] text-amber-700 font-medium">
-            {isRTL ? 'طلب مخصص' : 'Custom Order'} · {storeName}
+            {t('customOrders.custom_order_eyebrow', 'Custom Order')} · {storeName}
           </p>
           <p className="text-sm font-semibold text-gray-900">{verticalLabel}</p>
         </div>
@@ -185,7 +182,7 @@ export default function CustomOrderForm({ storeId, storeName, vertical }: Custom
       {loadingFields && (
         <div className="flex items-center gap-2 text-sm text-gray-400 py-6">
           <Loader2 className="h-4 w-4 animate-spin" aria-hidden />
-          <span>{isRTL ? 'جارٍ تحميل الحقول…' : 'Loading fields…'}</span>
+          <span>{t('customOrders.loading_fields', 'Loading fields…')}</span>
         </div>
       )}
 
@@ -208,7 +205,7 @@ export default function CustomOrderForm({ storeId, storeName, vertical }: Custom
                   {field.label}
                   {field.required
                     ? <span className="text-rose-600 font-bold" aria-label="required">*</span>
-                    : <span className="text-[10px] text-gray-400 font-normal">{isRTL ? 'اختياري' : 'optional'}</span>}
+                    : <span className="text-[10px] text-gray-400 font-normal">{t('customOrders.optional', 'optional')}</span>}
                 </label>
 
                 {field.type === 'select' && field.options ? (
@@ -222,7 +219,7 @@ export default function CustomOrderForm({ storeId, storeName, vertical }: Custom
                     aria-invalid={hasError}
                     aria-required={field.required || undefined}
                   >
-                    <option value="">{isRTL ? 'اختر…' : 'Select…'}</option>
+                    <option value="">{t('customOrders.select_placeholder', 'Select…')}</option>
                     {field.options.map(opt => (
                       <option key={opt} value={opt}>{opt}</option>
                     ))}
@@ -246,7 +243,7 @@ export default function CustomOrderForm({ storeId, storeName, vertical }: Custom
 
                 {hasError && (
                   <p className="text-xs text-rose-600" role="alert">
-                    {isRTL ? `${field.label} مطلوب` : `${field.label} is required`}
+                    {t('customOrders.field_required', '{{label}} is required', { label: field.label })}
                   </p>
                 )}
               </div>
@@ -258,8 +255,8 @@ export default function CustomOrderForm({ storeId, storeName, vertical }: Custom
       {/* ── Notes ── */}
       <div className="space-y-1.5 mb-6">
         <label htmlFor="cf-notes" className="flex items-center gap-1.5 text-sm font-medium text-gray-700">
-          {isRTL ? 'ملاحظات' : 'Notes'}
-          <span className="text-[10px] text-gray-400 font-normal">{isRTL ? 'اختياري' : 'optional'}</span>
+          {t('customOrders.notes_label', 'Notes')}
+          <span className="text-[10px] text-gray-400 font-normal">{t('customOrders.optional', 'optional')}</span>
         </label>
         <textarea
           id="cf-notes"
@@ -267,7 +264,7 @@ export default function CustomOrderForm({ storeId, storeName, vertical }: Custom
           value={notes}
           onChange={e => setNotes(e.target.value)}
           maxLength={2000}
-          placeholder={isRTL ? 'أي تفاصيل إضافية…' : 'Any additional details…'}
+          placeholder={t('customOrders.notes_placeholder', 'Any additional details…')}
           className="w-full rounded-xl border border-gray-200 px-3.5 py-2.5 text-sm bg-white focus:border-indigo-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30 resize-none"
         />
         <p className="text-[10px] text-gray-400 text-end">{notes.length}/2000</p>
@@ -289,8 +286,8 @@ export default function CustomOrderForm({ storeId, storeName, vertical }: Custom
           ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden />
           : <Send className="h-4 w-4" aria-hidden />}
         {submitting
-          ? (isRTL ? 'جارٍ الإرسال…' : 'Sending…')
-          : (isRTL ? 'إرسال الطلب' : 'Send Request')}
+          ? t('customOrders.sending', 'Sending…')
+          : t('customOrders.send_request', 'Send Request')}
       </button>
     </form>
   );

@@ -119,7 +119,13 @@
     "errorTitle": "Something went wrong",
     "remove_image": "Remove image",
     "go_back": "Go back",
-    "dismiss": "Dismiss"
+    "dismiss": "Dismiss",
+    "copy": "Copy",
+    "read_more": "Read more",
+    "saving": "Saving…",
+    "show_less": "Show less",
+    "show_more": "Show more",
+    "need_help": "Need Help?"
   },
   "validation": {
     "required": "This field is required",
@@ -328,7 +334,8 @@
     "verify_email_resent": "Verification email sent! Check your inbox.",
     "rate_limit": "Too many requests. Please wait a moment.",
     "resend_failed": "Failed to send. Please try again.",
-    "verify_email_banner": "Please verify your email address to unlock all features."
+    "verify_email_banner": "Please verify your email address to unlock all features.",
+    "signInRequired": "Sign in to see your requests"
   },
   "navigation": {
     "home": "Home",
@@ -367,7 +374,9 @@
     "dark_mode": "Dark mode",
     "light_mode": "Light mode",
     "messages": "Messages",
-    "register": "Sign up"
+    "register": "Sign up",
+    "login_short": "Sign in",
+    "openSouk": "Open Souk"
   },
   "category": {
     "popularCategories": "Popular Categories",
@@ -594,7 +603,10 @@
     "tab_description": "Description",
     "tab_specs": "Specs",
     "tab_sizing": "Sizing",
-    "tab_reviews": "Reviews"
+    "tab_reviews": "Reviews",
+    "close_zoom": "Close zoom",
+    "free_shipping": "Free shipping",
+    "zoom_image": "Zoom image"
   },
   "stock": {
     "in_stock": "In stock ({{count}})",
@@ -658,7 +670,8 @@
       "continue_shopping": "Continue Shopping",
       "free": "Free",
       "freeShippingHint": "Add {{amount}} MAD more for free shipping",
-      "kicker": "Order Summary"
+      "kicker": "Order Summary",
+      "checkout_darija": "Complete purchase"
     },
     "coupon": {
       "label": "Promo code",
@@ -871,7 +884,10 @@
       "festive_set": "Children's Festive Set",
       "girls_caftan": "Girls' Kaftan",
       "kids_kandora": "Children's Kandora"
-    }
+    },
+    "empty_title": "Coming soon to stock",
+    "end_of_list": "All products loaded",
+    "no_results_hint": "This category has no products at the moment — check back soon."
   },
   "order": {
     "title": "Order #{{orderNumber}}",
@@ -973,7 +989,8 @@
       "contact_seller": "Contact Seller",
       "cancel_order": "Cancel order",
       "request_return": "Request return",
-      "return_request": "Return request"
+      "return_request": "Return request",
+      "back_to_order": "Back to order"
     },
     "filter": {
       "all": "All Orders",
@@ -1117,7 +1134,20 @@
         "pending": "Pending"
       },
       "load_error": "Could not load order",
-      "not_found": "Order not found"
+      "not_found": "Order not found",
+      "bill_to": "Bill to",
+      "brand_tagline": "Moroccan Craft Marketplace",
+      "cancelled_msg": "No invoice available for cancelled orders.",
+      "col_item": "Item",
+      "col_qty": "Qty",
+      "col_total": "Total",
+      "col_unit": "Unit",
+      "download_print": "Download / Print invoice",
+      "invoice_label": "INVOICE",
+      "payment_method": "Payment method",
+      "payment_status": "Payment status",
+      "ship_to": "Ship to",
+      "title": "Invoice"
     },
     "reorder": {
       "added": "Added to your cart",
@@ -1332,7 +1362,8 @@
       "need_help_title": "Not sure how to pay?",
       "need_help_body": "Message or call us and we'll guide you through it.",
       "whatsapp": "WhatsApp",
-      "call": "Call us"
+      "call": "Call us",
+      "cod_subtitle": "Pay when your order arrives — cash on delivery"
     },
     "order_summary": {
       "title": "Order Summary",
@@ -1349,7 +1380,9 @@
       "place_order": "Place Order",
       "processing": "Processing...",
       "back_to_shipping": "Back to Delivery",
-      "continue_payment": "Continue to payment"
+      "continue_payment": "Continue to payment",
+      "confirm_order": "Confirm order",
+      "continue_to_confirm": "Continue to confirm"
     },
     "validation": {
       "required": "This field is required",
@@ -1411,7 +1444,8 @@
       "saved_addresses": "Saved addresses",
       "type_new": "Enter a new address",
       "default_badge": "Default",
-      "save_for_next": "Save this address for future orders"
+      "save_for_next": "Save this address for future orders",
+      "extra_fields_toggle": "Add more details (apartment, postal code)"
     },
     "bespoke": {
       "cta": "Explore bespoke"
@@ -1463,6 +1497,14 @@
     "quote": {
       "loading": "Calculating total…",
       "load_error": "Could not calculate order total. Please try again."
+    },
+    "guest": {
+      "have_account": "Have an account? Sign in"
+    },
+    "progress": {
+      "bag": "Cart",
+      "confirm": "Confirm",
+      "info": "Information"
     }
   },
   "profile": {
@@ -1615,11 +1657,14 @@
     "shop_not_found": "Shop information not available",
     "boundary": {
       "title": "Something went wrong",
-      "body": "We apologize for the inconvenience. Please try refreshing the page.",
+      "body": "An unexpected error occurred. Please try refreshing the page.",
       "devDetails": "Error Details (Development)",
       "errorLabel": "Error:",
       "retry": "Try Again",
-      "reload": "Reload Page"
+      "reload": "Reload Page",
+      "oops": "Oops!",
+      "refresh": "Refresh Page",
+      "home": "Go Home"
     },
     "api": {
       "title": "Failed to load data",
@@ -1637,7 +1682,8 @@
     "productNotFoundDesc": "This product could not be found or is no longer available.",
     "something_went_wrong": "Something went wrong",
     "product_load_failed": "Failed to load product",
-    "stock_unavailable": "Item is not available"
+    "stock_unavailable": "Item is not available",
+    "session_storage_unavailable": "Unable to proceed — please enable cookies"
   },
   "notifications": {
     "success": {
@@ -1692,7 +1738,8 @@
         "new_follower": "New follower",
         "back_in_stock": "Back in stock",
         "price_drop": "Price drop"
-      }
+      },
+      "loadError": "Could not load notifications. Check your connection and try again."
     }
   },
   "filters": {
@@ -2601,7 +2648,9 @@
     },
     "titleLine1": "Discover Holiday Elegance",
     "titleLine2": "With Authentic Moroccan Fashion",
-    "welcomeBadge": "🌙 Happy Eid to our souk!"
+    "welcomeBadge": "🌙 Happy Eid to our souk!",
+    "banner_alt": "Caftan Collection",
+    "atelier_alt": "Moroccan atelier"
   },
   "verification": {
     "verify_phone": "Verify Your Phone",
@@ -2968,7 +3017,30 @@
     "no_user_posts_main": "You haven't made any requests yet",
     "post_your_request": "Post Your Request",
     "share_with_community": "Share Your Request",
-    "your_post_detail": "Your Request"
+    "your_post_detail": "Your Request",
+    "colors": "Colors",
+    "interested_q": "Interested in this job?",
+    "job_progress": "Progress",
+    "login_cta_body": "Sign in to your seller account to respond to this request.",
+    "login_to_propose": "Want to submit a proposal?",
+    "no_proposals_yet": "Be the first artisan to respond!",
+    "no_proposals_yet_title": "No proposals yet",
+    "posted_by": "Posted by",
+    "preview": "Preview",
+    "proposal_accepted": "Proposal accepted!",
+    "proposal_already_submitted": "You have already submitted a proposal for this job.",
+    "proposals": "proposals",
+    "reference_images": "Reference Images",
+    "request": "request",
+    "requirements": "Requirements",
+    "response_image_alt": "Response image",
+    "skills_comma_hint": "Separate with commas",
+    "styles": "Styles",
+    "thumbnail": "Thumbnail",
+    "view_custom_order": "View your custom order",
+    "view_image": "View image",
+    "view_portfolio": "View portfolio",
+    "your_bid": "Your Bid"
   },
   "pwa": {
     "banner": {
@@ -3099,7 +3171,8 @@
       "available": "Update Available",
       "install": "Install Update",
       "later": "Later"
-    }
+    },
+    "app_icon_alt": "App icon"
   },
   "brand": {
     "name": "Beldify",
@@ -3158,7 +3231,13 @@
     "searchPlaceholder": "Search requests...",
     "skills": "Skills",
     "sortBy": "Sort by",
-    "feedError": "Could not load requests"
+    "feedError": "Could not load requests",
+    "sort": {
+      "budgetAsc": "Budget: Low → High",
+      "budgetDesc": "Budget: High → Low",
+      "latest": "Latest",
+      "oldest": "Oldest"
+    }
   },
   "catalog": {
     "categories": {
@@ -3289,7 +3368,8 @@
       "section15Title": "15. Termination",
       "section15p1": "We may terminate or suspend your account and access to our Services immediately, without prior notice or liability, for any reason, including, without limitation, if you breach these Terms. Upon termination, your right to use the Services will immediately cease.",
       "section16Title": "16. Contact Information",
-      "section16Intro": "If you have any questions about these Terms, please contact us at:"
+      "section16Intro": "If you have any questions about these Terms, please contact us at:",
+      "sellerTermsLink": "Seller Terms"
     },
     "tailors": {
       "eyebrow": "Professional Services",
@@ -3574,7 +3654,8 @@
     "type_a_message": "Type a message…",
     "send": "Send",
     "error_loading": "Failed to load conversation",
-    "error_sending": "Failed to send message"
+    "error_sending": "Failed to send message",
+    "typing_aria": "The other person is typing"
   },
   "seller": {
     "register": {
@@ -3613,7 +3694,8 @@
       "validation_country": "Please select a country",
       "benefit_global": "Global reach — sell to buyers worldwide",
       "benefit_quality": "Curated platform for Moroccan craftsmanship",
-      "benefit_secure": "Secure payments and buyer protection"
+      "benefit_secure": "Secure payments and buyer protection",
+      "track_application_cta": "Track your application"
     },
     "onboarding": {
       "eyebrow": "Seller Journey",
@@ -3721,10 +3803,33 @@
       "edit_eyebrow": "Inventory",
       "section_attributes": "Product attributes",
       "vertical_required": "{{field}} is required for this product type.",
-      "vertical_save_failed": "Product saved, but its custom attributes could not be saved. Edit the product to add them."
+      "vertical_save_failed": "Product saved, but its custom attributes could not be saved. Edit the product to add them.",
+      "danger_zone": "Danger zone",
+      "delete_confirm_prompt": "Are you sure?",
+      "delete_confirm_yes": "Yes, delete",
+      "delete_cta": "Delete product",
+      "delete_error": "Failed to delete product. Please try again.",
+      "delete_success": "Product deleted.",
+      "delete_warning": "Deleting this product is permanent and cannot be undone.",
+      "deleting": "Deleting...",
+      "load_error": "Could not load product. Please try again."
     },
     "products": {
-      "edit_aria": "Edit {{name}}"
+      "edit_aria": "Edit {{name}}",
+      "add_first_product": "Add your first product",
+      "add_product": "Add product",
+      "back_to_list": "Back to products",
+      "col_name": "Product",
+      "col_price": "Price (MAD)",
+      "col_status": "Status",
+      "col_stock": "Stock",
+      "eyebrow": "Inventory",
+      "fetch_error": "Could not load products.",
+      "no_products": "No products yet",
+      "no_products_sub": "Add your first product to start selling.",
+      "status_active": "Active",
+      "status_inactive": "Inactive",
+      "title": "My Products"
     },
     "store_settings": {
       "profile_section_title": "Store Profile",
@@ -3740,10 +3845,51 @@
       "save_success": "Store profile saved",
       "save_error": "Could not save profile. Please try again.",
       "validation_error": "Please fix the errors below and try again.",
-      "fetch_error": "Could not load store profile."
+      "fetch_error": "Could not load store profile.",
+      "address_label": "Address",
+      "address_placeholder": "Street, city, country",
+      "current_badge": "Current",
+      "description_label": "Store description",
+      "description_placeholder": "Tell buyers about your store...",
+      "email_label": "Contact email",
+      "eyebrow": "Store Settings",
+      "fields_for_vertical": "Fields for this vertical",
+      "name_label": "Store name",
+      "name_placeholder": "e.g. Atlas Bijoux",
+      "phone_label": "Phone number",
+      "profile_saved": "Store profile saved!",
+      "profile_section": "Store information",
+      "saved": "Saved",
+      "title": "Store profile",
+      "vertical_legend": "Store vertical",
+      "vertical_save_error": "Failed to update store type. Please try again.",
+      "vertical_saved": "Store type updated!",
+      "vertical_section": "Store type",
+      "verticals": {
+        "regular": "Regular Store",
+        "regular_desc": "Sell ready-made products. No custom order configuration.",
+        "jewelry": "Jewelry",
+        "jewelry_desc": "Sell ready-made and custom-made jewelry pieces with material, purity, gemstone and finish fields.",
+        "new_badge": "New",
+        "menswear": "Men's Clothing",
+        "menswear_desc": "Ready-made and made-to-order menswear with measurements and fabric selection.",
+        "womenswear": "Women's Clothing",
+        "womenswear_desc": "Ready-made and made-to-order womenswear with measurements and fabric selection.",
+        "tailor": "Tailor Store",
+        "tailor_desc": "Full tailoring service with measurements, fabric catalog, and custom orders."
+      }
     },
     "nav": {
-      "messages": "Messages"
+      "messages": "Messages",
+      "aria_label": "Seller navigation",
+      "custom_orders": "Custom Orders",
+      "dashboard": "Dashboard",
+      "earnings": "Earnings",
+      "mobile_aria_label": "Seller navigation mobile",
+      "orders": "Orders",
+      "products": "Products",
+      "profile": "Profile",
+      "store_settings": "Store Settings"
     },
     "messages": {
       "eyebrow": "Seller Hub",
@@ -3782,6 +3928,87 @@
       "kpi_commission": "Commission",
       "recent_orders": "Recent Orders",
       "view_all_orders": "View all orders"
+    },
+    "earnings": {
+      "breakdown_heading": "Financial breakdown",
+      "chart_heading": "Revenue by day",
+      "chart_sub": "Showing last ${earnings.period} days in ${earnings.currency}",
+      "commission": "Platform commission",
+      "eyebrow": "Seller Hub",
+      "fetch_error": "Could not load earnings data.",
+      "gross": "Gross revenue",
+      "kpi_commission": "Commission paid",
+      "kpi_gross": "Gross Revenue",
+      "kpi_net": "Net Revenue",
+      "kpi_orders": "Orders",
+      "net": "Net revenue",
+      "title": "Earnings",
+      "no_daily_data": "No daily data available",
+      "chart_aria": "Earnings chart by day"
+    },
+    "layout": {
+      "become_seller_cta": "Become a seller",
+      "credit_chip_aria": "AI Credits balance",
+      "hub_label": "Seller Hub",
+      "not_seller_title": "You are not a seller yet",
+      "storefront_link": "← Back to storefront"
+    },
+    "order_detail": {
+      "back": "Orders",
+      "col_product": "Product",
+      "col_qty": "Qty",
+      "col_total": "Total",
+      "col_unit": "Unit",
+      "col_variant": "Variant",
+      "commission": "Commission (${order.commission_rate}%)",
+      "customer_heading": "Customer",
+      "eyebrow": "Order Detail",
+      "fetch_error": "Could not load order.",
+      "financials_heading": "Summary",
+      "items_heading": "Items",
+      "net": "Net to you",
+      "shipping_heading": "Shipping address",
+      "status_updated": "Order status updated",
+      "subtotal": "Subtotal",
+      "suspended_error": "Your store is suspended — cannot update orders.",
+      "update_btn": "Update status",
+      "update_error": "Failed to update order status.",
+      "update_status_label": "Update order status",
+      "updating": "Updating…"
+    },
+    "orders": {
+      "col_customer": "Customer",
+      "col_items": "Items",
+      "col_number": "Order",
+      "col_status": "Status",
+      "col_total": "Total",
+      "eyebrow": "Seller Hub",
+      "filter_label": "Filter by status",
+      "next_page": "Next page",
+      "no_orders": "No orders yet",
+      "no_orders_sub": "Orders will appear here once customers purchase from your store.",
+      "pagination_info": "Page ${meta.current_page} of ${meta.last_page} — ${meta.total} orders",
+      "prev_page": "Previous page",
+      "title": "Orders"
+    },
+    "onboarding_banner": {
+      "active": "Store active and live",
+      "view_journey": "View journey",
+      "pending": "Application under review",
+      "progress": "Complete your store setup — {{pct}}% done",
+      "finish_hint": "Finish your profile to unlock all features and start selling."
+    },
+    "quote": {
+      "error_amount": "Quote amount is required and must be > 0",
+      "error_deposit": "Deposit must be between 0 and quote amount",
+      "error_eta": "ETA must be a future date",
+      "error_submit": "Failed to submit quote. Please try again.",
+      "section_title": "Send a Quote",
+      "amount_label": "Quote Amount (MAD)",
+      "deposit_label": "Deposit (MAD)",
+      "eta_label": "Estimated Delivery Date (ETA)",
+      "sending": "Sending…",
+      "send_cta": "Send Quote"
     }
   },
   "security": {
@@ -3843,7 +4070,8 @@
   "tabs": {
     "general": "General",
     "preferences": "Preferences",
-    "security": "Security"
+    "security": "Security",
+    "addresses": "Addresses"
   },
   "trust": {
     "authentic": "100% authentic craftsmanship",
@@ -3891,13 +4119,21 @@
     "copy_slogan": "Copy slogan",
     "copy_description": "Copy description",
     "applied": "Applied to store description.",
-    "apply_description": "Apply to description"
+    "apply_description": "Apply to description",
+    "chip": {
+      "suggestedMeasurements": "AI suggested measurements"
+    }
   },
   "pdp": {
     "aiStyling": "AI styled for you",
     "artisanMade": "Artisan made",
     "complete_the_look": "Complete the look",
-    "trustedArtisan": "Verified artisan seller"
+    "trustedArtisan": "Verified artisan seller",
+    "howToBuy": {
+      "cod_note": "Cash on delivery — no bank card needed",
+      "title": "How to buy?",
+      "trigger": "How to buy?"
+    }
   },
   "actions": {
     "close": "Close",
@@ -3922,7 +4158,16 @@
       "ai_chip": "AI styled for you",
       "carousel_prev": "Previous slide",
       "carousel_next": "Next slide",
-      "section_label": "Hero"
+      "section_label": "Hero",
+      "art_slide1_headline": "Free delivery over 500 MAD",
+      "art_slide1_subline": "Caftans and djellabas from trusted Moroccan ateliers",
+      "art_slide1_cta": "Shop now",
+      "art_slide2_headline": "Tailored to your measurements",
+      "art_slide2_subline": "Choose your atelier, send your measurements, receive your piece at home",
+      "art_slide2_cta": "Start a tailoring order",
+      "art_slide3_headline": "Open Souk — post your brief and let ateliers compete",
+      "art_slide3_subline": "Our artisans compete for your project",
+      "art_slide3_cta": "Post a brief now"
     },
     "trust": {
       "verified_sellers": "Verified sellers",
@@ -3945,7 +4190,8 @@
       "cta_shop_collection": "Shop the collection",
       "cta_explore": "Explore now",
       "festive_title": "Occasions Collection",
-      "festive_description": "Kaftans and takchitas for weddings and special occasions, hand-embroidered with love."
+      "festive_description": "Kaftans and takchitas for weddings and special occasions, hand-embroidered with love.",
+      "cta_explore_aria": "Explore festive collection"
     },
     "tailoring": {
       "headline": "Want it tailored to you?",
@@ -3957,7 +4203,8 @@
       "step2_detail": "Use our guided form or upload an existing pattern.",
       "step3_title": "Receive your piece",
       "step3_detail": "Hand-finished and shipped to your door in 2–4 weeks.",
-      "badge_ar": "خياطة على القياس"
+      "badge_ar": "خياطة على القياس",
+      "steps_label": "How tailoring works"
     },
     "ateliers": {
       "subtitle": "Curated ateliers",
@@ -3979,7 +4226,10 @@
       "stat_range_label": "Typical listing range",
       "stat_sellers_label": "Active sellers",
       "stat_protection_label": "Buyer protection",
-      "stat_sellers_value": "Growing"
+      "stat_sellers_value": "Growing",
+      "stat_range_value": "299–5,999 MAD",
+      "stat_range_hint": "What sellers typically charge",
+      "stat_protection_value": "14-day"
     },
     "openSouk": {
       "eyebrow": "Live now",
@@ -4091,7 +4341,9 @@
       "label_ar": "تابِع المتجر",
       "following": "Following",
       "following_ar": "تتابِع"
-    }
+    },
+    "reviews_aggregate": "{{count}} verified reviews",
+    "reviews_aggregate_sub": "Ratings are collected from verified buyers after delivery."
   },
   "tailoring": {
     "booking": {
@@ -4152,7 +4404,17 @@
       "unitCmLabel": "Centimeters",
       "unitIn": "in",
       "unitInLabel": "Inches",
-      "unitToggleLabel": "Measurement unit"
+      "unitToggleLabel": "Measurement unit",
+      "chest": "Chest",
+      "diagramChest": "Chest",
+      "diagramHips": "Hips",
+      "diagramLength": "Length",
+      "diagramWaist": "Waist",
+      "hips": "Hips",
+      "length": "Length",
+      "saveError": "Could not save measurements",
+      "saved": "Measurements saved",
+      "waist": "Waist"
     },
     "profile": {
       "not_found": "This tailor profile could not be found.",
@@ -4162,7 +4424,8 @@
       "specialties": "Specialties",
       "load_error": "Failed to load tailor data",
       "portfolio_image_alt": "Portfolio {{index}}",
-      "bio": "With over 15 years of experience in traditional Moroccan tailoring, I specialize in creating custom garments that blend traditional craftsmanship with modern style"
+      "bio": "With over 15 years of experience in traditional Moroccan tailoring, I specialize in creating custom garments that blend traditional craftsmanship with modern style",
+      "no_reviews": "No reviews yet"
     },
     "stepsCta": "Start a tailoring order",
     "sub": "Our 120+ verified ateliers create bespoke Moroccan garments to your exact measurements — shipped anywhere in the world. No fitting room required.",
@@ -4590,7 +4853,20 @@
     "cta_title": "Request a Custom Piece",
     "cta_sub": "Design your jewelry with a trusted artisan.",
     "cta_button": "Custom Order",
-    "load_error": "Failed to load products"
+    "load_error": "Failed to load products",
+    "fields": {
+      "material": "Material",
+      "purity": "Purity",
+      "weight_grams": "Weight",
+      "size": "Size",
+      "gemstone_type": "Gemstone",
+      "gemstone_count": "Gemstone Count",
+      "gemstone_carat": "Carat",
+      "engraving": "Engraving",
+      "finish": "Finish",
+      "specs_aria": "Jewelry specifications",
+      "piece_specs": "Piece Specifications"
+    }
   },
   "notify_me": {
     "back_in_stock": "Notify me when it's back",
@@ -4720,5 +4996,133 @@
       "errorMessage": "Something went wrong. Please try again.",
       "provenance": "AI powered · beldify assistant"
     }
+  },
+  "discover": {
+    "empty": "Products coming soon.",
+    "endOfFeed": "You've seen everything — new arrivals added daily",
+    "heading": "More to love",
+    "sectionLabel": "Discover more",
+    "subheading": "New pieces added daily by Moroccan artisans",
+    "viewAll": "Browse all products"
+  },
+  "editPost": {
+    "blockedTitle": "Editing not available",
+    "blockedUnknown": "This request cannot be edited right now.",
+    "existingPhotos": "Existing photos",
+    "formSubtitle": "Changes will be visible to all artisans immediately",
+    "formTitle": "Update your bespoke request",
+    "newPhotos": "new photo(s) to add",
+    "pageTitle": "Edit your request",
+    "photosSubtitle": "Add new photos (existing photos are retained)",
+    "saveChanges": "Save changes",
+    "validationErrors": "Please fix the highlighted errors above."
+  },
+  "myPosts": {
+    "actionError": "Could not perform this action. Please try again.",
+    "actionForbidden": "You are not allowed to perform this action on this post.",
+    "actionValidationError": "This action cannot be completed. The post may have active proposals.",
+    "cardTitle": "Your Open Souk Requests",
+    "closeRequest": "Close request",
+    "confirmCloseAction": "Yes, close it",
+    "confirmCloseTitle": "Close this request?",
+    "confirmDeleteAction": "Yes, delete it",
+    "confirmDeleteTitle": "Delete this request?",
+    "editNotAllowed": "Cannot edit at this stage",
+    "emptyTitle": "You haven't posted any requests yet",
+    "loadError": "Could not load your requests. Please try again.",
+    "loginBody": "Your Open Souk requests are waiting — sign in to manage them.",
+    "navLink": "My requests",
+    "newRequest": "New request",
+    "pageTitle": "My Requests"
+  },
+  "pagination": {
+    "label": "Pagination",
+    "next": "Next page",
+    "previous": "Previous page"
+  },
+  "customOrders": {
+    "error": {
+      "load_orders": "Failed to load orders",
+      "load_detail": "Failed to load order detail",
+      "invalid_id": "Invalid order ID.",
+      "load_order": "Failed to load order.",
+      "submit": "Failed to submit your request. Please try again."
+    },
+    "loading": "Loading…",
+    "back_to_list": "Back to list",
+    "seller_dashboard": "Seller Dashboard",
+    "order_title": "Order #{{id}}",
+    "page_title": "Custom Orders",
+    "empty_title": "No custom orders yet",
+    "empty_sub": "New requests will appear here.",
+    "orders_list_aria": "Orders list",
+    "loading_order": "Loading order…",
+    "order_spec": "Order Spec",
+    "buyer_notes": "Buyer notes",
+    "customer": "Customer",
+    "back": "Back",
+    "custom_order_eyebrow": "Custom Order",
+    "request_title": "Request a Custom Piece",
+    "new_intro": "Tell us what you want. The only required field is Material — everything else is optional. Artisans will see it and reply.",
+    "trust": {
+      "secure": "Secure",
+      "seen_by_artisans": "Seen by artisans",
+      "verified_artisans": "Verified artisans"
+    },
+    "loading_aria": "Loading",
+    "my_orders": "My Orders",
+    "back_to_orders": "Back to orders",
+    "tracking_eyebrow": "Order Tracking",
+    "your_notes": "Your Notes",
+    "select_placeholder": "Select…",
+    "loading_fields": "Loading fields…",
+    "no_fields": "No custom fields for this vertical.",
+    "optional": "optional",
+    "field_required": "{{label}} is required",
+    "timeline": {
+      "error_advance": "Failed to advance order status.",
+      "status_label": "Status:",
+      "progress_log": "Progress Log",
+      "progress_history_aria": "Progress history",
+      "no_progress": "No progress entries yet.",
+      "advance_status": "Advance Status",
+      "next_status": "Next Status",
+      "select_status": "Select status…",
+      "note_label": "Note",
+      "note_placeholder": "Add a note…",
+      "updating": "Updating…",
+      "update_cta": "Update Status",
+      "terminal_state": "This order has reached a terminal state.",
+      "current_status": "Current Status",
+      "quote_details": "Quote Details",
+      "quote_amount": "Quote Amount",
+      "deposit": "Deposit",
+      "paid": "Paid",
+      "eta": "ETA",
+      "order_progress": "Order Progress",
+      "order_stages_aria": "Order stages",
+      "current_badge": "Current",
+      "cancelled": "This order has been cancelled.",
+      "activity_log": "Activity Log",
+      "activity_log_aria": "Activity log"
+    },
+    "status": {
+      "requested": "Requested",
+      "quoted": "Quoted",
+      "deposit_paid": "Deposit Paid",
+      "in_progress": "In Progress",
+      "ready": "Ready",
+      "delivered": "Delivered",
+      "closed": "Closed",
+      "cancelled": "Cancelled"
+    },
+    "submitted_title": "Request Submitted!",
+    "submitted_desc": "Your request #{{id}} is under review. The seller will contact you soon.",
+    "track_order": "Track Order",
+    "go_back": "Go Back",
+    "notes_label": "Notes",
+    "notes_placeholder": "Any additional details…",
+    "sending": "Sending…",
+    "send_request": "Send Request"
   }
 }

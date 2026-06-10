@@ -52,20 +52,21 @@ function KpiCard({
 
 // ── Inline bar chart ──────────────────────────────────────────────────────────
 function EarningsChart({ byDay }: { byDay: Array<{ date: string; revenue: number }> }) {
+  const { t } = useTranslation();
   const max = Math.max(...byDay.map((d) => d.revenue), 1);
   const visible = byDay.slice(-30); // cap to 30 bars for readability
 
   if (visible.length === 0) {
     return (
       <div className="flex items-center justify-center h-32 text-sm text-gray-400">
-        No daily data available
+        {t('seller.earnings.no_daily_data', 'No daily data available')}
       </div>
     );
   }
 
   return (
     <div
-      aria-label="Earnings chart by day"
+      aria-label={t('seller.earnings.chart_aria', 'Earnings chart by day')}
       className="flex items-end gap-0.5 h-32 px-1"
       data-testid="earnings-chart"
     >

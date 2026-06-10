@@ -13,18 +13,18 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Gem } from 'lucide-react';
 
-// ─── field display labels ─────────────────────────────────────────────────────
+// ─── field i18n keys + English fallbacks ─────────────────────────────────────
 
-const FIELD_LABELS: Record<string, { en: string; ar: string }> = {
-  material:       { en: 'Material',       ar: 'المادة' },
-  purity:         { en: 'Purity',         ar: 'النقاء' },
-  weight_grams:   { en: 'Weight',         ar: 'الوزن' },
-  size:           { en: 'Size',           ar: 'المقاس' },
-  gemstone_type:  { en: 'Gemstone',       ar: 'الحجر الكريم' },
-  gemstone_count: { en: 'Gemstone Count', ar: 'عدد الأحجار' },
-  gemstone_carat: { en: 'Carat',          ar: 'القيراط' },
-  engraving:      { en: 'Engraving',      ar: 'النقش' },
-  finish:         { en: 'Finish',         ar: 'التشطيب' },
+const FIELD_KEYS: Record<string, { key: string; fallback: string }> = {
+  material:       { key: 'jewelry.fields.material',       fallback: 'Material' },
+  purity:         { key: 'jewelry.fields.purity',         fallback: 'Purity' },
+  weight_grams:   { key: 'jewelry.fields.weight_grams',   fallback: 'Weight' },
+  size:           { key: 'jewelry.fields.size',           fallback: 'Size' },
+  gemstone_type:  { key: 'jewelry.fields.gemstone_type',  fallback: 'Gemstone' },
+  gemstone_count: { key: 'jewelry.fields.gemstone_count', fallback: 'Gemstone Count' },
+  gemstone_carat: { key: 'jewelry.fields.gemstone_carat', fallback: 'Carat' },
+  engraving:      { key: 'jewelry.fields.engraving',      fallback: 'Engraving' },
+  finish:         { key: 'jewelry.fields.finish',         fallback: 'Finish' },
 };
 
 // Ordered display sequence (material always first)
@@ -52,14 +52,14 @@ export interface JewelryFieldsProps {
 // ─── component ────────────────────────────────────────────────────────────────
 
 export default function JewelryFields({ spec, compact = false }: JewelryFieldsProps) {
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
   const isRTL = i18n.language === 'ar';
 
   // Build ordered list of fields that have a non-null, non-empty value
   const visibleFields = DISPLAY_ORDER
     .map(key => ({
       key,
-      label: isRTL ? FIELD_LABELS[key]?.ar : FIELD_LABELS[key]?.en,
+      label: t(FIELD_KEYS[key]?.key ?? `jewelry.fields.${key}`, FIELD_KEYS[key]?.fallback ?? key),
       value: spec[key],
     }))
     .filter(({ value }) => {
@@ -90,13 +90,13 @@ export default function JewelryFields({ spec, compact = false }: JewelryFieldsPr
     <div
       className="rounded-2xl ring-1 ring-gray-200 bg-white overflow-hidden"
       dir={isRTL ? 'rtl' : 'ltr'}
-      aria-label={isRTL ? 'مواصفات المجوهرات' : 'Jewelry specifications'}
+      aria-label={t('jewelry.fields.specs_aria', 'Jewelry specifications')}
     >
       {/* Header */}
       <div className="flex items-center gap-2 px-5 py-3 border-b border-gray-100 bg-gray-50">
         <Gem className="h-4 w-4 text-amber-600" aria-hidden />
         <p className="text-xs uppercase tracking-[0.18em] text-amber-700 font-medium">
-          {isRTL ? 'مواصفات القطعة' : 'Piece Specifications'}
+          {t('jewelry.fields.piece_specs', 'Piece Specifications')}
         </p>
       </div>
 

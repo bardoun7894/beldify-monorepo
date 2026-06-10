@@ -119,7 +119,13 @@
     "today": "اليوم",
     "yesterday": "أمس",
     "go_back": "رجوع",
-    "dismiss": "إغلاق"
+    "dismiss": "إغلاق",
+    "copy": "نسخ",
+    "read_more": "اقرأ المزيد",
+    "saving": "جاري الحفظ…",
+    "show_less": "عرض أقل",
+    "show_more": "عرض المزيد",
+    "need_help": "هل تحتاج مساعدة؟"
   },
   "validation": {
     "required": "هذا الحقل مطلوب",
@@ -328,7 +334,8 @@
     "verify_email_resent": "تم إرسال بريد التأكيد! تحقق من بريدك الوارد.",
     "rate_limit": "طلبات كثيرة. الرجاء الانتظار قليلاً.",
     "resend_failed": "فشل الإرسال. حاول مجدداً.",
-    "verify_email_banner": "الرجاء تأكيد بريدك الإلكتروني للوصول لكل الميزات."
+    "verify_email_banner": "الرجاء تأكيد بريدك الإلكتروني للوصول لكل الميزات.",
+    "signInRequired": "سجّل الدخول لرؤية طلباتك"
   },
   "navigation": {
     "home": "الرئيسية",
@@ -367,7 +374,9 @@
     "light_mode": "الوضع الفاتح",
     "messages": "الرسائل",
     "register": "إنشاء حساب",
-    "login": "تسجيل الدخول"
+    "login": "تسجيل الدخول",
+    "login_short": "دخول",
+    "openSouk": "السوق المفتوح"
   },
   "category": {
     "popularCategories": "الفئات الشائعة",
@@ -594,7 +603,10 @@
     "tab_description": "الوصف",
     "tab_specs": "المواصفات",
     "tab_sizing": "المقاسات",
-    "tab_reviews": "التقييمات"
+    "tab_reviews": "التقييمات",
+    "close_zoom": "إغلاق التكبير",
+    "free_shipping": "شحن مجاني",
+    "zoom_image": "تكبير الصورة"
   },
   "stock": {
     "in_stock": "متوفر في المخزون ({{count}})",
@@ -658,7 +670,8 @@
       "continue_shopping": "متابعة التسوق",
       "free": "مجاني",
       "freeShippingHint": "أضف {{amount}} درهم للحصول على شحن مجاني",
-      "kicker": "ملخص الطلب"
+      "kicker": "ملخص الطلب",
+      "checkout_darija": "أكمل الشراء"
     },
     "coupon": {
       "label": "رمز الخصم",
@@ -871,7 +884,10 @@
       "festive_set": "مجموعة احتفالية للأطفال",
       "girls_caftan": "قفطان البنات",
       "kids_kandora": "قندورة الأطفال"
-    }
+    },
+    "empty_title": "قريبًا في المخزون",
+    "end_of_list": "تم تحميل جميع المنتجات",
+    "no_results_hint": "هذا التصنيف لا يحتوي على منتجات حاليًا — عد قريبًا."
   },
   "order": {
     "title": "طلب رقم {{orderNumber}}",
@@ -972,7 +988,8 @@
       "support": "الدعم",
       "cancel_order": "إلغاء الطلبية",
       "request_return": "طلب إرجاع",
-      "return_request": "طلب الإرجاع"
+      "return_request": "طلب الإرجاع",
+      "back_to_order": "العودة إلى الطلب"
     },
     "filter": {
       "all": "جميع الطلبات",
@@ -1117,7 +1134,20 @@
         "pending": "قيد الانتظار"
       },
       "load_error": "تعذر تحميل الطلب",
-      "not_found": "الطلب غير موجود"
+      "not_found": "الطلب غير موجود",
+      "bill_to": "الفاتورة إلى",
+      "brand_tagline": "سوق الحرف اليدوية المغربية",
+      "cancelled_msg": "لا توجد فاتورة متاحة للطلبات الملغاة.",
+      "col_item": "العنصر",
+      "col_qty": "الكمية",
+      "col_total": "الإجمالي",
+      "col_unit": "الوحدة",
+      "download_print": "تحميل / طباعة الفاتورة",
+      "invoice_label": "الفاتورة",
+      "payment_method": "طريقة الدفع",
+      "payment_status": "حالة الدفع",
+      "ship_to": "الشحن إلى",
+      "title": "الفاتورة"
     },
     "reorder": {
       "added": "أُضيف إلى سلة التسوق",
@@ -1337,7 +1367,8 @@
       "need_help_title": "لست متأكداً كيف تدفع؟",
       "need_help_body": "راسلنا أو اتصل بنا وسنرشدك خطوة بخطوة.",
       "whatsapp": "واتساب",
-      "call": "اتصل بنا"
+      "call": "اتصل بنا",
+      "cod_subtitle": "اسدد عند استقبال السلعة — الدفع عند الاستلام"
     },
     "order_summary": {
       "title": "ملخص الطلب",
@@ -1354,7 +1385,9 @@
       "place_order": "تأكيد الطلب",
       "processing": "جاري المعالجة...",
       "back_to_shipping": "العودة إلى التوصيل",
-      "continue_payment": "المتابعة إلى الدفع"
+      "continue_payment": "المتابعة إلى الدفع",
+      "confirm_order": "أكّد الطلب",
+      "continue_to_confirm": "أكمل للتأكيد"
     },
     "validation": {
       "required": "هذا الحقل مطلوب",
@@ -1416,7 +1449,8 @@
       "saved_addresses": "العناوين المحفوظة",
       "type_new": "أدخل عنواناً جديداً",
       "default_badge": "افتراضي",
-      "save_for_next": "احفظ هذا العنوان للطلبيات القادمة"
+      "save_for_next": "احفظ هذا العنوان للطلبيات القادمة",
+      "extra_fields_toggle": "أضف تفاصيل إضافية (الشقة، الرمز البريدي)"
     },
     "bespoke": {
       "cta": "استكشف التفصيل"
@@ -1463,6 +1497,14 @@
     "quote": {
       "loading": "جاري حساب الإجمالي…",
       "load_error": "تعذّر حساب إجمالي الطلب. يرجى المحاولة مرة أخرى."
+    },
+    "guest": {
+      "have_account": "هل لديك حساب؟ سجّل الدخول"
+    },
+    "progress": {
+      "bag": "السلة",
+      "confirm": "التأكيد",
+      "info": "المعلومات"
     }
   },
   "profile": {
@@ -1615,11 +1657,14 @@
     "shop_not_found": "معلومات المتجر غير متوفرة",
     "boundary": {
       "title": "حدث خطأ ما",
-      "body": "نعتذر عن الإزعاج. يرجى تحديث الصفحة.",
+      "body": "حدث خطأ غير متوقع. يرجى تحديث الصفحة.",
       "devDetails": "تفاصيل الخطأ (وضع التطوير)",
       "errorLabel": "الخطأ:",
       "retry": "إعادة المحاولة",
-      "reload": "إعادة تحميل الصفحة"
+      "reload": "إعادة تحميل الصفحة",
+      "oops": "عذراً!",
+      "refresh": "تحديث الصفحة",
+      "home": "الصفحة الرئيسية"
     },
     "api": {
       "title": "فشل تحميل البيانات",
@@ -1637,7 +1682,8 @@
     "productNotFoundDesc": "تعذّر العثور على هذا المنتج أو لم يعد متاحًا.",
     "something_went_wrong": "حدث خطأ ما",
     "product_load_failed": "فشل تحميل المنتج",
-    "stock_unavailable": "هذا المنتج غير متوفر حالياً"
+    "stock_unavailable": "هذا المنتج غير متوفر حالياً",
+    "session_storage_unavailable": "لا يمكن المتابعة — يرجى تفعيل ملفات تعريف الارتباط"
   },
   "notifications": {
     "success": {
@@ -1692,7 +1738,8 @@
         "new_follower": "متابع جديد",
         "back_in_stock": "المنتج متوفر مجدداً",
         "price_drop": "انخفاض السعر"
-      }
+      },
+      "loadError": "لا يمكن تحميل الإخطارات. تحقق من اتصالك وحاول مرة أخرى."
     }
   },
   "filters": {
@@ -2702,7 +2749,8 @@
       "bio": "مع أكثر من 15 عام من الخبرة في الخياطة المغربية التقليدية، أتخصص في صنع الملابس المخصصة التي تجمع بين الحرفية التقليدية والأسلوب العصري",
       "not_found": "لم يتم العثور على ملف هذا الخياط.",
       "load_error": "فشل تحميل بيانات الخياط",
-      "portfolio_image_alt": "صورة من المعرض {{index}}"
+      "portfolio_image_alt": "صورة من المعرض {{index}}",
+      "no_reviews": "لا توجد تقييمات حتى الآن"
     },
     "booking": {
       "title": "حجز موعد",
@@ -2762,7 +2810,17 @@
       "unitCmLabel": "سنتيمتر",
       "unitIn": "إنش",
       "unitInLabel": "إنش",
-      "unitToggleLabel": "وحدة القياس"
+      "unitToggleLabel": "وحدة القياس",
+      "chest": "الصدر",
+      "diagramChest": "الصدر",
+      "diagramHips": "الوركان",
+      "diagramLength": "الطول",
+      "diagramWaist": "الخصر",
+      "hips": "الوركان",
+      "length": "الطول",
+      "saveError": "لا يمكن حفظ المقاسات",
+      "saved": "تم حفظ المقاسات",
+      "waist": "الخصر"
     },
     "stepsCta": "ابدأ طلب خياطة",
     "sub": "أكثر من 120 ورشة موثوقة لدينا تصنع لك ملابس مغربية بمقاسك الدقيق — تُشحن إلى أي مكان في العالم. لا حاجة لغرفة القياس.",
@@ -3144,7 +3202,30 @@
     "whats_on_mind": "ما الذي يدور في بالك؟",
     "whats_your_budget": "ما ميزانيتك؟",
     "when_do_you_need": "متى تحتاج إليه؟",
-    "your_post_detail": "تفاصيل منشورك"
+    "your_post_detail": "تفاصيل منشورك",
+    "colors": "الألوان",
+    "interested_q": "هل أنت مهتم بهذا العمل؟",
+    "job_progress": "التقدم",
+    "login_cta_body": "سجّل الدخول إلى حسابك كبائع للرد على هذا الطلب.",
+    "login_to_propose": "هل تريد تقديم عرض؟",
+    "no_proposals_yet": "كن أول حرفي يرد على الطلب!",
+    "no_proposals_yet_title": "لا توجد عروض حتى الآن",
+    "posted_by": "تم نشره بواسطة",
+    "preview": "معاينة",
+    "proposal_accepted": "تم قبول العرض!",
+    "proposal_already_submitted": "لقد قدمت بالفعل عرضًا لهذا العمل.",
+    "proposals": "عروض",
+    "reference_images": "صور مرجعية",
+    "request": "طلب",
+    "requirements": "المتطلبات",
+    "response_image_alt": "صورة الرد",
+    "skills_comma_hint": "افصل بفواصل",
+    "styles": "الأنماط",
+    "thumbnail": "صورة مصغرة",
+    "view_custom_order": "عرض طلبك المخصص",
+    "view_image": "عرض الصورة",
+    "view_portfolio": "عرض المحفظة",
+    "your_bid": "عرضك"
   },
   "hero": {
     "welcomeBadge": "🌙 عيد مبارك سعيد في سوقنا!",
@@ -3183,7 +3264,9 @@
     "headlineAccent": "مصنوع لليوم.",
     "discover": "اكتشف",
     "exclusive_collection": "مجموعة حصرية",
-    "handcrafted": "مصنوع من مواد عالية الجودة"
+    "handcrafted": "مصنوع من مواد عالية الجودة",
+    "banner_alt": "كوليكسيون القفطان",
+    "atelier_alt": "ورشة مغربية"
   },
   "pwa": {
     "banner": {
@@ -3314,7 +3397,8 @@
       "available": "تحديث متاح",
       "install": "تثبيت التحديث",
       "later": "لاحقا"
-    }
+    },
+    "app_icon_alt": "أيقونة التطبيق"
   },
   "openSouk": {
     "browseCta": "تصفّح الطلبات المفتوحة",
@@ -3353,7 +3437,13 @@
     "searchPlaceholder": "ابحث عن الطلبات...",
     "skills": "المهارات",
     "sortBy": "ترتيب حسب",
-    "feedError": "تعذّر تحميل الطلبات"
+    "feedError": "تعذّر تحميل الطلبات",
+    "sort": {
+      "budgetAsc": "الميزانية: الأقل إلى الأعلى",
+      "budgetDesc": "الميزانية: الأعلى إلى الأقل",
+      "latest": "الأحدث",
+      "oldest": "الأقدم"
+    }
   },
   "brand": {
     "name": "بيلديفاي",
@@ -3504,7 +3594,8 @@
       "section15Title": "١٥. الإنهاء",
       "section15p1": "يجوز لنا إنهاء أو تعليق حسابك فورًا دون إشعار مسبق.",
       "section16Title": "١٦. معلومات الاتصال",
-      "section16Intro": "إذا كان لديك أي أسئلة حول هذه الشروط، يرجى التواصل معنا على:"
+      "section16Intro": "إذا كان لديك أي أسئلة حول هذه الشروط، يرجى التواصل معنا على:",
+      "sellerTermsLink": "شروط البائع"
     },
     "tailors": {
       "eyebrow": "خدمات احترافية",
@@ -3789,7 +3880,8 @@
     "type_a_message": "اكتب رسالة…",
     "send": "إرسال",
     "error_loading": "تعذّر تحميل المحادثة",
-    "error_sending": "تعذّر إرسال الرسالة"
+    "error_sending": "تعذّر إرسال الرسالة",
+    "typing_aria": "الطرف الآخر يكتب"
   },
   "seller": {
     "register": {
@@ -3828,7 +3920,8 @@
       "validation_country": "يرجى اختيار الدولة",
       "benefit_global": "انتشار عالمي — بع منتجاتك لمشترين حول العالم",
       "benefit_quality": "منصة متخصصة في الحرف اليدوية المغربية",
-      "benefit_secure": "مدفوعات آمنة وحماية المشترين"
+      "benefit_secure": "مدفوعات آمنة وحماية المشترين",
+      "track_application_cta": "تتبع طلبك"
     },
     "onboarding": {
       "eyebrow": "رحلة البائع",
@@ -3936,10 +4029,33 @@
       "edit_eyebrow": "المخزون",
       "section_attributes": "خصائص المنتج",
       "vertical_required": "{{field}} مطلوب لهذا النوع من المنتجات.",
-      "vertical_save_failed": "تم حفظ المنتج، لكن تعذّر حفظ خصائصه المخصّصة. عدّل المنتج لإضافتها."
+      "vertical_save_failed": "تم حفظ المنتج، لكن تعذّر حفظ خصائصه المخصّصة. عدّل المنتج لإضافتها.",
+      "danger_zone": "منطقة خطرة",
+      "delete_confirm_prompt": "هل أنت متأكد؟",
+      "delete_confirm_yes": "نعم، احذفه",
+      "delete_cta": "حذف المنتج",
+      "delete_error": "فشل في حذف المنتج. يرجى المحاولة مرة أخرى.",
+      "delete_success": "تم حذف المنتج.",
+      "delete_warning": "حذف هذا المنتج دائم ولا يمكن التراجع عنه.",
+      "deleting": "جاري الحذف...",
+      "load_error": "لا يمكن تحميل المنتج. يرجى المحاولة مرة أخرى."
     },
     "products": {
-      "edit_aria": "تعديل {{name}}"
+      "edit_aria": "تعديل {{name}}",
+      "add_first_product": "أضف منتجك الأول",
+      "add_product": "إضافة منتج",
+      "back_to_list": "العودة إلى المنتجات",
+      "col_name": "المنتج",
+      "col_price": "السعر (درهم)",
+      "col_status": "الحالة",
+      "col_stock": "المخزون",
+      "eyebrow": "المخزون",
+      "fetch_error": "لا يمكن تحميل المنتجات.",
+      "no_products": "لا توجد منتجات حتى الآن",
+      "no_products_sub": "أضف منتجك الأول للبدء في البيع.",
+      "status_active": "نشط",
+      "status_inactive": "غير نشط",
+      "title": "منتجاتي"
     },
     "store_settings": {
       "profile_section_title": "ملف المتجر",
@@ -3955,10 +4071,51 @@
       "save_success": "تم حفظ ملف المتجر",
       "save_error": "تعذر حفظ الملف. حاول مجدداً.",
       "validation_error": "الرجاء تصحيح الأخطاء أدناه والمحاولة مجدداً.",
-      "fetch_error": "تعذر تحميل ملف المتجر."
+      "fetch_error": "تعذر تحميل ملف المتجر.",
+      "address_label": "العنوان",
+      "address_placeholder": "الشارع، المدينة، الدولة",
+      "current_badge": "الحالي",
+      "description_label": "وصف المتجر",
+      "description_placeholder": "أخبر المشترين عن متجرك...",
+      "email_label": "بريد الاتصال",
+      "eyebrow": "إعدادات المتجر",
+      "fields_for_vertical": "الحقول لهذا القطاع",
+      "name_label": "اسم المتجر",
+      "name_placeholder": "مثل Atlas Bijoux",
+      "phone_label": "رقم الهاتف",
+      "profile_saved": "تم حفظ ملف التخزين!",
+      "profile_section": "معلومات المتجر",
+      "saved": "تم الحفظ",
+      "title": "ملف التخزين",
+      "vertical_legend": "قطاع المتجر",
+      "vertical_save_error": "فشل في تحديث نوع المتجر. يرجى المحاولة مرة أخرى.",
+      "vertical_saved": "تم تحديث نوع المتجر!",
+      "vertical_section": "نوع المتجر",
+      "verticals": {
+        "regular": "متجر عادي",
+        "regular_desc": "بيع منتجات جاهزة. لا تكوين مخصص.",
+        "jewelry": "المجوهرات",
+        "jewelry_desc": "بيع المجوهرات الجاهزة والمخصصة مع حقول المادة والنقاء والأحجار الكريمة.",
+        "new_badge": "جديد",
+        "menswear": "ملابس رجالية",
+        "menswear_desc": "ملابس رجالية جاهزة وبناءً على الطلب مع قياسات واختيار الأقمشة.",
+        "womenswear": "ملابس نسائية",
+        "womenswear_desc": "ملابس نسائية جاهزة وبناءً على الطلب مع قياسات واختيار الأقمشة.",
+        "tailor": "متجر الخياطة",
+        "tailor_desc": "خدمة خياطة كاملة مع القياسات وكتالوج الأقمشة والطلبات المخصصة."
+      }
     },
     "nav": {
-      "messages": "الرسائل"
+      "messages": "الرسائل",
+      "aria_label": "ملاحة البائع",
+      "custom_orders": "الطلبات المخصصة",
+      "dashboard": "لوحة التحكم",
+      "earnings": "الأرباح",
+      "mobile_aria_label": "ملاحة البائع على الهاتف الجوال",
+      "orders": "الطلبات",
+      "products": "المنتجات",
+      "profile": "الملف الشخصي",
+      "store_settings": "إعدادات المتجر"
     },
     "messages": {
       "eyebrow": "فضاء البائع",
@@ -3997,6 +4154,87 @@
       "kpi_commission": "العمولة",
       "recent_orders": "أحدث الطلبيات",
       "view_all_orders": "عرض كل الطلبيات"
+    },
+    "earnings": {
+      "breakdown_heading": "التفصيل المالي",
+      "chart_heading": "الإيراد حسب اليوم",
+      "chart_sub": "عرض آخر ${earnings.period} يوم بـ ${earnings.currency}",
+      "commission": "عمولة المنصة",
+      "eyebrow": "مركز البائع",
+      "fetch_error": "لا يمكن تحميل بيانات الأرباح.",
+      "gross": "الإيراد الإجمالي",
+      "kpi_commission": "العمولة المدفوعة",
+      "kpi_gross": "الإيراد الإجمالي",
+      "kpi_net": "الإيراد الصافي",
+      "kpi_orders": "الطلبات",
+      "net": "الإيراد الصافي",
+      "title": "الأرباح",
+      "no_daily_data": "لا توجد بيانات يومية",
+      "chart_aria": "مخطط الأرباح حسب اليوم"
+    },
+    "layout": {
+      "become_seller_cta": "أصبح بائعًا",
+      "credit_chip_aria": "رصيد اعتمادات الذكاء الاصطناعي",
+      "hub_label": "مركز البائع",
+      "not_seller_title": "أنت لست بائعًا حتى الآن",
+      "storefront_link": "← العودة إلى المتجر"
+    },
+    "order_detail": {
+      "back": "الطلبات",
+      "col_product": "المنتج",
+      "col_qty": "الكمية",
+      "col_total": "الإجمالي",
+      "col_unit": "الوحدة",
+      "col_variant": "الصيغة",
+      "commission": "العمولة (${order.commission_rate}%)",
+      "customer_heading": "العميل",
+      "eyebrow": "تفاصيل الطلب",
+      "fetch_error": "لا يمكن تحميل الطلب.",
+      "financials_heading": "الملخص",
+      "items_heading": "العناصر",
+      "net": "الصافي لك",
+      "shipping_heading": "عنوان الشحن",
+      "status_updated": "تم تحديث حالة الطلب",
+      "subtotal": "المجموع الفرعي",
+      "suspended_error": "متجرك معلق — لا يمكن تحديث الطلبات.",
+      "update_btn": "تحديث الحالة",
+      "update_error": "فشل في تحديث حالة الطلب.",
+      "update_status_label": "تحديث حالة الطلب",
+      "updating": "جاري التحديث…"
+    },
+    "orders": {
+      "col_customer": "العميل",
+      "col_items": "العناصر",
+      "col_number": "الطلب",
+      "col_status": "الحالة",
+      "col_total": "الإجمالي",
+      "eyebrow": "مركز البائع",
+      "filter_label": "التصفية حسب الحالة",
+      "next_page": "الصفحة التالية",
+      "no_orders": "لا توجد طلبات حتى الآن",
+      "no_orders_sub": "ستظهر الطلبات هنا بمجرد شراء العملاء من متجرك.",
+      "pagination_info": "الصفحة ${meta.current_page} من ${meta.last_page} — ${meta.total} طلبات",
+      "prev_page": "الصفحة السابقة",
+      "title": "الطلبات"
+    },
+    "onboarding_banner": {
+      "active": "المتجر نشط ومباشر",
+      "view_journey": "عرض المسار",
+      "pending": "الطلب قيد المراجعة",
+      "progress": "أكمل إعداد متجرك — {{pct}}٪ منجز",
+      "finish_hint": "أكمل ملفك الشخصي لفتح جميع الميزات والبدء في البيع."
+    },
+    "quote": {
+      "error_amount": "مبلغ العرض مطلوب ويجب أن يكون أكبر من الصفر",
+      "error_deposit": "يجب أن يكون العربون بين 0 وقيمة العرض",
+      "error_eta": "تاريخ التسليم المتوقع يجب أن يكون في المستقبل",
+      "error_submit": "تعذّر إرسال العرض. حاول مجدداً.",
+      "section_title": "إرسال العرض السعري",
+      "amount_label": "مبلغ العرض (درهم)",
+      "deposit_label": "العربون (درهم)",
+      "eta_label": "تاريخ التسليم المتوقع",
+      "sending": "جارٍ الإرسال…",
+      "send_cta": "إرسال العرض"
     }
   },
   "security": {
@@ -4058,7 +4296,8 @@
   "tabs": {
     "general": "عام",
     "preferences": "التفضيلات",
-    "security": "الأمان"
+    "security": "الأمان",
+    "addresses": "العناوين"
   },
   "trust": {
     "authentic": "حرفية أصيلة 100%",
@@ -4106,13 +4345,21 @@
     "copy_slogan": "نسخ الشعار",
     "copy_description": "نسخ الوصف",
     "applied": "تم تطبيقه على وصف المتجر.",
-    "apply_description": "تطبيق على الوصف"
+    "apply_description": "تطبيق على الوصف",
+    "chip": {
+      "suggestedMeasurements": "المقاسات المقترحة من الذكاء الاصطناعي"
+    }
   },
   "pdp": {
     "aiStyling": "تنسيق بالذكاء الاصطناعي",
     "artisanMade": "صنع يدوي",
     "complete_the_look": "أكمل الإطلالة",
-    "trustedArtisan": "بائع حِرفي موثوق"
+    "trustedArtisan": "بائع حِرفي موثوق",
+    "howToBuy": {
+      "cod_note": "الدفع عند الاستلام — لا تحتاج إلى بطاقة مصرفية",
+      "title": "كيف تشتري؟",
+      "trigger": "كيف تشتري؟"
+    }
   },
   "actions": {
     "close": "إغلاق",
@@ -4137,7 +4384,16 @@
       "ai_chip": "تنسيق بالذكاء الاصطناعي خاص بك",
       "carousel_prev": "الشريحة السابقة",
       "carousel_next": "الشريحة التالية",
-      "section_label": "الواجهة الرئيسية"
+      "section_label": "الواجهة الرئيسية",
+      "art_slide1_headline": "توصيل مجاني لأكثر من 500 درهم",
+      "art_slide1_subline": "قفاطين وجلابيب من أفضل الورشات المغربية",
+      "art_slide1_cta": "تسوق الآن",
+      "art_slide2_headline": "خياطة على المقاس لك",
+      "art_slide2_subline": "اختر الورشة، أرسل القياسات، استلم قطعتك حتى باب بيتك",
+      "art_slide2_cta": "ابدأ طلب الخياطة",
+      "art_slide3_headline": "السوق المفتوح — انشر طلبك ودع الورشات تتنافس",
+      "art_slide3_subline": "خياطونا يتنافسون على مشروعك",
+      "art_slide3_cta": "انشر طلبًا الآن"
     },
     "trust": {
       "verified_sellers": "بائعون موثوقون",
@@ -4160,7 +4416,8 @@
       "cta_shop_collection": "تسوق المجموعة",
       "cta_explore": "استكشف الآن",
       "festive_title": "كوليكسيون المناسبات",
-      "festive_description": "قفاطين وتكاشط للأعراس والمناسبات، مطرزة يدويًا وبحب."
+      "festive_description": "قفاطين وتكاشط للأعراس والمناسبات، مطرزة يدويًا وبحب.",
+      "cta_explore_aria": "استكشف كوليكسيون المناسبات"
     },
     "tailoring": {
       "headline": "تريده مخيطاً على مقاسك؟",
@@ -4172,7 +4429,8 @@
       "step2_detail": "استخدم النموذج الإرشادي أو ارفع باترون موجوداً.",
       "step3_title": "استلم قطعتك",
       "step3_detail": "منتهية يدوياً وتُشحن إلى بابك في 2–4 أسابيع.",
-      "badge_ar": "خياطة على القياس"
+      "badge_ar": "خياطة على القياس",
+      "steps_label": "كيف تعمل خدمة الخياطة"
     },
     "ateliers": {
       "subtitle": "محترفات مختارة بعناية",
@@ -4194,7 +4452,10 @@
       "stat_range_label": "النطاق السعري النموذجي",
       "stat_sellers_label": "بائعون نشطون",
       "stat_protection_label": "حماية المشتري",
-      "stat_sellers_value": "في نمو"
+      "stat_sellers_value": "في نمو",
+      "stat_range_value": "299–5,999 درهم",
+      "stat_range_hint": "الأسعار التي يعرضها البائعون عادةً",
+      "stat_protection_value": "14 يومًا"
     },
     "openSouk": {
       "eyebrow": "مباشر الآن",
@@ -4306,7 +4567,9 @@
       "label_ar": "تابِع المتجر",
       "following": "تتابِع",
       "following_ar": "تتابِع"
-    }
+    },
+    "reviews_aggregate": "{{count}} تقييمات موثوقة",
+    "reviews_aggregate_sub": "يتم جمع التقييمات من مشترين موثوقين بعد التسليم."
   },
   "preferences": {
     "email_notifications": {
@@ -4590,7 +4853,20 @@
     "cta_title": "اطلب قطعة مخصصة",
     "cta_sub": "صمّم مجوهراتك مع حرفي موثوق.",
     "cta_button": "طلب مخصص",
-    "load_error": "تعذّر تحميل المنتجات"
+    "load_error": "تعذّر تحميل المنتجات",
+    "fields": {
+      "material": "المادة",
+      "purity": "النقاء",
+      "weight_grams": "الوزن",
+      "size": "المقاس",
+      "gemstone_type": "الحجر الكريم",
+      "gemstone_count": "عدد الأحجار",
+      "gemstone_carat": "القيراط",
+      "engraving": "النقش",
+      "finish": "التشطيب",
+      "specs_aria": "مواصفات المجوهرات",
+      "piece_specs": "مواصفات القطعة"
+    }
   },
   "notify_me": {
     "back_in_stock": "نبّهني عند توفّره",
@@ -4720,5 +4996,133 @@
       "errorMessage": "حدث خطأ ما. يرجى المحاولة مجدداً.",
       "provenance": "مدعوم بالذكاء الاصطناعي · مساعد بيلديفاي"
     }
+  },
+  "discover": {
+    "empty": "المنتجات متاحة قريبًا.",
+    "endOfFeed": "لقد شاهدت كل شيء — يتم إضافة منتجات جديدة يوميًا",
+    "heading": "المزيد للاستكشاف",
+    "sectionLabel": "اكتشف المزيد",
+    "subheading": "قطع جديدة تضاف يوميًا من قبل الحرفيين المغاربة",
+    "viewAll": "تصفح جميع المنتجات"
+  },
+  "editPost": {
+    "blockedTitle": "التحرير غير متاح",
+    "blockedUnknown": "لا يمكن تحرير هذا الطلب في الوقت الحالي.",
+    "existingPhotos": "الصور الموجودة",
+    "formSubtitle": "ستكون التغييرات مرئية لجميع الحرفيين على الفور",
+    "formTitle": "تحديث طلبك المخصص",
+    "newPhotos": "صورة جديدة (صور) للإضافة",
+    "pageTitle": "تحرير طلبك",
+    "photosSubtitle": "أضف صورًا جديدة (يتم الاحتفاظ بالصور الموجودة)",
+    "saveChanges": "حفظ التغييرات",
+    "validationErrors": "يرجى إصلاح الأخطاء المبرزة أعلاه."
+  },
+  "myPosts": {
+    "actionError": "لا يمكن تنفيذ هذا الإجراء. يرجى المحاولة مرة أخرى.",
+    "actionForbidden": "لا يُسمح لك بتنفيذ هذا الإجراء على هذا الطلب.",
+    "actionValidationError": "لا يمكن إكمال هذا الإجراء. قد يكون للطلب عروض نشطة.",
+    "cardTitle": "طلباتك في السوق المفتوح",
+    "closeRequest": "إغلاق الطلب",
+    "confirmCloseAction": "نعم، أغلقه",
+    "confirmCloseTitle": "هل تريد إغلاق هذا الطلب؟",
+    "confirmDeleteAction": "نعم، احذفه",
+    "confirmDeleteTitle": "هل تريد حذف هذا الطلب؟",
+    "editNotAllowed": "لا يمكن التحرير في هذه المرحلة",
+    "emptyTitle": "لم تنشر أي طلبات حتى الآن",
+    "loadError": "لا يمكن تحميل طلباتك. يرجى المحاولة مرة أخرى.",
+    "loginBody": "طلباتك في السوق المفتوح في انتظارك — سجّل الدخول لإدارتها.",
+    "navLink": "طلباتي",
+    "newRequest": "طلب جديد",
+    "pageTitle": "طلباتي"
+  },
+  "pagination": {
+    "label": "ترقيم الصفحات",
+    "next": "الصفحة التالية",
+    "previous": "الصفحة السابقة"
+  },
+  "customOrders": {
+    "error": {
+      "load_orders": "فشل تحميل الطلبات",
+      "load_detail": "فشل تحميل تفاصيل الطلب",
+      "invalid_id": "معرّف الطلب غير صحيح.",
+      "load_order": "تعذّر تحميل الطلب.",
+      "submit": "تعذّر إرسال طلبك. يرجى المحاولة مجدداً."
+    },
+    "loading": "جارٍ التحميل…",
+    "back_to_list": "رجوع",
+    "seller_dashboard": "لوحة تحكم البائع",
+    "order_title": "طلب #{{id}}",
+    "page_title": "طلبات التصنيع المخصص",
+    "empty_title": "لا توجد طلبات مخصصة بعد",
+    "empty_sub": "ستظهر الطلبات الجديدة هنا.",
+    "orders_list_aria": "قائمة الطلبات",
+    "loading_order": "جارٍ التحميل…",
+    "order_spec": "تفاصيل الطلب",
+    "buyer_notes": "ملاحظات المشتري",
+    "customer": "المشتري",
+    "back": "رجوع",
+    "custom_order_eyebrow": "طلب مخصص",
+    "request_title": "اطلب قطعة مخصصة",
+    "new_intro": "أخبرنا بما تريد. الحقل الوحيد المطلوب هو المادة — كل الباقي اختياري. سيراه الحرفيون ويردّون عليك.",
+    "trust": {
+      "secure": "آمن",
+      "seen_by_artisans": "يراه الحرفيون",
+      "verified_artisans": "حرفيون موثوقون"
+    },
+    "loading_aria": "جارٍ التحميل",
+    "my_orders": "طلباتي",
+    "back_to_orders": "رجوع",
+    "tracking_eyebrow": "تتبع الطلب",
+    "your_notes": "ملاحظاتك",
+    "select_placeholder": "اختر…",
+    "loading_fields": "جارٍ التحميل…",
+    "no_fields": "لا توجد حقول مخصصة لهذا التخصص.",
+    "optional": "اختياري",
+    "field_required": "{{label}} مطلوب",
+    "timeline": {
+      "error_advance": "تعذّر تحديث الحالة.",
+      "status_label": "الحالة:",
+      "progress_log": "سجل التقدم",
+      "progress_history_aria": "سجل التقدم",
+      "no_progress": "لا يوجد سجل بعد.",
+      "advance_status": "تقديم الحالة",
+      "next_status": "الحالة التالية",
+      "select_status": "اختر الحالة…",
+      "note_label": "ملاحظة",
+      "note_placeholder": "أضف ملاحظة…",
+      "updating": "جارٍ التحديث…",
+      "update_cta": "تحديث الحالة",
+      "terminal_state": "هذا الطلب في حالة نهائية.",
+      "current_status": "الحالة الحالية",
+      "quote_details": "تفاصيل العرض",
+      "quote_amount": "المبلغ الإجمالي",
+      "deposit": "العربون",
+      "paid": "مدفوع",
+      "eta": "تاريخ التسليم المتوقع",
+      "order_progress": "مراحل الطلب",
+      "order_stages_aria": "مراحل الطلب",
+      "current_badge": "الحالي",
+      "cancelled": "تم إلغاء هذا الطلب.",
+      "activity_log": "سجل الأحداث",
+      "activity_log_aria": "سجل الأحداث"
+    },
+    "status": {
+      "requested": "مُقدَّم",
+      "quoted": "مُسعَّر",
+      "deposit_paid": "العربون مدفوع",
+      "in_progress": "قيد التنفيذ",
+      "ready": "جاهز",
+      "delivered": "تم التسليم",
+      "closed": "مُغلق",
+      "cancelled": "مُلغى"
+    },
+    "submitted_title": "تم إرسال طلبك!",
+    "submitted_desc": "طلبك رقم #{{id}} قيد المراجعة. سيتواصل معك البائع قريباً.",
+    "track_order": "تتبع الطلب",
+    "go_back": "رجوع",
+    "notes_label": "ملاحظات",
+    "notes_placeholder": "أي تفاصيل إضافية…",
+    "sending": "جارٍ الإرسال…",
+    "send_request": "إرسال الطلب"
   }
 }

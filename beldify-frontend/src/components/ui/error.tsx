@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 interface ErrorMessageProps {
   message: string;
@@ -6,6 +7,7 @@ interface ErrorMessageProps {
 }
 
 export function ErrorMessage({ message, onRetry }: ErrorMessageProps) {
+  const { t } = useTranslation();
   return (
     <div className="text-center py-12">
       <p className="text-red-500">{message}</p>
@@ -14,7 +16,7 @@ export function ErrorMessage({ message, onRetry }: ErrorMessageProps) {
           onClick={onRetry}
           className="mt-4 px-4 py-2 bg-amber-500 text-amber-950 rounded-md hover:bg-amber-600"
         >
-          Try Again
+          {t('common.try_again', 'Try again')}
         </button>
       )}
     </div>

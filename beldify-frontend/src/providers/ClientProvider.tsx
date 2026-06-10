@@ -9,6 +9,7 @@ import { ThemeProvider } from '@/providers/ThemeProvider';
 import { WishlistProvider } from '@/contexts/WishlistContext';
 import { NavigationProvider } from '@/providers/NavigationProvider';
 import RootLayoutClient from '@/app/layout-client';
+import i18nInstance from '@/i18n/config';
 
 // Dynamically import deferred providers wrapper to reduce initial bundle size
 const DeferredProviders = dynamic(
@@ -60,12 +61,12 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
           textAlign: 'center',
           backgroundColor: '#f9fafb',
         }}>
-          <div style={{ fontSize: '2rem', marginBottom: '1rem' }}>Oops!</div>
+          <div style={{ fontSize: '2rem', marginBottom: '1rem' }}>{i18nInstance.t('errors.boundary.oops', 'Oops!')}</div>
           <h1 style={{ fontSize: '1.25rem', fontWeight: 600, marginBottom: '0.5rem', color: '#1f2937' }}>
-            Something went wrong
+            {i18nInstance.t('errors.boundary.title', 'Something went wrong')}
           </h1>
           <p style={{ color: '#6b7280', marginBottom: '1.5rem', maxWidth: '400px' }}>
-            An unexpected error occurred. Please try refreshing the page.
+            {i18nInstance.t('errors.boundary.body', 'An unexpected error occurred. Please try refreshing the page.')}
           </p>
           <div style={{ display: 'flex', gap: '0.75rem' }}>
             <button
@@ -81,7 +82,7 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
                 cursor: 'pointer',
               }}
             >
-              Refresh Page
+              {i18nInstance.t('errors.boundary.refresh', 'Refresh Page')}
             </button>
             <button
               onClick={() => { window.location.href = '/'; }}
@@ -96,7 +97,7 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
                 cursor: 'pointer',
               }}
             >
-              Go Home
+              {i18nInstance.t('errors.boundary.home', 'Go Home')}
             </button>
           </div>
           {process.env.NODE_ENV === 'development' && this.state.error && (

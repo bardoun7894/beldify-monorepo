@@ -119,7 +119,13 @@
     "errorTitle": "Etwas ist schiefgelaufen",
     "remove_image": "Bild entfernen",
     "go_back": "Zurück",
-    "dismiss": "Schließen"
+    "dismiss": "Schließen",
+    "copy": "Kopieren",
+    "read_more": "Mehr lesen",
+    "saving": "Wird gespeichert …",
+    "show_less": "Weniger anzeigen",
+    "show_more": "Mehr anzeigen",
+    "need_help": "Brauchst du Hilfe?"
   },
   "validation": {
     "required": "Dieses Feld ist erforderlich",
@@ -328,7 +334,8 @@
     "verify_email_resent": "Verifizierungs-E-Mail gesendet! Überprüfe deinen Posteingang.",
     "rate_limit": "Zu viele Anfragen. Bitte warte einen Moment.",
     "resend_failed": "Fehler beim Versenden. Bitte versuche es erneut.",
-    "verify_email_banner": "Bitte verifiziere deine E-Mail-Adresse, um alle Funktionen freizuschalten."
+    "verify_email_banner": "Bitte verifiziere deine E-Mail-Adresse, um alle Funktionen freizuschalten.",
+    "signInRequired": "Melden dich an, um deine Anfragen zu sehen"
   },
   "navigation": {
     "home": "Startseite",
@@ -367,7 +374,9 @@
     "dark_mode": "Dunkler Modus",
     "light_mode": "Heller Modus",
     "messages": "Nachrichten",
-    "register": "Registrieren"
+    "register": "Registrieren",
+    "login_short": "Anmelden",
+    "openSouk": "Open Souk"
   },
   "category": {
     "popularCategories": "Beliebte Kategorien",
@@ -594,7 +603,10 @@
     "tab_description": "Beschreibung",
     "tab_specs": "Spezifikationen",
     "tab_sizing": "Größe",
-    "tab_reviews": "Bewertungen"
+    "tab_reviews": "Bewertungen",
+    "close_zoom": "Zoom schließen",
+    "free_shipping": "Kostenloser Versand",
+    "zoom_image": "Bild vergrößern"
   },
   "stock": {
     "in_stock": "Auf Lager ({{count}})",
@@ -658,7 +670,8 @@
       "continue_shopping": "Weiter einkaufen",
       "free": "Kostenlos",
       "freeShippingHint": "Füge noch {{amount}} MAD hinzu für kostenlosen Versand",
-      "kicker": "Bestellübersicht"
+      "kicker": "Bestellübersicht",
+      "checkout_darija": "Zum Checkout"
     },
     "coupon": {
       "label": "Aktionscode",
@@ -871,7 +884,10 @@
       "festive_set": "Festliches Kinderensemble",
       "girls_caftan": "Mädchen-Kaftan",
       "kids_kandora": "Kinder-Kandora"
-    }
+    },
+    "empty_title": "Kommt bald in den Lagerbestand",
+    "end_of_list": "Alle Produkte geladen",
+    "no_results_hint": "Diese Kategorie hat derzeit keine Produkte — komm bald zurück."
   },
   "order": {
     "title": "Bestellung #{{orderNumber}}",
@@ -973,7 +989,8 @@
       "contact_seller": "Verkäufer kontaktieren",
       "cancel_order": "Bestellung stornieren",
       "request_return": "Rückgabe anfragen",
-      "return_request": "Rückgabeanfrage"
+      "return_request": "Rückgabeanfrage",
+      "back_to_order": "Zurück zur Bestellung"
     },
     "filter": {
       "all": "Alle Bestellungen",
@@ -1117,7 +1134,20 @@
         "pending": "Ausstehend"
       },
       "load_error": "Bestellung konnte nicht geladen werden",
-      "not_found": "Bestellung nicht gefunden"
+      "not_found": "Bestellung nicht gefunden",
+      "bill_to": "Rechnungsadresse",
+      "brand_tagline": "Marokkanischer Handwerk-Marktplatz",
+      "cancelled_msg": "Keine Rechnung für stornierte Bestellungen verfügbar.",
+      "col_item": "Artikel",
+      "col_qty": "Menge",
+      "col_total": "Gesamtbetrag",
+      "col_unit": "Einheit",
+      "download_print": "Rechnung herunterladen / drucken",
+      "invoice_label": "RECHNUNG",
+      "payment_method": "Zahlungsart",
+      "payment_status": "Zahlungsstatus",
+      "ship_to": "Lieferadresse",
+      "title": "Rechnung"
     },
     "reorder": {
       "added": "Zu deinem Warenkorb hinzugefügt",
@@ -1332,7 +1362,8 @@
       "need_help_title": "Unsicher bei der Zahlung?",
       "need_help_body": "Schreib uns eine Nachricht oder ruf uns an — wir helfen dir gerne.",
       "whatsapp": "WhatsApp",
-      "call": "Ruf uns an"
+      "call": "Ruf uns an",
+      "cod_subtitle": "Zahle bei Lieferung — Nachnahme"
     },
     "order_summary": {
       "title": "Bestellübersicht",
@@ -1349,7 +1380,9 @@
       "place_order": "Bestellung aufgeben",
       "processing": "Wird bearbeitet...",
       "back_to_shipping": "Zurück zum Versand",
-      "continue_payment": "Zur Zahlung fortfahren"
+      "continue_payment": "Zur Zahlung fortfahren",
+      "confirm_order": "Bestellung bestätigen",
+      "continue_to_confirm": "Zur Bestätigung fortfahren"
     },
     "validation": {
       "required": "Dieses Feld ist erforderlich",
@@ -1411,7 +1444,8 @@
       "saved_addresses": "Gespeicherte Adressen",
       "type_new": "Neue Adresse eingeben",
       "default_badge": "Standard",
-      "save_for_next": "Speichere diese Adresse für zukünftige Bestellungen"
+      "save_for_next": "Speichere diese Adresse für zukünftige Bestellungen",
+      "extra_fields_toggle": "Weitere Details hinzufügen (Wohnung, Postleitzahl)"
     },
     "bespoke": {
       "cta": "Maßanfertigungen erkunden"
@@ -1463,6 +1497,14 @@
     "quote": {
       "loading": "Gesamtbetrag wird berechnet…",
       "load_error": "Der Bestellgesamtbetrag konnte nicht berechnet werden. Bitte versuche es erneut."
+    },
+    "guest": {
+      "have_account": "Du hast bereits ein Konto? Melden dich an"
+    },
+    "progress": {
+      "bag": "Warenkorb",
+      "confirm": "Bestätigung",
+      "info": "Informationen"
     }
   },
   "profile": {
@@ -1614,12 +1656,15 @@
     "variantNotAvailable": "Die ausgewählte Kombination ist nicht verfügbar",
     "shop_not_found": "Shop-Informationen nicht verfügbar",
     "boundary": {
-      "title": "Es ist etwas schief gelaufen",
-      "body": "Entschuldige die Unannehmlichkeiten. Bitte aktualisiere die Seite.",
+      "title": "Etwas ist schiefgelaufen",
+      "body": "Ein unerwarteter Fehler ist aufgetreten. Bitte lade die Seite neu.",
       "devDetails": "Fehlerdetails (Entwicklung)",
       "errorLabel": "Fehler:",
       "retry": "Erneut versuchen",
-      "reload": "Seite neu laden"
+      "reload": "Seite neu laden",
+      "oops": "Hoppla!",
+      "refresh": "Seite neu laden",
+      "home": "Zur Startseite"
     },
     "api": {
       "title": "Fehler beim Laden der Daten",
@@ -1637,7 +1682,8 @@
     "productNotFoundDesc": "Dieses Produkt konnte nicht gefunden werden oder ist nicht mehr verfügbar.",
     "something_went_wrong": "Es ist etwas schief gelaufen",
     "product_load_failed": "Fehler beim Laden des Produkts",
-    "stock_unavailable": "Artikel ist nicht verfügbar"
+    "stock_unavailable": "Artikel ist nicht verfügbar",
+    "session_storage_unavailable": "Kann nicht fortfahren — bitte aktiviere Cookies"
   },
   "notifications": {
     "success": {
@@ -1692,7 +1738,8 @@
         "new_follower": "Neuer Follower",
         "back_in_stock": "Wieder verfügbar",
         "price_drop": "Preisreduzierung"
-      }
+      },
+      "loadError": "Benachrichtigungen konnten nicht geladen werden. Überprüfe deine Verbindung und versuche es erneut."
     }
   },
   "filters": {
@@ -2601,7 +2648,9 @@
     },
     "titleLine1": "Entdecke Feiertags-Eleganz",
     "titleLine2": "Mit authentischer marokkanischer Mode",
-    "welcomeBadge": "🌙 Frohe Eid an unseren Souk!"
+    "welcomeBadge": "🌙 Frohe Eid an unseren Souk!",
+    "banner_alt": "Kaftan-Kollektion",
+    "atelier_alt": "Marokkanisches Atelier"
   },
   "verification": {
     "verify_phone": "Verifiziere dein Telefon",
@@ -2968,7 +3017,30 @@
     "no_user_posts_main": "Du hast noch keine Anfragen erstellt",
     "post_your_request": "Poste deine Anfrage",
     "share_with_community": "Teile deine Anfrage",
-    "your_post_detail": "Deine Anfrage"
+    "your_post_detail": "Deine Anfrage",
+    "colors": "Farben",
+    "interested_q": "Interessierst du dich für diesen Auftrag?",
+    "job_progress": "Fortschritt",
+    "login_cta_body": "Melden dich in deinem Handwerker-Konto an, um auf diese Anfrage zu antworten.",
+    "login_to_propose": "Möchtest du einen Vorschlag einreichen?",
+    "no_proposals_yet": "Sei der erste Handwerker, der antwortet!",
+    "no_proposals_yet_title": "Noch keine Vorschläge",
+    "posted_by": "Gepostet von",
+    "preview": "Vorschau",
+    "proposal_accepted": "Vorschlag akzeptiert!",
+    "proposal_already_submitted": "Du hast für diesen Auftrag bereits einen Vorschlag eingereicht.",
+    "proposals": "Vorschläge",
+    "reference_images": "Referenzbilder",
+    "request": "Anfrage",
+    "requirements": "Anforderungen",
+    "response_image_alt": "Antwortbild",
+    "skills_comma_hint": "Mit Kommas trennen",
+    "styles": "Stile",
+    "thumbnail": "Miniaturbild",
+    "view_custom_order": "Zeige deine Bestellung",
+    "view_image": "Bild anzeigen",
+    "view_portfolio": "Portfolio anzeigen",
+    "your_bid": "Dein Angebot"
   },
   "pwa": {
     "banner": {
@@ -3099,7 +3171,8 @@
       "available": "Update verfügbar",
       "install": "Update installieren",
       "later": "Später"
-    }
+    },
+    "app_icon_alt": "App-Symbol"
   },
   "brand": {
     "name": "Beldify",
@@ -3158,7 +3231,13 @@
     "searchPlaceholder": "Anfragen durchsuchen...",
     "skills": "Fähigkeiten",
     "sortBy": "Sortiere nach",
-    "feedError": "Konnte Anfragen nicht laden"
+    "feedError": "Konnte Anfragen nicht laden",
+    "sort": {
+      "budgetAsc": "Budget: Niedrig → Hoch",
+      "budgetDesc": "Budget: Hoch → Niedrig",
+      "latest": "Neueste",
+      "oldest": "Älteste"
+    }
   },
   "catalog": {
     "categories": {
@@ -3289,7 +3368,8 @@
       "section15Title": "15. Beendigung",
       "section15p1": "Wir können dein Konto und deinen Zugriff auf unsere Services sofort, ohne vorherige Ankündigung oder Haftung, aus beliebigem Grund beenden oder aussetzen, einschließlich, aber nicht begrenzt auf Verletzung dieser Bedingungen. Nach der Beendigung erlischt dein Recht, die Services zu nutzen, sofort.",
       "section16Title": "16. Kontaktinformationen",
-      "section16Intro": "Wenn du Fragen zu diesen Bedingungen hast, kontaktiere uns unter:"
+      "section16Intro": "Wenn du Fragen zu diesen Bedingungen hast, kontaktiere uns unter:",
+      "sellerTermsLink": "Verkäuferbedingungen"
     },
     "tailors": {
       "eyebrow": "Professionelle Dienstleistungen",
@@ -3574,7 +3654,8 @@
     "type_a_message": "Gib eine Nachricht ein…",
     "send": "Senden",
     "error_loading": "Fehler beim Laden der Konversation",
-    "error_sending": "Fehler beim Senden der Nachricht"
+    "error_sending": "Fehler beim Senden der Nachricht",
+    "typing_aria": "Die andere Person schreibt"
   },
   "seller": {
     "register": {
@@ -3613,7 +3694,8 @@
       "validation_country": "Bitte wähle ein Land aus",
       "benefit_global": "Weltweite Reichweite — verkaufe an Käufer überall",
       "benefit_quality": "Kuratierte Plattform für marokkanisches Handwerk",
-      "benefit_secure": "Sichere Zahlungen und Käuferschutz"
+      "benefit_secure": "Sichere Zahlungen und Käuferschutz",
+      "track_application_cta": "Verfolge deine Bewerbung"
     },
     "onboarding": {
       "eyebrow": "Verkäufer-Journey",
@@ -3721,10 +3803,33 @@
       "edit_eyebrow": "Bestand",
       "section_attributes": "Produktattribute",
       "vertical_required": "{{field}} ist für diesen Produkttyp erforderlich.",
-      "vertical_save_failed": "Produkt gespeichert, aber seine benutzerdefinierten Attribute konnten nicht gespeichert werden. Bearbeite das Produkt, um sie hinzuzufügen."
+      "vertical_save_failed": "Produkt gespeichert, aber seine benutzerdefinierten Attribute konnten nicht gespeichert werden. Bearbeite das Produkt, um sie hinzuzufügen.",
+      "danger_zone": "Gefahrenzone",
+      "delete_confirm_prompt": "Bist du sicher?",
+      "delete_confirm_yes": "Ja, löschen",
+      "delete_cta": "Produkt löschen",
+      "delete_error": "Produkt konnte nicht gelöscht werden. Versuche es erneut.",
+      "delete_success": "Produkt gelöscht.",
+      "delete_warning": "Das Löschen dieses Produkts ist dauerhaft und kann nicht rückgängig gemacht werden.",
+      "deleting": "Wird gelöscht …",
+      "load_error": "Produkt konnte nicht geladen werden. Versuche es erneut."
     },
     "products": {
-      "edit_aria": "{{name}} bearbeiten"
+      "edit_aria": "{{name}} bearbeiten",
+      "add_first_product": "Füge dein erstes Produkt hinzu",
+      "add_product": "Produkt hinzufügen",
+      "back_to_list": "Zurück zu Produkten",
+      "col_name": "Produkt",
+      "col_price": "Preis (MAD)",
+      "col_status": "Status",
+      "col_stock": "Bestand",
+      "eyebrow": "Lagerbestand",
+      "fetch_error": "Produkte konnten nicht geladen werden.",
+      "no_products": "Noch keine Produkte",
+      "no_products_sub": "Füge dein erstes Produkt hinzu, um zu verkaufen.",
+      "status_active": "Aktiv",
+      "status_inactive": "Inaktiv",
+      "title": "Meine Produkte"
     },
     "store_settings": {
       "profile_section_title": "Shop-Profil",
@@ -3740,10 +3845,51 @@
       "save_success": "Shop-Profil gespeichert",
       "save_error": "Profil konnte nicht gespeichert werden. Bitte versuche es noch mal.",
       "validation_error": "Bitte behebe die Fehler unten und versuche es erneut.",
-      "fetch_error": "Shop-Profil konnte nicht geladen werden."
+      "fetch_error": "Shop-Profil konnte nicht geladen werden.",
+      "address_label": "Adresse",
+      "address_placeholder": "Straße, Stadt, Land",
+      "current_badge": "Aktuell",
+      "description_label": "Shop-Beschreibung",
+      "description_placeholder": "Erzähle Käufern von deinem Shop …",
+      "email_label": "Kontakt-E-Mail",
+      "eyebrow": "Shop-Einstellungen",
+      "fields_for_vertical": "Felder für diese Kategorie",
+      "name_label": "Shop-Name",
+      "name_placeholder": "z.B. Atlas Bijoux",
+      "phone_label": "Telefonnummer",
+      "profile_saved": "Shop-Profil gespeichert!",
+      "profile_section": "Shop-Informationen",
+      "saved": "Gespeichert",
+      "title": "Shop-Profil",
+      "vertical_legend": "Shop-Kategorie",
+      "vertical_save_error": "Shop-Typ konnte nicht aktualisiert werden. Versuche es erneut.",
+      "vertical_saved": "Shop-Typ aktualisiert!",
+      "vertical_section": "Shop-Typ",
+      "verticals": {
+        "regular": "Normaler Shop",
+        "regular_desc": "Verkaufe fertige Produkte. Keine Konfiguration für Maßanfertigungen.",
+        "jewelry": "Schmuck",
+        "jewelry_desc": "Verkaufe fertige und maßgefertigte Schmuckstücke mit Material-, Reinheits-, Edelstein- und Oberflächenfinish-Feldern.",
+        "new_badge": "Neu",
+        "menswear": "Herrenbekleidung",
+        "menswear_desc": "Fertige und maßgefertigte Herrenbekleidung mit Größenangaben und Stoffauswahl.",
+        "womenswear": "Damenbekleidung",
+        "womenswear_desc": "Fertige und maßgefertigte Damenbekleidung mit Größenangaben und Stoffauswahl.",
+        "tailor": "Schneider-Shop",
+        "tailor_desc": "Vollständiger Schneiderservice mit Größenangaben, Stoffkatalog und Maßanfertigungen."
+      }
     },
     "nav": {
-      "messages": "Nachrichten"
+      "messages": "Nachrichten",
+      "aria_label": "Verkäufer-Navigation",
+      "custom_orders": "Bestellanfragen",
+      "dashboard": "Dashboard",
+      "earnings": "Verdienste",
+      "mobile_aria_label": "Verkäufer-Navigation Mobilgerät",
+      "orders": "Bestellungen",
+      "products": "Produkte",
+      "profile": "Profil",
+      "store_settings": "Shop-Einstellungen"
     },
     "messages": {
       "eyebrow": "Verkäufer-Hub",
@@ -3782,6 +3928,87 @@
       "kpi_commission": "Provision",
       "recent_orders": "Letzte Bestellungen",
       "view_all_orders": "Alle Bestellungen anzeigen"
+    },
+    "earnings": {
+      "breakdown_heading": "Finanzielle Übersicht",
+      "chart_heading": "Umsatz nach Tag",
+      "chart_sub": "Letzten ${earnings.period} Tage in ${earnings.currency} angezeigt",
+      "commission": "Plattformgebühr",
+      "eyebrow": "Verkäufer-Hub",
+      "fetch_error": "Umsatzdaten konnten nicht geladen werden.",
+      "gross": "Bruttoumsatz",
+      "kpi_commission": "Gebühr gezahlt",
+      "kpi_gross": "Bruttoumsatz",
+      "kpi_net": "Nettoumsatz",
+      "kpi_orders": "Bestellungen",
+      "net": "Nettoumsatz",
+      "title": "Verdienste",
+      "no_daily_data": "Keine Tagesdaten verfügbar",
+      "chart_aria": "Einnahmen-Diagramm pro Tag"
+    },
+    "layout": {
+      "become_seller_cta": "Werde Verkäufer",
+      "credit_chip_aria": "KI-Gutschrift-Saldo",
+      "hub_label": "Verkäufer-Hub",
+      "not_seller_title": "Du bist noch kein Verkäufer",
+      "storefront_link": "← Zurück zum Marktplatz"
+    },
+    "order_detail": {
+      "back": "Bestellungen",
+      "col_product": "Produkt",
+      "col_qty": "Menge",
+      "col_total": "Gesamtbetrag",
+      "col_unit": "Einheit",
+      "col_variant": "Variante",
+      "commission": "Gebühr (${order.commission_rate}%)",
+      "customer_heading": "Kunde",
+      "eyebrow": "Bestelldetails",
+      "fetch_error": "Bestellung konnte nicht geladen werden.",
+      "financials_heading": "Zusammenfassung",
+      "items_heading": "Artikel",
+      "net": "Netto für dich",
+      "shipping_heading": "Lieferadresse",
+      "status_updated": "Bestellstatus aktualisiert",
+      "subtotal": "Zwischensumme",
+      "suspended_error": "Dein Shop ist gesperrt — Bestellungen können nicht aktualisiert werden.",
+      "update_btn": "Status aktualisieren",
+      "update_error": "Bestellstatus konnte nicht aktualisiert werden.",
+      "update_status_label": "Aktualisiere den Bestellstatus",
+      "updating": "Wird aktualisiert …"
+    },
+    "orders": {
+      "col_customer": "Kunde",
+      "col_items": "Artikel",
+      "col_number": "Bestellung",
+      "col_status": "Status",
+      "col_total": "Gesamtbetrag",
+      "eyebrow": "Verkäufer-Hub",
+      "filter_label": "Nach Status filtern",
+      "next_page": "Nächste Seite",
+      "no_orders": "Noch keine Bestellungen",
+      "no_orders_sub": "Bestellungen werden hier angezeigt, sobald Kunden aus deinem Shop kaufen.",
+      "pagination_info": "Seite ${meta.current_page} von ${meta.last_page} — ${meta.total} Bestellungen",
+      "prev_page": "Vorherige Seite",
+      "title": "Bestellungen"
+    },
+    "onboarding_banner": {
+      "active": "Shop aktiv und live",
+      "view_journey": "Verlauf ansehen",
+      "pending": "Bewerbung wird geprüft",
+      "progress": "Schließe deine Shop-Einrichtung ab — {{pct}} % fertig",
+      "finish_hint": "Vervollständige dein Profil, um alle Funktionen freizuschalten und mit dem Verkauf zu starten."
+    },
+    "quote": {
+      "error_amount": "Das Angebotsamount ist erforderlich und muss > 0 sein",
+      "error_deposit": "Die Kaution muss zwischen 0 und dem Angebotsamount liegen",
+      "error_eta": "Das Lieferdatum muss in der Zukunft liegen",
+      "error_submit": "Angebot konnte nicht gesendet werden. Bitte versuche es später erneut.",
+      "section_title": "Angebot senden",
+      "amount_label": "Angebotsamount (MAD)",
+      "deposit_label": "Kaution (MAD)",
+      "eta_label": "Geschätztes Lieferdatum (ETA)",
+      "sending": "Wird gesendet…",
+      "send_cta": "Angebot senden"
     }
   },
   "security": {
@@ -3843,7 +4070,8 @@
   "tabs": {
     "general": "Allgemein",
     "preferences": "Einstellungen",
-    "security": "Sicherheit"
+    "security": "Sicherheit",
+    "addresses": "Adressen"
   },
   "trust": {
     "authentic": "100% authentisches Handwerk",
@@ -3891,13 +4119,21 @@
     "copy_slogan": "Slogan kopieren",
     "copy_description": "Beschreibung kopieren",
     "applied": "Auf Shop-Beschreibung angewendet.",
-    "apply_description": "Auf Beschreibung anwenden"
+    "apply_description": "Auf Beschreibung anwenden",
+    "chip": {
+      "suggestedMeasurements": "Von KI vorgeschlagene Größen"
+    }
   },
   "pdp": {
     "aiStyling": "KI-Stil für dich",
     "artisanMade": "Handwerklich gefertigt",
     "complete_the_look": "Vervollständige deinen Look",
-    "trustedArtisan": "Verifizierter Handwerkerverkäufer"
+    "trustedArtisan": "Verifizierter Handwerkerverkäufer",
+    "howToBuy": {
+      "cod_note": "Zahle bei Lieferung — keine Bankkarte erforderlich",
+      "title": "Wie kaufe ich?",
+      "trigger": "Wie kaufe ich?"
+    }
   },
   "actions": {
     "close": "Schließen",
@@ -3945,7 +4181,8 @@
       "cta_shop_collection": "Kollektion shoppen",
       "cta_explore": "Jetzt entdecken",
       "festive_title": "Festtagskollektion",
-      "festive_description": "Kaftane und Takchitas für Hochzeiten und besondere Anlässe, von Hand und mit Liebe bestickt."
+      "festive_description": "Kaftane und Takchitas für Hochzeiten und besondere Anlässe, von Hand und mit Liebe bestickt.",
+      "cta_explore_aria": "Festtagskollektion entdecken"
     },
     "tailoring": {
       "headline": "Möchtest du etwas maßgeschneidert haben?",
@@ -3957,7 +4194,8 @@
       "step2_detail": "Nutze unser Formular oder lade ein bestehendes Schnittmuster hoch.",
       "step3_title": "Erhalte dein Stück",
       "step3_detail": "Von Hand gefertigt und in 2–4 Wochen zu dir nach Hause versandt.",
-      "badge_ar": "خياطة على القياس"
+      "badge_ar": "خياطة على القياس",
+      "steps_label": "So funktioniert die Maßanfertigung"
     },
     "ateliers": {
       "subtitle": "Ausgewählte Ateliers",
@@ -3979,7 +4217,10 @@
       "stat_range_label": "Typische Produktpalette",
       "stat_sellers_label": "Aktive Verkäufer",
       "stat_protection_label": "Käuferschutz",
-      "stat_sellers_value": "Wachsend"
+      "stat_sellers_value": "Wachsend",
+      "stat_range_value": "299–5.999 MAD",
+      "stat_range_hint": "Was Verkäufer üblicherweise verlangen",
+      "stat_protection_value": "14 Tage"
     },
     "openSouk": {
       "eyebrow": "Jetzt live",
@@ -4091,7 +4332,9 @@
       "label_ar": "تابِع المتجر",
       "following": "Folgt",
       "following_ar": "تتابِع"
-    }
+    },
+    "reviews_aggregate": "{{count}} verifizierten Bewertungen",
+    "reviews_aggregate_sub": "Bewertungen werden von verifizierten Käufern nach Lieferung eingezogen."
   },
   "tailoring": {
     "booking": {
@@ -4152,7 +4395,17 @@
       "unitCmLabel": "Zentimeter",
       "unitIn": "in",
       "unitInLabel": "Zoll",
-      "unitToggleLabel": "Maßeinheit"
+      "unitToggleLabel": "Maßeinheit",
+      "chest": "Brust",
+      "diagramChest": "Brust",
+      "diagramHips": "Hüfte",
+      "diagramLength": "Länge",
+      "diagramWaist": "Taille",
+      "hips": "Hüfte",
+      "length": "Länge",
+      "saveError": "Größen konnten nicht gespeichert werden",
+      "saved": "Größen gespeichert",
+      "waist": "Taille"
     },
     "profile": {
       "not_found": "Dieses Schneider-Profil konnte nicht gefunden werden.",
@@ -4162,7 +4415,8 @@
       "specialties": "Spezialgebiete",
       "load_error": "Daten des Schneiders konnten nicht geladen werden",
       "portfolio_image_alt": "Portfolio {{index}}",
-      "bio": "Mit über 15 Jahren Erfahrung in traditioneller marokkanischer Schneiderei spezialisiere ich mich auf die Herstellung maßgeschneiderter Kleidungsstücke, die traditionelle Handwerkskunst mit modernem Stil verbinden"
+      "bio": "Mit über 15 Jahren Erfahrung in traditioneller marokkanischer Schneiderei spezialisiere ich mich auf die Herstellung maßgeschneiderter Kleidungsstücke, die traditionelle Handwerkskunst mit modernem Stil verbinden",
+      "no_reviews": "Noch keine Bewertungen"
     },
     "stepsCta": "Schneiderei-Auftrag starten",
     "sub": "Unsere 120+ verifizierten Ateliers fertigen maßgeschneiderte marokkanische Kleidungsstücke nach deinen genauen Maßen — versandt weltweit. Keine Anprobe erforderlich.",
@@ -4590,7 +4844,20 @@
     "cta_title": "Ein maßgeschneidertes Stück anfordern",
     "cta_sub": "Gestalte deinen Schmuck mit einem vertrauenswürdigen Handwerker.",
     "cta_button": "Maßanfertigung",
-    "load_error": "Fehler beim Laden der Produkte"
+    "load_error": "Fehler beim Laden der Produkte",
+    "fields": {
+      "material": "Material",
+      "purity": "Reinheit",
+      "weight_grams": "Gewicht",
+      "size": "Größe",
+      "gemstone_type": "Edelstein",
+      "gemstone_count": "Edelsteinanzahl",
+      "gemstone_carat": "Karat",
+      "engraving": "Gravur",
+      "finish": "Oberflächenfinish",
+      "specs_aria": "Schmuckspezifikationen",
+      "piece_specs": "Stückspezifikationen"
+    }
   },
   "notify_me": {
     "back_in_stock": "Benachrichtige mich, wenn es wieder verfügbar ist",
@@ -4720,5 +4987,133 @@
       "usualSizeLabel": "Deine übliche Größe (optional)",
       "weightLabel": "Gewicht (kg)"
     }
+  },
+  "discover": {
+    "empty": "Produkte kommen bald.",
+    "endOfFeed": "Du hast alles gesehen — neue Artikel werden täglich hinzugefügt",
+    "heading": "Mehr zum Lieben",
+    "sectionLabel": "Entdecke mehr",
+    "subheading": "Neue Stücke täglich von marokkanischen Handwerkern",
+    "viewAll": "Alle Produkte durchsuchen"
+  },
+  "editPost": {
+    "blockedTitle": "Bearbeitung nicht verfügbar",
+    "blockedUnknown": "Diese Anfrage kann im Moment nicht bearbeitet werden.",
+    "existingPhotos": "Vorhandene Fotos",
+    "formSubtitle": "Änderungen sind sofort für alle Handwerker sichtbar",
+    "formTitle": "Aktualisiere deine Bestellanfrage",
+    "newPhotos": "neue Fotos hinzufügen",
+    "pageTitle": "Bearbeite deine Anfrage",
+    "photosSubtitle": "Neue Fotos hinzufügen (vorhandene Fotos bleiben)",
+    "saveChanges": "Änderungen speichern",
+    "validationErrors": "Bitte behebe die hervorgehobenen Fehler oben."
+  },
+  "myPosts": {
+    "actionError": "Diese Aktion konnte nicht ausgeführt werden. Versuche es erneut.",
+    "actionForbidden": "Dir ist nicht erlaubt, diese Aktion für diesen Post auszuführen.",
+    "actionValidationError": "Diese Aktion kann nicht abgeschlossen werden. Der Post könnte aktive Vorschläge haben.",
+    "cardTitle": "Deine Open Souk Anfragen",
+    "closeRequest": "Anfrage schließen",
+    "confirmCloseAction": "Ja, schließe sie",
+    "confirmCloseTitle": "Diese Anfrage schließen?",
+    "confirmDeleteAction": "Ja, lösche sie",
+    "confirmDeleteTitle": "Diese Anfrage löschen?",
+    "editNotAllowed": "Kann im Moment nicht bearbeitet werden",
+    "emptyTitle": "Du hast noch keine Anfragen gepostet",
+    "loadError": "Deine Anfragen konnten nicht geladen werden. Versuche es erneut.",
+    "loginBody": "Deine Open Souk Anfragen warten — melden dich an, um sie zu verwalten.",
+    "navLink": "Meine Anfragen",
+    "newRequest": "Neue Anfrage",
+    "pageTitle": "Meine Anfragen"
+  },
+  "pagination": {
+    "label": "Blätterung",
+    "next": "Nächste Seite",
+    "previous": "Vorherige Seite"
+  },
+  "customOrders": {
+    "error": {
+      "load_orders": "Bestellungen konnten nicht geladen werden",
+      "load_detail": "Bestelldetails konnten nicht geladen werden",
+      "invalid_id": "Ungültige Bestellnummer.",
+      "load_order": "Bestellung konnte nicht geladen werden.",
+      "submit": "Deine Anfrage konnte nicht eingereicht werden. Bitte versuche es später erneut."
+    },
+    "loading": "Wird geladen…",
+    "back_to_list": "Zurück zur Liste",
+    "seller_dashboard": "Verkäufer-Dashboard",
+    "order_title": "Bestellung #{{id}}",
+    "page_title": "Maßanfertigungen",
+    "empty_title": "Noch keine Maßanfertigungen",
+    "empty_sub": "Neue Anfragen werden hier angezeigt.",
+    "orders_list_aria": "Bestellliste",
+    "loading_order": "Bestellung wird geladen…",
+    "order_spec": "Bestellspezifikation",
+    "buyer_notes": "Käufernotizen",
+    "customer": "Kunde",
+    "back": "Zurück",
+    "custom_order_eyebrow": "Maßanfertigung",
+    "request_title": "Anfrage für eine Maßanfertigung",
+    "new_intro": "Teile uns mit, was du möchtest. Das einzige erforderliche Feld ist Material – alles andere ist optional. Kunsthandwerker werden es sehen und antworten.",
+    "trust": {
+      "secure": "Sicher",
+      "seen_by_artisans": "Von Kunsthandwerkern gesehen",
+      "verified_artisans": "Verifizierte Kunsthandwerker"
+    },
+    "loading_aria": "Wird geladen",
+    "my_orders": "Meine Bestellungen",
+    "back_to_orders": "Zurück zu Bestellungen",
+    "tracking_eyebrow": "Bestellverfolgung",
+    "your_notes": "Deine Notizen",
+    "select_placeholder": "Wähle…",
+    "loading_fields": "Felder werden geladen…",
+    "no_fields": "Keine benutzerdefinierten Felder für diesen Geschäftsbereich.",
+    "optional": "optional",
+    "field_required": "{{label}} ist erforderlich",
+    "timeline": {
+      "error_advance": "Bestellstatus konnte nicht aktualisiert werden.",
+      "status_label": "Status:",
+      "progress_log": "Fortschrittsprotokoll",
+      "progress_history_aria": "Fortschrittshistorie",
+      "no_progress": "Noch keine Fortschrittseinträge.",
+      "advance_status": "Status aktualisieren",
+      "next_status": "Nächster Status",
+      "select_status": "Status wählen…",
+      "note_label": "Notiz",
+      "note_placeholder": "Notiz hinzufügen…",
+      "updating": "Wird aktualisiert…",
+      "update_cta": "Status aktualisieren",
+      "terminal_state": "Diese Bestellung hat einen Endzustand erreicht.",
+      "current_status": "Aktueller Status",
+      "quote_details": "Angebotsdetails",
+      "quote_amount": "Angebotsamount",
+      "deposit": "Kaution",
+      "paid": "Bezahlt",
+      "eta": "ETA",
+      "order_progress": "Bestellfortschritt",
+      "order_stages_aria": "Bestellphasen",
+      "current_badge": "Aktuell",
+      "cancelled": "Diese Bestellung wurde storniert.",
+      "activity_log": "Aktivitätsprotokoll",
+      "activity_log_aria": "Aktivitätsprotokoll"
+    },
+    "status": {
+      "requested": "Angefordert",
+      "quoted": "Mit Angebot",
+      "deposit_paid": "Kaution bezahlt",
+      "in_progress": "In Bearbeitung",
+      "ready": "Fertig",
+      "delivered": "Geliefert",
+      "closed": "Abgeschlossen",
+      "cancelled": "Storniert"
+    },
+    "submitted_title": "Anfrage eingereicht!",
+    "submitted_desc": "Deine Anfrage #{{id}} wird überprüft. Der Verkäufer wird sich bald bei dir melden.",
+    "track_order": "Bestellung verfolgen",
+    "go_back": "Zurück",
+    "notes_label": "Notizen",
+    "notes_placeholder": "Weitere Details…",
+    "sending": "Wird gesendet…",
+    "send_request": "Anfrage senden"
   }
 }

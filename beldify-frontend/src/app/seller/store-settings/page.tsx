@@ -51,54 +51,56 @@ const inputClass =
 
 interface VerticalOption {
   slug: VerticalSlug;
-  label: string;
-  labelAr: string;
-  description: string;
-  descriptionAr: string;
+  labelKey: string;
+  labelFallback: string;
+  descKey: string;
+  descFallback: string;
   icon: React.ReactNode;
-  badge?: string;
+  badgeKey?: string;
+  badgeFallback?: string;
 }
 
 const VERTICAL_OPTIONS: VerticalOption[] = [
   {
     slug: 'regular',
-    label: 'Regular Store',
-    labelAr: 'متجر عادي',
-    description: 'Sell ready-made products. No custom order configuration.',
-    descriptionAr: 'بيع منتجات جاهزة. لا تكوين مخصص.',
+    labelKey: 'seller.store_settings.verticals.regular',
+    labelFallback: 'Regular Store',
+    descKey: 'seller.store_settings.verticals.regular_desc',
+    descFallback: 'Sell ready-made products. No custom order configuration.',
     icon: <ShoppingBag className="h-5 w-5" />,
   },
   {
     slug: 'jewelry',
-    label: 'Jewelry',
-    labelAr: 'المجوهرات',
-    description: 'Sell ready-made and custom-made jewelry pieces with material, purity, gemstone and finish fields.',
-    descriptionAr: 'بيع المجوهرات الجاهزة والمخصصة مع حقول المادة والنقاء والأحجار الكريمة.',
+    labelKey: 'seller.store_settings.verticals.jewelry',
+    labelFallback: 'Jewelry',
+    descKey: 'seller.store_settings.verticals.jewelry_desc',
+    descFallback: 'Sell ready-made and custom-made jewelry pieces with material, purity, gemstone and finish fields.',
     icon: <Gem className="h-5 w-5" />,
-    badge: 'جديد',
+    badgeKey: 'seller.store_settings.verticals.new_badge',
+    badgeFallback: 'New',
   },
   {
     slug: 'menswear',
-    label: "Men's Clothing",
-    labelAr: 'ملابس رجالية',
-    description: 'Ready-made and made-to-order menswear with measurements and fabric selection.',
-    descriptionAr: 'ملابس رجالية جاهزة وبناءً على الطلب مع قياسات واختيار الأقمشة.',
+    labelKey: 'seller.store_settings.verticals.menswear',
+    labelFallback: "Men's Clothing",
+    descKey: 'seller.store_settings.verticals.menswear_desc',
+    descFallback: 'Ready-made and made-to-order menswear with measurements and fabric selection.',
     icon: <Shirt className="h-5 w-5" />,
   },
   {
     slug: 'womenswear',
-    label: "Women's Clothing",
-    labelAr: 'ملابس نسائية',
-    description: 'Ready-made and made-to-order womenswear with measurements and fabric selection.',
-    descriptionAr: 'ملابس نسائية جاهزة وبناءً على الطلب مع قياسات واختيار الأقمشة.',
+    labelKey: 'seller.store_settings.verticals.womenswear',
+    labelFallback: "Women's Clothing",
+    descKey: 'seller.store_settings.verticals.womenswear_desc',
+    descFallback: 'Ready-made and made-to-order womenswear with measurements and fabric selection.',
     icon: <Users className="h-5 w-5" />,
   },
   {
     slug: 'tailor',
-    label: 'Tailor Store',
-    labelAr: 'متجر الخياطة',
-    description: 'Full tailoring service with measurements, fabric catalog, and custom orders.',
-    descriptionAr: 'خدمة خياطة كاملة مع القياسات وكتالوج الأقمشة والطلبات المخصصة.',
+    labelKey: 'seller.store_settings.verticals.tailor',
+    labelFallback: 'Tailor Store',
+    descKey: 'seller.store_settings.verticals.tailor_desc',
+    descFallback: 'Full tailoring service with measurements, fabric catalog, and custom orders.',
     icon: <Scissors className="h-5 w-5" />,
   },
 ];
@@ -686,8 +688,8 @@ export default function StoreSettingsPage() {
 
               {VERTICAL_OPTIONS.map(option => {
                 const isActive = activeVertical === option.slug;
-                const label = isRTL ? option.labelAr : option.label;
-                const desc = isRTL ? option.descriptionAr : option.description;
+                const label = t(option.labelKey, option.labelFallback);
+                const desc = t(option.descKey, option.descFallback);
 
                 return (
                   <label
@@ -725,9 +727,9 @@ export default function StoreSettingsPage() {
                         <span className={cn('font-semibold text-gray-900', isActive && 'text-indigo-700')}>
                           {label}
                         </span>
-                        {option.badge && (
+                        {option.badgeKey && (
                           <span className="inline-flex items-center rounded-full bg-amber-100 px-2 py-0.5 text-[10px] font-bold text-amber-800 uppercase tracking-wide">
-                            {option.badge}
+                            {t(option.badgeKey, option.badgeFallback ?? 'New')}
                           </span>
                         )}
                         {storeType === option.slug && !pendingVertical && (

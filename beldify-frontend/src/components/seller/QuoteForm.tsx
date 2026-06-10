@@ -20,7 +20,7 @@ export interface QuoteFormProps {
 }
 
 export default function QuoteForm({ order, onQuoted }: QuoteFormProps) {
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
   const isRTL = i18n.language === 'ar';
 
   const [quoteAmount, setQuoteAmount] = useState('');
@@ -42,15 +42,15 @@ export default function QuoteForm({ order, onQuoted }: QuoteFormProps) {
     const da = parseFloat(depositAmount);
 
     if (!qa || qa <= 0) {
-      setError(isRTL ? 'مبلغ العرض مطلوب ويجب أن يكون أكبر من الصفر' : 'Quote amount is required and must be > 0');
+      setError(t('seller.quote.error_amount', 'Quote amount is required and must be > 0'));
       return;
     }
     if (da < 0 || da > qa) {
-      setError(isRTL ? 'يجب أن يكون العربون بين 0 وقيمة العرض' : 'Deposit must be between 0 and quote amount');
+      setError(t('seller.quote.error_deposit', 'Deposit must be between 0 and quote amount'));
       return;
     }
     if (!eta || eta <= today) {
-      setError(isRTL ? 'تاريخ التسليم المتوقع يجب أن يكون في المستقبل' : 'ETA must be a future date');
+      setError(t('seller.quote.error_eta', 'ETA must be a future date'));
       return;
     }
 
@@ -64,7 +64,7 @@ export default function QuoteForm({ order, onQuoted }: QuoteFormProps) {
       const updated = await submitQuote(order.id, payload);
       onQuoted(updated);
     } catch {
-      setError(isRTL ? 'تعذّر إرسال العرض. حاول مجدداً.' : 'Failed to submit quote. Please try again.');
+      setError(t('seller.quote.error_submit', 'Failed to submit quote. Please try again.'));
     } finally {
       setSubmitting(false);
     }
@@ -73,7 +73,7 @@ export default function QuoteForm({ order, onQuoted }: QuoteFormProps) {
   return (
     <form onSubmit={handleSubmit} className="rounded-2xl ring-1 ring-gray-200 bg-white p-5 space-y-4" dir={isRTL ? 'rtl' : 'ltr'}>
       <p className="text-xs uppercase tracking-[0.18em] text-amber-700 font-medium">
-        {isRTL ? 'إرسال العرض السعري' : 'Send a Quote'}
+        {t('seller.quote.section_title', 'Send a Quote')}
       </p>
 
       {error && (
@@ -86,7 +86,7 @@ export default function QuoteForm({ order, onQuoted }: QuoteFormProps) {
         {/* Quote amount */}
         <div className="space-y-1.5">
           <label htmlFor="quote_amount" className="text-sm font-medium text-gray-700">
-            {isRTL ? 'مبلغ العرض (درهم)' : 'Quote Amount (MAD)'}
+            {t('seller.quote.amount_label', 'Quote Amount (MAD)')}
             <span className="text-rose-600 ms-1" aria-label="required">*</span>
           </label>
           <input
@@ -106,7 +106,7 @@ export default function QuoteForm({ order, onQuoted }: QuoteFormProps) {
         {/* Deposit amount */}
         <div className="space-y-1.5">
           <label htmlFor="deposit_amount" className="text-sm font-medium text-gray-700">
-            {isRTL ? 'العربون (درهم)' : 'Deposit (MAD)'}
+            {t('seller.quote.deposit_label', 'Deposit (MAD)')}
             <span className="text-rose-600 ms-1" aria-label="required">*</span>
           </label>
           <input
@@ -127,7 +127,7 @@ export default function QuoteForm({ order, onQuoted }: QuoteFormProps) {
       {/* ETA */}
       <div className="space-y-1.5">
         <label htmlFor="eta" className="text-sm font-medium text-gray-700">
-          {isRTL ? 'تاريخ التسليم المتوقع' : 'Estimated Delivery Date (ETA)'}
+          {t('seller.quote.eta_label', 'Estimated Delivery Date (ETA)')}
           <span className="text-rose-600 ms-1" aria-label="required">*</span>
         </label>
         <input
@@ -156,8 +156,8 @@ export default function QuoteForm({ order, onQuoted }: QuoteFormProps) {
           ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden />
           : <Send className="h-4 w-4" aria-hidden />}
         {submitting
-          ? (isRTL ? 'جارٍ الإرسال…' : 'Sending…')
-          : (isRTL ? 'إرسال العرض' : 'Send Quote')}
+          ? t('seller.quote.sending', 'Sending…')
+          : t('seller.quote.send_cta', 'Send Quote')}
       </button>
     </form>
   );

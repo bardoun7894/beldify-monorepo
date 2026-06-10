@@ -119,7 +119,13 @@
     "womens_traditional_wear_description": "Explora nuestra selección de trajes tradicionales elegantes para mujer",
     "yesterday": "Ayer",
     "go_back": "Volver",
-    "dismiss": "Cerrar"
+    "dismiss": "Cerrar",
+    "copy": "Copiar",
+    "read_more": "Leer más",
+    "saving": "Guardando…",
+    "show_less": "Mostrar menos",
+    "show_more": "Mostrar más",
+    "need_help": "¿Necesitas ayuda?"
   },
   "validation": {
     "required": "Este campo es obligatorio",
@@ -328,7 +334,8 @@
     "verify_email_resent": "¡Correo de verificación enviado! Revisa tu bandeja.",
     "rate_limit": "Demasiadas solicitudes. Espera un momento.",
     "resend_failed": "No se pudo enviar. Inténtalo de nuevo.",
-    "verify_email_banner": "Verifica tu correo para desbloquear todas las funciones."
+    "verify_email_banner": "Verifica tu correo para desbloquear todas las funciones.",
+    "signInRequired": "Inicia sesión para ver tus solicitudes"
   },
   "navigation": {
     "home": "Inicio",
@@ -367,7 +374,9 @@
     "messages": "Mensajes",
     "register": "Registrarse",
     "login": "Iniciar sesión",
-    "community": "Open Souk"
+    "community": "Open Souk",
+    "login_short": "Entrar",
+    "openSouk": "Zoco Abierto"
   },
   "category": {
     "popularCategories": "Categorías populares",
@@ -567,7 +576,10 @@
     "tab_description": "Descripción",
     "tab_specs": "Especificaciones",
     "tab_sizing": "Tallas",
-    "tab_reviews": "Reseñas"
+    "tab_reviews": "Reseñas",
+    "close_zoom": "Cierra el zoom",
+    "free_shipping": "Envío gratis",
+    "zoom_image": "Amplía la imagen"
   },
   "stock": {
     "in_stock": "En stock ({{count}})",
@@ -631,7 +643,8 @@
       "continue_shopping": "Continuar comprando",
       "free": "Gratis",
       "freeShippingHint": "Añade {{amount}} MAD más para envío gratis",
-      "kicker": "Resumen del pedido"
+      "kicker": "Resumen del pedido",
+      "checkout_darija": "Completa la compra"
     },
     "coupon": {
       "label": "Cupón",
@@ -844,7 +857,10 @@
       "festive_set": "Conjunto Festivo Infantil",
       "girls_caftan": "Caftan Niña",
       "kids_kandora": "Kandora Infantil"
-    }
+    },
+    "empty_title": "Pronto en stock",
+    "end_of_list": "Todos los productos cargados",
+    "no_results_hint": "Esta categoría no tiene productos en este momento — vuelve pronto."
   },
   "order": {
     "title": "Pedido #{{orderNumber}}",
@@ -946,7 +962,8 @@
       "support": "Soporte",
       "cancel_order": "Cancelar pedido",
       "request_return": "Solicitar devolución",
-      "return_request": "Solicitud de devolución"
+      "return_request": "Solicitud de devolución",
+      "back_to_order": "Volver al pedido"
     },
     "filter": {
       "all": "Todos los pedidos",
@@ -1090,7 +1107,20 @@
         "pending": "Pendiente"
       },
       "load_error": "No se pudo cargar el pedido",
-      "not_found": "Pedido no encontrado"
+      "not_found": "Pedido no encontrado",
+      "bill_to": "Facturar a",
+      "brand_tagline": "Mercado de Artesanía Marroquí",
+      "cancelled_msg": "No hay factura disponible para pedidos cancelados.",
+      "col_item": "Artículo",
+      "col_qty": "Cantidad",
+      "col_total": "Total",
+      "col_unit": "Unitario",
+      "download_print": "Descarga / Imprime la factura",
+      "invoice_label": "FACTURA",
+      "payment_method": "Método de pago",
+      "payment_status": "Estado del pago",
+      "ship_to": "Enviar a",
+      "title": "Factura"
     },
     "reorder": {
       "added": "Añadido a tu carrito",
@@ -1310,7 +1340,8 @@
       "need_help_title": "¿No sabes cómo pagar?",
       "need_help_body": "Escríbenos o llámanos y te guiamos.",
       "whatsapp": "WhatsApp",
-      "call": "Llámanos"
+      "call": "Llámanos",
+      "cod_subtitle": "Paga cuando recibas el artículo — pago contra entrega"
     },
     "order_summary": {
       "title": "Resumen del pedido",
@@ -1327,7 +1358,9 @@
       "place_order": "Realizar pedido",
       "processing": "Procesando...",
       "back_to_shipping": "Volver a envío",
-      "continue_payment": "Continuar al pago"
+      "continue_payment": "Continuar al pago",
+      "confirm_order": "Confirma el pedido",
+      "continue_to_confirm": "Continúa para confirmar"
     },
     "validation": {
       "required": "Este campo es obligatorio",
@@ -1389,7 +1422,8 @@
       "saved_addresses": "Direcciones guardadas",
       "type_new": "Introducir una nueva dirección",
       "default_badge": "Predeterminada",
-      "save_for_next": "Guardar esta dirección para futuros pedidos"
+      "save_for_next": "Guardar esta dirección para futuros pedidos",
+      "extra_fields_toggle": "Añade más detalles (apartamento, código postal)"
     },
     "bespoke": {
       "cta": "Explorar personalizado"
@@ -1436,6 +1470,14 @@
     "quote": {
       "loading": "Calculando el total…",
       "load_error": "No se pudo calcular el total. Inténtalo de nuevo."
+    },
+    "guest": {
+      "have_account": "¿Tienes cuenta? Entra"
+    },
+    "progress": {
+      "bag": "Carrito",
+      "confirm": "Confirmación",
+      "info": "Información"
     }
   },
   "profile": {
@@ -1588,11 +1630,14 @@
     "shop_not_found": "Información de la tienda no disponible",
     "boundary": {
       "title": "Algo salió mal",
-      "body": "Lamentamos las molestias. Por favor, actualiza la página.",
+      "body": "Ocurrió un error inesperado. Intenta actualizar la página.",
       "devDetails": "Detalles del error (Desarrollo)",
       "errorLabel": "Error:",
       "retry": "Reintentar",
-      "reload": "Recargar página"
+      "reload": "Recargar página",
+      "oops": "¡Vaya!",
+      "refresh": "Actualizar página",
+      "home": "Ir al inicio"
     },
     "api": {
       "title": "Error al cargar los datos",
@@ -1610,7 +1655,8 @@
     "productNotFoundDesc": "Este producto no se encontró o ya no está disponible.",
     "something_went_wrong": "Algo salió mal",
     "product_load_failed": "Error al cargar el producto",
-    "stock_unavailable": "Este artículo no está disponible"
+    "stock_unavailable": "Este artículo no está disponible",
+    "session_storage_unavailable": "No se puede continuar — por favor habilita las cookies"
   },
   "notifications": {
     "success": {
@@ -1665,7 +1711,8 @@
         "new_follower": "Nuevo seguidor",
         "back_in_stock": "De vuelta en stock",
         "price_drop": "Bajada de precio"
-      }
+      },
+      "loadError": "No se pudieron cargar las notificaciones. Verifica tu conexión e intenta de nuevo."
     }
   },
   "filters": {
@@ -2821,7 +2868,9 @@
       "description": "Descubre nuestra colección exclusiva de productos destacados diseñados especialmente para ti",
       "subtitle": "Una colección única",
       "title": "Productos exclusivos"
-    }
+    },
+    "banner_alt": "Colección de caftanes",
+    "atelier_alt": "Taller marroquí"
   },
   "community": {
     "respond_short": "Responder",
@@ -3107,7 +3156,30 @@
     "view_attachment": "Ver Adjunto",
     "view_shop_button": "Ver Tienda",
     "view_shop_button_footer": "Ver Tienda",
-    "your_post_detail": "Tu solicitud"
+    "your_post_detail": "Tu solicitud",
+    "colors": "Colores",
+    "interested_q": "¿Interesado en este trabajo?",
+    "job_progress": "Progreso",
+    "login_cta_body": "Inicia sesión en tu cuenta de vendedor para responder a esta solicitud.",
+    "login_to_propose": "¿Quieres enviar una propuesta?",
+    "no_proposals_yet": "¡Sé el primer artesano en responder!",
+    "no_proposals_yet_title": "Sin propuestas aún",
+    "posted_by": "Publicado por",
+    "preview": "Vista previa",
+    "proposal_accepted": "¡Propuesta aceptada!",
+    "proposal_already_submitted": "Ya has enviado una propuesta para este trabajo.",
+    "proposals": "propuestas",
+    "reference_images": "Imágenes de referencia",
+    "request": "solicitud",
+    "requirements": "Requisitos",
+    "response_image_alt": "Imagen de respuesta",
+    "skills_comma_hint": "Separa con comas",
+    "styles": "Estilos",
+    "thumbnail": "Miniatura",
+    "view_custom_order": "Ver tu encargo personalizado",
+    "view_image": "Ver imagen",
+    "view_portfolio": "Ver portafolio",
+    "your_bid": "Tu Oferta"
   },
   "pwa": {
     "banner": {
@@ -3238,7 +3310,8 @@
       "available": "Actualización disponible",
       "install": "Instalar actualización",
       "later": "Más tarde"
-    }
+    },
+    "app_icon_alt": "Icono de la aplicación"
   },
   "brand": {
     "name": "Beldify",
@@ -3490,7 +3563,8 @@
       "section15Title": "15. Terminación",
       "section15p1": "Podemos terminar o suspender su cuenta de inmediato, sin previo aviso.",
       "section16Title": "16. Información de contacto",
-      "section16Intro": "Si tiene alguna pregunta sobre estos términos, contáctenos en:"
+      "section16Intro": "Si tiene alguna pregunta sobre estos términos, contáctenos en:",
+      "sellerTermsLink": "Términos del Vendedor"
     },
     "tailors": {
       "eyebrow": "Servicios profesionales",
@@ -3820,7 +3894,8 @@
   "tabs": {
     "general": "General",
     "preferences": "Preferencias",
-    "security": "Seguridad"
+    "security": "Seguridad",
+    "addresses": "Direcciones"
   },
   "trust": {
     "authentic": "Artesanía 100% auténtica",
@@ -3868,13 +3943,21 @@
     "copy_slogan": "Copiar eslogan",
     "copy_description": "Copiar descripción",
     "applied": "Aplicado a la descripción de la tienda.",
-    "apply_description": "Aplicar a la descripción"
+    "apply_description": "Aplicar a la descripción",
+    "chip": {
+      "suggestedMeasurements": "Medidas sugeridas por IA"
+    }
   },
   "pdp": {
     "aiStyling": "Estilizado por IA",
     "artisanMade": "Hecho artesanalmente",
     "complete_the_look": "Completa el look",
-    "trustedArtisan": "Vendedor artesano verificado"
+    "trustedArtisan": "Vendedor artesano verificado",
+    "howToBuy": {
+      "cod_note": "Pago contra entrega — no necesitas tarjeta bancaria",
+      "title": "¿Cómo comprar?",
+      "trigger": "¿Cómo comprar?"
+    }
   },
   "actions": {
     "close": "Cerrar",
@@ -3899,7 +3982,16 @@
       "ai_chip": "Estilizado con IA para ti",
       "carousel_prev": "Diapositiva anterior",
       "carousel_next": "Diapositiva siguiente",
-      "section_label": "Banner principal"
+      "section_label": "Banner principal",
+      "art_slide1_headline": "Envío gratuito por más de 500 MAD",
+      "art_slide1_subline": "Caftanes y chilabas de talleres marroquíes de confianza",
+      "art_slide1_cta": "Comprar ahora",
+      "art_slide2_headline": "Hecho a tu medida",
+      "art_slide2_subline": "Elige el taller, envía tus medidas, recibe tu pieza en casa",
+      "art_slide2_cta": "Iniciar pedido a medida",
+      "art_slide3_headline": "Zoco Abierto — publica tu encargo y deja que los talleres compitan",
+      "art_slide3_subline": "Nuestros artesanos compiten por tu proyecto",
+      "art_slide3_cta": "Publicar un encargo ahora"
     },
     "trust": {
       "verified_sellers": "Vendedores verificados",
@@ -3922,7 +4014,8 @@
       "cta_shop_collection": "Comprar la colección",
       "cta_explore": "Explorar ahora",
       "festive_title": "Colección de Ocasiones",
-      "festive_description": "Caftanes y takchitas para bodas y ocasiones especiales, bordados a mano con amor."
+      "festive_description": "Caftanes y takchitas para bodas y ocasiones especiales, bordados a mano con amor.",
+      "cta_explore_aria": "Explora la colección festiva"
     },
     "tailoring": {
       "headline": "¿Quieres que sea a tu medida?",
@@ -3934,7 +4027,8 @@
       "step2_detail": "Usa nuestro formulario guiado o sube un patrón existente.",
       "step3_title": "Recibir tu prenda",
       "step3_detail": "Acabado a mano y enviado a tu puerta en 2–4 semanas.",
-      "badge_ar": "خياطة على القياس"
+      "badge_ar": "خياطة على القياس",
+      "steps_label": "Cómo funciona la confección a medida"
     },
     "ateliers": {
       "subtitle": "Talleres seleccionados",
@@ -3956,7 +4050,10 @@
       "stat_range_label": "Rango de precio típico",
       "stat_sellers_label": "Vendedores activos",
       "stat_protection_label": "Protección del comprador",
-      "stat_sellers_value": "En crecimiento"
+      "stat_sellers_value": "En crecimiento",
+      "stat_range_value": "299–5.999 MAD",
+      "stat_range_hint": "Lo que suelen cobrar los vendedores",
+      "stat_protection_value": "14 días"
     },
     "openSouk": {
       "eyebrow": "En vivo",
@@ -4068,7 +4165,9 @@
       "label_ar": "تابِع المتجر",
       "following": "Siguiendo",
       "following_ar": "تتابِع"
-    }
+    },
+    "reviews_aggregate": "{{count}} opiniones verificadas",
+    "reviews_aggregate_sub": "Las valoraciones se recopilan de compradores verificados después de la entrega."
   },
   "tailoring": {
     "booking": {
@@ -4129,7 +4228,17 @@
       "unitCmLabel": "Centímetros",
       "unitIn": "pulg",
       "unitInLabel": "Pulgadas",
-      "unitToggleLabel": "Unidad de medida"
+      "unitToggleLabel": "Unidad de medida",
+      "chest": "Pecho",
+      "diagramChest": "Pecho",
+      "diagramHips": "Caderas",
+      "diagramLength": "Largo",
+      "diagramWaist": "Cintura",
+      "hips": "Caderas",
+      "length": "Largo",
+      "saveError": "No se pudieron guardar las medidas",
+      "saved": "Medidas guardadas",
+      "waist": "Cintura"
     },
     "profile": {
       "not_found": "No se encontró el perfil de este sastre.",
@@ -4139,7 +4248,8 @@
       "specialties": "Especialidades",
       "load_error": "Error al cargar los datos del sastre",
       "portfolio_image_alt": "Portfolio {{index}}",
-      "bio": "Con más de 15 años de experiencia en confección marroquí tradicional, me especializo en crear prendas personalizadas que combinan la artesanía tradicional con el estilo moderno"
+      "bio": "Con más de 15 años de experiencia en confección marroquí tradicional, me especializo en crear prendas personalizadas que combinan la artesanía tradicional con el estilo moderno",
+      "no_reviews": "Sin opiniones aún"
     },
     "stepsCta": "Iniciar un pedido de confección",
     "sub": "Más de 120 talleres verificados crean prendas marroquíes a medida según tus medidas exactas — enviadas a cualquier parte del mundo. Sin probador necesario.",
@@ -4293,7 +4403,8 @@
     "sign_in_description": "Accede a tus conversaciones con talleres artesanales.",
     "sign_in_required": "Inicia sesión para ver mensajes",
     "start_conversation_hint": "Inicia la conversación, saluda al taller.",
-    "type_a_message": "Escribe un mensaje…"
+    "type_a_message": "Escribe un mensaje…",
+    "typing_aria": "La otra persona está escribiendo"
   },
   "openSouk": {
     "browseCta": "Explorar solicitudes",
@@ -4332,7 +4443,13 @@
     "searchPlaceholder": "Buscar solicitudes...",
     "skills": "Habilidades",
     "sortBy": "Ordenar por",
-    "feedError": "No se pudieron cargar las solicitudes"
+    "feedError": "No se pudieron cargar las solicitudes",
+    "sort": {
+      "budgetAsc": "Presupuesto: Menor → Mayor",
+      "budgetDesc": "Presupuesto: Mayor → Menor",
+      "latest": "Más reciente",
+      "oldest": "Más antiguo"
+    }
   },
   "seller": {
     "register": {
@@ -4371,7 +4488,8 @@
       "subtitle": "Solicita unirte a Beldify y vende tus artesanías marroquíes a compradores de todo el mundo.",
       "title": "Conviértete en Vendedor",
       "validation_business_type": "Por favor selecciona un tipo de negocio",
-      "validation_country": "Por favor selecciona un país"
+      "validation_country": "Por favor selecciona un país",
+      "track_application_cta": "Sigue tu aplicación"
     },
     "product": {
       "edit_title": "Editar producto",
@@ -4416,10 +4534,33 @@
       "validation_error": "Por favor, revisa tu entrada.",
       "validation_name": "Se requiere el nombre del producto (inglés).",
       "validation_price": "Por favor, introduce un precio válido.",
-      "validation_quantity": "Por favor, introduce una cantidad válida."
+      "validation_quantity": "Por favor, introduce una cantidad válida.",
+      "danger_zone": "Zona de peligro",
+      "delete_confirm_prompt": "¿Estás seguro?",
+      "delete_confirm_yes": "Sí, eliminar",
+      "delete_cta": "Elimina el producto",
+      "delete_error": "Error al eliminar el producto. Intenta de nuevo.",
+      "delete_success": "Producto eliminado.",
+      "delete_warning": "Eliminar este producto es permanente y no se puede deshacer.",
+      "deleting": "Eliminando...",
+      "load_error": "No se pudo cargar el producto. Intenta de nuevo."
     },
     "products": {
-      "edit_aria": "Editar {{name}}"
+      "edit_aria": "Editar {{name}}",
+      "add_first_product": "Añade tu primer producto",
+      "add_product": "Añade producto",
+      "back_to_list": "Volver a productos",
+      "col_name": "Producto",
+      "col_price": "Precio (MAD)",
+      "col_status": "Estado",
+      "col_stock": "Stock",
+      "eyebrow": "Inventario",
+      "fetch_error": "No se pudieron cargar los productos.",
+      "no_products": "Sin productos aún",
+      "no_products_sub": "Añade tu primer producto para empezar a vender.",
+      "status_active": "Activo",
+      "status_inactive": "Inactivo",
+      "title": "Mis Productos"
     },
     "store_settings": {
       "profile_section_title": "Perfil de la tienda",
@@ -4435,10 +4576,51 @@
       "save_success": "Perfil de la tienda guardado",
       "save_error": "No se pudo guardar el perfil. Inténtalo de nuevo.",
       "validation_error": "Corrige los errores a continuación e inténtalo de nuevo.",
-      "fetch_error": "No se pudo cargar el perfil de la tienda."
+      "fetch_error": "No se pudo cargar el perfil de la tienda.",
+      "address_label": "Dirección",
+      "address_placeholder": "Calle, ciudad, país",
+      "current_badge": "Actual",
+      "description_label": "Descripción de la tienda",
+      "description_placeholder": "Cuéntales a los compradores sobre tu tienda...",
+      "email_label": "Email de contacto",
+      "eyebrow": "Configuración de la Tienda",
+      "fields_for_vertical": "Campos para esta vertical",
+      "name_label": "Nombre de la tienda",
+      "name_placeholder": "p.ej. Atlas Bijoux",
+      "phone_label": "Número de teléfono",
+      "profile_saved": "¡Perfil de la tienda guardado!",
+      "profile_section": "Información de la tienda",
+      "saved": "Guardado",
+      "title": "Perfil de la tienda",
+      "vertical_legend": "Vertical de la tienda",
+      "vertical_save_error": "Error al actualizar el tipo de tienda. Intenta de nuevo.",
+      "vertical_saved": "¡Tipo de tienda actualizado!",
+      "vertical_section": "Tipo de tienda",
+      "verticals": {
+        "regular": "Tienda Regular",
+        "regular_desc": "Vende productos listos. Sin configuración de pedidos personalizados.",
+        "jewelry": "Joyería",
+        "jewelry_desc": "Vende piezas de joyería hechas y personalizadas con campos de material, pureza, piedra preciosa y acabado.",
+        "new_badge": "Nuevo",
+        "menswear": "Ropa para Hombres",
+        "menswear_desc": "Ropa para hombres lista y hecha a medida con selección de medidas y telas.",
+        "womenswear": "Ropa para Mujeres",
+        "womenswear_desc": "Ropa para mujeres lista y hecha a medida con selección de medidas y telas.",
+        "tailor": "Tienda de Sastre",
+        "tailor_desc": "Servicio completo de sastrería con medidas, catálogo de telas y pedidos personalizados."
+      }
     },
     "nav": {
-      "messages": "Mensajes"
+      "messages": "Mensajes",
+      "aria_label": "Navegación del vendedor",
+      "custom_orders": "Encargos Personalizados",
+      "dashboard": "Panel de Control",
+      "earnings": "Ingresos",
+      "mobile_aria_label": "Navegación del vendedor móvil",
+      "orders": "Pedidos",
+      "products": "Productos",
+      "profile": "Perfil",
+      "store_settings": "Configuración de la Tienda"
     },
     "messages": {
       "eyebrow": "Panel del vendedor",
@@ -4540,6 +4722,87 @@
       "suspended_title": "Tu tienda ha sido suspendida",
       "title": "Completa tu perfil",
       "validation_error": "Por favor, revisa tu entrada."
+    },
+    "earnings": {
+      "breakdown_heading": "Desglose financiero",
+      "chart_heading": "Ingresos por día",
+      "chart_sub": "Mostrando últimos ${earnings.period} días en ${earnings.currency}",
+      "commission": "Comisión de la plataforma",
+      "eyebrow": "Centro del Vendedor",
+      "fetch_error": "No se pudieron cargar los datos de ingresos.",
+      "gross": "Ingresos brutos",
+      "kpi_commission": "Comisión pagada",
+      "kpi_gross": "Ingresos Brutos",
+      "kpi_net": "Ingresos Netos",
+      "kpi_orders": "Pedidos",
+      "net": "Ingresos netos",
+      "title": "Ingresos",
+      "no_daily_data": "No hay datos diarios disponibles",
+      "chart_aria": "Gráfico de ganancias por día"
+    },
+    "layout": {
+      "become_seller_cta": "Conviértete en vendedor",
+      "credit_chip_aria": "Saldo de créditos IA",
+      "hub_label": "Centro del Vendedor",
+      "not_seller_title": "Aún no eres vendedor",
+      "storefront_link": "← Volver a la tienda"
+    },
+    "order_detail": {
+      "back": "Pedidos",
+      "col_product": "Producto",
+      "col_qty": "Cantidad",
+      "col_total": "Total",
+      "col_unit": "Unitario",
+      "col_variant": "Variante",
+      "commission": "Comisión (${order.commission_rate}%)",
+      "customer_heading": "Cliente",
+      "eyebrow": "Detalle del Pedido",
+      "fetch_error": "No se pudo cargar el pedido.",
+      "financials_heading": "Resumen",
+      "items_heading": "Artículos",
+      "net": "Neto para ti",
+      "shipping_heading": "Dirección de envío",
+      "status_updated": "Estado del pedido actualizado",
+      "subtotal": "Subtotal",
+      "suspended_error": "Tu tienda está suspendida — no se pueden actualizar pedidos.",
+      "update_btn": "Actualiza el estado",
+      "update_error": "Error al actualizar el estado del pedido.",
+      "update_status_label": "Actualiza el estado del pedido",
+      "updating": "Actualizando…"
+    },
+    "orders": {
+      "col_customer": "Cliente",
+      "col_items": "Artículos",
+      "col_number": "Pedido",
+      "col_status": "Estado",
+      "col_total": "Total",
+      "eyebrow": "Centro del Vendedor",
+      "filter_label": "Filtra por estado",
+      "next_page": "Página siguiente",
+      "no_orders": "Sin pedidos aún",
+      "no_orders_sub": "Los pedidos aparecerán aquí una vez que los clientes compren en tu tienda.",
+      "pagination_info": "Página ${meta.current_page} de ${meta.last_page} — ${meta.total} pedidos",
+      "prev_page": "Página anterior",
+      "title": "Pedidos"
+    },
+    "onboarding_banner": {
+      "active": "Tienda activa y en línea",
+      "view_journey": "Ver el recorrido",
+      "pending": "Solicitud en revisión",
+      "progress": "Completa la configuración de tu tienda — {{pct}}% hecho",
+      "finish_hint": "Termina tu perfil para desbloquear todas las funciones y empezar a vender."
+    },
+    "quote": {
+      "error_amount": "El monto del presupuesto es obligatorio y debe ser > 0",
+      "error_deposit": "El depósito debe estar entre 0 y el monto del presupuesto",
+      "error_eta": "La fecha estimada debe ser una fecha futura",
+      "error_submit": "No se pudo enviar el presupuesto. Inténtalo de nuevo.",
+      "section_title": "Enviar un Presupuesto",
+      "amount_label": "Monto del Presupuesto (MAD)",
+      "deposit_label": "Depósito (MAD)",
+      "eta_label": "Fecha de Entrega Estimada (ETA)",
+      "sending": "Enviando…",
+      "send_cta": "Enviar Presupuesto"
     }
   },
   "header": {
@@ -4605,7 +4868,20 @@
     "cta_title": "Pide una pieza personalizada",
     "cta_sub": "Diseña tus joyas con un artesano de confianza.",
     "cta_button": "Pedido personalizado",
-    "load_error": "Error al cargar los productos"
+    "load_error": "Error al cargar los productos",
+    "fields": {
+      "material": "Material",
+      "purity": "Pureza",
+      "weight_grams": "Peso",
+      "size": "Talla",
+      "gemstone_type": "Piedra Preciosa",
+      "gemstone_count": "Cantidad de Piedras",
+      "gemstone_carat": "Quilate",
+      "engraving": "Grabado",
+      "finish": "Acabado",
+      "specs_aria": "Especificaciones de joyería",
+      "piece_specs": "Especificaciones de la Pieza"
+    }
   },
   "notify_me": {
     "back_in_stock": "Avísame cuando vuelva",
@@ -4735,5 +5011,133 @@
       "errorMessage": "Algo salió mal. Por favor intenta de nuevo.",
       "provenance": "Potenciado por IA · asistente Beldify"
     }
+  },
+  "discover": {
+    "empty": "Productos disponibles pronto.",
+    "endOfFeed": "Lo has visto todo — nuevas incorporaciones se añaden diariamente",
+    "heading": "Más cosas que te encantarán",
+    "sectionLabel": "Descubre más",
+    "subheading": "Nuevas piezas añadidas diariamente por artesanos marroquíes",
+    "viewAll": "Explora todos los productos"
+  },
+  "editPost": {
+    "blockedTitle": "Edición no disponible",
+    "blockedUnknown": "Esta solicitud no se puede editar en este momento.",
+    "existingPhotos": "Fotos existentes",
+    "formSubtitle": "Los cambios serán visibles para todos los artesanos inmediatamente",
+    "formTitle": "Actualiza tu solicitud personalizada",
+    "newPhotos": "nueva(s) foto(s) para añadir",
+    "pageTitle": "Edita tu solicitud",
+    "photosSubtitle": "Añade nuevas fotos (las fotos existentes se conservan)",
+    "saveChanges": "Guarda los cambios",
+    "validationErrors": "Por favor, corrige los errores resaltados arriba."
+  },
+  "myPosts": {
+    "actionError": "No se pudo realizar esta acción. Intenta de nuevo.",
+    "actionForbidden": "No tienes permiso para realizar esta acción en esta publicación.",
+    "actionValidationError": "Esta acción no se puede completar. La publicación puede tener propuestas activas.",
+    "cardTitle": "Tus solicitudes de Zoco Abierto",
+    "closeRequest": "Cierra la solicitud",
+    "confirmCloseAction": "Sí, ciérrala",
+    "confirmCloseTitle": "¿Cerrar esta solicitud?",
+    "confirmDeleteAction": "Sí, elimínala",
+    "confirmDeleteTitle": "¿Eliminar esta solicitud?",
+    "editNotAllowed": "No se puede editar en esta etapa",
+    "emptyTitle": "Aún no has publicado ninguna solicitud",
+    "loadError": "No se pudieron cargar tus solicitudes. Intenta de nuevo.",
+    "loginBody": "Tus solicitudes de Zoco Abierto te esperan — inicia sesión para gestionarlas.",
+    "navLink": "Mis solicitudes",
+    "newRequest": "Nueva solicitud",
+    "pageTitle": "Mis Solicitudes"
+  },
+  "pagination": {
+    "label": "Paginación",
+    "next": "Página siguiente",
+    "previous": "Página anterior"
+  },
+  "customOrders": {
+    "error": {
+      "load_orders": "No se pudo cargar los pedidos",
+      "load_detail": "No se pudo cargar el detalle del pedido",
+      "invalid_id": "ID de pedido no válido.",
+      "load_order": "No se pudo cargar el pedido.",
+      "submit": "No se pudo enviar tu solicitud. Inténtalo de nuevo."
+    },
+    "loading": "Cargando…",
+    "back_to_list": "Volver a la lista",
+    "seller_dashboard": "Panel del Vendedor",
+    "order_title": "Pedido #{{id}}",
+    "page_title": "Pedidos Personalizados",
+    "empty_title": "Aún no hay pedidos personalizados",
+    "empty_sub": "Las nuevas solicitudes aparecerán aquí.",
+    "orders_list_aria": "Lista de pedidos",
+    "loading_order": "Cargando pedido…",
+    "order_spec": "Especificaciones del Pedido",
+    "buyer_notes": "Notas del comprador",
+    "customer": "Cliente",
+    "back": "Atrás",
+    "custom_order_eyebrow": "Pedido Personalizado",
+    "request_title": "Solicita una Pieza Personalizada",
+    "new_intro": "Cuéntanos qué deseas. El único campo obligatorio es Material, todo lo demás es opcional. Los artesanos lo verán y te responderán.",
+    "trust": {
+      "secure": "Seguro",
+      "seen_by_artisans": "Visto por artesanos",
+      "verified_artisans": "Artesanos verificados"
+    },
+    "loading_aria": "Cargando",
+    "my_orders": "Mis Pedidos",
+    "back_to_orders": "Volver a los pedidos",
+    "tracking_eyebrow": "Seguimiento del Pedido",
+    "your_notes": "Tus Notas",
+    "select_placeholder": "Selecciona…",
+    "loading_fields": "Cargando campos…",
+    "no_fields": "Sin campos personalizados para esta categoría.",
+    "optional": "opcional",
+    "field_required": "{{label}} es obligatorio",
+    "timeline": {
+      "error_advance": "No se pudo cambiar el estado del pedido.",
+      "status_label": "Estado:",
+      "progress_log": "Registro de Progreso",
+      "progress_history_aria": "Historial de progreso",
+      "no_progress": "Aún no hay entradas de progreso.",
+      "advance_status": "Cambiar Estado",
+      "next_status": "Siguiente Estado",
+      "select_status": "Selecciona estado…",
+      "note_label": "Nota",
+      "note_placeholder": "Añade una nota…",
+      "updating": "Actualizando…",
+      "update_cta": "Actualizar Estado",
+      "terminal_state": "Este pedido ha alcanzado un estado final.",
+      "current_status": "Estado Actual",
+      "quote_details": "Detalles del Presupuesto",
+      "quote_amount": "Monto del Presupuesto",
+      "deposit": "Depósito",
+      "paid": "Pagado",
+      "eta": "ETA",
+      "order_progress": "Progreso del Pedido",
+      "order_stages_aria": "Etapas del pedido",
+      "current_badge": "Actual",
+      "cancelled": "Este pedido ha sido cancelado.",
+      "activity_log": "Registro de Actividad",
+      "activity_log_aria": "Registro de actividad"
+    },
+    "status": {
+      "requested": "Solicitado",
+      "quoted": "Presupuestado",
+      "deposit_paid": "Depósito Pagado",
+      "in_progress": "En Progreso",
+      "ready": "Listo",
+      "delivered": "Entregado",
+      "closed": "Cerrado",
+      "cancelled": "Cancelado"
+    },
+    "submitted_title": "¡Solicitud Enviada!",
+    "submitted_desc": "Tu solicitud #{{id}} está bajo revisión. El vendedor se pondrá en contacto contigo pronto.",
+    "track_order": "Seguir Pedido",
+    "go_back": "Volver",
+    "notes_label": "Notas",
+    "notes_placeholder": "Cualquier detalle adicional…",
+    "sending": "Enviando…",
+    "send_request": "Enviar Solicitud"
   }
 }

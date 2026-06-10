@@ -82,7 +82,7 @@ export default function Hero() {
             <div className="relative aspect-[21/9] rounded-2xl overflow-hidden">
               <Image
                 src="/images/banners/main-banner.jpg"
-                alt="Caftan Collection"
+                alt={t('hero.banner_alt', 'Caftan Collection')}
                 fill
                 className="object-cover"
               />

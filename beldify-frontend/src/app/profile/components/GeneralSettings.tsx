@@ -214,13 +214,13 @@ export default function GeneralSettings() {
               onChange={handleChange}
             >
               <option value="">{t('fields.select_country', { ns: 'profile' })}</option>
-              <option value="MA">Morocco</option>
-              <option value="SA">Saudi Arabia</option>
-              <option value="AE">United Arab Emirates</option>
-              <option value="QA">Qatar</option>
-              <option value="KW">Kuwait</option>
-              <option value="BH">Bahrain</option>
-              <option value="OM">Oman</option>
+              <option value="MA">{t('countries.ma', 'Morocco')}</option>
+              <option value="SA">{t('countries.sa', 'Saudi Arabia')}</option>
+              <option value="AE">{t('countries.ae', 'United Arab Emirates')}</option>
+              <option value="QA">{t('countries.qa', 'Qatar')}</option>
+              <option value="KW">{t('countries.kw', 'Kuwait')}</option>
+              <option value="BH">{t('countries.bh', 'Bahrain')}</option>
+              <option value="OM">{t('countries.om', 'Oman')}</option>
             </AtlasSelect>
           </div>
         </div>
