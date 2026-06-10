@@ -16,6 +16,10 @@ export interface User {
   avatar?: string; // Alternative to image, used in some components
   role?: string; // User role (e.g., 'admin', 'user', 'moderator')
   isActive: number;
+  city?: string;
+  state?: string;
+  postal_code?: string;
+  country?: string;
   created_at: string;
   updated_at: string;
   preferences?: {

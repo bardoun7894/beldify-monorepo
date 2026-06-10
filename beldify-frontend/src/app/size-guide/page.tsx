@@ -369,9 +369,9 @@ export default function SizeGuidePage() {
             </div>
           </div>
           <div className="relative h-[400px] rounded-2xl overflow-hidden ring-1 ring-gray-200">
-            {/* /images/measurement-guide.jpg does not exist in public/.
-                Using hero-atelier.jpg as a visual stand-in; onError hides the
-                container if that image is also unavailable. */}
+            {/* The dedicated measurement-guide photo asset does not exist in
+                public/. Using hero-atelier.jpg as a visual stand-in; onError
+                hides the container if that image is also unavailable. */}
             <Image
               src="/images/hero-atelier.jpg"
               alt={t('content.sizeGuide.measurementGuideAlt', 'Measurement Guide')}

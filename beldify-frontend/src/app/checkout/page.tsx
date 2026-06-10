@@ -318,16 +318,16 @@ export default function CheckoutPage() {
     {
       id: 'paypal',
       kind: 'gateway',
-      name: t('checkout.payment.methods.paypal.title'),
+      name: t('checkout.payment.methods.paypal.title', 'PayPal'),
       icon: '/icons/paypal.svg',
-      description: t('checkout.payment.methods.paypal.description'),
+      description: t('checkout.payment.methods.paypal.description', 'Pay securely via PayPal'),
     },
     {
       id: 'card',
       kind: 'gateway',
-      name: t('checkout.payment.methods.card.title'),
+      name: t('checkout.payment.methods.card.title', 'Credit / Debit Card'),
       icon: '/icons/visa.svg',
-      description: t('checkout.payment.methods.card.description'),
+      description: t('checkout.payment.methods.card.description', 'Pay with Visa, Mastercard, or similar'),
     },
   ];
     return allMethods;
@@ -515,7 +515,7 @@ export default function CheckoutPage() {
       // Saved-addresses UI remains auth-only (handled separately via isAuthenticated guards).
 
       // Server-cart stock loop — skip for buy-now (no server cart involved)
-      if (!isBuyNow) for (const item of cartState.items) {
+      if (!isBuyNow) for (const item of cartState!.items) {
         try {
           const stockAvailable = await cartService.checkStock(item.stock_id);
 
@@ -714,13 +714,14 @@ export default function CheckoutPage() {
           discount_amount: buyNowDiscountFinal,
           total_amount: buyNowTotalFinal,
           coupon_code: null,
+          marketing_opt_in: sendUpdates,
         };
 
         response = await (orderService as any).createCheckoutOrder(checkoutPayload);
       } else if (isAuthenticated && user?.id) {
         // ── Authenticated cart path — POST /api/orders ──────────────────────
         const orderData = {
-          items: cartState.items.map((item) => ({
+          items: cartState!.items.map((item) => ({
             product_id: item.product.id,
             quantity: item.quantity,
             unit_price: String(item.unit_price),
@@ -733,12 +734,13 @@ export default function CheckoutPage() {
           // Additive — backend ignores if not yet supported
           shipping_method_id: shippingMethod,
           status: 'pending',
-          subtotal: String(cartState.subtotal),
-          tax_amount: String(cartState.tax_amount),
-          shipping_amount: String(cartState.shipping_amount),
-          discount_amount: String(cartState.discount_amount),
-          total_amount: String(cartState.total_amount),
-          coupon_code: cartState.coupon_code || null,
+          subtotal: String(cartState!.subtotal),
+          tax_amount: String(cartState!.tax_amount),
+          shipping_amount: String(cartState!.shipping_amount),
+          discount_amount: String(cartState!.discount_amount),
+          total_amount: String(cartState!.total_amount),
+          coupon_code: cartState!.coupon_code || null,
+          marketing_opt_in: sendUpdates,
         };
         response = await orderService.createOrder(orderData);
       } else {
@@ -746,7 +748,7 @@ export default function CheckoutPage() {
         // Guest has no account but can still check out via COD / transfer.
         // Uses the same public endpoint as the buy-now flow.
         const guestCartPayload = {
-          items: cartState.items.map((item) => ({
+          items: cartState!.items.map((item) => ({
             product_id: item.product.id,
             quantity: item.quantity,
             unit_price: typeof item.unit_price === 'string'
@@ -758,12 +760,13 @@ export default function CheckoutPage() {
           })),
           shipping_info: shippingPayload,
           payment_method: normalizedPaymentMethod,
-          subtotal: cartState.subtotal ?? 0,
-          tax_amount: cartState.tax_amount ?? 0,
-          shipping_amount: cartState.shipping_amount ?? 0,
-          discount_amount: cartState.discount_amount ?? 0,
-          total_amount: cartState.total_amount ?? 0,
-          coupon_code: cartState.coupon_code ?? null,
+          subtotal: cartState!.subtotal ?? 0,
+          tax_amount: cartState!.tax_amount ?? 0,
+          shipping_amount: cartState!.shipping_amount ?? 0,
+          discount_amount: cartState!.discount_amount ?? 0,
+          total_amount: cartState!.total_amount ?? 0,
+          coupon_code: cartState!.coupon_code ?? null,
+          marketing_opt_in: sendUpdates,
         };
         response = await (orderService as any).createCheckoutOrder(guestCartPayload);
       }
@@ -816,13 +819,13 @@ export default function CheckoutPage() {
               shipping_amount: shippingAmount,
               tax_amount: taxAmount,
               items: [{
-                id: String(buyNowItem.product_id),
-                product_name: buyNowItem.name,
-                quantity: buyNowItem.quantity,
-                unit_price: buyNowItem.unit_price,
+                id: String(buyNowItem!.product_id),
+                product_name: buyNowItem!.name,
+                quantity: buyNowItem!.quantity,
+                unit_price: buyNowItem!.unit_price,
                 product: {
-                  name: buyNowItem.name,
-                  image_url: buyNowItem.image,
+                  name: buyNowItem!.name,
+                  image_url: buyNowItem!.image,
                 },
               }],
               shipping_info: shippingPayload,
@@ -1744,7 +1747,7 @@ export default function CheckoutPage() {
           </li>
         ) : (
           // ── Authenticated cart path ────────────────────────────────────────
-          cartState.items.map((item) => {
+          cartState!.items.map((item) => {
             const productName =
               i18n.language === 'ar' ? item.product.name_ar : item.product.name;
             return (

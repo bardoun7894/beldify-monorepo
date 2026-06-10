@@ -41,8 +41,18 @@ import {
   XCircle,
   X,
   Pencil,
+  CheckCircle2,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { AiGenerateButton } from '@/components/seller/AiGenerateButton';
+import { InsufficientCreditsModal } from '@/components/seller/InsufficientCreditsModal';
+import { getSellerCredits, FeatureCosts } from '@/services/sellerCreditService';
+import {
+  generateListing,
+  translateListing,
+  InsufficientCreditsError,
+  ListingLocaleResult,
+} from '@/services/sellerAiService';
 
 const playfair = { fontFamily: '"Playfair Display", ui-serif, Georgia, serif' };
 
@@ -77,6 +87,11 @@ const emptyForm: ProductForm = {
   existingImageUrl: null,
 };
 
+interface AiReviewState {
+  en: Partial<ListingLocaleResult>;
+  ar: Partial<ListingLocaleResult>;
+}
+
 function Skeleton({ className }: { className?: string }) {
   return <div className={`animate-pulse bg-gray-100 rounded-xl ${className ?? ''}`} />;
 }
@@ -105,6 +120,18 @@ export default function SellerEditProductPage() {
   const [verticalFields, setVerticalFields] = useState<VerticalField[]>([]);
   const [verticalSpec, setVerticalSpec] = useState<Record<string, string>>({});
   const [showVerticalErrors, setShowVerticalErrors] = useState(false);
+
+  // ── AI state ──────────────────────────────────────────────────────────────
+  const [costs, setCosts] = useState<FeatureCosts | null>(null);
+  const [aiGenerating, setAiGenerating] = useState(false);
+  const [aiTranslating, setAiTranslating] = useState(false);
+  const [aiReview, setAiReview] = useState<AiReviewState | null>(null);
+  const [creditsModal, setCreditsModal] = useState<{
+    open: boolean;
+    cost?: number;
+    balance?: number;
+    feature?: string;
+  }>({ open: false });
 
   const imageInputRef = useRef<HTMLInputElement>(null);
 
@@ -172,6 +199,14 @@ export default function SellerEditProductPage() {
       .finally(() => setPageLoading(false));
   }, [isAuthenticated, productId, t]);
 
+  // Fetch AI costs on mount
+  useEffect(() => {
+    if (!isAuthenticated) return;
+    getSellerCredits()
+      .then((data) => setCosts(data.costs))
+      .catch(() => {});
+  }, [isAuthenticated]);
+
   // FE-J1: resolve the seller's store vertical, then load its field schema.
   useEffect(() => {
     if (!isAuthenticated) return;
@@ -217,6 +252,77 @@ export default function SellerEditProductPage() {
     setForm((prev) => ({ ...prev, product_image: null, imagePreview: null }));
     if (imageInputRef.current) imageInputRef.current.value = '';
   };
+
+  // ── AI handlers ───────────────────────────────────────────────────────────
+
+  const handleAiGenerate = async () => {
+    if (!form.product_name_en.trim()) return;
+    setAiGenerating(true);
+    setAiReview(null);
+    try {
+      const res = await generateListing({
+        product_name: form.product_name_en,
+        category_id: form.category_id || undefined,
+        locales: ['en', 'ar'],
+      });
+      setAiReview({
+        en: res.result.en ?? {},
+        ar: res.result.ar ?? {},
+      });
+    } catch (err) {
+      if (err instanceof InsufficientCreditsError) {
+        setCreditsModal({ open: true, cost: err.cost, balance: err.balance, feature: err.feature });
+      } else {
+        toast.error(t('ai.generate_error', 'AI generation failed. Credits were not charged.'));
+      }
+    } finally {
+      setAiGenerating(false);
+    }
+  };
+
+  const handleApplyAiReview = () => {
+    if (!aiReview) return;
+    setForm((prev) => ({
+      ...prev,
+      product_name_en: aiReview.en.title ?? prev.product_name_en,
+      product_name_ar: aiReview.ar.title ?? prev.product_name_ar,
+      description: aiReview.en.description ?? prev.description,
+      description_ar: aiReview.ar.description ?? prev.description_ar,
+    }));
+    setAiReview(null);
+  };
+
+  const handleDiscardAiReview = () => {
+    setAiReview(null);
+  };
+
+  const handleAutoTranslate = async () => {
+    if (!form.product_name_en.trim()) return;
+    setAiTranslating(true);
+    try {
+      const res = await translateListing({
+        name: form.product_name_en,
+        description: form.description || undefined,
+      });
+      const arResult = res.result.ar ?? res.result.ma;
+      setForm((prev) => ({
+        ...prev,
+        product_name_ar: arResult?.name ?? prev.product_name_ar,
+        description_ar: arResult?.description ?? prev.description_ar,
+      }));
+      toast.success(t('ai.translate_success', 'Fields translated successfully.'));
+    } catch (err) {
+      if (err instanceof InsufficientCreditsError) {
+        setCreditsModal({ open: true, cost: err.cost, balance: err.balance, feature: err.feature });
+      } else {
+        toast.error(t('ai.translate_error', 'Translation failed. Credits were not charged.'));
+      }
+    } finally {
+      setAiTranslating(false);
+    }
+  };
+
+  // ── Submit ────────────────────────────────────────────────────────────────
 
   const handleDelete = async () => {
     if (!deleteConfirm) {
@@ -412,9 +518,87 @@ export default function SellerEditProductPage() {
             <form onSubmit={handleSubmit} className="space-y-6" noValidate>
               {/* Product names */}
               <div className="bg-white rounded-2xl ring-1 ring-gray-200 shadow-sm p-6 space-y-5">
-                <h2 className="text-sm font-semibold text-gray-700 uppercase tracking-wide">
-                  {t('seller.product.section_info', 'Product info')}
-                </h2>
+                {/* Section header with AI buttons */}
+                <div className="flex items-center justify-between gap-3 flex-wrap">
+                  <h2 className="text-sm font-semibold text-gray-700 uppercase tracking-wide">
+                    {t('seller.product.section_info', 'Product info')}
+                  </h2>
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <AiGenerateButton
+                      label={t('ai.generate_listing', 'Generate with AI')}
+                      cost={costs?.listing_writer ?? 2}
+                      onClick={handleAiGenerate}
+                      loading={aiGenerating}
+                      disabled={!form.product_name_en.trim()}
+                    />
+                    <AiGenerateButton
+                      label={t('ai.auto_translate', 'Auto-translate')}
+                      cost={costs?.translate_listing ?? 1}
+                      onClick={handleAutoTranslate}
+                      loading={aiTranslating}
+                      disabled={!form.product_name_en.trim()}
+                    />
+                  </div>
+                </div>
+
+                {/* AI Review step */}
+                {aiReview && (
+                  <div className="rounded-2xl bg-indigo-50 ring-1 ring-indigo-200 p-5 space-y-3">
+                    <p className="text-xs uppercase tracking-[0.18em] text-indigo-700 font-semibold mb-1">
+                      {t('ai.review_title', 'AI generated — review before applying')}
+                    </p>
+                    <div className="space-y-2">
+                      {aiReview.en.title && (
+                        <div>
+                          <p className="text-xs font-medium text-indigo-700 mb-0.5">
+                            {t('ai.review_name_en', 'Name (English)')}
+                          </p>
+                          <p className="text-sm text-gray-900 bg-white rounded-xl px-3 py-2 ring-1 ring-indigo-200">
+                            {aiReview.en.title}
+                          </p>
+                        </div>
+                      )}
+                      {aiReview.ar.title && (
+                        <div>
+                          <p className="text-xs font-medium text-indigo-700 mb-0.5">
+                            {t('ai.review_name_ar', 'Name (Arabic)')}
+                          </p>
+                          <p className="text-sm text-gray-900 bg-white rounded-xl px-3 py-2 ring-1 ring-indigo-200" dir="rtl">
+                            {aiReview.ar.title}
+                          </p>
+                        </div>
+                      )}
+                      {aiReview.en.description && (
+                        <div>
+                          <p className="text-xs font-medium text-indigo-700 mb-0.5">
+                            {t('ai.review_desc_en', 'Description (English)')}
+                          </p>
+                          <p className="text-sm text-gray-900 bg-white rounded-xl px-3 py-2 ring-1 ring-indigo-200 line-clamp-3">
+                            {aiReview.en.description}
+                          </p>
+                        </div>
+                      )}
+                    </div>
+                    <div className="flex items-center gap-3 pt-1">
+                      <button
+                        type="button"
+                        onClick={handleApplyAiReview}
+                        className="inline-flex items-center gap-1.5 rounded-full bg-indigo-700 hover:bg-indigo-800 text-white px-4 py-2 text-xs font-semibold transition-colors"
+                      >
+                        <CheckCircle2 className="w-3.5 h-3.5" aria-hidden="true" />
+                        {t('ai.apply', 'Apply')}
+                      </button>
+                      <button
+                        type="button"
+                        onClick={handleDiscardAiReview}
+                        className="inline-flex items-center gap-1.5 rounded-full ring-1 ring-gray-200 text-gray-600 hover:bg-gray-50 px-4 py-2 text-xs font-medium transition-colors"
+                      >
+                        <X className="w-3.5 h-3.5" aria-hidden="true" />
+                        {t('ai.discard', 'Discard')}
+                      </button>
+                    </div>
+                  </div>
+                )}
 
                 <div>
                   <label htmlFor="product_name_en" className="block text-sm font-medium text-gray-700 mb-1.5">
@@ -720,6 +904,15 @@ export default function SellerEditProductPage() {
           </>
         )}
       </main>
+
+      {/* Insufficient credits modal */}
+      <InsufficientCreditsModal
+        open={creditsModal.open}
+        onClose={() => setCreditsModal({ open: false })}
+        cost={creditsModal.cost}
+        balance={creditsModal.balance}
+        feature={creditsModal.feature}
+      />
     </div>
   );
 }

@@ -2,10 +2,6 @@ import { NextResponse } from 'next/server';
 
 const isDevelopment = process.env.NODE_ENV === 'development';
 
-export const viewport = {
-  themeColor: '#4F46E5',
-};
-
 export async function GET() {
   try {
     // Check if we can connect to the backend API

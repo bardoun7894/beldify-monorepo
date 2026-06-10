@@ -296,11 +296,11 @@ export default function HomeContent({ categories, data, openSoukPosts = [], hero
       {/* ── FEATURED PRODUCTS ─────────────────────────────────────────────── */}
       <Suspense fallback={<LoadingSpinner />}>
         <FeaturedSections
-          bestSellers={data.bestSellers}
-          newArrivals={data.newArrivals}
-          mensTraditional={data.mensTraditional}
-          womensTraditional={data.womensTraditional}
-          childrensTraditional={data.childrensTraditional}
+          bestSellers={data.bestSellers as any[]}
+          newArrivals={data.newArrivals as any[]}
+          mensTraditional={data.mensTraditional as any[]}
+          womensTraditional={data.womensTraditional as any[]}
+          childrensTraditional={data.childrensTraditional as any[]}
         />
       </Suspense>
 
@@ -383,7 +383,7 @@ export default function HomeContent({ categories, data, openSoukPosts = [], hero
       {/* ── MEGA OFFERS ───────────────────────────────────────────────────── */}
       {data.megaOffers && data.megaOffers.length > 0 && (
         <Suspense fallback={<LoadingSpinner />}>
-          <MegaOffers megaOffers={data.megaOffers || []} />
+          <MegaOffers megaOffers={(data.megaOffers || []) as any[]} />
         </Suspense>
       )}
 

@@ -367,7 +367,7 @@ export default function TailorsPage() {
           )}
         </div>
 
-        {/* Pagination — real page state, no href="#" (Fix 2) */}
+        {/* Pagination — real page state, button-driven (Fix 2) */}
         {!loading && totalPages > 1 && (
           <div className="mt-16 flex items-center justify-center gap-1" role="navigation" aria-label={t('pagination.label', 'Pagination')}>
             <button

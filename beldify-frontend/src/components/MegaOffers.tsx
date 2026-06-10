@@ -9,10 +9,6 @@ import { ArrowRight, Star } from 'lucide-react';
 import '@/i18n/config';
 import { megaOfferService, MegaOfferCollection, FeaturedProduct } from '@/services/megaOfferService';
 
-// Atlas design tokens (hex references for SVG/inline style use)
-const ATLAS_PRIMARY = '#252555';
-const ATLAS_ACCENT = '#fea619';
-
 interface MegaOffersProps {
   megaOffers?: MegaOfferCollection[];
 }

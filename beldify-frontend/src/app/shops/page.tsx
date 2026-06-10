@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { shopService } from '@/services/shopService';
@@ -93,29 +93,29 @@ export default function ShopsPage() {
     setSearchQuery(currentSearch);
   }, [currentSearch]);
 
+  const fetchShops = useCallback(async () => {
+    setLoading(true);
+    const result = await shopService.getShops({
+      page: currentPage,
+      search: currentSearch,
+      type: currentType,
+      sort: validSort,
+      per_page: 12,
+    });
+
+    if (result.error) {
+      setError(result.error.message);
+    } else {
+      setShops(result.data.shops);
+      setPagination(result.data.pagination);
+      setError(null);
+    }
+    setLoading(false);
+  }, [currentPage, currentSearch, currentType, validSort]);
+
   useEffect(() => {
-    const fetchShops = async () => {
-      setLoading(true);
-      const result = await shopService.getShops({
-        page: currentPage,
-        search: currentSearch,
-        type: currentType,
-        sort: validSort,
-        per_page: 12,
-      });
-
-      if (result.error) {
-        setError(result.error.message);
-      } else {
-        setShops(result.data.shops);
-        setPagination(result.data.pagination);
-        setError(null);
-      }
-      setLoading(false);
-    };
-
     fetchShops();
-  }, [currentPage, currentSearch, currentType, currentSort, validSort]);
+  }, [fetchShops]);
 
   const handlePageChange = (page: number) => {
     const params = new URLSearchParams(searchParams?.toString() || '');

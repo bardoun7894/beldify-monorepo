@@ -8,7 +8,7 @@ export interface CommunityPost {
   id: number | string;
   title: string;
   description: string;
-  status: 'open' | 'in_progress' | 'completed';
+  status: 'open' | 'pending' | 'in_progress' | 'completed';
   
   // Support both API formats
   budget_min?: number | string;

@@ -5,10 +5,10 @@ import logger from '@/utils/consoleLogger';
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
+  const { id } = await params;
   try {
-    const id = params.id;
     const authToken = await getAuthToken();
 
     const response = await fetch(`${API_URL}/api/v1/community/posts/${id}`, {
@@ -29,7 +29,7 @@ export async function GET(
     const data = await response.json();
     return NextResponse.json(data);
   } catch (error) {
-    logger.error(`Error in GET /api/community/posts/${params.id}:`, error);
+    logger.error(`Error in GET /api/community/posts/${id}:`, error);
     return NextResponse.json(
       { error: 'An unexpected error occurred' },
       { status: 500 }
@@ -39,12 +39,12 @@ export async function GET(
 
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
+  const { id } = await params;
   try {
-    const id = params.id;
     const authToken = await getAuthToken();
-    
+
     if (!authToken) {
       return NextResponse.json(
         { error: 'Authentication required' },
@@ -53,7 +53,7 @@ export async function PUT(
     }
 
     const formData = await request.formData();
-    
+
     const response = await fetch(`${API_URL}/api/v1/community/posts/${id}`, {
       method: 'PUT',
       headers: {
@@ -73,7 +73,7 @@ export async function PUT(
     const data = await response.json();
     return NextResponse.json(data);
   } catch (error) {
-    logger.error(`Error in PUT /api/community/posts/${params.id}:`, error);
+    logger.error(`Error in PUT /api/community/posts/${id}:`, error);
     return NextResponse.json(
       { error: 'An unexpected error occurred' },
       { status: 500 }
@@ -83,19 +83,19 @@ export async function PUT(
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
+  const { id } = await params;
   try {
-    const id = params.id;
     const authToken = await getAuthToken();
-    
+
     if (!authToken) {
       return NextResponse.json(
         { error: 'Authentication required' },
         { status: 401 }
       );
     }
-    
+
     const response = await fetch(`${API_URL}/api/v1/community/posts/${id}`, {
       method: 'DELETE',
       headers: {
@@ -113,7 +113,7 @@ export async function DELETE(
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    logger.error(`Error in DELETE /api/community/posts/${params.id}:`, error);
+    logger.error(`Error in DELETE /api/community/posts/${id}:`, error);
     return NextResponse.json(
       { error: 'An unexpected error occurred' },
       { status: 500 }

@@ -13,10 +13,10 @@ import logger from '@/utils/consoleLogger';
 
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
+  const { id: responseId } = await params;
   try {
-    const responseId = params.id;
     const authToken = await getAuthToken();
 
     if (!authToken) {
@@ -71,7 +71,7 @@ export async function PUT(
     const data = await response.json();
     return NextResponse.json(data);
   } catch (error) {
-    logger.error(`Error in PUT /api/community/responses/${params.id}/status:`, error);
+    logger.error(`Error in PUT /api/community/responses/${responseId}/status:`, error);
     return NextResponse.json(
       { error: 'An unexpected error occurred' },
       { status: 500 }

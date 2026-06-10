@@ -285,7 +285,7 @@ const ProductCard = memo(function ProductCard({
         </Link>
 
         {/* Free-shipping badge — shown when price exceeds 500 MAD */}
-        {displayPrice > 500 && (
+        {parseFloat(String(displayPrice)) > 500 && (
           <div className="flex items-center gap-1 text-[9px] font-semibold text-emerald-700 bg-emerald-50 border border-emerald-100 rounded-full px-2 py-0.5 w-fit">
             <Truck className="h-2.5 w-2.5" aria-hidden="true" />
             {t('product.free_shipping', 'شحن مجاني')}

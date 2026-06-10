@@ -35,6 +35,10 @@ export interface Product {
   sku?: string;
   slug?: string;
   stock: number;
+  /** Alias used by lib/types.ts Product — optional for backward compat */
+  stock_quantity?: number;
+  stock_status?: 'in_stock' | 'low_stock' | 'out_of_stock';
+  store_id?: number;
   tailor_id?: number;
   styles?: TailoringStyle[];
   created_at: string;

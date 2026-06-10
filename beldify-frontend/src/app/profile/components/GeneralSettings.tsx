@@ -214,7 +214,13 @@ export default function GeneralSettings() {
               onChange={handleChange}
             >
               <option value="">{t('fields.select_country', { ns: 'profile' })}</option>
-              {/* Country options populated by data layer */}
+              <option value="MA">Morocco</option>
+              <option value="SA">Saudi Arabia</option>
+              <option value="AE">United Arab Emirates</option>
+              <option value="QA">Qatar</option>
+              <option value="KW">Kuwait</option>
+              <option value="BH">Bahrain</option>
+              <option value="OM">Oman</option>
             </AtlasSelect>
           </div>
         </div>

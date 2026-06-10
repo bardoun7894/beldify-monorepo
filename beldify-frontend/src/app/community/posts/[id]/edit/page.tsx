@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
+import type { TFunction } from 'i18next';
 import { useRouter, useParams } from 'next/navigation';
 import Link from 'next/link';
 import {
@@ -100,7 +101,8 @@ function EditBlockedGate({
 }: {
   reason: '403' | '422' | 'status' | 'unknown';
   postId: string;
-  t: (key: string, fallback?: string) => string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  t: TFunction<any, any>;
 }) {
   const messages: Record<typeof reason, string> = {
     '403': t(

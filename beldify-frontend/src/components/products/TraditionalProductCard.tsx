@@ -65,8 +65,10 @@ export default function TraditionalProductCard({
     category,
     category_ar,
     stock_status,
-    stock,
+    stock: stockRaw,
   } = product;
+
+  const stock = stockRaw ?? 0;
 
   const displayName = isRTL ? name_ar || name : name;
   const displayCategory = isRTL ? category_ar || category : category;

@@ -52,13 +52,9 @@ export default function WishlistPage() {
         return;
       }
 
-      const response = await axios.post('/api/cart/items', {
-        stock_id: stockId,
-        quantity: 1,
-      });
-      if (response.data.success) {
-        toast.success(t('cart.added_success', 'Added to cart'));
-      }
+      // Go through CartContext so the navbar badge and cart state stay in sync.
+      await addItem(stockId, 1, 'stock');
+      toast.success(t('cart.added_success', 'Added to cart'));
     } catch (err: any) {
       logger.error('Error adding to cart from wishlist:', err);
       toast.error(err.response?.data?.message || t('errors.something_went_wrong', 'Something went wrong'));

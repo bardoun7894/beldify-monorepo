@@ -23,7 +23,7 @@ export default function SpecialOffers() {
     const loadOffers = async () => {
       try {
         const data = await fetchSpecialOffers();
-        setOffers(data);
+        setOffers(data as unknown as SpecialOffer[]);
         setLoading(false);
       } catch (err) {
         setError('Failed to load special offers');

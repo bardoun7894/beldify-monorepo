@@ -81,10 +81,14 @@ describe('Fix 4 — handleVerticalSave error path correctness', () => {
       'utf8'
     );
 
-    // Extract the catch block of handleVerticalSave
-    const catchMatch = src.match(/handleVerticalSave[\s\S]*?catch[\s\S]*?finally/);
+    // Extract ONLY the catch block body of handleVerticalSave (the previous
+    // pattern also captured the try body, whose success path legitimately
+    // calls setVerticalSaved(true))
+    const catchMatch = src.match(
+      /handleVerticalSave[\s\S]*?catch\s*(?:\([^)]*\))?\s*\{([\s\S]*?)\}\s*finally/
+    );
     if (catchMatch) {
-      const catchBlock = catchMatch[0];
+      const catchBlock = catchMatch[1];
       // After fix: catch block must NOT set verticalSaved(true)
       expect(catchBlock).not.toContain('setVerticalSaved(true)');
       // After fix: catch block must NOT call setStoreType(pendingVertical)

@@ -108,7 +108,6 @@ export const RealtimeChatProvider: React.FC<{ children: React.ReactNode }> = ({ 
         },
         // Additional options for better connection handling
         disableStats: true,
-        enableLogging: process.env.NODE_ENV === 'development',
       });
 
       // Connection event handlers

@@ -50,12 +50,6 @@ const ATELIER_IMAGES = [
   'https://pro.beldify.com/storage/categories/category_8_mens-kandora.png',
 ];
 
-const STATIC_ATELIERS = [
-  { name: 'Maison Marrakech', subtitle: 'Contemporary Kaftans · Marrakech', slug: 'maison-marrakech', i18nKey: 'maisonMarrakech' },
-  { name: "L'Artisan du Cuir", subtitle: 'Fine Leather Goods · Fez', slug: 'artisan-du-cuir', i18nKey: 'artisanDuCuir' },
-  { name: 'Zellige Studio', subtitle: 'Handcrafted Silver · Essaouira', slug: 'zellige-studio', i18nKey: 'zelligeStudio' },
-  { name: 'Atlas Weavers', subtitle: 'Berber Textiles · Atlas Mts', slug: 'atlas-weavers', i18nKey: 'atlasWeavers' },
-];
 
 const TABS = [
   { id: 'all', label: 'All Products' },
@@ -80,29 +74,6 @@ function productPrice(p: any): number {
   return Number.isFinite(n) ? n : 0;
 }
 
-const STATIC_REVIEWS = [
-  {
-    name: 'Sarah M.',
-    city: 'Paris',
-    initial: 'S',
-    text: 'The craftsmanship is breathtaking. I ordered a caftan for my wedding, and the hand-stitching is flawless. Truly a piece of art.',
-    i18nKey: 'shop.staticReviews.0.text',
-  },
-  {
-    name: 'James L.',
-    city: 'London',
-    initial: 'J',
-    text: 'Incredible quality on the djellaba. The wool is soft yet structured, and the details are impeccable. The reputation is well-deserved.',
-    i18nKey: 'shop.staticReviews.1.text',
-  },
-  {
-    name: 'Amina R.',
-    city: 'Casablanca',
-    initial: 'A',
-    text: 'Their bespoke service was a dream. They guided me through fabric choices and measurements via message, and the final piece fits perfectly.',
-    i18nKey: 'shop.staticReviews.2.text',
-  },
-];
 
 // ─── Loading skeleton ────────────────────────────────────────────────────────
 function ShopProfileSkeleton() {
@@ -155,6 +126,7 @@ export default function ShopPage() {
   const [isFollowActionLoading, setIsFollowActionLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [visibleCount, setVisibleCount] = useState(8);
+  const [otherShops, setOtherShops] = useState<{ name: string; subtitle: string }[]>([]);
 
   // ── follow helpers (preserved from original) ──────────────────────────────
 
@@ -205,6 +177,36 @@ export default function ShopPage() {
   };
 
   // ── fetch ──────────────────────────────────────────────────────────────────
+
+  // "Discover more ateliers" — live shops list (replaces a hardcoded slug list
+  // that could 404). Section hides itself when the fetch fails or comes back empty.
+  useEffect(() => {
+    if (!params?.name) return;
+    const current = decodeURIComponent(params.name as string).toLowerCase();
+    let cancelled = false;
+    shopService
+      .getShops({ per_page: 8 })
+      .then((res) => {
+        if (cancelled) return;
+        const shops: any[] = res?.data?.shops ?? [];
+        setOtherShops(
+          shops
+            .filter((s) => (s?.name ?? '').toLowerCase() !== current)
+            .slice(0, 4)
+            .map((s) => ({
+              name: s.name ?? s.profile?.store_name ?? '',
+              subtitle: s.store_type?.name ?? s.profile?.address?.city ?? '',
+            }))
+            .filter((s) => s.name)
+        );
+      })
+      .catch(() => {
+        if (!cancelled) setOtherShops([]);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [params?.name]);
 
   useEffect(() => {
     if (!params?.name) return;
@@ -542,7 +544,13 @@ export default function ShopPage() {
               key={tab.id}
               role="tab"
               aria-selected={activeTab === tab.id}
-              onClick={() => { setActiveTab(tab.id); setVisibleCount(8); }}
+              onClick={() => {
+                setActiveTab(tab.id);
+                setVisibleCount(8);
+                if (tab.id === 'reviews') {
+                  document.getElementById('reviews')?.scrollIntoView({ behavior: 'smooth' });
+                }
+              }}
               className={`whitespace-nowrap text-sm pb-3 -mb-px pt-3 px-3 transition font-medium focus-visible:ring-2 focus-visible:ring-indigo-700 focus-visible:rounded-sm ${
                 activeTab === tab.id
                   ? 'text-indigo-700 border-b-2 border-indigo-700 font-semibold'
@@ -636,50 +644,25 @@ export default function ShopPage() {
           </h2>
 
           {reviewsCount > 0 ? (
-            <>
-              <div className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-6">
-                {STATIC_REVIEWS.map((rev, i) => (
-                  <figure
-                    key={i}
-                    className="bg-gray-50 ring-1 ring-gray-200 rounded-2xl p-6 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-atlas-md"
-                  >
-                    <div className="flex items-center gap-3 mb-4">
-                      <div
-                        className="h-10 w-10 rounded-full bg-amber-100 ring-1 ring-amber-200 flex items-center justify-center text-amber-800 font-bold text-sm shrink-0"
-                        aria-hidden="true"
-                      >
-                        {rev.initial}
-                      </div>
-                      <div>
-                        <div className="text-sm font-semibold text-gray-900">{rev.name}</div>
-                        <div className="flex gap-0.5 mt-0.5" aria-label={t('shop.five_stars', '5 stars')}>
-                          {[...Array(5)].map((_, j) => (
-                            <Star key={j} className="h-3.5 w-3.5 fill-amber-500 text-amber-500" aria-hidden="true" />
-                          ))}
-                        </div>
-                      </div>
-                      <span className="ms-auto text-xs text-gray-500">{rev.city}</span>
-                    </div>
-                    <p className="text-xs uppercase tracking-[0.14em] text-gray-400 font-medium mb-3">
-                      {t('reviews.verified_buyer', 'Verified buyer')}
-                    </p>
-                    <blockquote>
-                      <p className="text-gray-600 text-sm leading-relaxed">&ldquo;{t(rev.i18nKey, rev.text)}&rdquo;</p>
-                    </blockquote>
-                  </figure>
+            /* Honest aggregate only — individual review fetching has no backend
+               endpoint yet, so no per-review cards are fabricated. */
+            <div className="mt-10 flex flex-col items-center justify-center rounded-2xl bg-gray-50 ring-1 ring-gray-200 px-6 py-12 text-center">
+              <div className="flex gap-1 mb-4" aria-hidden="true">
+                {[...Array(5)].map((_, j) => (
+                  <Star
+                    key={j}
+                    className={`h-6 w-6 ${j < Math.round(rating) ? 'fill-amber-500 text-amber-500' : 'text-gray-300'}`}
+                    aria-hidden="true"
+                  />
                 ))}
               </div>
-
-              <div className="mt-8 text-center">
-                <a
-                  href="#reviews"
-                  className="inline-flex items-center gap-1.5 text-indigo-700 text-sm font-semibold hover:underline focus-visible:ring-2 focus-visible:ring-indigo-700 focus-visible:rounded-sm"
-                >
-                  {t('shop.all_reviews', 'Read all {{count}} reviews', { count: reviewsCount })}
-                  <ArrowRight className="h-4 w-4" aria-hidden="true" />
-                </a>
-              </div>
-            </>
+              <p className="text-lg font-semibold text-gray-900">
+                {rating > 0 ? rating.toFixed(1) : '—'} · {t('shop.reviews_aggregate', '{{count}} verified reviews', { count: reviewsCount })}
+              </p>
+              <p className="mt-2 max-w-xs text-sm text-gray-600">
+                {t('shop.reviews_aggregate_sub', 'Ratings are collected from verified buyers after delivery.')}
+              </p>
+            </div>
           ) : (
             /* Designed empty state — no fabricated testimonials when there are no reviews */
             <div className="mt-10 flex flex-col items-center justify-center rounded-2xl bg-gray-50 ring-1 ring-gray-200 px-6 py-16 text-center">
@@ -766,41 +749,45 @@ export default function ShopPage() {
         </div>
       </section>
 
-      {/* ── 9. Discover more ateliers ──────────────────────────────────────── */}
-      <section className="max-w-7xl mx-auto px-6 py-16" aria-labelledby="discover-heading">
-        <h2
-          id="discover-heading"
-          className="text-3xl sm:text-4xl font-bold text-gray-900 mb-8"
-          style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
-        >
-          {t('shop.discover_more', 'Discover more ateliers')}
-        </h2>
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6">
-          {STATIC_ATELIERS.map((atelier) => (
-            <Link
-              key={atelier.slug}
-              href={`/shops/${atelier.slug}`}
-              className="group bg-white ring-1 ring-gray-200 rounded-2xl p-5 text-center hover:-translate-y-0.5 hover:shadow-atlas-md transition-all duration-200 shadow-atlas-sm focus-visible:ring-2 focus-visible:ring-indigo-700 focus-visible:ring-offset-2"
-            >
-              <div
-                className="h-14 w-14 rounded-full bg-amber-100 ring-1 ring-amber-200 mx-auto mb-3 flex items-center justify-center"
-                aria-hidden="true"
+      {/* ── 9. Discover more ateliers (live shops; hidden when none) ───────── */}
+      {otherShops.length > 0 && (
+        <section className="max-w-7xl mx-auto px-6 py-16" aria-labelledby="discover-heading">
+          <h2
+            id="discover-heading"
+            className="text-3xl sm:text-4xl font-bold text-gray-900 mb-8"
+            style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
+          >
+            {t('shop.discover_more', 'Discover more ateliers')}
+          </h2>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6">
+            {otherShops.map((atelier) => (
+              <Link
+                key={atelier.name}
+                href={`/shops/${encodeURIComponent(atelier.name)}`}
+                className="group bg-white ring-1 ring-gray-200 rounded-2xl p-5 text-center hover:-translate-y-0.5 hover:shadow-atlas-md transition-all duration-200 shadow-atlas-sm focus-visible:ring-2 focus-visible:ring-indigo-700 focus-visible:ring-offset-2"
               >
-                <span className="text-lg font-bold text-amber-800">
-                  {atelier.name.charAt(0)}
-                </span>
-              </div>
-              <h4
-                className="text-sm font-semibold text-gray-900 group-hover:text-indigo-700 transition"
-                style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
-              >
-                {atelier.name}
-              </h4>
-              <p className="mt-1 text-xs text-gray-500">{t(`shop.staticAteliers.${atelier.i18nKey}.subtitle`, atelier.subtitle)}</p>
-            </Link>
-          ))}
-        </div>
-      </section>
+                <div
+                  className="h-14 w-14 rounded-full bg-amber-100 ring-1 ring-amber-200 mx-auto mb-3 flex items-center justify-center"
+                  aria-hidden="true"
+                >
+                  <span className="text-lg font-bold text-amber-800">
+                    {atelier.name.charAt(0)}
+                  </span>
+                </div>
+                <h4
+                  className="text-sm font-semibold text-gray-900 group-hover:text-indigo-700 transition"
+                  style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
+                >
+                  {atelier.name}
+                </h4>
+                {atelier.subtitle && (
+                  <p className="mt-1 text-xs text-gray-500">{atelier.subtitle}</p>
+                )}
+              </Link>
+            ))}
+          </div>
+        </section>
+      )}
 
     </div>
   );

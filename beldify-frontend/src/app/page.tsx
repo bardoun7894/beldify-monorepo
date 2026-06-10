@@ -86,5 +86,6 @@ export default async function Home() {
   // Extract hero config from payload; fall back to brand mode if missing
   const hero: HeroConfig = (data as { hero?: HeroConfig }).hero ?? { mode: 'brand', banners: [] };
 
-  return <HomeContent categories={categories} data={data} openSoukPosts={openSoukPosts} hero={hero} />;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  return <HomeContent categories={categories} data={data as any} openSoukPosts={openSoukPosts} hero={hero} />;
 }

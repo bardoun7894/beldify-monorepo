@@ -56,6 +56,8 @@ export interface Product {
   slug: string | null;
   stock_quantity: number;
   stock_status: 'in_stock' | 'low_stock' | 'out_of_stock';
+  /** Legacy alias for stock_quantity used by some components */
+  stock?: number;
   store_id: number;
   /**
    * ISO 8601 timestamp when the active offer/discount expires.

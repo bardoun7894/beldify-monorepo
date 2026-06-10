@@ -96,8 +96,8 @@ describe('FeaturedSections Atlas redesign', () => {
     expect(featuredSectionsContent).toContain('rounded-2xl');
   });
 
-  it('uses indigo-700 color for price', () => {
-    expect(featuredSectionsContent).toContain('indigo-700');
+  it('uses the Atlas primary token for price (raw indigo-700 retired by atlas-p0 pass)', () => {
+    expect(featuredSectionsContent).toContain('hsl(var(--primary))');
   });
 
   it('uses Playfair Display for section headings', () => {
@@ -106,10 +106,11 @@ describe('FeaturedSections Atlas redesign', () => {
 });
 
 describe('MegaOffers Atlas redesign', () => {
-  it('uses indigo-700 or atlas tokens (not raw hex colors)', () => {
-    // The old code had ATLAS_PRIMARY = '#252555' used directly in inline styles
-    // Now it should use Tailwind classes
-    expect(megaOffersContent).toContain('indigo-700');
+  it('uses atlas tokens, not raw hex colors or raw palette classes', () => {
+    // The old code had ATLAS_PRIMARY = '#252555' used directly in inline styles,
+    // then raw indigo-700 classes; the atlas-p0 pass moved it to CSS-var tokens.
+    expect(megaOffersContent).toContain('hsl(var(--primary))');
+    expect(megaOffersContent).not.toContain("'#252555'");
   });
 
   it('uses shadow-atlas pattern for cards', () => {

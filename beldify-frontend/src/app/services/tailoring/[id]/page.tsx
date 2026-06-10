@@ -1,7 +1,7 @@
 'use client';
 
 import { useTranslation } from 'react-i18next';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback, use } from 'react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { Star, MapPin, Calendar, Clock, MessageCircle, BadgeCheck, Ruler } from 'lucide-react';
@@ -9,7 +9,8 @@ import { Dialog } from '@headlessui/react';
 import tailorService, { Tailor, TimeSlot } from '@/services/tailorService';
 import toast from '@/utils/toast';
 
-export default function TailorProfilePage({ params }: { params: { id: string } }) {
+export default function TailorProfilePage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = use(params);
   const { t } = useTranslation();
   const [tailor, setTailor] = useState<Tailor | null>(null);
   const [loading, setLoading] = useState(true);
@@ -21,6 +22,28 @@ export default function TailorProfilePage({ params }: { params: { id: string } }
   const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
   const [bookingLoading, setBookingLoading] = useState(false);
 
+  const loadTailorData = useCallback(async () => {
+    try {
+      const response = await tailorService.getTailor(id);
+      setTailor(response.data);
+    } catch (error: any) {
+      toast.error(error.message || t('tailoring.profile.load_error'));
+    } finally {
+      setLoading(false);
+    }
+  }, [id, t]);
+
+  const loadTimeSlots = useCallback(async () => {
+    if (!selectedDate) return;
+
+    try {
+      const response = await tailorService.getTimeSlots(id, selectedDate);
+      setTimeSlots(response.data);
+    } catch (error: any) {
+      toast.error(error.message || t('tailoring.booking.slots_load_error'));
+    }
+  }, [id, selectedDate, t]);
+
   useEffect(() => {
     loadTailorData();
   }, [loadTailorData]);
@@ -29,34 +52,12 @@ export default function TailorProfilePage({ params }: { params: { id: string } }
     loadTimeSlots();
   }, [loadTimeSlots]);
 
-  const loadTailorData = async () => {
-    try {
-      const response = await tailorService.getTailor(params.id);
-      setTailor(response.data);
-    } catch (error: any) {
-      toast.error(error.message || t('tailoring.profile.load_error'));
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const loadTimeSlots = async () => {
-    if (!selectedDate) return;
-
-    try {
-      const response = await tailorService.getTimeSlots(params.id, selectedDate);
-      setTimeSlots(response.data);
-    } catch (error: any) {
-      toast.error(error.message || t('tailoring.booking.slots_load_error'));
-    }
-  };
-
   const handleBooking = async () => {
     if (!selectedService || !selectedDate || !selectedTimeSlot) return;
 
     setBookingLoading(true);
     try {
-      await tailorService.createBooking(params.id, {
+      await tailorService.createBooking(id, {
         service_id: parseInt(selectedService),
         date: selectedDate,
         time: selectedTimeSlot,
@@ -415,4 +416,3 @@ export default function TailorProfilePage({ params }: { params: { id: string } }
     </div>
   );
 }
-TEST

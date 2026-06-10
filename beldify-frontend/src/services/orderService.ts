@@ -53,6 +53,7 @@ export interface ShippingInfo {
   email: string;
   phone: string;
   address: string;
+  apartment?: string;
   city: string;
   state: string;
   zip_code?: string;

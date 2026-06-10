@@ -8,6 +8,17 @@ import toast from '@/utils/toast';
 
 const MEASUREMENTS_STORAGE_KEY = 'beldify:tailoring:measurements';
 
+// Mirror the MeasurementForm types without importing from the component module
+// (they are not exported). This keeps the type contract in sync.
+type MeasurementUnit = 'cm' | 'in';
+interface MeasurementValues {
+  chest: string;
+  waist: string;
+  hips: string;
+  length: string;
+  notes: string;
+}
+
 export default function MeasurementsPage() {
   const { t } = useTranslation();
 
@@ -15,7 +26,7 @@ export default function MeasurementsPage() {
   // no handlers. Bind them: persist the measurement set locally (no save endpoint
   // exists yet) and confirm to the user.
   const handleSave = useCallback(
-    (values: Record<string, string>, unit: string) => {
+    (values: MeasurementValues, unit: MeasurementUnit) => {
       try {
         const payload = { values, unit, savedAt: new Date().toISOString() };
         window.localStorage.setItem(MEASUREMENTS_STORAGE_KEY, JSON.stringify(payload));
@@ -27,10 +38,17 @@ export default function MeasurementsPage() {
     [t]
   );
 
+  // No cart endpoint consumes measurements yet — saying "added to your order"
+  // would be dishonest. The saved set is applied at custom-order/tailoring time.
   const handleAddToCart = useCallback(
-    (values: Record<string, string>, unit: string) => {
+    (values: MeasurementValues, unit: MeasurementUnit) => {
       handleSave(values, unit);
-      toast.success(t('tailoring.measurements.addedToCart', 'Measurements added to your order'));
+      toast.success(
+        t(
+          'tailoring.measurements.savedForOrders',
+          'Measurements saved — they will be applied to your tailoring orders'
+        )
+      );
     },
     [handleSave, t]
   );

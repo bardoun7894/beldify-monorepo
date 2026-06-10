@@ -133,6 +133,10 @@ export const productService = {
 interface StockResponse {
   available_quantity: number;
   status: string;
+  message?: string;
+  success?: boolean;
+  stock_id?: number;
+  variant_id?: number;
 }
 
 export const cartService = {

@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
+import type { TFunction } from 'i18next';
 import { useRouter, useSearchParams } from 'next/navigation';
 import {
   ArrowLeft,
@@ -78,7 +79,8 @@ interface PreviewAsideProps {
   requiredSkills: string[];
   imageCount: number;
   isRTL: boolean;
-  t: (key: string, fallback?: string, ...rest: unknown[]) => string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  t: TFunction<any, any>;
 }
 
 function PreviewAside({

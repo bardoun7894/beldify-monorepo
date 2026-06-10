@@ -1,3 +1,5 @@
+/// <reference lib="webworker" />
+
 // defaultCache lives in @serwist/next/worker, NOT the core serwist package —
 // importing it from 'serwist' resolves to undefined at runtime and the
 // `...defaultCache` spread below kills SW evaluation ("not iterable").
@@ -11,7 +13,9 @@ import {
   CacheableResponsePlugin,
 } from 'serwist';
 
-declare const self: ServiceWorkerGlobalScope;
+declare const self: ServiceWorkerGlobalScope & {
+  __SW_MANIFEST: (string | { url: string; revision: string | null })[];
+};
 
 // IMPORTANT: serwist's runtime `runtimeCaching` requires strategy INSTANCES.
 // String handler names ('CacheFirst', …) are workbox build-config syntax — they
@@ -147,12 +151,13 @@ self.addEventListener('notificationclick', (event: NotificationEvent) => {
   event.waitUntil(
     self.clients
       .matchAll({ type: 'window', includeUncontrolled: true })
-      .then((clientList) => {
+      .then((clientList: readonly Client[]) => {
         // If app is already open, focus that tab and navigate
         for (const client of clientList) {
-          if ('focus' in client) {
-            void (client as WindowClient).navigate(url);
-            return client.focus();
+          const winClient = client as WindowClient;
+          if (typeof winClient.focus === 'function') {
+            void winClient.navigate(url);
+            return winClient.focus();
           }
         }
         // Otherwise open a new tab

@@ -12,10 +12,10 @@ import logger from '@/utils/consoleLogger';
  */
 export async function GET(
   request: NextRequest,
-  { params }: { params: { shopId: string } }
+  { params }: { params: Promise<{ shopId: string }> }
 ) {
+  const { shopId } = await params;
   try {
-    const shopId = params.shopId;
     const authToken = await getAuthToken();
 
     const response = await fetch(
@@ -40,7 +40,7 @@ export async function GET(
     return NextResponse.json(data);
   } catch (error) {
     logger.error(
-      `Error in GET /api/community/sellers/${params.shopId}/stats:`,
+      `Error in GET /api/community/sellers/${shopId}/stats:`,
       error
     );
     return NextResponse.json(
