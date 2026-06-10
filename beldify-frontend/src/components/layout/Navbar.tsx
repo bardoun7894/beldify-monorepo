@@ -29,6 +29,7 @@ import { useWishlist } from '@/contexts/WishlistContext';
 import { useMessaging } from '@/contexts/MessagingContext';
 import logger from '@/utils/consoleLogger';
 import NotificationBell from '@/components/notifications/NotificationBell';
+import { LOCALES, type Locale } from '@/middleware';
 
 interface FeaturedProduct {
   id: number;
@@ -64,14 +65,7 @@ const staticNavLinks = [
   { labelKey: 'nav.tailoring', fallback: 'Tailoring', href: '/services/tailoring' },
 ];
 
-const languages = [
-  { code: 'en', label: 'English' },
-  { code: 'ar', label: 'العربية' },
-  { code: 'ma', label: 'الدارجة' },
-  { code: 'fr', label: 'Français' },
-  { code: 'es', label: 'Español' },
-  { code: 'de', label: 'Deutsch' },
-];
+const languages = LOCALES;
 
 export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -151,7 +145,7 @@ export default function Navbar() {
     }
   };
 
-  const handleLanguageChange = (lang: string) => {
+  const handleLanguageChange = (lang: Locale) => {
     i18n.changeLanguage(lang);
     const url = new URL(window.location.href);
     url.searchParams.set('locale', lang);
@@ -252,17 +246,17 @@ export default function Navbar() {
                   >
                     <Menu.Items className="absolute end-0 z-20 mt-2 w-48 origin-top-end bg-white shadow-xl ring-1 ring-amber-200 rounded-2xl py-2 focus:outline-none">
                       {languages.map((lang) => (
-                        <Menu.Item key={lang.code}>
+                        <Menu.Item key={lang}>
                           {({ active }) => (
                             <button
-                              onClick={() => handleLanguageChange(lang.code)}
+                              onClick={() => handleLanguageChange(lang)}
                               className={cn(
                                 'block w-full text-left px-4 py-2 text-sm transition',
                                 active ? 'bg-amber-50 text-indigo-700' : 'text-gray-700',
-                                i18n.language === lang.code ? 'font-semibold text-indigo-700' : ''
+                                i18n.language === lang ? 'font-semibold text-indigo-700' : ''
                               )}
                             >
-                              {lang.label}
+                              {t(`navigation.languages.${lang}`, lang.toUpperCase())}
                             </button>
                           )}
                         </Menu.Item>
@@ -741,16 +735,16 @@ export default function Navbar() {
                   <div className="grid grid-cols-2 gap-2">
                     {languages.map((lang) => (
                       <button
-                        key={lang.code}
-                        onClick={() => { handleLanguageChange(lang.code); setMobileMenuOpen(false); }}
+                        key={lang}
+                        onClick={() => { handleLanguageChange(lang); setMobileMenuOpen(false); }}
                         className={cn(
                           'px-3 py-2 text-sm rounded-xl transition',
-                          i18n.language === lang.code
+                          i18n.language === lang
                             ? 'bg-amber-100 text-amber-700 font-semibold border border-amber-300'
                             : 'bg-white text-gray-700 hover:bg-amber-50 border border-amber-200'
                         )}
                       >
-                        {lang.label}
+                        {t(`navigation.languages.${lang}`, lang.toUpperCase())}
                       </button>
                     ))}
                   </div>
