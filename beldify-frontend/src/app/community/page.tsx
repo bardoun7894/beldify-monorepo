@@ -10,6 +10,7 @@ import {
   AlertCircle,
   UserCircle,
   MessagesSquare,
+  ClipboardList,
 } from 'lucide-react';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 
@@ -270,13 +271,22 @@ export default function CommunityPage() {
 
           <div className="flex flex-wrap items-center gap-4">
             {isAuthenticated ? (
-              <Link
-                href="/community/posts/create"
-                className="inline-flex items-center gap-2 px-5 py-2.5 min-h-[44px] rounded-full bg-amber-500 text-amber-950 text-sm font-semibold hover:bg-amber-400 transition-colors duration-200"
-              >
-                <Plus size={16} />
-                {t('openSouk.postCta', 'Post to the Open Souk')}
-              </Link>
+              <>
+                <Link
+                  href="/community/posts/create"
+                  className="inline-flex items-center gap-2 px-5 py-2.5 min-h-[44px] rounded-full bg-amber-500 text-amber-950 text-sm font-semibold hover:bg-amber-400 transition-colors duration-200"
+                >
+                  <Plus size={16} />
+                  {t('openSouk.postCta', 'Post to the Open Souk')}
+                </Link>
+                <Link
+                  href="/community/my-posts"
+                  className="inline-flex items-center gap-2 px-4 py-2.5 min-h-[44px] rounded-full bg-white/10 text-white text-sm font-semibold hover:bg-white/20 transition-colors duration-200 border border-white/20"
+                >
+                  <ClipboardList size={15} />
+                  {t('myPosts.navLink', 'My requests')}
+                </Link>
+              </>
             ) : (
               <button
                 onClick={() =>

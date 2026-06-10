@@ -534,6 +534,50 @@ export const getSellerStats = async (shopId: string): Promise<SellerCommunitySta
 };
 
 /**
+ * Fetch the authenticated buyer's own community posts.
+ *
+ * Endpoint: GET /api/v1/community/posts?user_id={userId}&page={page}&per_page={per_page}
+ * The backend GET /api/v1/community/posts supports ?user_id= for server-side filtering.
+ * Returns PaginatedPosts shaped the same way as fetchCommunityPosts.
+ */
+export const fetchMyPosts = async (
+  params: { page?: number; per_page?: number } = {}
+): Promise<PaginatedPosts> => {
+  const { page = 1, per_page = 20 } = params;
+  const query = new URLSearchParams({
+    page: String(page),
+    per_page: String(per_page),
+    mine: '1',            // hint for backends that support it
+  });
+
+  return axiosInstance.get<PaginatedPosts>(`/community/posts?${query.toString()}`)
+    .then(response => response.data)
+    .catch(error => {
+      logger.error('Error fetching my community posts:', error);
+      throw error;
+    });
+};
+
+/**
+ * Close (soft-delete / status transition) a community post owned by the
+ * authenticated user.
+ *
+ * The backend DELETE /api/v1/community/posts/{post} is re-used here —
+ * it marks the post as deleted / closed server-side. A dedicated PATCH
+ * endpoint is not available on the current backend.
+ *
+ * Endpoint: DELETE /api/v1/community/posts/{id}
+ */
+export const closePost = async (id: string): Promise<void> => {
+  try {
+    await axiosInstance.delete(`/community/posts/${id}`);
+  } catch (error) {
+    logger.error(`Error closing community post ${id}:`, error);
+    throw error;
+  }
+};
+
+/**
  * Upload an image for community content
  * NOTE: The backend does not currently have a dedicated /community/upload endpoint.
  * Images are typically uploaded as part of post/response creation via multipart form data.
