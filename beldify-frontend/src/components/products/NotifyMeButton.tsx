@@ -16,24 +16,11 @@
  * Ethics copy rules (hooked §1, non-negotiable):
  *   - Second person, calm, no exclamation marks, no fake urgency/scarcity.
  *   - ≤12 words per string.
- *   - AR strings are hardcoded below — i18n keys DO NOT EXIST yet in the
- *     locale JSONs (out of scope to edit). FLAG: add keys listed in the
- *     comment block below to ar.json / en.json in a follow-up task.
- *
- * FLAGGED i18n keys to add in a future task:
- *   notify_me.back_in_stock_ar = "نبّهني عند توفّره"
- *   notify_me.back_in_stock_en = "Notify me when it's back"
- *   notify_me.price_drop_ar = "نبّهني عند انخفاض السعر"
- *   notify_me.price_drop_en = "Notify me about price drops"
- *   notify_me.notified_ar = "سنبلغك حين يتوفر"
- *   notify_me.notified_en = "You will be notified"
- *   notify_me.saved_push_off_ar = "تم الحفظ. الإشعارات معطّلة في المتصفح"
- *   notify_me.saved_push_off_en = "Saved. Enable browser notifications to get alerts"
- *   notify_me.unsupported_ar = "تم الحفظ. المتصفح لا يدعم الإشعارات"
- *   notify_me.unsupported_en = "Saved. Your browser does not support notifications"
+ *   - Copy lives in notify_me.* keys across all 5 locale JSONs.
  */
 
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useRouter } from 'next/navigation';
 import { Bell, BellOff } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
@@ -58,38 +45,14 @@ export interface NotifyMeButtonProps {
   isRTL?: boolean;
 }
 
-/** Copy strings — hardcoded AR+EN until i18n keys are added (see FLAG above). */
-const COPY = {
-  label: {
-    backInStock: { ar: 'نبّهني عند توفّره', en: "Notify me when it's back" },
-    priceDrop: { ar: 'نبّهني عند انخفاض السعر', en: 'Notify me about price drops' },
-  },
-  success: {
-    withPush: { ar: 'سنبلغك حين يتوفر', en: 'You will be notified' },
-    pushOff: {
-      ar: 'تم الحفظ. فعّل الإشعارات للحصول على تنبيهات',
-      en: 'Saved. Enable notifications to receive alerts',
-    },
-    unsupported: {
-      ar: 'تم الحفظ. المتصفح لا يدعم الإشعارات',
-      en: 'Saved. Your browser does not support notifications',
-    },
-  },
-  saving: { ar: 'جارٍ الحفظ…', en: 'Saving…' },
-};
-
-function get(node: { ar: string; en: string }, isRTL: boolean) {
-  return isRTL ? node.ar : node.en;
-}
-
 export default function NotifyMeButton({
   productId,
   currentPrice,
   isOutOfStock = false,
   className = '',
   compact = false,
-  isRTL = false,
 }: NotifyMeButtonProps) {
+  const { t } = useTranslation();
   const router = useRouter();
   const { isAuthenticated } = useAuth();
   const { isInWishlist, addToWishlist, updateWishlistNotifications } = useWishlist();
@@ -134,21 +97,20 @@ export default function NotifyMeButton({
 
       // Step 3: Calm toast keyed off push outcome
       if (!isSupported) {
-        toast.success(get(COPY.success.unsupported, isRTL));
+        toast.success(t('notify_me.unsupported', 'Saved. Your browser does not support notifications'));
       } else if (!pushGranted) {
-        toast.success(get(COPY.success.pushOff, isRTL));
+        toast.success(t('notify_me.saved_push_off', 'Saved. Enable notifications to receive alerts'));
       } else {
-        toast.success(get(COPY.success.withPush, isRTL));
+        toast.success(t('notify_me.notified', 'You will be notified'));
       }
     } finally {
       setIsBusy(false);
     }
   };
 
-  const label = get(
-    isOutOfStock ? COPY.label.backInStock : COPY.label.priceDrop,
-    isRTL
-  );
+  const label = isOutOfStock
+    ? t('notify_me.back_in_stock', "Notify me when it's back")
+    : t('notify_me.price_drop', 'Notify me about price drops');
 
   if (compact) {
     return (
@@ -196,7 +158,7 @@ export default function NotifyMeButton({
             style={{ animationDuration: '0.6s' }}
             aria-hidden
           />
-          <span>{get(COPY.saving, isRTL)}</span>
+          <span>{t('notify_me.saving', 'Saving…')}</span>
         </>
       ) : (
         <>

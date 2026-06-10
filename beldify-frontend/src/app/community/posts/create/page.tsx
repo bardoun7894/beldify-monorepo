@@ -273,7 +273,8 @@ export default function CreatePostPage() {
       }
     };
     fetchCategories();
-  }, [t]);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  // t is intentionally omitted — re-fetching categories on every language change is wasteful; labels come from category data.
 
   useEffect(() => {
     const productId = searchParams.get('productId');

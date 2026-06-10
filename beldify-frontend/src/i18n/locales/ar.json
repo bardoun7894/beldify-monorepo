@@ -1116,6 +1116,11 @@
       },
       "load_error": "تعذر تحميل الطلب",
       "not_found": "الطلب غير موجود"
+    },
+    "reorder": {
+      "added": "أُضيف إلى سلة التسوق",
+      "all_skipped": "لم تتوفر المنتجات حالياً",
+      "error": "حدث خطأ، يرجى المحاولة مجدداً"
     }
   },
   "order_confirmation": {
@@ -4170,7 +4175,15 @@
       "followSuccess": "تم {{action}} المتجر بنجاح",
       "genericError": "حدث خطأ ما"
     },
-    "default_name": "ورشة الفاسي"
+    "default_name": "ورشة الفاسي",
+    "follow": {
+      "hint": "تابِع {{shop}} لترى القطع الجديدة أولاً.",
+      "hint_ar": "تابِع {{shop}} لترى القطع الجديدة أولاً.",
+      "label": "تابِع {{shop}}",
+      "label_ar": "تابِع المتجر",
+      "following": "تتابِع",
+      "following_ar": "تتابِع"
+    }
   },
   "preferences": {
     "email_notifications": {
@@ -4455,5 +4468,13 @@
     "cta_sub": "صمّم مجوهراتك مع حرفي موثوق.",
     "cta_button": "طلب مخصص",
     "load_error": "تعذّر تحميل المنتجات"
+  },
+  "notify_me": {
+    "back_in_stock": "نبّهني عند توفّره",
+    "price_drop": "نبّهني عند انخفاض السعر",
+    "notified": "سنبلغك حين يتوفر",
+    "saved_push_off": "تم الحفظ. فعّل الإشعارات للحصول على تنبيهات",
+    "unsupported": "تم الحفظ. المتصفح لا يدعم الإشعارات",
+    "saving": "جارٍ الحفظ…"
   }
 }

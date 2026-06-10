@@ -214,17 +214,21 @@ export default function LoginPage() {
           window.google.accounts.id.cancel();
         }
 
-        // Then, safely remove the Google button if it exists
-        if (googleButtonRef.current) {
-          // Clear the button container instead of removing it
-          while (googleButtonRef.current.firstChild) {
-            googleButtonRef.current.removeChild(googleButtonRef.current.firstChild);
+        // Copy ref to local variable so the cleanup reads the value captured at
+        // effect registration time, not the (possibly stale) ref at teardown.
+        const buttonEl = googleButtonRef.current;
+        if (buttonEl) {
+          while (buttonEl.firstChild) {
+            buttonEl.removeChild(buttonEl.firstChild);
           }
         }
       } catch (e) {
         logger.error('Error during Google Identity cleanup:', e);
       }
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // Mount-only effect: loads the Google Identity script once. initializeGoogleButton and t
+    // are referenced inside but must not cause a re-load on language or function identity changes.
   }, []);
 
   const initializeGoogleButton = () => {

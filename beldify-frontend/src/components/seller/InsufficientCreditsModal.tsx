@@ -93,7 +93,7 @@ export function InsufficientCreditsModal({
           <button
             type="button"
             onClick={onClose}
-            aria-label={t('credits.modal.close', 'Close modal')}
+            aria-label={t('credits.modal.close_icon', 'Go back')}
             className="text-indigo-300 hover:text-white transition-colors mt-0.5"
           >
             <X className="w-5 h-5" aria-hidden="true" />

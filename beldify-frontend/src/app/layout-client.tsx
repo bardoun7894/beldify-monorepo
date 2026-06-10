@@ -41,6 +41,8 @@ export default function RootLayoutClient({ children }: RootLayoutClientProps) {
     };
 
     initializeApp();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // Mount-only language bootstrap — including i18n would cause initializeApp to re-run on every language change, creating an infinite loop.
   }, []);
 
   if (isLoading) {

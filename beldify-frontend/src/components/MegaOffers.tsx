@@ -9,6 +9,10 @@ import { ArrowRight, Star } from 'lucide-react';
 import '@/i18n/config';
 import { megaOfferService, MegaOfferCollection, FeaturedProduct } from '@/services/megaOfferService';
 
+// Atlas design tokens (hex references for SVG/inline style use)
+const ATLAS_PRIMARY = '#252555';
+const ATLAS_ACCENT = '#fea619';
+
 interface MegaOffersProps {
   megaOffers?: MegaOfferCollection[];
 }
@@ -53,7 +57,7 @@ function ProductCard({ product, locale }: { product: FeaturedProduct; locale: st
               </span>
             )}
             {product.is_trending && (
-              <span className="text-indigo-950 text-xs px-2 py-0.5 rounded-full font-semibold bg-amber-500">
+              <span className="text-amber-950 text-xs px-2 py-0.5 rounded-full font-semibold bg-[hsl(var(--secondary))]">
                 {t('megaOffers.hot', 'HOT')}
               </span>
             )}
@@ -67,7 +71,7 @@ function ProductCard({ product, locale }: { product: FeaturedProduct; locale: st
           </h4>
 
           <div className="flex items-center gap-2 mb-1">
-            <span className="font-bold text-indigo-700 text-sm">
+            <span className="font-bold text-[hsl(var(--primary))] text-sm">
               {Number(product.price).toLocaleString('ar-MA')} <span dir="rtl" lang="ar">درهم</span>
             </span>
             {product.has_discount && product.original_price && product.original_price !== product.price && (
@@ -103,7 +107,7 @@ function CollectionCard({ collection, locale }: { collection: MegaOfferCollectio
   return (
     <div className="bg-white rounded-2xl transition-all duration-200 ease-[cubic-bezier(0.33,1,0.68,1)] hover:-translate-y-0.5 overflow-hidden shadow-atlas-sm hover:shadow-atlas-md ring-1 ring-gray-200">
       {/* Collection Header */}
-      <div className="relative px-6 py-5 bg-gray-50 border-b border-gray-200">
+      <div className="relative px-6 py-5 bg-atlas-primary/[0.06] border-b border-atlas-primary/[0.1]">
         <div className="flex items-start justify-between gap-3">
           <div className="flex-1 min-w-0">
             <h3
@@ -116,10 +120,10 @@ function CollectionCard({ collection, locale }: { collection: MegaOfferCollectio
           </div>
 
           <div className="flex flex-col items-end gap-1.5 shrink-0">
-            <span className="px-3 py-1 rounded-full text-amber-950 text-xs font-semibold bg-amber-500">
+            <span className="px-3 py-1 rounded-full text-amber-950 text-xs font-semibold bg-[hsl(var(--secondary))]">
               {t('megaOffers.upTo70Off', 'UP TO 70% OFF')}
             </span>
-            <span className="text-xs font-medium text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded-full">
+            <span className="text-xs font-medium text-[hsl(var(--primary))] bg-[hsl(var(--primary)/0.08)] px-2 py-0.5 rounded-full">
               {daysLeft} {t('megaOffers.daysLeft', 'days left')}
             </span>
           </div>
@@ -135,15 +139,15 @@ function CollectionCard({ collection, locale }: { collection: MegaOfferCollectio
         </div>
 
         {/* Footer actions */}
-        <div className="mt-5 pt-4 border-t border-gray-100 flex items-center justify-between">
+        <div className="mt-5 pt-4 border-t border-[hsl(var(--primary)/0.08)] flex items-center justify-between">
           {collection.featured_products && collection.featured_products.length > 4 && (
-            <span className="text-sm font-medium text-amber-700">
+            <span className="text-sm font-medium text-[hsl(var(--secondary))]">
               +{collection.featured_products.length - 4} {t('megaOffers.moreItems', 'more items')}
             </span>
           )}
           <Link
             href={`/mega-offers/${collection.slug}?locale=${locale}`}
-            className="ms-auto inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-white bg-indigo-700 hover:bg-indigo-800 rounded-xl transition-all duration-200 ease-[cubic-bezier(0.33,1,0.68,1)] shadow-atlas-sm hover:shadow-atlas-md hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-indigo-700/30 min-h-[44px]"
+            className="ms-auto inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-white bg-[hsl(var(--primary))] hover:opacity-90 rounded-xl transition-all duration-200 ease-[cubic-bezier(0.33,1,0.68,1)] shadow-atlas-sm hover:shadow-atlas-md hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-[hsl(var(--primary)/0.3)] min-h-[44px]"
           >
             {t('megaOffers.viewCollection', 'View Collection')}
             <ArrowRight className="h-4 w-4" aria-hidden="true" />
@@ -252,7 +256,7 @@ const MegaOffers: React.FC<MegaOffersProps> = ({ megaOffers }) => {
           {offers.length > 4 && (
             <Link
               href={`/mega-offers?locale=${i18n.language}`}
-              className="hidden sm:inline-flex items-center gap-1 text-sm font-semibold text-indigo-700 hover:text-indigo-800 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-indigo-700/30 rounded"
+              className="hidden sm:inline-flex items-center gap-1 text-sm font-semibold text-[hsl(var(--primary))] hover:opacity-80 transition-opacity duration-200 focus:outline-none focus:ring-2 focus:ring-[hsl(var(--primary)/0.3)] rounded"
             >
               {t('megaOffers.viewAllCollections', 'View all')}
               <ArrowRight className="h-4 w-4" aria-hidden="true" />
@@ -278,7 +282,7 @@ const MegaOffers: React.FC<MegaOffersProps> = ({ megaOffers }) => {
           <div className="text-center mt-10 sm:hidden">
             <Link
               href={`/mega-offers?locale=${i18n.language}`}
-              className="inline-flex items-center gap-1 text-sm font-semibold text-indigo-700 hover:text-indigo-800 transition-colors duration-200"
+              className="inline-flex items-center gap-1 text-sm font-semibold text-[hsl(var(--primary))] hover:opacity-80 transition-opacity duration-200"
             >
               {t('megaOffers.viewAllCollections', 'View all collections')}
               <ArrowRight className="h-4 w-4" aria-hidden="true" />

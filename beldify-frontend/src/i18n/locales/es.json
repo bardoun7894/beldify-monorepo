@@ -1089,6 +1089,11 @@
       },
       "load_error": "No se pudo cargar el pedido",
       "not_found": "Pedido no encontrado"
+    },
+    "reorder": {
+      "added": "Añadido a tu carrito",
+      "all_skipped": "Los artículos están agotados y no se pudieron agregar.",
+      "error": "Algo salió mal. Por favor, inténtalo de nuevo."
     }
   },
   "order_confirmation": {
@@ -3891,7 +3896,15 @@
       "followSuccess": "Tienda {{action}} con éxito",
       "genericError": "Se ha producido un error"
     },
-    "default_name": "Atelier Fassi"
+    "default_name": "Atelier Fassi",
+    "follow": {
+      "hint": "Sigue a {{shop}} para ver las novedades primero.",
+      "hint_ar": "تابِع {{shop}} لترى القطع الجديدة أولاً.",
+      "label": "Seguir a {{shop}}",
+      "label_ar": "تابِع المتجر",
+      "following": "Siguiendo",
+      "following_ar": "تتابِع"
+    }
   },
   "tailoring": {
     "booking": {
@@ -4309,5 +4322,13 @@
     "cta_sub": "Diseña tus joyas con un artesano de confianza.",
     "cta_button": "Pedido personalizado",
     "load_error": "Error al cargar los productos"
+  },
+  "notify_me": {
+    "back_in_stock": "Avísame cuando vuelva",
+    "price_drop": "Avísame si baja el precio",
+    "notified": "Te avisaremos",
+    "saved_push_off": "Guardado. Activa las notificaciones para recibir alertas",
+    "unsupported": "Guardado. Tu navegador no admite notificaciones",
+    "saving": "Guardando…"
   }
 }

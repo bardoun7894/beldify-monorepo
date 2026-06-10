@@ -16,8 +16,10 @@ import {
   Store,
   ArrowRight,
   MessageSquare,
+  Sparkles,
 } from 'lucide-react';
 import { getSellerUnreadCount } from '@/services/messagingService';
+import { getSellerCredits } from '@/services/sellerCreditService';
 
 const POLL_INTERVAL_MS = 60_000; // 60 seconds
 
@@ -56,6 +58,28 @@ function useSellerUnreadCount(): number {
 /** Format the badge label — caps at 99+. Exported for unit tests. */
 export function formatBadge(count: number): string {
   return count > 99 ? '99+' : String(count);
+}
+
+/**
+ * Lazy-fetch the seller credit balance once on mount.
+ * Returns null until resolved; remains null on error (chip is hidden on error).
+ */
+function useSellerCreditBalance(): number | null {
+  const [balance, setBalance] = useState<number | null>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    getSellerCredits()
+      .then((res) => {
+        if (!cancelled) setBalance(res.balance);
+      })
+      .catch(() => {
+        // silently fail — chip renders nothing on error
+      });
+    return () => { cancelled = true; };
+  }, []);
+
+  return balance;
 }
 
 // ─── Routes that belong to the acquisition funnel ───────────────────────────
@@ -101,6 +125,7 @@ export default function SellerLayout({ children }: { children: React.ReactNode }
   const { isAuthenticated, user } = useAuth();
   const isRTL = i18n.language === 'ar' || i18n.language === 'ma';
   const sellerUnreadCount = useSellerUnreadCount();
+  const creditBalance = useSellerCreditBalance();
 
   // ── Funnel bypass — register / onboarding pages own their own chrome ──────
   if (isFunnelRoute(pathname)) {
@@ -169,12 +194,26 @@ export default function SellerLayout({ children }: { children: React.ReactNode }
               {t('seller.layout.hub_label', 'Seller Hub')}
             </span>
           </Link>
-          <Link
-            href="/"
-            className="text-xs text-gray-400 hover:text-gray-700 transition-colors"
-          >
-            {t('seller.layout.storefront_link', '← Back to storefront')}
-          </Link>
+          <div className="flex items-center gap-3">
+            {/* Credit balance chip — lazy fetch, renders nothing on error */}
+            {creditBalance !== null && (
+              <Link
+                href="/seller/credits"
+                data-testid="credit-chip"
+                aria-label={t('seller.layout.credit_chip_aria', 'AI Credits balance')}
+                className="inline-flex items-center gap-1.5 bg-indigo-700 hover:bg-indigo-800 text-white rounded-full px-3 py-1 text-xs font-semibold transition-colors"
+              >
+                <Sparkles className="w-3 h-3 text-amber-300" aria-hidden="true" />
+                {creditBalance}
+              </Link>
+            )}
+            <Link
+              href="/"
+              className="text-xs text-gray-400 hover:text-gray-700 transition-colors"
+            >
+              {t('seller.layout.storefront_link', '← Back to storefront')}
+            </Link>
+          </div>
         </div>
       </header>
 

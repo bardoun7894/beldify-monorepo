@@ -64,7 +64,7 @@ function RequestReturnSection() {
       })
       .catch((err) => logger.error('Failed to load orders for return:', err))
       .finally(() => setLoadingOrders(false));
-  }, [isLoggedIn]);
+  }, [isAuthenticated]);
 
   // When user selects an order, check if a return request already exists
   const checkExistingRequest = useCallback(async (orderNumber: string) => {
@@ -595,6 +595,8 @@ export default function ReturnsPage() {
 
               {/* Process illustration */}
               <div className="flex justify-center">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                {/* External Contabo storage domain is not in next.config remotePatterns; next/image would error at runtime. */}
                 <img
                   src="https://eu2.contabostorage.com/c7737d32901c47be91e8263ad074fd38:beldify1storage/assets/return-process.svg"
                   alt={t('account.returns.process_illustration_alt', 'Return process illustration')}

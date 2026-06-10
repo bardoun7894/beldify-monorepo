@@ -1089,6 +1089,11 @@
       },
       "load_error": "Impossible de charger la commande",
       "not_found": "Commande introuvable"
+    },
+    "reorder": {
+      "added": "Ajouté à votre panier",
+      "all_skipped": "Les articles sont épuisés et n'ont pas pu être ajoutés.",
+      "error": "Une erreur s'est produite. Veuillez réessayer."
     }
   },
   "order_confirmation": {
@@ -3852,7 +3857,15 @@
       "followSuccess": "Boutique {{action}} avec succès",
       "genericError": "Une erreur est survenue"
     },
-    "default_name": "Atelier Fassi"
+    "default_name": "Atelier Fassi",
+    "follow": {
+      "hint": "Suivez {{shop}} pour voir les nouveautés en premier.",
+      "hint_ar": "تابِع {{shop}} لترى القطع الجديدة أولاً.",
+      "label": "Suivre {{shop}}",
+      "label_ar": "تابِع المتجر",
+      "following": "Abonné",
+      "following_ar": "تتابِع"
+    }
   },
   "tailoring": {
     "booking": {
@@ -4325,5 +4338,13 @@
     "cta_sub": "Concevez vos bijoux avec un artisan de confiance.",
     "cta_button": "Commande sur mesure",
     "load_error": "Échec du chargement des produits"
+  },
+  "notify_me": {
+    "back_in_stock": "Prévenez-moi quand il revient",
+    "price_drop": "Prévenez-moi en cas de baisse de prix",
+    "notified": "Vous serez notifié",
+    "saved_push_off": "Enregistré. Activez les notifications pour recevoir des alertes",
+    "unsupported": "Enregistré. Votre navigateur ne prend pas en charge les notifications",
+    "saving": "Enregistrement…"
   }
 }

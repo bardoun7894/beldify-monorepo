@@ -34,6 +34,9 @@ import logger from '@/utils/consoleLogger';
 
 const playfair = { fontFamily: '"Playfair Display", ui-serif, Georgia, serif' };
 
+const SUPPORT_PHONE    = process.env.NEXT_PUBLIC_SUPPORT_PHONE || '+212708150351';
+const SUPPORT_WHATSAPP = SUPPORT_PHONE.replace(/[^0-9]/g, '');
+
 const TIMELINE_STATUSES = ['order_placed', 'processing', 'shipped', 'delivered'] as const;
 type TimelineStatus = typeof TIMELINE_STATUSES[number];
 
@@ -82,13 +85,7 @@ export default function OrderDetailsPage() {
     try {
       const result = await orderService.reorder(orderNumber);
       if (result.items_skipped > 0 && result.items_added === 0) {
-        // FLAG: i18n key orders.reorder.all_skipped — hardcoded AR+EN pending i18n audit
-        toast(
-          i18n.language === 'ar'
-            ? 'لم تتوفر المنتجات حالياً'
-            : 'Items are out of stock and could not be added.',
-          'error'
-        );
+        toast.error(t('orders.reorder.all_skipped', 'Items are out of stock and could not be added.'));
         return;
       }
       const skippedNote =
@@ -97,19 +94,11 @@ export default function OrderDetailsPage() {
             ? ` (${result.items_skipped} منتج غير متوفر)`
             : ` (${result.items_skipped} item${result.items_skipped > 1 ? 's' : ''} out of stock)`
           : '';
-      // FLAG: i18n key orders.reorder.added — hardcoded AR+EN pending i18n audit
-      toast(
-        (i18n.language === 'ar' ? 'أُضيف إلى سلة التسوق' : 'Added to your cart') + skippedNote,
-        'success'
-      );
+      toast.success(t('orders.reorder.added', 'Added to your cart') + skippedNote);
       router.push('/cart');
     } catch (err) {
       logger.error('Reorder error:', err);
-      // FLAG: i18n key orders.reorder.error — hardcoded AR+EN pending i18n audit
-      toast(
-        i18n.language === 'ar' ? 'حدث خطأ، يرجى المحاولة مجدداً' : 'Something went wrong. Please try again.',
-        'error'
-      );
+      toast.error(t('orders.reorder.error', 'Something went wrong. Please try again.'));
     } finally {
       setReordering(false);
     }
@@ -416,8 +405,9 @@ export default function OrderDetailsPage() {
                 </Link>
               )}
               <button
+                onClick={() => window.open(`https://wa.me/${SUPPORT_WHATSAPP}`, '_blank', 'noopener,noreferrer')}
                 className="px-4 py-2 text-sm text-indigo-700 bg-indigo-50 rounded-2xl ring-1 ring-indigo-200 hover:bg-indigo-100 transition-all duration-200 flex items-center gap-1.5 focus:ring-2 focus:ring-indigo-700/30 focus:outline-none"
-                aria-label={t('orders.actions.support')}
+                aria-label={t('orders.actions.support', 'Contact support via WhatsApp')}
               >
                 <MessageSquare className="w-4 h-4" strokeWidth={1.5} />
                 {t('orders.actions.support')}
@@ -731,8 +721,9 @@ export default function OrderDetailsPage() {
                   </span>
                 )}
                 <button
+                  onClick={() => window.open(`https://wa.me/${SUPPORT_WHATSAPP}`, '_blank', 'noopener,noreferrer')}
                   className="px-4 py-3 bg-indigo-700 text-white text-sm font-medium rounded-2xl hover:bg-indigo-800 transition-all duration-200 flex items-center justify-center gap-2 focus:ring-2 focus:ring-indigo-700/30 focus:outline-none"
-                  aria-label={t('orders.actions.support')}
+                  aria-label={t('orders.actions.support', 'Contact support via WhatsApp')}
                 >
                   <MessageSquare className="w-4 h-4" strokeWidth={1.5} />
                   {t('orders.actions.support')}

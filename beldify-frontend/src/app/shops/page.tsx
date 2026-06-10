@@ -93,27 +93,27 @@ export default function ShopsPage() {
     setSearchQuery(currentSearch);
   }, [currentSearch]);
 
-  const fetchShops = async () => {
-    setLoading(true);
-    const result = await shopService.getShops({
-      page: currentPage,
-      search: currentSearch,
-      type: currentType,
-      sort: validSort,
-      per_page: 12,
-    });
-
-    if (result.error) {
-      setError(result.error.message);
-    } else {
-      setShops(result.data.shops);
-      setPagination(result.data.pagination);
-      setError(null);
-    }
-    setLoading(false);
-  };
-
   useEffect(() => {
+    const fetchShops = async () => {
+      setLoading(true);
+      const result = await shopService.getShops({
+        page: currentPage,
+        search: currentSearch,
+        type: currentType,
+        sort: validSort,
+        per_page: 12,
+      });
+
+      if (result.error) {
+        setError(result.error.message);
+      } else {
+        setShops(result.data.shops);
+        setPagination(result.data.pagination);
+        setError(null);
+      }
+      setLoading(false);
+    };
+
     fetchShops();
   }, [currentPage, currentSearch, currentType, currentSort, validSort]);
 

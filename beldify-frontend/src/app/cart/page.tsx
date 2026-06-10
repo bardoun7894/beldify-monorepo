@@ -45,6 +45,8 @@ export default function CartPage() {
     if (state?.items?.length && state.items.length > 0) {
       triggerOnCartAdd();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // triggerOnCartAdd is a stable PWA trigger; adding it would cause infinite PWA re-prompts on every item-count change.
   }, [state?.items?.length]);
 
   // Coupon state
