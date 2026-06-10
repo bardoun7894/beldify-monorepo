@@ -1817,7 +1817,9 @@ export default function ProductDetailsPage() {
               )}
             </div>
 
-            {/* Primary CTA: Add to bag — full-width, large tap target.
+            {/* Primary CTA: Add to bag — DESKTOP ONLY (mobile purchase lives in the
+                sticky PdpBuyBar; duplicating both pairs on one mobile screen confused
+                users). Full-width, large tap target.
                 INTENTIONAL Atlas exception: the global add-to-cart contract is the
                 amber-500 / text-amber-950 accent variant, but on the PDP the saffron
                 accent is reserved for the bespoke-tailoring CTA below (the editorial
@@ -1831,7 +1833,7 @@ export default function ProductDetailsPage() {
               }}
               disabled={shouldDisableButton()}
               className={cn(
-                'w-full rounded-full py-4 flex items-center justify-center gap-2.5 text-base font-semibold transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30',
+                'hidden md:flex w-full rounded-full py-4 items-center justify-center gap-2.5 text-base font-semibold transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30',
                 shouldDisableButton()
                   ? 'bg-gray-100 text-gray-400 cursor-not-allowed ring-1 ring-gray-200'
                   : 'bg-indigo-700 hover:bg-indigo-800 text-white shadow-atlas-sm hover:shadow-atlas-md active:scale-[0.98]'
@@ -1858,7 +1860,7 @@ export default function ProductDetailsPage() {
               onClick={handleBuyNow}
               disabled={shouldDisableButton()}
               className={cn(
-                'w-full rounded-full py-3.5 flex items-center justify-center gap-2 text-sm font-semibold transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-500/40',
+                'hidden md:flex w-full rounded-full py-3.5 items-center justify-center gap-2 text-sm font-semibold transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-500/40',
                 shouldDisableButton()
                   ? 'bg-gray-100 text-gray-400 cursor-not-allowed ring-1 ring-gray-200'
                   : 'bg-amber-400 hover:bg-amber-300 text-gray-900 shadow-atlas-sm hover:shadow-atlas-md active:scale-[0.98]'
