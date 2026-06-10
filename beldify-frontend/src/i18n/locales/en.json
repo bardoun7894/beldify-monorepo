@@ -118,7 +118,8 @@
     "back_to": "Back to",
     "errorTitle": "Something went wrong",
     "remove_image": "Remove image",
-    "go_back": "Go back"
+    "go_back": "Go back",
+    "dismiss": "Dismiss"
   },
   "validation": {
     "required": "This field is required",
@@ -305,7 +306,29 @@
     "almost_there": "Almost there.",
     "almost_there_sub": "Choose a strong new password and you're back in.",
     "rate_limited": "You've requested too many reset links. Please wait a few minutes and try again.",
-    "password_reset_success": "Password updated successfully"
+    "password_reset_success": "Password updated successfully",
+    "confirm_your_email": "Confirm your email.",
+    "confirm_your_email_sub": "One click and you're all set. Your account is almost ready.",
+    "verifying_email": "Verifying your email",
+    "verifying_email_title": "Verifying your email",
+    "verifying_email_desc": "Please wait a moment…",
+    "email_verified": "Email verified",
+    "email_verified_desc": "Your email address has been confirmed. You can now access all features.",
+    "already_verified": "Already verified",
+    "already_verified_desc": "Your email address is already confirmed. You are good to go.",
+    "go_to_home": "Go to homepage",
+    "verify_link_invalid": "Invalid verification link",
+    "verify_link_invalid_desc": "This verification link is missing required information. Please use the link from your email.",
+    "check_your_inbox": "Check your inbox",
+    "link_expired_resent_desc": "A new verification link has been sent to your inbox.",
+    "resend_verification": "Resend verification email",
+    "sign_in_to_resend": "Sign in to resend",
+    "resending": "Sending…",
+    "resent": "Resent!",
+    "verify_email_resent": "Verification email sent! Check your inbox.",
+    "rate_limit": "Too many requests. Please wait a moment.",
+    "resend_failed": "Failed to send. Please try again.",
+    "verify_email_banner": "Please verify your email address to unlock all features."
   },
   "navigation": {
     "home": "Home",
@@ -1333,7 +1356,11 @@
       "postal_code": "Postal code",
       "state": "Region / State",
       "state_placeholder": "Grand Casablanca",
-      "title": "Delivery address"
+      "title": "Delivery address",
+      "saved_addresses": "Saved addresses",
+      "type_new": "Enter a new address",
+      "default_badge": "Default",
+      "save_for_next": "Save this address for future orders"
     },
     "bespoke": {
       "cta": "Explore bespoke"
@@ -1402,7 +1429,8 @@
     "tabs": {
       "general": "General",
       "security": "Security",
-      "preferences": "Preferences"
+      "preferences": "Preferences",
+      "addresses": "Addresses"
     },
     "default_user_name": "User",
     "title": "Profile",
@@ -1483,7 +1511,39 @@
       "success_message": "Preferences updated successfully",
       "error_message": "Failed to update preferences"
     },
-    "edit_avatar": "Change photo"
+    "edit_avatar": "Change photo",
+    "address_book": {
+      "loading": "Loading addresses",
+      "load_error": "Could not load addresses",
+      "empty_hint": "No saved addresses yet.",
+      "empty_title": "No saved addresses",
+      "empty_body": "Add an address to speed up checkout next time.",
+      "count": "{{count}} address(es) saved",
+      "add_new": "Add address",
+      "add_heading": "New address",
+      "edit_heading": "Edit address",
+      "default_badge": "Default",
+      "set_default": "Set as default",
+      "edit_address": "Edit address",
+      "delete_address": "Delete address",
+      "address_labeled": "{{label}} address",
+      "address_unnamed": "Saved address",
+      "delete_confirm_title": "Delete address?",
+      "delete_confirm_body": "This address will be permanently removed.",
+      "create_success": "Address saved",
+      "update_success": "Address updated",
+      "delete_success": "Address deleted",
+      "save_error": "Could not save address",
+      "delete_error": "Could not delete address",
+      "default_success": "Default address updated",
+      "default_error": "Could not update default",
+      "fields": {
+        "label": "Label",
+        "label_placeholder": "Home, Work…",
+        "street": "Street address",
+        "apartment": "Apartment, suite, etc."
+      }
+    }
   },
   "errors": {
     "general": "An error occurred",

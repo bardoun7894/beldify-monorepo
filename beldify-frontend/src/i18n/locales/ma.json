@@ -118,7 +118,8 @@
     "womens_traditional_wear": "ملابس نسائية تقليدية",
     "womens_traditional_wear_description": "شوف التشكيلة ديالنا من اللباس التقليدي الأنيق للعيالات",
     "yesterday": "البارح",
-    "go_back": "رجع"
+    "go_back": "رجع",
+    "dismiss": "سد"
   },
   "validation": {
     "required": "خاصك تعمر هاد لخانة",
@@ -324,7 +325,29 @@
     "almost_there": "بقا ليك شوية.",
     "almost_there_sub": "ختار كلمة سر قوية وترجع لحسابك.",
     "rate_limited": "طلبتي بزاف ديال الروابط. تسنى شي دقايق وعاود.",
-    "password_reset_success": "تبدلات كلمة السر بنجاح"
+    "password_reset_success": "تبدلات كلمة السر بنجاح",
+    "confirm_your_email": "أكد الإيميل ديالك.",
+    "confirm_your_email_sub": "كليكة وحدة وكولشي يكمل. الحساب ديالك قريب يوجد.",
+    "verifying_email": "كنتأكدو من الإيميل ديالك",
+    "verifying_email_title": "كنتأكدو من الإيميل ديالك",
+    "verifying_email_desc": "تسنى شوية عافاك…",
+    "email_verified": "تأكد الإيميل",
+    "email_verified_desc": "تأكد الإيميل ديالك. دابا تقدر تستعمل كولشي.",
+    "already_verified": "ديجا مأكد",
+    "already_verified_desc": "الإيميل ديالك ديجا مأكد. كولشي واجد.",
+    "go_to_home": "سير للصفحة الرئيسية",
+    "verify_link_invalid": "رابط التأكيد ماشي صحيح",
+    "verify_link_invalid_desc": "هاد الرابط ناقص. استعمل الرابط لي جاك فالإيميل.",
+    "check_your_inbox": "شوف الإيميل ديالك",
+    "link_expired_resent_desc": "تصيفط ليك رابط جديد فالإيميل.",
+    "resend_verification": "عاود صيفط إيميل التأكيد",
+    "sign_in_to_resend": "دخل لحسابك باش تعاود تصيفط",
+    "resending": "كنصيفطو…",
+    "resent": "تصيفط!",
+    "verify_email_resent": "تصيفط إيميل التأكيد! شوف البوات ديالك.",
+    "rate_limit": "بزاف ديال الطلبات. تسنى شوية.",
+    "resend_failed": "ما تصيفطش. عاود مرة أخرى.",
+    "verify_email_banner": "أكد الإيميل ديالك باش تستافد من كولشي."
   },
   "navigation": {
     "home": "الرئيسية",
@@ -1266,7 +1289,11 @@
       "postal_code": "الكود البريدي",
       "state": "الجهة",
       "state_placeholder": "الكبير الدار البيضاء",
-      "title": "عنوان التوصيل"
+      "title": "عنوان التوصيل",
+      "saved_addresses": "العناوين المسجلين",
+      "type_new": "دخل عنوان جديد",
+      "default_badge": "الأساسي",
+      "save_for_next": "سجل هاد العنوان للطلبيات الجاية"
     },
     "bespoke": {
       "cta": "شوف الخياطة الخاصة"
@@ -1330,7 +1357,8 @@
     "tabs": {
       "general": "عام",
       "security": "لأمان",
-      "preferences": "تفضيلات"
+      "preferences": "تفضيلات",
+      "addresses": "العناوين"
     },
     "default_user_name": "لمستخدم",
     "title": "البروفيل ديالي",
@@ -1411,7 +1439,39 @@
       "success_message": "تسجلات التفضيلات ديالك",
       "error_message": "ما قدرناش نسجلو التفضيلات"
     },
-    "edit_avatar": "بدل الصورة"
+    "edit_avatar": "بدل الصورة",
+    "address_book": {
+      "loading": "كنجيبو العناوين",
+      "load_error": "ما قدرناش نجيبو العناوين",
+      "empty_hint": "مازال ما سجلتي حتى عنوان.",
+      "empty_title": "ما كاين حتى عنوان مسجل",
+      "empty_body": "زيد عنوان باش الشراء الجاي يكون أسرع.",
+      "count": "{{count}} عنوان مسجل",
+      "add_new": "زيد عنوان",
+      "add_heading": "عنوان جديد",
+      "edit_heading": "بدّل العنوان",
+      "default_badge": "الأساسي",
+      "set_default": "خليه الأساسي",
+      "edit_address": "بدّل العنوان",
+      "delete_address": "حيّد العنوان",
+      "address_labeled": "عنوان {{label}}",
+      "address_unnamed": "عنوان مسجل",
+      "delete_confirm_title": "تحيّد العنوان؟",
+      "delete_confirm_body": "هاد العنوان غادي يتحيّد نهائياً.",
+      "create_success": "تسجل العنوان",
+      "update_success": "تبدل العنوان",
+      "delete_success": "تحيّد العنوان",
+      "save_error": "ما تسجلش العنوان",
+      "delete_error": "ما قدرناش نحيّدو العنوان",
+      "default_success": "تبدل العنوان الأساسي",
+      "default_error": "ما قدرناش نبدلو الأساسي",
+      "fields": {
+        "label": "التسمية",
+        "label_placeholder": "الدار، الخدمة…",
+        "street": "الزنقة والعنوان",
+        "apartment": "الشقة، الطابق…"
+      }
+    }
   },
   "errors": {
     "general": "وقع مشكل",

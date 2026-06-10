@@ -118,7 +118,8 @@
     "womens_traditional_wear": "Vêtements traditionnels pour femmes",
     "womens_traditional_wear_description": "Parcourez notre sélection de vêtements traditionnels élégants pour femmes",
     "yesterday": "Hier",
-    "go_back": "Retour"
+    "go_back": "Retour",
+    "dismiss": "Fermer"
   },
   "validation": {
     "required": "Ce champ est obligatoire",
@@ -305,7 +306,29 @@
     "almost_there": "Vous y êtes presque.",
     "almost_there_sub": "Choisissez un mot de passe fort et vous êtes de retour.",
     "rate_limited": "Trop de demandes de réinitialisation. Patientez quelques minutes puis réessayez.",
-    "password_reset_success": "Mot de passe mis à jour avec succès"
+    "password_reset_success": "Mot de passe mis à jour avec succès",
+    "confirm_your_email": "Confirmez votre e-mail.",
+    "confirm_your_email_sub": "Un clic et tout est prêt. Votre compte est presque prêt.",
+    "verifying_email": "Vérification de votre e-mail",
+    "verifying_email_title": "Vérification de votre e-mail",
+    "verifying_email_desc": "Veuillez patienter un instant…",
+    "email_verified": "E-mail vérifié",
+    "email_verified_desc": "Votre adresse e-mail a été confirmée. Vous avez maintenant accès à toutes les fonctionnalités.",
+    "already_verified": "Déjà vérifié",
+    "already_verified_desc": "Votre adresse e-mail est déjà confirmée. Tout est prêt.",
+    "go_to_home": "Aller à l'accueil",
+    "verify_link_invalid": "Lien de vérification invalide",
+    "verify_link_invalid_desc": "Ce lien de vérification est incomplet. Utilisez le lien reçu par e-mail.",
+    "check_your_inbox": "Vérifiez votre boîte de réception",
+    "link_expired_resent_desc": "Un nouveau lien de vérification a été envoyé.",
+    "resend_verification": "Renvoyer l'e-mail de vérification",
+    "sign_in_to_resend": "Connectez-vous pour renvoyer",
+    "resending": "Envoi…",
+    "resent": "Renvoyé !",
+    "verify_email_resent": "E-mail de vérification envoyé ! Vérifiez votre boîte.",
+    "rate_limit": "Trop de demandes. Patientez un instant.",
+    "resend_failed": "Échec de l'envoi. Réessayez.",
+    "verify_email_banner": "Veuillez vérifier votre adresse e-mail pour débloquer toutes les fonctionnalités."
   },
   "navigation": {
     "home": "Accueil",
@@ -1325,7 +1348,11 @@
       "postal_code": "Code postal",
       "state": "Région",
       "state_placeholder": "Grand Casablanca",
-      "title": "Adresse de livraison"
+      "title": "Adresse de livraison",
+      "saved_addresses": "Adresses enregistrées",
+      "type_new": "Saisir une nouvelle adresse",
+      "default_badge": "Par défaut",
+      "save_for_next": "Enregistrer cette adresse pour les prochaines commandes"
     },
     "bespoke": {
       "cta": "Découvrir le sur-mesure"
@@ -1389,7 +1416,8 @@
     "tabs": {
       "general": "Général",
       "security": "Sécurité",
-      "preferences": "Préférences"
+      "preferences": "Préférences",
+      "addresses": "Adresses"
     },
     "default_user_name": "Utilisateur",
     "title": "Profil",
@@ -1470,7 +1498,39 @@
       "success_message": "Préférences mises à jour avec succès",
       "error_message": "Échec de la mise à jour des préférences"
     },
-    "edit_avatar": "Changer la photo"
+    "edit_avatar": "Changer la photo",
+    "address_book": {
+      "loading": "Chargement des adresses",
+      "load_error": "Impossible de charger les adresses",
+      "empty_hint": "Aucune adresse enregistrée pour le moment.",
+      "empty_title": "Aucune adresse enregistrée",
+      "empty_body": "Ajoutez une adresse pour accélérer vos prochaines commandes.",
+      "count": "{{count}} adresse(s) enregistrée(s)",
+      "add_new": "Ajouter une adresse",
+      "add_heading": "Nouvelle adresse",
+      "edit_heading": "Modifier l'adresse",
+      "default_badge": "Par défaut",
+      "set_default": "Définir par défaut",
+      "edit_address": "Modifier l'adresse",
+      "delete_address": "Supprimer l'adresse",
+      "address_labeled": "Adresse {{label}}",
+      "address_unnamed": "Adresse enregistrée",
+      "delete_confirm_title": "Supprimer l'adresse ?",
+      "delete_confirm_body": "Cette adresse sera définitivement supprimée.",
+      "create_success": "Adresse enregistrée",
+      "update_success": "Adresse mise à jour",
+      "delete_success": "Adresse supprimée",
+      "save_error": "Impossible d'enregistrer l'adresse",
+      "delete_error": "Impossible de supprimer l'adresse",
+      "default_success": "Adresse par défaut mise à jour",
+      "default_error": "Impossible de mettre à jour l'adresse par défaut",
+      "fields": {
+        "label": "Libellé",
+        "label_placeholder": "Domicile, Travail…",
+        "street": "Adresse (rue)",
+        "apartment": "Appartement, étage, etc."
+      }
+    }
   },
   "errors": {
     "general": "Une erreur est survenue",

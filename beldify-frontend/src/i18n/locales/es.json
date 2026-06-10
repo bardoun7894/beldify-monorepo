@@ -118,7 +118,8 @@
     "womens_traditional_wear": "Ropa Tradicional para Mujer",
     "womens_traditional_wear_description": "Explora nuestra selección de trajes tradicionales elegantes para mujer",
     "yesterday": "Ayer",
-    "go_back": "Volver"
+    "go_back": "Volver",
+    "dismiss": "Cerrar"
   },
   "validation": {
     "required": "Este campo es obligatorio",
@@ -305,7 +306,29 @@
     "almost_there": "Ya casi está.",
     "almost_there_sub": "Elige una contraseña segura y habrás vuelto.",
     "rate_limited": "Has solicitado demasiados enlaces. Espera unos minutos e inténtalo de nuevo.",
-    "password_reset_success": "Contraseña actualizada correctamente"
+    "password_reset_success": "Contraseña actualizada correctamente",
+    "confirm_your_email": "Confirma tu correo.",
+    "confirm_your_email_sub": "Un clic y listo. Tu cuenta está casi lista.",
+    "verifying_email": "Verificando tu correo",
+    "verifying_email_title": "Verificando tu correo",
+    "verifying_email_desc": "Espera un momento…",
+    "email_verified": "Correo verificado",
+    "email_verified_desc": "Tu correo ha sido confirmado. Ya puedes acceder a todas las funciones.",
+    "already_verified": "Ya verificado",
+    "already_verified_desc": "Tu correo ya está confirmado. Todo listo.",
+    "go_to_home": "Ir al inicio",
+    "verify_link_invalid": "Enlace de verificación no válido",
+    "verify_link_invalid_desc": "Este enlace de verificación está incompleto. Usa el enlace de tu correo.",
+    "check_your_inbox": "Revisa tu bandeja de entrada",
+    "link_expired_resent_desc": "Se ha enviado un nuevo enlace de verificación.",
+    "resend_verification": "Reenviar correo de verificación",
+    "sign_in_to_resend": "Inicia sesión para reenviar",
+    "resending": "Enviando…",
+    "resent": "¡Reenviado!",
+    "verify_email_resent": "¡Correo de verificación enviado! Revisa tu bandeja.",
+    "rate_limit": "Demasiadas solicitudes. Espera un momento.",
+    "resend_failed": "No se pudo enviar. Inténtalo de nuevo.",
+    "verify_email_banner": "Verifica tu correo para desbloquear todas las funciones."
   },
   "navigation": {
     "home": "Inicio",
@@ -1325,7 +1348,11 @@
       "postal_code": "Código postal",
       "state": "Región",
       "state_placeholder": "Gran Casablanca",
-      "title": "Dirección de entrega"
+      "title": "Dirección de entrega",
+      "saved_addresses": "Direcciones guardadas",
+      "type_new": "Introducir una nueva dirección",
+      "default_badge": "Predeterminada",
+      "save_for_next": "Guardar esta dirección para futuros pedidos"
     },
     "bespoke": {
       "cta": "Explorar personalizado"
@@ -1389,7 +1416,8 @@
     "tabs": {
       "general": "General",
       "security": "Seguridad",
-      "preferences": "Preferencias"
+      "preferences": "Preferencias",
+      "addresses": "Direcciones"
     },
     "default_user_name": "Usuario",
     "title": "Perfil",
@@ -1470,7 +1498,39 @@
       "success_message": "Preferencias actualizadas exitosamente",
       "error_message": "Error al actualizar preferencias"
     },
-    "edit_avatar": "Cambiar foto"
+    "edit_avatar": "Cambiar foto",
+    "address_book": {
+      "loading": "Cargando direcciones",
+      "load_error": "No se pudieron cargar las direcciones",
+      "empty_hint": "Aún no hay direcciones guardadas.",
+      "empty_title": "Sin direcciones guardadas",
+      "empty_body": "Añade una dirección para agilizar tu próxima compra.",
+      "count": "{{count}} dirección(es) guardada(s)",
+      "add_new": "Añadir dirección",
+      "add_heading": "Nueva dirección",
+      "edit_heading": "Editar dirección",
+      "default_badge": "Predeterminada",
+      "set_default": "Establecer como predeterminada",
+      "edit_address": "Editar dirección",
+      "delete_address": "Eliminar dirección",
+      "address_labeled": "Dirección {{label}}",
+      "address_unnamed": "Dirección guardada",
+      "delete_confirm_title": "¿Eliminar dirección?",
+      "delete_confirm_body": "Esta dirección se eliminará permanentemente.",
+      "create_success": "Dirección guardada",
+      "update_success": "Dirección actualizada",
+      "delete_success": "Dirección eliminada",
+      "save_error": "No se pudo guardar la dirección",
+      "delete_error": "No se pudo eliminar la dirección",
+      "default_success": "Dirección predeterminada actualizada",
+      "default_error": "No se pudo actualizar la predeterminada",
+      "fields": {
+        "label": "Etiqueta",
+        "label_placeholder": "Casa, Trabajo…",
+        "street": "Dirección (calle)",
+        "apartment": "Apartamento, piso, etc."
+      }
+    }
   },
   "errors": {
     "general": "Ocurrió un error",

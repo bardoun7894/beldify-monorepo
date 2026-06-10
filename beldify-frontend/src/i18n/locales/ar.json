@@ -118,7 +118,8 @@
     "online": "متصل",
     "today": "اليوم",
     "yesterday": "أمس",
-    "go_back": "رجوع"
+    "go_back": "رجوع",
+    "dismiss": "إغلاق"
   },
   "validation": {
     "required": "هذا الحقل مطلوب",
@@ -305,7 +306,29 @@
     "almost_there": "اقتربت من النهاية.",
     "almost_there_sub": "اختر كلمة مرور قوية وستعود إلى حسابك.",
     "rate_limited": "طلبت روابط كثيرة. الرجاء الانتظار بضع دقائق والمحاولة مجدداً.",
-    "password_reset_success": "تم تحديث كلمة المرور بنجاح"
+    "password_reset_success": "تم تحديث كلمة المرور بنجاح",
+    "confirm_your_email": "أكّد بريدك الإلكتروني.",
+    "confirm_your_email_sub": "نقرة واحدة ويكتمل كل شيء. حسابك شبه جاهز.",
+    "verifying_email": "جارٍ التحقق من بريدك",
+    "verifying_email_title": "جارٍ التحقق من بريدك",
+    "verifying_email_desc": "الرجاء الانتظار لحظة…",
+    "email_verified": "تم تأكيد البريد",
+    "email_verified_desc": "تم تأكيد بريدك الإلكتروني. يمكنك الآن الوصول لكل الميزات.",
+    "already_verified": "مؤكد مسبقاً",
+    "already_verified_desc": "بريدك الإلكتروني مؤكد مسبقاً. كل شيء جاهز.",
+    "go_to_home": "الذهاب للرئيسية",
+    "verify_link_invalid": "رابط تأكيد غير صالح",
+    "verify_link_invalid_desc": "رابط التأكيد ناقص المعلومات. الرجاء استخدام الرابط الموجود في بريدك.",
+    "check_your_inbox": "تحقق من بريدك الوارد",
+    "link_expired_resent_desc": "تم إرسال رابط تأكيد جديد إلى بريدك.",
+    "resend_verification": "إعادة إرسال بريد التأكيد",
+    "sign_in_to_resend": "سجّل الدخول لإعادة الإرسال",
+    "resending": "جارٍ الإرسال…",
+    "resent": "تم الإرسال!",
+    "verify_email_resent": "تم إرسال بريد التأكيد! تحقق من بريدك الوارد.",
+    "rate_limit": "طلبات كثيرة. الرجاء الانتظار قليلاً.",
+    "resend_failed": "فشل الإرسال. حاول مجدداً.",
+    "verify_email_banner": "الرجاء تأكيد بريدك الإلكتروني للوصول لكل الميزات."
   },
   "navigation": {
     "home": "الرئيسية",
@@ -1344,7 +1367,11 @@
       "postal_code": "الرمز البريدي",
       "state": "المنطقة / الولاية",
       "state_placeholder": "الدار البيضاء الكبرى",
-      "title": "عنوان التسليم"
+      "title": "عنوان التسليم",
+      "saved_addresses": "العناوين المحفوظة",
+      "type_new": "أدخل عنواناً جديداً",
+      "default_badge": "افتراضي",
+      "save_for_next": "احفظ هذا العنوان للطلبيات القادمة"
     },
     "bespoke": {
       "cta": "استكشف التفصيل"
@@ -1408,7 +1435,8 @@
     "tabs": {
       "general": "عام",
       "security": "الأمان",
-      "preferences": "التفضيلات"
+      "preferences": "التفضيلات",
+      "addresses": "العناوين"
     },
     "default_user_name": "المستخدم",
     "title": "الملف الشخصي",
@@ -1489,7 +1517,39 @@
       "success_message": "تم تحديث التفضيلات بنجاح",
       "error_message": "فشل تحديث التفضيلات"
     },
-    "edit_avatar": "تغيير الصورة"
+    "edit_avatar": "تغيير الصورة",
+    "address_book": {
+      "loading": "جارٍ تحميل العناوين",
+      "load_error": "تعذر تحميل العناوين",
+      "empty_hint": "لا توجد عناوين محفوظة بعد.",
+      "empty_title": "لا توجد عناوين محفوظة",
+      "empty_body": "أضف عنواناً لتسريع إتمام الشراء في المرة القادمة.",
+      "count": "{{count}} عنوان محفوظ",
+      "add_new": "إضافة عنوان",
+      "add_heading": "عنوان جديد",
+      "edit_heading": "تعديل العنوان",
+      "default_badge": "افتراضي",
+      "set_default": "تعيين كافتراضي",
+      "edit_address": "تعديل العنوان",
+      "delete_address": "حذف العنوان",
+      "address_labeled": "عنوان {{label}}",
+      "address_unnamed": "عنوان محفوظ",
+      "delete_confirm_title": "حذف العنوان؟",
+      "delete_confirm_body": "سيتم حذف هذا العنوان نهائياً.",
+      "create_success": "تم حفظ العنوان",
+      "update_success": "تم تحديث العنوان",
+      "delete_success": "تم حذف العنوان",
+      "save_error": "تعذر حفظ العنوان",
+      "delete_error": "تعذر حذف العنوان",
+      "default_success": "تم تحديث العنوان الافتراضي",
+      "default_error": "تعذر تحديث الافتراضي",
+      "fields": {
+        "label": "التسمية",
+        "label_placeholder": "المنزل، العمل…",
+        "street": "عنوان الشارع",
+        "apartment": "شقة، جناح، إلخ."
+      }
+    }
   },
   "errors": {
     "general": "حدث خطأ",
