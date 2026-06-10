@@ -1057,12 +1057,12 @@ export default function CheckoutPage() {
     `block w-full rounded-2xl bg-amber-50 ring-1 ${
       field && touchedFields[field] && validationErrors[field]
         ? 'ring-rose-400 focus:ring-rose-500'
-        : 'ring-amber-200 focus:ring-indigo-700/40'
+        : 'ring-gray-200 focus:ring-indigo-700/40'
     } px-3 py-2.5 text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 transition-all duration-150`;
 
   // ── Payment step ─────────────────────────────────────────────────────────
   const renderPaymentSection = () => (
-    <div className="bg-white rounded-2xl ring-1 ring-amber-200 p-6 shadow-atlas-sm">
+    <div className="bg-white rounded-2xl ring-1 ring-gray-200 p-6 shadow-atlas-sm">
       <h2
         id="payment-title"
         className="text-xl font-semibold text-gray-900 mb-6"
@@ -1088,7 +1088,7 @@ export default function CheckoutPage() {
             className={`relative flex items-center p-4 border rounded-2xl cursor-pointer transition-all duration-200 ${
               selectedPayment === method.id
                 ? 'border-indigo-700 bg-indigo-50 shadow-atlas-sm'
-                : 'border-amber-200 hover:border-indigo-400 hover:bg-amber-50/50'
+                : 'border-gray-200 hover:border-indigo-400 hover:bg-gray-50'
             }`}
             onClick={() => handlePaymentMethodSelect(method.id)}
           >
@@ -1124,7 +1124,7 @@ export default function CheckoutPage() {
             </div>
             {paymentDisabledReason(method) && (
               <div className="absolute inset-0 bg-white flex items-center justify-center rounded-2xl">
-                <span className="text-xs font-medium text-gray-500 bg-white px-3 py-1 rounded-full shadow-atlas-sm ring-1 ring-amber-200">
+                <span className="text-xs font-medium text-gray-500 bg-white px-3 py-1 rounded-full shadow-atlas-sm ring-1 ring-gray-200">
                   {paymentDisabledReason(method)}
                 </span>
               </div>
@@ -1134,7 +1134,7 @@ export default function CheckoutPage() {
       </fieldset>
 
       {/* Help for shoppers who don't know how to pay */}
-      <div className="mt-6 rounded-2xl bg-amber-50/60 ring-1 ring-amber-200 p-4">
+      <div className="mt-6 rounded-2xl bg-gray-50 ring-1 ring-gray-200 p-4">
         <div className="flex items-start gap-3">
           <Headphones className="w-5 h-5 text-indigo-700 flex-shrink-0 mt-0.5" aria-hidden="true" />
           <div className="flex-1">
@@ -1259,7 +1259,7 @@ export default function CheckoutPage() {
     >
       {/* Contact card */}
       <section
-        className="bg-white ring-1 ring-amber-200 rounded-2xl p-6 shadow-atlas-sm"
+        className="bg-white ring-1 ring-gray-200 rounded-2xl p-6 shadow-atlas-sm"
         aria-labelledby="section-contact"
       >
         <h2
@@ -1291,7 +1291,7 @@ export default function CheckoutPage() {
                 className={`block w-full rounded-full bg-amber-50 ring-1 ${
                   touchedFields.email && validationErrors.email
                     ? 'ring-rose-400 focus:ring-rose-500'
-                    : 'ring-amber-200 focus:ring-indigo-700/40'
+                    : 'ring-gray-200 focus:ring-indigo-700/40'
                 } ps-10 pe-4 py-2.5 text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 transition-all duration-150`}
                 aria-invalid={touchedFields.email && !!validationErrors.email}
                 aria-describedby={touchedFields.email && validationErrors.email ? 'email-error' : undefined}
@@ -1310,7 +1310,7 @@ export default function CheckoutPage() {
               type="checkbox"
               checked={sendUpdates}
               onChange={(e) => setSendUpdates(e.target.checked)}
-              className="w-4 h-4 rounded border-amber-300 text-indigo-700 focus:ring-indigo-700/30 bg-amber-50"
+              className="w-4 h-4 rounded border-gray-300 text-indigo-700 focus:ring-indigo-700/30 bg-amber-50"
             />
             <span className="text-sm text-gray-600 group-hover:text-gray-800 transition-colors">
               {t(
@@ -1324,7 +1324,7 @@ export default function CheckoutPage() {
 
       {/* Delivery address card */}
       <section
-        className="bg-white ring-1 ring-amber-200 rounded-2xl p-6 shadow-atlas-sm"
+        className="bg-white ring-1 ring-gray-200 rounded-2xl p-6 shadow-atlas-sm"
         aria-labelledby="section-address"
       >
         <h2
@@ -1615,7 +1615,7 @@ export default function CheckoutPage() {
               type="checkbox"
               checked={saveNewAddress}
               onChange={(e) => setSaveNewAddress(e.target.checked)}
-              className="w-4 h-4 rounded border-amber-300 text-indigo-700 focus:ring-indigo-700/30 bg-amber-50"
+              className="w-4 h-4 rounded border-gray-300 text-indigo-700 focus:ring-indigo-700/30 bg-amber-50"
             />
             <span className="text-sm text-gray-600 group-hover:text-gray-800 transition-colors">
               {t('checkout.address.save_for_next', 'Save this address for future orders')}
@@ -1626,7 +1626,7 @@ export default function CheckoutPage() {
 
       {/* Shipping method card */}
       <section
-        className="bg-white ring-1 ring-amber-200 rounded-2xl p-6 shadow-atlas-sm"
+        className="bg-white ring-1 ring-gray-200 rounded-2xl p-6 shadow-atlas-sm"
         aria-labelledby="section-shipping"
       >
         <h2
@@ -1648,7 +1648,7 @@ export default function CheckoutPage() {
                   className={`flex items-center gap-3 p-4 rounded-2xl ring-1 cursor-pointer transition-all duration-200 ${
                     isSelected
                       ? 'ring-2 ring-indigo-700 bg-indigo-50 shadow-atlas-sm'
-                      : 'ring-amber-200 hover:bg-amber-50/50 hover:ring-amber-300'
+                      : 'ring-gray-200 hover:bg-gray-50 hover:ring-gray-300'
                   }`}
                 >
                   <input
@@ -1690,7 +1690,7 @@ export default function CheckoutPage() {
 
   // ── Order summary (right column) ──────────────────────────────────────────
   const renderOrderSummary = () => (
-    <div className="bg-white ring-1 ring-amber-200 rounded-2xl p-6 shadow-atlas-sm lg:sticky lg:top-24 self-start">
+    <div className="bg-white ring-1 ring-gray-200 rounded-2xl p-6 shadow-atlas-sm lg:sticky lg:top-24 self-start">
       <p className="text-xs uppercase tracking-[0.18em] text-amber-700 font-medium mb-4">
         {t('checkout.summary.kicker', 'Order Summary')}
       </p>
@@ -1769,7 +1769,7 @@ export default function CheckoutPage() {
         <p className="text-xs text-rose-600 py-2" role="alert">{quoteError}</p>
       )}
 
-      <div className="border-t border-amber-200 pt-4 space-y-2 text-sm">
+      <div className="border-t border-gray-200 pt-4 space-y-2 text-sm">
         <div className="flex justify-between">
           <span className="text-gray-600">{t('checkout.summary.subtotal', 'Subtotal')}</span>
           <span className="text-gray-900 font-medium tabular-nums currency-mad">{formatAmount(subtotal)} MAD</span>
@@ -1803,7 +1803,7 @@ export default function CheckoutPage() {
       </div>
 
       {/* Total */}
-      <div className="flex items-baseline justify-between mt-4 mb-6 pt-4 border-t border-amber-200">
+      <div className="flex items-baseline justify-between mt-4 mb-6 pt-4 border-t border-gray-200">
         <span className="text-gray-700 font-medium text-sm">
           {t('checkout.summary.total', 'Total')}
         </span>
@@ -2008,7 +2008,7 @@ function ReassuranceStrip({ t }: { t: (k: string, fb: string) => string }) {
   ];
 
   return (
-    <section className="bg-amber-50/60 border-y border-amber-200/50 py-12 px-6" aria-label={t('checkout.reassurance.section_label', 'Why shop with us')}>
+    <section className="bg-gray-50 border-y border-gray-200 py-12 px-6" aria-label={t('checkout.reassurance.section_label', 'Why shop with us')}>
       <div className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8">
         {items.map(({ icon, label }) => (
           <div key={label} className="flex flex-col items-center text-center gap-3">

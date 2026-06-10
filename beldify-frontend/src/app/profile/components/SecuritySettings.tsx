@@ -44,7 +44,7 @@ function PasswordField({
           onChange={onChange}
           required={required}
           minLength={minLength}
-          className="block w-full rounded-xl border border-amber-200 bg-white pe-11 ps-4 py-2.5 text-sm text-indigo-950 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-700/30 focus:border-indigo-700 transition-colors duration-150"
+          className="block w-full rounded-xl border border-gray-200 bg-white pe-11 ps-4 py-2.5 text-sm text-indigo-950 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-700/30 focus:border-indigo-700 transition-colors duration-150"
         />
         <button
           type="button"

@@ -30,7 +30,7 @@ function AtlasSelect(props: React.SelectHTMLAttributes<HTMLSelectElement> & { ch
     <select
       {...rest}
       className={[
-        'block w-full rounded-xl border border-amber-200 bg-white px-4 py-2.5 text-sm text-indigo-950',
+        'block w-full rounded-xl border border-gray-200 bg-white px-4 py-2.5 text-sm text-indigo-950',
         'focus:outline-none focus:ring-2 focus:ring-indigo-700/30 focus:border-indigo-700',
         'disabled:opacity-60 transition-colors duration-150',
         rest.className ?? '',

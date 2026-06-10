@@ -130,7 +130,7 @@ function RequestReturnSection() {
 
   if (!isLoggedIn) {
     return (
-      <div className="bg-white rounded-2xl p-6 sm:p-8 shadow-sm ring-1 ring-amber-200 flex flex-col items-center text-center gap-4">
+      <div className="bg-white rounded-2xl p-6 sm:p-8 shadow-sm ring-1 ring-gray-200 flex flex-col items-center text-center gap-4">
         <div className="w-12 h-12 rounded-full bg-amber-50 ring-1 ring-amber-200 flex items-center justify-center">
           <LogIn className="w-5 h-5 text-amber-600" aria-hidden />
         </div>
@@ -156,7 +156,7 @@ function RequestReturnSection() {
   }
 
   return (
-    <div className="bg-white rounded-2xl p-6 sm:p-8 shadow-sm ring-1 ring-amber-200">
+    <div className="bg-white rounded-2xl p-6 sm:p-8 shadow-sm ring-1 ring-gray-200">
       <h2
         className="text-xl font-bold text-gray-900 mb-2"
         style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
@@ -193,7 +193,7 @@ function RequestReturnSection() {
               id="return-order"
               value={selectedOrderNumber}
               onChange={handleOrderChange}
-              className="block w-full rounded-2xl border border-amber-200 bg-white px-4 py-2.5 text-sm text-gray-900 shadow-sm transition focus:border-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-700/20"
+              className="block w-full rounded-2xl border border-gray-200 bg-white px-4 py-2.5 text-sm text-gray-900 shadow-sm transition focus:border-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-700/20"
             >
               <option value="">{t('returns.request.select_order_placeholder', '— Select an order —')}</option>
               {orders.map((o) => (
@@ -246,7 +246,7 @@ function RequestReturnSection() {
                   id="return-reason"
                   value={reason}
                   onChange={(e) => setReason(e.target.value as ReturnReason)}
-                  className="block w-full rounded-2xl border border-amber-200 bg-white px-4 py-2.5 text-sm text-gray-900 shadow-sm transition focus:border-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-700/20"
+                  className="block w-full rounded-2xl border border-gray-200 bg-white px-4 py-2.5 text-sm text-gray-900 shadow-sm transition focus:border-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-700/20"
                 >
                   <option value="">{t('returns.request.reason_placeholder', '— Select a reason —')}</option>
                   {RETURN_REASONS.map((r) => (
@@ -269,7 +269,7 @@ function RequestReturnSection() {
                   rows={4}
                   maxLength={500}
                   placeholder={t('returns.request.details_placeholder', 'Describe the issue in more detail…')}
-                  className="block w-full rounded-2xl border border-amber-200 bg-white px-4 py-2.5 text-sm text-gray-900 placeholder-gray-400 shadow-sm transition focus:border-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-700/20 resize-none"
+                  className="block w-full rounded-2xl border border-gray-200 bg-white px-4 py-2.5 text-sm text-gray-900 placeholder-gray-400 shadow-sm transition focus:border-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-700/20 resize-none"
                 />
                 <p className="mt-1 text-xs text-gray-400 text-end">
                   {details.length}/500
@@ -394,7 +394,7 @@ export default function ReturnsPage() {
 
         {/* Tab navigation */}
         <nav
-          className="flex justify-center mb-10 gap-1 bg-white rounded-2xl p-1.5 max-w-xl mx-auto shadow-sm ring-1 ring-amber-200"
+          className="flex justify-center mb-10 gap-1 bg-white rounded-2xl p-1.5 max-w-xl mx-auto shadow-sm ring-1 ring-gray-200"
           aria-label={t('account.returns.tabs_label', 'Returns and refunds navigation')}
         >
           {tabs.map((tab) => (
@@ -417,7 +417,7 @@ export default function ReturnsPage() {
           {/* Returns Policy Tab */}
           {activeTab === 'returns' && (
             <div className="space-y-6">
-              <div className="bg-white rounded-2xl p-6 sm:p-8 shadow-sm ring-1 ring-amber-200">
+              <div className="bg-white rounded-2xl p-6 sm:p-8 shadow-sm ring-1 ring-gray-200">
                 <h2
                   className="text-xl font-bold text-gray-900 mb-4"
                   style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
@@ -432,7 +432,7 @@ export default function ReturnsPage() {
                 </p>
               </div>
 
-              <div className="bg-white rounded-2xl p-6 sm:p-8 shadow-sm ring-1 ring-amber-200">
+              <div className="bg-white rounded-2xl p-6 sm:p-8 shadow-sm ring-1 ring-gray-200">
                 <h3
                   className="text-base font-semibold text-gray-900 mb-2"
                   style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
@@ -444,7 +444,7 @@ export default function ReturnsPage() {
                 </p>
               </div>
 
-              <div className="bg-white rounded-2xl p-6 sm:p-8 shadow-sm ring-1 ring-amber-200">
+              <div className="bg-white rounded-2xl p-6 sm:p-8 shadow-sm ring-1 ring-gray-200">
                 <h3
                   className="text-base font-semibold text-gray-900 mb-2"
                   style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
@@ -458,7 +458,7 @@ export default function ReturnsPage() {
 
               {/* Returnable / Non-returnable grids */}
               <div className="grid sm:grid-cols-2 gap-6">
-                <div className="bg-white rounded-2xl p-6 shadow-sm ring-1 ring-amber-200">
+                <div className="bg-white rounded-2xl p-6 shadow-sm ring-1 ring-gray-200">
                   <h3
                     className="text-base font-semibold text-gray-900 mb-4"
                     style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
@@ -475,7 +475,7 @@ export default function ReturnsPage() {
                   </ul>
                 </div>
 
-                <div className="bg-white rounded-2xl p-6 shadow-sm ring-1 ring-amber-200">
+                <div className="bg-white rounded-2xl p-6 shadow-sm ring-1 ring-gray-200">
                   <h3
                     className="text-base font-semibold text-gray-900 mb-4"
                     style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
@@ -498,7 +498,7 @@ export default function ReturnsPage() {
           {/* Exchanges Tab */}
           {activeTab === 'exchanges' && (
             <div className="space-y-6">
-              <div className="bg-white rounded-2xl p-6 sm:p-8 shadow-sm ring-1 ring-amber-200">
+              <div className="bg-white rounded-2xl p-6 sm:p-8 shadow-sm ring-1 ring-gray-200">
                 <h2
                   className="text-xl font-bold text-gray-900 mb-4"
                   style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
@@ -531,7 +531,7 @@ export default function ReturnsPage() {
                 </p>
               </div>
 
-              <div className="bg-white rounded-2xl p-6 sm:p-8 shadow-sm ring-1 ring-amber-200">
+              <div className="bg-white rounded-2xl p-6 sm:p-8 shadow-sm ring-1 ring-gray-200">
                 <h3
                   className="text-base font-semibold text-gray-900 mb-3"
                   style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
@@ -552,7 +552,7 @@ export default function ReturnsPage() {
               </div>
 
               <div className="grid sm:grid-cols-2 gap-6">
-                <div className="bg-white rounded-2xl p-6 shadow-sm ring-1 ring-amber-200">
+                <div className="bg-white rounded-2xl p-6 shadow-sm ring-1 ring-gray-200">
                   <h3 className="text-sm font-semibold text-gray-900 mb-2">
                     {t('pages.returns.exchanges.priceDiffTitle', 'Price Differences')}
                   </h3>
@@ -560,7 +560,7 @@ export default function ReturnsPage() {
                     {t('pages.returns.exchanges.priceDiffDescription', 'If the replacement item is more expensive, you\'ll be charged the difference.')}
                   </p>
                 </div>
-                <div className="bg-white rounded-2xl p-6 shadow-sm ring-1 ring-amber-200">
+                <div className="bg-white rounded-2xl p-6 shadow-sm ring-1 ring-gray-200">
                   <h3 className="text-sm font-semibold text-gray-900 mb-2">
                     {t('pages.returns.exchanges.internationalTitle', 'International Exchanges')}
                   </h3>
@@ -587,7 +587,7 @@ export default function ReturnsPage() {
                 {steps.map((step) => (
                   <div
                     key={step.id}
-                    className="bg-white rounded-2xl p-6 shadow-sm ring-1 ring-amber-200 flex gap-4"
+                    className="bg-white rounded-2xl p-6 shadow-sm ring-1 ring-gray-200 flex gap-4"
                   >
                     <div className="flex-shrink-0 w-10 h-10 rounded-full bg-indigo-700 text-white flex items-center justify-center text-sm font-semibold">
                       {step.id}

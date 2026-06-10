@@ -27,7 +27,7 @@ import logger from '@/utils/consoleLogger';
 // ── Skeleton card ─────────────────────────────────────────────────────────────
 function JobCardSkeleton() {
   return (
-    <div className="bg-white rounded-2xl ring-1 ring-amber-100 overflow-hidden animate-pulse">
+    <div className="bg-white rounded-2xl ring-1 ring-gray-100 overflow-hidden animate-pulse">
       <div className="h-40 bg-amber-50" />
       <div className="p-4 space-y-2.5">
         <div className="h-2 bg-amber-50 rounded-full w-1/4" />
@@ -38,7 +38,7 @@ function JobCardSkeleton() {
           <div className="h-4 w-14 bg-indigo-50 rounded-full" />
           <div className="h-4 w-16 bg-indigo-50 rounded-full" />
         </div>
-        <div className="flex justify-between pt-2 border-t border-amber-50 mt-1">
+        <div className="flex justify-between pt-2 border-t border-gray-100 mt-1">
           <div className="flex items-center gap-1.5">
             <div className="w-6 h-6 bg-amber-50 rounded-full" />
             <div className="h-2 w-16 bg-gray-100 rounded-full" />
@@ -327,7 +327,7 @@ export default function CommunityPage() {
             {/* Your Posts */}
             {isAuthenticated && user && (
               <div className="mt-6 mb-6">
-                <div className="bg-amber-50/40 rounded-2xl ring-1 ring-amber-200 p-5">
+                <div className="bg-gray-50 rounded-2xl ring-1 ring-gray-200 p-5">
                   <div className="flex items-center gap-3 mb-4">
                     <div className="w-7 h-7 bg-amber-100 rounded-full ring-1 ring-amber-200 flex items-center justify-center">
                       <UserCircle size={14} className="text-amber-800" />
@@ -369,7 +369,7 @@ export default function CommunityPage() {
             )}
 
             {/* All jobs */}
-            <div className="bg-amber-50/40 rounded-2xl ring-1 ring-amber-200 p-5 mt-4">
+            <div className="bg-gray-50 rounded-2xl ring-1 ring-gray-200 p-5 mt-4">
               <div className="flex items-center gap-3 mb-5">
                 <div className="w-7 h-7 bg-amber-100 rounded-full ring-1 ring-amber-200 flex items-center justify-center">
                   <Sparkles size={14} className="text-amber-700" />
@@ -432,7 +432,7 @@ export default function CommunityPage() {
           {/* ── Sidebar (desktop only) ── */}
           <aside className="lg:order-2 lg:sticky lg:top-6 space-y-5 mt-8 lg:mt-0 hidden lg:block">
             {/* How-it-works helper */}
-            <div className="border-s-2 border-amber-300 ps-4">
+            <div className="border-s-2 border-gray-300 ps-4">
               <h2 className="text-sm font-semibold text-gray-900 mb-2">
                 {t('openSouk.helperTitle', 'What is the Open Souk?')}
               </h2>

@@ -295,13 +295,13 @@ export default function RegisterPage() {
   // Shared input class pair (mirrors login's inputDefault/inputError contract).
   const inputBase =
     'w-full ps-9 pe-4 py-3 border rounded-2xl text-gray-900 placeholder-gray-400 text-sm transition-colors duration-200 focus:outline-none focus:ring-2';
-  const inputDefault = `${inputBase} border-amber-200 focus:border-indigo-700 focus:ring-indigo-700/20`;
+  const inputDefault = `${inputBase} border-gray-200 focus:border-indigo-700 focus:ring-indigo-700/20`;
   const inputError = `${inputBase} border-rose-300 focus:border-rose-500 focus:ring-rose-500/20`;
 
   // Variant with extra trailing padding for the show/hide toggle button.
   const inputWithToggleBase =
     'w-full ps-9 pe-10 py-3 border rounded-2xl text-gray-900 placeholder-gray-400 text-sm transition-colors duration-200 focus:outline-none focus:ring-2';
-  const inputWithToggleDefault = `${inputWithToggleBase} border-amber-200 focus:border-indigo-700 focus:ring-indigo-700/20`;
+  const inputWithToggleDefault = `${inputWithToggleBase} border-gray-200 focus:border-indigo-700 focus:ring-indigo-700/20`;
   const inputWithToggleError = `${inputWithToggleBase} border-rose-300 focus:border-rose-500 focus:ring-rose-500/20`;
 
   return (
@@ -394,7 +394,7 @@ export default function RegisterPage() {
           {/* Divider */}
           <div className="relative my-5">
             <div className="absolute inset-0 flex items-center" aria-hidden>
-              <div className="w-full border-t border-amber-100" />
+              <div className="w-full border-t border-gray-100" />
             </div>
             <div className="relative flex justify-center text-xs">
               <span className="px-3 bg-white text-gray-500 uppercase tracking-[0.14em]">

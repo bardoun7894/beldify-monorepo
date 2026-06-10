@@ -21,7 +21,7 @@ describe('products/[id]/page.tsx — Atlas visual compliance', () => {
   // ── Card radius ──────────────────────────────────────────────────────────────
   it('info pane uses Atlas card radius (rounded-2xl)', () => {
     // The info pane moved from bg-amber-50 to bg-white for separation; Atlas radius is rounded-2xl (16px)
-    expect(pageSrc).toMatch(/bg-white ring-1 ring-amber-200 rounded-2xl/);
+    expect(pageSrc).toMatch(/bg-white ring-1 ring-gray-200 rounded-2xl/);
   });
 
   // ── Main image container radius ──────────────────────────────────────────────
@@ -72,9 +72,9 @@ describe('products/[id]/page.tsx — Atlas visual compliance', () => {
     expect(pageSrc).toContain('fill-amber-400');
   });
 
-  // ── Mobile sticky bar uses border-amber-100 ─────────────────────────────────
-  it('mobile sticky bar uses border-amber-100 as per Atlas spec', () => {
-    expect(pageSrc).toContain('border-amber-100');
+  // ── Mobile sticky bar uses border-gray-100 ─────────────────────────────────
+  it('mobile sticky bar uses border-gray-100 as per Atlas spec', () => {
+    expect(pageSrc).toContain('border-gray-100');
   });
 
   // ── No @heroicons imports ────────────────────────────────────────────────────

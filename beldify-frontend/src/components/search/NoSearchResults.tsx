@@ -74,7 +74,7 @@ export default function NoSearchResults({
               <Link
                 key={suggestion}
                 href={`/products?q=${encodeURIComponent(suggestion)}`}
-                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-white border border-amber-200 text-gray-700 text-sm hover:border-indigo-300 hover:bg-indigo-50 hover:text-indigo-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30 transition-colors"
+                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-white border border-gray-200 text-gray-700 text-sm hover:border-indigo-300 hover:bg-indigo-50 hover:text-indigo-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30 transition-colors"
               >
                 {suggestion}
                 <ArrowRight className="h-3 w-3 shrink-0" aria-hidden="true" />
@@ -84,7 +84,7 @@ export default function NoSearchResults({
         </div>
 
         {/* Browse all */}
-        <div className="mt-8 pt-6 border-t border-amber-100">
+        <div className="mt-8 pt-6 border-t border-gray-100">
           <Link
             href="/products"
             className="inline-flex items-center gap-2 text-sm font-medium text-indigo-700 hover:text-indigo-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30 rounded transition-colors"

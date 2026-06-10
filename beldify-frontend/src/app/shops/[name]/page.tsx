@@ -109,16 +109,16 @@ function ShopProfileSkeleton() {
   return (
     <div className="bg-canvas min-h-screen">
       {/* Cover skeleton */}
-      <div className="h-72 sm:h-[28rem] bg-amber-100/70 animate-pulse" />
+      <div className="h-72 sm:h-[28rem] bg-gray-100 animate-pulse" />
       {/* Stats card skeleton */}
       <div className="max-w-7xl mx-auto px-6 -mt-12 relative z-10">
-        <div className="rounded-2xl bg-amber-100/70 h-28 animate-pulse" />
+        <div className="rounded-2xl bg-gray-100 h-28 animate-pulse" />
       </div>
       {/* Content skeleton */}
       <div className="max-w-7xl mx-auto px-6 pt-12 space-y-4">
-        <div className="h-8 w-48 rounded-2xl bg-amber-100/70 animate-pulse" />
-        <div className="h-4 w-full max-w-lg rounded-xl bg-amber-100/70 animate-pulse" />
-        <div className="h-4 w-full max-w-md rounded-xl bg-amber-100/70 animate-pulse" />
+        <div className="h-8 w-48 rounded-2xl bg-gray-100 animate-pulse" />
+        <div className="h-4 w-full max-w-lg rounded-xl bg-gray-100 animate-pulse" />
+        <div className="h-4 w-full max-w-md rounded-xl bg-gray-100 animate-pulse" />
       </div>
     </div>
   );
@@ -333,7 +333,7 @@ export default function ShopPage() {
   if (error || !shop) {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center bg-canvas gap-5 px-6">
-        <div className="rounded-2xl bg-white ring-1 ring-amber-200 shadow-atlas-sm px-10 py-12 flex flex-col items-center gap-4 max-w-sm w-full text-center">
+        <div className="rounded-2xl bg-white ring-1 ring-gray-200 shadow-atlas-sm px-10 py-12 flex flex-col items-center gap-4 max-w-sm w-full text-center">
           <p
             className="text-5xl font-bold text-indigo-700"
             style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
@@ -414,8 +414,8 @@ export default function ShopPage() {
 
       {/* ── 2. Stats strip (overlapping card) ─────────────────────────────── */}
       <div className="max-w-7xl mx-auto px-6 -mt-10 sm:-mt-14 relative z-10">
-        <div className="bg-white ring-1 ring-amber-200 rounded-2xl px-6 py-5 shadow-atlas-md">
-          <dl className="grid grid-cols-2 sm:grid-cols-4 gap-y-4 divide-x divide-amber-100 rtl:divide-x-reverse">
+        <div className="bg-white ring-1 ring-gray-200 rounded-2xl px-6 py-5 shadow-atlas-md">
+          <dl className="grid grid-cols-2 sm:grid-cols-4 gap-y-4 divide-x divide-gray-100 rtl:divide-x-reverse">
             {/* Rating */}
             <div className="text-center px-4">
               <dt className="text-xs uppercase tracking-[0.14em] text-gray-500 font-medium">
@@ -512,7 +512,7 @@ export default function ShopPage() {
           {ATELIER_IMAGES.map((src, i) => (
             <div
               key={i}
-              className={`relative overflow-hidden rounded-2xl ring-1 ring-amber-200 shadow-atlas-sm ${
+              className={`relative overflow-hidden rounded-2xl ring-1 ring-gray-200 shadow-atlas-sm ${
                 i === 1 ? 'mt-8' : i === 2 ? '-mt-8' : ''
               }`}
               style={{ aspectRatio: '4/5' }}
@@ -532,7 +532,7 @@ export default function ShopPage() {
 
       {/* ── 4. Tab strip ──────────────────────────────────────────────────── */}
       <div
-        className="sticky top-16 z-30 bg-amber-50/95 backdrop-blur border-y border-amber-200/60"
+        className="sticky top-16 z-30 bg-gray-50 backdrop-blur border-y border-gray-200"
         role="tablist"
         aria-label={t('shop.tabs_label', 'Product categories')}
       >
@@ -578,7 +578,7 @@ export default function ShopPage() {
           <select
             value={sortBy}
             onChange={(e) => { setSortBy(e.target.value as SortBy); setVisibleCount(8); }}
-            className="shrink-0 rounded-full bg-white ring-1 ring-amber-200 px-4 py-2 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-700"
+            className="shrink-0 rounded-full bg-white ring-1 ring-gray-200 px-4 py-2 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-700"
             aria-label={t('shop.sort_label', 'Sort products')}
           >
             <option value="featured">{t('shop.sort.featured', 'Featured')}</option>
@@ -599,7 +599,7 @@ export default function ShopPage() {
               ))}
             </div>
           ) : (
-            <div className="flex flex-col items-center justify-center py-20 bg-white ring-1 ring-amber-200 rounded-2xl shadow-atlas-sm text-center px-6">
+            <div className="flex flex-col items-center justify-center py-20 bg-white ring-1 ring-gray-200 rounded-2xl shadow-atlas-sm text-center px-6">
               <p className="text-gray-600 text-sm">
                 {t('shop.no_products_found', 'No products found in this category.')}
               </p>
@@ -623,7 +623,7 @@ export default function ShopPage() {
       {/* ── 7. Reviews section ─────────────────────────────────────────────── */}
       <section
         id="reviews"
-        className="bg-white border-y border-amber-200/60 py-16"
+        className="bg-white border-y border-gray-200 py-16"
         aria-labelledby="reviews-heading"
       >
         <div className="max-w-7xl mx-auto px-6">
@@ -641,7 +641,7 @@ export default function ShopPage() {
                 {STATIC_REVIEWS.map((rev, i) => (
                   <figure
                     key={i}
-                    className="bg-amber-50/60 ring-1 ring-amber-200 rounded-2xl p-6 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-atlas-md"
+                    className="bg-gray-50 ring-1 ring-gray-200 rounded-2xl p-6 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-atlas-md"
                   >
                     <div className="flex items-center gap-3 mb-4">
                       <div
@@ -682,7 +682,7 @@ export default function ShopPage() {
             </>
           ) : (
             /* Designed empty state — no fabricated testimonials when there are no reviews */
-            <div className="mt-10 flex flex-col items-center justify-center rounded-2xl bg-amber-50/60 ring-1 ring-amber-200 px-6 py-16 text-center">
+            <div className="mt-10 flex flex-col items-center justify-center rounded-2xl bg-gray-50 ring-1 ring-gray-200 px-6 py-16 text-center">
               <div
                 className="h-14 w-14 rounded-full bg-amber-100 ring-1 ring-amber-200 flex items-center justify-center mb-5"
                 aria-hidden="true"
@@ -780,7 +780,7 @@ export default function ShopPage() {
             <Link
               key={atelier.slug}
               href={`/shops/${atelier.slug}`}
-              className="group bg-white ring-1 ring-amber-200 rounded-2xl p-5 text-center hover:-translate-y-0.5 hover:shadow-atlas-md transition-all duration-200 shadow-atlas-sm focus-visible:ring-2 focus-visible:ring-indigo-700 focus-visible:ring-offset-2"
+              className="group bg-white ring-1 ring-gray-200 rounded-2xl p-5 text-center hover:-translate-y-0.5 hover:shadow-atlas-md transition-all duration-200 shadow-atlas-sm focus-visible:ring-2 focus-visible:ring-indigo-700 focus-visible:ring-offset-2"
             >
               <div
                 className="h-14 w-14 rounded-full bg-amber-100 ring-1 ring-amber-200 mx-auto mb-3 flex items-center justify-center"

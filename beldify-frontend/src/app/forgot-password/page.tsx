@@ -195,7 +195,7 @@ export default function ForgotPasswordPage() {
           {rateLimited && (
             <div
               role="alert"
-              className="mb-5 rounded-2xl border border-amber-300 bg-amber-50 px-4 py-3 text-sm text-amber-800"
+              className="mb-5 rounded-2xl border border-gray-300 bg-amber-50 px-4 py-3 text-sm text-amber-800"
             >
               {t(
                 'auth.rate_limited',
@@ -234,7 +234,7 @@ export default function ForgotPasswordPage() {
                   className={`w-full ps-9 pe-4 py-3 border rounded-2xl text-gray-900 placeholder-gray-400 text-sm transition-colors duration-200 focus:outline-none focus:ring-2 ${
                     emailError
                       ? 'border-rose-300 focus:border-rose-500 focus:ring-rose-500/20'
-                      : 'border-amber-200 focus:border-indigo-700 focus:ring-indigo-700/20'
+                      : 'border-gray-200 focus:border-indigo-700 focus:ring-indigo-700/20'
                   }`}
                   placeholder={t('auth.enter_email', 'you@example.com')}
                 />
@@ -283,7 +283,7 @@ export default function ForgotPasswordPage() {
           </form>
 
           {/* Contextual help */}
-          <div className="mt-8 pt-6 border-t border-amber-100">
+          <div className="mt-8 pt-6 border-t border-gray-100">
             <p className="text-center text-sm text-gray-500">
               {t('auth.remembered_password', 'Remembered your password?')}{' '}
               <Link

@@ -329,7 +329,7 @@ export default function OrderDetailsPage() {
             initial={shouldReduceMotion ? false : { scale: 0.95, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ duration: 0.4, ease: [0.33, 1, 0.68, 1] }}
-            className="bg-white rounded-2xl shadow-atlas-lg ring-1 ring-amber-100 p-12 text-center"
+            className="bg-white rounded-2xl shadow-atlas-lg ring-1 ring-gray-100 p-12 text-center"
           >
             <div className="w-16 h-16 bg-amber-50 rounded-full flex items-center justify-center mx-auto mb-6">
               <ShoppingBag className="w-8 h-8 text-amber-700" strokeWidth={1.5} />
@@ -379,7 +379,7 @@ export default function OrderDetailsPage() {
       dir={isRTL ? 'rtl' : 'ltr'}
     >
       {/* Solid parchment sticky header (no glassmorphism) */}
-      <div className="bg-white border-b border-amber-100 sticky top-0 z-20">
+      <div className="bg-white border-b border-gray-100 sticky top-0 z-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between py-4 gap-4">
             <div className="flex items-center gap-3 min-w-0">
@@ -438,7 +438,7 @@ export default function OrderDetailsPage() {
               initial={shouldReduceMotion ? false : { y: 16, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 0.4, ease: [0.33, 1, 0.68, 1] }}
-              className={`bg-white rounded-2xl ring-1 p-6 shadow-atlas-sm ${isCancelledOrder ? 'ring-rose-100' : 'ring-amber-100'}`}
+              className={`bg-white rounded-2xl ring-1 p-6 shadow-atlas-sm ${isCancelledOrder ? 'ring-rose-100' : 'ring-gray-100'}`}
             >
               <h2
                 className="text-lg font-semibold text-gray-900 mb-6"
@@ -479,7 +479,7 @@ export default function OrderDetailsPage() {
                           className={`w-10 h-10 rounded-full border-2 flex items-center justify-center transition-colors ${
                             isCompleted
                               ? 'bg-indigo-700 border-indigo-700 text-white'
-                              : 'bg-white border-amber-200 text-gray-400'
+                              : 'bg-white border-gray-200 text-gray-400'
                           }`}
                         >
                           {getTimelineIcon(status)}
@@ -541,7 +541,7 @@ export default function OrderDetailsPage() {
                               ? 'w-14 h-14 bg-indigo-700 border-indigo-700 text-white shadow-atlas-md ring-4 ring-indigo-100'
                               : isCompleted
                                 ? 'w-12 h-12 bg-indigo-700 border-indigo-700 text-white shadow-atlas-sm'
-                                : 'w-12 h-12 bg-white border-amber-200 text-gray-400'
+                                : 'w-12 h-12 bg-white border-gray-200 text-gray-400'
                           }`}
                         >
                           {getTimelineIcon(status, isCurrent ? 'w-6 h-6' : 'w-5 h-5')}
@@ -579,7 +579,7 @@ export default function OrderDetailsPage() {
 
               {/* Tracking metadata */}
               {!isCancelledOrder && (order.tracking_number || order.estimated_delivery) && (
-                <div className="mt-6 pt-5 border-t border-amber-100 space-y-3">
+                <div className="mt-6 pt-5 border-t border-gray-100 space-y-3">
                   {order.tracking_number && (
                     <div className="flex items-center justify-between">
                       <span className="text-sm text-gray-500">{t('orders.tracking.number')}</span>
@@ -605,9 +605,9 @@ export default function OrderDetailsPage() {
               initial={shouldReduceMotion ? false : { y: 16, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 0.4, delay: 0.1, ease: [0.33, 1, 0.68, 1] }}
-              className="bg-white rounded-2xl ring-1 ring-amber-100 overflow-hidden shadow-atlas-sm"
+              className="bg-white rounded-2xl ring-1 ring-gray-100 overflow-hidden shadow-atlas-sm"
             >
-              <div className="p-5 sm:p-6 border-b border-amber-100">
+              <div className="p-5 sm:p-6 border-b border-gray-100">
                 <h2
                   className="text-lg font-semibold text-gray-900"
                   style={playfair}
@@ -616,11 +616,11 @@ export default function OrderDetailsPage() {
                 </h2>
               </div>
 
-              <div className="divide-y divide-amber-100">
+              <div className="divide-y divide-gray-100">
                 {order.items.map((item) => (
                   <div key={item.id} className="p-5 sm:p-6">
                     <div className="flex items-start gap-4">
-                      <div className="relative w-20 h-20 rounded-xl overflow-hidden bg-amber-50/50 flex-shrink-0 shadow-atlas-sm">
+                      <div className="relative w-20 h-20 rounded-xl overflow-hidden bg-gray-50 flex-shrink-0 shadow-atlas-sm">
                         <Image
                           src={item.primary_image || item.product_image || '/images/placeholder-product.jpg'}
                           alt={item.product_name || t('orders.items.unknown_product')}
@@ -665,7 +665,7 @@ export default function OrderDetailsPage() {
               </div>
 
               {/* Order totals */}
-              <div className="p-5 sm:p-6 bg-amber-50/30 border-t border-amber-100">
+              <div className="p-5 sm:p-6 bg-gray-50 border-t border-gray-100">
                 <div className="space-y-2">
                   <div className="flex justify-between text-sm">
                     <span className="text-gray-500">{t('orders.summary.subtotal')}</span>
@@ -675,7 +675,7 @@ export default function OrderDetailsPage() {
                     <span className="text-gray-500">{t('orders.summary.shipping')}</span>
                     <span className="font-medium text-emerald-700">{t('orders.summary.free')}</span>
                   </div>
-                  <div className="pt-3 border-t border-amber-100">
+                  <div className="pt-3 border-t border-gray-100">
                     <div className="flex justify-between">
                       <span className="text-base font-semibold text-gray-900">{t('orders.summary.total')}</span>
                       <span
@@ -781,7 +781,7 @@ export default function OrderDetailsPage() {
                 initial={shouldReduceMotion ? false : { y: 16, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ duration: 0.4, delay: 0.1, ease: [0.33, 1, 0.68, 1] }}
-                className="bg-white rounded-2xl ring-1 ring-amber-100 p-5 sm:p-6 shadow-atlas-sm"
+                className="bg-white rounded-2xl ring-1 ring-gray-100 p-5 sm:p-6 shadow-atlas-sm"
               >
                 <h3
                   className="text-base font-semibold text-gray-900 mb-4 flex items-center gap-2"
@@ -801,7 +801,7 @@ export default function OrderDetailsPage() {
                     <p className="text-gray-500">{order.shipping_info.email}</p>
                     <p className="text-gray-500">{order.shipping_info.phone}</p>
                   </div>
-                  <div className="pt-2 border-t border-amber-100">
+                  <div className="pt-2 border-t border-gray-100">
                     <p className="text-xs font-medium text-gray-500 mb-1">
                       {t('orders.shipping.address')}
                     </p>
@@ -820,7 +820,7 @@ export default function OrderDetailsPage() {
               initial={shouldReduceMotion ? false : { y: 16, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 0.4, delay: 0.15, ease: [0.33, 1, 0.68, 1] }}
-              className="bg-white rounded-2xl ring-1 ring-amber-100 p-5 sm:p-6 shadow-atlas-sm lg:sticky lg:top-24"
+              className="bg-white rounded-2xl ring-1 ring-gray-100 p-5 sm:p-6 shadow-atlas-sm lg:sticky lg:top-24"
             >
               <h3
                 className="text-base font-semibold text-gray-900 mb-4"
@@ -837,7 +837,7 @@ export default function OrderDetailsPage() {
                 </span>
               </div>
 
-              <div className="space-y-0 divide-y divide-amber-100">
+              <div className="space-y-0 divide-y divide-gray-100">
                 <div className="flex justify-between py-3 text-sm">
                   <span className="text-gray-500">{t('orders.summary.order_number')}</span>
                   <span className="font-semibold text-gray-900">#{order.order_number}</span>
@@ -998,7 +998,7 @@ export default function OrderDetailsPage() {
                 maxLength={500}
                 rows={3}
                 placeholder={t('orders.cancel.reason_placeholder', 'Let us know why you are cancelling…')}
-                className="block w-full rounded-2xl border border-amber-200 bg-white px-4 py-2.5 text-sm text-gray-900 placeholder-gray-400 shadow-sm transition focus:border-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-700/20 resize-none"
+                className="block w-full rounded-2xl border border-gray-200 bg-white px-4 py-2.5 text-sm text-gray-900 placeholder-gray-400 shadow-sm transition focus:border-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-700/20 resize-none"
               />
             </div>
 
@@ -1041,7 +1041,7 @@ export default function OrderDetailsPage() {
             initial={{ scale: 0.97, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ duration: 0.2, ease: [0.33, 1, 0.68, 1] }}
-            className="bg-white rounded-2xl w-full max-w-sm shadow-atlas-lg ring-1 ring-amber-100 p-6"
+            className="bg-white rounded-2xl w-full max-w-sm shadow-atlas-lg ring-1 ring-gray-100 p-6"
           >
             <div className="flex items-start gap-3 mb-5">
               <div className="w-10 h-10 rounded-full bg-amber-50 flex items-center justify-center flex-shrink-0">
@@ -1066,7 +1066,7 @@ export default function OrderDetailsPage() {
                   id="return-reason-modal"
                   value={returnReason}
                   onChange={(e) => { setReturnReason(e.target.value); setReturnError(''); }}
-                  className="block w-full rounded-2xl border border-amber-200 bg-white px-4 py-2.5 text-sm text-gray-900 shadow-sm transition focus:border-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-700/20"
+                  className="block w-full rounded-2xl border border-gray-200 bg-white px-4 py-2.5 text-sm text-gray-900 shadow-sm transition focus:border-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-700/20"
                 >
                   <option value="">{t('returns.request.reason_placeholder', '— Select a reason —')}</option>
                   {(['damaged', 'wrong_item', 'not_as_described', 'size_issue', 'other'] as const).map((r) => (
@@ -1088,7 +1088,7 @@ export default function OrderDetailsPage() {
                   rows={3}
                   maxLength={500}
                   placeholder={t('returns.request.details_placeholder', 'Describe the issue…')}
-                  className="block w-full rounded-2xl border border-amber-200 bg-white px-4 py-2.5 text-sm text-gray-900 placeholder-gray-400 shadow-sm transition focus:border-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-700/20 resize-none"
+                  className="block w-full rounded-2xl border border-gray-200 bg-white px-4 py-2.5 text-sm text-gray-900 placeholder-gray-400 shadow-sm transition focus:border-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-700/20 resize-none"
                 />
               </div>
 

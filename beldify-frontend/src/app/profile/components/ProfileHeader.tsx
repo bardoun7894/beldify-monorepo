@@ -76,7 +76,7 @@ export default function ProfileHeader({ user }: ProfileHeaderProps) {
 
             {/* Edit button — end-0 so RTL-safe */}
             <button
-              className="absolute -bottom-1 end-0 flex h-8 w-8 items-center justify-center rounded-full border border-amber-200/30 bg-white text-indigo-700 shadow-atlas-sm hover:-translate-y-0.5 hover:bg-amber-50 hover:shadow-atlas-md transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-indigo-700/30"
+              className="absolute -bottom-1 end-0 flex h-8 w-8 items-center justify-center rounded-full border border-amber-200 bg-white text-indigo-700 shadow-atlas-sm hover:-translate-y-0.5 hover:bg-amber-50 hover:shadow-atlas-md transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-indigo-700/30"
               aria-label={t('profile.edit_avatar', 'Edit avatar')}
             >
               <Pencil className="h-3.5 w-3.5" aria-hidden="true" />

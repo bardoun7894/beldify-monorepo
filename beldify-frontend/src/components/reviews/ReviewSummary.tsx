@@ -51,7 +51,7 @@ const ReviewSummary: React.FC<ReviewSummaryProps> = ({
   };
 
   return (
-    <div className="bg-white rounded-2xl p-6 shadow-sm ring-1 ring-amber-200">
+    <div className="bg-white rounded-2xl p-6 shadow-sm ring-1 ring-gray-200">
       <div className="flex flex-col md:flex-row gap-8">
         {/* Left column - Average rating */}
         <div className="flex flex-col items-center justify-center md:w-1/3">

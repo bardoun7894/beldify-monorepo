@@ -90,7 +90,7 @@ export default function ShippingPage() {
             {deliveryOptions.map((option) => (
               <div
                 key={option.name}
-                className="relative rounded-2xl ring-1 ring-amber-200/60 bg-white p-6 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md hover:ring-amber-300"
+                className="relative rounded-2xl ring-1 ring-gray-200 bg-white p-6 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md hover:ring-gray-300"
               >
                 <div>
                   <span className="inline-flex rounded-xl bg-amber-50 p-3">
@@ -177,7 +177,7 @@ export default function ShippingPage() {
             {t('pages.shipping.faqsTitle')}
           </h2>
           <div className="mt-6">
-            <dl className="divide-y divide-amber-100">
+            <dl className="divide-y divide-gray-100">
               {shippingFaqs.map((faq) => (
                 <div key={faq.question} className="py-6 md:grid md:grid-cols-12 md:gap-8">
                   <dt className="text-sm font-semibold text-indigo-900 md:col-span-5">{faq.question}</dt>

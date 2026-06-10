@@ -81,7 +81,7 @@ export default function MobileBottomNav() {
 
   return (
     <nav
-      className="fixed bottom-0 start-0 end-0 z-40 bg-white border-t border-amber-200/60 md:hidden"
+      className="fixed bottom-0 start-0 end-0 z-40 bg-white border-t border-gray-200 md:hidden"
       aria-label={t('chrome.bottomNav.label', 'التنقل السفلي')}
       style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}
     >

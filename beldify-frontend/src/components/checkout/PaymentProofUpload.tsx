@@ -22,7 +22,7 @@ const SUPPORT_WHATSAPP = SUPPORT_PHONE.replace(/[^0-9]/g, '');
 function PaymentHelp() {
   const { t } = useTranslation();
   return (
-    <div className="mt-4 pt-4 border-t border-amber-100">
+    <div className="mt-4 pt-4 border-t border-gray-100">
       <p className="text-xs text-gray-500 mb-2">
         {t('order_confirmation.proof.need_help', "Not sure how to pay? We're here to help.")}
       </p>
@@ -88,7 +88,7 @@ export default function PaymentProofUpload({ order, onUploaded }: Props) {
   // Already uploaded — show the "under review" state.
   if (done || order.payment_status === 'pending_verification') {
     return (
-      <div className="bg-white rounded-2xl shadow-atlas-sm ring-1 ring-amber-200 p-6 flex items-start gap-3">
+      <div className="bg-white rounded-2xl shadow-atlas-sm ring-1 ring-gray-200 p-6 flex items-start gap-3">
         <Clock className="w-6 h-6 text-indigo-700 flex-shrink-0 mt-0.5" aria-hidden="true" />
         <div>
           <h3 className="text-sm font-semibold text-gray-900">
@@ -134,7 +134,7 @@ export default function PaymentProofUpload({ order, onUploaded }: Props) {
   };
 
   return (
-    <div className="bg-white rounded-2xl shadow-atlas-sm ring-1 ring-amber-200 p-6">
+    <div className="bg-white rounded-2xl shadow-atlas-sm ring-1 ring-gray-200 p-6">
       <div className="flex items-center gap-2 mb-3">
         <CheckCircle className="w-5 h-5 text-amber-500" aria-hidden="true" />
         <h3 className="text-sm font-semibold text-gray-900">
@@ -163,7 +163,7 @@ export default function PaymentProofUpload({ order, onUploaded }: Props) {
 
       <label className="block">
         <span className="sr-only">{t('order_confirmation.proof.choose_file', 'Choose receipt')}</span>
-        <div className="flex items-center gap-3 border border-dashed border-amber-300 rounded-xl p-4 cursor-pointer hover:bg-amber-50/50 transition-colors">
+        <div className="flex items-center gap-3 border border-dashed border-gray-300 rounded-xl p-4 cursor-pointer hover:bg-gray-50 transition-colors">
           <Upload className="w-5 h-5 text-indigo-700 flex-shrink-0" aria-hidden="true" />
           <span className="text-sm text-gray-600 flex items-center gap-2 truncate">
             {file ? (
@@ -189,7 +189,7 @@ export default function PaymentProofUpload({ order, onUploaded }: Props) {
         value={reference}
         onChange={(e) => setReference(e.target.value)}
         placeholder={t('order_confirmation.proof.reference', 'Transfer reference / sender name (optional)')}
-        className="mt-3 w-full text-sm border border-amber-200 rounded-xl px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-indigo-700/30"
+        className="mt-3 w-full text-sm border border-gray-200 rounded-xl px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-indigo-700/30"
       />
 
       <button

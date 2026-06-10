@@ -34,15 +34,19 @@ The palette uses Tailwind's `indigo` and `amber` scales — already present in `
 
 | Role | Token | Hex | Tailwind |
 |---|---|---|---|
+| Page canvas | Neutral Near-White | `#fcfcfc` | `bg-background` / `bg-canvas` |
+| Section bands / alternates | Cool Gray Wash | `#f9fafb` | `gray-50` |
 | Primary action / brand | Atlas Indigo | `#4338ca` | `indigo-700` |
 | Primary CTA hover | Indigo Deep | `#3730a3` | `indigo-800` |
 | Editorial dark surface | Indigo Night | `#1e1b4b` | `indigo-950` |
 | Accent / badges / amber pills | Saffron Amber | `#f59e0b` | `amber-500` |
-| Soft accent / surfaces | Amber Sand | `#fffbeb` | `amber-50` |
+| Soft accent (chips, warnings — never page/section canvas) | Amber Sand | `#fffbeb` | `amber-50` |
 | Warm tint highlights | Amber Honey | `#fcd34d` | `amber-300` |
 | Body text | Ink | `#111827` | `gray-900` |
 | Muted text | Slate | `#4b5563` | `gray-600` |
-| Hairlines | `#fde68a` (amber-200) on light, `rgba(255,255,255,0.1)` on indigo dark |
+| Hairlines | `#e5e7eb` (gray-200) on light, `rgba(255,255,255,0.1)` on indigo dark |
+
+**60-30-10 rule (revised 2026-06-10):** ~60% neutral canvas (near-white + gray-50 bands), ~30% indigo brand surfaces (hero, Open Souk band, tailoring CTA, footer), ~10% saffron amber accents (CTAs, badges, prices, status chips). The former parchment canvas (`#fbf9f4`) and amber-tinted card hairlines (`amber-200`) are retired — they cast the whole page yellow. Amber is an accent, never a canvas.
 
 **Tetouani Garnet** (formerly "Marrakech red") — `rose-700` / `#be123c` — reserved for sale tags, error states, and tarz-tetouani embroidery silk accent references ONLY. It evokes the crimson silk thread of Tetouani hand-embroidery, not a brand color.
 

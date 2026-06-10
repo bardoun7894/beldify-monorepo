@@ -48,15 +48,15 @@ function ShopGridSkeleton() {
       {Array.from({ length: 8 }).map((_, i) => (
         <div
           key={i}
-          className="rounded-2xl ring-1 ring-amber-200 bg-white overflow-hidden animate-pulse"
+          className="rounded-2xl ring-1 ring-gray-200 bg-white overflow-hidden animate-pulse"
           aria-hidden="true"
         >
           {/* Square cover — mirrors ShopCard's pt-[100%] image to avoid CLS */}
-          <div className="aspect-square bg-amber-100/70" />
+          <div className="aspect-square bg-gray-100" />
           {/* Footer block — title + meta lines */}
           <div className="p-4 space-y-2.5">
-            <div className="h-4 w-2/3 rounded bg-amber-100/70" />
-            <div className="h-3 w-1/2 rounded bg-amber-100/60" />
+            <div className="h-4 w-2/3 rounded bg-gray-100" />
+            <div className="h-3 w-1/2 rounded bg-gray-100" />
           </div>
         </div>
       ))}
@@ -199,7 +199,7 @@ export default function ShopsPage() {
       </section>
 
       {/* Sticky search + filter bar */}
-      <div className="bg-white border-b border-amber-200/60 sticky top-16 z-30 shadow-atlas-sm">
+      <div className="bg-white border-b border-gray-200 sticky top-16 z-30 shadow-atlas-sm">
         <div className="max-w-7xl mx-auto">
           {/* Search row */}
           <div className="px-4 py-3 sm:px-6 lg:px-8">
@@ -236,7 +236,7 @@ export default function ShopsPage() {
           </div>
 
           {/* Filter / sort bar */}
-          <div className="md:border-t md:border-amber-200/60">
+          <div className="md:border-t md:border-gray-200">
             <div className="flex items-center justify-between gap-4">
               <div className="flex-1">
                 <ShopFilterBar
@@ -274,7 +274,7 @@ export default function ShopsPage() {
               </div>
             ) : (
               /* Empty state */
-              <div className="flex flex-col items-center justify-center py-20 bg-white rounded-2xl ring-1 ring-amber-200 shadow-atlas-sm my-8 text-center px-6">
+              <div className="flex flex-col items-center justify-center py-20 bg-white rounded-2xl ring-1 ring-gray-200 shadow-atlas-sm my-8 text-center px-6">
                 <div className="h-16 w-16 rounded-full bg-indigo-50 ring-1 ring-indigo-100 flex items-center justify-center mb-5">
                   <ShoppingBagIcon className="h-8 w-8 text-indigo-700" aria-hidden="true" />
                 </div>

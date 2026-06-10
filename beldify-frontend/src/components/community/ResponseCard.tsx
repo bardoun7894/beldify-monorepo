@@ -121,7 +121,7 @@ export default function ResponseCard({
     ? 'ring-2 ring-emerald-400 bg-emerald-50/20'
     : isRejected
     ? 'ring-1 ring-rose-200 opacity-70'
-    : 'ring-1 ring-amber-200 hover:ring-indigo-300';
+    : 'ring-1 ring-gray-200 hover:ring-indigo-300';
 
   const statusBadge = isAccepted ? (
     <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-800 ring-1 ring-emerald-300">
@@ -199,7 +199,7 @@ export default function ResponseCard({
         <div className="flex justify-between items-start mb-4 gap-3">
           <div className="flex items-center gap-3 min-w-0">
             {/* Avatar with initials fallback — handles null URL and 404 */}
-            <div className="relative h-12 w-12 rounded-full overflow-hidden shrink-0 ring-2 ring-amber-200">
+            <div className="relative h-12 w-12 rounded-full overflow-hidden shrink-0 ring-2 ring-gray-200">
               {shopLogo && !logoLoadError ? (
                 <Image
                   src={shopLogo}
@@ -347,7 +347,7 @@ export default function ResponseCard({
                         className={`relative w-12 h-12 rounded-xl overflow-hidden ring-2 shrink-0 transition-all ${
                           index === activeImageIndex
                             ? 'ring-amber-500'
-                            : 'ring-amber-200 hover:ring-amber-300'
+                            : 'ring-gray-200 hover:ring-gray-300'
                         }`}
                       >
                         <Image

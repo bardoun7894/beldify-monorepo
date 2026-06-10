@@ -141,18 +141,18 @@ export default function MeasurementForm({ onAddToCart, onSave }: MeasurementForm
     <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
       {/* ── Left (Guide) column — 5 cols on desktop, order-2 on mobile ── */}
       <aside className="lg:col-span-5 order-2 lg:order-1">
-        <div className="bg-white rounded-2xl shadow-atlas-md p-6 h-full border border-amber-200/30 lg:sticky lg:top-32">
-          <h2 className="text-xl font-bold text-indigo-950 mb-5 pb-4 border-b border-amber-100"
+        <div className="bg-white rounded-2xl shadow-atlas-md p-6 h-full border border-gray-200 lg:sticky lg:top-32">
+          <h2 className="text-xl font-bold text-indigo-950 mb-5 pb-4 border-b border-gray-100"
             style={{ fontFamily: PLAYFAIR }}
           >
             {t('tailoring.measurements.guideTitle', 'Measurement guide')}
           </h2>
 
           {/* Illustration with interactive nodes */}
-          <div className="relative w-full aspect-[3/4] bg-amber-50 rounded-xl overflow-hidden mb-5 border border-amber-200/30">
+          <div className="relative w-full aspect-[3/4] bg-amber-50 rounded-xl overflow-hidden mb-5 border border-amber-200">
             {/* Placeholder gradient representing a kaftan silhouette */}
             <div
-              className="absolute inset-0 bg-gradient-to-br from-amber-50 via-stone-100 to-stone-200"
+              className="absolute inset-0 bg-gradient-to-br from-gray-50 via-stone-100 to-stone-200"
               aria-hidden
             />
             {/* Kaftan outline decoration */}
@@ -230,10 +230,10 @@ export default function MeasurementForm({ onAddToCart, onSave }: MeasurementForm
 
       {/* ── Right (Form) column — 7 cols on desktop, order-1 on mobile ── */}
       <div className="lg:col-span-7 order-1 lg:order-2">
-        <div className="bg-white rounded-2xl shadow-atlas-sm p-6 lg:p-8 border border-amber-200/30">
+        <div className="bg-white rounded-2xl shadow-atlas-sm p-6 lg:p-8 border border-gray-200">
 
           {/* Form header with unit toggle */}
-          <div className="flex justify-between items-center mb-8 pb-5 border-b border-amber-100">
+          <div className="flex justify-between items-center mb-8 pb-5 border-b border-gray-100">
             <h2
               className="text-2xl font-bold text-indigo-950"
               style={{ fontFamily: PLAYFAIR }}
@@ -245,7 +245,7 @@ export default function MeasurementForm({ onAddToCart, onSave }: MeasurementForm
             <div
               role="group"
               aria-label={t('tailoring.measurements.unitToggleLabel', 'Measurement unit')}
-              className="flex bg-amber-50 rounded-lg p-1 border border-amber-200/50"
+              className="flex bg-amber-50 rounded-lg p-1 border border-amber-200"
             >
               <button
                 type="button"
@@ -307,12 +307,12 @@ export default function MeasurementForm({ onAddToCart, onSave }: MeasurementForm
                         value={values[field.key]}
                         onChange={handleChange(field.key)}
                         placeholder={placeholder}
-                        className="w-full bg-white border border-amber-200/60 rounded-lg py-3 px-4 ps-16 text-start text-base text-indigo-950 placeholder:text-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-200 focus:border-indigo-400 transition-colors"
+                        className="w-full bg-white border border-gray-200 rounded-lg py-3 px-4 ps-16 text-start text-base text-indigo-950 placeholder:text-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-200 focus:border-indigo-400 transition-colors"
                         aria-describedby={`hint-${field.key}`}
                       />
                       {/* Unit label pinned to the inline-start edge (logical, RTL-safe) */}
                       <span
-                        className="absolute start-0 top-0 bottom-0 flex items-center px-4 text-sm text-indigo-600 font-medium pointer-events-none border-e border-amber-200/60 bg-amber-50/40 rounded-s-lg"
+                        className="absolute start-0 top-0 bottom-0 flex items-center px-4 text-sm text-indigo-600 font-medium pointer-events-none border-e border-gray-200 bg-gray-50 rounded-s-lg"
                         aria-hidden
                       >
                         {unitLabel}
@@ -330,7 +330,7 @@ export default function MeasurementForm({ onAddToCart, onSave }: MeasurementForm
             </div>
 
             {/* Notes textarea */}
-            <div className="mt-6 pt-6 border-t border-amber-100">
+            <div className="mt-6 pt-6 border-t border-gray-100">
               <label
                 htmlFor="input-notes"
                 className="block text-sm font-medium text-indigo-950 mb-1.5"
@@ -349,12 +349,12 @@ export default function MeasurementForm({ onAddToCart, onSave }: MeasurementForm
                   'tailoring.measurements.notesPlaceholder',
                   'Any specific preferences about cut or fit?'
                 )}
-                className="w-full bg-white border border-amber-200/60 rounded-lg py-3 px-4 text-start text-base text-indigo-950 placeholder:text-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-200 focus:border-indigo-400 transition-colors resize-none"
+                className="w-full bg-white border border-gray-200 rounded-lg py-3 px-4 text-start text-base text-indigo-950 placeholder:text-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-200 focus:border-indigo-400 transition-colors resize-none"
               />
             </div>
 
             {/* Action buttons */}
-            <div className="flex flex-col sm:flex-row gap-3 mt-8 pt-5 border-t border-amber-100">
+            <div className="flex flex-col sm:flex-row gap-3 mt-8 pt-5 border-t border-gray-100">
               {/* Primary: Add to Cart — Atlas accent (amber-500 / text-amber-950) */}
               <Button
                 type="button"

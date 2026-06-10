@@ -137,7 +137,7 @@ export default function StockStatus({
                   onQuantityChange(val);
                 }
               }}
-              className="w-16 text-center font-medium border border-amber-200 rounded-xl py-2 px-3 focus:outline-none focus:ring-2 focus:ring-indigo-700/30 focus:border-indigo-700"
+              className="w-16 text-center font-medium border border-gray-200 rounded-xl py-2 px-3 focus:outline-none focus:ring-2 focus:ring-indigo-700/30 focus:border-indigo-700"
             />
           </div>
 

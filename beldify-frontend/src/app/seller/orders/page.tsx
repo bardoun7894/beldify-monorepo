@@ -43,7 +43,7 @@ function StatusBadge({ status }: { status: OrderStatus }) {
 }
 
 function Skeleton({ className }: { className?: string }) {
-  return <div className={`animate-pulse bg-amber-100 rounded-xl ${className ?? ''}`} />;
+  return <div className={`animate-pulse bg-gray-100 rounded-xl ${className ?? ''}`} />;
 }
 
 function fmtMAD(n: number) {
@@ -102,7 +102,7 @@ export default function SellerOrdersPage() {
           value={statusFilter}
           onChange={handleStatusChange}
           aria-label={t('seller.orders.filter_label', 'Filter by status')}
-          className="rounded-xl px-3 py-2 text-sm bg-white ring-1 ring-amber-200 focus:ring-2 focus:ring-indigo-700/40 focus:outline-none text-gray-700"
+          className="rounded-xl px-3 py-2 text-sm bg-white ring-1 ring-gray-200 focus:ring-2 focus:ring-indigo-700/40 focus:outline-none text-gray-700"
         >
           {ORDER_STATUSES.map(({ value, label }) => (
             <option key={value} value={value}>
@@ -121,7 +121,7 @@ export default function SellerOrdersPage() {
 
       {/* Empty state */}
       {!loading && orders.length === 0 && (
-        <div className="flex flex-col items-center justify-center py-20 text-center bg-white rounded-2xl ring-1 ring-amber-200">
+        <div className="flex flex-col items-center justify-center py-20 text-center bg-white rounded-2xl ring-1 ring-gray-200">
           <ShoppingBag className="w-10 h-10 text-amber-300 mb-4" aria-hidden="true" />
           <p className="text-sm font-medium text-gray-700 mb-1">
             {t('seller.orders.no_orders', 'No orders yet')}
@@ -134,11 +134,11 @@ export default function SellerOrdersPage() {
 
       {/* Orders table */}
       {!loading && orders.length > 0 && (
-        <div className="bg-white rounded-2xl ring-1 ring-amber-200 shadow-sm overflow-hidden">
+        <div className="bg-white rounded-2xl ring-1 ring-gray-200 shadow-sm overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
-                <tr className="text-left text-xs text-gray-400 uppercase tracking-wide bg-amber-50/50 border-b border-amber-100">
+                <tr className="text-left text-xs text-gray-400 uppercase tracking-wide bg-gray-50 border-b border-gray-100">
                   <th className="px-5 py-3 font-medium">
                     {t('seller.orders.col_number', 'Order')}
                   </th>
@@ -156,9 +156,9 @@ export default function SellerOrdersPage() {
                   </th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-amber-50">
+              <tbody className="divide-y divide-gray-100">
                 {orders.map((order) => (
-                  <tr key={order.id} className="hover:bg-amber-50/30 transition-colors">
+                  <tr key={order.id} className="hover:bg-gray-50 transition-colors">
                     <td className="px-5 py-3.5">
                       <Link
                         href={`/seller/orders/${order.id}`}
@@ -183,7 +183,7 @@ export default function SellerOrdersPage() {
 
           {/* Pagination */}
           {meta.last_page > 1 && (
-            <div className="flex items-center justify-between px-5 py-3 border-t border-amber-100 text-sm">
+            <div className="flex items-center justify-between px-5 py-3 border-t border-gray-100 text-sm">
               <p className="text-gray-400 text-xs">
                 {t('seller.orders.pagination_info', `Page ${meta.current_page} of ${meta.last_page} — ${meta.total} orders`)}
               </p>

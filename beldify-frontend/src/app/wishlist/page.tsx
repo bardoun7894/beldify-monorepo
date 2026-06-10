@@ -79,22 +79,22 @@ export default function WishlistPage() {
           <div className="animate-pulse space-y-8">
             {/* Header skeleton */}
             <div className="space-y-3">
-              <div className="h-3 w-24 bg-amber-100/70 rounded-full" />
-              <div className="h-9 w-56 bg-amber-100/70 rounded-2xl" />
-              <div className="h-3 w-20 bg-amber-100/70 rounded-full" />
+              <div className="h-3 w-24 bg-gray-100 rounded-full" />
+              <div className="h-9 w-56 bg-gray-100 rounded-2xl" />
+              <div className="h-3 w-20 bg-gray-100 rounded-full" />
             </div>
 
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
               {[1, 2, 3, 4].map((i) => (
                 <div
                   key={i}
-                  className="bg-white rounded-2xl overflow-hidden ring-1 ring-amber-100 shadow-atlas-sm"
+                  className="bg-white rounded-2xl overflow-hidden ring-1 ring-gray-100 shadow-atlas-sm"
                 >
-                  <div className="aspect-square bg-amber-100/70 rounded-t-2xl" />
+                  <div className="aspect-square bg-gray-100 rounded-t-2xl" />
                   <div className="p-3 space-y-2.5">
-                    <div className="h-3 bg-amber-100/70 rounded-full w-4/5" />
-                    <div className="h-3 bg-amber-100/70 rounded-full w-1/2" />
-                    <div className="h-3 bg-amber-100/70 rounded-full w-1/3" />
+                    <div className="h-3 bg-gray-100 rounded-full w-4/5" />
+                    <div className="h-3 bg-gray-100 rounded-full w-1/2" />
+                    <div className="h-3 bg-gray-100 rounded-full w-1/3" />
                   </div>
                 </div>
               ))}
@@ -111,7 +111,7 @@ export default function WishlistPage() {
       <div className="min-h-screen bg-canvas py-16 sm:py-24" dir={isRTL ? 'rtl' : 'ltr'}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="mx-auto max-w-md text-center">
-            <div className="rounded-2xl border border-amber-100 bg-white p-10 shadow-atlas-md">
+            <div className="rounded-2xl border border-gray-100 bg-white p-10 shadow-atlas-md">
               {/* Icon */}
               <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-amber-50 ring-2 ring-amber-200">
                 <Heart className="h-9 w-9 text-amber-400" strokeWidth={1.5} aria-hidden="true" />
@@ -187,7 +187,7 @@ export default function WishlistPage() {
           {wishlistItems.map((item) => (
             <div
               key={item.id}
-              className="group relative bg-white rounded-2xl border border-amber-100 shadow-atlas-sm overflow-hidden hover:-translate-y-0.5 hover:shadow-atlas-md transition-all duration-200"
+              className="group relative bg-white rounded-2xl border border-gray-100 shadow-atlas-sm overflow-hidden hover:-translate-y-0.5 hover:shadow-atlas-md transition-all duration-200"
             >
               {/* Image area */}
               <Link

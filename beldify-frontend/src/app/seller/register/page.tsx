@@ -278,7 +278,7 @@ export default function SellerRegisterPage() {
 
       {/* Form container */}
       <main className="max-w-2xl mx-auto px-6 py-12">
-        <div className="bg-white rounded-2xl ring-1 ring-amber-200 p-8 shadow-atlas-sm">
+        <div className="bg-white rounded-2xl ring-1 ring-gray-200 p-8 shadow-atlas-sm">
           <h2 className="text-xl font-semibold text-gray-900 mb-6" style={playfair}>
             {t('seller.register.form_title', 'Tell us about your store')}
           </h2>
@@ -471,7 +471,7 @@ export default function SellerRegisterPage() {
 
         {/* Dashboard entry — only shown to users who already have a seller account */}
         {isSeller && (
-          <div className="mt-6 bg-white rounded-2xl ring-1 ring-amber-200 p-6 shadow-atlas-sm text-center">
+          <div className="mt-6 bg-white rounded-2xl ring-1 ring-gray-200 p-6 shadow-atlas-sm text-center">
             <p className="text-sm text-gray-600 mb-3">
               {t('seller.register.already_seller_body', 'Access your seller dashboard to manage products, orders, and earnings.')}
             </p>
@@ -510,7 +510,7 @@ function BenefitsStrip({ t }: { t: (k: string, fb: string) => string }) {
   ];
 
   return (
-    <section className="bg-amber-50/60 border-t border-amber-200/50 py-12 px-6">
+    <section className="bg-gray-50 border-t border-gray-200 py-12 px-6">
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
         {items.map(({ icon, label }) => (
           <div key={label} className="flex items-center gap-4">

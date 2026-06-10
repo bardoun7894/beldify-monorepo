@@ -74,7 +74,7 @@ export default function Hero() {
   const isRTL = i18n.language === 'ar';
 
   return (
-    <div className="bg-amber-50/40 py-6">
+    <div className="bg-gray-50 py-6">
       <div className="container mx-auto px-4">
         {/* Main Banner */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-6">

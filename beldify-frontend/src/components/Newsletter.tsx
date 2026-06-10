@@ -62,7 +62,7 @@ const Newsletter: React.FC = () => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder={t('newsletter.placeholder')}
-                className="flex-1 rounded-2xl px-4 py-3 border border-amber-200 bg-white text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-700/30 focus:border-indigo-700 transition-colors duration-200 shadow-sm"
+                className="flex-1 rounded-2xl px-4 py-3 border border-gray-200 bg-white text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-700/30 focus:border-indigo-700 transition-colors duration-200 shadow-sm"
                 required
                 aria-label={t('newsletter.placeholder')}
               />

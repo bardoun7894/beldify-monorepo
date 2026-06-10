@@ -142,8 +142,8 @@ function NotificationItem({
       href={href}
       onClick={handleClick}
       className={cn(
-        'flex items-start gap-3 px-4 py-3 text-sm transition hover:bg-amber-50/80 focus-visible:outline-none focus-visible:bg-amber-50',
-        isUnread ? 'bg-amber-50/40' : ''
+        'flex items-start gap-3 px-4 py-3 text-sm transition hover:bg-gray-50 focus-visible:outline-none focus-visible:bg-amber-50',
+        isUnread ? 'bg-gray-50' : ''
       )}
     >
       <span
@@ -207,7 +207,7 @@ export default function NotificationBell() {
                     })
                   : t('notifications.bell.aria', 'Notifications')
               }
-              className="relative flex items-center justify-center w-9 h-9 text-gray-600 hover:text-indigo-700 rounded-full hover:bg-amber-100/60 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500/50"
+              className="relative flex items-center justify-center w-9 h-9 text-gray-600 hover:text-indigo-700 rounded-full hover:bg-gray-100 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500/50"
             >
               <Bell className="h-5 w-5" aria-hidden="true" />
               {unreadCount > 0 && (
@@ -227,11 +227,11 @@ export default function NotificationBell() {
               leaveTo="transform opacity-0 scale-95"
             >
               <Menu.Items
-                className="absolute end-0 z-20 mt-2 w-80 origin-top-end bg-white shadow-xl ring-1 ring-amber-200 rounded-2xl overflow-hidden focus:outline-none"
+                className="absolute end-0 z-20 mt-2 w-80 origin-top-end bg-white shadow-xl ring-1 ring-gray-200 rounded-2xl overflow-hidden focus:outline-none"
                 style={{ maxHeight: '480px' }}
               >
                 {/* Header */}
-                <div className="flex items-center justify-between px-4 py-3 border-b border-amber-100">
+                <div className="flex items-center justify-between px-4 py-3 border-b border-gray-100">
                   <h3 className="text-sm font-semibold text-gray-900">
                     {t('notifications.bell.title', 'Notifications')}
                     {unreadCount > 0 && (
@@ -276,7 +276,7 @@ export default function NotificationBell() {
                 </div>
 
                 {/* Footer */}
-                <div className="border-t border-amber-100 px-4 py-2.5">
+                <div className="border-t border-gray-100 px-4 py-2.5">
                   <Menu.Item>
                     {({ active }) => (
                       <Link

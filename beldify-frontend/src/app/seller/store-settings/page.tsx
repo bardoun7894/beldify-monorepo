@@ -259,9 +259,9 @@ export default function StoreSettingsPage() {
   const activeVertical = pendingVertical ?? storeType;
 
   return (
-    <div className="min-h-screen bg-amber-50/20 pb-20" dir={isRTL ? 'rtl' : 'ltr'}>
+    <div className="min-h-screen bg-background pb-20" dir={isRTL ? 'rtl' : 'ltr'}>
       {/* ── Page header ── */}
-      <div className="bg-white border-b border-amber-200">
+      <div className="bg-white border-b border-gray-200">
         <div className="max-w-3xl mx-auto px-6 py-5">
           <p className="text-xs uppercase tracking-[0.18em] text-amber-700 font-medium mb-0.5">
             {t('seller.store_settings.eyebrow', 'Store Settings')}
@@ -275,8 +275,8 @@ export default function StoreSettingsPage() {
       <div className="max-w-3xl mx-auto px-6 pt-8 space-y-8">
 
         {/* ── Section A: Store profile ── */}
-        <div className="bg-white rounded-2xl ring-1 ring-amber-200 shadow-sm overflow-hidden">
-          <div className="px-6 py-4 border-b border-amber-100 flex items-center justify-between gap-4">
+        <div className="bg-white rounded-2xl ring-1 ring-gray-200 shadow-sm overflow-hidden">
+          <div className="px-6 py-4 border-b border-gray-100 flex items-center justify-between gap-4">
             <h2 className="text-sm font-semibold text-gray-900">
               {t('seller.store_settings.profile_section', 'Store information')}
             </h2>
@@ -316,7 +316,7 @@ export default function StoreSettingsPage() {
             {profileLoading ? (
               <div className="space-y-3">
                 {[1, 2, 3, 4].map(i => (
-                  <div key={i} className="animate-pulse bg-amber-100 rounded-xl h-10" />
+                  <div key={i} className="animate-pulse bg-gray-100 rounded-xl h-10" />
                 ))}
               </div>
             ) : (
@@ -422,8 +422,8 @@ export default function StoreSettingsPage() {
         </div>
 
         {/* ── Section B: Vertical picker ── */}
-        <div className="bg-white rounded-2xl ring-1 ring-amber-200 shadow-sm overflow-hidden">
-          <div className="px-6 py-4 border-b border-amber-100 flex items-center justify-between gap-4">
+        <div className="bg-white rounded-2xl ring-1 ring-gray-200 shadow-sm overflow-hidden">
+          <div className="px-6 py-4 border-b border-gray-100 flex items-center justify-between gap-4">
             <div>
               <h2 className="text-sm font-semibold text-gray-900">
                 {t('seller.store_settings.vertical_section', 'Store type')}
@@ -482,7 +482,7 @@ export default function StoreSettingsPage() {
                       'flex items-start gap-4 rounded-2xl p-4 ring-1 cursor-pointer transition-all duration-150',
                       isActive
                         ? 'ring-2 ring-indigo-700 bg-white shadow-sm'
-                        : 'ring-amber-200 bg-white hover:ring-indigo-300 hover:shadow-sm'
+                        : 'ring-gray-200 bg-white hover:ring-indigo-300 hover:shadow-sm'
                     )}
                   >
                     <input

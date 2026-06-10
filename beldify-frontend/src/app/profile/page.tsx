@@ -37,7 +37,7 @@ export default function ProfilePage() {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-canvas px-4">
-        <div className="flex flex-col items-center gap-4 p-8 bg-white rounded-2xl shadow-atlas-md border border-amber-100">
+        <div className="flex flex-col items-center gap-4 p-8 bg-white rounded-2xl shadow-atlas-md border border-gray-100">
           <div className="relative">
             <div className="w-16 h-16 rounded-full ring-2 ring-amber-200 bg-amber-50 flex items-center justify-center">
               <div className="animate-spin rounded-full h-10 w-10 border-2 border-indigo-200 border-t-amber-500" />
@@ -91,7 +91,7 @@ export default function ProfilePage() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
-          className="overflow-hidden rounded-2xl shadow-atlas-md border border-amber-100 bg-white"
+          className="overflow-hidden rounded-2xl shadow-atlas-md border border-gray-100 bg-white"
         >
           {/* Amber hairline accent top */}
           <div className="h-1 w-full bg-amber-400" />

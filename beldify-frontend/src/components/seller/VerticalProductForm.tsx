@@ -47,7 +47,7 @@ function FieldInput({
     'w-full rounded-xl border px-3.5 py-2.5 text-sm bg-white transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30',
     hasError
       ? 'border-rose-400 ring-1 ring-rose-300'
-      : 'border-amber-200 focus:border-indigo-400'
+      : 'border-gray-200 focus:border-indigo-400'
   );
 
   if (field.type === 'select' && field.options) {
@@ -201,7 +201,7 @@ export default function VerticalProductForm({
         return (
           <div
             key={group}
-            className="rounded-xl ring-1 ring-amber-200 overflow-hidden"
+            className="rounded-xl ring-1 ring-gray-200 overflow-hidden"
           >
             <button
               type="button"

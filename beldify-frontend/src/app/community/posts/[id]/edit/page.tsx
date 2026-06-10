@@ -139,7 +139,7 @@ function EditBlockedGate({
         </Link>
         <Link
           href="/community/my-posts"
-          className="inline-flex items-center justify-center gap-2 px-5 py-2.5 min-h-[44px] bg-white ring-1 ring-amber-200 hover:ring-amber-300 text-gray-700 text-sm font-semibold rounded-full transition-colors duration-200"
+          className="inline-flex items-center justify-center gap-2 px-5 py-2.5 min-h-[44px] bg-white ring-1 ring-gray-200 hover:ring-gray-300 text-gray-700 text-sm font-semibold rounded-full transition-colors duration-200"
         >
           {t('myPosts.pageTitle', 'My Requests')}
         </Link>
@@ -565,9 +565,9 @@ export default function EditPostPage() {
       </section>
 
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
-        <div className="bg-white rounded-2xl ring-1 ring-amber-200 overflow-hidden shadow-sm">
+        <div className="bg-white rounded-2xl ring-1 ring-gray-200 overflow-hidden shadow-sm">
           {/* Form header */}
-          <div className="px-6 py-5 border-b border-amber-100 bg-amber-50/30">
+          <div className="px-6 py-5 border-b border-gray-100 bg-gray-50">
             <div className="flex items-center gap-3.5">
               <div className="w-10 h-10 bg-indigo-700 rounded-full flex items-center justify-center shrink-0 shadow-sm">
                 <span className="text-white font-bold text-sm">
@@ -585,7 +585,7 @@ export default function EditPostPage() {
             </div>
           </div>
 
-          <form onSubmit={handleSubmit} className="divide-y divide-amber-100">
+          <form onSubmit={handleSubmit} className="divide-y divide-gray-100">
             {/* ── SECTION: Title & Description ─────────────────────────── */}
             <section className="px-6 py-6 space-y-5">
               {/* Title */}
@@ -605,7 +605,7 @@ export default function EditPostPage() {
                     'w-full px-4 py-3 border rounded-2xl text-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-indigo-700/30 focus:border-indigo-700',
                     validationErrors.title
                       ? 'border-rose-300 bg-rose-50/50'
-                      : 'border-amber-200 bg-white hover:border-amber-300',
+                      : 'border-gray-200 bg-white hover:border-gray-300',
                   ].join(' ')}
                 />
                 <div className="flex items-center justify-between mt-1.5">
@@ -644,7 +644,7 @@ export default function EditPostPage() {
                     'w-full px-4 py-3 border rounded-2xl text-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-indigo-700/30 focus:border-indigo-700 resize-none leading-relaxed',
                     validationErrors.description
                       ? 'border-rose-300 bg-rose-50/50'
-                      : 'border-amber-200 bg-white hover:border-amber-300',
+                      : 'border-gray-200 bg-white hover:border-gray-300',
                   ].join(' ')}
                 />
                 <div className="flex items-center justify-between mt-1.5">
@@ -682,7 +682,7 @@ export default function EditPostPage() {
                     'w-full px-4 py-3 border rounded-2xl text-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-indigo-700/30 focus:border-indigo-700 bg-white',
                     validationErrors.categoryId
                       ? 'border-rose-300 bg-rose-50/50'
-                      : 'border-amber-200 hover:border-amber-300',
+                      : 'border-gray-200 hover:border-gray-300',
                     loadingCategories ? 'opacity-60 cursor-wait' : '',
                   ].join(' ')}
                 >
@@ -733,7 +733,7 @@ export default function EditPostPage() {
                         'inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-150',
                         selected
                           ? 'bg-indigo-700 text-white shadow-sm'
-                          : 'bg-white text-gray-700 ring-1 ring-amber-200 hover:ring-indigo-300 hover:text-indigo-700',
+                          : 'bg-white text-gray-700 ring-1 ring-gray-200 hover:ring-indigo-300 hover:text-indigo-700',
                       ].join(' ')}
                     >
                       {selected && <CheckCircle2 size={11} className="shrink-0" />}
@@ -769,7 +769,7 @@ export default function EditPostPage() {
                     onChange={handleBudgetChange}
                     placeholder="0"
                     min="0"
-                    className="w-full px-3 py-2.5 border border-amber-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-700/30 focus:border-indigo-700 transition-all duration-200 bg-white hover:border-amber-300"
+                    className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-700/30 focus:border-indigo-700 transition-all duration-200 bg-white hover:border-gray-300"
                   />
                 </div>
                 <div>
@@ -784,7 +784,7 @@ export default function EditPostPage() {
                     onChange={handleBudgetChange}
                     placeholder="500"
                     min="0"
-                    className="w-full px-3 py-2.5 border border-amber-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-700/30 focus:border-indigo-700 transition-all duration-200 bg-white hover:border-amber-300"
+                    className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-700/30 focus:border-indigo-700 transition-all duration-200 bg-white hover:border-gray-300"
                   />
                 </div>
                 <div>
@@ -796,7 +796,7 @@ export default function EditPostPage() {
                     name="currency"
                     value={formData.budget.currency}
                     onChange={handleBudgetChange}
-                    className="w-full px-3 py-2.5 border border-amber-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-700/30 focus:border-indigo-700 transition-all duration-200 bg-white hover:border-amber-300"
+                    className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-700/30 focus:border-indigo-700 transition-all duration-200 bg-white hover:border-gray-300"
                   >
                     <option value="MAD">MAD</option>
                     <option value="USD">USD</option>
@@ -828,14 +828,14 @@ export default function EditPostPage() {
                   onChange={handleInputChange}
                   placeholder="1"
                   min="1"
-                  className="w-full px-4 py-2.5 border border-amber-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-700/30 focus:border-indigo-700 transition-all duration-200 bg-white"
+                  className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-700/30 focus:border-indigo-700 transition-all duration-200 bg-white"
                 />
                 <select
                   id="timelineUnit"
                   name="timelineUnit"
                   value={formData.timelineUnit}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-2.5 border border-amber-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-700/30 focus:border-indigo-700 transition-all duration-200 bg-white"
+                  className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-700/30 focus:border-indigo-700 transition-all duration-200 bg-white"
                 >
                   <option value="days">{t('community.timeline_days', 'Days')}</option>
                   <option value="weeks">{t('community.timeline_weeks', 'Weeks')}</option>
@@ -865,7 +865,7 @@ export default function EditPostPage() {
                         <img
                           src={url.startsWith('http') ? url : `${process.env.NEXT_PUBLIC_API_URL ?? ''}/${url}`}
                           alt={`${t('community.image_preview_alt', { index: i + 1 })}`}
-                          className="w-full aspect-square object-cover rounded-xl ring-1 ring-amber-200"
+                          className="w-full aspect-square object-cover rounded-xl ring-1 ring-gray-200"
                           onError={e => {
                             (e.target as HTMLImageElement).src = '/images/placeholder.jpg';
                           }}
@@ -898,7 +898,7 @@ export default function EditPostPage() {
                   'cursor-pointer flex flex-col justify-center items-center p-6 border-2 border-dashed rounded-2xl transition-all duration-200',
                   isDragActive
                     ? 'border-indigo-400 bg-indigo-50'
-                    : 'border-amber-200 bg-amber-50/20 hover:border-indigo-300 hover:bg-indigo-50/20',
+                    : 'border-gray-200 bg-gray-50 hover:border-indigo-300 hover:bg-indigo-50/20',
                 ].join(' ')}
                 role="button"
                 tabIndex={0}
@@ -917,7 +917,7 @@ export default function EditPostPage() {
                     (e.target as HTMLInputElement).value = '';
                   }}
                 />
-                <div className="mb-2 rounded-full bg-white ring-1 ring-amber-200 p-2.5 shadow-sm">
+                <div className="mb-2 rounded-full bg-white ring-1 ring-gray-200 p-2.5 shadow-sm">
                   <ImageIcon size={20} className={isDragActive ? 'text-indigo-500' : 'text-amber-400'} />
                 </div>
                 <p className="text-sm font-medium text-gray-700 mb-0.5">
@@ -960,7 +960,7 @@ export default function EditPostPage() {
             </section>
 
             {/* ── SECTION: Submit ──────────────────────────────────────── */}
-            <section className="px-6 py-6 bg-amber-50/40">
+            <section className="px-6 py-6 bg-gray-50">
               <AnimatePresence>
                 {submitError && (
                   <div className="mb-5">
@@ -980,7 +980,7 @@ export default function EditPostPage() {
                 <div className="flex gap-3">
                   <Link
                     href={`/community/posts/${postId}`}
-                    className="inline-flex items-center justify-center gap-2 px-5 py-3 min-h-[44px] bg-white ring-1 ring-amber-200 hover:ring-amber-300 text-gray-700 text-sm font-semibold rounded-full transition-colors duration-200"
+                    className="inline-flex items-center justify-center gap-2 px-5 py-3 min-h-[44px] bg-white ring-1 ring-gray-200 hover:ring-gray-300 text-gray-700 text-sm font-semibold rounded-full transition-colors duration-200"
                   >
                     {t('common.cancel', 'Cancel')}
                   </Link>

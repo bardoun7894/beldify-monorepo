@@ -78,7 +78,7 @@ export default function CustomOrderTrackingPage() {
   return (
     <div className="min-h-screen bg-canvas pb-20" dir={isRTL ? 'rtl' : 'ltr'}>
       {/* ── Header ── */}
-      <header className="sticky top-0 z-20 bg-white/95 backdrop-blur-sm border-b border-amber-200 px-6 py-4">
+      <header className="sticky top-0 z-20 bg-white/95 backdrop-blur-sm border-b border-gray-200 px-6 py-4">
         <div className="max-w-xl mx-auto flex items-center gap-3">
           <Link
             href="/orders"
@@ -106,7 +106,7 @@ export default function CustomOrderTrackingPage() {
         )}
 
         {!isJewelry && Object.keys(order.spec).length > 0 && (
-          <div className="rounded-2xl ring-1 ring-amber-200 bg-white p-5">
+          <div className="rounded-2xl ring-1 ring-gray-200 bg-white p-5">
             <p className="text-xs uppercase tracking-[0.18em] text-amber-700 font-medium mb-3">
               {isRTL ? 'تفاصيل الطلب' : 'Order Spec'}
             </p>
@@ -125,7 +125,7 @@ export default function CustomOrderTrackingPage() {
 
         {/* Notes */}
         {order.notes && (
-          <div className="rounded-2xl ring-1 ring-amber-200 bg-white px-5 py-4">
+          <div className="rounded-2xl ring-1 ring-gray-200 bg-white px-5 py-4">
             <p className="text-xs uppercase tracking-[0.18em] text-amber-700 font-medium mb-1">
               {isRTL ? 'ملاحظاتك' : 'Your Notes'}
             </p>

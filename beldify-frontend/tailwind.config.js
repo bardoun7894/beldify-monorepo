@@ -85,10 +85,10 @@ module.exports = {
         "atlas-primary": "hsl(var(--primary) / <alpha-value>)",
         "atlas-secondary": "hsl(var(--secondary) / <alpha-value>)",
         // ── Page canvas ───────────────────────────────────────────
-        // Warm off-white used as the storefront page background. Replaces
-        // the old flat amber-50 full-page wash — amber now lives only in
-        // cards/badges/CTAs as an accent, not behind the whole page.
-        canvas: "#FAFAF7",
+        // Neutral near-white storefront page background, matching
+        // --background (#fcfcfc). Amber lives only in badges/CTAs as an
+        // accent (60-30-10), never behind the page or as card hairlines.
+        canvas: "#FCFCFC",
       },
       fontFamily: {
         sans: ["var(--font-sans)"],

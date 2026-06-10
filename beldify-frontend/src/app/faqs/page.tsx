@@ -134,9 +134,9 @@ export default function FAQsPage() {
               {faqs.map(({ q, a }, index) => (
                 <details
                   key={index}
-                  className="group rounded-2xl bg-white ring-1 ring-amber-200/60 shadow-sm overflow-hidden"
+                  className="group rounded-2xl bg-white ring-1 ring-gray-200 shadow-sm overflow-hidden"
                 >
-                  <summary className="flex cursor-pointer select-none items-center justify-between gap-4 px-5 py-4 text-sm font-medium text-gray-900 hover:bg-amber-50/60 transition list-none [&::-webkit-details-marker]:hidden">
+                  <summary className="flex cursor-pointer select-none items-center justify-between gap-4 px-5 py-4 text-sm font-medium text-gray-900 hover:bg-gray-50 transition list-none [&::-webkit-details-marker]:hidden">
                     <span>{t(`faqs.items.${key}.${index}.question`, q)}</span>
                     {/* chevron */}
                     <svg
@@ -151,7 +151,7 @@ export default function FAQsPage() {
                       <path d="M5 8l5 5 5-5" />
                     </svg>
                   </summary>
-                  <div className="px-5 pb-5 pt-1 text-sm leading-relaxed text-gray-600 border-t border-amber-100">
+                  <div className="px-5 pb-5 pt-1 text-sm leading-relaxed text-gray-600 border-t border-gray-100">
                     {t(`faqs.items.${key}.${index}.answer`, a)}
                   </div>
                 </details>

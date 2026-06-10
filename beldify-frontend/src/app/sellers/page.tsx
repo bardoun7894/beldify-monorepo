@@ -140,7 +140,7 @@ export default function SellersPage() {
           {steps.map(({ icon: Icon, title, body }, idx) => (
             <div
               key={title}
-              className={`group rounded-2xl bg-white ring-1 ring-amber-200/60 shadow-atlas-sm px-7 py-8 flex flex-col gap-5 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-atlas-md ${
+              className={`group rounded-2xl bg-white ring-1 ring-gray-200 shadow-atlas-sm px-7 py-8 flex flex-col gap-5 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-atlas-md ${
                 idx === 1 ? 'lg:mt-8' : idx === 2 ? 'lg:mt-4' : ''
               }`}
             >
@@ -162,7 +162,7 @@ export default function SellersPage() {
       </section>
 
       {/* Transparent fees — horizontal split, no side-stripe */}
-      <section className="bg-white border-y border-amber-200/60">
+      <section className="bg-white border-y border-gray-200">
         <div className="mx-auto max-w-7xl px-6 py-14 grid gap-8 sm:grid-cols-2 sm:items-center">
           <div>
             <h3

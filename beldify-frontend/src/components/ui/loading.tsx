@@ -70,7 +70,7 @@ export function LoadingOverlay({ showOnlyOnce = false }) {
   if (!showLoader) return null;
 
   return (
-    <div className="fixed inset-0 bg-amber-50/95 backdrop-blur-sm flex flex-col items-center justify-center gap-6 z-50">
+    <div className="fixed inset-0 bg-gray-50 backdrop-blur-sm flex flex-col items-center justify-center gap-6 z-50">
       <div className="relative">
         <div className="absolute -inset-4 bg-indigo-700/5 rounded-full blur-xl" />
         <Loading size="lg" showText />
@@ -125,7 +125,7 @@ export function LoadingSkeleton({ className = '' }: { className?: string }) {
 
   return (
     <div
-      className={`animate-pulse bg-amber-100/60 rounded-2xl ${className}`}
+      className={`animate-pulse bg-gray-100 rounded-2xl ${className}`}
       role="status"
       aria-label={t('common.loading')}
     />

@@ -189,7 +189,7 @@ export default function TailoringPage() {
           {galleryImages.map(({ src, alt }, i) => (
             <div
               key={src}
-              className="group relative aspect-[4/5] overflow-hidden rounded-2xl ring-1 ring-amber-200/60 shadow-atlas-sm hover-lift"
+              className="group relative aspect-[4/5] overflow-hidden rounded-2xl ring-1 ring-gray-200 shadow-atlas-sm hover-lift"
             >
               <Image
                 src={src}
@@ -206,7 +206,7 @@ export default function TailoringPage() {
 
       {/* ── Final CTA ── */}
       <section className="mx-auto max-w-7xl px-6 pb-20">
-        <div className="rounded-2xl bg-amber-50 ring-1 ring-amber-200/60 shadow-atlas-sm px-8 py-10 text-center">
+        <div className="rounded-2xl bg-amber-50 ring-1 ring-amber-200 shadow-atlas-sm px-8 py-10 text-center">
           <h3
             className="text-2xl sm:text-3xl font-bold text-indigo-950 text-balance"
             style={{ fontFamily: PLAYFAIR }}

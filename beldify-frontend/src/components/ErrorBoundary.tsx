@@ -173,7 +173,7 @@ function ComponentErrorFallback({
 }: { error: Error; retry: () => void; componentName?: string }) {
   const { t } = useTranslation('common');
   return (
-    <div className="p-4 text-center bg-amber-50/50 border border-amber-200 rounded-2xl">
+    <div className="p-4 text-center bg-gray-50 border border-gray-200 rounded-2xl">
       <ExclamationTriangleIcon className="h-8 w-8 text-amber-700 mx-auto mb-2" />
       <p className="text-sm text-gray-700 mb-2">
         {componentName

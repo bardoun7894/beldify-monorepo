@@ -163,7 +163,7 @@ export default function InvoicePage() {
       dir={isRTL ? 'rtl' : 'ltr'}
     >
       {/* ── Screen-only header with nav + print button ───────────────────── */}
-      <div className="print:hidden bg-white border-b border-amber-100 sticky top-0 z-20">
+      <div className="print:hidden bg-white border-b border-gray-100 sticky top-0 z-20">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between gap-4">
           <div className="flex items-center gap-3 min-w-0">
             <Link
@@ -199,10 +199,10 @@ export default function InvoicePage() {
       <div className="max-w-3xl mx-auto px-4 sm:px-6 py-8 print:p-0 print:max-w-none">
         <div
           id="invoice-document"
-          className="bg-white rounded-2xl ring-1 ring-amber-100 shadow-atlas-sm print:rounded-none print:shadow-none print:ring-0 overflow-hidden"
+          className="bg-white rounded-2xl ring-1 ring-gray-100 shadow-atlas-sm print:rounded-none print:shadow-none print:ring-0 overflow-hidden"
         >
           {/* ── Brand header ─────────────────────────────────────────────── */}
-          <div className="p-8 sm:p-10 border-b border-amber-100 flex items-start justify-between gap-6">
+          <div className="p-8 sm:p-10 border-b border-gray-100 flex items-start justify-between gap-6">
             <div className="flex flex-col gap-1">
               {/* Wordmark — Playfair gives it crafted-brand feel (Atlas) */}
               <span
@@ -237,7 +237,7 @@ export default function InvoicePage() {
 
           {/* ── Billing / shipping address block ─────────────────────────── */}
           {order.shipping_info && (
-            <div className="p-8 sm:p-10 border-b border-amber-100 grid grid-cols-1 sm:grid-cols-2 gap-8">
+            <div className="p-8 sm:p-10 border-b border-gray-100 grid grid-cols-1 sm:grid-cols-2 gap-8">
               {/* Bill to */}
               <div>
                 <p className="text-[10px] uppercase tracking-[0.18em] font-semibold text-amber-700 mb-3">
@@ -268,7 +268,7 @@ export default function InvoicePage() {
           )}
 
           {/* ── Payment info row ─────────────────────────────────────────── */}
-          <div className="px-8 sm:px-10 py-5 border-b border-amber-100 flex flex-wrap items-center gap-4 justify-between">
+          <div className="px-8 sm:px-10 py-5 border-b border-gray-100 flex flex-wrap items-center gap-4 justify-between">
             <div className="flex items-center gap-2">
               <span className="text-xs text-gray-500">
                 {t('orders.invoice.payment_method', 'Payment method')}:
@@ -289,7 +289,7 @@ export default function InvoicePage() {
           <div className="px-8 sm:px-10 py-6">
             <table className="w-full text-sm border-collapse">
               <thead>
-                <tr className="border-b border-amber-200">
+                <tr className="border-b border-gray-200">
                   <th
                     className="py-3 text-start text-[10px] uppercase tracking-[0.15em] font-semibold text-amber-700"
                     scope="col"
@@ -316,9 +316,9 @@ export default function InvoicePage() {
                   </th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-amber-50">
+              <tbody className="divide-y divide-gray-100">
                 {order.items.map((item, idx) => (
-                  <tr key={item.id ?? idx} className="hover:bg-amber-50/30 transition-colors">
+                  <tr key={item.id ?? idx} className="hover:bg-gray-50 transition-colors">
                     <td className="py-4 pe-4">
                       <p className="font-medium text-gray-900 leading-snug">
                         {item.product_name}
@@ -384,7 +384,7 @@ export default function InvoicePage() {
               )}
 
               {/* Separator + Grand total */}
-              <div className="pt-3 border-t border-amber-200">
+              <div className="pt-3 border-t border-gray-200">
                 <div className="flex justify-between items-baseline">
                   <span className="text-sm font-semibold text-gray-700">
                     {t('orders.summary.total', 'Total')}
@@ -401,7 +401,7 @@ export default function InvoicePage() {
           </div>
 
           {/* ── Footer ───────────────────────────────────────────────────── */}
-          <div className="px-8 sm:px-10 py-6 bg-amber-50/40 border-t border-amber-100 flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-start">
+          <div className="px-8 sm:px-10 py-6 bg-gray-50 border-t border-gray-100 flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-start">
             <div>
               <p className="text-xs font-semibold text-indigo-700" style={playfair}>
                 beldify.com

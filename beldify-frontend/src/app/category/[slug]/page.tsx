@@ -103,7 +103,7 @@ export default function CategoryPage() {
   if (error) {
     return (
       <div className="min-h-screen bg-canvas flex items-center justify-center px-4">
-        <div className="bg-white rounded-2xl border border-amber-200 shadow-atlas-sm p-10 max-w-md w-full text-center">
+        <div className="bg-white rounded-2xl border border-gray-200 shadow-atlas-sm p-10 max-w-md w-full text-center">
           <p className="text-rose-700 mb-4 font-medium">{error}</p>
           <button
             onClick={() => window.location.reload()}
@@ -120,7 +120,7 @@ export default function CategoryPage() {
   if (!categoryData && !loading) {
     return (
       <div className="min-h-screen bg-canvas flex items-center justify-center px-4">
-        <div className="bg-white rounded-2xl border border-amber-200 shadow-atlas-sm p-10 max-w-md w-full text-center">
+        <div className="bg-white rounded-2xl border border-gray-200 shadow-atlas-sm p-10 max-w-md w-full text-center">
           <p className="text-gray-500">{t('category.not_found', 'التصنيف غير موجود')}</p>
         </div>
       </div>
@@ -154,7 +154,7 @@ export default function CategoryPage() {
             className="md:col-span-3 lg:col-span-2"
             aria-label={t('filters.title', 'الفلاتر')}
           >
-            <div className="bg-white rounded-2xl border border-amber-200 shadow-atlas-sm overflow-hidden sticky top-24">
+            <div className="bg-white rounded-2xl border border-gray-200 shadow-atlas-sm overflow-hidden sticky top-24">
               <div className="p-4">
                 <h2 className="text-sm font-semibold text-gray-900 flex items-center gap-2 mb-4 uppercase tracking-[0.12em]">
                   <SlidersHorizontal className="h-4 w-4 text-indigo-700 shrink-0" aria-hidden />
@@ -177,9 +177,9 @@ export default function CategoryPage() {
             transition={{ duration: 0.35, delay: 0.15 }}
             className="md:col-span-9 lg:col-span-10"
           >
-            <div className="bg-white rounded-2xl border border-amber-200 shadow-atlas-sm overflow-hidden">
+            <div className="bg-white rounded-2xl border border-gray-200 shadow-atlas-sm overflow-hidden">
               {/* Sort bar */}
-              <div className="px-4 sm:px-6 py-3 border-b border-amber-100 flex flex-wrap justify-between items-center gap-4">
+              <div className="px-4 sm:px-6 py-3 border-b border-gray-100 flex flex-wrap justify-between items-center gap-4">
                 <div className="flex items-center gap-3">
                   {/* Mobile filter trigger */}
                   <button
@@ -229,7 +229,7 @@ export default function CategoryPage() {
                     >
                       {[...Array(8)].map((_, i) => (
                         <div key={i} className="animate-pulse">
-                          <div className="bg-amber-100/70 aspect-[4/5] rounded-2xl mb-3" />
+                          <div className="bg-gray-100 aspect-[4/5] rounded-2xl mb-3" />
                           <div className="h-3.5 bg-amber-100 rounded-full w-3/4 mb-2" />
                           <div className="h-3.5 bg-amber-100 rounded-full w-1/2" />
                         </div>
@@ -251,7 +251,7 @@ export default function CategoryPage() {
                           initial={{ opacity: 0, y: 16 }}
                           animate={{ opacity: 1, y: 0 }}
                           transition={{ delay: Math.min(index * 0.04, 0.3) }}
-                          className="rounded-2xl ring-1 ring-amber-200/60 overflow-hidden transition-all duration-200 hover:-translate-y-0.5 hover:shadow-atlas-md"
+                          className="rounded-2xl ring-1 ring-gray-200 overflow-hidden transition-all duration-200 hover:-translate-y-0.5 hover:shadow-atlas-md"
                         >
                           <ProductCard product={product} />
                         </motion.div>
@@ -282,7 +282,7 @@ export default function CategoryPage() {
                           >
                             <Link
                               href={`/categories/${subCategory.id}`}
-                              className="group flex flex-col gap-2 p-5 bg-amber-50/40 rounded-2xl ring-1 ring-amber-200 hover:ring-indigo-200 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-atlas-md"
+                              className="group flex flex-col gap-2 p-5 bg-gray-50 rounded-2xl ring-1 ring-gray-200 hover:ring-indigo-200 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-atlas-md"
                             >
                               <h4
                                 className="text-sm font-semibold text-gray-900 group-hover:text-indigo-700 transition-colors duration-200 leading-snug"

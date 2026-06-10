@@ -96,10 +96,10 @@ export default function CartPage() {
         <div className="max-w-7xl mx-auto px-6 py-16">
           <div className="animate-pulse space-y-6">
             {/* Breadcrumb skeleton */}
-            <div className="h-4 bg-amber-100/70 rounded-full w-40" />
+            <div className="h-4 bg-gray-100 rounded-full w-40" />
             {/* Title skeleton */}
-            <div className="h-10 bg-amber-100/70 rounded-2xl w-52" />
-            <div className="h-4 bg-amber-100/70 rounded-full w-36" />
+            <div className="h-10 bg-gray-100 rounded-2xl w-52" />
+            <div className="h-4 bg-gray-100 rounded-full w-36" />
 
             {/* Two-col skeleton */}
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-8">
@@ -109,11 +109,11 @@ export default function CartPage() {
                     key={i}
                     className="flex gap-4 bg-white ring-1 ring-indigo-100 rounded-2xl p-4 shadow-atlas-sm"
                   >
-                    <div className="w-24 h-24 bg-amber-100/70 rounded-xl flex-shrink-0" />
+                    <div className="w-24 h-24 bg-gray-100 rounded-xl flex-shrink-0" />
                     <div className="flex-1 space-y-3 pt-1">
-                      <div className="h-5 bg-amber-100/70 rounded w-3/4" />
-                      <div className="h-3.5 bg-amber-100/70 rounded w-1/2" />
-                      <div className="h-3.5 bg-amber-100/70 rounded w-1/3" />
+                      <div className="h-5 bg-gray-100 rounded w-3/4" />
+                      <div className="h-3.5 bg-gray-100 rounded w-1/2" />
+                      <div className="h-3.5 bg-gray-100 rounded w-1/3" />
                     </div>
                   </div>
                 ))}
@@ -151,7 +151,7 @@ export default function CartPage() {
     <div className={`min-h-screen bg-canvas ${isRTL ? 'rtl' : 'ltr'}`}>
 
       {/* ── Page header ─────────────────────────────────────────────────────── */}
-      <header className="bg-amber-50/60 border-b border-indigo-100 pt-8 pb-10 px-6">
+      <header className="bg-gray-50 border-b border-indigo-100 pt-8 pb-10 px-6">
         <div className="max-w-7xl mx-auto">
           {/* Breadcrumb — logical CSS, no left/right */}
           <nav className="flex items-center gap-2 text-sm text-indigo-400 mb-6" aria-label={t('nav.breadcrumb', 'Breadcrumb')}>

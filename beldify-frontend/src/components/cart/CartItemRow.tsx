@@ -106,7 +106,7 @@ export default function CartItemRow({
         {/* Product thumbnail */}
         <Link
           href={`/products/${item.product.id}`}
-          className="relative flex-shrink-0 w-24 h-24 rounded-xl overflow-hidden bg-amber-50/60 ring-1 ring-indigo-100 focus:outline-none focus:ring-2 focus:ring-indigo-700/30"
+          className="relative flex-shrink-0 w-24 h-24 rounded-xl overflow-hidden bg-gray-50 ring-1 ring-indigo-100 focus:outline-none focus:ring-2 focus:ring-indigo-700/30"
           aria-label={productName}
         >
           <Image

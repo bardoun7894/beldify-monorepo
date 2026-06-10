@@ -1115,48 +1115,48 @@ export default function ProductDetailsPage() {
         <div className="max-w-7xl mx-auto px-6 pt-6 pb-16">
           {/* Breadcrumb skeleton */}
           <div className="flex items-center gap-2 mb-8">
-            <div className="h-3 w-12 rounded-full bg-amber-100/70 animate-pulse" />
-            <div className="h-3 w-2 rounded-full bg-amber-100/70 animate-pulse" />
-            <div className="h-3 w-20 rounded-full bg-amber-100/70 animate-pulse" />
-            <div className="h-3 w-2 rounded-full bg-amber-100/70 animate-pulse" />
-            <div className="h-3 w-32 rounded-full bg-amber-100/70 animate-pulse" />
+            <div className="h-3 w-12 rounded-full bg-gray-100 animate-pulse" />
+            <div className="h-3 w-2 rounded-full bg-gray-100 animate-pulse" />
+            <div className="h-3 w-20 rounded-full bg-gray-100 animate-pulse" />
+            <div className="h-3 w-2 rounded-full bg-gray-100 animate-pulse" />
+            <div className="h-3 w-32 rounded-full bg-gray-100 animate-pulse" />
           </div>
           {/* Hero skeleton — 2-col on lg */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
             {/* Gallery skeleton */}
             <div className="flex flex-col gap-4">
-              <div className="w-full aspect-[4/5] rounded-2xl bg-amber-100/70 animate-pulse" />
+              <div className="w-full aspect-[4/5] rounded-2xl bg-gray-100 animate-pulse" />
               <div className="grid grid-cols-4 gap-3">
                 {[...Array(4)].map((_, i) => (
-                  <div key={i} className="aspect-square rounded-xl bg-amber-100/70 animate-pulse" />
+                  <div key={i} className="aspect-square rounded-xl bg-gray-100 animate-pulse" />
                 ))}
               </div>
             </div>
             {/* Info pane skeleton */}
-            <div className="bg-white rounded-2xl ring-1 ring-amber-200 p-8 flex flex-col gap-5 shadow-atlas-sm">
-              <div className="h-3 w-20 rounded-full bg-amber-100/70 animate-pulse" />
+            <div className="bg-white rounded-2xl ring-1 ring-gray-200 p-8 flex flex-col gap-5 shadow-atlas-sm">
+              <div className="h-3 w-20 rounded-full bg-gray-100 animate-pulse" />
               <div className="space-y-2">
-                <div className="h-8 w-3/4 rounded-2xl bg-amber-100/70 animate-pulse" />
-                <div className="h-8 w-1/2 rounded-2xl bg-amber-100/70 animate-pulse" />
+                <div className="h-8 w-3/4 rounded-2xl bg-gray-100 animate-pulse" />
+                <div className="h-8 w-1/2 rounded-2xl bg-gray-100 animate-pulse" />
               </div>
-              <div className="h-6 w-28 rounded-full bg-amber-100/70 animate-pulse" />
-              <div className="h-4 w-24 rounded-full bg-amber-100/70 animate-pulse" />
+              <div className="h-6 w-28 rounded-full bg-gray-100 animate-pulse" />
+              <div className="h-4 w-24 rounded-full bg-gray-100 animate-pulse" />
               <div className="space-y-1.5">
-                <div className="h-3.5 w-full rounded-full bg-amber-100/70 animate-pulse" />
-                <div className="h-3.5 w-5/6 rounded-full bg-amber-100/70 animate-pulse" />
+                <div className="h-3.5 w-full rounded-full bg-gray-100 animate-pulse" />
+                <div className="h-3.5 w-5/6 rounded-full bg-gray-100 animate-pulse" />
               </div>
               <div className="flex gap-2">
                 {[...Array(4)].map((_, i) => (
-                  <div key={i} className="h-10 w-10 rounded-full bg-amber-100/70 animate-pulse" />
+                  <div key={i} className="h-10 w-10 rounded-full bg-gray-100 animate-pulse" />
                 ))}
               </div>
               <div className="flex gap-2">
                 {[0, 1, 2, 3].map((i) => (
-                  <div key={i} className="h-8 w-14 rounded-full bg-amber-100/70 animate-pulse" />
+                  <div key={i} className="h-8 w-14 rounded-full bg-gray-100 animate-pulse" />
                 ))}
               </div>
-              <div className="h-12 w-full rounded-full bg-amber-100/70 animate-pulse mt-2" />
-              <div className="h-10 w-full rounded-full bg-amber-100/70 animate-pulse" />
+              <div className="h-12 w-full rounded-full bg-gray-100 animate-pulse mt-2" />
+              <div className="h-10 w-full rounded-full bg-gray-100 animate-pulse" />
             </div>
           </div>
         </div>
@@ -1437,7 +1437,7 @@ export default function ProductDetailsPage() {
                     'relative shrink-0 w-20 h-20 rounded-xl overflow-hidden ring-1 transition-all duration-200 snap-start focus:outline-none focus-visible:ring-2',
                     activeImageIndex === idx
                       ? 'ring-2 ring-indigo-700 shadow-atlas-sm focus-visible:ring-indigo-700'
-                      : 'ring-amber-200 opacity-60 hover:opacity-90 hover:ring-amber-300 focus-visible:ring-indigo-700/50'
+                      : 'ring-gray-200 opacity-60 hover:opacity-90 hover:ring-gray-300 focus-visible:ring-indigo-700/50'
                   )}
                 >
                   <Image
@@ -1454,7 +1454,7 @@ export default function ProductDetailsPage() {
         </div>
 
         {/* ── Right: Info pane ── */}
-        <div className="bg-white ring-1 ring-amber-200 rounded-2xl p-7 lg:p-8 flex flex-col gap-5 shadow-atlas-sm">
+        <div className="bg-white ring-1 ring-gray-200 rounded-2xl p-7 lg:p-8 flex flex-col gap-5 shadow-atlas-sm">
 
           {/* Kicker — desktop only (mobile shows it overlaid on image) */}
           {kickerLabel && (
@@ -1609,7 +1609,7 @@ export default function ProductDetailsPage() {
               an RTL page renders left-aligned with punctuation in the right place
               instead of a period floating to the wrong side. */}
           {product.description && (
-            <p dir="auto" className="text-gray-600 text-sm leading-relaxed line-clamp-3 border-s-2 border-amber-300 ps-3 text-start">
+            <p dir="auto" className="text-gray-600 text-sm leading-relaxed line-clamp-3 border-s-2 border-gray-300 ps-3 text-start">
               {product.description}
             </p>
           )}
@@ -1639,7 +1639,7 @@ export default function ProductDetailsPage() {
                         'w-8 h-8 rounded-full transition-all duration-200',
                         selectedColor?.id === color.id
                           ? 'ring-2 ring-amber-500 ring-offset-2'
-                          : 'ring-1 ring-amber-200 hover:ring-amber-300'
+                          : 'ring-1 ring-gray-200 hover:ring-gray-300'
                       )}
                       style={{ backgroundColor: color.hex_code }}
                     />
@@ -1680,7 +1680,7 @@ export default function ProductDetailsPage() {
                         isSelected
                           ? 'bg-indigo-700 text-white'
                           : isAvail
-                            ? 'bg-white ring-1 ring-amber-200 text-gray-700 hover:ring-indigo-300'
+                            ? 'bg-white ring-1 ring-gray-200 text-gray-700 hover:ring-indigo-300'
                             : 'bg-gray-100 text-gray-400 ring-1 ring-gray-200 cursor-not-allowed'
                       )}
                     >
@@ -1718,7 +1718,7 @@ export default function ProductDetailsPage() {
                         selectedFabric?.id === fabric.id
                           ? 'bg-indigo-700 text-white'
                           : isAvailableForSelection
-                            ? 'bg-white ring-1 ring-amber-200 text-gray-700 hover:ring-indigo-300'
+                            ? 'bg-white ring-1 ring-gray-200 text-gray-700 hover:ring-indigo-300'
                             : 'bg-gray-100 text-gray-400 ring-1 ring-gray-200 cursor-not-allowed'
                       )}
                     >
@@ -1740,7 +1740,7 @@ export default function ProductDetailsPage() {
           </Link>
 
           {/* Divider */}
-          <div className="border-t border-amber-100" aria-hidden />
+          <div className="border-t border-gray-100" aria-hidden />
 
           {/* Quantity stepper + CTA group */}
           <div className="space-y-3">
@@ -1868,7 +1868,7 @@ export default function ProductDetailsPage() {
                 'w-full rounded-full py-3 flex items-center justify-center gap-2 text-sm font-medium transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30',
                 wishlisted
                   ? 'bg-rose-50 ring-1 ring-rose-200 text-rose-700 hover:bg-rose-100'
-                  : 'bg-white ring-1 ring-amber-200 text-gray-700 hover:ring-indigo-300 hover:text-indigo-700'
+                  : 'bg-white ring-1 ring-gray-200 text-gray-700 hover:ring-indigo-300 hover:text-indigo-700'
               )}
             >
               <Heart className={cn('h-4 w-4', wishlisted ? 'fill-rose-600 text-rose-600' : '')} aria-hidden />
@@ -1993,7 +1993,7 @@ export default function ProductDetailsPage() {
                 'px-5 py-3 text-sm font-medium whitespace-nowrap transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-indigo-700/30',
                 activeTab === tab
                   ? 'text-indigo-700 border-b-2 border-indigo-700 -mb-px'
-                  : 'text-gray-500 hover:text-gray-800 hover:bg-amber-100/40 rounded-t-xl'
+                  : 'text-gray-500 hover:text-gray-800 hover:bg-gray-100 rounded-t-xl'
               )}
             >
               {t(`product.tab_${tab}`, tab.charAt(0).toUpperCase() + tab.slice(1))}
@@ -2020,7 +2020,7 @@ export default function ProductDetailsPage() {
               {/* Journal entry link card */}
               <Link
                 href={`/journal/${product.category?.toLowerCase() ?? 'crafts'}`}
-                className="flex items-center justify-between mt-6 p-5 rounded-2xl bg-white ring-1 ring-amber-200 hover:ring-amber-300 hover:shadow-atlas-sm transition-all duration-200 group"
+                className="flex items-center justify-between mt-6 p-5 rounded-2xl bg-white ring-1 ring-gray-200 hover:ring-gray-300 hover:shadow-atlas-sm transition-all duration-200 group"
               >
                 <div>
                   <p className="text-xs uppercase tracking-[0.18em] text-amber-700 font-medium mb-1">
@@ -2042,15 +2042,15 @@ export default function ProductDetailsPage() {
             aria-labelledby="tab-specs"
             className={activeTab === 'specs' ? '' : 'hidden'}
           >
-            <div className="rounded-2xl ring-1 ring-amber-200 overflow-hidden bg-white">
+            <div className="rounded-2xl ring-1 ring-gray-200 overflow-hidden bg-white">
               {product.category && (
-                <div className="flex items-center gap-4 px-5 py-3.5 border-b border-amber-100 last:border-b-0">
+                <div className="flex items-center gap-4 px-5 py-3.5 border-b border-gray-100 last:border-b-0">
                   <span className="text-xs uppercase tracking-wider text-gray-500 w-24 shrink-0">{t('product.category', 'Category')}</span>
                   <span className="text-sm font-medium text-gray-900">{displayCategory}</span>
                 </div>
               )}
               {selectedVariant?.sku && (
-                <div className="flex items-center gap-4 px-5 py-3.5 border-b border-amber-100 last:border-b-0">
+                <div className="flex items-center gap-4 px-5 py-3.5 border-b border-gray-100 last:border-b-0">
                   <span className="text-xs uppercase tracking-wider text-gray-500 w-24 shrink-0">{t('catalog.pdp.sku', 'SKU')}</span>
                   <span className="text-sm font-mono text-gray-900">{selectedVariant.sku}</span>
                 </div>
@@ -2199,7 +2199,7 @@ export default function ProductDetailsPage() {
 
       {/* Mobile sticky add-to-bag bar — safe-area aware */}
       <div
-        className="fixed bottom-0 inset-x-0 z-40 bg-white border-t border-amber-100 px-4 pt-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))] md:hidden shadow-atlas-lg"
+        className="fixed bottom-0 inset-x-0 z-40 bg-white border-t border-gray-100 px-4 pt-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))] md:hidden shadow-atlas-lg"
         role="region"
         aria-label={t('cart.sticky_bar', 'Add to bag')}
       >

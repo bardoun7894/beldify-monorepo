@@ -116,7 +116,7 @@ const ReviewsSection: React.FC<ReviewsSectionProps> = ({ productId, productName 
   };
 
   return (
-    <section id="product-reviews" className="py-12 md:py-16 bg-amber-50/40 relative overflow-hidden">
+    <section id="product-reviews" className="py-12 md:py-16 bg-gray-50 relative overflow-hidden">
       
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-10">
@@ -153,7 +153,7 @@ const ReviewsSection: React.FC<ReviewsSectionProps> = ({ productId, productName 
         </div>
 
         {showReviewForm && (
-          <div className="mb-10 bg-white rounded-2xl shadow-sm ring-1 ring-amber-200 p-6">
+          <div className="mb-10 bg-white rounded-2xl shadow-sm ring-1 ring-gray-200 p-6">
             <ReviewForm
               productId={productId}
               onSubmitSuccess={handleReviewSubmitted}
@@ -164,7 +164,7 @@ const ReviewsSection: React.FC<ReviewsSectionProps> = ({ productId, productName 
         )}
 
         {summary && (
-          <div className="mb-8 bg-white rounded-2xl shadow-sm ring-1 ring-amber-200 p-6 transition-all duration-200 hover:shadow-md">
+          <div className="mb-8 bg-white rounded-2xl shadow-sm ring-1 ring-gray-200 p-6 transition-all duration-200 hover:shadow-md">
             <h3
               className="text-xl font-semibold mb-4 text-gray-900"
               style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
@@ -221,7 +221,7 @@ const ReviewsSection: React.FC<ReviewsSectionProps> = ({ productId, productName 
                             "transition-all duration-200",
                             activeFilters.rating === r
                               ? "bg-indigo-700 text-white shadow-sm"
-                              : "bg-white ring-1 ring-amber-200 text-gray-700 hover:ring-amber-300 rounded-full"
+                              : "bg-white ring-1 ring-gray-200 text-gray-700 hover:ring-gray-300 rounded-full"
                           )}
                           onClick={() => handleRatingFilterChange(activeFilters.rating === r ? null : r)}
                         >

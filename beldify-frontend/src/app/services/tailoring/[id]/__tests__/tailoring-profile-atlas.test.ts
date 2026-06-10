@@ -20,8 +20,8 @@ describe('services/tailoring/[id]/page.tsx — Atlas compliance', () => {
     expect(pageSrc).toContain('rounded-2xl');
   });
 
-  it('uses amber-200 ring hairlines (Atlas card border)', () => {
-    expect(pageSrc).toContain('amber-200');
+  it('uses neutral gray-200 hairlines (Atlas card border, amber retired 2026-06-10)', () => {
+    expect(pageSrc).toContain('gray-200');
   });
 
   it('uses the Atlas indigo-950 dark hero strip (indigo-900 is off-scale)', () => {

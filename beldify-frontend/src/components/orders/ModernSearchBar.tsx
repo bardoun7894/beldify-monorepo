@@ -68,7 +68,7 @@ export default function ModernSearchBar({
           bg-white rounded-2xl ring-2 transition-all duration-200
           ${isFocused
             ? 'ring-indigo-700/30 shadow-atlas-sm'
-            : 'ring-amber-200 hover:ring-amber-300'
+            : 'ring-gray-200 hover:ring-gray-300'
           }
         `}>
           {/* Search icon */}
@@ -139,7 +139,7 @@ export default function ModernSearchBar({
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -8 }}
               transition={{ duration: 0.15, ease: [0.33, 1, 0.68, 1] }}
-              className="absolute top-full start-0 end-0 mt-2 bg-white rounded-2xl shadow-atlas-lg ring-1 ring-amber-100 p-3 z-50"
+              className="absolute top-full start-0 end-0 mt-2 bg-white rounded-2xl shadow-atlas-lg ring-1 ring-gray-100 p-3 z-50"
               role="listbox"
               aria-label={t('orders.search.popular_searches', 'Popular searches')}
             >
@@ -190,7 +190,7 @@ export default function ModernSearchBar({
                     whileHover={shouldReduceMotion ? undefined : { scale: 1.02 }}
                     whileTap={shouldReduceMotion ? undefined : { scale: 0.98 }}
                     onClick={filter.action}
-                    className="flex items-center gap-2 px-3 py-1.5 bg-white rounded-xl ring-1 ring-amber-200 hover:ring-indigo-300 hover:bg-indigo-50 transition-all duration-200 text-sm text-gray-700 focus:ring-2 focus:ring-indigo-700/30 focus:outline-none"
+                    className="flex items-center gap-2 px-3 py-1.5 bg-white rounded-xl ring-1 ring-gray-200 hover:ring-indigo-300 hover:bg-indigo-50 transition-all duration-200 text-sm text-gray-700 focus:ring-2 focus:ring-indigo-700/30 focus:outline-none"
                   >
                     <Icon className="w-3.5 h-3.5 text-indigo-700" strokeWidth={1.5} />
                     {filter.label}

@@ -23,7 +23,7 @@ function AtlasInput(props: React.InputHTMLAttributes<HTMLInputElement>) {
     <input
       {...props}
       className={[
-        'block w-full rounded-xl border border-amber-200 bg-white px-4 py-2.5 text-sm text-indigo-950',
+        'block w-full rounded-xl border border-gray-200 bg-white px-4 py-2.5 text-sm text-indigo-950',
         'placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-700/30 focus:border-indigo-700',
         'disabled:opacity-60 transition-colors duration-150',
         props.className ?? '',
@@ -41,7 +41,7 @@ function AtlasSelect(
       <select
         {...rest}
         className={[
-          'block w-full rounded-xl border border-amber-200 bg-white px-4 py-2.5 text-sm text-indigo-950',
+          'block w-full rounded-xl border border-gray-200 bg-white px-4 py-2.5 text-sm text-indigo-950',
           'appearance-none focus:outline-none focus:ring-2 focus:ring-indigo-700/30 focus:border-indigo-700',
           'disabled:opacity-60 transition-colors duration-150 pe-9',
           rest.className ?? '',
@@ -141,7 +141,7 @@ function AddressCard({
         'relative rounded-2xl border p-5 transition-all duration-200',
         address.is_default
           ? 'border-indigo-300 bg-indigo-50/60 shadow-sm'
-          : 'border-amber-200 bg-white hover:border-indigo-200',
+          : 'border-gray-200 bg-white hover:border-indigo-200',
       ].join(' ')}
       aria-label={
         address.label
@@ -259,7 +259,7 @@ function AddressForm({
         aria-labelledby="address-form-title"
       >
         {/* Header */}
-        <div className="flex items-center justify-between px-6 pt-5 pb-4 border-b border-amber-100">
+        <div className="flex items-center justify-between px-6 pt-5 pb-4 border-b border-gray-100">
           <h3
             id="address-form-title"
             className="text-lg font-bold text-indigo-900"
@@ -706,7 +706,7 @@ export default function AddressBook() {
 
       {/* Address cards grid */}
       {addresses.length === 0 ? (
-        <div className="flex flex-col items-center justify-center rounded-2xl border-2 border-dashed border-amber-200 py-12 px-6 text-center">
+        <div className="flex flex-col items-center justify-center rounded-2xl border-2 border-dashed border-gray-200 py-12 px-6 text-center">
           <MapPin className="w-10 h-10 text-amber-300 mb-3" aria-hidden="true" />
           <p className="text-sm font-medium text-indigo-900 mb-1">
             {t('profile:address_book.empty_title', 'No saved addresses')}

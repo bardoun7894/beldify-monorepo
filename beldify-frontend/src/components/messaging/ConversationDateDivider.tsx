@@ -21,7 +21,7 @@ export function ConversationDateDivider({ label }: ConversationDateDividerProps)
       <span className="h-px flex-1 bg-amber-200/60" aria-hidden="true" />
 
       {/* Centered date label */}
-      <span className="shrink-0 select-none rounded-full border border-amber-200/70 bg-amber-50 px-3 py-0.5 text-center text-[11px] font-medium tracking-wide text-amber-900/70">
+      <span className="shrink-0 select-none rounded-full border border-amber-200 bg-amber-50 px-3 py-0.5 text-center text-[11px] font-medium tracking-wide text-amber-900/70">
         {label}
       </span>
 

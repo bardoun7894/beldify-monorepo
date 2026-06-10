@@ -64,7 +64,7 @@ export default function ModernOrderFilters({
       icon: Clock,
       color: 'text-amber-700',
       bgColor: 'bg-amber-50',
-      borderColor: 'border-amber-200',
+      borderColor: 'border-gray-200',
       hoverBg: 'hover:bg-amber-50',
       activeBg: 'bg-indigo-700',
       activeText: 'text-white',

@@ -78,14 +78,14 @@ export default function CustomOrderTimeline({ order, onAdvanced }: CustomOrderTi
       </div>
 
       {/* ── Progress timeline ── */}
-      <div className="rounded-2xl ring-1 ring-amber-200 bg-white overflow-hidden">
-        <div className="px-5 py-3 border-b border-amber-100">
+      <div className="rounded-2xl ring-1 ring-gray-200 bg-white overflow-hidden">
+        <div className="px-5 py-3 border-b border-gray-100">
           <p className="text-xs uppercase tracking-[0.18em] text-amber-700 font-medium">
             {isRTL ? 'سجل التقدم' : 'Progress Log'}
           </p>
         </div>
 
-        <ol className="divide-y divide-amber-100" aria-label={isRTL ? 'سجل التقدم' : 'Progress history'}>
+        <ol className="divide-y divide-gray-100" aria-label={isRTL ? 'سجل التقدم' : 'Progress history'}>
           {progress.length === 0 && (
             <li className="px-5 py-4 text-sm text-gray-400">
               {isRTL ? 'لا يوجد سجل بعد.' : 'No progress entries yet.'}
@@ -132,7 +132,7 @@ export default function CustomOrderTimeline({ order, onAdvanced }: CustomOrderTi
 
       {/* ── Advance status form (only if allowed transitions exist) ── */}
       {allowedNext.length > 0 && (
-        <form onSubmit={handleAdvance} className="rounded-2xl ring-1 ring-amber-200 bg-white p-5 space-y-4">
+        <form onSubmit={handleAdvance} className="rounded-2xl ring-1 ring-gray-200 bg-white p-5 space-y-4">
           <p className="text-xs uppercase tracking-[0.18em] text-amber-700 font-medium">
             {isRTL ? 'تقديم الحالة' : 'Advance Status'}
           </p>
@@ -154,7 +154,7 @@ export default function CustomOrderTimeline({ order, onAdvanced }: CustomOrderTi
               value={selectedNext}
               onChange={e => setSelectedNext(e.target.value as CustomOrderStatus)}
               required
-              className="w-full rounded-xl border border-amber-200 px-3.5 py-2.5 text-sm bg-white focus:border-indigo-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30"
+              className="w-full rounded-xl border border-gray-200 px-3.5 py-2.5 text-sm bg-white focus:border-indigo-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30"
             >
               <option value="">
                 {isRTL ? 'اختر الحالة…' : 'Select status…'}
@@ -183,7 +183,7 @@ export default function CustomOrderTimeline({ order, onAdvanced }: CustomOrderTi
               onChange={e => setNote(e.target.value)}
               maxLength={2000}
               placeholder={isRTL ? 'أضف ملاحظة…' : 'Add a note…'}
-              className="w-full rounded-xl border border-amber-200 px-3.5 py-2.5 text-sm bg-white focus:border-indigo-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30 resize-none"
+              className="w-full rounded-xl border border-gray-200 px-3.5 py-2.5 text-sm bg-white focus:border-indigo-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30 resize-none"
             />
           </div>
 

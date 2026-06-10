@@ -61,7 +61,7 @@ export default function ProductGrid({ products }: ProductGridProps) {
       {products.map((product) => (
         <div
           key={product.id}
-          className="group bg-white rounded-2xl ring-1 ring-amber-200 overflow-hidden hover:shadow-md hover:-translate-y-0.5 transition-all duration-300"
+          className="group bg-white rounded-2xl ring-1 ring-gray-200 overflow-hidden hover:shadow-md hover:-translate-y-0.5 transition-all duration-300"
         >
           <Link href={`/products/${product.id}`}>
             <div className="relative aspect-square">

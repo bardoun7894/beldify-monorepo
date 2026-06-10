@@ -26,7 +26,7 @@ export default function NewCustomOrderPage() {
   return (
     <div className="min-h-screen bg-canvas pb-20" dir={isRTL ? 'rtl' : 'ltr'}>
       {/* ── Header ── */}
-      <header className="sticky top-0 z-20 bg-white/95 backdrop-blur-sm border-b border-amber-200 px-6 py-4">
+      <header className="sticky top-0 z-20 bg-white/95 backdrop-blur-sm border-b border-gray-200 px-6 py-4">
         <div className="max-w-xl mx-auto flex items-center gap-3">
           <Link
             href="/categories/jewelry"
@@ -54,7 +54,7 @@ export default function NewCustomOrderPage() {
             : 'Tell us what you want. The only required field is Material — everything else is optional. Artisans will see it and reply.'}
         </p>
 
-        <div className="bg-white rounded-2xl ring-1 ring-amber-200 p-6 shadow-sm">
+        <div className="bg-white rounded-2xl ring-1 ring-gray-200 p-6 shadow-sm">
           <RequestCustomPieceForm />
         </div>
 
@@ -65,7 +65,7 @@ export default function NewCustomOrderPage() {
             { icon: '💬', en: 'Seen by artisans', ar: 'يراه الحرفيون' },
             { icon: '⭐', en: 'Verified artisans', ar: 'حرفيون موثوقون' },
           ].map(item => (
-            <div key={item.en} className="rounded-xl bg-white ring-1 ring-amber-200 px-3 py-4">
+            <div key={item.en} className="rounded-xl bg-white ring-1 ring-gray-200 px-3 py-4">
               <div className="text-2xl mb-1">{item.icon}</div>
               <p className="text-xs text-gray-500 font-medium">{isRTL ? item.ar : item.en}</p>
             </div>

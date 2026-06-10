@@ -65,7 +65,7 @@ const PopularCategoriesSection: React.FC<PopularCategoriesSectionProps> = ({
 
   if (loading) {
     return (
-      <section className="py-16 sm:py-20 bg-amber-50/40">
+      <section className="py-16 sm:py-20 bg-gray-50">
         <div className="container mx-auto px-4">
           <div className="max-w-7xl mx-auto">
             {/* Header Skeleton */}
@@ -95,7 +95,7 @@ const PopularCategoriesSection: React.FC<PopularCategoriesSectionProps> = ({
 
   if (error) {
     return (
-      <section className="py-16 sm:py-20 bg-amber-50/40">
+      <section className="py-16 sm:py-20 bg-gray-50">
         <div className="container mx-auto px-4">
           <div className="max-w-7xl mx-auto text-center">
             <div className="bg-rose-50 border border-rose-200 rounded-2xl p-8">
@@ -114,7 +114,7 @@ const PopularCategoriesSection: React.FC<PopularCategoriesSectionProps> = ({
   }
 
   return (
-    <section className="py-16 sm:py-20 bg-amber-50/40">
+    <section className="py-16 sm:py-20 bg-gray-50">
       <div className="container mx-auto px-4">
         <div className="max-w-7xl mx-auto">
           {/* Eyebrow + heading */}

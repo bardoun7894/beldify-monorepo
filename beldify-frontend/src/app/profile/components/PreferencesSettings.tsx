@@ -72,7 +72,7 @@ function AtlasSelect(props: React.SelectHTMLAttributes<HTMLSelectElement> & { ch
     <select
       {...rest}
       className={[
-        'block w-full rounded-xl border border-amber-200 bg-white px-4 py-2.5 text-sm text-indigo-950',
+        'block w-full rounded-xl border border-gray-200 bg-white px-4 py-2.5 text-sm text-indigo-950',
         'focus:outline-none focus:ring-2 focus:ring-indigo-700/30 focus:border-indigo-700',
         'disabled:opacity-60 transition-colors duration-150',
         rest.className ?? '',
@@ -143,7 +143,7 @@ export default function PreferencesSettings() {
       {/* ── Notifications ── */}
       <section>
         <SectionHeading icon={Bell} label={t('preferences.notification_settings')} />
-        <div className="rounded-2xl border border-amber-100 bg-amber-50/40 divide-y divide-amber-100 px-4">
+        <div className="rounded-2xl border border-gray-100 bg-gray-50 divide-y divide-gray-100 px-4">
           <ToggleRow
             id="pref-email-notifications"
             icon={Bell}

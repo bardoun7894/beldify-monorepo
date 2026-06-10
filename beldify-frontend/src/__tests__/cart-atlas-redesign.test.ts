@@ -187,22 +187,22 @@ describe('CartMobileBar — Atlas design tokens', () => {
 // ─── CartPage shell ───────────────────────────────────────────────────────────
 
 describe('cart/page.tsx — Atlas shell', () => {
-  it('page background uses bg-amber-50/40 (parchment warm)', () => {
-    expect(cartPage).toContain('bg-amber-50/40');
+  it('page background uses neutral wash (bg-gray-50 — parchment retired 2026-06-10)', () => {
+    expect(cartPage).toContain('bg-gray-50');
   });
 
   it('main heading uses Playfair Display', () => {
     expect(cartPage).toContain('Playfair Display');
   });
 
-  it('AI chip uses bg-amber-100 text-amber-800 ring-amber-200 (parchment surface)', () => {
+  it('AI chip uses bg-amber-100 text-amber-800 ring-amber-200 (amber accent chip)', () => {
     expect(cartPage).toContain('bg-amber-100');
     expect(cartPage).toContain('text-amber-800');
     expect(cartPage).toContain('ring-amber-200');
   });
 
-  it('loading skeleton uses bg-amber-100/70 (Atlas skeleton token)', () => {
-    expect(cartPage).toContain('bg-amber-100/70');
+  it('loading skeleton uses neutral bg-gray-100 (Atlas skeleton token)', () => {
+    expect(cartPage).toContain('bg-gray-100');
   });
 
   it('bespoke strip uses indigo-900 bg (Tetouani cobalt accent strip)', () => {

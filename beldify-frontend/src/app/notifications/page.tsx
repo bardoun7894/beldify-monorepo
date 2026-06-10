@@ -195,7 +195,7 @@ function NotificationRow({
       className={cn(
         'group flex items-start gap-4 p-4 rounded-2xl border transition',
         isUnread
-          ? 'border-amber-200 bg-amber-50/30 hover:bg-amber-50/60'
+          ? 'border-gray-200 bg-gray-50 hover:bg-gray-50'
           : 'border-gray-100 bg-white hover:bg-gray-50/60'
       )}
     >

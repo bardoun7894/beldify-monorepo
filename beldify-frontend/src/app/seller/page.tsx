@@ -116,7 +116,7 @@ function KpiCard({
   accent: string;
 }) {
   return (
-    <div className="bg-white rounded-2xl ring-1 ring-amber-200 shadow-sm p-5 flex flex-col gap-3">
+    <div className="bg-white rounded-2xl ring-1 ring-gray-200 shadow-sm p-5 flex flex-col gap-3">
       <div className={`w-9 h-9 rounded-xl flex items-center justify-center ${accent}`}>
         <Icon className="w-4 h-4" aria-hidden="true" />
       </div>
@@ -131,7 +131,7 @@ function KpiCard({
 
 // ── Skeleton ──────────────────────────────────────────────────────────────────
 function Skeleton({ className }: { className?: string }) {
-  return <div className={`animate-pulse bg-amber-100 rounded-xl ${className ?? ''}`} />;
+  return <div className={`animate-pulse bg-gray-100 rounded-xl ${className ?? ''}`} />;
 }
 
 export default function SellerDashboardPage() {
@@ -225,8 +225,8 @@ export default function SellerDashboardPage() {
       )}
 
       {/* Recent orders */}
-      <div className="bg-white rounded-2xl ring-1 ring-amber-200 shadow-sm overflow-hidden">
-        <div className="flex items-center justify-between px-5 py-4 border-b border-amber-100">
+      <div className="bg-white rounded-2xl ring-1 ring-gray-200 shadow-sm overflow-hidden">
+        <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100">
           <h2 className="text-sm font-semibold text-gray-900">
             {t('seller.dashboard.recent_orders', 'Recent Orders')}
           </h2>
@@ -261,7 +261,7 @@ export default function SellerDashboardPage() {
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
-                <tr className="text-left text-xs text-gray-400 uppercase tracking-wide bg-amber-50/50">
+                <tr className="text-left text-xs text-gray-400 uppercase tracking-wide bg-gray-50">
                   <th className="px-5 py-3 font-medium">
                     {t('seller.orders.col_number', 'Order')}
                   </th>
@@ -276,9 +276,9 @@ export default function SellerDashboardPage() {
                   </th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-amber-50">
+              <tbody className="divide-y divide-gray-100">
                 {orders.map((order) => (
-                  <tr key={order.id} className="hover:bg-amber-50/30 transition-colors">
+                  <tr key={order.id} className="hover:bg-gray-50 transition-colors">
                     <td className="px-5 py-3">
                       <Link
                         href={`/seller/orders/${order.id}`}

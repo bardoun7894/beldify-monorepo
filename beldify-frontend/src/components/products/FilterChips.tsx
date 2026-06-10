@@ -33,7 +33,7 @@ export default function FilterChips({
         <span
           key={chip.id}
           role="listitem"
-          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium bg-white text-amber-800 border border-amber-200 shadow-atlas-sm"
+          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium bg-white text-amber-800 border border-gray-200 shadow-atlas-sm"
         >
           <span className={chip.type === 'price' ? 'currency-mad' : undefined}>{chip.label}</span>
           <button

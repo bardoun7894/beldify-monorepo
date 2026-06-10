@@ -73,7 +73,7 @@ export default function ShopFilters({
                       />
                       <div className="relative flex items-center justify-between px-6 py-5">
                         <Dialog.Title className="flex items-center gap-2.5 text-base font-semibold text-white">
-                          <span className="flex h-8 w-8 items-center justify-center rounded-full bg-white/10 ring-1 ring-amber-300/40">
+                          <span className="flex h-8 w-8 items-center justify-center rounded-full bg-white/10 ring-1 ring-gray-300">
                             <FunnelIcon className="h-4 w-4 text-amber-300" aria-hidden="true" />
                           </span>
                           {t('shops.filters', 'Filters')}
@@ -119,7 +119,7 @@ export default function ShopFilters({
                     </div>
 
                     {/* Footer */}
-                    <div className="shrink-0 px-6 py-4 border-t border-amber-200/60">
+                    <div className="shrink-0 px-6 py-4 border-t border-gray-200">
                       <Button
                         variant="ghost"
                         className="w-full rounded-full text-indigo-700 hover:bg-indigo-50"

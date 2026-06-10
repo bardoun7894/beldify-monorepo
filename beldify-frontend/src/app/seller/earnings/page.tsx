@@ -37,7 +37,7 @@ function KpiCard({
   accent: string;
 }) {
   return (
-    <div className="bg-white rounded-2xl ring-1 ring-amber-200 shadow-sm p-5 flex flex-col gap-3">
+    <div className="bg-white rounded-2xl ring-1 ring-gray-200 shadow-sm p-5 flex flex-col gap-3">
       <div className={`w-9 h-9 rounded-xl flex items-center justify-center ${accent}`}>
         <Icon className="w-4 h-4" aria-hidden="true" />
       </div>
@@ -88,7 +88,7 @@ function EarningsChart({ byDay }: { byDay: Array<{ date: string; revenue: number
 
 // ── Skeleton ──────────────────────────────────────────────────────────────────
 function Skeleton({ className }: { className?: string }) {
-  return <div className={`animate-pulse bg-amber-100 rounded-xl ${className ?? ''}`} />;
+  return <div className={`animate-pulse bg-gray-100 rounded-xl ${className ?? ''}`} />;
 }
 
 export default function SellerEarningsPage() {
@@ -129,7 +129,7 @@ export default function SellerEarningsPage() {
         </div>
 
         {/* Period switcher */}
-        <div className="flex items-center gap-1 bg-white rounded-xl ring-1 ring-amber-200 p-1">
+        <div className="flex items-center gap-1 bg-white rounded-xl ring-1 ring-gray-200 p-1">
           {PERIODS.map(({ value, label }) => (
             <button
               key={value}
@@ -197,8 +197,8 @@ export default function SellerEarningsPage() {
           </div>
 
           {/* Daily chart */}
-          <div className="bg-white rounded-2xl ring-1 ring-amber-200 shadow-sm overflow-hidden">
-            <div className="px-5 py-4 border-b border-amber-100">
+          <div className="bg-white rounded-2xl ring-1 ring-gray-200 shadow-sm overflow-hidden">
+            <div className="px-5 py-4 border-b border-gray-100">
               <h2 className="text-sm font-semibold text-gray-900">
                 {t('seller.earnings.chart_heading', 'Revenue by day')}
               </h2>
@@ -219,13 +219,13 @@ export default function SellerEarningsPage() {
           </div>
 
           {/* Breakdown table */}
-          <div className="bg-white rounded-2xl ring-1 ring-amber-200 shadow-sm overflow-hidden">
-            <div className="px-5 py-4 border-b border-amber-100">
+          <div className="bg-white rounded-2xl ring-1 ring-gray-200 shadow-sm overflow-hidden">
+            <div className="px-5 py-4 border-b border-gray-100">
               <h2 className="text-sm font-semibold text-gray-900">
                 {t('seller.earnings.breakdown_heading', 'Financial breakdown')}
               </h2>
             </div>
-            <dl className="divide-y divide-amber-50 text-sm">
+            <dl className="divide-y divide-gray-100 text-sm">
               <div className="flex justify-between px-5 py-3">
                 <dt className="text-gray-500">{t('seller.earnings.gross', 'Gross revenue')}</dt>
                 <dd className="font-medium text-gray-900">{fmtMAD(earnings.gross_revenue)} DH</dd>
@@ -234,7 +234,7 @@ export default function SellerEarningsPage() {
                 <dt className="text-gray-500">{t('seller.earnings.commission', 'Platform commission')}</dt>
                 <dd className="font-medium text-rose-600">−{fmtMAD(earnings.total_commission)} DH</dd>
               </div>
-              <div className="flex justify-between px-5 py-3 bg-amber-50/30">
+              <div className="flex justify-between px-5 py-3 bg-gray-50">
                 <dt className="font-semibold text-gray-900">{t('seller.earnings.net', 'Net revenue')}</dt>
                 <dd className="font-bold text-emerald-700 text-base">{fmtMAD(earnings.net_revenue)} DH</dd>
               </div>

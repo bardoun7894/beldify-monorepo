@@ -255,7 +255,7 @@ export default function OrdersPage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, ease: [0.33, 1, 0.68, 1] }}
-          className="bg-white rounded-2xl shadow-atlas-lg ring-1 ring-amber-100 p-10 max-w-md w-full text-center"
+          className="bg-white rounded-2xl shadow-atlas-lg ring-1 ring-gray-100 p-10 max-w-md w-full text-center"
         >
           <div className="w-24 h-24 bg-indigo-50 rounded-full flex items-center justify-center mx-auto mb-6">
             <ShoppingBag className="w-12 h-12 text-indigo-700" strokeWidth={1.5} />
@@ -288,7 +288,7 @@ export default function OrdersPage() {
       dir={isRTL ? 'rtl' : 'ltr'}
     >
       {/* Page header — solid parchment surface (no glassmorphism) */}
-      <div className="bg-white border-b border-amber-100 sticky top-0 z-10">
+      <div className="bg-white border-b border-gray-100 sticky top-0 z-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="py-6 sm:py-8">
             <div className="mb-6">
@@ -336,7 +336,7 @@ export default function OrdersPage() {
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.35, ease: [0.33, 1, 0.68, 1] }}
-            className="bg-white rounded-2xl shadow-atlas-sm ring-1 ring-amber-100 overflow-hidden text-center p-16 mt-6"
+            className="bg-white rounded-2xl shadow-atlas-sm ring-1 ring-gray-100 overflow-hidden text-center p-16 mt-6"
           >
             <div className="mx-auto w-20 h-20 rounded-full bg-indigo-50 flex items-center justify-center mb-8">
               <Search className="w-10 h-10 text-indigo-700" strokeWidth={1.5} />
@@ -373,10 +373,10 @@ export default function OrdersPage() {
                   delay: shouldReduceMotion ? 0 : Math.min(index * 0.04, 0.32),
                   ease: [0.33, 1, 0.68, 1],
                 }}
-                className="bg-white rounded-2xl shadow-atlas-sm hover:shadow-atlas-md transition-all duration-200 hover:-translate-y-0.5 overflow-hidden ring-1 ring-amber-100"
+                className="bg-white rounded-2xl shadow-atlas-sm hover:shadow-atlas-md transition-all duration-200 hover:-translate-y-0.5 overflow-hidden ring-1 ring-gray-100"
               >
                 {/* Order header */}
-                <div className="p-5 sm:p-6 pb-4 border-b border-amber-100 bg-amber-50/30">
+                <div className="p-5 sm:p-6 pb-4 border-b border-gray-100 bg-gray-50">
                   <div className="flex items-start justify-between gap-4">
                     <div className="space-y-1.5 min-w-0">
                       <div className="flex items-center gap-3 flex-wrap">
@@ -421,7 +421,7 @@ export default function OrdersPage() {
                     {(order.items ?? []).slice(0, 3).map((item: OrderItem) => (
                       <div
                         key={`${order.id}-item-${item.id}`}
-                        className="flex items-center gap-3 p-3 rounded-xl bg-amber-50/40 hover:bg-amber-50/70 transition-colors"
+                        className="flex items-center gap-3 p-3 rounded-xl bg-gray-50 hover:bg-gray-50 transition-colors"
                       >
                         <div className="relative w-14 h-14 rounded-xl overflow-hidden bg-white shadow-atlas-sm flex-shrink-0">
                           <Image
@@ -461,7 +461,7 @@ export default function OrdersPage() {
                 </div>
 
                 {/* Order footer */}
-                <div className="px-5 sm:px-6 py-4 bg-amber-50/20 border-t border-amber-100">
+                <div className="px-5 sm:px-6 py-4 bg-gray-50 border-t border-gray-100">
                   <div className="flex items-center justify-between gap-3 flex-wrap">
                     <div className="min-w-0">
                       {order.shipping_address && (

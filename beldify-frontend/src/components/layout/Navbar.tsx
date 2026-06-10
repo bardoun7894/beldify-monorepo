@@ -217,7 +217,7 @@ export default function Navbar() {
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder={t('nav.search_placeholder', 'Search caftans, djellabas, tailors…')}
                 aria-label={t('nav.search_placeholder', 'Search caftans, djellabas, tailors…')}
-                className="w-full bg-white border border-amber-200 rounded-full py-2 ps-11 pe-4 text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-700/30 focus:border-indigo-700 transition-colors duration-200"
+                className="w-full bg-white border border-gray-200 rounded-full py-2 ps-11 pe-4 text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-700/30 focus:border-indigo-700 transition-colors duration-200"
               />
             </form>
           </div>
@@ -231,7 +231,7 @@ export default function Navbar() {
                 <>
                   <Menu.Button
                     aria-label={t('chrome.navbar.changeLanguage', 'Change language')}
-                    className="flex items-center gap-1.5 py-1.5 px-3 text-gray-600 hover:text-indigo-700 border border-amber-200 bg-white rounded-full text-sm font-medium transition hover:border-indigo-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
+                    className="flex items-center gap-1.5 py-1.5 px-3 text-gray-600 hover:text-indigo-700 border border-gray-200 bg-white rounded-full text-sm font-medium transition hover:border-indigo-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
                     aria-expanded={open}
                     aria-haspopup="true"
                   >
@@ -248,7 +248,7 @@ export default function Navbar() {
                     leaveFrom="transform opacity-100 scale-100"
                     leaveTo="transform opacity-0 scale-95"
                   >
-                    <Menu.Items className="absolute end-0 z-20 mt-2 w-48 origin-top-end bg-white shadow-xl ring-1 ring-amber-200 rounded-2xl py-2 focus:outline-none">
+                    <Menu.Items className="absolute end-0 z-20 mt-2 w-48 origin-top-end bg-white shadow-xl ring-1 ring-gray-200 rounded-2xl py-2 focus:outline-none">
                       {languages.map((lang) => (
                         <Menu.Item key={lang}>
                           {({ active }) => (
@@ -356,8 +356,8 @@ export default function Navbar() {
                       leaveFrom="transform opacity-100 scale-100"
                       leaveTo="transform opacity-0 scale-95"
                     >
-                      <Menu.Items className="absolute end-0 z-20 mt-2 w-56 origin-top-end bg-white shadow-xl ring-1 ring-amber-200 rounded-2xl py-2 focus:outline-none">
-                        <div className="px-4 py-2 border-b border-amber-100 mb-1">
+                      <Menu.Items className="absolute end-0 z-20 mt-2 w-56 origin-top-end bg-white shadow-xl ring-1 ring-gray-200 rounded-2xl py-2 focus:outline-none">
+                        <div className="px-4 py-2 border-b border-gray-100 mb-1">
                           <p className="text-sm font-semibold text-gray-900 truncate">{user.full_name_en || t('common.welcome', 'Welcome')}</p>
                           <p className="text-xs text-gray-500 truncate">{user.email}</p>
                         </div>
@@ -408,7 +408,7 @@ export default function Navbar() {
                             </Link>
                           )}
                         </Menu.Item>
-                        <div className="my-1 border-t border-amber-100" />
+                        <div className="my-1 border-t border-gray-100" />
                         <Menu.Item>
                           {({ active }) => (
                             <button
@@ -431,7 +431,7 @@ export default function Navbar() {
               <Link
                 href="/login"
                 prefetch
-                className="flex items-center gap-1.5 py-1.5 px-3 text-gray-600 hover:text-indigo-700 border border-amber-200 bg-white rounded-full text-sm font-medium transition hover:border-indigo-300"
+                className="flex items-center gap-1.5 py-1.5 px-3 text-gray-600 hover:text-indigo-700 border border-gray-200 bg-white rounded-full text-sm font-medium transition hover:border-indigo-300"
               >
                 <User className="h-4 w-4" aria-hidden="true" />
                 <span className="hidden lg:inline">{t('navigation.login', 'Sign in')}</span>
@@ -511,7 +511,7 @@ export default function Navbar() {
                 placeholder={t('nav.search_placeholder', 'Search caftans, djellabas, tailors…')}
                 aria-label={t('nav.search_placeholder', 'Search caftans, djellabas, tailors…')}
                 autoFocus
-                className="w-full bg-white border border-amber-200 rounded-full py-3 ps-12 pe-12 text-sm shadow-md focus:outline-none focus:ring-2 focus:ring-indigo-500/30 focus:border-indigo-500"
+                className="w-full bg-white border border-gray-200 rounded-full py-3 ps-12 pe-12 text-sm shadow-md focus:outline-none focus:ring-2 focus:ring-indigo-500/30 focus:border-indigo-500"
               />
               <button
                 type="button"
@@ -560,7 +560,7 @@ export default function Navbar() {
             >
               <Dialog.Panel className="relative flex w-full max-w-xs flex-col overflow-y-auto bg-white pb-16 shadow-atlas-xl">
                 {/* Panel header */}
-                <div className="flex items-center justify-between px-5 pt-5 pb-4 border-b border-amber-200/60 bg-white">
+                <div className="flex items-center justify-between px-5 pt-5 pb-4 border-b border-gray-200 bg-white">
                   <Link
                     href="/"
                     onClick={() => setMobileMenuOpen(false)}
@@ -589,7 +589,7 @@ export default function Navbar() {
                 </div>
 
                 {/* User section */}
-                <div className="px-5 py-4 border-b border-amber-200/60">
+                <div className="px-5 py-4 border-b border-gray-200">
                   {user ? (
                     <div>
                       <div className="flex items-center gap-3 mb-3">
@@ -605,14 +605,14 @@ export default function Navbar() {
                         <Link
                           href="/profile"
                           onClick={() => setMobileMenuOpen(false)}
-                          className="flex items-center justify-center gap-1.5 py-2 px-3 bg-white rounded-xl text-sm text-gray-700 hover:text-indigo-700 border border-amber-200 transition"
+                          className="flex items-center justify-center gap-1.5 py-2 px-3 bg-white rounded-xl text-sm text-gray-700 hover:text-indigo-700 border border-gray-200 transition"
                         >
                           <User className="h-4 w-4" aria-hidden="true" />
                           {t('navigation.profile', 'Profile')}
                         </Link>
                         <button
                           onClick={() => { handleLogout(); setMobileMenuOpen(false); }}
-                          className="flex items-center justify-center gap-1.5 py-2 px-3 bg-white rounded-xl text-sm text-gray-700 hover:text-indigo-700 border border-amber-200 transition"
+                          className="flex items-center justify-center gap-1.5 py-2 px-3 bg-white rounded-xl text-sm text-gray-700 hover:text-indigo-700 border border-gray-200 transition"
                         >
                           {t('navigation.logout', 'Sign out')}
                         </button>
@@ -630,7 +630,7 @@ export default function Navbar() {
                       <Link
                         href="/register"
                         onClick={() => setMobileMenuOpen(false)}
-                        className="flex items-center justify-center gap-1.5 py-2.5 px-3 bg-white rounded-xl text-sm text-gray-700 hover:text-indigo-700 border border-amber-200 transition"
+                        className="flex items-center justify-center gap-1.5 py-2.5 px-3 bg-white rounded-xl text-sm text-gray-700 hover:text-indigo-700 border border-gray-200 transition"
                       >
                         {t('navigation.register', 'Register')}
                       </Link>
@@ -639,11 +639,11 @@ export default function Navbar() {
                 </div>
 
                 {/* Quick links */}
-                <div className={cn('grid gap-2 px-5 py-4 border-b border-amber-200/60', user ? 'grid-cols-3' : 'grid-cols-1')}>
+                <div className={cn('grid gap-2 px-5 py-4 border-b border-gray-200', user ? 'grid-cols-3' : 'grid-cols-1')}>
                   <Link
                     href="/cart"
                     onClick={() => setMobileMenuOpen(false)}
-                    className="flex flex-col items-center gap-1 py-3 bg-white rounded-xl text-gray-700 hover:text-indigo-700 border border-amber-200 transition relative"
+                    className="flex flex-col items-center gap-1 py-3 bg-white rounded-xl text-gray-700 hover:text-indigo-700 border border-gray-200 transition relative"
                     aria-label={`Cart${cartItemCount > 0 ? `, ${cartItemCount} items` : ''}`}
                   >
                     <ShoppingBag className="h-5 w-5" aria-hidden="true" />
@@ -659,7 +659,7 @@ export default function Navbar() {
                       <Link
                         href="/wishlist"
                         onClick={() => setMobileMenuOpen(false)}
-                        className="flex flex-col items-center gap-1 py-3 bg-white rounded-xl text-gray-700 hover:text-indigo-700 border border-amber-200 transition relative"
+                        className="flex flex-col items-center gap-1 py-3 bg-white rounded-xl text-gray-700 hover:text-indigo-700 border border-gray-200 transition relative"
                         aria-label={`Wishlist${wishlistCount > 0 ? `, ${wishlistCount} items` : ''}`}
                       >
                         <Heart className="h-5 w-5" aria-hidden="true" />
@@ -673,7 +673,7 @@ export default function Navbar() {
                       <Link
                         href="/community/messages"
                         onClick={() => setMobileMenuOpen(false)}
-                        className="flex flex-col items-center gap-1 py-3 bg-white rounded-xl text-gray-700 hover:text-indigo-700 border border-amber-200 transition relative"
+                        className="flex flex-col items-center gap-1 py-3 bg-white rounded-xl text-gray-700 hover:text-indigo-700 border border-gray-200 transition relative"
                         aria-label={`Messages${unreadCount > 0 ? `, ${unreadCount} unread` : ''}`}
                       >
                         <MessageCircle className="h-5 w-5" aria-hidden="true" />
@@ -689,7 +689,7 @@ export default function Navbar() {
                 </div>
 
                 {/* Nav links */}
-                <div className="px-5 py-4 border-b border-amber-200/60">
+                <div className="px-5 py-4 border-b border-gray-200">
                   <p className="text-xs uppercase tracking-[0.18em] text-amber-700 font-medium mb-3">
                     {t('nav.browse', 'Browse')}
                   </p>
@@ -709,7 +709,7 @@ export default function Navbar() {
 
                 {/* Categories from API */}
                 {!isLoading && categories.length > 0 && (
-                  <div className="px-5 py-4 border-b border-amber-200/60">
+                  <div className="px-5 py-4 border-b border-gray-200">
                     <p className="text-xs uppercase tracking-[0.18em] text-amber-700 font-medium mb-3">
                       {t('navigation.categories', 'Categories')}
                     </p>

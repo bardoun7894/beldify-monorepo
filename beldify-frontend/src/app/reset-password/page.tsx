@@ -353,7 +353,7 @@ function ResetPasswordForm() {
                 className={`w-full ps-9 pe-10 py-3 border rounded-2xl text-gray-900 placeholder-gray-400 text-sm transition-colors duration-200 focus:outline-none focus:ring-2 ${
                   fieldErrors.password
                     ? 'border-rose-300 focus:border-rose-500 focus:ring-rose-500/20'
-                    : 'border-amber-200 focus:border-indigo-700 focus:ring-indigo-700/20'
+                    : 'border-gray-200 focus:border-indigo-700 focus:ring-indigo-700/20'
                 }`}
                 placeholder={t('auth.new_password_placeholder', 'Min. 8 characters')}
               />
@@ -416,7 +416,7 @@ function ResetPasswordForm() {
                 className={`w-full ps-9 pe-10 py-3 border rounded-2xl text-gray-900 placeholder-gray-400 text-sm transition-colors duration-200 focus:outline-none focus:ring-2 ${
                   fieldErrors.confirmation
                     ? 'border-rose-300 focus:border-rose-500 focus:ring-rose-500/20'
-                    : 'border-amber-200 focus:border-indigo-700 focus:ring-indigo-700/20'
+                    : 'border-gray-200 focus:border-indigo-700 focus:ring-indigo-700/20'
                 }`}
                 placeholder={t('auth.confirm_password_placeholder', 'Repeat your password')}
               />

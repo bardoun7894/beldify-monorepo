@@ -15,7 +15,7 @@ function fmtPrice(price: string | number): string {
 }
 
 function Skeleton({ className }: { className?: string }) {
-  return <div className={`animate-pulse bg-amber-100 rounded-xl ${className ?? ''}`} />;
+  return <div className={`animate-pulse bg-gray-100 rounded-xl ${className ?? ''}`} />;
 }
 
 export default function SellerProductsPage() {
@@ -73,7 +73,7 @@ export default function SellerProductsPage() {
 
       {/* Empty */}
       {!loading && !error && products.length === 0 && (
-        <div className="flex flex-col items-center justify-center py-20 text-center bg-white rounded-2xl ring-1 ring-amber-200">
+        <div className="flex flex-col items-center justify-center py-20 text-center bg-white rounded-2xl ring-1 ring-gray-200">
           <Package className="w-10 h-10 text-amber-300 mb-4" aria-hidden="true" />
           <p className="text-sm font-medium text-gray-700 mb-1">
             {t('seller.products.no_products', 'No products yet')}
@@ -93,11 +93,11 @@ export default function SellerProductsPage() {
 
       {/* Products list */}
       {!loading && !error && products.length > 0 && (
-        <div className="bg-white rounded-2xl ring-1 ring-amber-200 shadow-sm overflow-hidden">
+        <div className="bg-white rounded-2xl ring-1 ring-gray-200 shadow-sm overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
-                <tr className="text-left text-xs text-gray-400 uppercase tracking-wide bg-amber-50/50 border-b border-amber-100">
+                <tr className="text-left text-xs text-gray-400 uppercase tracking-wide bg-gray-50 border-b border-gray-100">
                   <th className="px-5 py-3 font-medium">
                     {t('seller.products.col_name', 'Product')}
                   </th>
@@ -115,11 +115,11 @@ export default function SellerProductsPage() {
                   </th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-amber-50">
+              <tbody className="divide-y divide-gray-100">
                 {products.map((product) => {
                   const stock = (product as any).quantity ?? (product as any).stock ?? '—';
                   return (
-                    <tr key={product.id} className="hover:bg-amber-50/30 transition-colors">
+                    <tr key={product.id} className="hover:bg-gray-50 transition-colors">
                       <td className="px-5 py-3.5 font-medium text-gray-900">
                         {product.name}
                       </td>

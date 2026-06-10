@@ -126,7 +126,7 @@ export const ReviewForm: React.FC<ReviewFormProps> = ({
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6 bg-white p-6 md:p-8 rounded-2xl shadow-sm ring-1 ring-amber-200 relative overflow-hidden">
+    <form onSubmit={handleSubmit} className="space-y-6 bg-white p-6 md:p-8 rounded-2xl shadow-sm ring-1 ring-gray-200 relative overflow-hidden">
       
       <div>
         <Label htmlFor="rating" className="block text-sm font-medium text-gray-700 mb-2">

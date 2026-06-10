@@ -88,12 +88,12 @@ export default function JewelryFields({ spec, compact = false }: JewelryFieldsPr
 
   return (
     <div
-      className="rounded-2xl ring-1 ring-amber-200 bg-white overflow-hidden"
+      className="rounded-2xl ring-1 ring-gray-200 bg-white overflow-hidden"
       dir={isRTL ? 'rtl' : 'ltr'}
       aria-label={isRTL ? 'مواصفات المجوهرات' : 'Jewelry specifications'}
     >
       {/* Header */}
-      <div className="flex items-center gap-2 px-5 py-3 border-b border-amber-100 bg-amber-50/60">
+      <div className="flex items-center gap-2 px-5 py-3 border-b border-gray-100 bg-gray-50">
         <Gem className="h-4 w-4 text-amber-600" aria-hidden />
         <p className="text-xs uppercase tracking-[0.18em] text-amber-700 font-medium">
           {isRTL ? 'مواصفات القطعة' : 'Piece Specifications'}
@@ -101,7 +101,7 @@ export default function JewelryFields({ spec, compact = false }: JewelryFieldsPr
       </div>
 
       {/* Fields */}
-      <dl className="divide-y divide-amber-100">
+      <dl className="divide-y divide-gray-100">
         {visibleFields.map(({ key, label, value }) => (
           <div key={key} className="flex items-center gap-4 px-5 py-3">
             <dt className="w-32 shrink-0 text-xs font-medium text-gray-500 uppercase tracking-wide">

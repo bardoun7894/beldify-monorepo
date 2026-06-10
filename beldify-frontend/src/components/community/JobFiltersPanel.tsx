@@ -126,7 +126,7 @@ function FilterContent({
         <select
           value={draft.category_id ?? ''}
           onChange={e => setDraft(prev => ({ ...prev, category_id: e.target.value || undefined }))}
-          className="w-full px-3 py-2.5 text-sm border border-amber-200 rounded-2xl focus:ring-2 focus:ring-indigo-700/30 focus:border-indigo-700 bg-white"
+          className="w-full px-3 py-2.5 text-sm border border-gray-200 rounded-2xl focus:ring-2 focus:ring-indigo-700/30 focus:border-indigo-700 bg-white"
         >
           {CATEGORIES.map(cat => (
             <option key={cat.value} value={cat.value}>
@@ -153,7 +153,7 @@ function FilterContent({
                 budget_min: e.target.value ? Number(e.target.value) : undefined,
               }))
             }
-            className="w-full px-3 py-2.5 text-sm border border-amber-200 rounded-2xl focus:ring-2 focus:ring-indigo-700/30 focus:border-indigo-700 bg-white"
+            className="w-full px-3 py-2.5 text-sm border border-gray-200 rounded-2xl focus:ring-2 focus:ring-indigo-700/30 focus:border-indigo-700 bg-white"
           />
           <span className="text-gray-400 text-xs shrink-0">–</span>
           <input
@@ -167,7 +167,7 @@ function FilterContent({
                 budget_max: e.target.value ? Number(e.target.value) : undefined,
               }))
             }
-            className="w-full px-3 py-2.5 text-sm border border-amber-200 rounded-2xl focus:ring-2 focus:ring-indigo-700/30 focus:border-indigo-700 bg-white"
+            className="w-full px-3 py-2.5 text-sm border border-gray-200 rounded-2xl focus:ring-2 focus:ring-indigo-700/30 focus:border-indigo-700 bg-white"
           />
         </div>
       </div>
@@ -192,7 +192,7 @@ function FilterContent({
                 className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-200 min-h-[36px] ${
                   active
                     ? 'bg-indigo-700 text-white'
-                    : 'ring-1 ring-amber-200 text-gray-600 hover:ring-amber-300 hover:text-gray-900 bg-white'
+                    : 'ring-1 ring-gray-200 text-gray-600 hover:ring-gray-300 hover:text-gray-900 bg-white'
                 }`}
               >
                 {t(s.labelKey, s.labelFallback)}
@@ -217,7 +217,7 @@ function FilterContent({
                 className={`px-2.5 py-1 rounded-full text-xs font-medium transition-all duration-200 min-h-[32px] ${
                   active
                     ? 'bg-amber-500 text-amber-950'
-                    : 'ring-1 ring-amber-200 text-gray-600 hover:ring-amber-300 bg-white'
+                    : 'ring-1 ring-gray-200 text-gray-600 hover:ring-gray-300 bg-white'
                 }`}
               >
                 {skill}
@@ -228,10 +228,10 @@ function FilterContent({
       </div>
 
       {/* Action row */}
-      <div className="flex items-center gap-2 pt-2 border-t border-amber-100">
+      <div className="flex items-center gap-2 pt-2 border-t border-gray-100">
         <button
           onClick={handleReset}
-          className="flex-1 px-3 py-2.5 rounded-full ring-1 ring-amber-200 text-xs font-medium text-gray-700 hover:ring-amber-300 transition-all duration-200 min-h-[44px]"
+          className="flex-1 px-3 py-2.5 rounded-full ring-1 ring-gray-200 text-xs font-medium text-gray-700 hover:ring-gray-300 transition-all duration-200 min-h-[44px]"
         >
           {t('common.reset', 'Reset')}
         </button>
@@ -266,7 +266,7 @@ export default function JobFiltersPanel({
   if (!mobile) {
     // Desktop sidebar — inline, no drawer chrome
     return (
-      <div className="bg-amber-50/40 rounded-2xl ring-1 ring-amber-200 p-5">
+      <div className="bg-gray-50 rounded-2xl ring-1 ring-gray-200 p-5">
         <FilterContent
           filters={filters}
           onFiltersChange={onFiltersChange}

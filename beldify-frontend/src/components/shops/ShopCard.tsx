@@ -48,7 +48,7 @@ export default function ShopCard({ shop }: ShopCardProps) {
   const logoUrl = shop.profile?.store_logo || shop.logo;
 
   return (
-    <div className="group relative bg-white rounded-2xl ring-1 ring-amber-200 hover:shadow-md transition-all duration-300 w-full overflow-hidden hover:-translate-y-0.5">
+    <div className="group relative bg-white rounded-2xl ring-1 ring-gray-200 hover:shadow-md transition-all duration-300 w-full overflow-hidden hover:-translate-y-0.5">
       {/* Status Badge */}
       {(shop.status === "suspended" || shop.status === 'suspended' || shop.status?.toString() === 'suspended') && (
         <div className="absolute top-2 start-2 bg-rose-50 text-rose-700 ring-1 ring-rose-200 text-xs font-medium px-2.5 py-1 rounded-full z-20 shadow-sm">

@@ -75,7 +75,7 @@ export default function MadeToOrderTimeline({ order }: MadeToOrderTimelineProps)
 
       {/* ── Quote details (shown when available) ── */}
       {(order.quote_amount || order.eta) && (
-        <div className="rounded-2xl ring-1 ring-amber-200 bg-white p-5">
+        <div className="rounded-2xl ring-1 ring-gray-200 bg-white p-5">
           <p className="text-xs uppercase tracking-[0.18em] text-amber-700 font-medium mb-4">
             {isRTL ? 'تفاصيل العرض' : 'Quote Details'}
           </p>
@@ -121,8 +121,8 @@ export default function MadeToOrderTimeline({ order }: MadeToOrderTimelineProps)
 
       {/* ── Visual lifecycle stepper ── */}
       {!isCancelled && (
-        <div className="rounded-2xl ring-1 ring-amber-200 bg-white overflow-hidden">
-          <div className="px-5 py-3 border-b border-amber-100">
+        <div className="rounded-2xl ring-1 ring-gray-200 bg-white overflow-hidden">
+          <div className="px-5 py-3 border-b border-gray-100">
             <p className="text-xs uppercase tracking-[0.18em] text-amber-700 font-medium">
               {isRTL ? 'مراحل الطلب' : 'Order Progress'}
             </p>
@@ -143,7 +143,7 @@ export default function MadeToOrderTimeline({ order }: MadeToOrderTimelineProps)
                       : <Circle className="h-5 w-5 text-gray-200" aria-hidden />}
                   </div>
 
-                  <div className="flex-1 min-w-0 pb-4 border-b border-amber-100 last:border-0 last:pb-0">
+                  <div className="flex-1 min-w-0 pb-4 border-b border-gray-100 last:border-0 last:pb-0">
                     <div className="flex items-center gap-2 flex-wrap">
                       <span className={cn(
                         'text-sm font-medium',
@@ -186,13 +186,13 @@ export default function MadeToOrderTimeline({ order }: MadeToOrderTimelineProps)
 
       {/* ── Full audit log ── */}
       {progress.length > 0 && (
-        <div className="rounded-2xl ring-1 ring-amber-200 bg-white overflow-hidden">
-          <div className="px-5 py-3 border-b border-amber-100">
+        <div className="rounded-2xl ring-1 ring-gray-200 bg-white overflow-hidden">
+          <div className="px-5 py-3 border-b border-gray-100">
             <p className="text-xs uppercase tracking-[0.18em] text-amber-700 font-medium">
               {isRTL ? 'سجل الأحداث' : 'Activity Log'}
             </p>
           </div>
-          <ol className="divide-y divide-amber-100" aria-label={isRTL ? 'سجل الأحداث' : 'Activity log'}>
+          <ol className="divide-y divide-gray-100" aria-label={isRTL ? 'سجل الأحداث' : 'Activity log'}>
             {[...progress].reverse().map(entry => {
               const meta = STATUS_META[entry.status];
               return (

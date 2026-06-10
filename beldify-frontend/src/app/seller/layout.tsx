@@ -118,7 +118,7 @@ export default function SellerLayout({ children }: { children: React.ReactNode }
   if (!isSeller) {
     return (
       <div
-        className="min-h-screen bg-amber-50/30 flex items-center justify-center"
+        className="min-h-screen bg-background flex items-center justify-center"
         dir={isRTL ? 'rtl' : 'ltr'}
       >
         <div className="max-w-sm w-full mx-auto px-6 py-16 flex flex-col items-center text-center">
@@ -154,11 +154,11 @@ export default function SellerLayout({ children }: { children: React.ReactNode }
 
   return (
     <div
-      className="min-h-screen bg-amber-50/20"
+      className="min-h-screen bg-background"
       dir={isRTL ? 'rtl' : 'ltr'}
     >
       {/* ── Top header bar ─────────────────────────────────────────────────── */}
-      <header className="bg-white border-b border-amber-200 sticky top-0 z-30">
+      <header className="bg-white border-b border-gray-200 sticky top-0 z-30">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 flex items-center justify-between h-14">
           <Link
             href="/seller"
@@ -220,7 +220,7 @@ export default function SellerLayout({ children }: { children: React.ReactNode }
         {/* ── Mobile tab bar ───────────────────────────────────────────────── */}
         <nav
           aria-label={t('seller.nav.mobile_aria_label', 'Seller navigation mobile')}
-          className="md:hidden fixed bottom-0 inset-x-0 z-30 bg-white border-t border-amber-200 flex justify-around px-2 py-1"
+          className="md:hidden fixed bottom-0 inset-x-0 z-30 bg-white border-t border-gray-200 flex justify-around px-2 py-1"
         >
           {navItems.slice(0, 5).map(({ label, href, icon: Icon }) => {
             const isActive =

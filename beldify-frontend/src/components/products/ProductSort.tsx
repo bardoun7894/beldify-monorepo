@@ -57,7 +57,7 @@ export default function ProductSort({ value, onChange }: ProductSortProps) {
 
       <Menu as="div" className="relative">
         <Menu.Button
-          className="inline-flex items-center gap-1.5 ps-3 pe-3 py-2 text-sm font-medium text-gray-700 bg-white border border-amber-200 rounded-full hover:border-amber-300 hover:bg-amber-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30 transition-colors"
+          className="inline-flex items-center gap-1.5 ps-3 pe-3 py-2 text-sm font-medium text-gray-700 bg-white border border-amber-200 rounded-full hover:border-gray-300 hover:bg-amber-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30 transition-colors"
           aria-label={t('sort.aria_label', 'Sort products')}
         >
           <Icon className="h-4 w-4 text-indigo-700 shrink-0" aria-hidden="true" />
@@ -74,7 +74,7 @@ export default function ProductSort({ value, onChange }: ProductSortProps) {
           leaveFrom="transform opacity-100 scale-100"
           leaveTo="transform opacity-0 scale-95"
         >
-          <Menu.Items className="absolute end-0 z-50 mt-2 w-52 origin-top-right rounded-2xl bg-white shadow-atlas-lg ring-1 ring-amber-200 focus:outline-none">
+          <Menu.Items className="absolute end-0 z-50 mt-2 w-52 origin-top-right rounded-2xl bg-white shadow-atlas-lg ring-1 ring-gray-200 focus:outline-none">
             <div className="py-1.5">
               {sortOptions.map((option) => {
                 const OptionIcon = option.icon;

@@ -81,7 +81,7 @@ function MarketCard({ product, isArabicScript }: MarketCardProps) {
   const href = `/products/${product.slug || product.id}`;
 
   return (
-    <article className="group relative overflow-hidden rounded-2xl bg-white ring-1 ring-amber-200/50 shadow-atlas-sm transition-all duration-200 ease-[cubic-bezier(0.33,1,0.68,1)] hover:-translate-y-0.5 hover:shadow-atlas-md">
+    <article className="group relative overflow-hidden rounded-2xl bg-white ring-1 ring-gray-200 shadow-atlas-sm transition-all duration-200 ease-[cubic-bezier(0.33,1,0.68,1)] hover:-translate-y-0.5 hover:shadow-atlas-md">
       <Link
         href={href}
         className="block focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/40 focus-visible:ring-offset-2 rounded-2xl"
@@ -135,7 +135,7 @@ function MarketCard({ product, isArabicScript }: MarketCardProps) {
 
 function SkeletonCard() {
   return (
-    <div className="animate-pulse overflow-hidden rounded-2xl bg-white ring-1 ring-amber-100 shadow-atlas-sm">
+    <div className="animate-pulse overflow-hidden rounded-2xl bg-white ring-1 ring-gray-100 shadow-atlas-sm">
       <div className="aspect-[3/4] bg-gray-100" />
       <div className="p-2.5 space-y-2">
         <div className="h-3 w-3/4 rounded bg-gray-200" />

@@ -35,22 +35,22 @@ function OrderConfirmationSkeleton() {
       <div className="max-w-7xl mx-auto px-6">
         <div className="max-w-3xl mx-auto space-y-4">
           {/* Success hero skeleton */}
-          <div className="bg-white rounded-2xl shadow-atlas-sm ring-1 ring-amber-200 p-10 flex flex-col items-center gap-5">
-            <div className="w-20 h-20 rounded-full bg-amber-100/70 animate-pulse" />
-            <div className="h-8 w-72 rounded-2xl bg-amber-100/70 animate-pulse" />
-            <div className="h-4 w-56 rounded-2xl bg-amber-100/70 animate-pulse" />
-            <div className="h-4 w-40 rounded-2xl bg-amber-100/70 animate-pulse" />
+          <div className="bg-white rounded-2xl shadow-atlas-sm ring-1 ring-gray-200 p-10 flex flex-col items-center gap-5">
+            <div className="w-20 h-20 rounded-full bg-gray-100 animate-pulse" />
+            <div className="h-8 w-72 rounded-2xl bg-gray-100 animate-pulse" />
+            <div className="h-4 w-56 rounded-2xl bg-gray-100 animate-pulse" />
+            <div className="h-4 w-40 rounded-2xl bg-gray-100 animate-pulse" />
           </div>
           {/* Details skeleton */}
-          <div className="bg-white rounded-2xl shadow-atlas-sm ring-1 ring-amber-200 p-6 space-y-3">
+          <div className="bg-white rounded-2xl shadow-atlas-sm ring-1 ring-gray-200 p-6 space-y-3">
             {[1, 2, 3].map((n) => (
               <div key={n} className="flex gap-3 items-center">
-                <div className="w-14 h-14 rounded-xl bg-amber-100/70 animate-pulse flex-shrink-0" />
+                <div className="w-14 h-14 rounded-xl bg-gray-100 animate-pulse flex-shrink-0" />
                 <div className="flex-1 space-y-2">
-                  <div className="h-3.5 w-3/4 rounded-full bg-amber-100/70 animate-pulse" />
-                  <div className="h-3 w-1/3 rounded-full bg-amber-100/70 animate-pulse" />
+                  <div className="h-3.5 w-3/4 rounded-full bg-gray-100 animate-pulse" />
+                  <div className="h-3 w-1/3 rounded-full bg-gray-100 animate-pulse" />
                 </div>
-                <div className="h-4 w-20 rounded-full bg-amber-100/70 animate-pulse" />
+                <div className="h-4 w-20 rounded-full bg-gray-100 animate-pulse" />
               </div>
             ))}
           </div>
@@ -135,7 +135,7 @@ export default function OrderConfirmationPage() {
       <div className="min-h-screen bg-canvas py-12">
         <div className="max-w-7xl mx-auto px-6">
           <div className="max-w-2xl mx-auto text-center">
-            <div className="bg-white rounded-2xl shadow-atlas-sm ring-1 ring-amber-200 p-10">
+            <div className="bg-white rounded-2xl shadow-atlas-sm ring-1 ring-gray-200 p-10">
               <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-amber-50 ring-1 ring-amber-200 mb-6">
                 <Package className="w-8 h-8 text-amber-500" aria-hidden="true" />
               </div>
@@ -216,7 +216,7 @@ export default function OrderConfirmationPage() {
         <div className="max-w-3xl mx-auto space-y-5">
 
           {/* ── Success hero card ─────────────────────────────────────────── */}
-          <div className="bg-white rounded-2xl shadow-atlas-sm ring-1 ring-amber-200 p-8 sm:p-10 text-center">
+          <div className="bg-white rounded-2xl shadow-atlas-sm ring-1 ring-gray-200 p-8 sm:p-10 text-center">
             {/* Animated success ring */}
             <div className="flex justify-center mb-6">
               <div className="relative">
@@ -266,7 +266,7 @@ export default function OrderConfirmationPage() {
           </div>
 
           {/* ── Shipping address card ────────────────────────────────────── */}
-          <div className="bg-white rounded-2xl shadow-atlas-sm ring-1 ring-amber-200 p-6">
+          <div className="bg-white rounded-2xl shadow-atlas-sm ring-1 ring-gray-200 p-6">
             <div className="flex items-center gap-2 mb-4">
               <div className="w-8 h-8 rounded-full bg-amber-50 ring-1 ring-amber-200 flex items-center justify-center flex-shrink-0">
                 <MapPin className="w-4 h-4 text-amber-600" aria-hidden="true" />
@@ -294,7 +294,7 @@ export default function OrderConfirmationPage() {
           </div>
 
           {/* ── Order items card ─────────────────────────────────────────── */}
-          <div className="bg-white rounded-2xl shadow-atlas-sm ring-1 ring-amber-200 p-6">
+          <div className="bg-white rounded-2xl shadow-atlas-sm ring-1 ring-gray-200 p-6">
             <h2
               className="text-base font-semibold text-gray-900 mb-5"
               style={playfair}
@@ -347,7 +347,7 @@ export default function OrderConfirmationPage() {
             </ul>
 
             {/* Totals */}
-            <div className="border-t border-amber-100 pt-4 space-y-2">
+            <div className="border-t border-gray-100 pt-4 space-y-2">
               <div className="flex justify-between text-sm">
                 <span className="text-gray-500">
                   {t('order_confirmation.summary.subtotal', 'Subtotal')}
@@ -380,7 +380,7 @@ export default function OrderConfirmationPage() {
                   </span>
                 </div>
               )}
-              <div className="flex justify-between pt-3 mt-2 border-t border-amber-200">
+              <div className="flex justify-between pt-3 mt-2 border-t border-gray-200">
                 <span className="font-semibold text-gray-900 text-sm">
                   {t('order_confirmation.summary.total', 'Total')}
                 </span>

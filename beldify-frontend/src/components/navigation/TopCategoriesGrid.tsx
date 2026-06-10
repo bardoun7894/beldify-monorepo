@@ -52,8 +52,8 @@ const TopCategoriesGrid: React.FC<TopCategoriesGridProps> = ({
         <div className="grid grid-cols-3 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-12 gap-4">
           {Array.from({ length: maxCategories }).map((_, index) => (
             <div key={index} className="flex flex-col items-center gap-2">
-              <div className="w-16 h-16 md:w-20 md:h-20 lg:w-24 lg:h-24 bg-amber-100/70 rounded-full animate-pulse" />
-              <div className="h-3 w-12 bg-amber-100/70 rounded-full animate-pulse" />
+              <div className="w-16 h-16 md:w-20 md:h-20 lg:w-24 lg:h-24 bg-gray-100 rounded-full animate-pulse" />
+              <div className="h-3 w-12 bg-gray-100 rounded-full animate-pulse" />
             </div>
           ))}
         </div>
@@ -81,7 +81,7 @@ const TopCategoriesGrid: React.FC<TopCategoriesGridProps> = ({
             className="group flex flex-col items-center cursor-pointer focus-visible:outline-none"
           >
             {/* Circular Image Container — Atlas: amber-200 ring on hover */}
-            <div className="relative w-16 h-16 md:w-20 md:h-20 lg:w-24 lg:h-24 overflow-hidden rounded-full border-2 border-amber-100 shadow-atlas-sm group-hover:border-amber-300 group-hover:shadow-atlas-md transition-all duration-200 group-hover:scale-105 focus-visible:ring-2 focus-visible:ring-indigo-700">
+            <div className="relative w-16 h-16 md:w-20 md:h-20 lg:w-24 lg:h-24 overflow-hidden rounded-full border-2 border-gray-100 shadow-atlas-sm group-hover:border-gray-300 group-hover:shadow-atlas-md transition-all duration-200 group-hover:scale-105 focus-visible:ring-2 focus-visible:ring-indigo-700">
               <Image
                 src={category.image || '/placeholder.png'}
                 alt={['ar', 'ma'].includes(i18n.language) ? category.name_ar : category.name_en}

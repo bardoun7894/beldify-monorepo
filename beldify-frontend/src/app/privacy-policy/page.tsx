@@ -224,7 +224,7 @@ export default function PrivacyPolicyPage() {
             </div>
 
             {/* Atlas amber-50 callout panel */}
-            <div className="mt-12 rounded-2xl bg-amber-50 ring-1 ring-amber-200/60 p-6 sm:p-8">
+            <div className="mt-12 rounded-2xl bg-amber-50 ring-1 ring-amber-200 p-6 sm:p-8">
               <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                 <div className="flex gap-4">
                   <ShieldCheck className="h-6 w-6 text-amber-600 flex-shrink-0 mt-0.5" />

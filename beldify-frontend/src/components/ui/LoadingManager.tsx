@@ -47,9 +47,9 @@ const LoadingManager: React.FC<LoadingManagerProps> = ({
       },
       product: {
         gradient: 'from-amber-600 to-orange-600',
-        bgGradient: 'from-amber-50 to-white',
-        border: 'border-amber-100',
-        spinner: 'border-amber-100 border-t-amber-600',
+        bgGradient: 'from-gray-50 to-white',
+        border: 'border-gray-100',
+        spinner: 'border-gray-100 border-t-amber-600',
         text: 'from-amber-600 to-orange-600',
       },
     };

@@ -132,7 +132,7 @@ export default function ContactPage() {
           {rateLimited && (
             <div
               role="alert"
-              className="mb-6 rounded-2xl bg-amber-50 border border-amber-300 px-4 py-3 text-sm text-amber-800"
+              className="mb-6 rounded-2xl bg-amber-50 border border-gray-300 px-4 py-3 text-sm text-amber-800"
             >
               {t(
                 'contact.form.rate_limited',
@@ -166,7 +166,7 @@ export default function ContactPage() {
                   id="firstName"
                   type="text"
                   autoComplete="given-name"
-                  className="block w-full rounded-2xl border border-amber-200 bg-white px-4 py-2.5 text-sm text-gray-900 placeholder-gray-400 shadow-sm transition focus:border-amber-500 focus:outline-none focus:ring-2 focus:ring-amber-500/20"
+                  className="block w-full rounded-2xl border border-gray-200 bg-white px-4 py-2.5 text-sm text-gray-900 placeholder-gray-400 shadow-sm transition focus:border-amber-500 focus:outline-none focus:ring-2 focus:ring-amber-500/20"
                 />
                 {errors.firstName && (
                   <p className="mt-1 text-xs text-rose-700">{errors.firstName.message as string}</p>
@@ -183,7 +183,7 @@ export default function ContactPage() {
                   id="lastName"
                   type="text"
                   autoComplete="family-name"
-                  className="block w-full rounded-2xl border border-amber-200 bg-white px-4 py-2.5 text-sm text-gray-900 placeholder-gray-400 shadow-sm transition focus:border-amber-500 focus:outline-none focus:ring-2 focus:ring-amber-500/20"
+                  className="block w-full rounded-2xl border border-gray-200 bg-white px-4 py-2.5 text-sm text-gray-900 placeholder-gray-400 shadow-sm transition focus:border-amber-500 focus:outline-none focus:ring-2 focus:ring-amber-500/20"
                 />
                 {errors.lastName && (
                   <p className="mt-1 text-xs text-rose-700">{errors.lastName.message as string}</p>
@@ -206,7 +206,7 @@ export default function ContactPage() {
                 id="email"
                 type="email"
                 autoComplete="email"
-                className="block w-full rounded-2xl border border-amber-200 bg-white px-4 py-2.5 text-sm text-gray-900 placeholder-gray-400 shadow-sm transition focus:border-amber-500 focus:outline-none focus:ring-2 focus:ring-amber-500/20"
+                className="block w-full rounded-2xl border border-gray-200 bg-white px-4 py-2.5 text-sm text-gray-900 placeholder-gray-400 shadow-sm transition focus:border-amber-500 focus:outline-none focus:ring-2 focus:ring-amber-500/20"
               />
               {errors.email && (
                 <p className="mt-1 text-xs text-rose-700">{errors.email.message as string}</p>
@@ -223,7 +223,7 @@ export default function ContactPage() {
                 type="tel"
                 autoComplete="tel"
                 placeholder={t('contact.form.phonePlaceholder')}
-                className="block w-full rounded-2xl border border-amber-200 bg-white px-4 py-2.5 text-sm text-gray-900 placeholder-gray-400 shadow-sm transition focus:border-amber-500 focus:outline-none focus:ring-2 focus:ring-amber-500/20"
+                className="block w-full rounded-2xl border border-gray-200 bg-white px-4 py-2.5 text-sm text-gray-900 placeholder-gray-400 shadow-sm transition focus:border-amber-500 focus:outline-none focus:ring-2 focus:ring-amber-500/20"
               />
             </div>
 
@@ -237,7 +237,7 @@ export default function ContactPage() {
                 })}
                 id="subject"
                 type="text"
-                className="block w-full rounded-2xl border border-amber-200 bg-white px-4 py-2.5 text-sm text-gray-900 placeholder-gray-400 shadow-sm transition focus:border-amber-500 focus:outline-none focus:ring-2 focus:ring-amber-500/20"
+                className="block w-full rounded-2xl border border-gray-200 bg-white px-4 py-2.5 text-sm text-gray-900 placeholder-gray-400 shadow-sm transition focus:border-amber-500 focus:outline-none focus:ring-2 focus:ring-amber-500/20"
               />
               {errors.subject && (
                 <p className="mt-1 text-xs text-rose-700">{errors.subject.message as string}</p>
@@ -261,7 +261,7 @@ export default function ContactPage() {
                 })}
                 id="message"
                 rows={5}
-                className="block w-full rounded-2xl border border-amber-200 bg-white px-4 py-2.5 text-sm text-gray-900 placeholder-gray-400 shadow-sm transition focus:border-amber-500 focus:outline-none focus:ring-2 focus:ring-amber-500/20 resize-none"
+                className="block w-full rounded-2xl border border-gray-200 bg-white px-4 py-2.5 text-sm text-gray-900 placeholder-gray-400 shadow-sm transition focus:border-amber-500 focus:outline-none focus:ring-2 focus:ring-amber-500/20 resize-none"
               />
               {errors.message && (
                 <p className="mt-1 text-xs text-rose-700">{errors.message.message as string}</p>
@@ -288,7 +288,7 @@ export default function ContactPage() {
               href={href}
               target={href.startsWith('http') ? '_blank' : undefined}
               rel={href.startsWith('http') ? 'noopener noreferrer' : undefined}
-              className="group flex items-start gap-4 rounded-2xl bg-white px-5 py-5 ring-1 ring-amber-200/60 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
+              className="group flex items-start gap-4 rounded-2xl bg-white px-5 py-5 ring-1 ring-gray-200 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
             >
               <span className="mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-amber-100 ring-1 ring-amber-200 text-amber-700 transition group-hover:bg-amber-200">
                 <Icon className="h-5 w-5" strokeWidth={1.8} />

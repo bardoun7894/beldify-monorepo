@@ -90,7 +90,7 @@ export default function AboutPage() {
       </section>
 
       {/* Stats row */}
-      <section className="border-b border-amber-200/60 bg-white/70 backdrop-blur">
+      <section className="border-b border-gray-200 bg-white/70 backdrop-blur">
         <div className="mx-auto max-w-7xl px-6 py-8 grid grid-cols-3 gap-6 text-center">
           {stats.map(({ value, label }) => (
             <div key={label} className="flex flex-col items-center gap-1">
@@ -132,7 +132,7 @@ export default function AboutPage() {
             </div>
             {/* Image col */}
             <div
-              className={`relative aspect-[4/3] overflow-hidden rounded-2xl ring-1 ring-amber-200/60 shadow-sm${
+              className={`relative aspect-[4/3] overflow-hidden rounded-2xl ring-1 ring-gray-200 shadow-sm${
                 reverse ? ' lg:[direction:ltr]' : ''
               }`}
             >

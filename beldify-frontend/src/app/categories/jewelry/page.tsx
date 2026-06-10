@@ -161,7 +161,7 @@ export default function JewelryCategoryPage() {
               'inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium ring-1 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30',
               showFilters
                 ? 'bg-indigo-700 text-white ring-indigo-700'
-                : 'bg-white text-gray-700 ring-amber-200 hover:ring-indigo-300'
+                : 'bg-white text-gray-700 ring-gray-200 hover:ring-indigo-300'
             )}
             aria-expanded={showFilters}
             aria-controls="jewelry-filters"
@@ -191,7 +191,7 @@ export default function JewelryCategoryPage() {
         {showFilters && (
           <div
             id="jewelry-filters"
-            className="rounded-2xl ring-1 ring-amber-200 bg-white p-5 mb-6 space-y-5"
+            className="rounded-2xl ring-1 ring-gray-200 bg-white p-5 mb-6 space-y-5"
           >
             {/* Material filter */}
             <div>
@@ -207,7 +207,7 @@ export default function JewelryCategoryPage() {
                       'rounded-full px-3.5 py-1.5 text-sm font-medium ring-1 transition-all capitalize focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30',
                       materialFilter === mat
                         ? 'bg-indigo-700 text-white ring-indigo-700'
-                        : 'bg-white text-gray-700 ring-amber-200 hover:ring-indigo-300'
+                        : 'bg-white text-gray-700 ring-gray-200 hover:ring-indigo-300'
                     )}
                     aria-pressed={materialFilter === mat}
                   >
@@ -231,7 +231,7 @@ export default function JewelryCategoryPage() {
                       'rounded-full px-3.5 py-1.5 text-sm font-medium ring-1 transition-all capitalize focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30',
                       gemstoneFilter === gem
                         ? 'bg-indigo-700 text-white ring-indigo-700'
-                        : 'bg-white text-gray-700 ring-amber-200 hover:ring-indigo-300'
+                        : 'bg-white text-gray-700 ring-gray-200 hover:ring-indigo-300'
                     )}
                     aria-pressed={gemstoneFilter === gem}
                   >
@@ -247,11 +247,11 @@ export default function JewelryCategoryPage() {
         {isLoading && (
           <ul className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4" aria-label={isRTL ? 'جارٍ التحميل' : 'Loading'}>
             {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
-              <li key={i} className="rounded-2xl ring-1 ring-amber-100 overflow-hidden animate-pulse">
-                <div className="aspect-square bg-amber-100/70" />
+              <li key={i} className="rounded-2xl ring-1 ring-gray-100 overflow-hidden animate-pulse">
+                <div className="aspect-square bg-gray-100" />
                 <div className="p-3 space-y-2">
-                  <div className="h-3 bg-amber-100/70 rounded-full w-4/5" />
-                  <div className="h-3 bg-amber-100/70 rounded-full w-1/2" />
+                  <div className="h-3 bg-gray-100 rounded-full w-4/5" />
+                  <div className="h-3 bg-gray-100 rounded-full w-1/2" />
                 </div>
               </li>
             ))}
@@ -297,7 +297,7 @@ export default function JewelryCategoryPage() {
                 <li key={product.id}>
                   <Link
                     href={`/products/${product.id}`}
-                    className="group block rounded-2xl ring-1 ring-amber-200 bg-white overflow-hidden hover:ring-indigo-300 hover:shadow-md transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30"
+                    className="group block rounded-2xl ring-1 ring-gray-200 bg-white overflow-hidden hover:ring-indigo-300 hover:shadow-md transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30"
                     aria-label={getDisplayName(product)}
                   >
                     {/* Product image */}
@@ -320,7 +320,7 @@ export default function JewelryCategoryPage() {
                       )}
                       {/* Material badge */}
                       {product.material && (
-                        <span className="absolute top-2 start-2 rounded-full bg-white/90 backdrop-blur-sm px-2 py-0.5 text-[10px] font-semibold text-amber-800 ring-1 ring-amber-200 capitalize">
+                        <span className="absolute top-2 start-2 rounded-full bg-white/90 backdrop-blur-sm px-2 py-0.5 text-[10px] font-semibold text-amber-800 ring-1 ring-gray-200 capitalize">
                           {isRTL ? (MATERIAL_LABELS[product.material] ?? product.material) : product.material}
                         </span>
                       )}

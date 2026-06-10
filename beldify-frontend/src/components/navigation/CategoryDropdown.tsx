@@ -77,7 +77,7 @@ export default function CategoryDropdown({ categories, isMobile = false }: Categ
   // --- Mobile Layout ---
   if (isMobile) {
     return (
-      <div className="space-y-1 border-b border-amber-200/60 pb-4 mb-4">
+      <div className="space-y-1 border-b border-gray-200 pb-4 mb-4">
         <h3 className="px-3 text-xs font-semibold uppercase text-gray-500 tracking-wider mb-2">
           {t('navigation.categories')}
         </h3>
@@ -114,7 +114,7 @@ export default function CategoryDropdown({ categories, isMobile = false }: Categ
                   animate={{ height: 'auto', opacity: 1 }}
                   exit={{ height: 0, opacity: 0 }}
                   transition={{ duration: 0.2 }}
-                  className="overflow-hidden ps-6 ms-3 border-s border-amber-200/60"
+                  className="overflow-hidden ps-6 ms-3 border-s border-gray-200"
                 >
                   <ul className="py-2 space-y-1">
                      {category.subCategories?.map((subcat) => (
@@ -141,7 +141,7 @@ export default function CategoryDropdown({ categories, isMobile = false }: Categ
                   </ul>
                   {/* Add Featured Products to Mobile Accordion */}
                   {category.featuredProducts && category.featuredProducts.length > 0 && (
-                    <div className="mt-4 pt-3 border-t border-amber-200/60">
+                    <div className="mt-4 pt-3 border-t border-gray-200">
                        <h4 className="px-2 text-xs font-semibold text-amber-700 mb-2">
                         {t('navigation.featuredProducts')}
                       </h4>
@@ -207,12 +207,12 @@ export default function CategoryDropdown({ categories, isMobile = false }: Categ
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -5 }}
             transition={{ duration: 0.15 }} // Faster transition
-            className="absolute top-full start-0 mt-1 w-auto max-w-[calc(100vw-2rem)] sm:max-w-3xl md:max-w-4xl lg:max-w-6xl bg-white shadow-lg rounded-b-2xl z-50 border-t border-amber-200/60 overflow-hidden"
+            className="absolute top-full start-0 mt-1 w-auto max-w-[calc(100vw-2rem)] sm:max-w-3xl md:max-w-4xl lg:max-w-6xl bg-white shadow-lg rounded-b-2xl z-50 border-t border-gray-200 overflow-hidden"
           >
             {/* Panel Content */}
             <div className="flex p-6 gap-6 md:gap-8">
               {/* Categories List */}
-              <div className="w-full sm:w-1/3 lg:w-1/4 border-e border-amber-200/60 pe-4 lg:pe-6 flex-shrink-0">
+              <div className="w-full sm:w-1/3 lg:w-1/4 border-e border-gray-200 pe-4 lg:pe-6 flex-shrink-0">
             <ul className="space-y-1">
               {categories.map((category) => (
                 <li key={category.id}>
@@ -313,7 +313,7 @@ export default function CategoryDropdown({ categories, isMobile = false }: Categ
         </div>
 
         {/* Footer Area */}
-        <div className="bg-gradient-to-r from-indigo-50 to-amber-50 p-4 rounded-b-2xl border-t border-amber-200/60">
+        <div className="bg-gradient-to-r from-indigo-50 to-gray-50 p-4 rounded-b-2xl border-t border-gray-200">
           <div className="flex items-center justify-end">
             <Link
               href="/categories"

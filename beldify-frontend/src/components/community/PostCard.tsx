@@ -166,7 +166,7 @@ export default function PostCard({ post, isUserPost = false }: PostCardProps) {
   return (
     <div className="relative h-full">
     <Link href={`/community/posts/${post.id}`} className="block group focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700 rounded-2xl">
-      <article className="bg-white rounded-2xl ring-1 ring-amber-200 group-hover:ring-indigo-300 group-hover:-translate-y-0.5 group-hover:shadow-md transition-all duration-200 overflow-hidden h-full flex flex-col">
+      <article className="bg-white rounded-2xl ring-1 ring-gray-200 group-hover:ring-indigo-300 group-hover:-translate-y-0.5 group-hover:shadow-md transition-all duration-200 overflow-hidden h-full flex flex-col">
         {/* ── Image band ── */}
         <div className="relative h-44 bg-amber-50 shrink-0 overflow-hidden">
           {post.images && post.images.length > 0 && getImageSrc(post.images[0]) && !coverImgError ? (
@@ -178,7 +178,7 @@ export default function PostCard({ post, isUserPost = false }: PostCardProps) {
               loading="lazy"
             />
           ) : (
-            <div className="w-full h-full flex flex-col items-center justify-center gap-2 bg-gradient-to-br from-amber-50 to-indigo-50">
+            <div className="w-full h-full flex flex-col items-center justify-center gap-2 bg-gradient-to-br from-gray-50 to-indigo-50">
               <ImageIcon className="h-8 w-8 text-amber-200" />
             </div>
           )}
@@ -275,20 +275,20 @@ export default function PostCard({ post, isUserPost = false }: PostCardProps) {
           </div>
 
           {/* Footer — buyer + proposals + time */}
-          <div className="flex items-center justify-between pt-2.5 border-t border-amber-100 mt-1 gap-2">
+          <div className="flex items-center justify-between pt-2.5 border-t border-gray-100 mt-1 gap-2">
             {/* Buyer avatar + name */}
             <div className="flex items-center gap-1.5 min-w-0">
               {buyerAvatar && !buyerImgError ? (
                 <img
                   src={buyerAvatar}
                   alt={buyerName}
-                  className="w-6 h-6 rounded-full ring-1 ring-amber-200 object-cover shrink-0"
+                  className="w-6 h-6 rounded-full ring-1 ring-gray-200 object-cover shrink-0"
                   loading="lazy"
                   onError={() => setBuyerImgError(true)}
                 />
               ) : (
                 <div
-                  className={`w-6 h-6 rounded-full bg-gradient-to-br ${nameToGradient(buyerName)} ring-1 ring-amber-200 flex items-center justify-center shrink-0`}
+                  className={`w-6 h-6 rounded-full bg-gradient-to-br ${nameToGradient(buyerName)} ring-1 ring-gray-200 flex items-center justify-center shrink-0`}
                 >
                   <span className="text-[9px] font-bold text-white">
                     {getInitials(buyerName)}

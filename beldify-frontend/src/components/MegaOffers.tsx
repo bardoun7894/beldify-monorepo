@@ -32,9 +32,9 @@ function ProductCard({ product, locale }: { product: FeaturedProduct; locale: st
       href={`/products/${product.slug}?locale=${locale}`}
       className="group/product block"
     >
-      <div className="bg-white rounded-2xl overflow-hidden transition-all duration-200 ease-[cubic-bezier(0.33,1,0.68,1)] hover:-translate-y-0.5 shadow-atlas-sm hover:shadow-atlas-md ring-1 ring-amber-200/50">
+      <div className="bg-white rounded-2xl overflow-hidden transition-all duration-200 ease-[cubic-bezier(0.33,1,0.68,1)] hover:-translate-y-0.5 shadow-atlas-sm hover:shadow-atlas-md ring-1 ring-gray-200">
         {/* Product Image */}
-        <div className="relative h-32 md:h-40 overflow-hidden bg-amber-50/40">
+        <div className="relative h-32 md:h-40 overflow-hidden bg-gray-50">
           <Image
             src={imgSrc}
             alt={displayName}
@@ -101,9 +101,9 @@ function CollectionCard({ collection, locale }: { collection: MegaOfferCollectio
   const daysLeft = getDaysRemaining(collection.end_date);
 
   return (
-    <div className="bg-white rounded-2xl transition-all duration-200 ease-[cubic-bezier(0.33,1,0.68,1)] hover:-translate-y-0.5 overflow-hidden shadow-atlas-sm hover:shadow-atlas-md ring-1 ring-amber-200/50">
+    <div className="bg-white rounded-2xl transition-all duration-200 ease-[cubic-bezier(0.33,1,0.68,1)] hover:-translate-y-0.5 overflow-hidden shadow-atlas-sm hover:shadow-atlas-md ring-1 ring-gray-200">
       {/* Collection Header */}
-      <div className="relative px-6 py-5 bg-amber-50/60 border-b border-amber-200/40">
+      <div className="relative px-6 py-5 bg-gray-50 border-b border-gray-200">
         <div className="flex items-start justify-between gap-3">
           <div className="flex-1 min-w-0">
             <h3
@@ -135,7 +135,7 @@ function CollectionCard({ collection, locale }: { collection: MegaOfferCollectio
         </div>
 
         {/* Footer actions */}
-        <div className="mt-5 pt-4 border-t border-amber-100 flex items-center justify-between">
+        <div className="mt-5 pt-4 border-t border-gray-100 flex items-center justify-between">
           {collection.featured_products && collection.featured_products.length > 4 && (
             <span className="text-sm font-medium text-amber-700">
               +{collection.featured_products.length - 4} {t('megaOffers.moreItems', 'more items')}
@@ -208,15 +208,15 @@ const MegaOffers: React.FC<MegaOffersProps> = ({ megaOffers }) => {
         <div className="mx-auto max-w-7xl px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {[1, 2].map((i) => (
-              <div key={i} className="rounded-2xl overflow-hidden ring-1 ring-amber-200/50">
-                <div className="h-24 bg-amber-100/70 animate-pulse" />
+              <div key={i} className="rounded-2xl overflow-hidden ring-1 ring-gray-200">
+                <div className="h-24 bg-gray-100 animate-pulse" />
                 <div className="p-5 grid grid-cols-2 md:grid-cols-4 gap-3">
                   {[1, 2, 3, 4].map((j) => (
                     <div key={j} className="rounded-2xl overflow-hidden">
-                      <div className="h-36 bg-amber-100/70 animate-pulse rounded-2xl" />
+                      <div className="h-36 bg-gray-100 animate-pulse rounded-2xl" />
                       <div className="p-3 space-y-2">
-                        <div className="h-3 bg-amber-100/70 animate-pulse rounded w-3/4" />
-                        <div className="h-3 bg-amber-100/70 animate-pulse rounded w-1/2" />
+                        <div className="h-3 bg-gray-100 animate-pulse rounded w-3/4" />
+                        <div className="h-3 bg-gray-100 animate-pulse rounded w-1/2" />
                       </div>
                     </div>
                   ))}

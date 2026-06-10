@@ -51,7 +51,7 @@ export default function JobSortBar({
   };
 
   return (
-    <div className="sticky top-0 z-30 bg-amber-50/95 backdrop-blur-sm border-b border-amber-100 py-3 px-0">
+    <div className="sticky top-0 z-30 bg-gray-50 backdrop-blur-sm border-b border-gray-100 py-3 px-0">
       <div className="flex items-center gap-2">
         {/* Search form */}
         <form onSubmit={handleSubmit} className="flex-1 relative min-w-0">
@@ -69,7 +69,7 @@ export default function JobSortBar({
               onSearch(e.target.value);
             }}
             placeholder={t('openSouk.searchPlaceholder', 'Search jobs…')}
-            className="w-full ps-9 pe-10 py-2.5 text-sm border border-amber-200 rounded-2xl focus:ring-2 focus:ring-indigo-700/30 focus:border-indigo-700 bg-white min-h-[44px]"
+            className="w-full ps-9 pe-10 py-2.5 text-sm border border-gray-200 rounded-2xl focus:ring-2 focus:ring-indigo-700/30 focus:border-indigo-700 bg-white min-h-[44px]"
           />
           {localQuery && (
             <button
@@ -88,7 +88,7 @@ export default function JobSortBar({
           <select
             value={sort}
             onChange={e => onSort(e.target.value as JobSort)}
-            className="appearance-none ps-3 pe-8 py-2.5 text-sm border border-amber-200 rounded-2xl focus:ring-2 focus:ring-indigo-700/30 focus:border-indigo-700 bg-white min-h-[44px] text-gray-700 cursor-pointer"
+            className="appearance-none ps-3 pe-8 py-2.5 text-sm border border-gray-200 rounded-2xl focus:ring-2 focus:ring-indigo-700/30 focus:border-indigo-700 bg-white min-h-[44px] text-gray-700 cursor-pointer"
             aria-label={t('openSouk.sortBy', 'Sort by')}
           >
             {SORT_OPTIONS.map(opt => (
@@ -108,7 +108,7 @@ export default function JobSortBar({
           <button
             type="button"
             onClick={onFilterToggle}
-            className="relative shrink-0 flex items-center gap-1.5 px-3 py-2.5 min-h-[44px] rounded-2xl border border-amber-200 bg-white text-sm text-gray-700 hover:border-indigo-300 hover:text-indigo-700 transition-colors duration-200 lg:hidden"
+            className="relative shrink-0 flex items-center gap-1.5 px-3 py-2.5 min-h-[44px] rounded-2xl border border-gray-200 bg-white text-sm text-gray-700 hover:border-indigo-300 hover:text-indigo-700 transition-colors duration-200 lg:hidden"
             aria-label={t('common.filter', 'Filter')}
           >
             <SlidersHorizontal size={14} />

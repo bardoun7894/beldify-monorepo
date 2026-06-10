@@ -48,7 +48,7 @@ function CategoryCard({ href, image, name, count, index, accent, isRTL }: Catego
       <Link
         href={href}
         aria-label={name}
-        className="group relative block aspect-[4/5] overflow-hidden rounded-2xl ring-1 ring-amber-200/60 shadow-atlas-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-atlas-md hover:ring-indigo-300/70"
+        className="group relative block aspect-[4/5] overflow-hidden rounded-2xl ring-1 ring-gray-200 shadow-atlas-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-atlas-md hover:ring-indigo-300/70"
       >
         {/* Themed gradient base — always present, so the card never looks empty */}
         <div className={`absolute inset-0 bg-gradient-to-br ${CARD_ACCENTS[accent]}`} />
@@ -162,7 +162,7 @@ export default function CategoriesPage() {
   if (error) {
     return (
       <div className="min-h-screen bg-canvas flex flex-col items-center justify-center px-4">
-        <div className="bg-white border border-amber-200 rounded-2xl p-10 max-w-md w-full text-center shadow-atlas-sm">
+        <div className="bg-white border border-gray-200 rounded-2xl p-10 max-w-md w-full text-center shadow-atlas-sm">
           <div className="text-rose-700 mb-4 text-base font-medium">{error}</div>
           <p className="text-gray-500 mb-8 text-sm">
             {t('catalog.categories.error_description', "تعذّر تحميل التصنيفات. يرجى المحاولة مجدداً.")}
@@ -228,7 +228,7 @@ export default function CategoriesPage() {
                 'px-5 py-2 rounded-full text-sm font-medium transition-all duration-200 border focus:outline-none focus:ring-2 focus:ring-indigo-700/30 focus:ring-offset-1',
                 selectedGender === filter.value
                   ? 'bg-indigo-700 text-white border-indigo-700 shadow-atlas-sm'
-                  : 'bg-white text-gray-700 border-amber-200 hover:bg-amber-50 hover:border-amber-300',
+                  : 'bg-white text-gray-700 border-amber-200 hover:bg-amber-50 hover:border-gray-300',
               ].join(' ')}
             >
               {filter.label}
@@ -238,7 +238,7 @@ export default function CategoriesPage() {
 
         {/* Result count */}
         {categories.length > 0 && (
-          <p className="mb-6 text-sm text-gray-500 border-b border-amber-100 pb-4">
+          <p className="mb-6 text-sm text-gray-500 border-b border-gray-100 pb-4">
             <span className="font-semibold text-gray-900">
               {categories.length.toLocaleString(isRTL ? 'ar-MA' : 'fr-MA')}
             </span>{' '}
@@ -271,7 +271,7 @@ export default function CategoriesPage() {
           </div>
         ) : (
           /* Empty state */
-          <div className="bg-white rounded-2xl border border-amber-200 p-12 text-center max-w-2xl mx-auto mt-8 shadow-atlas-sm">
+          <div className="bg-white rounded-2xl border border-gray-200 p-12 text-center max-w-2xl mx-auto mt-8 shadow-atlas-sm">
             <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-amber-50 mb-6 ring-1 ring-amber-200">
               <SearchX className="h-7 w-7 text-amber-400" aria-hidden />
             </div>

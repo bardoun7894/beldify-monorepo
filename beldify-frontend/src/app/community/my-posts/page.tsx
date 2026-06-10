@@ -91,7 +91,7 @@ function timeAgo(dateString: string, isRTL: boolean): string {
 // ─── Skeleton ─────────────────────────────────────────────────────────────────
 function RowSkeleton() {
   return (
-    <div className="animate-pulse flex items-center gap-4 px-5 py-4 border-b border-amber-100 last:border-0">
+    <div className="animate-pulse flex items-center gap-4 px-5 py-4 border-b border-gray-100 last:border-0">
       <div className="flex-1 space-y-2">
         <div className="h-3.5 bg-gray-100 rounded-full w-2/3" />
         <div className="flex gap-3">
@@ -205,7 +205,7 @@ function ConfirmModal({
         initial={{ opacity: 0, scale: 0.96 }}
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.96 }}
-        className="bg-white rounded-2xl ring-1 ring-amber-200 shadow-xl max-w-sm w-full p-6"
+        className="bg-white rounded-2xl ring-1 ring-gray-200 shadow-xl max-w-sm w-full p-6"
       >
         <h2
           id="confirm-modal-title"
@@ -218,7 +218,7 @@ function ConfirmModal({
         <div className="flex justify-end gap-2">
           <button
             onClick={onCancel}
-            className="px-4 py-2 min-h-[40px] rounded-full text-sm font-medium bg-white ring-1 ring-amber-200 text-gray-700 hover:ring-amber-300 transition-colors duration-200"
+            className="px-4 py-2 min-h-[40px] rounded-full text-sm font-medium bg-white ring-1 ring-gray-200 text-gray-700 hover:ring-gray-300 transition-colors duration-200"
           >
             {t('common.cancel', 'Cancel')}
           </button>
@@ -262,7 +262,7 @@ function PostRow({ post, isRTL, onDelete, onClose, actionLoading }: PostRowProps
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, x: -12 }}
       transition={{ duration: 0.2, ease: [0.25, 1, 0.5, 1] }}
-      className="flex flex-col sm:flex-row sm:items-center gap-3 px-5 py-4 border-b border-amber-100 last:border-0 hover:bg-amber-50/30 transition-colors duration-150"
+      className="flex flex-col sm:flex-row sm:items-center gap-3 px-5 py-4 border-b border-gray-100 last:border-0 hover:bg-gray-50 transition-colors duration-150"
     >
       {/* Content */}
       <div className="flex-1 min-w-0">
@@ -305,7 +305,7 @@ function PostRow({ post, isRTL, onDelete, onClose, actionLoading }: PostRowProps
         {/* View */}
         <Link
           href={`/community/posts/${id}`}
-          className="w-9 h-9 flex items-center justify-center rounded-full bg-white ring-1 ring-amber-200 text-gray-500 hover:ring-indigo-300 hover:text-indigo-700 transition-colors duration-150"
+          className="w-9 h-9 flex items-center justify-center rounded-full bg-white ring-1 ring-gray-200 text-gray-500 hover:ring-indigo-300 hover:text-indigo-700 transition-colors duration-150"
           title={t('common.view', 'View')}
           aria-label={t('common.view', 'View')}
         >
@@ -316,7 +316,7 @@ function PostRow({ post, isRTL, onDelete, onClose, actionLoading }: PostRowProps
         {canEdit ? (
           <Link
             href={`/community/posts/${id}/edit`}
-            className="w-9 h-9 flex items-center justify-center rounded-full bg-white ring-1 ring-amber-200 text-gray-500 hover:ring-indigo-300 hover:text-indigo-700 transition-colors duration-150"
+            className="w-9 h-9 flex items-center justify-center rounded-full bg-white ring-1 ring-gray-200 text-gray-500 hover:ring-indigo-300 hover:text-indigo-700 transition-colors duration-150"
             title={t('common.edit', 'Edit')}
             aria-label={t('common.edit', 'Edit')}
           >
@@ -342,7 +342,7 @@ function PostRow({ post, isRTL, onDelete, onClose, actionLoading }: PostRowProps
         ) : (
           <button
             onClick={() => (status === 'open' || status === 'pending' ? onClose(id) : onDelete(id))}
-            className="w-9 h-9 flex items-center justify-center rounded-full bg-white ring-1 ring-amber-200 text-gray-500 hover:ring-rose-300 hover:text-rose-600 transition-colors duration-150"
+            className="w-9 h-9 flex items-center justify-center rounded-full bg-white ring-1 ring-gray-200 text-gray-500 hover:ring-rose-300 hover:text-rose-600 transition-colors duration-150"
             title={
               status === 'open' || status === 'pending'
                 ? t('myPosts.closeRequest', 'Close request')
@@ -531,9 +531,9 @@ export default function MyPostsPage() {
           )}
         </AnimatePresence>
 
-        <div className="bg-white rounded-2xl ring-1 ring-amber-200 overflow-hidden shadow-sm">
+        <div className="bg-white rounded-2xl ring-1 ring-gray-200 overflow-hidden shadow-sm">
           {/* Card header */}
-          <div className="px-5 py-4 border-b border-amber-100 bg-amber-50/30 flex items-center justify-between">
+          <div className="px-5 py-4 border-b border-gray-100 bg-gray-50 flex items-center justify-between">
             <h2 className="text-sm font-semibold text-gray-900">
               {t('myPosts.cardTitle', 'Your Open Souk Requests')}
             </h2>

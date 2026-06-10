@@ -150,7 +150,7 @@ export default function CustomOrderForm({ storeId, storeName, vertical }: Custom
           </button>
           <button
             onClick={() => router.back()}
-            className="inline-flex items-center rounded-full bg-white ring-1 ring-amber-200 hover:ring-indigo-300 px-5 py-2.5 text-sm font-medium text-gray-700 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30"
+            className="inline-flex items-center rounded-full bg-white ring-1 ring-gray-200 hover:ring-indigo-300 px-5 py-2.5 text-sm font-medium text-gray-700 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30"
           >
             {isRTL ? 'رجوع' : 'Go Back'}
           </button>
@@ -196,7 +196,7 @@ export default function CustomOrderForm({ storeId, storeName, vertical }: Custom
             const hasError = showErrors && field.required && !values[field.key]?.trim();
             const inputClass = cn(
               'w-full rounded-xl border px-3.5 py-2.5 text-sm bg-white transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30',
-              hasError ? 'border-rose-400 ring-1 ring-rose-300' : 'border-amber-200 focus:border-indigo-400'
+              hasError ? 'border-rose-400 ring-1 ring-rose-300' : 'border-gray-200 focus:border-indigo-400'
             );
 
             return (
@@ -268,7 +268,7 @@ export default function CustomOrderForm({ storeId, storeName, vertical }: Custom
           onChange={e => setNotes(e.target.value)}
           maxLength={2000}
           placeholder={isRTL ? 'أي تفاصيل إضافية…' : 'Any additional details…'}
-          className="w-full rounded-xl border border-amber-200 px-3.5 py-2.5 text-sm bg-white focus:border-indigo-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30 resize-none"
+          className="w-full rounded-xl border border-gray-200 px-3.5 py-2.5 text-sm bg-white focus:border-indigo-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30 resize-none"
         />
         <p className="text-[10px] text-gray-400 text-end">{notes.length}/2000</p>
       </div>

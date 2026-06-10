@@ -43,7 +43,7 @@ function StatusBadge({ status }: { status: OrderStatus }) {
 }
 
 function Skeleton({ className }: { className?: string }) {
-  return <div className={`animate-pulse bg-amber-100 rounded-xl ${className ?? ''}`} />;
+  return <div className={`animate-pulse bg-gray-100 rounded-xl ${className ?? ''}`} />;
 }
 
 function fmtMAD(n: number) {
@@ -171,7 +171,7 @@ export default function SellerOrderDetailPage() {
                   selectedStatusRef.current = s;
                 }}
                 aria-label={t('seller.order_detail.update_status_label', 'Update order status')}
-                className="rounded-xl px-3 py-2 text-sm bg-white ring-1 ring-amber-200 focus:ring-2 focus:ring-indigo-700/40 focus:outline-none text-gray-700"
+                className="rounded-xl px-3 py-2 text-sm bg-white ring-1 ring-gray-200 focus:ring-2 focus:ring-indigo-700/40 focus:outline-none text-gray-700"
               >
                 {UPDATABLE_STATUSES.map(({ value, label }) => (
                   <option key={value} value={value}>
@@ -194,8 +194,8 @@ export default function SellerOrderDetailPage() {
           {/* 2-col grid: items + sidebar */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             {/* Order items table */}
-            <div className="lg:col-span-2 bg-white rounded-2xl ring-1 ring-amber-200 shadow-sm overflow-hidden">
-              <div className="px-5 py-4 border-b border-amber-100">
+            <div className="lg:col-span-2 bg-white rounded-2xl ring-1 ring-gray-200 shadow-sm overflow-hidden">
+              <div className="px-5 py-4 border-b border-gray-100">
                 <h2 className="text-sm font-semibold text-gray-900">
                   {t('seller.order_detail.items_heading', 'Items')}
                 </h2>
@@ -203,7 +203,7 @@ export default function SellerOrderDetailPage() {
               <div className="overflow-x-auto">
                 <table className="w-full text-sm">
                   <thead>
-                    <tr className="text-left text-xs text-gray-400 uppercase tracking-wide bg-amber-50/50 border-b border-amber-100">
+                    <tr className="text-left text-xs text-gray-400 uppercase tracking-wide bg-gray-50 border-b border-gray-100">
                       <th className="px-5 py-3 font-medium">
                         {t('seller.order_detail.col_product', 'Product')}
                       </th>
@@ -221,9 +221,9 @@ export default function SellerOrderDetailPage() {
                       </th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-amber-50">
+                  <tbody className="divide-y divide-gray-100">
                     {order.items.map((item, idx) => (
-                      <tr key={idx} className="hover:bg-amber-50/20 transition-colors">
+                      <tr key={idx} className="hover:bg-gray-50 transition-colors">
                         <td className="px-5 py-3.5 font-medium text-gray-900">{item.product_name}</td>
                         <td className="px-5 py-3.5 text-gray-500 text-xs">{item.variant ?? '—'}</td>
                         <td className="px-5 py-3.5 text-right text-gray-700">{item.quantity}</td>
@@ -239,7 +239,7 @@ export default function SellerOrderDetailPage() {
             {/* Sidebar: financials + customer + shipping */}
             <div className="space-y-4">
               {/* Financial summary */}
-              <div className="bg-white rounded-2xl ring-1 ring-amber-200 shadow-sm p-5">
+              <div className="bg-white rounded-2xl ring-1 ring-gray-200 shadow-sm p-5">
                 <h2 className="text-sm font-semibold text-gray-900 mb-4">
                   {t('seller.order_detail.financials_heading', 'Summary')}
                 </h2>
@@ -254,7 +254,7 @@ export default function SellerOrderDetailPage() {
                     </dt>
                     <dd className="text-rose-600 font-medium">−{fmtMAD(order.commission_amount)} DH</dd>
                   </div>
-                  <div className="flex justify-between pt-2 border-t border-amber-100">
+                  <div className="flex justify-between pt-2 border-t border-gray-100">
                     <dt className="text-gray-900 font-semibold">{t('seller.order_detail.net', 'Net to you')}</dt>
                     <dd className="text-emerald-700 font-bold text-base">{fmtMAD(order.net_amount)} DH</dd>
                   </div>
@@ -262,7 +262,7 @@ export default function SellerOrderDetailPage() {
               </div>
 
               {/* Customer */}
-              <div className="bg-white rounded-2xl ring-1 ring-amber-200 shadow-sm p-5">
+              <div className="bg-white rounded-2xl ring-1 ring-gray-200 shadow-sm p-5">
                 <h2 className="text-sm font-semibold text-gray-900 mb-3">
                   {t('seller.order_detail.customer_heading', 'Customer')}
                 </h2>
@@ -270,7 +270,7 @@ export default function SellerOrderDetailPage() {
               </div>
 
               {/* Shipping */}
-              <div className="bg-white rounded-2xl ring-1 ring-amber-200 shadow-sm p-5">
+              <div className="bg-white rounded-2xl ring-1 ring-gray-200 shadow-sm p-5">
                 <h2 className="text-sm font-semibold text-gray-900 mb-3">
                   {t('seller.order_detail.shipping_heading', 'Shipping address')}
                 </h2>

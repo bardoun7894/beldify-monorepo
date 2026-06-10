@@ -125,8 +125,8 @@ export default function ShareButton({
         className={cn(
           'inline-flex items-center justify-center gap-2 rounded-full font-medium transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30',
           variant === 'icon'
-            ? 'h-10 w-10 bg-white ring-1 ring-amber-200 text-gray-700 hover:ring-indigo-300 hover:text-indigo-700'
-            : 'px-4 py-3 text-sm bg-white ring-1 ring-amber-200 text-gray-700 hover:ring-indigo-300 hover:text-indigo-700',
+            ? 'h-10 w-10 bg-white ring-1 ring-gray-200 text-gray-700 hover:ring-indigo-300 hover:text-indigo-700'
+            : 'px-4 py-3 text-sm bg-white ring-1 ring-gray-200 text-gray-700 hover:ring-indigo-300 hover:text-indigo-700',
           block && 'w-full'
         )}
       >
@@ -138,7 +138,7 @@ export default function ShareButton({
         <div
           role="menu"
           onClick={stop}
-          className="absolute z-30 mt-2 w-52 rounded-2xl bg-white p-1.5 shadow-atlas-md ring-1 ring-amber-200 ltr:right-0 rtl:left-0"
+          className="absolute z-30 mt-2 w-52 rounded-2xl bg-white p-1.5 shadow-atlas-md ring-1 ring-gray-200 ltr:right-0 rtl:left-0"
         >
           <a
             href={waHref}

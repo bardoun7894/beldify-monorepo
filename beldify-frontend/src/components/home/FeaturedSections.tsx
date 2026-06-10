@@ -164,7 +164,7 @@ export default function FeaturedSections(props: FeaturedSectionsProps) {
             {bestSellers.map((product) => (
               <div
                 key={product.id}
-                className="group relative transition-all duration-200 ease-[cubic-bezier(0.33,1,0.68,1)] hover:-translate-y-0.5 rounded-2xl overflow-hidden shadow-atlas-sm hover:shadow-atlas-md bg-white ring-1 ring-amber-200/50"
+                className="group relative transition-all duration-200 ease-[cubic-bezier(0.33,1,0.68,1)] hover:-translate-y-0.5 rounded-2xl overflow-hidden shadow-atlas-sm hover:shadow-atlas-md bg-white ring-1 ring-gray-200"
               >
                 <div className="relative aspect-[3/4] overflow-hidden">
                   <Image
@@ -226,7 +226,7 @@ export default function FeaturedSections(props: FeaturedSectionsProps) {
               <div
                 key={product.id}
                 role="listitem"
-                className="group relative snap-start shrink-0 w-[60%] sm:w-[40%] lg:w-[23%] transition-all duration-200 ease-[cubic-bezier(0.33,1,0.68,1)] hover:-translate-y-0.5 rounded-2xl overflow-hidden shadow-atlas-sm hover:shadow-atlas-md bg-white ring-1 ring-amber-200/50"
+                className="group relative snap-start shrink-0 w-[60%] sm:w-[40%] lg:w-[23%] transition-all duration-200 ease-[cubic-bezier(0.33,1,0.68,1)] hover:-translate-y-0.5 rounded-2xl overflow-hidden shadow-atlas-sm hover:shadow-atlas-md bg-white ring-1 ring-gray-200"
               >
                 <div className="relative aspect-[4/5] overflow-hidden">
                   <Image

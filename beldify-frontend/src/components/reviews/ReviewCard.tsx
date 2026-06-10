@@ -80,7 +80,7 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ review, onReactionUpdate }) => 
   };
 
   return (
-    <article className="relative bg-white rounded-2xl p-6 shadow-atlas-sm ring-1 ring-amber-200 overflow-hidden transition-all duration-200 hover:-translate-y-0.5 hover:shadow-atlas-md">
+    <article className="relative bg-white rounded-2xl p-6 shadow-atlas-sm ring-1 ring-gray-200 overflow-hidden transition-all duration-200 hover:-translate-y-0.5 hover:shadow-atlas-md">
 
       {/* Review Header */}
       <div className="flex items-start justify-between gap-3 mb-4">
@@ -143,7 +143,7 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ review, onReactionUpdate }) => 
       </div>
 
       {/* Review content */}
-      <div className="text-gray-700 mb-4 bg-amber-50/60 p-4 rounded-2xl ring-1 ring-amber-100 text-sm leading-relaxed">
+      <div className="text-gray-700 mb-4 bg-gray-50 p-4 rounded-2xl ring-1 ring-gray-100 text-sm leading-relaxed">
         <p>{truncatedContent}</p>
         {shouldTruncate && (
           <button
@@ -165,7 +165,7 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ review, onReactionUpdate }) => 
                 key={index}
                 onClick={() => setSelectedImage(image)}
                 aria-label={`${t('reviews.review_image', 'Review image')} ${index + 1}`}
-                className="relative h-20 w-20 rounded-xl overflow-hidden ring-1 ring-amber-200 hover:ring-indigo-700 transition-all duration-200 hover:shadow-atlas-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700"
+                className="relative h-20 w-20 rounded-xl overflow-hidden ring-1 ring-gray-200 hover:ring-indigo-700 transition-all duration-200 hover:shadow-atlas-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700"
               >
                 <Image
                   src={getImageUrl(image)}
@@ -208,7 +208,7 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ review, onReactionUpdate }) => 
       )}
 
       {/* Review footer — reaction buttons */}
-      <div className="flex items-center gap-3 mt-4 pt-4 border-t border-amber-100">
+      <div className="flex items-center gap-3 mt-4 pt-4 border-t border-gray-100">
         <button
           onClick={() => handleReaction('like')}
           disabled={isSubmitting}

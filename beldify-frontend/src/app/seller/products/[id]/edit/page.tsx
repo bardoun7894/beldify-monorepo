@@ -78,7 +78,7 @@ const emptyForm: ProductForm = {
 };
 
 function Skeleton({ className }: { className?: string }) {
-  return <div className={`animate-pulse bg-amber-100 rounded-xl ${className ?? ''}`} />;
+  return <div className={`animate-pulse bg-gray-100 rounded-xl ${className ?? ''}`} />;
 }
 
 export default function SellerEditProductPage() {
@@ -290,7 +290,7 @@ export default function SellerEditProductPage() {
   // ── Unauthenticated ───────────────────────────────────────────────────────
   if (!isAuthenticated) {
     return (
-      <div className="min-h-screen bg-amber-50/30" dir={isRTL ? 'rtl' : 'ltr'}>
+      <div className="min-h-screen bg-background" dir={isRTL ? 'rtl' : 'ltr'}>
         <div className="max-w-2xl mx-auto px-6 py-24 flex flex-col items-center text-center">
           <Package className="w-10 h-10 text-indigo-600 mb-6" aria-hidden="true" />
           <h1 className="text-xl font-bold text-gray-900 mb-3" style={playfair}>
@@ -311,7 +311,7 @@ export default function SellerEditProductPage() {
   // ── Suspended ─────────────────────────────────────────────────────────────
   if (suspended) {
     return (
-      <div className="min-h-screen bg-amber-50/30" dir={isRTL ? 'rtl' : 'ltr'}>
+      <div className="min-h-screen bg-background" dir={isRTL ? 'rtl' : 'ltr'}>
         <div className="max-w-2xl mx-auto px-6 py-24 flex flex-col items-center text-center">
           <div className="w-16 h-16 rounded-full bg-rose-50 ring-2 ring-rose-200 flex items-center justify-center mb-6">
             <XCircle className="w-8 h-8 text-rose-600" aria-hidden="true" />
@@ -328,9 +328,9 @@ export default function SellerEditProductPage() {
   }
 
   return (
-    <div className="min-h-screen bg-amber-50/20" dir={isRTL ? 'rtl' : 'ltr'}>
+    <div className="min-h-screen bg-background" dir={isRTL ? 'rtl' : 'ltr'}>
       {/* Header */}
-      <div className="bg-white border-b border-amber-200">
+      <div className="bg-white border-b border-gray-200">
         <div className="max-w-2xl mx-auto px-6 py-5 flex items-center gap-3">
           <Link
             href="/seller/products"
@@ -387,7 +387,7 @@ export default function SellerEditProductPage() {
 
             <form onSubmit={handleSubmit} className="space-y-6" noValidate>
               {/* Product names */}
-              <div className="bg-white rounded-2xl ring-1 ring-amber-200 shadow-sm p-6 space-y-5">
+              <div className="bg-white rounded-2xl ring-1 ring-gray-200 shadow-sm p-6 space-y-5">
                 <h2 className="text-sm font-semibold text-gray-700 uppercase tracking-wide">
                   {t('seller.product.section_info', 'Product info')}
                 </h2>
@@ -464,7 +464,7 @@ export default function SellerEditProductPage() {
               </div>
 
               {/* Category + pricing */}
-              <div className="bg-white rounded-2xl ring-1 ring-amber-200 shadow-sm p-6 space-y-5">
+              <div className="bg-white rounded-2xl ring-1 ring-gray-200 shadow-sm p-6 space-y-5">
                 <h2 className="text-sm font-semibold text-gray-700 uppercase tracking-wide">
                   {t('seller.product.section_pricing', 'Category & pricing')}
                 </h2>
@@ -540,7 +540,7 @@ export default function SellerEditProductPage() {
                     type="checkbox"
                     checked={form.is_active}
                     onChange={handleToggle}
-                    className="h-4 w-4 rounded text-indigo-700 border-amber-300 focus:ring-indigo-700/30 cursor-pointer"
+                    className="h-4 w-4 rounded text-indigo-700 border-gray-300 focus:ring-indigo-700/30 cursor-pointer"
                   />
                   <label htmlFor="is_active" className="text-sm font-medium text-gray-700 cursor-pointer">
                     {t('seller.product.is_active_label', 'List product as active (visible to buyers)')}
@@ -549,14 +549,14 @@ export default function SellerEditProductPage() {
               </div>
 
               {/* Product image */}
-              <div className="bg-white rounded-2xl ring-1 ring-amber-200 shadow-sm p-6 space-y-4">
+              <div className="bg-white rounded-2xl ring-1 ring-gray-200 shadow-sm p-6 space-y-4">
                 <h2 className="text-sm font-semibold text-gray-700 uppercase tracking-wide">
                   {t('seller.product.section_image', 'Product image')}
                 </h2>
 
                 {/* Existing image or new preview */}
                 {(form.imagePreview || form.existingImageUrl) ? (
-                  <div className="relative w-40 h-40 rounded-2xl overflow-hidden ring-1 ring-amber-200">
+                  <div className="relative w-40 h-40 rounded-2xl overflow-hidden ring-1 ring-gray-200">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                       src={form.imagePreview ?? form.existingImageUrl ?? ''}
@@ -599,7 +599,7 @@ export default function SellerEditProductPage() {
 
               {/* FE-J1: vertical-specific attributes (jewelry etc.) */}
               {vertical && verticalFields.length > 0 && (
-                <div className="bg-white rounded-2xl ring-1 ring-amber-200 shadow-sm p-6 space-y-4">
+                <div className="bg-white rounded-2xl ring-1 ring-gray-200 shadow-sm p-6 space-y-4">
                   <h2 className="text-sm font-semibold text-gray-700 uppercase tracking-wide">
                     {t('seller.product.section_attributes', 'Product attributes')}
                   </h2>

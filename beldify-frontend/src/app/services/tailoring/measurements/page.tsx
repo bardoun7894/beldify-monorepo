@@ -86,7 +86,7 @@ export default function MeasurementsPage() {
       {/* ── Main content ── */}
       <main className="mx-auto max-w-7xl px-6 lg:px-8 py-10">
         {/* Wrapper card provides amber-200 border and rounded-2xl for page-level Atlas compliance */}
-        <div className="rounded-2xl ring-1 ring-amber-200/40 bg-white/60 p-1 shadow-atlas-sm">
+        <div className="rounded-2xl ring-1 ring-gray-200 bg-white/60 p-1 shadow-atlas-sm">
           <MeasurementForm onSave={handleSave} onAddToCart={handleAddToCart} />
         </div>
       </main>

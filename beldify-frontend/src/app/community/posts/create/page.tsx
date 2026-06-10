@@ -99,7 +99,7 @@ function PreviewAside({
       className="hidden lg:block sticky top-8 self-start"
       aria-label={t('community.preview_label', 'Live Preview')}
     >
-      <div className="bg-white rounded-2xl ring-1 ring-amber-200 overflow-hidden shadow-sm">
+      <div className="bg-white rounded-2xl ring-1 ring-gray-200 overflow-hidden shadow-sm">
         {/* Header */}
         <div className="px-5 py-3.5 bg-indigo-950 flex items-center gap-2">
           <Eye size={13} className="text-indigo-300 shrink-0" />
@@ -511,7 +511,7 @@ export default function CreatePostPage() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.35, ease: [0.25, 1, 0.5, 1] }}
-            className="max-w-md w-full bg-white rounded-2xl ring-1 ring-amber-200 shadow-sm overflow-hidden text-center"
+            className="max-w-md w-full bg-white rounded-2xl ring-1 ring-gray-200 shadow-sm overflow-hidden text-center"
           >
             <div className="h-1.5 bg-gradient-to-r from-amber-400 to-indigo-600 w-full" />
 
@@ -553,7 +553,7 @@ export default function CreatePostPage() {
                 )}
                 <Link
                   href="/community"
-                  className="inline-flex items-center justify-center gap-2 px-5 py-3 min-h-[44px] bg-white ring-1 ring-amber-200 hover:ring-amber-300 text-gray-700 text-sm font-semibold rounded-full transition-colors duration-200"
+                  className="inline-flex items-center justify-center gap-2 px-5 py-3 min-h-[44px] bg-white ring-1 ring-gray-200 hover:ring-gray-300 text-gray-700 text-sm font-semibold rounded-full transition-colors duration-200"
                 >
                   {t('community.browse_souk', 'Browse Open Souk')}
                 </Link>
@@ -604,10 +604,10 @@ export default function CreatePostPage() {
         <div className="lg:grid lg:grid-cols-[1fr_320px] lg:gap-8 items-start">
           {/* ── FORM COLUMN ─────────────────────────────────────────────── */}
           <div>
-            <div className="bg-white rounded-2xl ring-1 ring-amber-200 overflow-hidden shadow-sm">
+            <div className="bg-white rounded-2xl ring-1 ring-gray-200 overflow-hidden shadow-sm">
 
               {/* Form header */}
-              <div className="px-6 py-5 border-b border-amber-100 bg-amber-50/30">
+              <div className="px-6 py-5 border-b border-gray-100 bg-gray-50">
                 <div className="flex items-center gap-3.5">
                   <div className="w-10 h-10 bg-indigo-700 rounded-full flex items-center justify-center shrink-0 shadow-sm">
                     <span className="text-white font-bold text-sm">
@@ -625,7 +625,7 @@ export default function CreatePostPage() {
                 </div>
               </div>
 
-              <form onSubmit={handleSubmit} className="divide-y divide-amber-100">
+              <form onSubmit={handleSubmit} className="divide-y divide-gray-100">
 
                 {/* ── SECTION: Reference Photos ────────────────────────── */}
                 <section className="px-6 py-6">
@@ -646,7 +646,7 @@ export default function CreatePostPage() {
                         ? 'border-indigo-400 bg-indigo-50'
                         : validationErrors.images
                         ? 'border-rose-300 bg-rose-50/50'
-                        : 'border-amber-200 bg-amber-50/20 hover:border-indigo-300 hover:bg-indigo-50/20',
+                        : 'border-gray-200 bg-gray-50 hover:border-indigo-300 hover:bg-indigo-50/20',
                     ].join(' ')}
                     role="button"
                     tabIndex={0}
@@ -665,7 +665,7 @@ export default function CreatePostPage() {
                         (e.target as HTMLInputElement).value = '';
                       }}
                     />
-                    <div className="mb-3 rounded-full bg-white ring-1 ring-amber-200 p-3 shadow-sm">
+                    <div className="mb-3 rounded-full bg-white ring-1 ring-gray-200 p-3 shadow-sm">
                       <ImageIcon
                         size={24}
                         className={isDragActive ? 'text-indigo-500' : 'text-amber-400'}
@@ -703,7 +703,7 @@ export default function CreatePostPage() {
                             <img
                               src={src}
                               alt={t('community.image_preview_alt', { index: i + 1 })}
-                              className="w-full aspect-square object-cover rounded-xl ring-1 ring-amber-200"
+                              className="w-full aspect-square object-cover rounded-xl ring-1 ring-gray-200"
                             />
                             <button
                               type="button"
@@ -737,7 +737,7 @@ export default function CreatePostPage() {
                       maxLength={100}
                       className={[
                         'w-full px-4 py-3 border rounded-2xl text-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-indigo-700/30 focus:border-indigo-700',
-                        validationErrors.title ? 'border-rose-300 bg-rose-50/50' : 'border-amber-200 bg-white hover:border-amber-300',
+                        validationErrors.title ? 'border-rose-300 bg-rose-50/50' : 'border-gray-200 bg-white hover:border-gray-300',
                       ].join(' ')}
                     />
                     <div className="flex items-center justify-between mt-1.5">
@@ -772,7 +772,7 @@ export default function CreatePostPage() {
                       dir={isRTL ? 'rtl' : 'ltr'}
                       className={[
                         'w-full px-4 py-3 border rounded-2xl text-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-indigo-700/30 focus:border-indigo-700 resize-none leading-relaxed',
-                        validationErrors.description ? 'border-rose-300 bg-rose-50/50' : 'border-amber-200 bg-white hover:border-amber-300',
+                        validationErrors.description ? 'border-rose-300 bg-rose-50/50' : 'border-gray-200 bg-white hover:border-gray-300',
                       ].join(' ')}
                     />
                     <div className="flex items-center justify-between mt-1.5">
@@ -807,7 +807,7 @@ export default function CreatePostPage() {
                       disabled={loadingCategories}
                       className={[
                         'w-full px-4 py-3 border rounded-2xl text-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-indigo-700/30 focus:border-indigo-700 bg-white',
-                        validationErrors.categoryId ? 'border-rose-300 bg-rose-50/50' : 'border-amber-200 hover:border-amber-300',
+                        validationErrors.categoryId ? 'border-rose-300 bg-rose-50/50' : 'border-gray-200 hover:border-gray-300',
                         loadingCategories ? 'opacity-60 cursor-wait' : '',
                       ].join(' ')}
                     >
@@ -852,7 +852,7 @@ export default function CreatePostPage() {
                             'inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-150',
                             selected
                               ? 'bg-indigo-700 text-white shadow-sm'
-                              : 'bg-white text-gray-700 ring-1 ring-amber-200 hover:ring-indigo-300 hover:text-indigo-700',
+                              : 'bg-white text-gray-700 ring-1 ring-gray-200 hover:ring-indigo-300 hover:text-indigo-700',
                           ].join(' ')}
                         >
                           {selected && <CheckCircle2 size={11} className="shrink-0" />}
@@ -890,7 +890,7 @@ export default function CreatePostPage() {
                         onChange={handleBudgetChange}
                         placeholder="0"
                         min="0"
-                        className="w-full px-3 py-2.5 border border-amber-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-700/30 focus:border-indigo-700 transition-all duration-200 bg-white hover:border-amber-300"
+                        className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-700/30 focus:border-indigo-700 transition-all duration-200 bg-white hover:border-gray-300"
                       />
                     </div>
                     <div>
@@ -905,7 +905,7 @@ export default function CreatePostPage() {
                         onChange={handleBudgetChange}
                         placeholder="500"
                         min="0"
-                        className="w-full px-3 py-2.5 border border-amber-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-700/30 focus:border-indigo-700 transition-all duration-200 bg-white hover:border-amber-300"
+                        className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-700/30 focus:border-indigo-700 transition-all duration-200 bg-white hover:border-gray-300"
                       />
                     </div>
                     <div>
@@ -917,7 +917,7 @@ export default function CreatePostPage() {
                         name="currency"
                         value={formData.budget.currency}
                         onChange={handleBudgetChange}
-                        className="w-full px-3 py-2.5 border border-amber-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-700/30 focus:border-indigo-700 transition-all duration-200 bg-white hover:border-amber-300"
+                        className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-700/30 focus:border-indigo-700 transition-all duration-200 bg-white hover:border-gray-300"
                       >
                         <option value="MAD">MAD</option>
                         <option value="USD">USD</option>
@@ -951,14 +951,14 @@ export default function CreatePostPage() {
                       onChange={handleInputChange}
                       placeholder="1"
                       min="1"
-                      className="w-full px-4 py-2.5 border border-amber-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-700/30 focus:border-indigo-700 transition-all duration-200 bg-white"
+                      className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-700/30 focus:border-indigo-700 transition-all duration-200 bg-white"
                     />
                     <select
                       id="timelineUnit"
                       name="timelineUnit"
                       value={formData.timelineUnit}
                       onChange={handleInputChange}
-                      className="w-full px-4 py-2.5 border border-amber-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-700/30 focus:border-indigo-700 transition-all duration-200 bg-white"
+                      className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-700/30 focus:border-indigo-700 transition-all duration-200 bg-white"
                     >
                       <option value="days">{t('community.timeline_days', 'Days')}</option>
                       <option value="weeks">{t('community.timeline_weeks', 'Weeks')}</option>
@@ -968,7 +968,7 @@ export default function CreatePostPage() {
                 </section>
 
                 {/* ── SECTION: Submit ──────────────────────────────────── */}
-                <section className="px-6 py-6 bg-amber-50/40">
+                <section className="px-6 py-6 bg-gray-50">
                   <AnimatePresence>
                     {error && (
                       <motion.div

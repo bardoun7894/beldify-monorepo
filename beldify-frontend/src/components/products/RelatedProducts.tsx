@@ -84,7 +84,7 @@ const RelatedProducts: React.FC<RelatedProductsProps> = ({
         <div className={cn('mt-8', className)}>
           {showHeading && (
             <div className="flex items-center gap-2 mb-6">
-              <div className="h-6 w-40 bg-amber-100 animate-pulse rounded-full" />
+              <div className="h-6 w-40 bg-gray-100 animate-pulse rounded-full" />
             </div>
           )}
           {/* Mobile: horizontal snap-scroll skeleton */}

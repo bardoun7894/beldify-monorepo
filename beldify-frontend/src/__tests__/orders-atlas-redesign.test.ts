@@ -28,8 +28,8 @@ describe('Orders page — Atlas token compliance', () => {
     expect(ordersPage).not.toMatch(/[^-]shadow-md\b|[^-]shadow-lg\b|[^-]shadow-xl\b|shadow-2xl\b/);
   });
 
-  it('uses amber hairlines not gray-200 dividers', () => {
-    expect(ordersPage).not.toMatch(/border-gray-200/);
+  it('uses neutral gray hairlines (amber hairlines retired 2026-06-10)', () => {
+    expect(ordersPage).toMatch(/divide-gray-(100|200)|border-gray-(100|200)|ring-gray-(100|200)/);
   });
 
   it('does NOT use backdrop-blur (glassmorphism anti-pattern)', () => {
@@ -84,8 +84,8 @@ describe('Order detail page — Atlas token compliance', () => {
     expect(detailPage).not.toMatch(/mr-2/);
   });
 
-  it('has no off-palette gray hairlines (border-gray-200/divide-gray-200)', () => {
-    expect(detailPage).not.toMatch(/divide-gray-200|border-gray-200/);
+  it('uses neutral gray hairlines (amber hairlines retired 2026-06-10)', () => {
+    expect(detailPage).toMatch(/divide-gray-200|border-gray-200|ring-gray-200/);
   });
 });
 

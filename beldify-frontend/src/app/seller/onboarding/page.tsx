@@ -45,7 +45,7 @@ export default function SellerOnboardingPage() {
   // ── Unauthenticated ───────────────────────────────────────────────────────
   if (!isAuthenticated) {
     return (
-      <div className="min-h-screen bg-amber-50/30" dir={isRTL ? 'rtl' : 'ltr'}>
+      <div className="min-h-screen bg-background" dir={isRTL ? 'rtl' : 'ltr'}>
         <div className="max-w-2xl mx-auto px-6 py-24 flex flex-col items-center text-center">
           <div className="w-16 h-16 rounded-full bg-indigo-50 ring-2 ring-indigo-200 flex items-center justify-center mb-6">
             <Store className="w-8 h-8 text-indigo-700" aria-hidden="true" />
@@ -71,12 +71,12 @@ export default function SellerOnboardingPage() {
   // ── Loading skeleton ──────────────────────────────────────────────────────
   if (loading) {
     return (
-      <div className="min-h-screen bg-amber-50/30" dir={isRTL ? 'rtl' : 'ltr'}>
+      <div className="min-h-screen bg-background" dir={isRTL ? 'rtl' : 'ltr'}>
         <div className="max-w-2xl mx-auto px-6 py-12 space-y-4 animate-pulse">
           <div className="h-8 bg-amber-100 rounded-2xl w-2/3" />
           <div className="h-4 bg-amber-100 rounded-2xl w-full" />
           {[1, 2, 3, 4, 5].map((i) => (
-            <div key={i} className="h-16 bg-white rounded-2xl ring-1 ring-amber-200" />
+            <div key={i} className="h-16 bg-white rounded-2xl ring-1 ring-gray-200" />
           ))}
         </div>
       </div>
@@ -86,7 +86,7 @@ export default function SellerOnboardingPage() {
   // ── Error ─────────────────────────────────────────────────────────────────
   if (error || !status) {
     return (
-      <div className="min-h-screen bg-amber-50/30" dir={isRTL ? 'rtl' : 'ltr'}>
+      <div className="min-h-screen bg-background" dir={isRTL ? 'rtl' : 'ltr'}>
         <div className="max-w-2xl mx-auto px-6 py-12">
           <div className="p-4 rounded-2xl bg-rose-50 ring-1 ring-rose-200 text-rose-700 text-sm">
             {error || t('seller.onboarding.unknown_error', 'An unknown error occurred.')}
@@ -101,7 +101,7 @@ export default function SellerOnboardingPage() {
   // ── Not started — redirect to register ───────────────────────────────────
   if (status.store_status === 'not_started') {
     return (
-      <div className="min-h-screen bg-amber-50/30" dir={isRTL ? 'rtl' : 'ltr'}>
+      <div className="min-h-screen bg-background" dir={isRTL ? 'rtl' : 'ltr'}>
         <div className="max-w-2xl mx-auto px-6 py-24 flex flex-col items-center text-center">
           <div className="w-16 h-16 rounded-full bg-amber-50 ring-2 ring-amber-200 flex items-center justify-center mb-6">
             <Store className="w-8 h-8 text-amber-600" aria-hidden="true" />
@@ -125,9 +125,9 @@ export default function SellerOnboardingPage() {
   }
 
   return (
-    <div className="min-h-screen bg-amber-50/20" dir={isRTL ? 'rtl' : 'ltr'}>
+    <div className="min-h-screen bg-background" dir={isRTL ? 'rtl' : 'ltr'}>
       {/* Page header */}
-      <div className="bg-white border-b border-amber-200">
+      <div className="bg-white border-b border-gray-200">
         <div className="max-w-3xl mx-auto px-6 py-8">
           <p className="text-xs uppercase tracking-[0.18em] text-amber-700 font-medium mb-2">
             {t('seller.onboarding.eyebrow', 'Seller Journey')}
@@ -146,7 +146,7 @@ export default function SellerOnboardingPage() {
         <StatusBanner status={status} t={t} />
 
         {/* Progress bar */}
-        <div className="bg-white rounded-2xl ring-1 ring-amber-200 shadow-sm p-6">
+        <div className="bg-white rounded-2xl ring-1 ring-gray-200 shadow-sm p-6">
           <div className="flex items-center justify-between mb-3">
             <span className="text-sm font-medium text-gray-700">
               {t('seller.onboarding.overall_progress', 'Overall progress')}
@@ -167,7 +167,7 @@ export default function SellerOnboardingPage() {
           </div>
 
           {/* Inline stats */}
-          <div className="flex gap-6 mt-4 pt-4 border-t border-amber-100">
+          <div className="flex gap-6 mt-4 pt-4 border-t border-gray-100">
             <div>
               <p className="text-xs text-gray-400 uppercase tracking-wide">
                 {t('seller.onboarding.profile_pct', 'Profile')}
@@ -188,7 +188,7 @@ export default function SellerOnboardingPage() {
         </div>
 
         {/* Step checklist */}
-        <div className="bg-white rounded-2xl ring-1 ring-amber-200 shadow-sm divide-y divide-amber-100">
+        <div className="bg-white rounded-2xl ring-1 ring-gray-200 shadow-sm divide-y divide-gray-100">
           {status.steps.map((step, i) => {
             const isDone = step.status === 'done';
             // Determine CTA for actionable steps

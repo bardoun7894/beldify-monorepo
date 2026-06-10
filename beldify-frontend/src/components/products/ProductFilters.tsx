@@ -44,7 +44,7 @@ function FilterSection({ title, children, defaultOpen = true }: FilterSectionPro
   const [isOpen, setIsOpen] = useState(defaultOpen);
 
   return (
-    <div className="border-b border-amber-100/80 last:border-none">
+    <div className="border-b border-gray-100 last:border-none">
       <button
         type="button"
         className="flex w-full items-center justify-between py-3 text-xs font-semibold text-gray-500 uppercase tracking-[0.12em] hover:text-indigo-700 transition-colors duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30 focus-visible:rounded"
@@ -192,7 +192,7 @@ export default function ProductFilters({
                     minPrice: e.target.value ? Number(e.target.value) : undefined,
                   })
                 }
-                className="w-full pl-3 pr-14 py-2.5 rounded-2xl border border-amber-200 text-sm text-gray-800 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-700/30 focus:border-indigo-700 transition-colors"
+                className="w-full pl-3 pr-14 py-2.5 rounded-2xl border border-gray-200 text-sm text-gray-800 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-700/30 focus:border-indigo-700 transition-colors"
                 placeholder="0"
                 aria-label={t('filters.min_price_aria', 'Minimum price in MAD')}
               />
@@ -217,7 +217,7 @@ export default function ProductFilters({
                     maxPrice: e.target.value ? Number(e.target.value) : undefined,
                   })
                 }
-                className="w-full pl-3 pr-14 py-2.5 rounded-2xl border border-amber-200 text-sm text-gray-800 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-700/30 focus:border-indigo-700 transition-colors"
+                className="w-full pl-3 pr-14 py-2.5 rounded-2xl border border-gray-200 text-sm text-gray-800 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-700/30 focus:border-indigo-700 transition-colors"
                 placeholder="5,000"
                 aria-label={t('filters.max_price_aria', 'Maximum price in MAD')}
               />
@@ -319,7 +319,7 @@ export default function ProductFilters({
                   className={`relative flex h-4 w-4 shrink-0 items-center justify-center rounded border transition-colors duration-150 ${
                     isSelected
                       ? 'bg-indigo-700 border-indigo-700'
-                      : 'border-amber-300 bg-white group-hover/fab:border-indigo-400'
+                      : 'border-gray-300 bg-white group-hover/fab:border-indigo-400'
                   }`}
                   aria-hidden="true"
                 >
@@ -392,9 +392,9 @@ export default function ProductFilters({
 
   // Desktop sidebar
   const DesktopFilters = () => (
-    <div className="hidden md:block bg-white rounded-2xl ring-1 ring-amber-200/80 shadow-atlas-sm overflow-hidden">
+    <div className="hidden md:block bg-white rounded-2xl ring-1 ring-gray-200 shadow-atlas-sm overflow-hidden">
       {/* Header */}
-      <div className="px-4 pt-4 pb-3 border-b border-amber-100 flex items-center justify-between gap-3">
+      <div className="px-4 pt-4 pb-3 border-b border-gray-100 flex items-center justify-between gap-3">
         <div className="flex items-center gap-2 min-w-0">
           <div className="p-1.5 bg-indigo-50 rounded-lg shrink-0">
             <SlidersHorizontal className="h-3.5 w-3.5 text-indigo-700" aria-hidden="true" />
@@ -414,7 +414,7 @@ export default function ProductFilters({
 
       {/* Active badges strip */}
       {activeBadges.length > 0 && (
-        <div className="px-4 py-2.5 border-b border-amber-100 bg-amber-50/50">
+        <div className="px-4 py-2.5 border-b border-gray-100 bg-gray-50">
           <div className="flex flex-wrap gap-1.5">
             {activeBadges.map((badge) => (
               <span
@@ -486,7 +486,7 @@ export default function ProductFilters({
           >
             <Dialog.Panel className="w-screen max-w-sm flex flex-col bg-white shadow-atlas-xl overflow-y-auto">
               {/* Drawer header */}
-              <div className="sticky top-0 z-10 flex items-center justify-between px-5 py-4 bg-white border-b border-amber-100">
+              <div className="sticky top-0 z-10 flex items-center justify-between px-5 py-4 bg-white border-b border-gray-100">
                 <div className="flex items-center gap-2">
                   <Filter className="h-4 w-4 text-indigo-700" aria-hidden="true" />
                   <Dialog.Title className="text-base font-semibold text-gray-900">
@@ -505,12 +505,12 @@ export default function ProductFilters({
 
               {/* Active badges in drawer */}
               {activeBadges.length > 0 && (
-                <div className="px-5 py-3 border-b border-amber-100 bg-amber-50/60">
+                <div className="px-5 py-3 border-b border-gray-100 bg-gray-50">
                   <div className="flex flex-wrap gap-1.5">
                     {activeBadges.map((badge) => (
                       <span
                         key={badge.id}
-                        className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs bg-white text-amber-700 border border-amber-200 font-medium"
+                        className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs bg-white text-amber-700 border border-gray-200 font-medium"
                       >
                         {badge.type === 'price' ? (
                           <span className="currency-mad">{badge.label}</span>
@@ -537,7 +537,7 @@ export default function ProductFilters({
               </div>
 
               {/* Sticky drawer footer */}
-              <div className="sticky bottom-0 border-t border-amber-100 bg-white px-5 py-4 flex gap-3">
+              <div className="sticky bottom-0 border-t border-gray-100 bg-white px-5 py-4 flex gap-3">
                 <button
                   type="button"
                   onClick={clearAll}

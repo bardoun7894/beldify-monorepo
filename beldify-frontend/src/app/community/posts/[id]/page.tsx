@@ -335,7 +335,7 @@ export default function PostDetailPage() {
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.3, ease: [0.25, 1, 0.5, 1] }}
-          className="bg-white rounded-2xl ring-1 ring-amber-200 overflow-hidden mb-6 shadow-sm"
+          className="bg-white rounded-2xl ring-1 ring-gray-200 overflow-hidden mb-6 shadow-sm"
         >
           {/* Top accent */}
           <div className="h-1 w-full bg-gradient-to-r from-amber-400 via-amber-500 to-indigo-600" />
@@ -418,7 +418,7 @@ export default function PostDetailPage() {
 
             {/* Buyer info */}
             {buyerName && (
-              <div className="mt-5 pt-5 border-t border-amber-100 flex items-center gap-3">
+              <div className="mt-5 pt-5 border-t border-gray-100 flex items-center gap-3">
                 <div className="h-9 w-9 rounded-full overflow-hidden ring-2 ring-amber-200 shrink-0 relative bg-amber-50">
                   {buyerAvatar && !buyerAvatarError ? (
                     <Image
@@ -466,8 +466,8 @@ export default function PostDetailPage() {
           >
             {/* Images gallery */}
             {post.images && post.images.length > 0 && (
-              <div className="bg-white rounded-2xl ring-1 ring-amber-200 overflow-hidden">
-                <div className="px-5 py-4 border-b border-amber-100">
+              <div className="bg-white rounded-2xl ring-1 ring-gray-200 overflow-hidden">
+                <div className="px-5 py-4 border-b border-gray-100">
                   <h2 className="text-sm font-semibold text-gray-900">
                     {t('community.reference_images', 'Reference Images')}
                   </h2>
@@ -498,7 +498,7 @@ export default function PostDetailPage() {
                           className={`relative w-16 h-16 rounded-xl overflow-hidden shrink-0 transition-all duration-200 ring-2 ${
                             activeImageIndex === index
                               ? 'ring-amber-500'
-                              : 'ring-amber-200 hover:ring-amber-300'
+                              : 'ring-gray-200 hover:ring-gray-300'
                           }`}
                           onClick={() => setActiveImageIndex(index)}
                         >
@@ -521,8 +521,8 @@ export default function PostDetailPage() {
             )}
 
             {/* Description */}
-            <div className="bg-white rounded-2xl ring-1 ring-amber-200 overflow-hidden">
-              <div className="px-5 py-4 border-b border-amber-100">
+            <div className="bg-white rounded-2xl ring-1 ring-gray-200 overflow-hidden">
+              <div className="px-5 py-4 border-b border-gray-100">
                 <h2 className="text-sm font-semibold text-gray-900">
                   {t('community.description', 'Description')}
                 </h2>
@@ -553,8 +553,8 @@ export default function PostDetailPage() {
 
             {/* F3: Custom-piece specifications */}
             {productSpecs && Object.keys(productSpecs).length > 0 && (
-              <div className="bg-white rounded-2xl ring-1 ring-amber-200 overflow-hidden">
-                <div className="px-5 py-4 border-b border-amber-100 flex items-center gap-2">
+              <div className="bg-white rounded-2xl ring-1 ring-gray-200 overflow-hidden">
+                <div className="px-5 py-4 border-b border-gray-100 flex items-center gap-2">
                   <Gem size={13} className="text-amber-600" />
                   <h2 className="text-sm font-semibold text-gray-900">
                     {t('community.product_specifications', 'Specifications')}
@@ -581,8 +581,8 @@ export default function PostDetailPage() {
 
             {/* Skills, colors, styles — combined */}
             {(requiredSkills.length > 0 || productColors.length > 0 || productStyles.length > 0) && (
-              <div className="bg-white rounded-2xl ring-1 ring-amber-200 overflow-hidden">
-                <div className="px-5 py-4 border-b border-amber-100 flex items-center gap-2">
+              <div className="bg-white rounded-2xl ring-1 ring-gray-200 overflow-hidden">
+                <div className="px-5 py-4 border-b border-gray-100 flex items-center gap-2">
                   <Wrench size={13} className="text-gray-400" />
                   <h2 className="text-sm font-semibold text-gray-900">
                     {t('community.requirements', 'Requirements')}
@@ -647,7 +647,7 @@ export default function PostDetailPage() {
             )}
 
             {/* Lifecycle stepper */}
-            <div className="bg-white rounded-2xl ring-1 ring-amber-200 p-5">
+            <div className="bg-white rounded-2xl ring-1 ring-gray-200 p-5">
               <p className="text-[10px] font-semibold text-gray-400 uppercase tracking-wide mb-4">
                 {t('community.job_progress', 'Progress')}
               </p>
@@ -663,7 +663,7 @@ export default function PostDetailPage() {
                             isCompleted
                               ? 'bg-indigo-700 text-white'
                               : isActive
-                              ? 'bg-indigo-700 text-white ring-2 ring-offset-1 ring-amber-300'
+                              ? 'bg-indigo-700 text-white ring-2 ring-offset-1 ring-gray-300'
                               : 'bg-gray-100 text-gray-400'
                           }`}
                         >
@@ -735,7 +735,7 @@ export default function PostDetailPage() {
                 The storefront PDP shows a read-only "Reply in your dashboard" CTA — no
                 inline ResponseForm. Build/edit happens once, in Laravel. */}
             {!isMyPost && postIsOpen && isAuthenticated && !hasMyProposal && isSeller && (
-              <div className="bg-white rounded-2xl ring-1 ring-amber-200 overflow-hidden">
+              <div className="bg-white rounded-2xl ring-1 ring-gray-200 overflow-hidden">
                 <motion.div
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
@@ -781,7 +781,7 @@ export default function PostDetailPage() {
 
             {/* Logged-out prompt */}
             {!isAuthenticated && postIsOpen && (
-              <div className="bg-white rounded-2xl ring-1 ring-amber-200 p-5 text-center">
+              <div className="bg-white rounded-2xl ring-1 ring-gray-200 p-5 text-center">
                 <LogIn size={24} className="text-indigo-300 mx-auto mb-3" />
                 <p className="text-sm font-medium text-gray-900 mb-1">
                   {t('community.login_to_propose', 'Want to submit a proposal?')}
@@ -810,8 +810,8 @@ export default function PostDetailPage() {
             )}
 
             {/* Proposals list */}
-            <div className="bg-white rounded-2xl ring-1 ring-amber-200 overflow-hidden">
-              <div className="px-5 py-4 border-b border-amber-100 flex items-center justify-between">
+            <div className="bg-white rounded-2xl ring-1 ring-gray-200 overflow-hidden">
+              <div className="px-5 py-4 border-b border-gray-100 flex items-center justify-between">
                 <h2 className="text-sm font-semibold text-gray-900">
                   {t('community.proposals', 'Proposals')}
                 </h2>
@@ -860,7 +860,7 @@ export default function PostDetailPage() {
 
       {/* ── Mobile sticky CTA: reply in the seller dashboard (F1 — Laravel-only) ── */}
       {!isMyPost && postIsOpen && isAuthenticated && !hasMyProposal && isSeller && (
-        <div className="lg:hidden fixed bottom-0 start-0 end-0 z-30 px-4 pb-4 pt-3 bg-white/90 backdrop-blur-sm border-t border-amber-200">
+        <div className="lg:hidden fixed bottom-0 start-0 end-0 z-30 px-4 pb-4 pt-3 bg-white/90 backdrop-blur-sm border-t border-gray-200">
           <a
             href={`${(process.env.NEXT_PUBLIC_API_URL || 'https://pro.beldify.com').replace(/\/$/, '')}/seller/community/posts/${postId}/respond`}
             target="_blank"

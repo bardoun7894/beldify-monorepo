@@ -261,7 +261,7 @@ export default function RequestCustomPieceForm() {
                 'flex flex-col items-center gap-1.5 p-2.5 rounded-xl border-2 text-xs font-semibold transition-all duration-150',
                 material === m
                   ? 'border-indigo-700 bg-indigo-50 text-indigo-800'
-                  : 'border-amber-200 bg-white text-gray-700 hover:border-indigo-300 hover:bg-indigo-50/30',
+                  : 'border-gray-200 bg-white text-gray-700 hover:border-indigo-300 hover:bg-indigo-50/30',
               ].join(' ')}
             >
               <span
@@ -287,7 +287,7 @@ export default function RequestCustomPieceForm() {
           value={notes}
           onChange={(e) => setNotes(e.target.value)}
           placeholder={t('e.g. a thin engraved ring, size 7…', 'مثال: خاتم رفيع منقوش، مقاس 7…')}
-          className="w-full rounded-2xl border border-amber-200 bg-white px-4 py-3 text-sm text-gray-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30 focus-visible:border-indigo-700 transition-all resize-none leading-relaxed"
+          className="w-full rounded-2xl border border-gray-200 bg-white px-4 py-3 text-sm text-gray-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30 focus-visible:border-indigo-700 transition-all resize-none leading-relaxed"
         />
       </div>
 
@@ -299,7 +299,7 @@ export default function RequestCustomPieceForm() {
         </span>
         <label
           htmlFor="images"
-          className="flex cursor-pointer items-center justify-center gap-2.5 rounded-2xl border-2 border-dashed border-amber-200 bg-amber-50/30 px-4 py-5 text-sm font-medium text-indigo-700 hover:border-indigo-300 hover:bg-indigo-50/20 transition-all duration-200"
+          className="flex cursor-pointer items-center justify-center gap-2.5 rounded-2xl border-2 border-dashed border-gray-200 bg-gray-50 px-4 py-5 text-sm font-medium text-indigo-700 hover:border-indigo-300 hover:bg-indigo-50/20 transition-all duration-200"
         >
           <ImagePlus className="h-5 w-5 shrink-0" aria-hidden />
           {t('Add photo(s)', 'أضف صورة/صور')}
@@ -315,7 +315,7 @@ export default function RequestCustomPieceForm() {
         {previews.length > 0 && (
           <ul className="mt-3 grid grid-cols-4 gap-2.5">
             {previews.map((src, idx) => (
-              <li key={src} className="relative aspect-square overflow-hidden rounded-xl ring-1 ring-amber-200 group">
+              <li key={src} className="relative aspect-square overflow-hidden rounded-xl ring-1 ring-gray-200 group">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src={src} alt={t('reference', 'مرجع')} className="h-full w-full object-cover" />
                 <button
@@ -333,11 +333,11 @@ export default function RequestCustomPieceForm() {
       </div>
 
       {/* More details (optional, collapsed) */}
-      <div className="rounded-2xl border border-amber-200 overflow-hidden">
+      <div className="rounded-2xl border border-gray-200 overflow-hidden">
         <button
           type="button"
           onClick={() => setShowMore((v) => !v)}
-          className="flex w-full items-center justify-between px-4 py-3 text-sm font-semibold text-gray-700 bg-amber-50/40 hover:bg-amber-50 transition-colors"
+          className="flex w-full items-center justify-between px-4 py-3 text-sm font-semibold text-gray-700 bg-gray-50 hover:bg-amber-50 transition-colors"
           aria-expanded={showMore}
         >
           {t('More details (optional)', 'تفاصيل إضافية (اختياري)')}
@@ -366,7 +366,7 @@ export default function RequestCustomPieceForm() {
                       min={0}
                       value={budgetMin}
                       onChange={(e) => setBudgetMin(e.target.value)}
-                      className="w-full rounded-xl border border-amber-200 px-3 py-2.5 text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30 focus-visible:border-indigo-700 transition-all bg-white"
+                      className="w-full rounded-xl border border-gray-200 px-3 py-2.5 text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30 focus-visible:border-indigo-700 transition-all bg-white"
                     />
                   </div>
                   <div>
@@ -378,7 +378,7 @@ export default function RequestCustomPieceForm() {
                       min={0}
                       value={budgetMax}
                       onChange={(e) => setBudgetMax(e.target.value)}
-                      className="w-full rounded-xl border border-amber-200 px-3 py-2.5 text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30 focus-visible:border-indigo-700 transition-all bg-white"
+                      className="w-full rounded-xl border border-gray-200 px-3 py-2.5 text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30 focus-visible:border-indigo-700 transition-all bg-white"
                     />
                   </div>
                 </div>
@@ -392,7 +392,7 @@ export default function RequestCustomPieceForm() {
                       value={purity}
                       onChange={(e) => setPurity(e.target.value)}
                       placeholder={t('e.g. 18k, 925', 'مثال: 18 قيراط، 925')}
-                      className="w-full rounded-xl border border-amber-200 px-3 py-2.5 text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30 focus-visible:border-indigo-700 transition-all bg-white"
+                      className="w-full rounded-xl border border-gray-200 px-3 py-2.5 text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30 focus-visible:border-indigo-700 transition-all bg-white"
                     />
                   </div>
                   <div>
@@ -404,7 +404,7 @@ export default function RequestCustomPieceForm() {
                       value={size}
                       onChange={(e) => setSize(e.target.value)}
                       placeholder={t('e.g. ring 7, 45cm', 'مثال: خاتم 7، 45سم')}
-                      className="w-full rounded-xl border border-amber-200 px-3 py-2.5 text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30 focus-visible:border-indigo-700 transition-all bg-white"
+                      className="w-full rounded-xl border border-gray-200 px-3 py-2.5 text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30 focus-visible:border-indigo-700 transition-all bg-white"
                     />
                   </div>
                 </div>

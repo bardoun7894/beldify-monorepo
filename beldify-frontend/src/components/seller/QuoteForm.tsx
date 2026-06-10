@@ -71,7 +71,7 @@ export default function QuoteForm({ order, onQuoted }: QuoteFormProps) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="rounded-2xl ring-1 ring-amber-200 bg-white p-5 space-y-4" dir={isRTL ? 'rtl' : 'ltr'}>
+    <form onSubmit={handleSubmit} className="rounded-2xl ring-1 ring-gray-200 bg-white p-5 space-y-4" dir={isRTL ? 'rtl' : 'ltr'}>
       <p className="text-xs uppercase tracking-[0.18em] text-amber-700 font-medium">
         {isRTL ? 'إرسال العرض السعري' : 'Send a Quote'}
       </p>
@@ -99,7 +99,7 @@ export default function QuoteForm({ order, onQuoted }: QuoteFormProps) {
             value={quoteAmount}
             onChange={e => setQuoteAmount(e.target.value)}
             placeholder="1200.00"
-            className="w-full rounded-xl border border-amber-200 px-3.5 py-2.5 text-sm bg-white focus:border-indigo-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30"
+            className="w-full rounded-xl border border-gray-200 px-3.5 py-2.5 text-sm bg-white focus:border-indigo-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30"
           />
         </div>
 
@@ -119,7 +119,7 @@ export default function QuoteForm({ order, onQuoted }: QuoteFormProps) {
             value={depositAmount}
             onChange={e => setDepositAmount(e.target.value)}
             placeholder="400.00"
-            className="w-full rounded-xl border border-amber-200 px-3.5 py-2.5 text-sm bg-white focus:border-indigo-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30"
+            className="w-full rounded-xl border border-gray-200 px-3.5 py-2.5 text-sm bg-white focus:border-indigo-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30"
           />
         </div>
       </div>
@@ -138,7 +138,7 @@ export default function QuoteForm({ order, onQuoted }: QuoteFormProps) {
           min={today}
           value={eta}
           onChange={e => setEta(e.target.value)}
-          className="w-full rounded-xl border border-amber-200 px-3.5 py-2.5 text-sm bg-white focus:border-indigo-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30"
+          className="w-full rounded-xl border border-gray-200 px-3.5 py-2.5 text-sm bg-white focus:border-indigo-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30"
         />
       </div>
 

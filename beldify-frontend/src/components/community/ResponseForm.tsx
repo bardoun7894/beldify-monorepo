@@ -166,7 +166,7 @@ export default function ResponseForm({ onSubmit, onCancel, isLoading }: Response
 
         <form onSubmit={handleSubmit} className="space-y-5">
           {/* ── Bid panel: price + delivery in a highlighted card ── */}
-          <div className="bg-amber-50/70 rounded-2xl ring-1 ring-amber-200 p-4">
+          <div className="bg-gray-50 rounded-2xl ring-1 ring-gray-200 p-4">
             <p className="text-xs font-semibold text-amber-900 uppercase tracking-wide mb-3">
               {t('community.your_bid', 'Your Bid')}
             </p>
@@ -189,7 +189,7 @@ export default function ResponseForm({ onSubmit, onCancel, isLoading }: Response
                       step="1"
                       value={formData.price || ''}
                       onChange={handleNumberChange}
-                      className="ps-9 block w-full border border-amber-200 rounded-xl py-2.5 px-3 focus:outline-none focus:ring-2 focus:ring-indigo-700/30 focus:border-indigo-700 text-sm font-semibold transition-all duration-200 bg-white"
+                      className="ps-9 block w-full border border-gray-200 rounded-xl py-2.5 px-3 focus:outline-none focus:ring-2 focus:ring-indigo-700/30 focus:border-indigo-700 text-sm font-semibold transition-all duration-200 bg-white"
                       placeholder="0"
                     />
                   </div>
@@ -197,7 +197,7 @@ export default function ResponseForm({ onSubmit, onCancel, isLoading }: Response
                     name="currency"
                     value={formData.currency}
                     onChange={handleChange}
-                    className="w-20 border border-amber-200 rounded-xl py-2.5 px-2.5 focus:outline-none focus:ring-2 focus:ring-indigo-700/30 focus:border-indigo-700 text-sm transition-all duration-200 bg-white"
+                    className="w-20 border border-gray-200 rounded-xl py-2.5 px-2.5 focus:outline-none focus:ring-2 focus:ring-indigo-700/30 focus:border-indigo-700 text-sm transition-all duration-200 bg-white"
                   >
                     <option value="MAD">MAD</option>
                     <option value="USD">USD</option>
@@ -227,7 +227,7 @@ export default function ResponseForm({ onSubmit, onCancel, isLoading }: Response
                     step="1"
                     value={formData.delivery_days ?? ''}
                     onChange={handleDeliveryDaysChange}
-                    className="ps-9 block w-full border border-amber-200 rounded-xl py-2.5 px-3 focus:outline-none focus:ring-2 focus:ring-indigo-700/30 focus:border-indigo-700 text-sm font-semibold transition-all duration-200 bg-white"
+                    className="ps-9 block w-full border border-gray-200 rounded-xl py-2.5 px-3 focus:outline-none focus:ring-2 focus:ring-indigo-700/30 focus:border-indigo-700 text-sm font-semibold transition-all duration-200 bg-white"
                     placeholder={t('community.delivery_days_placeholder', 'e.g. 14')}
                   />
                 </div>
@@ -261,7 +261,7 @@ export default function ResponseForm({ onSubmit, onCancel, isLoading }: Response
               value={formData.description}
               onChange={handleChange}
               required
-              className={`w-full px-4 py-3 border border-amber-200 rounded-2xl focus:ring-2 focus:ring-indigo-700/30 focus:border-indigo-700 transition-all duration-200 resize-none text-sm leading-relaxed ${
+              className={`w-full px-4 py-3 border border-gray-200 rounded-2xl focus:ring-2 focus:ring-indigo-700/30 focus:border-indigo-700 transition-all duration-200 resize-none text-sm leading-relaxed ${
                 isRTL ? 'text-right' : 'text-left'
               }`}
               placeholder={t(
@@ -291,7 +291,7 @@ export default function ResponseForm({ onSubmit, onCancel, isLoading }: Response
                 'community.seller_skills_placeholder',
                 'e.g., Embroidery, Tailoring, Design'
               )}
-              className={`block w-full border border-amber-200 rounded-2xl py-2.5 px-4 focus:outline-none focus:ring-2 focus:ring-indigo-700/30 focus:border-indigo-700 text-sm transition-all duration-200 ${
+              className={`block w-full border border-gray-200 rounded-2xl py-2.5 px-4 focus:outline-none focus:ring-2 focus:ring-indigo-700/30 focus:border-indigo-700 text-sm transition-all duration-200 ${
                 isRTL ? 'text-right' : 'text-left'
               }`}
               value={(formData.sellerSkills || []).join(', ')}
@@ -314,7 +314,7 @@ export default function ResponseForm({ onSubmit, onCancel, isLoading }: Response
 
             <label
               htmlFor="response-images"
-              className="flex flex-col items-center justify-center gap-2 cursor-pointer border-2 border-dashed border-amber-200 rounded-2xl py-6 px-4 hover:border-indigo-300 hover:bg-indigo-50/30 transition-all duration-200"
+              className="flex flex-col items-center justify-center gap-2 cursor-pointer border-2 border-dashed border-gray-200 rounded-2xl py-6 px-4 hover:border-indigo-300 hover:bg-indigo-50/30 transition-all duration-200"
             >
               <div className="w-10 h-10 rounded-full bg-amber-50 ring-1 ring-amber-200 flex items-center justify-center">
                 <ImageIcon size={18} className="text-amber-500" />
@@ -366,7 +366,7 @@ export default function ResponseForm({ onSubmit, onCancel, isLoading }: Response
               type="button"
               onClick={onCancel}
               disabled={isLoading}
-              className="px-5 py-2.5 min-h-[44px] border border-amber-200 rounded-full text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-700/30 transition-colors duration-200"
+              className="px-5 py-2.5 min-h-[44px] border border-gray-200 rounded-full text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-700/30 transition-colors duration-200"
             >
               {t('common.cancel', 'Cancel')}
             </button>
