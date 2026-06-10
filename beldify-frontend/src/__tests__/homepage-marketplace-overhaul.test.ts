@@ -25,13 +25,19 @@ describe('Task 1 — Hero height compact (mobile ≤38vh, desktop ≤45vh)', () 
   });
 
   it('uses a compact hero height class (38vh mobile)', () => {
-    // Hero JSX extracted to BrandHeroSlide — heights live there now
-    expect(brandHeroSlide()).toMatch(/min-h-\[38vh\]/);
+    // After campaign-art overhaul, compact heights live in CampaignArtSlides or HeroSection
+    const heroSection = readFileSync(join(SRC, 'components/home/HeroSection.tsx'), 'utf-8');
+    const campaignArtSlides = readFileSync(join(SRC, 'components/home/CampaignArtSlides.tsx'), 'utf-8');
+    const combined = heroSection + campaignArtSlides;
+    expect(combined).toMatch(/min-h-\[38vh\]|h-\[260px\]|h-\[340px\]/);
   });
 
   it('uses a compact hero height for desktop (45vh)', () => {
-    // Hero JSX extracted to BrandHeroSlide — heights live there now
-    expect(brandHeroSlide()).toMatch(/lg:min-h-\[45vh\]/);
+    // After campaign-art overhaul, compact heights live in CampaignArtSlides or HeroSection
+    const heroSection = readFileSync(join(SRC, 'components/home/HeroSection.tsx'), 'utf-8');
+    const campaignArtSlides = readFileSync(join(SRC, 'components/home/CampaignArtSlides.tsx'), 'utf-8');
+    const combined = heroSection + campaignArtSlides;
+    expect(combined).toMatch(/lg:min-h-\[45vh\]|lg:h-\[400px\]/);
   });
 });
 

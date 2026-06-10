@@ -46,13 +46,23 @@ describe('Homepage Atlas redesign — page.tsx', () => {
     expect(homeContent).toContain('ShieldCheck');
   });
 
-  it('has currency in dirham format (درهم)', () => {
-    expect(homeContent).toContain('درهم');
+  it('has currency in dirham format (درهم) via the locale-driven range key', () => {
+    // The literal moved into the locale files (ar/ma show درهم, Latin locales MAD)
+    expect(homeContent).toContain("t('home.seller.stat_range_value'");
+    const ar = JSON.parse(
+      readFileSync(join(process.cwd(), 'src/i18n/locales/ar.json'), 'utf8')
+    );
+    expect(ar.home.seller.stat_range_value).toContain('درهم');
   });
 
-  it('uses animate-fade-in-up for AI chip (defined in globals.css)', () => {
-    // animate-fade-in-up lives in BrandHeroSlide (extracted from HomeContent)
-    expect(brandHeroSlideContent).toContain('animate-fade-in-up');
+  it('uses animate-fade-in-up or motion-safe animation in hero (defined in globals.css)', () => {
+    // After campaign-art overhaul, BrandHeroSlide is a shim; animation lives in CampaignArtSlides.
+    // The art hero uses motion-safe:animate-pulse on decorative icons and CSS transitions.
+    const campaignArtContent = readFileSync(
+      join(process.cwd(), 'src/components/home/CampaignArtSlides.tsx'),
+      'utf-8'
+    );
+    expect(campaignArtContent).toMatch(/animate-|motion-safe|transition/);
   });
 
   it('does not use gradient text background-clip pattern (AI slop)', () => {

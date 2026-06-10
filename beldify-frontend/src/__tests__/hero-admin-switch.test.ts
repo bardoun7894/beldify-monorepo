@@ -66,28 +66,26 @@ describe('Task 1b — hero prop threaded through page.tsx and HomeContent', () =
 });
 
 // ─────────────────────────────────────────────────────────────────────────────
-// TASK 2a — BrandHeroSlide.tsx: extracted hero component
+// TASK 2a — BrandHeroSlide.tsx: now a legacy shim (photo hero replaced)
 // ─────────────────────────────────────────────────────────────────────────────
-describe('Task 2a — BrandHeroSlide.tsx extraction', () => {
-  it('BrandHeroSlide.tsx file exists', () => {
+describe('Task 2a — BrandHeroSlide.tsx (legacy shim)', () => {
+  it('BrandHeroSlide.tsx file exists (kept for import safety)', () => {
     expect(existsSync(brandHeroSlidePath)).toBe(true);
   });
 
-  it('BrandHeroSlide uses hero-atelier.jpg (same image as original)', () => {
-    expect(brandHeroSlide()).toContain('hero-atelier.jpg');
+  it('BrandHeroSlide is a shim — photo hero-atelier.jpg removed', () => {
+    // The photo hero has been replaced by CampaignArtSlides
+    expect(brandHeroSlide()).not.toContain('hero-atelier.jpg');
   });
 
-  it('BrandHeroSlide contains search input (search bar preserved)', () => {
-    expect(brandHeroSlide()).toContain('hero-search');
+  it('BrandHeroSlide no longer contains search bar (replaced by art slide)', () => {
+    // Search bar was in old photo hero; art slides have no search bar (header has search)
+    expect(brandHeroSlide()).not.toContain('hero-search');
   });
 
-  it('BrandHeroSlide uses compact hero heights min-h-[38vh] lg:min-h-[45vh]', () => {
-    expect(brandHeroSlide()).toMatch(/min-h-\[38vh\]/);
-    expect(brandHeroSlide()).toMatch(/lg:min-h-\[45vh\]/);
-  });
-
-  it('BrandHeroSlide does not hardcode strings — uses t() for all user-visible text', () => {
-    expect(brandHeroSlide()).toContain('useTranslation');
+  it('BrandHeroSlide re-exports from CampaignArtSlides (art carousel is the default)', () => {
+    // The shim must forward to the new art slides
+    expect(brandHeroSlide()).toMatch(/CampaignArtSlides|ArtSlide/);
   });
 });
 
@@ -147,25 +145,26 @@ describe('Task 2b — HeroSection.tsx carousel logic', () => {
     expect(heroSection()).toMatch(/amber-500|amber500/);
   });
 
-  it('HeroSection brand slide is always slide 1 (index 0) in campaign mode', () => {
-    // BrandHeroSlide must be the first slide rendered inside a SwiperSlide
+  it('HeroSection art slides are always first (index 0-2) inside SwiperSlide tags', () => {
+    // ArtSlide components appear inside SwiperSlide tags as the first 3 slides
     const content = heroSection();
-    const brandSlideIdx = content.indexOf('BrandHeroSlide');
+    const artSlideIdx = content.indexOf('ArtSlide');
     const swiperSlideIdx = content.indexOf('SwiperSlide');
-    // BrandHeroSlide appears inside SwiperSlide tags
-    expect(brandSlideIdx).toBeGreaterThan(-1);
+    // ArtSlide appears inside SwiperSlide tags
+    expect(artSlideIdx).toBeGreaterThan(-1);
     expect(swiperSlideIdx).toBeGreaterThan(-1);
   });
 
-  it('HeroSection falls back to BrandHeroSlide when mode is brand', () => {
-    // In brand mode, should NOT render Swiper carousel, just BrandHeroSlide
+  it('HeroSection always shows art-slides carousel (brand mode = art slides, not photo hero)', () => {
+    // After campaign-art overhaul, brand mode shows the art carousel (not photo hero)
     const content = heroSection();
-    // There must be a conditional branch for mode === 'brand'
-    expect(content).toMatch(/mode.*brand|brand.*mode/);
+    // Art slides must be present — the carousel is always rendered
+    expect(content).toMatch(/ArtSlide|CampaignArtSlides/);
   });
 
-  it('HeroSection falls back to BrandHeroSlide when banners array is empty', () => {
-    expect(heroSection()).toMatch(/banners\.length|banners\s*&&/);
+  it('HeroSection conditionally renders DB banner slides when campaign banners exist', () => {
+    // DB banners only render in campaign mode with banners — guarded by showDBBanners
+    expect(heroSection()).toMatch(/banners\.length|banners\s*&&|showDBBanners/);
   });
 
   it('HeroSection maintains compact hero heights min-h-[38vh] lg:min-h-[45vh]', () => {

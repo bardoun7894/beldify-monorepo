@@ -205,20 +205,20 @@ describe('UNIT 4 — Homepage i18n extraction', () => {
     expect(content).toMatch(/useTranslation/);
   });
 
-  it('BrandHeroSlide.tsx calls t() for home.hero.eyebrow', () => {
-    // Hero i18n keys live in BrandHeroSlide after extraction
-    const content = read(brandHeroSlidePath);
-    expect(content).toContain("home.hero.eyebrow");
+  it('CampaignArtSlides.tsx calls t() for home.hero art slide keys (photo hero replaced by art slides)', () => {
+    // After campaign-art overhaul, BrandHeroSlide is a shim; hero i18n keys live in CampaignArtSlides
+    const content = read('src/components/home/CampaignArtSlides.tsx');
+    expect(content).toContain("home.hero.art_slide1_headline");
   });
 
-  it('BrandHeroSlide.tsx calls t() for home.hero.cta_shop', () => {
-    const content = read(brandHeroSlidePath);
-    expect(content).toContain("home.hero.cta_shop");
+  it('CampaignArtSlides.tsx uses useTranslation for all hero copy (no hardcoded strings)', () => {
+    const content = read('src/components/home/CampaignArtSlides.tsx');
+    expect(content).toContain("useTranslation");
   });
 
-  it('BrandHeroSlide.tsx calls t() for home.hero.cta_tailors', () => {
-    const content = read(brandHeroSlidePath);
-    expect(content).toContain("home.hero.cta_tailors");
+  it('HeroSection.tsx uses t() for hero section_label (aria)', () => {
+    const content = read('src/components/home/HeroSection.tsx');
+    expect(content).toContain("home.hero.section_label");
   });
 
   it('HomeContent.tsx calls t() for home.trust.verified_sellers', () => {

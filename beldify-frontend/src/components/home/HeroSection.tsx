@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Pagination, A11y, Keyboard } from 'swiper/modules';
 import { useTranslation } from 'react-i18next';
+import CampaignArtSlides, { ArtSlide } from './CampaignArtSlides';
 import BrandHeroSlide from './BrandHeroSlide';
 import '@/i18n/config';
 
@@ -54,7 +55,7 @@ function positionClasses(text_position: string): string {
 }
 
 /**
- * BannerSlide — a single campaign banner slide.
+ * BannerSlide — a single campaign banner slide (DB-driven).
  * Full-bleed next/image + indigo gradient + localized copy + amber CTA chip.
  */
 function BannerSlide({ banner, isFirst }: { banner: HeroBanner; isFirst: boolean }) {
@@ -106,16 +107,19 @@ function BannerSlide({ banner, isFirst }: { banner: HeroBanner; isFirst: boolean
 /**
  * HeroSection — the top-of-page hero component.
  *
- * Behavior:
- *  - mode 'brand' OR banners.length === 0 → render BrandHeroSlide (no carousel)
+ * Behavior (updated for campaign-art hero):
+ *  - mode 'brand' OR banners.length === 0 → render CampaignArtSlides Swiper carousel
+ *    (3 built-in art slides — no photos, pure CSS/SVG gradients)
  *  - mode 'campaign' AND banners.length > 0 → Swiper carousel:
- *      slide 0 = BrandHeroSlide (fully functional, search bar intact)
- *      slides 1..N = one BannerSlide per banner
+ *      slides 0..2 = the 3 art slides (CampaignArtSlides)
+ *      slides 3..N = one BannerSlide per DB banner
  *
  * Carousel specs:
  *  - autoplay delay: 6000ms, pauseOnMouseEnter: true
  *  - loop: true
- *  - Pagination dots: white/40 inactive, amber-500 active (via CSS vars — see globals)
+ *  - Pagination dots:
+ *      Slides 1-2 (indigo bg): white/40 inactive, amber-500 active
+ *      Slide 3 (amber bg): indigo-950/30 inactive, indigo-950 active
  *  - RTL: Swiper reads `dir` from the DOM
  *  - prefers-reduced-motion: autoplay disabled
  */
@@ -132,21 +136,10 @@ export default function HeroSection({ hero }: HeroSectionProps) {
     return () => mq.removeEventListener('change', handler);
   }, []);
 
-  const showCarousel = hero.mode === 'campaign' && hero.banners.length > 0;
+  const showDBBanners = hero.mode === 'campaign' && hero.banners.length > 0;
 
-  // Brand-only mode: render the BrandHeroSlide directly with its own section wrapper
-  if (!showCarousel) {
-    return (
-      <section
-        className="relative isolate overflow-hidden min-h-[38vh] lg:min-h-[45vh]"
-        aria-label={t('home.hero.section_label', 'Hero')}
-      >
-        <BrandHeroSlide />
-      </section>
-    );
-  }
-
-  // Campaign mode: Swiper carousel with brand slide first
+  // Both brand mode AND campaign mode (no banners) → render built-in art carousel
+  // Campaign mode with DB banners → art slides first, then DB banner slides
   return (
     <section
       className="relative min-h-[38vh] lg:min-h-[45vh]"
@@ -165,6 +158,13 @@ export default function HeroSection({ hero }: HeroSectionProps) {
           background: rgb(245 158 11); /* amber-500 */
           transform: scale(1.25);
         }
+        /* Slide 3 (amber background) — invert dots to indigo-950 for visibility */
+        .hero-swiper-slide-3-active .swiper-pagination-bullet {
+          background: rgba(30, 27, 75, 0.30); /* indigo-950/30 */
+        }
+        .hero-swiper-slide-3-active .swiper-pagination-bullet-active {
+          background: rgb(30 27 75); /* indigo-950 */
+        }
       `}</style>
 
       <Swiper
@@ -182,14 +182,30 @@ export default function HeroSection({ hero }: HeroSectionProps) {
           nextSlideMessage: t('home.hero.carousel_next', 'Next slide'),
         }}
         keyboard={{ enabled: true }}
+        onSlideChange={(swiper) => {
+          // Toggle amber-slide dot variant on slide index 2 (0-based = slide 3)
+          const container = swiper.el;
+          const realIdx = swiper.realIndex;
+          if (realIdx === 2) {
+            container.classList.add('hero-swiper-slide-3-active');
+          } else {
+            container.classList.remove('hero-swiper-slide-3-active');
+          }
+        }}
       >
-        {/* Slide 0 — brand hero (search bar + full CTAs) */}
+        {/* Art slides 0-2 — always present (default hero for brand mode) */}
         <SwiperSlide>
-          <BrandHeroSlide />
+          <ArtSlide slide={1} />
+        </SwiperSlide>
+        <SwiperSlide>
+          <ArtSlide slide={2} />
+        </SwiperSlide>
+        <SwiperSlide>
+          <ArtSlide slide={3} />
         </SwiperSlide>
 
-        {/* Slides 1..N — campaign banners */}
-        {hero.banners.map((banner, idx) => (
+        {/* DB campaign banners — only rendered when mode=campaign AND banners exist */}
+        {showDBBanners && hero.banners.map((banner, idx) => (
           <SwiperSlide key={banner.id}>
             <BannerSlide banner={banner} isFirst={idx === 0} />
           </SwiperSlide>
