@@ -41,6 +41,29 @@ vi.mock('@/services/sellerOnboardingService', () => ({
   getSellerProducts: () => mockGetSellerProducts(),
 }));
 
+// AI-related mocks (added when marketing copy was integrated into the products list)
+vi.mock('@/services/sellerCreditService', () => ({
+  getSellerCredits: vi.fn().mockResolvedValue({
+    balance: 10,
+    costs: { listing_writer: 2, store_creator: 2, translate_listing: 1, marketing_copy: 1 },
+    transactions: [],
+  }),
+}));
+
+vi.mock('@/services/sellerAiService', () => ({
+  generateMarketing: vi.fn(),
+  generateListing: vi.fn(),
+  translateListing: vi.fn(),
+  generateStoreProfile: vi.fn(),
+  InsufficientCreditsError: class InsufficientCreditsError extends Error {
+    balance: number; cost: number; feature: string;
+    constructor(balance: number, cost: number, feature: string) {
+      super('insufficient_credits');
+      this.balance = balance; this.cost = cost; this.feature = feature;
+    }
+  },
+}));
+
 const MOCK_PRODUCTS = {
   data: [
     { id: 1, name: 'Caftan Brodé', price: '450.00', is_active: true, quantity: 10 },

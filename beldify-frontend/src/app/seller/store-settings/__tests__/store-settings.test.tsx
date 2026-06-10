@@ -58,6 +58,29 @@ vi.mock('@/services/sellerOnboardingService', () => ({
   updateStoreProfile: (...args: unknown[]) => mockUpdateStoreProfile(...args),
 }));
 
+// AI-related mocks (added when AI store generation was integrated into store settings)
+vi.mock('@/services/sellerCreditService', () => ({
+  getSellerCredits: vi.fn().mockResolvedValue({
+    balance: 10,
+    costs: { listing_writer: 2, store_creator: 2, translate_listing: 1, marketing_copy: 1 },
+    transactions: [],
+  }),
+}));
+
+vi.mock('@/services/sellerAiService', () => ({
+  generateStoreProfile: vi.fn(),
+  generateListing: vi.fn(),
+  translateListing: vi.fn(),
+  generateMarketing: vi.fn(),
+  InsufficientCreditsError: class InsufficientCreditsError extends Error {
+    balance: number; cost: number; feature: string;
+    constructor(balance: number, cost: number, feature: string) {
+      super('insufficient_credits');
+      this.balance = balance; this.cost = cost; this.feature = feature;
+    }
+  },
+}));
+
 const mockUseAuth = vi.fn();
 vi.mock('@/hooks/useAuth', () => ({
   useAuth: () => mockUseAuth(),

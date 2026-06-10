@@ -165,13 +165,13 @@ describe('Newsletter.tsx — structural lock (pre-migration state)', () => {
 // ─── MegaOffers.tsx ────────────────────────────────────────────────────────────
 
 describe('MegaOffers.tsx — Atlas visual port', () => {
-  it('ATLAS_PRIMARY constant uses Atlas hex #252555', () => {
-    expect(megaOffers).toContain('#252555');
+  it('uses the Atlas primary CSS-var token (raw hex constant retired)', () => {
+    expect(megaOffers).toContain('hsl(var(--primary))');
     expect(megaOffers).not.toContain("'#4338ca'");
   });
 
-  it('ATLAS_ACCENT constant uses Atlas hex #fea619', () => {
-    expect(megaOffers).toContain('#fea619');
+  it('uses the Atlas secondary CSS-var token (raw hex constant retired)', () => {
+    expect(megaOffers).toContain('hsl(var(--secondary))');
     expect(megaOffers).not.toContain("'#f59e0b'");
   });
 

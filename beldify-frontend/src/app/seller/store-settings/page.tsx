@@ -7,11 +7,9 @@
  *   - Prefills via GET /api/seller/store-profile
  *   - Saves via PUT /api/seller/store-profile
  *   - Surfaces 422 field errors under the relevant inputs
+ *   - AI "Generate with AI" button → store creator — fills description + shows extras
  *
  * Section B: Store vertical picker
- *   - Reads current store_type from the loaded profile
- *   - Future: PUT store_type via the same store-profile endpoint once backend
- *     exposes the field (currently vertical is stored separately via T030 contract)
  */
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -24,6 +22,8 @@ import {
   CheckCircle2,
   ChevronRight,
   Save,
+  X,
+  Copy,
 } from 'lucide-react';
 import { fetchVerticalConfig, VerticalSlug } from '@/services/verticalService';
 import {
@@ -33,6 +33,14 @@ import {
 } from '@/services/sellerOnboardingService';
 import toast from '@/utils/toast';
 import { cn } from '@/lib/utils';
+import { AiGenerateButton } from '@/components/seller/AiGenerateButton';
+import { InsufficientCreditsModal } from '@/components/seller/InsufficientCreditsModal';
+import { getSellerCredits, FeatureCosts } from '@/services/sellerCreditService';
+import {
+  generateStoreProfile,
+  StoreProfileResult,
+  InsufficientCreditsError,
+} from '@/services/sellerAiService';
 
 const playfair = { fontFamily: '"Playfair Display", ui-serif, Georgia, serif' };
 
@@ -134,6 +142,24 @@ export default function StoreSettingsPage() {
   const [verticalSaving, setVerticalSaving] = useState(false);
   const [verticalSaved, setVerticalSaved] = useState(false);
 
+  // ── AI state ──────────────────────────────────────────────────────────────
+  const [costs, setCosts] = useState<FeatureCosts | null>(null);
+  const [aiGenerating, setAiGenerating] = useState(false);
+  const [aiResult, setAiResult] = useState<StoreProfileResult | null>(null);
+
+  // AI generation inputs
+  const [aiWhatYouSell, setAiWhatYouSell] = useState('');
+  const [aiCity, setAiCity] = useState('');
+  const [aiStyle, setAiStyle] = useState('');
+
+  // InsufficientCreditsModal state
+  const [creditsModal, setCreditsModal] = useState<{
+    open: boolean;
+    cost?: number;
+    balance?: number;
+    feature?: string;
+  }>({ open: false });
+
   // ── Load profile on mount ─────────────────────────────────────────────────
   useEffect(() => {
     getStoreProfile()
@@ -155,6 +181,13 @@ export default function StoreSettingsPage() {
         // Non-fatal — new store may have no profile yet; allow editing
       })
       .finally(() => setProfileLoading(false));
+  }, []);
+
+  // Fetch AI costs on mount
+  useEffect(() => {
+    getSellerCredits()
+      .then((data) => setCosts(data.costs))
+      .catch(() => {});
   }, []);
 
   // ── Fetch field preview when vertical selected ────────────────────────────
@@ -198,14 +231,12 @@ export default function StoreSettingsPage() {
     } catch (err: any) {
       if (err?.response?.status === 422) {
         const errors = err.response.data?.errors ?? {};
-        // Map backend field errors → display under inputs
         const mapped: Record<string, string> = {};
         for (const [key, msgs] of Object.entries(errors)) {
           mapped[key] = Array.isArray(msgs) ? (msgs as string[])[0] : String(msgs);
         }
         if (Object.keys(mapped).length > 0) {
           setFieldErrors(mapped);
-          // Show top-level error with first message as fallback
           const firstMsg = Object.values(mapped)[0];
           setProfileError(firstMsg);
         } else {
@@ -232,8 +263,6 @@ export default function StoreSettingsPage() {
   const handleVerticalSave = async () => {
     if (!pendingVertical) return;
     setVerticalSaving(true);
-    // The vertical is saved alongside the profile update when the endpoint supports it.
-    // Until then, a lightweight profile PUT with store_type appended suffices.
     try {
       await updateStoreProfile({
         name: profile.name || 'My Store',
@@ -246,10 +275,47 @@ export default function StoreSettingsPage() {
       toast.success(t('seller.store_settings.vertical_saved', 'Store type updated!'));
       setTimeout(() => setVerticalSaved(false), 2500);
     } catch {
-      // API failure — revert: do NOT apply the optimistic update
       toast.error(t('seller.store_settings.vertical_save_error', 'Failed to update store type. Please try again.'));
     } finally {
       setVerticalSaving(false);
+    }
+  };
+
+  // ── AI handlers ───────────────────────────────────────────────────────────
+
+  const handleAiGenerate = async () => {
+    setAiGenerating(true);
+    setAiResult(null);
+    try {
+      const res = await generateStoreProfile({
+        what_you_sell: aiWhatYouSell || profile.description || profile.name || 'handmade products',
+        city: aiCity || undefined,
+        style: aiStyle || undefined,
+        locale: (i18n.language as any) || 'en',
+      });
+      setAiResult(res.result);
+    } catch (err) {
+      if (err instanceof InsufficientCreditsError) {
+        setCreditsModal({ open: true, cost: err.cost, balance: err.balance, feature: err.feature });
+      } else {
+        toast.error(t('ai.generate_error', 'AI generation failed. Credits were not charged.'));
+      }
+    } finally {
+      setAiGenerating(false);
+    }
+  };
+
+  const applyDescription = (text: string) => {
+    setProfile(prev => ({ ...prev, description: text }));
+    toast.success(t('ai.applied', 'Applied to store description.'));
+  };
+
+  const copyText = async (text: string) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      toast.success(t('ai.copied', 'Copied!'));
+    } catch {
+      toast.error(t('ai.copy_failed', 'Could not copy to clipboard.'));
     }
   };
 
@@ -273,11 +339,17 @@ export default function StoreSettingsPage() {
 
         {/* ── Section A: Store profile ── */}
         <div className="bg-white rounded-2xl ring-1 ring-gray-200 shadow-sm overflow-hidden">
-          <div className="px-6 py-4 border-b border-gray-100 flex items-center justify-between gap-4">
+          <div className="px-6 py-4 border-b border-gray-100 flex items-center justify-between gap-4 flex-wrap">
             <h2 className="text-sm font-semibold text-gray-900">
               {t('seller.store_settings.profile_section', 'Store information')}
             </h2>
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-3 flex-wrap">
+              <AiGenerateButton
+                label={t('ai.generate_store', 'Generate with AI')}
+                cost={costs?.store_creator ?? 2}
+                onClick={handleAiGenerate}
+                loading={aiGenerating}
+              />
               {profileSaved && (
                 <span className="inline-flex items-center gap-1.5 text-sm font-medium text-emerald-700">
                   <CheckCircle2 className="h-4 w-4" aria-hidden />
@@ -318,6 +390,152 @@ export default function StoreSettingsPage() {
               </div>
             ) : (
               <>
+                {/* AI generation inputs — shown as inline panel */}
+                <div className="rounded-2xl bg-indigo-50/70 ring-1 ring-indigo-200 p-4 space-y-3">
+                  <p className="text-xs uppercase tracking-[0.18em] text-indigo-700 font-medium">
+                    {t('ai.store_gen_section', 'AI generation inputs (optional)')}
+                  </p>
+                  <div className="grid sm:grid-cols-3 gap-3">
+                    <div>
+                      <label className="block text-xs font-medium text-gray-600 mb-1" htmlFor="ai-what-you-sell">
+                        {t('ai.what_you_sell', 'What do you sell?')}
+                      </label>
+                      <input
+                        id="ai-what-you-sell"
+                        type="text"
+                        value={aiWhatYouSell}
+                        onChange={(e) => setAiWhatYouSell(e.target.value)}
+                        placeholder={t('ai.what_you_sell_placeholder', 'e.g. handmade jewelry')}
+                        className={inputClass}
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-medium text-gray-600 mb-1" htmlFor="ai-city">
+                        {t('ai.city', 'City')}
+                      </label>
+                      <input
+                        id="ai-city"
+                        type="text"
+                        value={aiCity}
+                        onChange={(e) => setAiCity(e.target.value)}
+                        placeholder={t('ai.city_placeholder', 'e.g. Marrakech')}
+                        className={inputClass}
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-medium text-gray-600 mb-1" htmlFor="ai-style">
+                        {t('ai.style', 'Style')}
+                      </label>
+                      <input
+                        id="ai-style"
+                        type="text"
+                        value={aiStyle}
+                        onChange={(e) => setAiStyle(e.target.value)}
+                        placeholder={t('ai.style_placeholder', 'e.g. traditional')}
+                        className={inputClass}
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                {/* AI results panel */}
+                {aiResult && (
+                  <div className="rounded-2xl bg-white ring-1 ring-indigo-200 shadow-sm p-5 space-y-4">
+                    <div className="flex items-center justify-between gap-2">
+                      <p className="text-xs uppercase tracking-[0.18em] text-indigo-700 font-semibold">
+                        {t('ai.store_results_title', 'AI generated store content')}
+                      </p>
+                      <button
+                        type="button"
+                        onClick={() => setAiResult(null)}
+                        aria-label={t('common.dismiss', 'Dismiss')}
+                        className="text-gray-400 hover:text-gray-600 transition-colors"
+                      >
+                        <X className="w-4 h-4" aria-hidden="true" />
+                      </button>
+                    </div>
+
+                    {/* Name ideas */}
+                    {aiResult.name_ideas?.length > 0 && (
+                      <div>
+                        <p className="text-xs font-medium text-gray-700 mb-2">
+                          {t('ai.name_ideas', 'Name ideas')}
+                        </p>
+                        <div className="flex flex-wrap gap-2">
+                          {aiResult.name_ideas.map((name) => (
+                            <button
+                              key={name}
+                              type="button"
+                              onClick={() => copyText(name)}
+                              aria-label={t('ai.copy_name', 'Copy {{name}}', { name })}
+                              className="inline-flex items-center gap-1 rounded-full bg-indigo-50 ring-1 ring-indigo-200 px-3 py-1 text-xs font-medium text-indigo-800 hover:bg-indigo-100 transition-colors"
+                            >
+                              <Copy className="w-3 h-3" aria-hidden="true" />
+                              {name}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Slogan */}
+                    {aiResult.slogan && (
+                      <div>
+                        <div className="flex items-center justify-between gap-2 mb-1">
+                          <p className="text-xs font-medium text-gray-700">
+                            {t('ai.slogan', 'Slogan')}
+                          </p>
+                          <button
+                            type="button"
+                            onClick={() => copyText(aiResult.slogan)}
+                            aria-label={t('ai.copy_slogan', 'Copy slogan')}
+                            className="inline-flex items-center gap-1 text-xs font-medium text-indigo-700 hover:text-indigo-900 transition-colors"
+                          >
+                            <Copy className="w-3.5 h-3.5" aria-hidden="true" />
+                            {t('common.copy', 'Copy')}
+                          </button>
+                        </div>
+                        <p className="text-sm text-gray-800 bg-amber-50 ring-1 ring-amber-200 rounded-xl px-3 py-2 italic">
+                          {aiResult.slogan}
+                        </p>
+                      </div>
+                    )}
+
+                    {/* Description */}
+                    {aiResult.description && (
+                      <div>
+                        <div className="flex items-center justify-between gap-2 mb-1">
+                          <p className="text-xs font-medium text-gray-700">
+                            {t('ai.description', 'Description')}
+                          </p>
+                          <div className="flex items-center gap-2">
+                            <button
+                              type="button"
+                              onClick={() => applyDescription(aiResult.description)}
+                              className="inline-flex items-center gap-1 text-xs font-semibold text-indigo-700 hover:text-indigo-900 transition-colors"
+                            >
+                              <CheckCircle2 className="w-3.5 h-3.5" aria-hidden="true" />
+                              {t('ai.apply', 'Apply')}
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => copyText(aiResult.description)}
+                              aria-label={t('ai.copy_description', 'Copy description')}
+                              className="inline-flex items-center gap-1 text-xs font-medium text-indigo-700 hover:text-indigo-900 transition-colors"
+                            >
+                              <Copy className="w-3.5 h-3.5" aria-hidden="true" />
+                              {t('common.copy', 'Copy')}
+                            </button>
+                          </div>
+                        </div>
+                        <p className="text-sm text-gray-800 bg-amber-50 ring-1 ring-amber-200 rounded-xl px-3 py-2">
+                          {aiResult.description}
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                )}
+
                 {/* Store name */}
                 <div>
                   <label htmlFor="store-name" className="block text-sm font-medium text-gray-700 mb-1.5">
@@ -565,6 +783,15 @@ export default function StoreSettingsPage() {
           </div>
         </div>
       </div>
+
+      {/* Insufficient credits modal */}
+      <InsufficientCreditsModal
+        open={creditsModal.open}
+        onClose={() => setCreditsModal({ open: false })}
+        cost={creditsModal.cost}
+        balance={creditsModal.balance}
+        feature={creditsModal.feature}
+      />
     </div>
   );
 }

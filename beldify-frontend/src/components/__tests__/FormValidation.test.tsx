@@ -2,7 +2,6 @@ import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import React from 'react'
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 import { useForm as _useForm } from 'react-hook-form'
 // declarations.d.ts declares react-hook-form as untyped; cast to recover generics.
 const useForm = _useForm as <T extends Record<string, any>>() => ReturnType<typeof _useForm>

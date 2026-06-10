@@ -56,6 +56,29 @@ vi.mock('@/services/sellerOnboardingService', () => ({
   getSellerProducts: () => mockGetSellerProducts(),
 }));
 
+// AI-related mocks (needed after marketing copy integration)
+vi.mock('@/services/sellerCreditService', () => ({
+  getSellerCredits: vi.fn().mockResolvedValue({
+    balance: 10,
+    costs: { listing_writer: 2, store_creator: 2, translate_listing: 1, marketing_copy: 1 },
+    transactions: [],
+  }),
+}));
+
+vi.mock('@/services/sellerAiService', () => ({
+  generateMarketing: vi.fn(),
+  generateListing: vi.fn(),
+  translateListing: vi.fn(),
+  generateStoreProfile: vi.fn(),
+  InsufficientCreditsError: class InsufficientCreditsError extends Error {
+    balance: number; cost: number; feature: string;
+    constructor(balance: number, cost: number, feature: string) {
+      super('insufficient_credits');
+      this.balance = balance; this.cost = cost; this.feature = feature;
+    }
+  },
+}));
+
 const AUTH_SELLER = { isAuthenticated: true, user: { role: 'seller', is_seller: true } };
 
 const MOCK_PRODUCTS = {

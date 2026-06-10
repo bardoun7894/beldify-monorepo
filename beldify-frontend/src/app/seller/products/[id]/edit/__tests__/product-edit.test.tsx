@@ -108,6 +108,29 @@ vi.mock('@/services/verticalService', () => ({
   patchProductVerticalConfig: (...args: unknown[]) => mockPatchProductVerticalConfig(...args),
 }));
 
+// AI-related mocks (added when AI features were integrated into the edit form)
+vi.mock('@/services/sellerCreditService', () => ({
+  getSellerCredits: vi.fn().mockResolvedValue({
+    balance: 10,
+    costs: { listing_writer: 2, store_creator: 2, translate_listing: 1, marketing_copy: 1 },
+    transactions: [],
+  }),
+}));
+
+vi.mock('@/services/sellerAiService', () => ({
+  generateListing: vi.fn(),
+  translateListing: vi.fn(),
+  generateStoreProfile: vi.fn(),
+  generateMarketing: vi.fn(),
+  InsufficientCreditsError: class InsufficientCreditsError extends Error {
+    balance: number; cost: number; feature: string;
+    constructor(balance: number, cost: number, feature: string) {
+      super('insufficient_credits');
+      this.balance = balance; this.cost = cost; this.feature = feature;
+    }
+  },
+}));
+
 const JEWELRY_CONFIG = {
   vertical: 'jewelry',
   fields: [
@@ -196,7 +219,7 @@ describe('SellerEditProductPage', () => {
     const { default: Page } = await import('../page');
     render(<Page />);
     await screen.findByLabelText(/product name.*english/i);
-    const submitBtn = screen.getByRole('button', { name: /save|update|edit/i });
+    const submitBtn = screen.getByRole('button', { name: /save changes/i });
     expect(submitBtn).toBeTruthy();
   });
 
@@ -204,7 +227,7 @@ describe('SellerEditProductPage', () => {
     const { default: Page } = await import('../page');
     render(<Page />);
     await screen.findByLabelText(/product name.*english/i);
-    const submitBtn = screen.getByRole('button', { name: /save|update|edit/i });
+    const submitBtn = screen.getByRole('button', { name: /save changes/i });
     fireEvent.click(submitBtn);
     await waitFor(() => {
       expect(mockUpdateSellerProduct).toHaveBeenCalled();
@@ -217,7 +240,7 @@ describe('SellerEditProductPage', () => {
     const { default: Page } = await import('../page');
     render(<Page />);
     await screen.findByLabelText(/product name.*english/i);
-    const submitBtn = screen.getByRole('button', { name: /save|update|edit/i });
+    const submitBtn = screen.getByRole('button', { name: /save changes/i });
     fireEvent.click(submitBtn);
     await waitFor(() => {
       expect(mockPush).toHaveBeenCalledWith('/seller/products');
@@ -234,7 +257,7 @@ describe('SellerEditProductPage', () => {
     const { default: Page } = await import('../page');
     render(<Page />);
     await screen.findByLabelText(/product name.*english/i);
-    const submitBtn = screen.getByRole('button', { name: /save|update|edit/i });
+    const submitBtn = screen.getByRole('button', { name: /save changes/i });
     fireEvent.click(submitBtn);
     const errMsg = await screen.findByText(/already been taken|validation|check your input/i);
     expect(errMsg).toBeTruthy();
@@ -265,7 +288,7 @@ describe('SellerEditProductPage', () => {
     render(<Page />);
     await screen.findByLabelText(/product name.*english/i);
     await screen.findByLabelText(/material/i);
-    const submitBtn = screen.getByRole('button', { name: /save|update|edit/i });
+    const submitBtn = screen.getByRole('button', { name: /save changes/i });
     fireEvent.click(submitBtn);
     await waitFor(() => {
       expect(mockUpdateSellerProduct).toHaveBeenCalled();

@@ -642,6 +642,8 @@ export default function ProductDetailsPage() {
       variantId: selectedVariant?.id,
       price: selectedVariant?.price || product?.price
     });
+    // price/variant snapshot is intentionally driven by the selection keys only
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedColor, selectedSize, selectedFabric, updateSelectedVariant]);
 
   // Effect to set initial variant and display related images
@@ -710,6 +712,8 @@ export default function ProductDetailsPage() {
         });
       }
     }
+    // initial variant/images are derived once per product load by design
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [product]);
 
   // Type predicate to help TypeScript understand filtered values
@@ -763,6 +767,8 @@ export default function ProductDetailsPage() {
     ));
     
     return { colors, sizes, fabrics }; 
+    // selectedFabric kept for parity with sibling selectors; memo is cheap
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [product, selectedColor, selectedSize, selectedFabric]);
 
   // Use the available options in your render
@@ -1095,6 +1101,8 @@ export default function ProductDetailsPage() {
     };
 
     fetchProduct();
+    // fetch is keyed by route id only; t() is stable enough for error copy
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
   // Fetch 8 related products once; split into two distinct shelf slices:

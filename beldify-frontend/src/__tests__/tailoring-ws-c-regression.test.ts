@@ -61,7 +61,7 @@ describe('bug 10 — buyer tailors list is wired to the real API', () => {
 
   it('the duplicate detail route now redirects to the canonical one', () => {
     const dup = read('app/services/tailoring/tailors/[id]/page.tsx');
-    expect(dup).toContain("redirect(`/services/tailoring/${params.id}`)");
+    expect(dup).toContain("redirect(`/services/tailoring/${id}`)");
     expect(dup).not.toContain('content.tailorDetail');
   });
 });

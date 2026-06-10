@@ -11,7 +11,7 @@ const pageSrc = readFileSync(join(__dirname, '../page.tsx'), 'utf-8');
 
 describe('services/tailoring/tailors/[id] — collapsed duplicate route', () => {
   it('redirects to the canonical detail route', () => {
-    expect(pageSrc).toContain("redirect(`/services/tailoring/${params.id}`)");
+    expect(pageSrc).toContain("redirect(`/services/tailoring/${id}`)");
   });
 
   it('no longer contains mock tailor-detail content', () => {

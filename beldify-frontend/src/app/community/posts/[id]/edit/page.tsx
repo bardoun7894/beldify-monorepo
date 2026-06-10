@@ -101,8 +101,7 @@ function EditBlockedGate({
 }: {
   reason: '403' | '422' | 'status' | 'unknown';
   postId: string;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  t: TFunction<any, any>;
+    t: TFunction<any, any>;
 }) {
   const messages: Record<typeof reason, string> = {
     '403': t(

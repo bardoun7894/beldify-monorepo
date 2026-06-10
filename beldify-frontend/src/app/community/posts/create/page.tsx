@@ -79,8 +79,7 @@ interface PreviewAsideProps {
   requiredSkills: string[];
   imageCount: number;
   isRTL: boolean;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  t: TFunction<any, any>;
+    t: TFunction<any, any>;
 }
 
 function PreviewAside({

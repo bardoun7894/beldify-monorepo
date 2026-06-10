@@ -42,6 +42,7 @@ vi.mock('react-i18next', () => ({
 
 // Mock next/image
 vi.mock('next/image', () => ({
+  // eslint-disable-next-line @next/next/no-img-element
   default: ({ alt, ...props }: any) => <img alt={alt} {...props} />,
 }));
 
