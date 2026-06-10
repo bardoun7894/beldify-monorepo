@@ -8,7 +8,7 @@
  * See docs/marketing/growth-plan-2026-06-05.md (anti-disintermediation rule).
  */
 
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, type MouseEvent } from 'react';
 import { Share2, Link2, Check, Facebook } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { cn } from '@/lib/utils';
@@ -81,7 +81,7 @@ export default function ShareButton({
     };
   }, [open]);
 
-  const handleTrigger = async (e: React.MouseEvent) => {
+  const handleTrigger = async (e: MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
     // Native share sheet (mobile) — the ideal path for non-tech users.
@@ -98,7 +98,7 @@ export default function ShareButton({
     setOpen((v) => !v);
   };
 
-  const copyLink = async (e: React.MouseEvent) => {
+  const copyLink = async (e: MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
     try {
@@ -110,7 +110,7 @@ export default function ShareButton({
     }
   };
 
-  const stop = (e: React.MouseEvent) => e.stopPropagation();
+  const stop = (e: MouseEvent) => e.stopPropagation();
   const waHref = `https://wa.me/?text=${encodeURIComponent(message)}`;
   const fbHref = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`;
 

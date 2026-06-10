@@ -21,6 +21,7 @@ import logger from '@/utils/consoleLogger';
 const playfair = { fontFamily: '"Playfair Display", ui-serif, Georgia, serif' };
 
 function PaymentStatusBadge({ status }: { status: string }) {
+  const { t } = useTranslation();
   const isPaid = status === 'paid';
   const isPending =
     status === 'pending' ||
@@ -30,7 +31,7 @@ function PaymentStatusBadge({ status }: { status: string }) {
     return (
       <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 ring-1 ring-emerald-200 text-xs font-semibold">
         <CheckCircle className="w-3.5 h-3.5" strokeWidth={2} />
-        Paid
+        {t('orders.invoice.status.paid', 'Paid')}
       </span>
     );
   }
@@ -38,7 +39,7 @@ function PaymentStatusBadge({ status }: { status: string }) {
     return (
       <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-50 text-amber-700 ring-1 ring-amber-200 text-xs font-semibold">
         <Clock className="w-3.5 h-3.5" strokeWidth={2} />
-        Pending
+        {t('orders.invoice.status.pending', 'Pending')}
       </span>
     );
   }
@@ -120,7 +121,11 @@ export default function InvoicePage() {
     return (
       <div className="min-h-screen bg-canvas flex items-center justify-center">
         <div className="text-center">
-          <p className="text-gray-600 mb-4">{error || 'Order not found'}</p>
+          <p className="text-gray-600 mb-4">
+            {error
+              ? t('orders.invoice.load_error', 'Could not load order')
+              : t('orders.invoice.not_found', 'Order not found')}
+          </p>
           <Link href="/orders" className="text-indigo-700 underline text-sm">
             {t('orders.actions.back_to_orders', 'Back to orders')}
           </Link>

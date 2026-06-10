@@ -1081,6 +1081,14 @@
     "return": {
       "title": "Demander un retour",
       "desc": "Dites-nous ce qui n'a pas été et nous organiserons le retour."
+    },
+    "invoice": {
+      "status": {
+        "paid": "Payé",
+        "pending": "En attente"
+      },
+      "load_error": "Impossible de charger la commande",
+      "not_found": "Commande introuvable"
     }
   },
   "order_confirmation": {
@@ -3116,7 +3124,15 @@
     "limitedTime": "Durée Limitée",
     "noOffers": "Aucune offre mega disponible pour le moment.",
     "off": "RÉDUCTION",
-    "viewAll": "Voir Toutes les Offres"
+    "viewAll": "Voir Toutes les Offres",
+    "pageTitle": "Mega Offres",
+    "pageSubtitle": "Collections à durée limitée avec de fortes réductions",
+    "emptyTitle": "Aucune offre active pour le moment",
+    "emptySubtitle": "De nouvelles collections arrivent régulièrement — revenez bientôt.",
+    "notFoundTitle": "Cette collection est terminée",
+    "notFoundSubtitle": "Elle a peut-être expiré — découvrez les offres en cours.",
+    "backToOffers": "Retour aux offres",
+    "collectionEmpty": "Pas encore de produits dans cette collection."
   },
   "newsletter": {
     "eyebrow": "Restez informé",

@@ -415,7 +415,15 @@
     "moreItems": "more items",
     "viewAllCollections": "View All Collections",
     "hot": "HOT",
-    "loadError": "Failed to load mega offers"
+    "loadError": "Failed to load mega offers",
+    "pageTitle": "Mega Offers",
+    "pageSubtitle": "Limited-time collections with deep discounts",
+    "emptyTitle": "No active offers right now",
+    "emptySubtitle": "New collections drop regularly — check back soon.",
+    "notFoundTitle": "This collection has ended",
+    "notFoundSubtitle": "It may have expired — explore the current offers instead.",
+    "backToOffers": "Back to offers",
+    "collectionEmpty": "No products in this collection yet."
   },
   "featuredSections": {
     "bestSellers": "Best Sellers",
@@ -1094,6 +1102,14 @@
     "return": {
       "title": "Request a return",
       "desc": "Tell us what went wrong and we will arrange the return."
+    },
+    "invoice": {
+      "status": {
+        "paid": "Paid",
+        "pending": "Pending"
+      },
+      "load_error": "Could not load order",
+      "not_found": "Order not found"
     }
   },
   "order_confirmation": {

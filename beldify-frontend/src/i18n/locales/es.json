@@ -1081,6 +1081,14 @@
     "return": {
       "title": "Solicitar una devolución",
       "desc": "Cuéntanos qué salió mal y organizaremos la devolución."
+    },
+    "invoice": {
+      "status": {
+        "paid": "Pagado",
+        "pending": "Pendiente"
+      },
+      "load_error": "No se pudo cargar el pedido",
+      "not_found": "Pedido no encontrado"
     }
   },
   "order_confirmation": {
@@ -3171,7 +3179,15 @@
     "limitedTime": "Tiempo limitado",
     "noOffers": "No hay mega ofertas disponibles en este momento.",
     "off": "DESCUENTO",
-    "viewAll": "Ver todas las ofertas"
+    "viewAll": "Ver todas las ofertas",
+    "pageTitle": "Mega Ofertas",
+    "pageSubtitle": "Colecciones por tiempo limitado con grandes descuentos",
+    "emptyTitle": "No hay ofertas activas en este momento",
+    "emptySubtitle": "Llegan nuevas colecciones con regularidad — vuelve pronto.",
+    "notFoundTitle": "Esta colección ha terminado",
+    "notFoundSubtitle": "Puede haber expirado — explora las ofertas actuales.",
+    "backToOffers": "Volver a las ofertas",
+    "collectionEmpty": "Aún no hay productos en esta colección."
   },
   "newsletter": {
     "eyebrow": "Mantente informado",

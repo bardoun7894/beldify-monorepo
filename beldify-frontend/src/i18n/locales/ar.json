@@ -405,7 +405,15 @@
     "moreItems": "عناصر إضافية",
     "viewAllCollections": "عرض جميع المجموعات",
     "hot": "رائج",
-    "loadError": "فشل تحميل العروض"
+    "loadError": "فشل تحميل العروض",
+    "pageTitle": "عروض ضخمة",
+    "pageSubtitle": "مجموعات لوقت محدود بتخفيضات كبيرة",
+    "emptyTitle": "لا توجد عروض نشطة حالياً",
+    "emptySubtitle": "تصل مجموعات جديدة بانتظام — عد قريباً.",
+    "notFoundTitle": "انتهت هذه المجموعة",
+    "notFoundSubtitle": "ربما انتهت صلاحيتها — استكشف العروض الحالية.",
+    "backToOffers": "العودة إلى العروض",
+    "collectionEmpty": "لا توجد منتجات في هذه المجموعة بعد."
   },
   "bestSellers": {
     "title": "الأكثر مبيعاً",
@@ -1100,6 +1108,14 @@
     "return": {
       "title": "طلب إرجاع",
       "desc": "أخبرنا بالمشكلة وسنرتب عملية الإرجاع."
+    },
+    "invoice": {
+      "status": {
+        "paid": "مدفوع",
+        "pending": "قيد الانتظار"
+      },
+      "load_error": "تعذر تحميل الطلب",
+      "not_found": "الطلب غير موجود"
     }
   },
   "order_confirmation": {
