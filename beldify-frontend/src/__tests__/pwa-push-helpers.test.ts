@@ -46,18 +46,16 @@ describe('urlBase64ToUint8Array', () => {
 // ── buildPushSubscriptionPayload ─────────────────────────────────────────────
 
 describe('buildPushSubscriptionPayload', () => {
-  const mockSubscription = {
+  const mockSubscriptionData = {
     endpoint: 'https://fcm.googleapis.com/fcm/send/abc123',
     keys: {
       p256dh: 'BNbxyz1234567890abcdef',
       auth: 'abcdefgh1234',
     },
-    toJSON() {
-      return {
-        endpoint: this.endpoint,
-        keys: this.keys,
-      };
-    },
+  };
+  const mockSubscription = {
+    ...mockSubscriptionData,
+    toJSON: () => mockSubscriptionData,
   } as unknown as PushSubscription;
 
   it('extracts endpoint, p256dh, and auth from a PushSubscription', () => {

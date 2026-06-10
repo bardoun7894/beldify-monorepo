@@ -66,7 +66,7 @@ describe('generateListing', () => {
     });
     expect(result.credits_charged).toBe(2);
     expect(result.balance).toBe(8);
-    expect(result.result.en.title).toBe('Royal Caftan');
+    expect(result.result.en!.title).toBe('Royal Caftan');
   });
 
   it('throws InsufficientCreditsError on 402 response', async () => {
@@ -204,8 +204,8 @@ describe('translateListing', () => {
       name: 'Caftan',
       description: 'A nice caftan',
     });
-    expect(result.result.ar.name).toBe('قفطان');
-    expect(result.result.fr.name).toBe('Caftan');
+    expect(result.result.ar!.name).toBe('قفطان');
+    expect(result.result.fr!.name).toBe('Caftan');
   });
 
   it('also accepts product_id instead of name/description', async () => {

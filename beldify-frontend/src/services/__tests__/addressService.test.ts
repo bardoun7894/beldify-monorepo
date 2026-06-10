@@ -122,7 +122,7 @@ describe('addressService', () => {
     it('throws on failure (caller handles toast)', async () => {
       mockPost.mockRejectedValueOnce(new Error('Validation error'));
 
-      await expect(addressService.create({})).rejects.toThrow();
+      await expect(addressService.create({} as any)).rejects.toThrow();
     });
   });
 

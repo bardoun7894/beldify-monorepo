@@ -25,7 +25,7 @@ describe('Invoice page — static existence checks', () => {
   it('invoice page exports a default function component', async () => {
     // Dynamic import will throw if file does not exist or has no default export.
     // We only check that the module has a default export that is a function.
-    const mod = await import('../../invoice/page.tsx');
+    const mod = await import('../../invoice/page');
     expect(typeof mod.default).toBe('function');
   });
 });

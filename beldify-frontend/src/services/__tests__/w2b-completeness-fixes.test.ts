@@ -31,10 +31,10 @@ describe('Fix 3 — seller register payload includes store_name', () => {
     const apiModule = await import('@/lib/api');
     const capturedFormData: FormData[] = [];
     const origPost = apiModule.default.post.bind(apiModule.default);
-    apiModule.default.post = async (url: string, data: any, cfg: any) => {
+    apiModule.default.post = (async (url: string, data: any, cfg: any) => {
       capturedFormData.push(data);
       return { data: { success: true }, status: 201 };
-    };
+    }) as any;
 
     const { submitStoreRequest } = await import('../sellerService');
     await submitStoreRequest({
@@ -118,10 +118,10 @@ describe('Fix 5 — sellerProductService has deleteSellerProduct', () => {
     const apiModule = await import('@/lib/api');
     const calls: Array<{ method: string; url: string }> = [];
     const origDelete = apiModule.default.delete.bind(apiModule.default);
-    apiModule.default.delete = async (url: string) => {
+    apiModule.default.delete = (async (url: string) => {
       calls.push({ method: 'DELETE', url });
       return { data: { success: true }, status: 200 };
-    };
+    }) as any;
 
     const mod = await import('../sellerProductService');
     await (mod as any).deleteSellerProduct(42);
