@@ -47,7 +47,7 @@ export default function PWAReminderBanner() {
     >
       <div className="relative overflow-hidden rounded-xl sm:rounded-2xl bg-indigo-900 p-1">
         {/* Animated solid border */}
-        <div className="absolute inset-0 bg-indigo-800/40"></div>
+        <div className="absolute inset-0 bg-indigo-800/40 animate-pulse"></div>
         
         <div className="relative bg-white rounded-lg sm:rounded-xl p-3 sm:p-4">
           {/* Close button */}
@@ -83,7 +83,7 @@ export default function PWAReminderBanner() {
                 <span className="inline-flex items-center rounded-full bg-indigo-50 px-2 py-0.5 sm:py-1 text-xs font-medium text-indigo-700">
                   {t('pwa.reminder.faster', '2x Faster')}
                 </span>
-                <span className="inline-flex items-center rounded-full bg-amber-50 px-2 py-0.5 sm:py-1 text-xs font-medium text-amber-800">
+                <span className="inline-flex items-center rounded-full bg-amber-50 px-2 py-0.5 sm:py-1 text-xs font-medium text-amber-700">
                   {t('pwa.reminder.offline', 'Works Offline')}
                 </span>
                 <span className="inline-flex items-center rounded-full bg-green-50 px-2 py-0.5 sm:py-1 text-xs font-medium text-green-700">

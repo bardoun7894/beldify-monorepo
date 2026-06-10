@@ -225,7 +225,8 @@ const ReviewsSection: React.FC<ReviewsSectionProps> = ({ productId, productName 
                           )}
                           onClick={() => handleRatingFilterChange(activeFilters.rating === r ? null : r)}
                         >
-                          <div className="flex items-center">
+                          {/* dir=ltr keeps the "n ★" order and gap stable under RTL locales */}
+                          <div className="flex items-center" dir="ltr">
                             <span>{r}</span>
                             <StarIcon className="h-4 w-4 ms-1 inline-block" />
                           </div>

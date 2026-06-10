@@ -125,10 +125,9 @@ export default function HomeContent({ categories, data, openSoukPosts = [] }: Ho
             sizes="100vw"
             className="object-cover object-center"
           />
-          {/* Dark indigo editorial overlay — logical-direction aware so the dark,
-              legible stop always lands under the end-aligned headline: to-left on
-              LTR (copy on the right), to-right on RTL (copy on the left). */}
-          <div className="absolute inset-0 bg-indigo-950/70" />
+          {/* Dark indigo editorial overlay — flat /85 per DESIGN.md §6.1 dark-hero
+              spec, keeps white copy legible on any photo in both LTR and RTL. */}
+          <div className="absolute inset-0 bg-indigo-950/85" />
           {/* Ambient radial warmth — bottom right */}
           <div
             aria-hidden
@@ -203,7 +202,7 @@ export default function HomeContent({ categories, data, openSoukPosts = [] }: Ho
                 type="search"
                 name="q"
                 placeholder={t('home.hero.search_placeholder', 'Search caftans, djellabas…')}
-                className="flex-1 min-w-0 rounded-xl bg-indigo-900 border border-white/20 px-4 py-2.5 text-sm text-white placeholder:text-white/50 focus:outline-none focus:ring-2 focus:ring-amber-400/60 focus:border-amber-400/60 transition-colors duration-200"
+                className="flex-1 min-w-0 rounded-xl bg-indigo-800 border border-white/20 px-4 py-2.5 text-sm text-white placeholder:text-white/50 focus:outline-none focus:ring-2 focus:ring-amber-400/60 focus:border-amber-400/60 transition-colors duration-200"
               />
               <button
                 type="submit"
@@ -493,7 +492,7 @@ export default function HomeContent({ categories, data, openSoukPosts = [] }: Ho
               {t('home.tailoring.description', 'Match with a Moroccan tailor, send your measurements, and receive a fitted piece in 2–4 weeks.')}
             </p>
             <Link
-              href="/tailoring"
+              href="/services/tailoring"
               className="mt-8 inline-flex items-center gap-2 rounded-xl bg-amber-500 px-6 py-3 text-sm font-semibold text-amber-950 transition-all duration-200 hover:bg-amber-400 hover:-translate-y-0.5 shadow-atlas-sm hover:shadow-atlas-md focus:outline-none focus:ring-2 focus:ring-amber-500/40 min-h-[44px]"
               aria-label={t('home.tailoring.cta', 'Start a tailoring order')}
             >
