@@ -128,7 +128,7 @@ export default function HomeContent({ categories, data, openSoukPosts = [] }: Ho
           {/* Dark indigo editorial overlay — logical-direction aware so the dark,
               legible stop always lands under the end-aligned headline: to-left on
               LTR (copy on the right), to-right on RTL (copy on the left). */}
-          <div className="absolute inset-0 bg-gradient-to-l [dir=rtl]:bg-gradient-to-r from-indigo-950/90 via-indigo-950/60 to-indigo-950/10" />
+          <div className="absolute inset-0 bg-indigo-950/70" />
           {/* Ambient radial warmth — bottom right */}
           <div
             aria-hidden
@@ -203,7 +203,7 @@ export default function HomeContent({ categories, data, openSoukPosts = [] }: Ho
                 type="search"
                 name="q"
                 placeholder={t('home.hero.search_placeholder', 'Search caftans, djellabas…')}
-                className="flex-1 min-w-0 rounded-xl bg-white/10 border border-white/20 px-4 py-2.5 text-sm text-white placeholder:text-white/50 focus:outline-none focus:ring-2 focus:ring-amber-400/60 focus:border-amber-400/60 transition-colors duration-200"
+                className="flex-1 min-w-0 rounded-xl bg-indigo-900 border border-white/20 px-4 py-2.5 text-sm text-white placeholder:text-white/50 focus:outline-none focus:ring-2 focus:ring-amber-400/60 focus:border-amber-400/60 transition-colors duration-200"
               />
               <button
                 type="submit"
@@ -226,7 +226,7 @@ export default function HomeContent({ categories, data, openSoukPosts = [] }: Ho
               </Link>
               <Link
                 href="/shops"
-                className="inline-flex items-center gap-2 rounded-xl bg-white/10 px-6 py-3 text-sm font-semibold text-white ring-1 ring-white/30 transition-all duration-200 hover:bg-white/20 focus:outline-none focus:ring-2 focus:ring-white/40"
+                className="inline-flex items-center gap-2 rounded-xl bg-indigo-900 px-6 py-3 text-sm font-semibold text-white ring-1 ring-white/30 transition-all duration-200 hover:bg-indigo-800 focus:outline-none focus:ring-2 focus:ring-white/40"
                 aria-label={t('home.hero.cta_tailors', 'Meet the tailors')}
               >
                 {t('home.hero.cta_tailors', 'Meet the tailors')}
@@ -246,7 +246,7 @@ export default function HomeContent({ categories, data, openSoukPosts = [] }: Ho
 
       {/* ── TRUST STRIP ───────────────────────────────────────────────────── */}
       <section
-        className="border-y border-amber-200/40 bg-amber-50/60 backdrop-blur"
+        className="border-y border-amber-200/40 bg-amber-50"
         aria-label="Why shop with Beldify"
       >
         <div className="mx-auto max-w-7xl px-6 py-6 grid grid-cols-2 sm:grid-cols-4 gap-6">
@@ -325,7 +325,7 @@ export default function HomeContent({ categories, data, openSoukPosts = [] }: Ho
                   {/* Stronger bottom gradient keeps the label legible over any image */}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent" />
                   {typeof c.itemCount === 'number' && c.itemCount > 0 && (
-                    <span className="absolute top-3 end-3 inline-flex items-center gap-1 rounded-full bg-white/95 px-2.5 py-1 text-[11px] font-semibold text-gray-900 shadow-sm backdrop-blur-sm">
+                    <span className="absolute top-3 end-3 inline-flex items-center gap-1 rounded-full bg-white px-2.5 py-1 text-[11px] font-semibold text-gray-900 shadow-sm">
                       <Package className="h-3 w-3 text-indigo-700" aria-hidden="true" />
                       {c.itemCount}
                     </span>
@@ -428,7 +428,7 @@ export default function HomeContent({ categories, data, openSoukPosts = [] }: Ho
                 sizes="(min-width:1024px) 50vw, 100vw"
                 className="object-cover opacity-30"
               />
-              <div className="absolute inset-0 bg-gradient-to-b from-amber-50/80 to-amber-50/95" />
+              <div className="absolute inset-0 bg-amber-50/95" />
             </div>
             <div className="relative px-8 py-16 sm:px-12 sm:py-20">
               <h2
@@ -518,7 +518,7 @@ export default function HomeContent({ categories, data, openSoukPosts = [] }: Ho
                 detail: t('home.tailoring.step3_detail', 'Hand-finished and shipped to your door in 2–4 weeks.'),
               },
             ].map(({ step, detail }, i) => (
-              <li key={step} className="flex gap-4 rounded-xl bg-white/5 ring-1 ring-white/10 px-5 py-4">
+              <li key={step} className="flex gap-4 rounded-xl bg-indigo-900 ring-1 ring-white/10 px-5 py-4">
                 <span
                   className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-amber-500 text-amber-950 font-bold text-sm"
                   aria-hidden="true"
@@ -650,7 +650,7 @@ export default function HomeContent({ categories, data, openSoukPosts = [] }: Ho
                   className="object-cover transition duration-500 group-hover:scale-105"
                 />
                 {/* Verified badge */}
-                <span className="absolute top-3 end-3 inline-flex items-center gap-1 rounded-full bg-white/95 px-2.5 py-1 text-[11px] font-semibold text-indigo-700 shadow-sm">
+                <span className="absolute top-3 end-3 inline-flex items-center gap-1 rounded-full bg-white px-2.5 py-1 text-[11px] font-semibold text-indigo-700 shadow-sm">
                   <BadgeCheck className="h-3.5 w-3.5 text-amber-500" strokeWidth={2.2} aria-hidden="true" />
                   Verified
                 </span>
@@ -680,7 +680,7 @@ export default function HomeContent({ categories, data, openSoukPosts = [] }: Ho
       </section>
 
       {/* ── THE JOURNAL ───────────────────────────────────────────────────── */}
-      <section className="bg-amber-50/60 border-t border-amber-200/40">
+      <section className="bg-amber-50 border-t border-amber-200/40">
         <div className="mx-auto max-w-7xl px-6 py-16 sm:py-20">
           <div className="flex items-end justify-between mb-10">
             <div>
@@ -716,7 +716,7 @@ export default function HomeContent({ categories, data, openSoukPosts = [] }: Ho
                     className="object-cover transition duration-500 group-hover:scale-105"
                   />
                   <div className="absolute top-3 start-3">
-                    <span className="inline-flex items-center rounded-full bg-white/90 px-2.5 py-0.5 text-[11px] font-semibold uppercase tracking-wide text-indigo-700">
+                    <span className="inline-flex items-center rounded-full bg-white px-2.5 py-0.5 text-[11px] font-semibold uppercase tracking-wide text-indigo-700">
                       {a.tag}
                     </span>
                   </div>
@@ -791,7 +791,7 @@ export default function HomeContent({ categories, data, openSoukPosts = [] }: Ho
               pitch with hierarchy rather than a flat 4-up vanity metric band. */}
           <div className="space-y-4">
             {/* Lead — price range in MAD, the stat a prospective seller actually cares about */}
-            <div className="rounded-2xl bg-white/5 ring-1 ring-white/10 px-6 py-6">
+            <div className="rounded-2xl bg-indigo-900 ring-1 ring-white/10 px-6 py-6">
               <p className="text-xs uppercase tracking-wide text-indigo-300/80">{t('home.seller.stat_range_label', 'Typical listing range')}</p>
               <p
                 className="mt-1.5 text-3xl sm:text-4xl font-bold text-amber-400"
@@ -814,7 +814,7 @@ export default function HomeContent({ categories, data, openSoukPosts = [] }: Ho
               ].map((s) => (
                 <div
                   key={s.labelKey}
-                  className="rounded-xl bg-white/5 ring-1 ring-white/10 px-5 py-4"
+                  className="rounded-xl bg-indigo-900 ring-1 ring-white/10 px-5 py-4"
                 >
                   <p className="text-xl font-semibold text-white">{s.value}</p>
                   <p className="text-xs text-indigo-200 mt-1">{t(s.labelKey, s.labelFallback)}</p>

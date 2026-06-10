@@ -1368,7 +1368,7 @@ export default function ProductDetailsPage() {
 
             {/* Kicker badge overlaid on image (mobile only) */}
             {kickerLabel && (
-              <span className="lg:hidden absolute top-4 start-4 text-xs uppercase tracking-[0.18em] text-amber-700 font-medium bg-amber-50/95 backdrop-blur-sm ring-1 ring-amber-200 rounded-full px-3 py-1">
+              <span className="lg:hidden absolute top-4 start-4 text-xs uppercase tracking-[0.18em] text-amber-700 font-medium bg-amber-50 ring-1 ring-amber-200 rounded-full px-3 py-1">
                 {kickerLabel}
               </span>
             )}
@@ -1377,7 +1377,7 @@ export default function ProductDetailsPage() {
             <button
               onClick={handleWishlistToggle}
               aria-label={wishlisted ? t('wishlist.remove', 'Remove from wishlist') : t('wishlist.add', 'Add to wishlist')}
-              className="absolute top-4 end-4 bg-white/90 backdrop-blur-sm rounded-full p-2.5 shadow-atlas-sm hover:bg-white transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30"
+              className="absolute top-4 end-4 bg-white rounded-full p-2.5 shadow-atlas-sm hover:bg-white transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30"
             >
               <Heart
                 className={cn('h-5 w-5 transition-colors', wishlisted ? 'fill-rose-600 text-rose-600' : 'text-gray-500')}
@@ -1890,19 +1890,19 @@ export default function ProductDetailsPage() {
 
           {/* Trust strip — 3 micro-pills in a warm row */}
           <div className="grid grid-cols-3 gap-2 pt-1">
-            <div className="flex flex-col items-center gap-1.5 bg-amber-50/80 ring-1 ring-amber-100 rounded-2xl p-3 text-center">
+            <div className="flex flex-col items-center gap-1.5 bg-amber-50 ring-1 ring-amber-100 rounded-2xl p-3 text-center">
               <Truck className="h-4 w-4 text-amber-600 shrink-0" aria-hidden />
               <span className="text-[11px] text-gray-600 leading-snug font-medium">
                 {t('trust.ships', 'Ships in 3 days')}
               </span>
             </div>
-            <div className="flex flex-col items-center gap-1.5 bg-amber-50/80 ring-1 ring-amber-100 rounded-2xl p-3 text-center">
+            <div className="flex flex-col items-center gap-1.5 bg-amber-50 ring-1 ring-amber-100 rounded-2xl p-3 text-center">
               <RotateCcw className="h-4 w-4 text-amber-600 shrink-0" aria-hidden />
               <span className="text-[11px] text-gray-600 leading-snug font-medium">
                 {t('trust.returns', 'Free returns')}
               </span>
             </div>
-            <div className="flex flex-col items-center gap-1.5 bg-amber-50/80 ring-1 ring-amber-100 rounded-2xl p-3 text-center">
+            <div className="flex flex-col items-center gap-1.5 bg-amber-50 ring-1 ring-amber-100 rounded-2xl p-3 text-center">
               <ShieldCheck className="h-4 w-4 text-amber-600 shrink-0" aria-hidden />
               <span className="text-[11px] text-gray-600 leading-snug font-medium">
                 {t('trust.authentic', 'Authentic')}
@@ -1918,7 +1918,7 @@ export default function ProductDetailsPage() {
           role="dialog"
           aria-label={t('product.zoom_image', 'Zoom image')}
           aria-modal="true"
-          className="fixed inset-0 z-50 flex items-center justify-center bg-gray-950/80 backdrop-blur-sm p-4"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-gray-950/80 p-4"
           onClick={() => setIsZoomed(false)}
           onKeyDown={(e) => { if (e.key === 'Escape') setIsZoomed(false); }}
           tabIndex={-1}
@@ -1938,7 +1938,7 @@ export default function ProductDetailsPage() {
           </div>
           <button
             aria-label={t('product.close_zoom', 'Close zoom')}
-            className="absolute top-4 end-4 bg-white/90 backdrop-blur-sm rounded-full p-2.5 shadow-atlas-sm hover:bg-white transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30"
+            className="absolute top-4 end-4 bg-white rounded-full p-2.5 shadow-atlas-sm hover:bg-white transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30"
             onClick={() => setIsZoomed(false)}
           >
             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
@@ -1952,7 +1952,7 @@ export default function ProductDetailsPage() {
       <section className="px-6 mb-16" aria-label={t('product.tabs', 'Product tabs')} id="product-tabs">
         {/* Tab pills — horizontal scroll on mobile, sticky feel */}
         <div
-          className="flex gap-0 border-b border-amber-200 mb-8 overflow-x-auto scrollbar-none sticky top-0 z-10 bg-amber-50/95 backdrop-blur-sm pt-2"
+          className="flex gap-0 border-b border-amber-200 mb-8 overflow-x-auto scrollbar-none sticky top-0 z-10 bg-amber-50 pt-2"
           role="tablist"
           aria-label={t('product.tabs', 'Product tabs')}
         >
@@ -2119,7 +2119,7 @@ export default function ProductDetailsPage() {
                 aria-label={t('pdp.complete_the_look', 'Complete the look')}
               >
                 {/* Warmer container visually distinguishes this from "You might also like" */}
-                <div className="rounded-2xl bg-amber-50/60 ring-1 ring-amber-100 px-6 pt-6 pb-2">
+                <div className="rounded-2xl bg-amber-50 ring-1 ring-amber-100 px-6 pt-6 pb-2">
                   {/* Sparkles AI chip eyebrow */}
                   <div className="flex items-center gap-2 mb-4">
                     <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-amber-100 text-amber-800 text-xs font-medium ring-1 ring-amber-200">
@@ -2174,7 +2174,7 @@ export default function ProductDetailsPage() {
 
       {/* Mobile sticky add-to-bag bar — safe-area aware */}
       <div
-        className="fixed bottom-0 inset-x-0 z-40 bg-white/95 backdrop-blur-md border-t border-amber-100 px-4 pt-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))] md:hidden shadow-atlas-lg"
+        className="fixed bottom-0 inset-x-0 z-40 bg-white border-t border-amber-100 px-4 pt-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))] md:hidden shadow-atlas-lg"
         role="region"
         aria-label={t('cart.sticky_bar', 'Add to bag')}
       >

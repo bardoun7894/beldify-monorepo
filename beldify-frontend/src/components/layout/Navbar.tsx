@@ -174,7 +174,7 @@ export default function Navbar() {
       </div>
 
       {/* ── Sticky main bar — parchment surface ──────────────────────── */}
-      <header className="sticky top-0 z-40 bg-amber-50/98 backdrop-blur-md border-b border-amber-200/60 shadow-atlas-sm">
+      <header className="sticky top-0 z-40 bg-amber-50 border-b border-amber-200/60 shadow-atlas-sm">
         <div className="mx-auto max-w-7xl px-6 py-3 flex items-center justify-between gap-6">
 
           {/* ── Wordmark ─────────────────────────────────────────────── */}
@@ -220,7 +220,7 @@ export default function Navbar() {
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder={t('nav.search_placeholder', 'Search caftans, djellabas, tailors…')}
                 aria-label={t('nav.search_placeholder', 'Search caftans, djellabas, tailors…')}
-                className="w-full bg-white/80 border border-amber-200 rounded-full py-2 ps-11 pe-4 text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-700/30 focus:border-indigo-700 transition-colors duration-200"
+                className="w-full bg-white border border-amber-200 rounded-full py-2 ps-11 pe-4 text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-700/30 focus:border-indigo-700 transition-colors duration-200"
               />
             </form>
           </div>
@@ -487,7 +487,7 @@ export default function Navbar() {
       {/* ── Mobile search overlay ─────────────────────────────────────── */}
       {searchBarVisible && (
         <div
-          className="fixed inset-0 bg-white/98 backdrop-blur z-50 flex items-start pt-20 px-4 md:hidden"
+          className="fixed inset-0 bg-white z-50 flex items-start pt-20 px-4 md:hidden"
           role="dialog"
           aria-modal="true"
           aria-label={t('nav.search_placeholder', 'Search')}
@@ -547,7 +547,7 @@ export default function Navbar() {
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <div className="fixed inset-0 bg-black/30 backdrop-blur-sm" aria-hidden="true" />
+            <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
           </Transition.Child>
 
           {/* Panel — slides from right */}
@@ -563,7 +563,7 @@ export default function Navbar() {
             >
               <Dialog.Panel className="relative flex w-full max-w-xs flex-col overflow-y-auto bg-amber-50 pb-16 shadow-atlas-xl">
                 {/* Panel header */}
-                <div className="flex items-center justify-between px-5 pt-5 pb-4 border-b border-amber-200/60 bg-white/60">
+                <div className="flex items-center justify-between px-5 pt-5 pb-4 border-b border-amber-200/60 bg-white">
                   <Link
                     href="/"
                     onClick={() => setMobileMenuOpen(false)}

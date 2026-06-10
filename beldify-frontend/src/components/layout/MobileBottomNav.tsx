@@ -64,7 +64,7 @@ export default function MobileBottomNav() {
 
   return (
     <nav
-      className="fixed bottom-0 start-0 end-0 z-40 bg-white/95 backdrop-blur border-t border-amber-200/60 md:hidden safe-bottom"
+      className="fixed bottom-0 start-0 end-0 z-40 bg-white border-t border-amber-200/60 md:hidden safe-bottom"
       aria-label={t('chrome.bottomNav.label', 'Mobile bottom navigation')}
       style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}
     >

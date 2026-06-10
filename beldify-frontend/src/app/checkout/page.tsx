@@ -976,7 +976,7 @@ export default function CheckoutPage() {
               )}
             </div>
             {paymentDisabledReason(method) && (
-              <div className="absolute inset-0 bg-white/85 backdrop-blur-[2px] flex items-center justify-center rounded-2xl">
+              <div className="absolute inset-0 bg-white flex items-center justify-center rounded-2xl">
                 <span className="text-xs font-medium text-gray-500 bg-white px-3 py-1 rounded-full shadow-atlas-sm ring-1 ring-amber-200">
                   {paymentDisabledReason(method)}
                 </span>
