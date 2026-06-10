@@ -4244,6 +4244,31 @@
     "nav": {
       "messages": "Mensajes"
     },
+    "messages": {
+      "eyebrow": "Panel del vendedor",
+      "title": "Mensajes",
+      "subtitle": "Conversaciones con tus compradores",
+      "search_placeholder": "Buscar conversaciones…",
+      "list_heading": "Conversaciones recientes",
+      "empty_title": "Sin mensajes aún",
+      "empty_body": "Cuando los compradores te contacten, sus mensajes aparecerán aquí.",
+      "no_preview": "Sin mensajes",
+      "no_search_results": "Prueba otro término de búsqueda.",
+      "error_title": "No se pudieron cargar los mensajes",
+      "error_body": "Verifica tu conexión e inténtalo de nuevo.",
+      "error_loading": "Error al cargar la conversación.",
+      "error_sending": "Error al enviar el mensaje. Inténtalo de nuevo.",
+      "not_found_title": "Conversación no encontrada",
+      "not_found_body": "Esta conversación no existe o no tienes acceso a ella.",
+      "back_to_messages": "Volver a mensajes",
+      "load_older": "Cargar mensajes anteriores",
+      "thread_aria": "Hilo de mensajes",
+      "no_messages_title": "Sin mensajes aún",
+      "no_messages_body": "Comienza la conversación a continuación.",
+      "type_message": "Escribe un mensaje…",
+      "send": "Enviar",
+      "buyer": "Comprador"
+    },
     "dashboard": {
       "no_orders": "Aún no hay pedidos: ¡comparte tu tienda para empezar!",
       "add_first_product_cta": "Añade tu primer producto",

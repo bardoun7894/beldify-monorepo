@@ -3723,6 +3723,31 @@
     "nav": {
       "messages": "Messages"
     },
+    "messages": {
+      "eyebrow": "Seller Hub",
+      "title": "Messages",
+      "subtitle": "Conversations with your buyers",
+      "search_placeholder": "Search conversations…",
+      "list_heading": "Recent conversations",
+      "empty_title": "No messages yet",
+      "empty_body": "When buyers contact you, their messages will appear here.",
+      "no_preview": "No messages",
+      "no_search_results": "Try a different search term.",
+      "error_title": "Could not load messages",
+      "error_body": "Check your connection and try again.",
+      "error_loading": "Failed to load conversation.",
+      "error_sending": "Failed to send message. Please try again.",
+      "not_found_title": "Conversation not found",
+      "not_found_body": "This conversation does not exist or you do not have access to it.",
+      "back_to_messages": "Back to messages",
+      "load_older": "Load older messages",
+      "thread_aria": "Message thread",
+      "no_messages_title": "No messages yet",
+      "no_messages_body": "Start the conversation below.",
+      "type_message": "Type a message…",
+      "send": "Send",
+      "buyer": "Buyer"
+    },
     "dashboard": {
       "no_orders": "No orders yet — share your store to get started!",
       "add_first_product_cta": "Add your first product",

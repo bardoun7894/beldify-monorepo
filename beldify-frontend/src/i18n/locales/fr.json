@@ -4182,6 +4182,31 @@
     "nav": {
       "messages": "Messages"
     },
+    "messages": {
+      "eyebrow": "Espace vendeur",
+      "title": "Messages",
+      "subtitle": "Vos conversations avec les acheteurs",
+      "search_placeholder": "Rechercher des conversations…",
+      "list_heading": "Conversations récentes",
+      "empty_title": "Aucun message",
+      "empty_body": "Quand des acheteurs vous écrivent, leurs messages apparaîtront ici.",
+      "no_preview": "Aucun message",
+      "no_search_results": "Essayez un autre terme de recherche.",
+      "error_title": "Impossible de charger les messages",
+      "error_body": "Vérifiez votre connexion et réessayez.",
+      "error_loading": "Échec du chargement de la conversation.",
+      "error_sending": "Échec de l'envoi du message. Réessayez.",
+      "not_found_title": "Conversation introuvable",
+      "not_found_body": "Cette conversation n'existe pas ou vous n'y avez pas accès.",
+      "back_to_messages": "Retour aux messages",
+      "load_older": "Charger les messages plus anciens",
+      "thread_aria": "Fil de messages",
+      "no_messages_title": "Aucun message",
+      "no_messages_body": "Démarrez la conversation ci-dessous.",
+      "type_message": "Tapez un message…",
+      "send": "Envoyer",
+      "buyer": "Acheteur"
+    },
     "dashboard": {
       "no_orders": "Pas encore de commandes — partagez votre boutique pour démarrer !",
       "add_first_product_cta": "Ajoutez votre premier produit",

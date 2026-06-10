@@ -343,9 +343,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         if (guestToken) {
           try {
             await cartService.mergeGuestCart();
-            // Clear guest token after successful merge
+            // Clear guest token after successful merge and refresh cart state
             localStorage.removeItem('guest_token');
+            window.dispatchEvent(new Event('cart:refresh'));
           } catch (error) {
+            // Keep the guest token so a later session can retry the merge.
             logger.error('Failed to merge guest cart:', error);
             // Don't show error to user, as login was still successful
           }

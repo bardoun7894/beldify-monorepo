@@ -109,10 +109,7 @@ function buildNavItems(
     { label: t('seller.nav.earnings', 'Earnings'), href: '/seller/earnings', icon: DollarSign },
     { label: t('seller.nav.store_settings', 'Store Settings'), href: '/seller/store-settings', icon: Settings },
     { label: t('seller.nav.profile', 'Profile'), href: '/seller/profile', icon: User },
-    // NOTE: unread badge omitted — getUnreadCount() from messagingService exists but is buyer-scoped
-    // (hits /api/v1/buyer/messages/unread-count). No seller-scoped unread endpoint found in src/services.
-    // Plain link added per task spec. Revisit when seller messaging endpoint ships.
-    { label: t('seller.nav.messages', 'Messages'), href: '/community/messages', icon: MessageSquare },
+    { label: t('seller.nav.messages', 'Messages'), href: '/seller/messages', icon: MessageSquare },
   ];
 }
 
@@ -229,7 +226,7 @@ export default function SellerLayout({ children }: { children: React.ReactNode }
               href === '/seller'
                 ? pathname === '/seller'
                 : pathname.startsWith(href);
-            const isMessages = href === '/community/messages';
+            const isMessages = href === '/seller/messages';
             return (
               <Link
                 key={href}

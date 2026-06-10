@@ -229,6 +229,162 @@ export const sendMessage = async (
   }
 };
 
+// ─── Seller-inbox typed shapes ───────────────────────────────────────────────
+
+export interface SellerConversation {
+  id: number | string;
+  display_name: string;
+  avatar: string | null;
+  last_message_preview: string;
+  unread_count: number;
+  updated_at: string;
+}
+
+export interface SellerConversationsResult {
+  conversations: SellerConversation[];
+  total_unread: number;
+}
+
+export interface SellerMessageItem {
+  id: number | string;
+  sender_id: number | string;
+  recipient_id: number | string;
+  content: string;
+  is_read: boolean;
+  created_at: string;
+  read_at: string | null;
+  attachments: any[];
+  isSentByMe: boolean;
+}
+
+export interface SellerPagination {
+  current_page: number;
+  last_page: number;
+  total: number;
+}
+
+export interface SellerOtherUser {
+  id: number | string;
+  display_name: string;
+  avatar: string | null;
+  isOnline?: boolean;
+  lastSeen?: string | null;
+  email?: string;
+}
+
+export interface SellerThreadResult {
+  messages: SellerMessageItem[];
+  pagination: SellerPagination;
+  otherUser: SellerOtherUser;
+}
+
+export interface SellerMarkReadResult {
+  count: number;
+}
+
+/**
+ * Get all conversations for the logged-in seller.
+ * Hits GET /api/v1/backend/messages/conversations (role: store_owner|seller).
+ * Never throws — returns empty shape on auth failure.
+ */
+export const getSellerConversations = async (): Promise<SellerConversationsResult> => {
+  const empty: SellerConversationsResult = { conversations: [], total_unread: 0 };
+  try {
+    const authToken = localStorage.getItem('token');
+    if (!authToken) {
+      logger.warn('getSellerConversations: no token');
+      return empty;
+    }
+    const response = await axios.get(
+      `${API_BASE_URL}/api/v1/backend/messages/conversations`,
+      { headers: getAuthHeaders(), withCredentials: true }
+    );
+    return {
+      conversations: response.data?.conversations ?? [],
+      total_unread: response.data?.total_unread ?? 0,
+    };
+  } catch (error) {
+    logger.error('getSellerConversations error:', error);
+    return empty;
+  }
+};
+
+/**
+ * Get message thread with a specific buyer.
+ * Hits GET /api/v1/backend/messages/conversations/{buyerId}?page=N.
+ * Throws on 403 (no thread / access denied) so callers can show the right UI.
+ */
+export const getSellerThread = async (
+  buyerId: string,
+  page: number = 1
+): Promise<SellerThreadResult> => {
+  const authToken = localStorage.getItem('token');
+  if (!authToken) {
+    throw new Error('Authentication required to view seller thread');
+  }
+  const response = await axios.get(
+    `${API_BASE_URL}/api/v1/backend/messages/conversations/${buyerId}`,
+    {
+      params: { page },
+      headers: getAuthHeaders(),
+      withCredentials: true,
+    }
+  );
+  return {
+    messages: response.data?.messages ?? [],
+    pagination: response.data?.pagination ?? { current_page: 1, last_page: 1, total: 0 },
+    otherUser: response.data?.otherUser ?? {},
+  };
+};
+
+/**
+ * Send a message to a buyer from the seller's account.
+ * Hits POST /api/v1/backend/messages/send {buyer_id, content}.
+ * Throws on auth failure and network errors.
+ */
+export const sendSellerMessage = async (
+  buyerId: string,
+  content: string
+): Promise<SellerMessageItem> => {
+  const authToken = localStorage.getItem('token');
+  if (!authToken) {
+    throw new Error('Authentication required to send seller message');
+  }
+  const response = await axios.post(
+    `${API_BASE_URL}/api/v1/backend/messages/send`,
+    { buyer_id: buyerId, content },
+    { headers: getAuthHeaders(), withCredentials: true }
+  );
+  if (response.data?.status === 'success' && response.data?.message) {
+    return response.data.message;
+  }
+  throw new Error('sendSellerMessage: unexpected response format');
+};
+
+/**
+ * Mark all messages in a seller↔buyer thread as read.
+ * Hits POST /api/v1/backend/messages/mark-all-read/{buyerId}.
+ * Never throws — returns { count: 0 } on failure.
+ */
+export const markSellerThreadRead = async (buyerId: string): Promise<SellerMarkReadResult> => {
+  try {
+    const authToken = localStorage.getItem('token');
+    if (!authToken) {
+      logger.warn('markSellerThreadRead: no token');
+      return { count: 0 };
+    }
+    const response = await axios.post(
+      `${API_BASE_URL}/api/v1/backend/messages/mark-all-read/${buyerId}`,
+      {},
+      { headers: getAuthHeaders(), withCredentials: true }
+    );
+    return { count: response.data?.count ?? 0 };
+  } catch (error) {
+    logger.error('markSellerThreadRead error:', error);
+    return { count: 0 };
+  }
+};
+
 /**
  * Get unread message count for the seller (seller-scoped endpoint).
  * Hits /api/v1/backend/messages/unread-count (Sanctum auth required).

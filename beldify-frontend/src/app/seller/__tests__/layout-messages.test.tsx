@@ -3,8 +3,9 @@
  * TDD RED → GREEN — Layout Messages nav item
  *
  * Covers:
- * 1. Messages nav item appears in the sidebar linking to /community/messages
- * 2. Messages nav item appears in the mobile tab bar (or is accessible)
+ * 1. Messages nav item appears in the sidebar linking to /seller/messages
+ *    (updated from /community/messages — seller inbox ships at /seller/messages)
+ * 2. Messages nav item appears with visible label text
  */
 
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
@@ -51,12 +52,12 @@ describe('SellerLayout — Messages nav item', () => {
     mockPathname = '/seller';
   });
 
-  it('renders a Messages nav link pointing to /community/messages in the sidebar', async () => {
+  it('renders a Messages nav link pointing to /seller/messages in the sidebar', async () => {
     const { default: Layout } = await import('../layout');
     render(<Layout><span>CHILD</span></Layout>);
-    // Find a link that points to /community/messages
+    // Find a link that points to /seller/messages
     const links = screen.getAllByRole('link');
-    const messagesLink = links.find(l => l.getAttribute('href') === '/community/messages');
+    const messagesLink = links.find(l => l.getAttribute('href') === '/seller/messages');
     expect(messagesLink).toBeTruthy();
   });
 
@@ -64,7 +65,7 @@ describe('SellerLayout — Messages nav item', () => {
     const { default: Layout } = await import('../layout');
     render(<Layout><span>CHILD</span></Layout>);
     const links = screen.getAllByRole('link');
-    const messagesLink = links.find(l => l.getAttribute('href') === '/community/messages');
+    const messagesLink = links.find(l => l.getAttribute('href') === '/seller/messages');
     expect(messagesLink?.textContent?.toLowerCase()).toMatch(/messages|رسائل/i);
   });
 });

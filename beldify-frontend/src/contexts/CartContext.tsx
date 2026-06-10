@@ -439,7 +439,13 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     fetchCart();
-  }, []);
+    // refresh after login/logout (guest cart may have just been merged) and on
+    // explicit cart:refresh events (e.g. AuthContext after merge-guest succeeds)
+    const onRefresh = () => fetchCart();
+    window.addEventListener('cart:refresh', onRefresh);
+    return () => window.removeEventListener('cart:refresh', onRefresh);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isAuthenticated]);
 
   const value = {
     state,

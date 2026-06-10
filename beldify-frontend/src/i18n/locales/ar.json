@@ -3908,6 +3908,31 @@
     "nav": {
       "messages": "الرسائل"
     },
+    "messages": {
+      "eyebrow": "فضاء البائع",
+      "title": "الرسائل",
+      "subtitle": "محادثاتك مع المشترين",
+      "search_placeholder": "ابحث في المحادثات…",
+      "list_heading": "المحادثات الأخيرة",
+      "empty_title": "لا رسائل بعد",
+      "empty_body": "عندما يتواصل معك المشترون، ستظهر رسائلهم هنا.",
+      "no_preview": "لا رسائل",
+      "no_search_results": "جرّب مصطلح بحث مختلف.",
+      "error_title": "تعذّر تحميل الرسائل",
+      "error_body": "تحقق من اتصالك وحاول مجدداً.",
+      "error_loading": "فشل تحميل المحادثة.",
+      "error_sending": "فشل إرسال الرسالة. حاول مجدداً.",
+      "not_found_title": "المحادثة غير موجودة",
+      "not_found_body": "هذه المحادثة غير موجودة أو ليس لديك صلاحية الوصول إليها.",
+      "back_to_messages": "العودة إلى الرسائل",
+      "load_older": "تحميل الرسائل الأقدم",
+      "thread_aria": "سلسلة الرسائل",
+      "no_messages_title": "لا رسائل بعد",
+      "no_messages_body": "ابدأ المحادثة أدناه.",
+      "type_message": "اكتب رسالة…",
+      "send": "إرسال",
+      "buyer": "المشتري"
+    },
     "dashboard": {
       "no_orders": "لا توجد طلبيات بعد — شارك متجرك لتبدأ!",
       "add_first_product_cta": "أضف منتجك الأول",
