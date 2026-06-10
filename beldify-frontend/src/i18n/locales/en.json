@@ -582,7 +582,11 @@
     "price_format": "{{price}} MAD",
     "rating": "%{rating} ★",
     "visit_external_website": "Visit Website",
-    "be_first_review": "New — be the first to review"
+    "be_first_review": "New — be the first to review",
+    "tab_description": "Description",
+    "tab_specs": "Specs",
+    "tab_sizing": "Sizing",
+    "tab_reviews": "Reviews"
   },
   "stock": {
     "in_stock": "In stock ({{count}})",
@@ -2387,7 +2391,9 @@
       "customTailoring": "Custom Tailoring",
       "custom_tailoring": "Custom Tailoring",
       "measurements": "Measurements"
-    }
+    },
+    "sellerCustomOrders": "Custom orders",
+    "sellerEarnings": "Earnings"
   },
   "countries": {
     "ma": "Morocco",
@@ -4424,5 +4430,26 @@
     "no_stores": "No stores found",
     "subtitle": "Discover our top-rated and verified stores offering quality products",
     "title": "STORES"
+  },
+  "jewelry": {
+    "categories_eyebrow": "Categories",
+    "title": "Jewelry",
+    "subtitle": "Traditional and contemporary Moroccan jewelry. Ready-made or custom-crafted pieces.",
+    "filter": "Filter",
+    "clear_filters": "Clear filters",
+    "loading": "Loading…",
+    "items": "items",
+    "material": "Material",
+    "gemstone": "Gemstone",
+    "filter_by_material": "Filter by material",
+    "filter_by_gemstone": "Filter by gemstone",
+    "no_match": "No pieces match your filters",
+    "no_products": "No products available",
+    "products_aria": "Jewelry products",
+    "cta_eyebrow": "Can't find what you're looking for?",
+    "cta_title": "Request a Custom Piece",
+    "cta_sub": "Design your jewelry with a trusted artisan.",
+    "cta_button": "Custom Order",
+    "load_error": "Failed to load products"
   }
 }

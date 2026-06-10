@@ -7,6 +7,7 @@
  */
 import React, { useState, useMemo, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useDirection } from '@/hooks/useDirection';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Filter, Gem, X } from 'lucide-react';
@@ -51,8 +52,10 @@ interface ApiProduct {
 const JEWELRY_SLUGS = ['jewelry', 'bijoux', 'مجوهرات'];
 
 export default function JewelryCategoryPage() {
-  const { t, i18n } = useTranslation();
-  const isRTL = i18n.language === 'ar';
+  const { t } = useTranslation();
+  // ar AND ma (Darija default) are RTL/Arabic-script — the old `=== 'ar'` check
+  // served the whole page in English+LTR to Darija users.
+  const { isRTL } = useDirection();
 
   const [materialFilter, setMaterialFilter] = useState<string>('');
   const [gemstoneFilter, setGemstoneFilter] = useState<string>('');
@@ -93,7 +96,7 @@ export default function JewelryCategoryPage() {
       } catch (err) {
         logger.error('Error fetching jewelry products:', err);
         if (!cancelled) {
-          setLoadError(isRTL ? 'تعذّر تحميل المنتجات' : 'Failed to load products');
+          setLoadError(t('jewelry.load_error', 'تعذّر تحميل المنتجات'));
           setProducts([]);
         }
       } finally {
@@ -103,7 +106,7 @@ export default function JewelryCategoryPage() {
 
     fetchProducts();
     return () => { cancelled = true; };
-  }, [isRTL]);
+  }, [t]);
 
   const filtered = useMemo(() => {
     return products.filter((p) => {
@@ -135,19 +138,17 @@ export default function JewelryCategoryPage() {
       <div className="bg-indigo-950 text-white px-6 py-12">
         <div className="max-w-5xl mx-auto">
           <p className="text-xs uppercase tracking-[0.18em] text-amber-400 font-medium mb-2">
-            {isRTL ? 'التصنيفات' : 'Categories'}
+            {t('jewelry.categories_eyebrow', 'التصنيفات')}
           </p>
           <h1
             className="text-4xl sm:text-5xl font-bold leading-tight mb-3"
             style={isRTL ? undefined : playfair}
           >
             <Gem className="inline-block h-8 w-8 text-amber-400 me-2 mb-1" aria-hidden />
-            {isRTL ? 'المجوهرات' : 'Jewelry'}
+            {t('jewelry.title', 'المجوهرات')}
           </h1>
           <p className="text-indigo-300 text-base max-w-xl">
-            {isRTL
-              ? 'مجوهرات مغربية تقليدية وعصرية. قطع جاهزة أو مصنوعة حسب الطلب.'
-              : 'Traditional and contemporary Moroccan jewelry. Ready-made or custom-crafted pieces.'}
+            {t('jewelry.subtitle', 'مجوهرات مغربية تقليدية وعصرية. قطع جاهزة أو مصنوعة حسب الطلب.')}
           </p>
         </div>
       </div>
@@ -167,7 +168,7 @@ export default function JewelryCategoryPage() {
             aria-controls="jewelry-filters"
           >
             <Filter className="h-4 w-4" aria-hidden />
-            {isRTL ? 'تصفية' : 'Filter'}
+            {t('jewelry.filter', 'تصفية')}
           </button>
 
           {hasActiveFilters && (
@@ -176,14 +177,14 @@ export default function JewelryCategoryPage() {
               className="inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium bg-rose-50 text-rose-700 ring-1 ring-rose-200 hover:bg-rose-100 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-rose-700/30"
             >
               <X className="h-3 w-3" aria-hidden />
-              {isRTL ? 'مسح التصفية' : 'Clear filters'}
+              {t('jewelry.clear_filters', 'مسح التصفية')}
             </button>
           )}
 
           <span className="text-sm text-gray-400 ms-auto">
             {isLoading
-              ? (isRTL ? 'جارٍ التحميل…' : 'Loading…')
-              : `${filtered.length} ${isRTL ? 'قطعة' : 'items'}`}
+              ? t('jewelry.loading', 'جارٍ التحميل…')
+              : `${filtered.length} ${t('jewelry.items', 'قطعة')}`}
           </span>
         </div>
 
@@ -196,9 +197,9 @@ export default function JewelryCategoryPage() {
             {/* Material filter */}
             <div>
               <p className="text-xs uppercase tracking-[0.18em] text-amber-700 font-medium mb-3">
-                {isRTL ? 'المادة' : 'Material'}
+                {t('jewelry.material', 'المادة')}
               </p>
-              <div className="flex flex-wrap gap-2" role="group" aria-label={isRTL ? 'تصفية حسب المادة' : 'Filter by material'}>
+              <div className="flex flex-wrap gap-2" role="group" aria-label={t('jewelry.filter_by_material', 'تصفية حسب المادة')}>
                 {MATERIAL_OPTIONS.map((mat) => (
                   <button
                     key={mat}
@@ -220,9 +221,9 @@ export default function JewelryCategoryPage() {
             {/* Gemstone filter */}
             <div>
               <p className="text-xs uppercase tracking-[0.18em] text-amber-700 font-medium mb-3">
-                {isRTL ? 'الحجر الكريم' : 'Gemstone'}
+                {t('jewelry.gemstone', 'الحجر الكريم')}
               </p>
-              <div className="flex flex-wrap gap-2" role="group" aria-label={isRTL ? 'تصفية حسب الحجر الكريم' : 'Filter by gemstone'}>
+              <div className="flex flex-wrap gap-2" role="group" aria-label={t('jewelry.filter_by_gemstone', 'تصفية حسب الحجر الكريم')}>
                 {GEMSTONE_OPTIONS.map((gem) => (
                   <button
                     key={gem}
@@ -245,7 +246,7 @@ export default function JewelryCategoryPage() {
 
         {/* ── Loading skeleton ── */}
         {isLoading && (
-          <ul className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4" aria-label={isRTL ? 'جارٍ التحميل' : 'Loading'}>
+          <ul className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4" aria-label={t('jewelry.loading', 'جارٍ التحميل…')}>
             {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
               <li key={i} className="rounded-2xl ring-1 ring-gray-100 overflow-hidden animate-pulse">
                 <div className="aspect-square bg-gray-100" />
@@ -271,12 +272,12 @@ export default function JewelryCategoryPage() {
             <Gem className="h-10 w-10 text-amber-300" aria-hidden />
             <p className="text-base font-semibold text-gray-600">
               {hasActiveFilters
-                ? (isRTL ? 'لا توجد قطع تطابق التصفية' : 'No pieces match your filters')
-                : (isRTL ? 'لا توجد منتجات حالياً' : 'No products available')}
+                ? t('jewelry.no_match', 'لا توجد قطع تطابق التصفية')
+                : t('jewelry.no_products', 'لا توجد منتجات حالياً')}
             </p>
             {hasActiveFilters && (
               <button onClick={clearFilters} className="text-sm text-indigo-600 underline">
-                {isRTL ? 'مسح التصفية' : 'Clear filters'}
+                {t('jewelry.clear_filters', 'مسح التصفية')}
               </button>
             )}
           </div>
@@ -287,7 +288,7 @@ export default function JewelryCategoryPage() {
           <ul
             className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4"
             role="list"
-            aria-label={isRTL ? 'المجوهرات' : 'Jewelry products'}
+            aria-label={t('jewelry.products_aria', 'المجوهرات')}
           >
             {filtered.map((product) => {
               const imgSrc = getImageSrc(product);
@@ -349,13 +350,13 @@ export default function JewelryCategoryPage() {
         <div className="mt-10 rounded-2xl bg-indigo-700 text-white p-6 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div>
             <p className="text-xs uppercase tracking-[0.18em] text-indigo-300 font-medium mb-1">
-              {isRTL ? 'لا تجد ما تبحث عنه؟' : "Can't find what you're looking for?"}
+              {t('jewelry.cta_eyebrow', 'لا تجد ما تبحث عنه؟')}
             </p>
             <p className="text-lg font-semibold" style={isRTL ? undefined : playfair}>
-              {isRTL ? 'اطلب قطعة مخصصة' : 'Request a Custom Piece'}
+              {t('jewelry.cta_title', 'اطلب قطعة مخصصة')}
             </p>
             <p className="text-sm text-indigo-200 mt-0.5">
-              {isRTL ? 'صمّم مجوهراتك مع حرفي موثوق.' : 'Design your jewelry with a trusted artisan.'}
+              {t('jewelry.cta_sub', 'صمّم مجوهراتك مع حرفي موثوق.')}
             </p>
           </div>
           <Link
@@ -363,7 +364,7 @@ export default function JewelryCategoryPage() {
             className="shrink-0 inline-flex items-center gap-2 rounded-full bg-amber-500 hover:bg-amber-400 text-indigo-950 font-semibold px-5 py-2.5 text-sm transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-300"
           >
             <Gem className="h-4 w-4" aria-hidden />
-            {isRTL ? 'طلب مخصص' : 'Custom Order'}
+            {t('jewelry.cta_button', 'طلب مخصص')}
           </Link>
         </div>
       </div>

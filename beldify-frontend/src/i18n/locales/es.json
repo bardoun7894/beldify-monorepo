@@ -563,7 +563,11 @@
       "ready_to_ship": "Listo para enviar hoy",
       "selected": "Seleccionado"
     },
-    "be_first_review": "Nuevo — sé el primero en opinar"
+    "be_first_review": "Nuevo — sé el primero en opinar",
+    "tab_description": "Descripción",
+    "tab_specs": "Especificaciones",
+    "tab_sizing": "Tallas",
+    "tab_reviews": "Reseñas"
   },
   "stock": {
     "in_stock": "En stock ({{count}})",
@@ -1885,7 +1889,9 @@
       "sellerSupport": "Soporte para vendedores",
       "support": "Soporte para vendedores",
       "title": "Vendedores"
-    }
+    },
+    "sellerCustomOrders": "Pedidos personalizados",
+    "sellerEarnings": "Ganancias"
   },
   "sort": {
     "title": "Ordenar por",
@@ -4266,5 +4272,26 @@
     "verify": "Verificar",
     "verify_phone": "Verifica tu teléfono",
     "why_verify": "Tu número de teléfono se utilizará para actualizaciones de pedidos y seguridad de la cuenta."
+  },
+  "jewelry": {
+    "categories_eyebrow": "Categorías",
+    "title": "Joyería",
+    "subtitle": "Joyería marroquí tradicional y contemporánea. Piezas listas o hechas a medida.",
+    "filter": "Filtrar",
+    "clear_filters": "Borrar filtros",
+    "loading": "Cargando…",
+    "items": "piezas",
+    "material": "Material",
+    "gemstone": "Piedra",
+    "filter_by_material": "Filtrar por material",
+    "filter_by_gemstone": "Filtrar por piedra",
+    "no_match": "Ninguna pieza coincide con los filtros",
+    "no_products": "No hay productos disponibles",
+    "products_aria": "Joyería",
+    "cta_eyebrow": "¿No encuentras lo que buscas?",
+    "cta_title": "Pide una pieza personalizada",
+    "cta_sub": "Diseña tus joyas con un artesano de confianza.",
+    "cta_button": "Pedido personalizado",
+    "load_error": "Error al cargar los productos"
   }
 }

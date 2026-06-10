@@ -582,7 +582,11 @@
       "selected": "مختار"
     },
     "url": "رابط المنتج",
-    "be_first_review": "جديد — كن أول من يقيّم"
+    "be_first_review": "جديد — كن أول من يقيّم",
+    "tab_description": "الوصف",
+    "tab_specs": "المواصفات",
+    "tab_sizing": "المقاسات",
+    "tab_reviews": "التقييمات"
   },
   "stock": {
     "in_stock": "متوفر في المخزون ({{count}})",
@@ -2382,7 +2386,9 @@
       "customTailoring": "الخياطة المخصصة",
       "custom_tailoring": "تفصيل مخصص",
       "measurements": "القياسات"
-    }
+    },
+    "sellerCustomOrders": "الطلبات المخصصة",
+    "sellerEarnings": "الأرباح"
   },
   "sellers": {
     "title": "كن بائعاً",
@@ -4412,5 +4418,26 @@
     "takchita": "التقشيطة",
     "traditional": "تقليدي",
     "wedding": "الزفاف"
+  },
+  "jewelry": {
+    "categories_eyebrow": "التصنيفات",
+    "title": "المجوهرات",
+    "subtitle": "مجوهرات مغربية تقليدية وعصرية. قطع جاهزة أو مصنوعة حسب الطلب.",
+    "filter": "تصفية",
+    "clear_filters": "مسح التصفية",
+    "loading": "جارٍ التحميل…",
+    "items": "قطعة",
+    "material": "المادة",
+    "gemstone": "الحجر الكريم",
+    "filter_by_material": "تصفية حسب المادة",
+    "filter_by_gemstone": "تصفية حسب الحجر الكريم",
+    "no_match": "لا توجد قطع تطابق التصفية",
+    "no_products": "لا توجد منتجات حالياً",
+    "products_aria": "المجوهرات",
+    "cta_eyebrow": "لا تجد ما تبحث عنه؟",
+    "cta_title": "اطلب قطعة مخصصة",
+    "cta_sub": "صمّم مجوهراتك مع حرفي موثوق.",
+    "cta_button": "طلب مخصص",
+    "load_error": "تعذّر تحميل المنتجات"
   }
 }

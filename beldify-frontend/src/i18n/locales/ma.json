@@ -582,7 +582,11 @@
       "ready_to_ship": "واجد باش يتصيفط",
       "selected": "مختار"
     },
-    "be_first_review": "جديد — كون أول واحد يقيّم"
+    "be_first_review": "جديد — كون أول واحد يقيّم",
+    "tab_description": "الوصف",
+    "tab_specs": "المواصفات",
+    "tab_sizing": "المقاسات",
+    "tab_reviews": "التقييمات"
   },
   "stock": {
     "in_stock": "كاين فالستوك ({{count}})",
@@ -1849,7 +1853,9 @@
       "sizeGuide": "دليل المقاسات",
       "support": "الدعم",
       "title": "الدعم"
-    }
+    },
+    "sellerCustomOrders": "الطلبات الخاصة",
+    "sellerEarnings": "الأرباح"
   },
   "sort": {
     "title": "رتب على حساب",
@@ -4278,5 +4284,26 @@
     "verify": "حقق",
     "verify_phone": "حقق من الهاتف ديالك",
     "why_verify": "الرقم ديالك غتستعمل لتحديثات لطلباتك وأمان الحساب"
+  },
+  "jewelry": {
+    "categories_eyebrow": "التصنيفات",
+    "title": "المجوهرات",
+    "subtitle": "مجوهرات مغربية تقليدية وعصرية. قطع جاهزة ولا مصنوعة على حسب الطلب.",
+    "filter": "تصفية",
+    "clear_filters": "مسح التصفية",
+    "loading": "كيتحمّل…",
+    "items": "قطعة",
+    "material": "المادة",
+    "gemstone": "الحجر الكريم",
+    "filter_by_material": "تصفية على حسب المادة",
+    "filter_by_gemstone": "تصفية على حسب الحجر",
+    "no_match": "ما كاينش قطع كتطابق التصفية",
+    "no_products": "ما كاينش منتوجات دابا",
+    "products_aria": "المجوهرات",
+    "cta_eyebrow": "ما لقيتيش اللي كتقلب عليه؟",
+    "cta_title": "اطلب قطعة خاصة بيك",
+    "cta_sub": "صمّم مجوهراتك مع معلم موثوق.",
+    "cta_button": "طلب خاص",
+    "load_error": "تعذّر تحميل المنتوجات"
   }
 }

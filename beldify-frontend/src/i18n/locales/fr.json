@@ -563,7 +563,11 @@
     "variant_price": "Prix de la Variante",
     "visit_external_website": "Visiter le Site Web",
     "visit_store": "Visiter la Boutique",
-    "be_first_review": "Nouveau — soyez le premier à donner un avis"
+    "be_first_review": "Nouveau — soyez le premier à donner un avis",
+    "tab_description": "Description",
+    "tab_specs": "Caractéristiques",
+    "tab_sizing": "Tailles",
+    "tab_reviews": "Avis"
   },
   "stock": {
     "in_stock": "En stock ({{count}})",
@@ -1884,7 +1888,9 @@
       "services": "Services",
       "shop": "Boutique",
       "support": "Support"
-    }
+    },
+    "sellerCustomOrders": "Commandes sur mesure",
+    "sellerEarnings": "Revenus"
   },
   "sort": {
     "title": "Trier par",
@@ -4282,5 +4288,26 @@
     "verify": "Vérifier",
     "verify_phone": "Vérifiez Votre Téléphone",
     "why_verify": "Votre numéro de téléphone sera utilisé pour les mises à jour de commande et la sécurité du compte."
+  },
+  "jewelry": {
+    "categories_eyebrow": "Catégories",
+    "title": "Bijoux",
+    "subtitle": "Bijoux marocains traditionnels et contemporains. Pièces prêtes ou sur mesure.",
+    "filter": "Filtrer",
+    "clear_filters": "Effacer les filtres",
+    "loading": "Chargement…",
+    "items": "pièces",
+    "material": "Matière",
+    "gemstone": "Pierre",
+    "filter_by_material": "Filtrer par matière",
+    "filter_by_gemstone": "Filtrer par pierre",
+    "no_match": "Aucune pièce ne correspond aux filtres",
+    "no_products": "Aucun produit disponible",
+    "products_aria": "Bijoux",
+    "cta_eyebrow": "Vous ne trouvez pas votre bonheur ?",
+    "cta_title": "Demandez une pièce sur mesure",
+    "cta_sub": "Concevez vos bijoux avec un artisan de confiance.",
+    "cta_button": "Commande sur mesure",
+    "load_error": "Échec du chargement des produits"
   }
 }
