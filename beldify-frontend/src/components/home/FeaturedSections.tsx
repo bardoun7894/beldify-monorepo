@@ -189,7 +189,7 @@ export default function FeaturedSections(props: FeaturedSectionsProps) {
                   />
                 </div>
                 <div className="p-3">
-                  <h3 className="text-sm font-medium text-gray-900 line-clamp-2 leading-snug">
+                  <h3 className="text-sm font-medium text-foreground line-clamp-2 leading-snug">
                     <Link
                       href={`/products/${product.id}`}
                       className="hover:text-[hsl(var(--primary))] transition-colors duration-200 focus:outline-none"
@@ -256,7 +256,7 @@ export default function FeaturedSections(props: FeaturedSectionsProps) {
                   )}
                 </div>
                 <div className="p-3">
-                  <h3 className="text-sm font-medium text-gray-900 line-clamp-2 leading-snug">
+                  <h3 className="text-sm font-medium text-foreground line-clamp-2 leading-snug">
                     <Link
                       href={`/products/${product.id}`}
                       className="hover:text-[hsl(var(--primary))] transition-colors duration-200 focus:outline-none"

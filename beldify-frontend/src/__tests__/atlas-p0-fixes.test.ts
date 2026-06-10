@@ -31,21 +31,21 @@ const layout = readFileSync(join(SRC, 'app/layout.tsx'), 'utf-8');
 describe('FIX A — tailwind.config.js Atlas token completeness', () => {
   it('has on-surface token with alpha-value placeholder', () => {
     expect(tailwindConfig).toMatch(/['"]on-surface['"]/);
-    expect(tailwindConfig).toMatch(/['"]on-surface['"].*<alpha-value>/s);
+    expect(tailwindConfig).toMatch(/['"]on-surface['"][\s\S]*<alpha-value>/);
   });
 
   it('existing on-surface-variant token uses alpha-value placeholder', () => {
     // Allows Tailwind opacity modifiers like text-on-surface-variant/70
-    expect(tailwindConfig).toMatch(/['"]on-surface-variant['"].*<alpha-value>/s);
+    expect(tailwindConfig).toMatch(/['"]on-surface-variant['"][\s\S]*<alpha-value>/);
   });
 
   it('existing on-secondary token uses alpha-value placeholder', () => {
-    expect(tailwindConfig).toMatch(/['"]on-secondary['"].*<alpha-value>/s);
+    expect(tailwindConfig).toMatch(/['"]on-secondary['"][\s\S]*<alpha-value>/);
   });
 
   it('existing outline token uses alpha-value placeholder', () => {
     // ring-outline/20 and border-outline/10 need this
-    expect(tailwindConfig).toMatch(/['"]outline['"].*<alpha-value>/s);
+    expect(tailwindConfig).toMatch(/['"]outline['"][\s\S]*<alpha-value>/);
   });
 });
 
