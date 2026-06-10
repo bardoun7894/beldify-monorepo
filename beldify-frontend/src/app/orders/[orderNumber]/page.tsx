@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { motion, useReducedMotion } from 'framer-motion';
 import { orderService, Order, OrderItem } from '@/services/orderService';
+import { returnService, ReturnRequest } from '@/services/returnService';
 import toast from '@/utils/toast';
 import { useTranslation } from 'react-i18next';
 import { OrdersLoadingScreen } from '@/components/ui/LoadingManager';
@@ -26,6 +27,8 @@ import {
   XCircle,
   Star,
   RefreshCw,
+  RotateCcw,
+  AlertTriangle,
 } from 'lucide-react';
 import logger from '@/utils/consoleLogger';
 
@@ -54,6 +57,15 @@ export default function OrderDetailsPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [reordering, setReordering] = useState(false);
+  const [cancelling, setCancelling] = useState(false);
+  const [showCancelDialog, setShowCancelDialog] = useState(false);
+  const [cancelReason, setCancelReason] = useState('');
+  const [returnRequest, setReturnRequest] = useState<ReturnRequest | null>(null);
+  const [showReturnModal, setShowReturnModal] = useState(false);
+  const [returnReason, setReturnReason] = useState('');
+  const [returnDetails, setReturnDetails] = useState('');
+  const [submittingReturn, setSubmittingReturn] = useState(false);
+  const [returnError, setReturnError] = useState('');
   const { t, i18n } = useTranslation();
   const params = useParams();
   const searchParams = useSearchParams();
@@ -100,6 +112,62 @@ export default function OrderDetailsPage() {
       );
     } finally {
       setReordering(false);
+    }
+  };
+
+  // Cancel order handler
+  const handleCancel = async () => {
+    if (cancelling || !orderNumber) return;
+    setCancelling(true);
+    try {
+      const result = await (orderService as any).cancel(orderNumber, cancelReason || undefined);
+      // Update order state locally — no full reload needed
+      setOrder((prev) => (prev ? { ...prev, status: result.order.status ?? 'cancelled' } : prev));
+      setShowCancelDialog(false);
+      setCancelReason('');
+      // Bust the cache entry so the orders list also picks up the new status
+      orderService.resetCache(`order:${orderNumber}`);
+      toast.success(
+        i18n.language === 'ar' ? 'تم إلغاء الطلب' : 'Order cancelled'
+      );
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : '';
+      toast.error(msg || (i18n.language === 'ar' ? 'تعذّر الإلغاء' : 'Could not cancel this order'));
+    } finally {
+      setCancelling(false);
+    }
+  };
+
+  // Return-request submit handler
+  const handleReturnSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!returnReason) {
+      setReturnError(
+        i18n.language === 'ar' ? 'يرجى اختيار سبب' : 'Please select a reason'
+      );
+      return;
+    }
+    setSubmittingReturn(true);
+    setReturnError('');
+    try {
+      const result = await returnService.create(orderNumber, {
+        reason: returnReason,
+        details: returnDetails.trim() || undefined,
+      });
+      setReturnRequest(result.data.return_request);
+      setShowReturnModal(false);
+      setReturnReason('');
+      setReturnDetails('');
+      toast.success(
+        i18n.language === 'ar' ? 'تم إرسال طلب الإرجاع' : 'Return request submitted'
+      );
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : '';
+      setReturnError(
+        msg || (i18n.language === 'ar' ? 'تعذّر إرسال الطلب' : 'Could not submit return request')
+      );
+    } finally {
+      setSubmittingReturn(false);
     }
   };
 
@@ -161,6 +229,10 @@ export default function OrderDetailsPage() {
         setError(null);
         const response = await orderService.getOrderDetails(orderNumber);
         setOrder(response);
+        // If the order is delivered, check for an existing return request
+        if (response.status === 'delivered') {
+          returnService.get(orderNumber).then(setReturnRequest).catch(() => {});
+        }
       } catch (error: any) {
         logger.error('Error fetching order:', error);
         if (error.message === 'order_not_found') {
@@ -281,6 +353,22 @@ export default function OrderDetailsPage() {
 
   const currentStatusIndex = getTimelineIndex(order.status);
   const isCancelledOrder = order.status.toLowerCase() === 'cancelled';
+  const orderStatus = order.status.toLowerCase();
+  const isCancellable = orderStatus === 'pending' || orderStatus === 'processing';
+  const isDelivered = orderStatus === 'delivered';
+
+  // 14-day return window check — only applies when order date is available
+  const isWithin14Days = (() => {
+    if (!order.created_at) return true; // no date → be permissive, backend validates
+    try {
+      const daysSince = (Date.now() - new Date(order.created_at).getTime()) / (1000 * 60 * 60 * 24);
+      return daysSince <= 14;
+    } catch {
+      return true;
+    }
+  })();
+  const canRequestReturn = isDelivered && isWithin14Days && !returnRequest;
+  const hasReturnRequest = isDelivered && !!returnRequest;
 
   return (
     <motion.div
@@ -639,6 +727,37 @@ export default function OrderDetailsPage() {
                   {t('orders.actions.support')}
                 </button>
               </div>
+
+              {/* Mobile: Return + Cancel */}
+              {canRequestReturn && (
+                <button
+                  type="button"
+                  onClick={() => setShowReturnModal(true)}
+                  className="w-full px-4 py-3 border border-rose-200 text-rose-700 text-sm font-medium rounded-2xl hover:bg-rose-50 transition-all duration-200 flex items-center justify-center gap-2 focus:ring-2 focus:ring-rose-700/30 focus:outline-none"
+                  aria-label={t('orders.actions.request_return', 'Request return')}
+                >
+                  <RotateCcw className="w-4 h-4" strokeWidth={1.5} />
+                  {t('orders.actions.request_return', 'Request return')}
+                </button>
+              )}
+              {hasReturnRequest && returnRequest && (
+                <div className="w-full px-4 py-3 rounded-2xl ring-1 ring-amber-200 bg-amber-50 flex items-center gap-2 text-sm text-amber-800">
+                  <RotateCcw className="w-4 h-4 flex-shrink-0 text-amber-600" strokeWidth={1.5} />
+                  <span className="font-medium">{t('orders.actions.return_request', 'Return')}:</span>
+                  <span className="capitalize">{t(`returns.status.${returnRequest.status}`, returnRequest.status)}</span>
+                </div>
+              )}
+              {isCancellable && !isCancelledOrder && (
+                <button
+                  type="button"
+                  onClick={() => setShowCancelDialog(true)}
+                  className="w-full px-4 py-3 border border-rose-200 text-rose-700 text-sm font-medium rounded-2xl hover:bg-rose-50 transition-all duration-200 flex items-center justify-center gap-2 focus:ring-2 focus:ring-rose-700/30 focus:outline-none"
+                  aria-label={t('orders.actions.cancel_order', 'Cancel order')}
+                >
+                  <XCircle className="w-4 h-4" strokeWidth={1.5} />
+                  {t('orders.actions.cancel_order', 'Cancel order')}
+                </button>
+              )}
             </motion.div>
           </div>
 
@@ -774,7 +893,7 @@ export default function OrderDetailsPage() {
                   <MessageSquare className="w-4 h-4 flex-shrink-0" strokeWidth={1.5} />
                   {t('orders.actions.contact_support')}
                 </button>
-                {order.status === 'delivered' && (
+                {isDelivered && (
                   <button
                     className="w-full px-4 py-2.5 bg-amber-50 text-gray-700 text-sm font-medium rounded-2xl ring-1 ring-amber-100 hover:bg-amber-100 transition-all duration-200 flex items-center justify-center gap-2 focus:ring-2 focus:ring-indigo-700/30 focus:outline-none"
                     aria-label={t('orders.actions.write_review')}
@@ -783,11 +902,214 @@ export default function OrderDetailsPage() {
                     {t('orders.actions.write_review')}
                   </button>
                 )}
+
+                {/* Return request button — only for delivered orders within 14d */}
+                {canRequestReturn && (
+                  <button
+                    type="button"
+                    onClick={() => setShowReturnModal(true)}
+                    className="w-full px-4 py-2.5 bg-rose-50 text-rose-700 text-sm font-medium rounded-2xl ring-1 ring-rose-100 hover:bg-rose-100 transition-all duration-200 flex items-center justify-center gap-2 focus:ring-2 focus:ring-rose-700/30 focus:outline-none"
+                    aria-label={t('orders.actions.request_return', 'Request return')}
+                  >
+                    <RotateCcw className="w-4 h-4 flex-shrink-0" strokeWidth={1.5} />
+                    {t('orders.actions.request_return', 'Request return')}
+                  </button>
+                )}
+
+                {/* Return request status badge */}
+                {hasReturnRequest && returnRequest && (
+                  <div className="w-full px-4 py-2.5 rounded-2xl ring-1 ring-amber-200 bg-amber-50 flex items-center gap-2 text-sm text-amber-800">
+                    <RotateCcw className="w-4 h-4 flex-shrink-0 text-amber-600" strokeWidth={1.5} />
+                    <span className="font-medium">
+                      {t('orders.actions.return_request', 'Return request')}:
+                    </span>
+                    <span className="capitalize">{t(`returns.status.${returnRequest.status}`, returnRequest.status)}</span>
+                  </div>
+                )}
+
+                {/* Cancel button — only for pending/processing orders */}
+                {isCancellable && !isCancelledOrder && (
+                  <button
+                    type="button"
+                    onClick={() => setShowCancelDialog(true)}
+                    className="w-full px-4 py-2.5 bg-rose-50 text-rose-700 text-sm font-medium rounded-2xl ring-1 ring-rose-100 hover:bg-rose-100 transition-all duration-200 flex items-center justify-center gap-2 focus:ring-2 focus:ring-rose-700/30 focus:outline-none"
+                    aria-label={t('orders.actions.cancel_order', 'Cancel order')}
+                  >
+                    <XCircle className="w-4 h-4 flex-shrink-0" strokeWidth={1.5} />
+                    {t('orders.actions.cancel_order', 'Cancel order')}
+                  </button>
+                )}
               </div>
             </motion.div>
           </div>
         </div>
       </div>
+
+      {/* Cancel Confirm Dialog ─────────────────────────────────────────────── */}
+      {showCancelDialog && (
+        <div
+          className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/30 backdrop-blur-sm p-4"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="cancel-dialog-title"
+        >
+          <motion.div
+            initial={{ scale: 0.97, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ duration: 0.2, ease: [0.33, 1, 0.68, 1] }}
+            className="bg-white rounded-2xl w-full max-w-sm shadow-atlas-lg ring-1 ring-rose-100 p-6"
+          >
+            <div className="flex items-start gap-3 mb-4">
+              <div className="w-10 h-10 rounded-full bg-rose-50 flex items-center justify-center flex-shrink-0">
+                <AlertTriangle className="w-5 h-5 text-rose-600" strokeWidth={1.5} />
+              </div>
+              <div>
+                <h3 id="cancel-dialog-title" className="text-base font-semibold text-gray-900" style={playfair}>
+                  {t('orders.cancel.title', 'Cancel this order?')}
+                </h3>
+                <p className="text-sm text-gray-500 mt-0.5">
+                  {t('orders.cancel.desc', 'This cannot be undone. You can place a new order anytime.')}
+                </p>
+              </div>
+            </div>
+
+            <div className="mb-5">
+              <label htmlFor="cancel-reason" className="block text-sm font-medium text-gray-700 mb-1.5">
+                {t('orders.cancel.reason_label', 'Reason (optional)')}
+              </label>
+              <textarea
+                id="cancel-reason"
+                value={cancelReason}
+                onChange={(e) => setCancelReason(e.target.value)}
+                maxLength={500}
+                rows={3}
+                placeholder={t('orders.cancel.reason_placeholder', 'Let us know why you are cancelling…')}
+                className="block w-full rounded-2xl border border-amber-200 bg-white px-4 py-2.5 text-sm text-gray-900 placeholder-gray-400 shadow-sm transition focus:border-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-700/20 resize-none"
+              />
+            </div>
+
+            <div className="flex gap-3">
+              <button
+                type="button"
+                onClick={() => { setShowCancelDialog(false); setCancelReason(''); }}
+                className="flex-1 py-2.5 rounded-2xl border border-amber-200 text-gray-700 text-sm font-medium hover:bg-amber-50 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30"
+              >
+                {t('common.go_back', 'Go back')}
+              </button>
+              <button
+                type="button"
+                onClick={handleCancel}
+                disabled={cancelling}
+                className="flex-1 py-2.5 rounded-2xl bg-rose-600 hover:bg-rose-700 text-white text-sm font-semibold transition-all duration-200 flex items-center justify-center gap-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-rose-600 disabled:opacity-50 disabled:cursor-not-allowed"
+                aria-busy={cancelling}
+              >
+                {cancelling && (
+                  <div className="w-4 h-4 rounded-full border-2 border-white/30 border-t-white animate-spin flex-shrink-0" />
+                )}
+                {cancelling
+                  ? t('orders.cancel.cancelling', 'Cancelling…')
+                  : t('orders.cancel.confirm', 'Cancel order')}
+              </button>
+            </div>
+          </motion.div>
+        </div>
+      )}
+
+      {/* Return Request Modal ──────────────────────────────────────────────── */}
+      {showReturnModal && (
+        <div
+          className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/30 backdrop-blur-sm p-4"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="return-dialog-title"
+        >
+          <motion.div
+            initial={{ scale: 0.97, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ duration: 0.2, ease: [0.33, 1, 0.68, 1] }}
+            className="bg-white rounded-2xl w-full max-w-sm shadow-atlas-lg ring-1 ring-amber-100 p-6"
+          >
+            <div className="flex items-start gap-3 mb-5">
+              <div className="w-10 h-10 rounded-full bg-amber-50 flex items-center justify-center flex-shrink-0">
+                <RotateCcw className="w-5 h-5 text-amber-600" strokeWidth={1.5} />
+              </div>
+              <div>
+                <h3 id="return-dialog-title" className="text-base font-semibold text-gray-900" style={playfair}>
+                  {t('orders.return.title', 'Request a return')}
+                </h3>
+                <p className="text-sm text-gray-500 mt-0.5">
+                  {t('orders.return.desc', 'Tell us what went wrong and we will arrange the return.')}
+                </p>
+              </div>
+            </div>
+
+            <form onSubmit={handleReturnSubmit} className="space-y-4">
+              <div>
+                <label htmlFor="return-reason-modal" className="block text-sm font-medium text-gray-700 mb-1.5">
+                  {t('returns.request.reason', 'Reason')}
+                </label>
+                <select
+                  id="return-reason-modal"
+                  value={returnReason}
+                  onChange={(e) => { setReturnReason(e.target.value); setReturnError(''); }}
+                  className="block w-full rounded-2xl border border-amber-200 bg-white px-4 py-2.5 text-sm text-gray-900 shadow-sm transition focus:border-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-700/20"
+                >
+                  <option value="">{t('returns.request.reason_placeholder', '— Select a reason —')}</option>
+                  {(['damaged', 'wrong_item', 'not_as_described', 'size_issue', 'other'] as const).map((r) => (
+                    <option key={r} value={r}>
+                      {t(`returns.reason.${r}`, r.replace(/_/g, ' '))}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div>
+                <label htmlFor="return-details-modal" className="block text-sm font-medium text-gray-700 mb-1.5">
+                  {t('returns.request.details', 'Details (optional)')}
+                </label>
+                <textarea
+                  id="return-details-modal"
+                  value={returnDetails}
+                  onChange={(e) => setReturnDetails(e.target.value)}
+                  rows={3}
+                  maxLength={500}
+                  placeholder={t('returns.request.details_placeholder', 'Describe the issue…')}
+                  className="block w-full rounded-2xl border border-amber-200 bg-white px-4 py-2.5 text-sm text-gray-900 placeholder-gray-400 shadow-sm transition focus:border-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-700/20 resize-none"
+                />
+              </div>
+
+              {returnError && (
+                <p className="text-xs text-rose-700 bg-rose-50 rounded-xl px-3 py-2" role="alert">
+                  {returnError}
+                </p>
+              )}
+
+              <div className="flex gap-3 pt-1">
+                <button
+                  type="button"
+                  onClick={() => { setShowReturnModal(false); setReturnError(''); }}
+                  className="flex-1 py-2.5 rounded-2xl border border-amber-200 text-gray-700 text-sm font-medium hover:bg-amber-50 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30"
+                >
+                  {t('common.cancel', 'Cancel')}
+                </button>
+                <button
+                  type="submit"
+                  disabled={submittingReturn}
+                  className="flex-1 py-2.5 rounded-2xl bg-indigo-700 hover:bg-indigo-800 text-white text-sm font-semibold transition-all duration-200 flex items-center justify-center gap-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed"
+                  aria-busy={submittingReturn}
+                >
+                  {submittingReturn && (
+                    <div className="w-4 h-4 rounded-full border-2 border-white/30 border-t-white animate-spin flex-shrink-0" />
+                  )}
+                  {submittingReturn
+                    ? t('returns.request.submitting', 'Submitting…')
+                    : t('returns.request.submit', 'Submit')}
+                </button>
+              </div>
+            </form>
+          </motion.div>
+        </div>
+      )}
     </motion.div>
   );
 }

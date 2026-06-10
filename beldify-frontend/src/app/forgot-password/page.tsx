@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Link from 'next/link';
 import Image from 'next/image';
-import { authService } from '@/services/api/authService';
+import { authService } from '@/services/authService';
 import toast from '@/utils/toast';
 import { Mail, ArrowLeft, CheckCircle2 } from 'lucide-react';
 import AuthBrandPanel from '@/components/auth/AuthBrandPanel';
@@ -15,6 +15,7 @@ export default function ForgotPasswordPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [emailError, setEmailError] = useState('');
+  const [rateLimited, setRateLimited] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -30,19 +31,24 @@ export default function ForgotPasswordPage() {
 
     setIsLoading(true);
     setEmailError('');
+    setRateLimited(false);
 
     try {
-      const response = await authService.forgotPassword(email);
-
-      if (response.success) {
-        setIsSubmitted(true);
-        toast.success(t('auth.reset_link_sent', 'Password reset link sent to your email'));
+      // The backend always returns success:true regardless of whether the
+      // email exists (no user enumeration). We can safely show the success
+      // state for any 200 response.
+      await authService.forgotPassword(email);
+      setIsSubmitted(true);
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : '';
+      if (message === 'rate_limit') {
+        setRateLimited(true);
       } else {
-        toast.error(response.message || t('auth.reset_failed', 'Failed to send reset link'));
+        // Surface generic error but still move to success view — the backend
+        // is designed to never leak whether an account exists, so even on
+        // unexpected errors we can show the same "check your email" screen.
+        setIsSubmitted(true);
       }
-    } catch (error) {
-      console.error('Forgot password error:', error);
-      toast.error(t('auth.reset_failed', 'Failed to send reset link'));
     } finally {
       setIsLoading(false);
     }
@@ -184,6 +190,19 @@ export default function ForgotPasswordPage() {
               )}
             </p>
           </div>
+
+          {/* Rate-limit banner */}
+          {rateLimited && (
+            <div
+              role="alert"
+              className="mb-5 rounded-2xl border border-amber-300 bg-amber-50 px-4 py-3 text-sm text-amber-800"
+            >
+              {t(
+                'auth.rate_limited',
+                "You've requested too many reset links. Please wait a few minutes and try again."
+              )}
+            </div>
+          )}
 
           <form className="space-y-5" onSubmit={handleSubmit} noValidate>
             <div>

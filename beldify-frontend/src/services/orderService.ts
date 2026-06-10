@@ -478,6 +478,43 @@ class OrderService {
   }
 
   /**
+   * Cancel an authenticated user's order.
+   *
+   * POST /api/orders/{orderNumber}/cancel
+   * Body: { reason?: string (≤500 chars) }
+   *
+   * Returns {success:true, order:{...}} on 200.
+   * Throws with API message on 403 (not owner), 404 (not found),
+   * or 422 (not cancellable — paid / shipped).
+   */
+  async cancel(
+    orderNumber: string,
+    reason?: string
+  ): Promise<{ success: true; order: Order }> {
+    try {
+      const body: Record<string, string> = {};
+      if (reason !== undefined) {
+        body.reason = reason;
+      }
+      const response = await api.post(`/api/orders/${orderNumber}/cancel`, body);
+      const data = response.data;
+      if (data?.success && data?.order) {
+        // Invalidate cached order so the next fetch picks up the new status.
+        this.clearCache(`order:${orderNumber}`);
+        return { success: true, order: data.order };
+      }
+      throw new Error(data?.message || 'cancel_failed');
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
+        throw new Error(
+          error.response?.data?.message || error.message || 'cancel_failed'
+        );
+      }
+      throw error;
+    }
+  }
+
+  /**
    * Re-add all items from a past order into the authenticated user's cart
    * at current prices and stock levels.
    *

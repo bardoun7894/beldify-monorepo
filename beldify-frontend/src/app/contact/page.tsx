@@ -5,11 +5,14 @@ import { useTranslation } from 'react-i18next';
 import { Mail, Phone, MapPin } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import logger from '@/utils/consoleLogger';
+import { contactService } from '@/services/contactService';
 
 export default function ContactPage() {
   const { t } = useTranslation();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
+  const [submitError, setSubmitError] = useState('');
+  const [rateLimited, setRateLimited] = useState(false);
 
   const {
     register,
@@ -20,16 +23,34 @@ export default function ContactPage() {
 
   const onSubmit = async (data: Record<string, unknown>) => {
     setIsSubmitting(true);
+    setSubmitError('');
+    setRateLimited(false);
     try {
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      logger.log('Form submitted:', data);
+      // Combine first + last name into the `name` field expected by the API
+      const name = [data.firstName, data.lastName].filter(Boolean).join(' ').trim();
+      await contactService.send({
+        name: name || (data.name as string) || '',
+        email: data.email as string,
+        subject: (data.subject as string) || undefined,
+        message: data.message as string,
+      });
+      logger.log('Contact form submitted successfully');
       setSubmitSuccess(true);
       reset();
       setTimeout(() => {
         setSubmitSuccess(false);
-      }, 5000);
-    } catch (error) {
-      logger.error('Error submitting form:', error);
+      }, 6000);
+    } catch (error: unknown) {
+      logger.error('Error submitting contact form:', error);
+      const message = error instanceof Error ? error.message : '';
+      if (message === 'rate_limit') {
+        setRateLimited(true);
+      } else {
+        setSubmitError(
+          message ||
+            t('contact.form.error', 'Something went wrong. Please try again or email us directly.')
+        );
+      }
     } finally {
       setIsSubmitting(false);
     }
@@ -103,8 +124,29 @@ export default function ContactPage() {
                 ✓
               </span>
               <p className="text-sm font-medium text-amber-900">
-                {t('contact.form.thankYou', 'Thank you — we\'ll be in touch soon!')}
+                {t('contact.form.thankYou', "Thank you — we'll be in touch soon!")}
               </p>
+            </div>
+          )}
+
+          {rateLimited && (
+            <div
+              role="alert"
+              className="mb-6 rounded-2xl bg-amber-50 border border-amber-300 px-4 py-3 text-sm text-amber-800"
+            >
+              {t(
+                'contact.form.rate_limited',
+                "You've sent too many messages recently. Please wait a while before trying again."
+              )}
+            </div>
+          )}
+
+          {submitError && (
+            <div
+              role="alert"
+              className="mb-6 rounded-2xl bg-rose-50 border border-rose-200 px-4 py-3 text-sm text-rose-700"
+            >
+              {submitError}
             </div>
           )}
 

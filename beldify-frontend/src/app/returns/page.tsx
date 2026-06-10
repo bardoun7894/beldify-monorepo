@@ -1,9 +1,323 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
-import { CheckCircle2, XCircle, RefreshCw, Link as LinkIcon } from 'lucide-react';
+import {
+  CheckCircle2,
+  XCircle,
+  RefreshCw,
+  PackageOpen,
+  Clock,
+  LogIn,
+} from 'lucide-react';
 import Link from 'next/link';
+import { orderService, Order } from '@/services/orderService';
+import { returnService, ReturnRequest, ReturnRequestStatus } from '@/services/returnService';
+import logger from '@/utils/consoleLogger';
+
+// ─── Return-request section (auth-gated) ──────────────────────────────────────
+
+const RETURN_REASONS = [
+  'damaged',
+  'wrong_item',
+  'not_as_described',
+  'size_issue',
+  'other',
+] as const;
+type ReturnReason = typeof RETURN_REASONS[number];
+
+function getReturnStatusPill(status: ReturnRequestStatus) {
+  const map: Record<ReturnRequestStatus, string> = {
+    pending: 'bg-amber-50 text-amber-700 ring-1 ring-amber-200',
+    approved: 'bg-emerald-50 text-emerald-700 ring-1 ring-emerald-200',
+    rejected: 'bg-rose-50 text-rose-700 ring-1 ring-rose-200',
+    completed: 'bg-indigo-50 text-indigo-700 ring-1 ring-indigo-200',
+  };
+  return map[status] ?? map.pending;
+}
+
+function RequestReturnSection() {
+  const { t } = useTranslation();
+
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [orders, setOrders] = useState<Order[]>([]);
+  const [loadingOrders, setLoadingOrders] = useState(false);
+  const [selectedOrderNumber, setSelectedOrderNumber] = useState('');
+  const [reason, setReason] = useState<ReturnReason | ''>('');
+  const [details, setDetails] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState('');
+  const [existingRequest, setExistingRequest] = useState<ReturnRequest | null>(null);
+  const [loadingExisting, setLoadingExisting] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+
+  // Check auth on mount
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const token = localStorage.getItem('token');
+      setIsLoggedIn(!!token);
+    }
+  }, []);
+
+  // Load delivered orders when logged in
+  useEffect(() => {
+    if (!isLoggedIn) return;
+    setLoadingOrders(true);
+    orderService
+      .getOrders()
+      .then((all) => {
+        const delivered = all.filter((o) => o.status === 'delivered');
+        setOrders(delivered);
+      })
+      .catch((err) => logger.error('Failed to load orders for return:', err))
+      .finally(() => setLoadingOrders(false));
+  }, [isLoggedIn]);
+
+  // When user selects an order, check if a return request already exists
+  const checkExistingRequest = useCallback(async (orderNumber: string) => {
+    if (!orderNumber) {
+      setExistingRequest(null);
+      return;
+    }
+    setLoadingExisting(true);
+    try {
+      const req = await returnService.get(orderNumber);
+      setExistingRequest(req);
+    } catch {
+      setExistingRequest(null);
+    } finally {
+      setLoadingExisting(false);
+    }
+  }, []);
+
+  const handleOrderChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const val = e.target.value;
+    setSelectedOrderNumber(val);
+    setSubmitError('');
+    setSubmitted(false);
+    checkExistingRequest(val);
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setSubmitError('');
+    if (!selectedOrderNumber) {
+      setSubmitError(t('returns.request.order_required', 'Please select an order.'));
+      return;
+    }
+    if (!reason) {
+      setSubmitError(t('returns.request.reason_required', 'Please select a reason.'));
+      return;
+    }
+    setIsSubmitting(true);
+    try {
+      await returnService.create(selectedOrderNumber, {
+        reason,
+        details: details.trim() || undefined,
+      });
+      setSubmitted(true);
+      // Refresh existing request
+      await checkExistingRequest(selectedOrderNumber);
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : '';
+      setSubmitError(
+        msg || t('returns.request.submit_error', 'Could not submit your return request. Please try again.')
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  if (!isLoggedIn) {
+    return (
+      <div className="bg-white rounded-2xl p-6 sm:p-8 shadow-sm ring-1 ring-amber-200 flex flex-col items-center text-center gap-4">
+        <div className="w-12 h-12 rounded-full bg-amber-50 ring-1 ring-amber-200 flex items-center justify-center">
+          <LogIn className="w-5 h-5 text-amber-600" aria-hidden />
+        </div>
+        <div>
+          <h3
+            className="text-base font-semibold text-gray-900 mb-1"
+            style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
+          >
+            {t('returns.request.login_title', 'Sign in to request a return')}
+          </h3>
+          <p className="text-sm text-gray-500">
+            {t('returns.request.login_desc', 'You need to be logged in to submit a return request for your order.')}
+          </p>
+        </div>
+        <Link
+          href="/login?redirect=/returns"
+          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-2xl bg-indigo-700 text-white text-sm font-semibold hover:bg-indigo-800 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700"
+        >
+          {t('auth.sign_in', 'Sign in')}
+        </Link>
+      </div>
+    );
+  }
+
+  return (
+    <div className="bg-white rounded-2xl p-6 sm:p-8 shadow-sm ring-1 ring-amber-200">
+      <h2
+        className="text-xl font-bold text-gray-900 mb-2"
+        style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
+      >
+        {t('returns.request.title', 'Request a return')}
+      </h2>
+      <p className="text-sm text-gray-500 mb-6">
+        {t('returns.request.desc', 'Select a delivered order and tell us what went wrong. Returns must be requested within 14 days of delivery.')}
+      </p>
+
+      {/* No delivered orders */}
+      {!loadingOrders && orders.length === 0 && (
+        <div className="text-center py-8 text-sm text-gray-500 space-y-2">
+          <PackageOpen className="w-8 h-8 mx-auto text-gray-300" aria-hidden />
+          <p>{t('returns.request.no_delivered', 'No delivered orders found that are eligible for a return.')}</p>
+        </div>
+      )}
+
+      {loadingOrders && (
+        <div className="flex items-center gap-2 py-4 text-sm text-gray-500">
+          <div className="w-4 h-4 rounded-full border-2 border-indigo-200 border-t-indigo-700 animate-spin flex-shrink-0" />
+          {t('returns.request.loading_orders', 'Loading your orders…')}
+        </div>
+      )}
+
+      {!loadingOrders && orders.length > 0 && (
+        <form onSubmit={handleSubmit} className="space-y-5">
+          {/* Order select */}
+          <div>
+            <label htmlFor="return-order" className="block text-sm font-medium text-gray-700 mb-1.5">
+              {t('returns.request.select_order', 'Order')}
+            </label>
+            <select
+              id="return-order"
+              value={selectedOrderNumber}
+              onChange={handleOrderChange}
+              className="block w-full rounded-2xl border border-amber-200 bg-white px-4 py-2.5 text-sm text-gray-900 shadow-sm transition focus:border-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-700/20"
+            >
+              <option value="">{t('returns.request.select_order_placeholder', '— Select an order —')}</option>
+              {orders.map((o) => (
+                <option key={o.order_number} value={o.order_number}>
+                  #{o.order_number}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {/* Loading existing request indicator */}
+          {loadingExisting && (
+            <div className="flex items-center gap-2 text-sm text-gray-500">
+              <div className="w-4 h-4 rounded-full border-2 border-indigo-200 border-t-indigo-700 animate-spin flex-shrink-0" />
+              {t('returns.request.checking', 'Checking for existing requests…')}
+            </div>
+          )}
+
+          {/* Existing request badge */}
+          {!loadingExisting && existingRequest && (
+            <div className="rounded-2xl border border-amber-200 bg-amber-50 px-4 py-4 space-y-2">
+              <p className="text-sm font-medium text-amber-900">
+                {t('returns.request.existing_title', 'An existing return request was found for this order.')}
+              </p>
+              <div className="flex items-center gap-2">
+                <span className="text-xs text-gray-500">{t('returns.request.status_label', 'Status:')}</span>
+                <span
+                  className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold ${getReturnStatusPill(existingRequest.status)}`}
+                >
+                  {t(`returns.status.${existingRequest.status}`, existingRequest.status)}
+                </span>
+              </div>
+              {existingRequest.reason && (
+                <p className="text-xs text-gray-500">
+                  {t('returns.request.reason_label', 'Reason:')} {t(`returns.reason.${existingRequest.reason}`, existingRequest.reason)}
+                </p>
+              )}
+            </div>
+          )}
+
+          {/* Only show form fields if no existing request */}
+          {!existingRequest && selectedOrderNumber && !loadingExisting && (
+            <>
+              {/* Reason select */}
+              <div>
+                <label htmlFor="return-reason" className="block text-sm font-medium text-gray-700 mb-1.5">
+                  {t('returns.request.reason', 'Reason for return')}
+                </label>
+                <select
+                  id="return-reason"
+                  value={reason}
+                  onChange={(e) => setReason(e.target.value as ReturnReason)}
+                  className="block w-full rounded-2xl border border-amber-200 bg-white px-4 py-2.5 text-sm text-gray-900 shadow-sm transition focus:border-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-700/20"
+                >
+                  <option value="">{t('returns.request.reason_placeholder', '— Select a reason —')}</option>
+                  {RETURN_REASONS.map((r) => (
+                    <option key={r} value={r}>
+                      {t(`returns.reason.${r}`, r.replace(/_/g, ' '))}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Details textarea */}
+              <div>
+                <label htmlFor="return-details" className="block text-sm font-medium text-gray-700 mb-1.5">
+                  {t('returns.request.details', 'Additional details (optional)')}
+                </label>
+                <textarea
+                  id="return-details"
+                  value={details}
+                  onChange={(e) => setDetails(e.target.value)}
+                  rows={4}
+                  maxLength={500}
+                  placeholder={t('returns.request.details_placeholder', 'Describe the issue in more detail…')}
+                  className="block w-full rounded-2xl border border-amber-200 bg-white px-4 py-2.5 text-sm text-gray-900 placeholder-gray-400 shadow-sm transition focus:border-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-700/20 resize-none"
+                />
+                <p className="mt-1 text-xs text-gray-400 text-end">
+                  {details.length}/500
+                </p>
+              </div>
+            </>
+          )}
+
+          {/* Error banner */}
+          {submitError && (
+            <div role="alert" className="rounded-2xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-700">
+              {submitError}
+            </div>
+          )}
+
+          {/* Success banner */}
+          {submitted && (
+            <div role="status" className="rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 flex items-center gap-3">
+              <CheckCircle2 className="w-5 h-5 text-emerald-600 flex-shrink-0" aria-hidden />
+              <p className="text-sm font-medium text-emerald-800">
+                {t('returns.request.success', 'Return request submitted. Our team will review it shortly.')}
+              </p>
+            </div>
+          )}
+
+          {/* Submit — only when form is visible */}
+          {!existingRequest && selectedOrderNumber && !loadingExisting && !submitted && (
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              className="w-full flex justify-center items-center gap-2 py-3 px-4 bg-indigo-700 hover:bg-indigo-800 active:bg-indigo-900 text-white font-semibold rounded-2xl shadow-sm hover:shadow-md hover:-translate-y-0.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700 focus-visible:ring-offset-2 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+              aria-busy={isSubmitting}
+            >
+              {isSubmitting && (
+                <div className="w-4 h-4 rounded-full border-2 border-white/30 border-t-white animate-spin flex-shrink-0" />
+              )}
+              {isSubmitting
+                ? t('returns.request.submitting', 'Submitting…')
+                : t('returns.request.submit', 'Submit return request')}
+            </button>
+          )}
+        </form>
+      )}
+    </div>
+  );
+}
+
+// ─── Main page ─────────────────────────────────────────────────────────────────
 
 export default function ReturnsPage() {
   const { t, i18n } = useTranslation();
@@ -54,6 +368,7 @@ export default function ReturnsPage() {
     { id: 'returns', label: t('pages.returns.tabs.returnsPolicy', 'Returns Policy') },
     { id: 'exchanges', label: t('pages.returns.tabs.exchanges', 'Exchanges') },
     { id: 'process', label: t('pages.returns.tabs.returnProcess', 'Return Process') },
+    { id: 'request', label: t('pages.returns.tabs.request', 'Request a Return') },
   ];
 
   return (
@@ -316,6 +631,13 @@ export default function ReturnsPage() {
                   </Link>
                 </div>
               </div>
+            </div>
+          )}
+
+          {/* Request a Return Tab */}
+          {activeTab === 'request' && (
+            <div className="space-y-6 max-w-2xl mx-auto">
+              <RequestReturnSection />
             </div>
           )}
         </div>
