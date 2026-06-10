@@ -76,6 +76,7 @@ const MOCK_PRODUCT = {
   quantity: 10,
   is_active: true,
   price: '450.00',
+  customization_options: { material: 'gold', purity: '18k' },
 };
 
 const mockGetSellerProduct = vi.fn();
@@ -94,9 +95,26 @@ vi.mock('@/services/categoryService', () => ({
   },
 }));
 
+const mockGetStoreProfile = vi.fn();
 vi.mock('@/services/sellerOnboardingService', () => ({
   getSellerProducts: (...args: unknown[]) => mockGetSellerProducts(...args),
+  getStoreProfile: (...args: unknown[]) => mockGetStoreProfile(...args),
 }));
+
+const mockFetchVerticalConfig = vi.fn();
+const mockPatchProductVerticalConfig = vi.fn();
+vi.mock('@/services/verticalService', () => ({
+  fetchVerticalConfig: (...args: unknown[]) => mockFetchVerticalConfig(...args),
+  patchProductVerticalConfig: (...args: unknown[]) => mockPatchProductVerticalConfig(...args),
+}));
+
+const JEWELRY_CONFIG = {
+  vertical: 'jewelry',
+  fields: [
+    { key: 'material', label: 'Material', type: 'select', required: true, options: ['gold', 'silver'], group: null },
+    { key: 'purity',   label: 'Purity',   type: 'select', required: false, options: ['18k', '24k'], group: null },
+  ],
+};
 
 // ─── Tests ────────────────────────────────────────────────────────────────────
 
@@ -109,6 +127,9 @@ describe('SellerEditProductPage', () => {
       data: [MOCK_PRODUCT],
     });
     mockUpdateSellerProduct.mockResolvedValue({ data: MOCK_PRODUCT });
+    mockGetStoreProfile.mockResolvedValue({ data: { name: 'Atlas Bijoux', store_type: 'jewelry' } });
+    mockFetchVerticalConfig.mockResolvedValue(JEWELRY_CONFIG);
+    mockPatchProductVerticalConfig.mockResolvedValue(undefined);
   });
 
   it('shows a loading skeleton initially', async () => {
@@ -227,5 +248,33 @@ describe('SellerEditProductPage', () => {
     const allLinks = screen.getAllByRole('link');
     const backLink = allLinks.find(l => l.getAttribute('href') === '/seller/products');
     expect(backLink).toBeTruthy();
+  });
+
+  // ─── FE-J1: vertical-aware edit ───────────────────────────────────────────
+
+  it('prefills the jewelry material field from existing customization_options', async () => {
+    const { default: Page } = await import('../page');
+    render(<Page />);
+    await screen.findByLabelText(/product name.*english/i);
+    const material = await screen.findByLabelText(/material/i) as HTMLSelectElement;
+    expect(material.value).toBe('gold');
+  });
+
+  it('PATCHes vertical-config alongside the normal update on save', async () => {
+    const { default: Page } = await import('../page');
+    render(<Page />);
+    await screen.findByLabelText(/product name.*english/i);
+    await screen.findByLabelText(/material/i);
+    const submitBtn = screen.getByRole('button', { name: /save|update|edit/i });
+    fireEvent.click(submitBtn);
+    await waitFor(() => {
+      expect(mockUpdateSellerProduct).toHaveBeenCalled();
+    });
+    await waitFor(() => {
+      expect(mockPatchProductVerticalConfig).toHaveBeenCalled();
+      const [pid, spec] = mockPatchProductVerticalConfig.mock.calls[0];
+      expect(String(pid)).toBe('42');
+      expect(spec).toMatchObject({ material: 'gold' });
+    });
   });
 });

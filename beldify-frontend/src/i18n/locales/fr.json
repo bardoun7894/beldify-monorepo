@@ -4053,7 +4053,10 @@
       "fetch_error": "Impossible de charger les détails du produit.",
       "not_found": "Produit introuvable ou vous n'avez pas la permission de le modifier.",
       "suspended_error": "Votre compte est suspendu. Contactez le support pour résoudre le problème.",
-      "edit_eyebrow": "Inventaire"
+      "edit_eyebrow": "Inventaire",
+      "section_attributes": "Attributs du produit",
+      "vertical_required": "{{field}} est requis pour ce type de produit.",
+      "vertical_save_failed": "Produit enregistré, mais ses attributs personnalisés n'ont pas pu être enregistrés. Modifiez le produit pour les ajouter."
     },
     "products": {
       "edit_aria": "Modifier {{name}}"

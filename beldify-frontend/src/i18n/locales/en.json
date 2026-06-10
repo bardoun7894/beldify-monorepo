@@ -3605,7 +3605,10 @@
       "fetch_error": "Could not load product details.",
       "not_found": "Product not found or you do not have permission to edit it.",
       "suspended_error": "Your account is suspended. Contact support to resolve.",
-      "edit_eyebrow": "Inventory"
+      "edit_eyebrow": "Inventory",
+      "section_attributes": "Product attributes",
+      "vertical_required": "{{field}} is required for this product type.",
+      "vertical_save_failed": "Product saved, but its custom attributes could not be saved. Edit the product to add them."
     },
     "products": {
       "edit_aria": "Edit {{name}}"

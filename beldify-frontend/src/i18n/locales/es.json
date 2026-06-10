@@ -4115,7 +4115,10 @@
       "fetch_error": "No se pudieron cargar los detalles del producto.",
       "not_found": "Producto no encontrado o no tienes permiso para editarlo.",
       "suspended_error": "Tu cuenta está suspendida. Contacta con soporte para resolverlo.",
-      "edit_eyebrow": "Inventario"
+      "edit_eyebrow": "Inventario",
+      "section_attributes": "Atributos del producto",
+      "vertical_required": "{{field}} es obligatorio para este tipo de producto.",
+      "vertical_save_failed": "Producto guardado, pero no se pudieron guardar sus atributos personalizados. Edita el producto para añadirlos."
     },
     "products": {
       "edit_aria": "Editar {{name}}"

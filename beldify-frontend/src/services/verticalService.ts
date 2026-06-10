@@ -105,4 +105,25 @@ export async function fetchVerticalConfig(slug: VerticalSlug): Promise<VerticalC
   return res.data.data;
 }
 
-export const verticalService = { fetchVerticalConfig };
+/**
+ * PATCH /api/v1/products/{id}/vertical-config
+ *
+ * Writes the product's vertical spec into stocks.customization_options. The
+ * backend ProductVerticalConfigController validates a `customization_options`
+ * array and persists it as a flat key-value object (the shape JewelryFields.tsx
+ * reads on the buyer PDP).
+ *
+ * Empty-string / null values are stripped so optional blank fields are not stored.
+ */
+export async function patchProductVerticalConfig(
+  productId: number | string,
+  spec: Record<string, string>
+): Promise<void> {
+  const customization_options: Record<string, string> = {};
+  for (const [key, value] of Object.entries(spec)) {
+    if (value !== '' && value != null) customization_options[key] = value;
+  }
+  await api.patch(`/api/v1/products/${productId}/vertical-config`, { customization_options });
+}
+
+export const verticalService = { fetchVerticalConfig, patchProductVerticalConfig };

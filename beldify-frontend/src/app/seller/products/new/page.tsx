@@ -5,7 +5,14 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '@/hooks/useAuth';
-import { createSellerProduct } from '@/services/sellerOnboardingService';
+import { createSellerProduct, getStoreProfile } from '@/services/sellerOnboardingService';
+import {
+  fetchVerticalConfig,
+  patchProductVerticalConfig,
+  VerticalField,
+  VerticalSlug,
+} from '@/services/verticalService';
+import VerticalProductForm from '@/components/seller/VerticalProductForm';
 import { categoryService } from '@/services/categoryService';
 import { Category } from '@/types/category';
 import toast from '@/utils/toast';
@@ -63,6 +70,12 @@ export default function SellerNewProductPage() {
   const [suspended, setSuspended] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  // FE-J1: vertical-aware fields
+  const [vertical, setVertical] = useState<VerticalSlug | null>(null);
+  const [verticalFields, setVerticalFields] = useState<VerticalField[]>([]);
+  const [verticalSpec, setVerticalSpec] = useState<Record<string, string>>({});
+  const [showVerticalErrors, setShowVerticalErrors] = useState(false);
+
   const imageInputRef = useRef<HTMLInputElement>(null);
 
   // Fetch categories on mount
@@ -73,6 +86,29 @@ export default function SellerNewProductPage() {
       .catch(() => setCategories([]))
       .finally(() => setCategoriesLoading(false));
   }, []);
+
+  // FE-J1: resolve the seller's store vertical, then load its field schema.
+  // Non-jewelry verticals (or stores with no/empty schema) render nothing → zero regression.
+  useEffect(() => {
+    let cancelled = false;
+    getStoreProfile()
+      .then((res) => {
+        const slug = (res.data as any)?.store_type as VerticalSlug | undefined;
+        if (cancelled || !slug) return;
+        setVertical(slug);
+        return fetchVerticalConfig(slug).then((config) => {
+          if (!cancelled) setVerticalFields(config.fields ?? []);
+        });
+      })
+      .catch(() => {
+        // Non-fatal: store may have no profile/vertical yet — fall back to generic form.
+      });
+    return () => { cancelled = true; };
+  }, []);
+
+  const handleVerticalChange = (key: string, value: string) => {
+    setVerticalSpec((prev) => ({ ...prev, [key]: value }));
+  };
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
@@ -118,9 +154,24 @@ export default function SellerNewProductPage() {
       return;
     }
 
+    // FE-J1: client-side required-field validation for vertical fields.
+    const missingRequired = verticalFields.find(
+      (f) => f.required && !verticalSpec[f.key],
+    );
+    if (missingRequired) {
+      setShowVerticalErrors(true);
+      setError(
+        t('seller.product.vertical_required', '{{field}} is required for this product type.').replace(
+          '{{field}}',
+          missingRequired.label,
+        ),
+      );
+      return;
+    }
+
     setSubmitting(true);
     try {
-      await createSellerProduct({
+      const created = await createSellerProduct({
         product_name_en: form.product_name_en,
         product_name_ar: form.product_name_ar || undefined,
         description: form.description || undefined,
@@ -131,6 +182,25 @@ export default function SellerNewProductPage() {
         is_active: form.is_active,
         product_image: form.product_image,
       });
+
+      // FE-J1: persist vertical spec onto the freshly-created product.
+      // A PATCH failure here is non-blocking — the product already exists, so we
+      // warn the seller to edit it and retry rather than rolling back the create.
+      const productId = (created?.data as any)?.id;
+      const hasVerticalValues = Object.values(verticalSpec).some((v) => v !== '' && v != null);
+      if (productId && hasVerticalValues) {
+        try {
+          await patchProductVerticalConfig(productId, verticalSpec);
+        } catch {
+          toast.error(
+            t(
+              'seller.product.vertical_save_failed',
+              'Product saved, but its custom attributes could not be saved. Edit the product to add them.',
+            ),
+          );
+        }
+      }
+
       toast.success(t('seller.product.create_success', 'Product added!'));
       router.push('/seller/onboarding');
     } catch (err: any) {
@@ -436,6 +506,21 @@ export default function SellerNewProductPage() {
               onChange={handleImageChange}
             />
           </div>
+
+          {/* FE-J1: vertical-specific attributes (jewelry etc.) */}
+          {vertical && verticalFields.length > 0 && (
+            <div className="bg-white rounded-2xl ring-1 ring-amber-200 shadow-sm p-6 space-y-4">
+              <h2 className="text-sm font-semibold text-gray-700 uppercase tracking-wide">
+                {t('seller.product.section_attributes', 'Product attributes')}
+              </h2>
+              <VerticalProductForm
+                vertical={vertical}
+                values={verticalSpec}
+                onChange={handleVerticalChange}
+                showErrors={showVerticalErrors}
+              />
+            </div>
+          )}
 
           {/* Submit */}
           <button
