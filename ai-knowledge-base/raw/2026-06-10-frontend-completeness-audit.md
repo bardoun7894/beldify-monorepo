@@ -116,3 +116,11 @@ This file is the consolidated wave-2 worklist. Status markers updated as fixed.
 - INCIDENT: a concurrent session reverted ~1h of uncommitted tracked-file work
   at 19:06 (stash-hazard variant). Mitigation adopted: checkpoint-commit each
   agent packet as it lands.
+
+## Addendum — 21:20: the 3 backend-dependent gaps CLOSED
+- #11 guest-cart merge: BE bb8ef5e3 + FE wiring (idempotent, cart:refresh event).
+- #25 seller messages: BE e0710ab6 (incl. role-guard + ownership-gate security
+  fixes on /api/v1/backend/messages/*) + FE /seller/messages list+thread pages.
+- Order reviews: BE 472b6f06 (order-scoped status+submit, moderation pending)
+  + FE per-item star modal on delivered orders.
+Nothing from the audit remains open.
