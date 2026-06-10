@@ -5,229 +5,13 @@ import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ArrowRight, Star, Tag } from 'lucide-react';
+import { ArrowRight, Star } from 'lucide-react';
 import '@/i18n/config';
-import { useTheme } from '@/providers/ThemeProvider';
-
-// Mega Offer Collection type based on API response
-interface MegaOfferCollection {
-  id: number;
-  title: string;
-  description: string;
-  banner_image: string;
-  slug: string;
-  start_date: string;
-  end_date: string;
-  color_theme?: {
-    primary: string;
-    secondary: string;
-    accent: string;
-  };
-  featured_products: FeaturedProduct[];
-}
-
-// Featured Product type
-interface FeaturedProduct {
-  id: number;
-  name: string;
-  name_ar: string;
-  description: string | null;
-  description_ar: string | null;
-  price: string;
-  original_price: string;
-  discount_price: string | null;
-  discount_percentage: number | null;
-  has_discount: boolean;
-  category: string;
-  category_name: string | null;
-  image: string | null;
-  main_image: string | null;
-  images: (string | null)[];
-  is_custom: boolean;
-  is_featured: boolean;
-  is_trending: boolean;
-  rating: number;
-  review_count: number;
-  in_stock: boolean;
-  slug: string;
-}
+import { megaOfferService, MegaOfferCollection, FeaturedProduct } from '@/services/megaOfferService';
 
 interface MegaOffersProps {
   megaOffers?: MegaOfferCollection[];
 }
-
-// Atlas-compliant test data — indigo-700 / amber-500 only
-const TEST_MEGA_OFFERS: MegaOfferCollection[] = [
-  {
-    id: 1,
-    title: 'Summer Fashion Sale',
-    description: 'Up to 70% off on summer collection',
-    banner_image: '',
-    slug: 'summer-fashion-sale',
-    start_date: '2024-01-01',
-    end_date: '2024-12-31',
-    featured_products: [
-      {
-        id: 1,
-        name: 'Traditional Moroccan Kaftan',
-        name_ar: 'قفطان مغربي تقليدي',
-        description: 'Beautiful handcrafted traditional kaftan',
-        description_ar: 'قفطان تقليدي مصنوع يدوياً',
-        price: '1200',
-        original_price: '2000',
-        discount_price: '1200',
-        discount_percentage: 40,
-        has_discount: true,
-        category: 'Traditional Wear',
-        category_name: 'Traditional Wear',
-        image: 'https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=400&h=400&fit=crop',
-        main_image: 'https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=400&h=400&fit=crop',
-        images: ['https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=400&h=400&fit=crop'],
-        is_custom: false,
-        is_featured: true,
-        is_trending: true,
-        rating: 4.5,
-        review_count: 128,
-        in_stock: true,
-        slug: 'traditional-moroccan-kaftan'
-      },
-      {
-        id: 2,
-        name: 'Handwoven Berber Rug',
-        name_ar: 'سجادة بربرية منسوجة يدوياً',
-        description: 'Authentic handwoven Berber rug',
-        description_ar: 'سجادة بربرية أصلية منسوجة يدوياً',
-        price: '800',
-        original_price: '1200',
-        discount_price: '800',
-        discount_percentage: 33,
-        has_discount: true,
-        category: 'Home Decor',
-        category_name: 'Home Decor',
-        image: 'https://images.unsplash.com/photo-1506439773649-6e0eb8cfb237?w=400&h=400&fit=crop',
-        main_image: 'https://images.unsplash.com/photo-1506439773649-6e0eb8cfb237?w=400&h=400&fit=crop',
-        images: ['https://images.unsplash.com/photo-1506439773649-6e0eb8cfb237?w=400&h=400&fit=crop'],
-        is_custom: false,
-        is_featured: true,
-        is_trending: false,
-        rating: 4.8,
-        review_count: 89,
-        in_stock: true,
-        slug: 'handwoven-berber-rug'
-      },
-      {
-        id: 3,
-        name: 'Moroccan Leather Bag',
-        name_ar: 'حقيبة جلدية مغربية',
-        description: 'Premium Moroccan leather handbag',
-        description_ar: 'حقيبة يد جلدية مغربية فاخرة',
-        price: '450',
-        original_price: '600',
-        discount_price: '450',
-        discount_percentage: 25,
-        has_discount: true,
-        category: 'Accessories',
-        category_name: 'Accessories',
-        image: 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=400&h=400&fit=crop',
-        main_image: 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=400&h=400&fit=crop',
-        images: ['https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=400&h=400&fit=crop'],
-        is_custom: false,
-        is_featured: true,
-        is_trending: true,
-        rating: 4.3,
-        review_count: 67,
-        in_stock: true,
-        slug: 'moroccan-leather-bag'
-      },
-      {
-        id: 4,
-        name: 'Argan Oil Set',
-        name_ar: 'مجموعة زيت الأركان',
-        description: 'Pure Moroccan argan oil beauty set',
-        description_ar: 'مجموعة زيت الأركان المغربي الخالص',
-        price: '180',
-        original_price: '250',
-        discount_price: '180',
-        discount_percentage: 28,
-        has_discount: true,
-        category: 'Beauty',
-        category_name: 'Beauty',
-        image: 'https://images.unsplash.com/photo-1556228578-8c89e6adf883?w=400&h=400&fit=crop',
-        main_image: 'https://images.unsplash.com/photo-1556228578-8c89e6adf883?w=400&h=400&fit=crop',
-        images: ['https://images.unsplash.com/photo-1556228578-8c89e6adf883?w=400&h=400&fit=crop'],
-        is_custom: false,
-        is_featured: true,
-        is_trending: false,
-        rating: 4.7,
-        review_count: 156,
-        in_stock: true,
-        slug: 'argan-oil-set'
-      }
-    ]
-  },
-  {
-    id: 2,
-    title: 'Festive Collection',
-    description: 'Perfect for special occasions and celebrations',
-    banner_image: '',
-    slug: 'festive-collection',
-    start_date: '2024-01-01',
-    end_date: '2024-12-31',
-    featured_products: [
-      {
-        id: 5,
-        name: 'Embroidered Djellaba',
-        name_ar: 'جلابة مطرزة',
-        description: 'Handcrafted embroidered djellaba for special occasions',
-        description_ar: 'جلابة مطرزة يدوياً للمناسبات الخاصة',
-        price: '299',
-        original_price: '399',
-        discount_price: '299',
-        discount_percentage: 25,
-        has_discount: true,
-        category: 'Traditional Wear',
-        category_name: 'Traditional Wear',
-        image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&h=400&fit=crop',
-        main_image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&h=400&fit=crop',
-        images: ['https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&h=400&fit=crop'],
-        is_custom: false,
-        is_featured: true,
-        is_trending: true,
-        rating: 4.6,
-        review_count: 234,
-        in_stock: true,
-        slug: 'embroidered-djellaba'
-      },
-      {
-        id: 6,
-        name: 'Moroccan Jewelry Set',
-        name_ar: 'مجموعة مجوهرات مغربية',
-        description: 'Traditional Moroccan silver jewelry set',
-        description_ar: 'مجموعة مجوهرات فضية مغربية تقليدية',
-        price: '199',
-        original_price: '299',
-        discount_price: '199',
-        discount_percentage: 33,
-        has_discount: true,
-        category: 'Jewelry',
-        category_name: 'Jewelry',
-        image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&h=400&fit=crop',
-        main_image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&h=400&fit=crop',
-        images: ['https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&h=400&fit=crop'],
-        is_custom: false,
-        is_featured: true,
-        is_trending: false,
-        rating: 4.4,
-        review_count: 189,
-        in_stock: true,
-        slug: 'moroccan-jewelry-set'
-      }
-    ]
-  }
-];
-
-// Atlas colors are applied via Tailwind class tokens below (indigo-700/amber-500)
-// Raw hex constants removed — use literal Tailwind classes instead per DESIGN.md §9
 
 const getDaysRemaining = (endDate: string): number => {
   const end = new Date(endDate);
@@ -399,31 +183,19 @@ const MegaOffers: React.FC<MegaOffersProps> = ({ megaOffers }) => {
 
       try {
         setLoading(true);
-        const locale = searchParams?.get('locale') || i18n.language || 'en';
-        const response = await fetch(`/api/products/mega-offers?locale=${locale}`);
-
-        if (!response.ok) {
-          throw new Error('Failed to fetch mega offers');
-        }
-
-        const data = await response.json();
-
-        if (data.success && data.data) {
-          setOffers(data.data);
-        } else {
-          setOffers(TEST_MEGA_OFFERS);
-        }
+        const data = await megaOfferService.getMegaOffers();
+        setOffers(data);
       } catch (err) {
-        console.error('Error fetching mega offers:', err);
+        // On any error render nothing — no mock fallback
         setError(t('megaOffers.loadError', 'Failed to load mega offers'));
-        setOffers(TEST_MEGA_OFFERS);
+        setOffers([]);
       } finally {
         setLoading(false);
       }
     };
 
     fetchMegaOffers();
-  }, [megaOffers, searchParams, i18n.language, t]);
+  }, [megaOffers, t]);
 
   if (!mounted) {
     return null;

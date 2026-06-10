@@ -1298,8 +1298,33 @@ export default function ProductDetailsPage() {
   // Size pills — only from real variant sizes; render nothing when no sizes available
   const sizePills: string[] = availableSizes.map(s => s.name);
 
+  // ── JSON-LD structured data (Product schema) ──────────────────────────────
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.beldify.com';
+  const productJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    name: displayName,
+    description: product.description || displayName,
+    image: getCurrentImageUrl() || product.main_image || undefined,
+    offers: {
+      '@type': 'Offer',
+      price: String(displayPrice),
+      priceCurrency: 'MAD',
+      availability:
+        !shouldDisableButton()
+          ? 'https://schema.org/InStock'
+          : 'https://schema.org/OutOfStock',
+      url: `${siteUrl}/products/${product.id}`,
+    },
+  };
+
   return (
     <div className="bg-canvas min-h-screen pb-20 md:pb-16">
+    {/* Product structured data for SEO */}
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd) }}
+    />
     <main className="max-w-7xl mx-auto" role="main">
       {/* ── 1. Breadcrumb strip ── */}
       <nav className="px-6 py-4 text-sm text-gray-500" aria-label={t('catalog.pdp.breadcrumb_label', 'Breadcrumb')}>

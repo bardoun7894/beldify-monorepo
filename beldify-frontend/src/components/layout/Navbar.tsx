@@ -61,8 +61,7 @@ interface Category {
 
 const staticNavLinks = [
   { labelKey: 'nav.jewelry', fallback: 'Jewelry', href: '/categories/jewelry' },
-  { labelKey: 'nav.tailoring', fallback: 'Tailoring', href: '/tailoring' },
-  { labelKey: 'nav.journal', fallback: 'Journal', href: '/journal' },
+  { labelKey: 'nav.tailoring', fallback: 'Tailoring', href: '/services/tailoring' },
 ];
 
 const languages = [
@@ -137,7 +136,7 @@ export default function Navbar() {
     if (searchQuery.trim()) {
       setSearchBarVisible(false);
       setMobileMenuOpen(false);
-      const searchUrl = `/search?q=${encodeURIComponent(searchQuery.trim())}`;
+      const searchUrl = `/products?q=${encodeURIComponent(searchQuery.trim())}`;
       router.prefetch(searchUrl);
       router.push(searchUrl);
     }

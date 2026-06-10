@@ -180,8 +180,10 @@ export default function LoginPage() {
     }
   };
 
-  // Load the Google Identity Services script
+  // Load the Google Identity Services script — only when client_id is configured
   useEffect(() => {
+    if (!process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID) return;
+
     // Skip if the script is already loaded
     if (document.querySelector('script#google-identity-script')) {
       // If script exists, just initialize the button
@@ -367,7 +369,8 @@ export default function LoginPage() {
             </p>
           </div>
 
-          {/* Google Sign-In */}
+          {/* Google Sign-In — only rendered when client_id is configured */}
+          {process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID && (
           <div className="mb-5">
             <div
               className="w-full flex flex-col gap-2 items-center"
@@ -406,6 +409,7 @@ export default function LoginPage() {
               )}
             </div>
           </div>
+          )}
 
           {/* Divider */}
           <div className="relative my-5">

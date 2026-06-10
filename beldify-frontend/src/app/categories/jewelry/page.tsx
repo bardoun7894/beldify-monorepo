@@ -1,23 +1,25 @@
 'use client';
 
 /**
- * T033 — Buyer: Jewelry category page + filters
- *
- * Filters: material (gold/silver/copper/brass/mixed) + gemstone type.
- * LIVE WIRING (WS-A): replace MOCK_JEWELRY_PRODUCTS with
- * GET /api/v1/products?category=jewelry&material={m}&gemstone_type={g}
+ * Jewelry category page — live data from backend API.
+ * Resolves jewelry category by slug via GET /api/categories/getAllCategories,
+ * then fetches products via GET /api/products/all?category=<id>.
  */
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Filter, Gem, X } from 'lucide-react';
 import { formatPrice } from '@/utils/formatters';
 import { cn } from '@/lib/utils';
+import { categoryService } from '@/services/categoryService';
+import { productService } from '@/services/api';
+import { getImageUrl } from '@/utils/imageUtils';
+import logger from '@/utils/consoleLogger';
 
 const playfair = { fontFamily: '"Playfair Display", ui-serif, Georgia, serif' };
 
-// ─── filter options (from contracts.md §A1 jewelry field options) ─────────────
+// ─── filter options ──────────────────────────────────────────────────────────
 
 const MATERIAL_OPTIONS = ['gold', 'silver', 'copper', 'brass', 'mixed'];
 const GEMSTONE_OPTIONS = ['none', 'diamond', 'emerald', 'ruby', 'sapphire', 'pearl', 'semi-precious', 'other'];
@@ -30,46 +32,23 @@ const GEMSTONE_LABELS: Record<string, string> = {
   sapphire: 'ياقوت أزرق', pearl: 'لؤلؤ', 'semi-precious': 'أحجار شبه كريمة', other: 'أخرى',
 };
 
-// ─── mock products ─────────────────────────────────────────────────────────────
-// LIVE WIRING (WS-A): replace with real product list API response
+// ─── product shape from API ──────────────────────────────────────────────────
 
-interface JewelryProduct {
+interface ApiProduct {
   id: number;
   name: string;
-  nameAr: string;
-  price: number;
-  material: string;
-  gemstone_type: string | null;
-  image: string | null;
-  store: { name: string; slug: string };
+  name_ar?: string;
+  price: number | string;
+  material?: string;
+  gemstone_type?: string | null;
+  image?: string | null;
+  main_image?: string | null;
+  store?: { name: string; slug: string } | null;
+  store_name?: string;
 }
 
-const MOCK_JEWELRY_PRODUCTS: JewelryProduct[] = [
-  {
-    id: 1, name: 'Gold Filigree Ring', nameAr: 'خاتم فيليجران ذهبي',
-    price: 1850, material: 'gold', gemstone_type: 'emerald',
-    image: null,
-    store: { name: 'Atlas Bijoux', slug: 'atlas-bijoux' },
-  },
-  {
-    id: 2, name: 'Silver Bracelet', nameAr: 'سوار فضي',
-    price: 420, material: 'silver', gemstone_type: 'none',
-    image: null,
-    store: { name: 'Artisan Souq', slug: 'artisan-souq' },
-  },
-  {
-    id: 3, name: 'Pearl Necklace', nameAr: 'عقد لؤلؤ',
-    price: 3200, material: 'gold', gemstone_type: 'pearl',
-    image: null,
-    store: { name: 'Atlas Bijoux', slug: 'atlas-bijoux' },
-  },
-  {
-    id: 4, name: 'Copper Cuff Bangle', nameAr: 'إسورة نحاس',
-    price: 280, material: 'copper', gemstone_type: 'none',
-    image: null,
-    store: { name: 'Fez Crafts', slug: 'fez-crafts' },
-  },
-];
+// Slugs that identify the jewelry category (checked in priority order).
+const JEWELRY_SLUGS = ['jewelry', 'bijoux', 'مجوهرات'];
 
 export default function JewelryCategoryPage() {
   const { t, i18n } = useTranslation();
@@ -79,19 +58,75 @@ export default function JewelryCategoryPage() {
   const [gemstoneFilter, setGemstoneFilter] = useState<string>('');
   const [showFilters, setShowFilters] = useState(false);
 
+  const [products, setProducts] = useState<ApiProduct[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [loadError, setLoadError] = useState<string | null>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    const fetchProducts = async () => {
+      setIsLoading(true);
+      setLoadError(null);
+
+      try {
+        // Step 1: resolve jewelry category id by slug
+        const categories = await categoryService.getAllCategories();
+        const jewelryCat = categories.find(
+          (c) =>
+            JEWELRY_SLUGS.includes(c.slug?.toLowerCase?.() ?? '') ||
+            c.name_en?.toLowerCase()?.includes('jewel') ||
+            c.name_ar?.includes('مجوهر')
+        );
+
+        if (!jewelryCat) {
+          if (!cancelled) setProducts([]);
+          return;
+        }
+
+        // Step 2: fetch products for this category
+        const data = await productService.getProducts({ category: jewelryCat.id });
+        if (!cancelled) {
+          const list: ApiProduct[] = data?.products ?? data?.data ?? [];
+          setProducts(list);
+        }
+      } catch (err) {
+        logger.error('Error fetching jewelry products:', err);
+        if (!cancelled) {
+          setLoadError(isRTL ? 'تعذّر تحميل المنتجات' : 'Failed to load products');
+          setProducts([]);
+        }
+      } finally {
+        if (!cancelled) setIsLoading(false);
+      }
+    };
+
+    fetchProducts();
+    return () => { cancelled = true; };
+  }, [isRTL]);
+
   const filtered = useMemo(() => {
-    return MOCK_JEWELRY_PRODUCTS.filter(p => {
+    return products.filter((p) => {
       if (materialFilter && p.material !== materialFilter) return false;
       if (gemstoneFilter && p.gemstone_type !== gemstoneFilter) return false;
       return true;
     });
-  }, [materialFilter, gemstoneFilter]);
+  }, [products, materialFilter, gemstoneFilter]);
 
   const hasActiveFilters = materialFilter || gemstoneFilter;
 
   const clearFilters = () => {
     setMaterialFilter('');
     setGemstoneFilter('');
+  };
+
+  const getDisplayName = (p: ApiProduct) =>
+    isRTL ? (p.name_ar || p.name) : (p.name || p.name_ar || '');
+
+  const getImageSrc = (p: ApiProduct): string => {
+    const raw = p.main_image || p.image;
+    if (!raw) return '';
+    return getImageUrl(raw);
   };
 
   return (
@@ -121,7 +156,7 @@ export default function JewelryCategoryPage() {
         {/* ── Filter bar ── */}
         <div className="flex items-center gap-3 mb-6 flex-wrap">
           <button
-            onClick={() => setShowFilters(f => !f)}
+            onClick={() => setShowFilters((f) => !f)}
             className={cn(
               'inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium ring-1 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30',
               showFilters
@@ -146,7 +181,9 @@ export default function JewelryCategoryPage() {
           )}
 
           <span className="text-sm text-gray-400 ms-auto">
-            {filtered.length} {isRTL ? 'قطعة' : 'items'}
+            {isLoading
+              ? (isRTL ? 'جارٍ التحميل…' : 'Loading…')
+              : `${filtered.length} ${isRTL ? 'قطعة' : 'items'}`}
           </span>
         </div>
 
@@ -162,7 +199,7 @@ export default function JewelryCategoryPage() {
                 {isRTL ? 'المادة' : 'Material'}
               </p>
               <div className="flex flex-wrap gap-2" role="group" aria-label={isRTL ? 'تصفية حسب المادة' : 'Filter by material'}>
-                {MATERIAL_OPTIONS.map(mat => (
+                {MATERIAL_OPTIONS.map((mat) => (
                   <button
                     key={mat}
                     onClick={() => setMaterialFilter(materialFilter === mat ? '' : mat)}
@@ -186,7 +223,7 @@ export default function JewelryCategoryPage() {
                 {isRTL ? 'الحجر الكريم' : 'Gemstone'}
               </p>
               <div className="flex flex-wrap gap-2" role="group" aria-label={isRTL ? 'تصفية حسب الحجر الكريم' : 'Filter by gemstone'}>
-                {GEMSTONE_OPTIONS.map(gem => (
+                {GEMSTONE_OPTIONS.map((gem) => (
                   <button
                     key={gem}
                     onClick={() => setGemstoneFilter(gemstoneFilter === gem ? '' : gem)}
@@ -206,64 +243,105 @@ export default function JewelryCategoryPage() {
           </div>
         )}
 
-        {/* ── Product grid ── */}
-        {filtered.length === 0 ? (
+        {/* ── Loading skeleton ── */}
+        {isLoading && (
+          <ul className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4" aria-label={isRTL ? 'جارٍ التحميل' : 'Loading'}>
+            {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
+              <li key={i} className="rounded-2xl ring-1 ring-amber-100 overflow-hidden animate-pulse">
+                <div className="aspect-square bg-amber-100/70" />
+                <div className="p-3 space-y-2">
+                  <div className="h-3 bg-amber-100/70 rounded-full w-4/5" />
+                  <div className="h-3 bg-amber-100/70 rounded-full w-1/2" />
+                </div>
+              </li>
+            ))}
+          </ul>
+        )}
+
+        {/* ── Error state ── */}
+        {!isLoading && loadError && (
+          <p className="text-rose-700 bg-rose-50 rounded-2xl ring-1 ring-rose-200 px-5 py-4 text-sm">
+            {loadError}
+          </p>
+        )}
+
+        {/* ── Empty / no-match state ── */}
+        {!isLoading && !loadError && filtered.length === 0 && (
           <div className="flex flex-col items-center gap-3 py-16 text-center">
             <Gem className="h-10 w-10 text-amber-300" aria-hidden />
             <p className="text-base font-semibold text-gray-600">
-              {isRTL ? 'لا توجد قطع تطابق التصفية' : 'No pieces match your filters'}
+              {hasActiveFilters
+                ? (isRTL ? 'لا توجد قطع تطابق التصفية' : 'No pieces match your filters')
+                : (isRTL ? 'لا توجد منتجات حالياً' : 'No products available')}
             </p>
-            <button onClick={clearFilters} className="text-sm text-indigo-600 underline">
-              {isRTL ? 'مسح التصفية' : 'Clear filters'}
-            </button>
+            {hasActiveFilters && (
+              <button onClick={clearFilters} className="text-sm text-indigo-600 underline">
+                {isRTL ? 'مسح التصفية' : 'Clear filters'}
+              </button>
+            )}
           </div>
-        ) : (
+        )}
+
+        {/* ── Product grid ── */}
+        {!isLoading && !loadError && filtered.length > 0 && (
           <ul
             className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4"
             role="list"
             aria-label={isRTL ? 'المجوهرات' : 'Jewelry products'}
           >
-            {filtered.map(product => (
-              <li key={product.id}>
-                <Link
-                  href={`/products/${product.id}`}
-                  className="group block rounded-2xl ring-1 ring-amber-200 bg-white overflow-hidden hover:ring-indigo-300 hover:shadow-md transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30"
-                  aria-label={isRTL ? product.nameAr : product.name}
-                >
-                  {/* Product image */}
-                  <div className="relative aspect-square bg-amber-50">
-                    {product.image ? (
-                      <Image
-                        src={product.image}
-                        alt={isRTL ? product.nameAr : product.name}
-                        fill
-                        className="object-cover group-hover:scale-[1.03] transition-transform duration-500"
-                        sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
-                      />
-                    ) : (
-                      <div className="w-full h-full flex items-center justify-center">
-                        <Gem className="h-10 w-10 text-amber-200" aria-hidden />
-                      </div>
-                    )}
-                    {/* Material badge */}
-                    <span className="absolute top-2 start-2 rounded-full bg-white/90 backdrop-blur-sm px-2 py-0.5 text-[10px] font-semibold text-amber-800 ring-1 ring-amber-200 capitalize">
-                      {isRTL ? MATERIAL_LABELS[product.material] : product.material}
-                    </span>
-                  </div>
+            {filtered.map((product) => {
+              const imgSrc = getImageSrc(product);
+              const storeName =
+                product.store?.name ?? product.store_name ?? '';
+              return (
+                <li key={product.id}>
+                  <Link
+                    href={`/products/${product.id}`}
+                    className="group block rounded-2xl ring-1 ring-amber-200 bg-white overflow-hidden hover:ring-indigo-300 hover:shadow-md transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30"
+                    aria-label={getDisplayName(product)}
+                  >
+                    {/* Product image */}
+                    <div className="relative aspect-square bg-amber-50">
+                      {imgSrc ? (
+                        <Image
+                          src={imgSrc}
+                          alt={getDisplayName(product)}
+                          fill
+                          className="object-cover group-hover:scale-[1.03] transition-transform duration-500"
+                          sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                          onError={(e) => {
+                            (e.target as HTMLImageElement).style.display = 'none';
+                          }}
+                        />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center">
+                          <Gem className="h-10 w-10 text-amber-200" aria-hidden />
+                        </div>
+                      )}
+                      {/* Material badge */}
+                      {product.material && (
+                        <span className="absolute top-2 start-2 rounded-full bg-white/90 backdrop-blur-sm px-2 py-0.5 text-[10px] font-semibold text-amber-800 ring-1 ring-amber-200 capitalize">
+                          {isRTL ? (MATERIAL_LABELS[product.material] ?? product.material) : product.material}
+                        </span>
+                      )}
+                    </div>
 
-                  {/* Info */}
-                  <div className="p-3">
-                    <p className="text-sm font-semibold text-gray-900 leading-snug truncate">
-                      {isRTL ? product.nameAr : product.name}
-                    </p>
-                    <p className="text-xs text-gray-400 truncate mt-0.5">{product.store.name}</p>
-                    <p className="text-sm font-bold text-indigo-700 mt-1.5 tabular-nums">
-                      {formatPrice(product.price)}
-                    </p>
-                  </div>
-                </Link>
-              </li>
-            ))}
+                    {/* Info */}
+                    <div className="p-3">
+                      <p className="text-sm font-semibold text-gray-900 leading-snug truncate">
+                        {getDisplayName(product)}
+                      </p>
+                      {storeName && (
+                        <p className="text-xs text-gray-400 truncate mt-0.5">{storeName}</p>
+                      )}
+                      <p className="text-sm font-bold text-indigo-700 mt-1.5 tabular-nums">
+                        {formatPrice(Number(product.price))}
+                      </p>
+                    </div>
+                  </Link>
+                </li>
+              );
+            })}
           </ul>
         )}
 

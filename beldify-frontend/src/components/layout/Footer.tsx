@@ -21,7 +21,7 @@ const Footer = () => {
         { label: t('footer.women', 'Women'), href: '/categories/women' },
         { label: t('footer.men', 'Men'), href: '/categories/men' },
         { label: t('footer.kids', 'Kids'), href: '/categories/children' },
-        { label: t('footer.tailoring', 'Tailoring'), href: '/tailoring' },
+        { label: t('footer.tailoring', 'Tailoring'), href: '/services/tailoring' },
         { label: t('footer.newArrivals', 'New arrivals'), href: '/products?sort=newest' },
       ],
     },
@@ -38,16 +38,13 @@ const Footer = () => {
       title: t('footer.headingCompany', 'Company'),
       links: [
         { label: t('footer.about', 'About Beldify'), href: '/about' },
-        { label: t('footer.journal', 'Journal'), href: '/journal' },
-        { label: t('footer.careers', 'Careers'), href: '/careers' },
-        { label: t('footer.press', 'Press'), href: '/press' },
       ],
     },
     {
       title: t('footer.headingHelp', 'Help'),
       links: [
         { label: t('footer.contactLink', 'Contact'), href: '/contact' },
-        { label: t('footer.faq', 'FAQ'), href: '/faq' },
+        { label: t('footer.faq', 'FAQ'), href: '/faqs' },
         { label: t('footer.shipping', 'Shipping'), href: '/shipping' },
         { label: t('footer.returns', 'Returns'), href: '/returns' },
         { label: t('footer.privacy', 'Privacy'), href: '/privacy-policy' },

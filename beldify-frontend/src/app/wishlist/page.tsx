@@ -14,6 +14,7 @@ import PlaceholderImage from '@/components/PlaceholderImage';
 import logger from '@/utils/consoleLogger';
 import { formatPrice } from '@/utils/formatters';
 import Breadcrumbs from '@/components/navigation/Breadcrumbs';
+import { productService } from '@/services/api';
 
 export default function WishlistPage() {
   const { t, i18n } = useTranslation();
@@ -27,16 +28,38 @@ export default function WishlistPage() {
     e.preventDefault();
     e.stopPropagation();
     try {
-      // TODO: Wishlist add-to-cart needs stock_id or variant_id from product data
+      // Fetch product details to obtain the real stock_id (same resolution
+      // as the PDP handleAddToCart: prefer product.stock.id, then product.stock_id).
+      const productData = await productService.getProduct(productId);
+      const product = productData?.product;
+
+      if (!product) {
+        toast.error(t('errors.something_went_wrong', 'Something went wrong'));
+        return;
+      }
+
+      // Resolve the stock_id following the same precedence as the PDP.
+      let stockId: number | null = null;
+      if (product.stock?.id) {
+        stockId = Number(product.stock.id);
+      } else if (product.stock_id) {
+        stockId = Number(product.stock_id);
+      }
+
+      if (!stockId) {
+        toast.error(t('errors.stock_unavailable', 'Item is not available'));
+        return;
+      }
+
       const response = await axios.post('/api/cart/items', {
-        stock_id: productId, // This should be the actual stock_id, not product_id
+        stock_id: stockId,
         quantity: 1,
       });
       if (response.data.success) {
         toast.success(t('cart.added_success', 'Added to cart'));
       }
     } catch (err: any) {
-      logger.error('Error adding to cart:', err);
+      logger.error('Error adding to cart from wishlist:', err);
       toast.error(err.response?.data?.message || t('errors.something_went_wrong', 'Something went wrong'));
     }
   };
