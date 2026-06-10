@@ -2,9 +2,9 @@
 name: Beldify Local Named-Volume Sync Pattern
 description: The local Docker stack at :7895 serves code from a named volume (beldify_local_code), not a bind mount — host edits require explicit sync via sync-local.sh + opcache-aware restart to appear
 type: concept
-sources: [daily/2026-05-31.md]
+sources: [daily/2026-05-31.md, daily/2026-06-01.md, daily/2026-06-02.md]
 created: 2026-05-31
-updated: 2026-05-31
+updated: 2026-06-02
 ---
 
 # Beldify Local Named-Volume Sync Pattern
@@ -67,6 +67,22 @@ docker restart beldify-local-app
 
 This gap was hit repeatedly during the no-store gating work (new middleware class, updated Kernel.php, updated seller route group) — all three changes lived in `app/` or `routes/` and were invisible to the running container until `docker cp` + restart. A common symptom is that a freshly added middleware class throws `Target class [seller.store] does not exist` even after the Kernel is updated, because the container is serving the old `app/Http/Kernel.php`.
 
+### Run sync-local.sh from monorepo root, not from beldify-backend/ (2026-06-02)
+
+`sync-local.sh` uses relative paths that assume the current working directory is the **monorepo root** (`beldify/`). Running it from inside `beldify-backend/` will fail with "No such file or directory" — the paths it constructs (`beldify-backend/resources/...`) don't exist relative to that subdirectory.
+
+```bash
+# CORRECT — run from monorepo root
+cd /path/to/beldify
+bash sync-local.sh
+
+# WRONG — fails silently or with path errors
+cd beldify-backend
+bash ../sync-local.sh   # still breaks if any path inside uses a relative anchor
+```
+
+Symptom: the container keeps serving the old view/lang content despite sync appearing to complete without error.
+
 ## Related Concepts
 - [[concepts/macos-docker-case-sensitivity-pitfall]] — root cause requiring named volume over bind mount
 - [[concepts/php-opcache-deployment-pitfall]] — opcache behavior that requires container restart for lang files
@@ -76,3 +92,4 @@ This gap was hit repeatedly during the no-store gating work (new middleware clas
 ## Sources
 - [[daily/2026-05-31.md]] — Sync pattern documented across multiple sessions; invisible-styles root cause traced to missing Tailwind rebuild; lang-file opcache restart required after sync; stack recovery after MySQL OOM kill
 - [[daily/2026-06-01.md]] — Session 25023e79: sync-local.sh does not sync app/ or routes/; docker cp + restart required for new middleware and route changes
+- [[daily/2026-06-02.md]] — sync-local.sh must be run from monorepo root, not from inside beldify-backend/; running from wrong directory gives "No such file or directory" and container keeps serving old view

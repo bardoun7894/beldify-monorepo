@@ -85,6 +85,10 @@
 | [[concepts/tailwind-arbitrary-value-slash-pitfall]] | bg-[hsl(var(--token)/0.NN)] fails JIT because / is read as opacity-modifier — fix by registering alpha-aware tokens with <alpha-value> | concept | 2026-06-02 |
 | [[concepts/atlas-frontend-migration]] | Phase 5 (5 screens via worktree agents), P0 palette sweep, CSS build failures diagnosed, PRs merged to origin/main | concept | 2026-06-02 |
 | [[concepts/beldify-ecommerce-ui-skill]] | First real execution (7 surfaces); CSS build pitfalls discovered; seller dashboard Stitch IA port; IBM Plex Sans Arabic added | concept | 2026-06-02 |
+| [[concepts/laravel-mcamara-locale-redirect-post-bug]] | POST to locale-less route → mcamara 302 → browser replays as GET → 405; fix: GET links that swap locale segment in current URL | concept | 2026-06-02 |
+| [[concepts/laravel-reverb-broadcasting-scheme-config]] | REVERB_SCHEME=ws fed to server-side Pusher HTTP client → cURL "Protocol ws disabled"; derive http/https from ws/wss; L10 uses soketi not laravel/reverb | concept | 2026-06-02 |
+| [[concepts/buyer-seller-messaging-contract-fix]] | Added realtime: MessageSent broadcast, Echo listener + dedup + optimistic send, soketi round-trip verified | concept | 2026-06-02 |
+| [[concepts/beldify-local-volume-sync]] | Added: sync-local.sh must run from monorepo root (not beldify-backend/) or path resolution fails silently | concept | 2026-06-02 |
 
 *(This index will populate as Claude Code captures conversations and you ingest documents.)*| [[sources/gemini-2026-06-02-storefront-atlas-redesign-review]] | Atlas storefront drift review (contrast/currency/RTL) + synthesis | source | 2026-06-03 |
 | [[sources/gemini-2026-06-02-storefront-pages-drift-sweep]] | ~30 Atlas drift findings across storefront pages | source | 2026-06-03 |
