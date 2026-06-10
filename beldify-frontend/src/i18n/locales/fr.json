@@ -4879,7 +4879,16 @@
       "finish": "Finition",
       "specs_aria": "Spécifications de bijou",
       "piece_specs": "Spécifications de la pièce"
-    }
+    },
+    "bespoke": {
+      "eyebrow": "Bijoux personnalisés",
+      "headline": "Commander une pièce sur mesure",
+      "body": "Choisissez votre métal, pierre, gravure et taille de bague. Nos maîtres joailliers créeront une pièce spécialement pour vous.",
+      "cta": "Commander un bijou sur mesure"
+    },
+    "ring_size": "Taille de bague",
+    "ring_size_info": "Les tailles de bague sont au format numérique européen (ex. 48–72). Utilisez un mesure-doigt ou mesurez le diamètre intérieur d’une bague existante en millimètres.",
+    "request_custom_size": "Demander une taille personnalisée"
   },
   "notify_me": {
     "back_in_stock": "Prévenez-moi quand il revient",

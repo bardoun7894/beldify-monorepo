@@ -4879,7 +4879,16 @@
       "finish": "Finish",
       "specs_aria": "Jewelry specifications",
       "piece_specs": "Piece Specifications"
-    }
+    },
+    "bespoke": {
+      "eyebrow": "Custom Jewelry",
+      "headline": "Request a custom piece",
+      "body": "Choose your metal, stone, engraving, and ring size. Our master jewelers will craft a piece made specifically for you.",
+      "cta": "Start a custom jewelry order"
+    },
+    "ring_size": "Ring size",
+    "ring_size_info": "Ring sizes are in EU numeric format (e.g. 48–72). Use a ring sizer or measure the inner diameter of an existing ring in millimeters to find your size.",
+    "request_custom_size": "Request a custom size"
   },
   "notify_me": {
     "back_in_stock": "Notify me when it's back",

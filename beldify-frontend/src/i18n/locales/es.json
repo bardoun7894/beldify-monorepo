@@ -4894,7 +4894,16 @@
       "finish": "Acabado",
       "specs_aria": "Especificaciones de joyería",
       "piece_specs": "Especificaciones de la Pieza"
-    }
+    },
+    "bespoke": {
+      "eyebrow": "Joyería personalizada",
+      "headline": "Solicitar una pieza a medida",
+      "body": "Elige tu metal, piedra, grabado y talla de anillo. Nuestros maestros joyeros crearán una pieza especialmente para ti.",
+      "cta": "Empezar un pedido de joya personalizada"
+    },
+    "ring_size": "Talla de anillo",
+    "ring_size_info": "Las tallas de anillo están en formato numérico europeo (ej. 48–72). Usa un medidor de anillos o mide el diámetro interior de un anillo existente en milímetros.",
+    "request_custom_size": "Solicitar una talla personalizada"
   },
   "notify_me": {
     "back_in_stock": "Avísame cuando vuelva",

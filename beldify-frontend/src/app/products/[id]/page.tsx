@@ -42,6 +42,8 @@ import { useCart } from '@/contexts/CartContext';
 import { useAuth } from '@/contexts/AuthContext';
 import { useWishlist } from '@/contexts/WishlistContext';
 import toast from '@/utils/toast';
+import JewelryFields from '@/components/products/JewelryFields';
+import { isJewelryProduct, hasRingSizes } from './verticalDetection';
 
 interface ProductImage {
   id: string;
@@ -113,6 +115,12 @@ interface ProductDetails {
   store_id?: number;
   category?: string;
   category_ar?: string;
+  /** Vertical slug set by the backend (e.g. "jewelry", "womenswear", "menswear") */
+  vertical?: string | null;
+  /** Category slug for vertical detection (e.g. "jewelry") */
+  category_slug?: string | null;
+  /** Jewelry/vertical spec fields stored in customization_options */
+  customization_options?: Record<string, string | number | null> | null;
   has_discount?: boolean;
   discount_price?: number;
   rating?: number;
@@ -1217,6 +1225,16 @@ export default function ProductDetailsPage() {
 
   const displayName = isRTL ? product.name_ar || product.name : product.name;
   const displayCategory = isRTL ? product.category_ar || product.category : product.category;
+
+  // ── Vertical detection — drives jewelry vs. clothing UI branching ─────────
+  const isJewelry = isJewelryProduct({
+    vertical: product.vertical,
+    category: product.category,
+    category_slug: product.category_slug,
+    customization_options: product.customization_options as Record<string, unknown> | null | undefined,
+  });
+  // Jewelry spec data from backend customization_options (vertical spec fields)
+  const jewelrySpec = product.customization_options ?? null;
   
   // Use the selected variant's price if available, otherwise use product price
   const variantPrice = selectedVariant?.price;
@@ -1323,6 +1341,8 @@ export default function ProductDetailsPage() {
 
   // Size pills — only from real variant sizes; render nothing when no sizes available
   const sizePills: string[] = availableSizes.map(s => s.name);
+  // For jewelry, detect if sizes are ring-size codes (numeric, 40–75 range)
+  const isRingSizes = isJewelry && hasRingSizes(sizePills);
 
   // ── JSON-LD structured data (Product schema) ──────────────────────────────
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.beldify.com';
@@ -1644,6 +1664,11 @@ export default function ProductDetailsPage() {
             </p>
           )}
 
+          {/* Jewelry spec block — shown immediately below description for jewelry products */}
+          {isJewelry && jewelrySpec && (
+            <JewelryFields spec={jewelrySpec} />
+          )}
+
           {/* Color swatches (if present in variants) */}
           {availableColors.length > 0 && (
             <fieldset>
@@ -1684,7 +1709,9 @@ export default function ProductDetailsPage() {
             <fieldset>
               <div className="flex items-center justify-between mb-2">
                 <legend className="text-sm font-medium text-gray-800">
-                  {t('product.size', 'Size')}
+                  {isRingSizes
+                    ? t('jewelry.ring_size', 'Ring size')
+                    : t('product.size', 'Size')}
                 </legend>
               </div>
               <div className="flex flex-wrap gap-2" role="radiogroup">
@@ -1722,8 +1749,8 @@ export default function ProductDetailsPage() {
             </fieldset>
           )}
 
-          {/* Fabric picker (if present) */}
-          {availableFabrics.length > 0 && (
+          {/* Fabric picker (if present) — hidden for jewelry products */}
+          {!isJewelry && availableFabrics.length > 0 && (
             <fieldset>
               <legend className="text-sm font-medium text-gray-800 mb-2">
                 {t('product.fabric', 'Fabric')}
@@ -1760,8 +1787,8 @@ export default function ProductDetailsPage() {
             </fieldset>
           )}
 
-          {/* AI size advisor — only shown when product has size variants */}
-          {availableSizes.length > 0 && (
+          {/* AI size advisor — only shown for clothing products with size variants */}
+          {!isJewelry && availableSizes.length > 0 && (
             <SizeAdvisorSheet
               productId={product.id}
               hasSizes={availableSizes.length > 0}
@@ -1773,14 +1800,16 @@ export default function ProductDetailsPage() {
             />
           )}
 
-          {/* Custom size link */}
-          <Link
-            href="/services/tailoring"
-            className="inline-flex items-center gap-1.5 text-sm text-indigo-700 underline underline-offset-2 hover:text-indigo-900 transition-colors self-start focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30 rounded"
-          >
-            {t('product.custom_size', 'Custom size available')}
-            <ArrowRight className="h-3.5 w-3.5 rtl:rotate-180" aria-hidden />
-          </Link>
+          {/* Custom size link — clothing only (hidden for jewelry) */}
+          {!isJewelry && (
+            <Link
+              href="/services/tailoring"
+              className="inline-flex items-center gap-1.5 text-sm text-indigo-700 underline underline-offset-2 hover:text-indigo-900 transition-colors self-start focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30 rounded"
+            >
+              {t('product.custom_size', 'Custom size available')}
+              <ArrowRight className="h-3.5 w-3.5 rtl:rotate-180" aria-hidden />
+            </Link>
+          )}
 
           {/* Divider */}
           <div className="border-t border-gray-100" aria-hidden />
@@ -2069,26 +2098,49 @@ export default function ProductDetailsPage() {
             aria-labelledby="tab-specs"
             className={activeTab === 'specs' ? '' : 'hidden'}
           >
-            <div className="rounded-2xl ring-1 ring-gray-200 overflow-hidden bg-white">
-              {product.category && (
-                <div className="flex items-center gap-4 px-5 py-3.5 border-b border-gray-100 last:border-b-0">
-                  <span className="text-xs uppercase tracking-wider text-gray-500 w-24 shrink-0">{t('product.category', 'Category')}</span>
-                  <span className="text-sm font-medium text-gray-900">{displayCategory}</span>
+            {/* Jewelry products: show full JewelryFields spec table */}
+            {isJewelry && jewelrySpec ? (
+              <div className="space-y-4">
+                <JewelryFields spec={jewelrySpec} />
+                {/* Category + SKU still useful for reference */}
+                <div className="rounded-2xl ring-1 ring-gray-200 overflow-hidden bg-white">
+                  {product.category && (
+                    <div className="flex items-center gap-4 px-5 py-3.5 border-b border-gray-100 last:border-b-0">
+                      <span className="text-xs uppercase tracking-wider text-gray-500 w-24 shrink-0">{t('product.category', 'Category')}</span>
+                      <span className="text-sm font-medium text-gray-900">{displayCategory}</span>
+                    </div>
+                  )}
+                  {selectedVariant?.sku && (
+                    <div className="flex items-center gap-4 px-5 py-3.5 last:border-b-0">
+                      <span className="text-xs uppercase tracking-wider text-gray-500 w-24 shrink-0">{t('catalog.pdp.sku', 'SKU')}</span>
+                      <span className="text-sm font-mono text-gray-900">{selectedVariant.sku}</span>
+                    </div>
+                  )}
                 </div>
-              )}
-              {selectedVariant?.sku && (
-                <div className="flex items-center gap-4 px-5 py-3.5 border-b border-gray-100 last:border-b-0">
-                  <span className="text-xs uppercase tracking-wider text-gray-500 w-24 shrink-0">{t('catalog.pdp.sku', 'SKU')}</span>
-                  <span className="text-sm font-mono text-gray-900">{selectedVariant.sku}</span>
-                </div>
-              )}
-              {availableFabrics.length > 0 && (
-                <div className="flex items-center gap-4 px-5 py-3.5 last:border-b-0">
-                  <span className="text-xs uppercase tracking-wider text-gray-500 w-24 shrink-0">{t('product.fabric', 'Fabric')}</span>
-                  <span className="text-sm text-gray-900">{availableFabrics.map(f => f.name).join(', ')}</span>
-                </div>
-              )}
-            </div>
+              </div>
+            ) : (
+              /* Clothing / default: category + SKU + fabrics table */
+              <div className="rounded-2xl ring-1 ring-gray-200 overflow-hidden bg-white">
+                {product.category && (
+                  <div className="flex items-center gap-4 px-5 py-3.5 border-b border-gray-100 last:border-b-0">
+                    <span className="text-xs uppercase tracking-wider text-gray-500 w-24 shrink-0">{t('product.category', 'Category')}</span>
+                    <span className="text-sm font-medium text-gray-900">{displayCategory}</span>
+                  </div>
+                )}
+                {selectedVariant?.sku && (
+                  <div className="flex items-center gap-4 px-5 py-3.5 border-b border-gray-100 last:border-b-0">
+                    <span className="text-xs uppercase tracking-wider text-gray-500 w-24 shrink-0">{t('catalog.pdp.sku', 'SKU')}</span>
+                    <span className="text-sm font-mono text-gray-900">{selectedVariant.sku}</span>
+                  </div>
+                )}
+                {availableFabrics.length > 0 && (
+                  <div className="flex items-center gap-4 px-5 py-3.5 last:border-b-0">
+                    <span className="text-xs uppercase tracking-wider text-gray-500 w-24 shrink-0">{t('product.fabric', 'Fabric')}</span>
+                    <span className="text-sm text-gray-900">{availableFabrics.map(f => f.name).join(', ')}</span>
+                  </div>
+                )}
+              </div>
+            )}
           </div>
 
           {/* Sizing */}
@@ -2098,16 +2150,31 @@ export default function ProductDetailsPage() {
             aria-labelledby="tab-sizing"
             className={activeTab === 'sizing' ? '' : 'hidden'}
           >
-            <div className="space-y-4 text-sm text-gray-600 leading-relaxed">
-              <p>{t('product.sizing_info', 'Please refer to our size guide for accurate measurements. Custom sizing is always available.')}</p>
-              <Link
-                href="/services/tailoring"
-                className="inline-flex items-center gap-2 text-indigo-700 underline underline-offset-2 hover:text-indigo-900 font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30 rounded"
-              >
-                {t('product.custom_sizing', 'Request custom sizing')}
-                <ArrowRight className="h-3.5 w-3.5 rtl:rotate-180" aria-hidden />
-              </Link>
-            </div>
+            {isJewelry ? (
+              /* Jewelry ring-size guidance */
+              <div className="space-y-4 text-sm text-gray-600 leading-relaxed">
+                <p>{t('jewelry.ring_size_info', 'Ring sizes are in EU numeric format (e.g. 48–72). Use a ring sizer or measure the inner diameter of an existing ring in millimeters to find your size.')}</p>
+                <Link
+                  href="/custom-orders/new?vertical=jewelry"
+                  className="inline-flex items-center gap-2 text-indigo-700 underline underline-offset-2 hover:text-indigo-900 font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30 rounded"
+                >
+                  {t('jewelry.request_custom_size', 'Request a custom size')}
+                  <ArrowRight className="h-3.5 w-3.5 rtl:rotate-180" aria-hidden />
+                </Link>
+              </div>
+            ) : (
+              /* Clothing sizing guidance */
+              <div className="space-y-4 text-sm text-gray-600 leading-relaxed">
+                <p>{t('product.sizing_info', 'Please refer to our size guide for accurate measurements. Custom sizing is always available.')}</p>
+                <Link
+                  href="/services/tailoring"
+                  className="inline-flex items-center gap-2 text-indigo-700 underline underline-offset-2 hover:text-indigo-900 font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30 rounded"
+                >
+                  {t('product.custom_sizing', 'Request custom sizing')}
+                  <ArrowRight className="h-3.5 w-3.5 rtl:rotate-180" aria-hidden />
+                </Link>
+              </div>
+            )}
           </div>
 
           {/* Reviews */}
@@ -2125,36 +2192,70 @@ export default function ProductDetailsPage() {
       </section>
 
       {/* ── 4. Bespoke strip (full-bleed) ── */}
-      <section className="relative isolate overflow-hidden bg-indigo-900 text-white py-16 px-6 mb-16">
-        {/* Decorative warm/indigo glow — token-single-sourced via theme() so the
-            palette never drifts to literal hexes. amber.500 = saffron accent,
-            indigo.950 = deep Atlas surface. */}
-        <div
-          aria-hidden
-          className="absolute inset-0 opacity-30 bg-[radial-gradient(circle_at_20%_20%,_theme(colors.amber.500)_0,_transparent_45%),radial-gradient(circle_at_80%_60%,_theme(colors.indigo.950)_0,_transparent_50%)]"
-        />
-        <div className="relative max-w-4xl mx-auto text-center flex flex-col items-center gap-6">
-          <p className="text-xs uppercase tracking-[0.18em] text-amber-300 font-medium">
-            {t('bespoke.eyebrow', 'Bespoke')}
-          </p>
-          <h2
-            className="text-3xl md:text-4xl font-bold leading-tight"
-            style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
-          >
-            {t('bespoke.headline', 'Want it tailored to you?')}
-          </h2>
-          <p className="text-indigo-100 text-sm max-w-lg">
-            {t('bespoke.body', 'Provide your measurements and an Atelier artisan will craft this piece specifically for you.')}
-          </p>
-          <Link
-            href="/services/tailoring"
-            className="inline-flex items-center gap-2 rounded-full bg-amber-500 px-8 py-3 text-sm font-semibold text-amber-950 shadow-atlas-sm hover:bg-amber-400 hover:text-amber-950 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-300 focus-visible:ring-offset-2 focus-visible:ring-offset-indigo-900"
-          >
-            {t('bespoke.cta', 'Start a tailoring order')}
-            <ArrowRight className="h-4 w-4 rtl:rotate-180" aria-hidden />
-          </Link>
-        </div>
-      </section>
+      {/* Jewelry products get a jewelry-specific custom-order section.
+          Clothing/default products get the tailoring bespoke strip. */}
+      {isJewelry ? (
+        /* ── Jewelry: custom-piece request strip ── */
+        <section className="relative isolate overflow-hidden bg-indigo-900 text-white py-16 px-6 mb-16" data-testid="jewelry-bespoke-strip">
+          <div
+            aria-hidden
+            className="absolute inset-0 opacity-30 bg-[radial-gradient(circle_at_20%_20%,_theme(colors.amber.500)_0,_transparent_45%),radial-gradient(circle_at_80%_60%,_theme(colors.indigo.950)_0,_transparent_50%)]"
+          />
+          <div className="relative max-w-4xl mx-auto text-center flex flex-col items-center gap-6">
+            <p className="text-xs uppercase tracking-[0.18em] text-amber-300 font-medium">
+              {t('jewelry.bespoke.eyebrow', 'Custom Jewelry')}
+            </p>
+            <h2
+              className="text-3xl md:text-4xl font-bold leading-tight"
+              style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
+            >
+              {t('jewelry.bespoke.headline', 'Request a custom piece')}
+            </h2>
+            <p className="text-indigo-100 text-sm max-w-lg">
+              {t('jewelry.bespoke.body', 'Choose your metal, stone, engraving, and ring size. Our master jewelers will craft a piece made specifically for you.')}
+            </p>
+            <Link
+              href="/custom-orders/new?vertical=jewelry"
+              className="inline-flex items-center gap-2 rounded-full bg-amber-500 px-8 py-3 text-sm font-semibold text-amber-950 shadow-atlas-sm hover:bg-amber-400 hover:text-amber-950 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-300 focus-visible:ring-offset-2 focus-visible:ring-offset-indigo-900"
+            >
+              {t('jewelry.bespoke.cta', 'Start a custom jewelry order')}
+              <ArrowRight className="h-4 w-4 rtl:rotate-180" aria-hidden />
+            </Link>
+          </div>
+        </section>
+      ) : (
+        /* ── Clothing / default: tailoring bespoke strip ── */
+        <section className="relative isolate overflow-hidden bg-indigo-900 text-white py-16 px-6 mb-16">
+          {/* Decorative warm/indigo glow — token-single-sourced via theme() so the
+              palette never drifts to literal hexes. amber.500 = saffron accent,
+              indigo.950 = deep Atlas surface. */}
+          <div
+            aria-hidden
+            className="absolute inset-0 opacity-30 bg-[radial-gradient(circle_at_20%_20%,_theme(colors.amber.500)_0,_transparent_45%),radial-gradient(circle_at_80%_60%,_theme(colors.indigo.950)_0,_transparent_50%)]"
+          />
+          <div className="relative max-w-4xl mx-auto text-center flex flex-col items-center gap-6">
+            <p className="text-xs uppercase tracking-[0.18em] text-amber-300 font-medium">
+              {t('bespoke.eyebrow', 'Bespoke')}
+            </p>
+            <h2
+              className="text-3xl md:text-4xl font-bold leading-tight"
+              style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
+            >
+              {t('bespoke.headline', 'Want it tailored to you?')}
+            </h2>
+            <p className="text-indigo-100 text-sm max-w-lg">
+              {t('bespoke.body', 'Provide your measurements and an Atelier artisan will craft this piece specifically for you.')}
+            </p>
+            <Link
+              href="/services/tailoring"
+              className="inline-flex items-center gap-2 rounded-full bg-amber-500 px-8 py-3 text-sm font-semibold text-amber-950 shadow-atlas-sm hover:bg-amber-400 hover:text-amber-950 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-300 focus-visible:ring-offset-2 focus-visible:ring-offset-indigo-900"
+            >
+              {t('bespoke.cta', 'Start a tailoring order')}
+              <ArrowRight className="h-4 w-4 rtl:rotate-180" aria-hidden />
+            </Link>
+          </div>
+        </section>
+      )}
 
       {/* ── 5a & 5b. Up-sell shelves — rendered only when data is available ──
            Heuristic v1: partitionShelves() splits 8 related products into two
