@@ -117,7 +117,8 @@
     "offline": "غير متصل",
     "online": "متصل",
     "today": "اليوم",
-    "yesterday": "أمس"
+    "yesterday": "أمس",
+    "go_back": "رجوع"
   },
   "validation": {
     "required": "هذا الحقل مطلوب",
@@ -285,7 +286,26 @@
     "google_init_failed": "فشل تهيئة تسجيل الدخول عبر Google",
     "google_login_success": "تم تسجيل الدخول عبر Google بنجاح!",
     "google_login_failed": "فشل تسجيل الدخول عبر Google",
-    "username": "اسم المستخدم"
+    "username": "اسم المستخدم",
+    "reset_link_invalid": "رابط إعادة التعيين غير صالح",
+    "reset_link_invalid_desc": "رابط إعادة تعيين كلمة المرور ناقص المعلومات. الرجاء طلب رابط جديد.",
+    "request_new_link": "طلب رابط جديد",
+    "link_expired": "انتهت صلاحية الرابط",
+    "link_expired_desc": "هذا الرابط لم يعد صالحاً. الرجاء طلب رابط جديد — تنتهي صلاحيته بعد 60 دقيقة.",
+    "create_new_password": "إنشاء كلمة مرور جديدة",
+    "create_new_password_desc": "اختر كلمة مرور قوية من 8 أحرف على الأقل.",
+    "new_password": "كلمة المرور الجديدة",
+    "new_password_placeholder": "8 أحرف على الأقل",
+    "confirm_password": "تأكيد كلمة المرور",
+    "confirm_password_placeholder": "أعد كتابة كلمة المرور",
+    "saving": "جارٍ الحفظ...",
+    "set_new_password": "تعيين كلمة المرور الجديدة",
+    "password_updated": "تم تحديث كلمة المرور",
+    "password_updated_desc": "تم تغيير كلمة المرور. يمكنك الآن تسجيل الدخول بكلمة المرور الجديدة.",
+    "almost_there": "اقتربت من النهاية.",
+    "almost_there_sub": "اختر كلمة مرور قوية وستعود إلى حسابك.",
+    "rate_limited": "طلبت روابط كثيرة. الرجاء الانتظار بضع دقائق والمحاولة مجدداً.",
+    "password_reset_success": "تم تحديث كلمة المرور بنجاح"
   },
   "navigation": {
     "home": "الرئيسية",
@@ -912,7 +932,10 @@
       "download_invoice": "تحميل الفاتورة",
       "clear_filters": "إلغاء التصفيات",
       "invoice": "الفاتورة",
-      "support": "الدعم"
+      "support": "الدعم",
+      "cancel_order": "إلغاء الطلبية",
+      "request_return": "طلب إرجاع",
+      "return_request": "طلب الإرجاع"
     },
     "filter": {
       "all": "جميع الطلبات",
@@ -1038,7 +1061,19 @@
     "items_count": "العناصر",
     "loading_message": "جاري تحميل الطلبات...",
     "order_number": "رقم الطلب",
-    "total_amount": "المبلغ الإجمالي"
+    "total_amount": "المبلغ الإجمالي",
+    "cancel": {
+      "title": "إلغاء هذه الطلبية؟",
+      "desc": "لا يمكن التراجع عن هذا الإجراء. يمكنك تقديم طلبية جديدة في أي وقت.",
+      "reason_label": "السبب (اختياري)",
+      "reason_placeholder": "أخبرنا لماذا تلغي الطلبية…",
+      "cancelling": "جارٍ الإلغاء…",
+      "confirm": "إلغاء الطلبية"
+    },
+    "return": {
+      "title": "طلب إرجاع",
+      "desc": "أخبرنا بالمشكلة وسنرتب عملية الإرجاع."
+    }
   },
   "order_confirmation": {
     "not_found": {
@@ -1496,7 +1531,8 @@
     "fetch_failed_title": "تعذّر تحميل المنتجات",
     "productNotFoundDesc": "تعذّر العثور على هذا المنتج أو لم يعد متاحاً.",
     "something_went_wrong": "حدث خطأ ما",
-    "product_load_failed": "فشل تحميل المنتج"
+    "product_load_failed": "فشل تحميل المنتج",
+    "stock_unavailable": "هذا المنتج غير متوفر حالياً"
   },
   "notifications": {
     "success": {
@@ -1845,7 +1881,8 @@
       "tabs": {
         "exchanges": "عمليات التبديل",
         "returnProcess": "عملية الإرجاع",
-        "returnsPolicy": "سياسة الإرجاع"
+        "returnsPolicy": "سياسة الإرجاع",
+        "request": "طلب إرجاع"
       },
       "availabilityText": "الاستبدالات خاضعة للتوفر. إذا كان الاستبدال المفضل لديك غير متوفر، سنصدر استرجاع أموال بدلاً من ذلك.",
       "contactSupport": "اتصل بالدعم",
@@ -3583,7 +3620,9 @@
         "messageRequired": "الرسالة مطلوبة",
         "messageTooLong": "يجب أن تكون الرسالة أقل من 500 حرف"
       },
-      "phonePlaceholder": "+212 (0) 7 XX XX XX XX"
+      "phonePlaceholder": "+212 (0) 7 XX XX XX XX",
+      "rate_limited": "أرسلت رسائل كثيرة مؤخراً. الرجاء الانتظار قليلاً قبل المحاولة.",
+      "error": "حدث خطأ ما. حاول مجدداً أو راسلنا مباشرة عبر البريد."
     }
   },
   "offline": {
@@ -3743,7 +3782,50 @@
       "remove_image": "إزالة الصورة",
       "section_info": "معلومات المنتج",
       "section_pricing": "الفئة والتسعير",
-      "section_image": "صورة المنتج"
+      "section_image": "صورة المنتج",
+      "edit_title": "تعديل المنتج",
+      "edit_submit_cta": "حفظ التغييرات",
+      "update_success": "تم تحديث المنتج بنجاح",
+      "update_error": "تعذر تحديث المنتج. حاول مجدداً.",
+      "fetch_error": "تعذر تحميل تفاصيل المنتج.",
+      "not_found": "المنتج غير موجود أو ليست لديك صلاحية تعديله.",
+      "suspended_error": "حسابك موقوف. تواصل مع الدعم لحل المشكلة.",
+      "edit_eyebrow": "المخزون"
+    },
+    "products": {
+      "edit_aria": "تعديل {{name}}"
+    },
+    "store_settings": {
+      "profile_section_title": "ملف المتجر",
+      "profile_section_desc": "حدّث معلومات متجرك العامة.",
+      "label_name": "اسم المتجر",
+      "label_email": "البريد المهني",
+      "label_description": "وصف المتجر",
+      "label_phone": "رقم الهاتف",
+      "label_address": "العنوان",
+      "save_cta": "حفظ الملف",
+      "saving": "جارٍ الحفظ…",
+      "saved_indicator": "تم الحفظ",
+      "save_success": "تم حفظ ملف المتجر",
+      "save_error": "تعذر حفظ الملف. حاول مجدداً.",
+      "validation_error": "الرجاء تصحيح الأخطاء أدناه والمحاولة مجدداً.",
+      "fetch_error": "تعذر تحميل ملف المتجر."
+    },
+    "nav": {
+      "messages": "الرسائل"
+    },
+    "dashboard": {
+      "no_orders": "لا توجد طلبيات بعد — شارك متجرك لتبدأ!",
+      "add_first_product_cta": "أضف منتجك الأول",
+      "earnings_error": "تعذر تحميل بيانات الأرباح.",
+      "eyebrow": "فضاء البائع",
+      "title": "لوحة التحكم",
+      "kpi_gross": "إجمالي الإيرادات",
+      "kpi_net": "صافي الإيرادات",
+      "kpi_orders": "الطلبيات",
+      "kpi_commission": "العمولة",
+      "recent_orders": "أحدث الطلبيات",
+      "view_all_orders": "عرض كل الطلبيات"
     }
   },
   "security": {
@@ -4174,7 +4256,44 @@
       "returnProcess": "عملية العودة",
       "returnsPolicy": "سياسة العودة"
     },
-    "title": "العودات والاستبدالات"
+    "title": "العودات والاستبدالات",
+    "request": {
+      "title": "طلب إرجاع",
+      "desc": "اختر طلبية تم توصيلها وأخبرنا بالمشكلة. يجب طلب الإرجاع خلال 14 يوماً من التوصيل.",
+      "login_title": "سجّل الدخول لطلب إرجاع",
+      "login_desc": "يجب تسجيل الدخول لتقديم طلب إرجاع لطلبيتك.",
+      "no_delivered": "لا توجد طلبيات موصلة مؤهلة للإرجاع.",
+      "loading_orders": "جارٍ تحميل طلبياتك…",
+      "select_order": "الطلبية",
+      "select_order_placeholder": "— اختر طلبية —",
+      "checking": "جارٍ التحقق من الطلبات السابقة…",
+      "existing_title": "يوجد طلب إرجاع سابق لهذه الطلبية.",
+      "status_label": "الحالة:",
+      "reason_label": "السبب:",
+      "reason": "سبب الإرجاع",
+      "reason_placeholder": "— اختر السبب —",
+      "details": "تفاصيل إضافية (اختياري)",
+      "details_placeholder": "صف المشكلة بمزيد من التفصيل…",
+      "submit": "إرسال طلب الإرجاع",
+      "submitting": "جارٍ الإرسال…",
+      "success": "تم إرسال طلب الإرجاع. سيراجعه فريقنا قريباً.",
+      "order_required": "الرجاء اختيار طلبية.",
+      "reason_required": "الرجاء اختيار السبب.",
+      "submit_error": "تعذر إرسال طلب الإرجاع. حاول مجدداً."
+    },
+    "status": {
+      "pending": "قيد المراجعة",
+      "approved": "مقبول",
+      "rejected": "مرفوض",
+      "completed": "مكتمل"
+    },
+    "reason": {
+      "damaged": "منتج تالف",
+      "wrong_item": "منتج خاطئ",
+      "not_as_described": "مخالف للوصف",
+      "size_issue": "مشكلة في المقاس",
+      "other": "سبب آخر"
+    }
   },
   "stores": {
     "check_back": "عد قريباً!",

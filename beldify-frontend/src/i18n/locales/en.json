@@ -117,7 +117,8 @@
     "you": "You",
     "back_to": "Back to",
     "errorTitle": "Something went wrong",
-    "remove_image": "Remove image"
+    "remove_image": "Remove image",
+    "go_back": "Go back"
   },
   "validation": {
     "required": "This field is required",
@@ -285,7 +286,26 @@
     "google_unavailable": "Google Sign-In is currently unavailable",
     "google_init_failed": "Failed to initialize Google Sign-In",
     "google_login_success": "Google login successful!",
-    "google_login_failed": "Login with Google failed"
+    "google_login_failed": "Login with Google failed",
+    "reset_link_invalid": "Invalid reset link",
+    "reset_link_invalid_desc": "This password reset link is missing required information. Please request a new one.",
+    "request_new_link": "Request a new link",
+    "link_expired": "Link expired",
+    "link_expired_desc": "This reset link is no longer valid. Please request a new one — they expire after 60 minutes.",
+    "create_new_password": "Create new password",
+    "create_new_password_desc": "Choose a strong password with at least 8 characters.",
+    "new_password": "New password",
+    "new_password_placeholder": "Min. 8 characters",
+    "confirm_password": "Confirm password",
+    "confirm_password_placeholder": "Repeat your password",
+    "saving": "Saving...",
+    "set_new_password": "Set new password",
+    "password_updated": "Password updated",
+    "password_updated_desc": "Your password has been changed. You can now sign in with your new password.",
+    "almost_there": "Almost there.",
+    "almost_there_sub": "Choose a strong new password and you're back in.",
+    "rate_limited": "You've requested too many reset links. Please wait a few minutes and try again.",
+    "password_reset_success": "Password updated successfully"
   },
   "navigation": {
     "home": "Home",
@@ -913,7 +933,10 @@
       "download_invoice": "Download Invoice",
       "contact_support": "Contact Support",
       "write_review": "Write Review",
-      "contact_seller": "Contact Seller"
+      "contact_seller": "Contact Seller",
+      "cancel_order": "Cancel order",
+      "request_return": "Request return",
+      "return_request": "Return request"
     },
     "filter": {
       "all": "All Orders",
@@ -1032,7 +1055,19 @@
       "contact": "Contact",
       "title": "Shipping address"
     },
-    "subtitle": "orders"
+    "subtitle": "orders",
+    "cancel": {
+      "title": "Cancel this order?",
+      "desc": "This cannot be undone. You can place a new order anytime.",
+      "reason_label": "Reason (optional)",
+      "reason_placeholder": "Let us know why you are cancelling…",
+      "cancelling": "Cancelling…",
+      "confirm": "Cancel order"
+    },
+    "return": {
+      "title": "Request a return",
+      "desc": "Tell us what went wrong and we will arrange the return."
+    }
   },
   "order_confirmation": {
     "not_found": {
@@ -1490,7 +1525,8 @@
     "fetch_failed_title": "Unable to load products",
     "productNotFoundDesc": "This product could not be found or is no longer available.",
     "something_went_wrong": "Something went wrong",
-    "product_load_failed": "Failed to load product"
+    "product_load_failed": "Failed to load product",
+    "stock_unavailable": "Item is not available"
   },
   "notifications": {
     "success": {
@@ -2009,7 +2045,8 @@
       "tabs": {
         "returnsPolicy": "Returns Policy",
         "exchanges": "Exchanges",
-        "returnProcess": "Return Process"
+        "returnProcess": "Return Process",
+        "request": "Request a Return"
       },
       "steps": {
         "step1": {
@@ -3398,7 +3435,9 @@
         "messageRequired": "Message is required",
         "messageTooLong": "Message must be under 500 characters"
       },
-      "phonePlaceholder": "+212 (0) 7 XX XX XX XX"
+      "phonePlaceholder": "+212 (0) 7 XX XX XX XX",
+      "rate_limited": "You've sent too many messages recently. Please wait a while before trying again.",
+      "error": "Something went wrong. Please try again or email us directly."
     }
   },
   "offline": {
@@ -3558,7 +3597,50 @@
       "remove_image": "Remove image",
       "section_info": "Product info",
       "section_pricing": "Category & pricing",
-      "section_image": "Product image"
+      "section_image": "Product image",
+      "edit_title": "Edit Product",
+      "edit_submit_cta": "Save changes",
+      "update_success": "Product updated successfully",
+      "update_error": "Could not update product. Please try again.",
+      "fetch_error": "Could not load product details.",
+      "not_found": "Product not found or you do not have permission to edit it.",
+      "suspended_error": "Your account is suspended. Contact support to resolve.",
+      "edit_eyebrow": "Inventory"
+    },
+    "products": {
+      "edit_aria": "Edit {{name}}"
+    },
+    "store_settings": {
+      "profile_section_title": "Store Profile",
+      "profile_section_desc": "Update your public store information.",
+      "label_name": "Store name",
+      "label_email": "Business email",
+      "label_description": "Store description",
+      "label_phone": "Phone number",
+      "label_address": "Address",
+      "save_cta": "Save profile",
+      "saving": "Saving…",
+      "saved_indicator": "Saved",
+      "save_success": "Store profile saved",
+      "save_error": "Could not save profile. Please try again.",
+      "validation_error": "Please fix the errors below and try again.",
+      "fetch_error": "Could not load store profile."
+    },
+    "nav": {
+      "messages": "Messages"
+    },
+    "dashboard": {
+      "no_orders": "No orders yet — share your store to get started!",
+      "add_first_product_cta": "Add your first product",
+      "earnings_error": "Could not load earnings data.",
+      "eyebrow": "Seller Hub",
+      "title": "Dashboard",
+      "kpi_gross": "Gross Revenue",
+      "kpi_net": "Net Revenue",
+      "kpi_orders": "Orders",
+      "kpi_commission": "Commission",
+      "recent_orders": "Recent Orders",
+      "view_all_orders": "View all orders"
     }
   },
   "security": {
@@ -4225,7 +4307,44 @@
       "returnProcess": "Return Process",
       "returnsPolicy": "Returns Policy"
     },
-    "title": "Returns and Exchanges"
+    "title": "Returns and Exchanges",
+    "request": {
+      "title": "Request a return",
+      "desc": "Select a delivered order and tell us what went wrong. Returns must be requested within 14 days of delivery.",
+      "login_title": "Sign in to request a return",
+      "login_desc": "You need to be logged in to submit a return request for your order.",
+      "no_delivered": "No delivered orders found that are eligible for a return.",
+      "loading_orders": "Loading your orders…",
+      "select_order": "Order",
+      "select_order_placeholder": "— Select an order —",
+      "checking": "Checking for existing requests…",
+      "existing_title": "An existing return request was found for this order.",
+      "status_label": "Status:",
+      "reason_label": "Reason:",
+      "reason": "Reason for return",
+      "reason_placeholder": "— Select a reason —",
+      "details": "Additional details (optional)",
+      "details_placeholder": "Describe the issue in more detail…",
+      "submit": "Submit return request",
+      "submitting": "Submitting…",
+      "success": "Return request submitted. Our team will review it shortly.",
+      "order_required": "Please select an order.",
+      "reason_required": "Please select a reason.",
+      "submit_error": "Could not submit your return request. Please try again."
+    },
+    "status": {
+      "pending": "Pending",
+      "approved": "Approved",
+      "rejected": "Rejected",
+      "completed": "Completed"
+    },
+    "reason": {
+      "damaged": "Damaged",
+      "wrong_item": "Wrong item",
+      "not_as_described": "Not as described",
+      "size_issue": "Size issue",
+      "other": "Other"
+    }
   },
   "stores": {
     "check_back": "Come back soon!",

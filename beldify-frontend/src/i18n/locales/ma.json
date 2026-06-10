@@ -117,7 +117,8 @@
     "view_all": "شوف كولشي",
     "womens_traditional_wear": "ملابس نسائية تقليدية",
     "womens_traditional_wear_description": "شوف التشكيلة ديالنا من اللباس التقليدي الأنيق للعيالات",
-    "yesterday": "البارح"
+    "yesterday": "البارح",
+    "go_back": "رجع"
   },
   "validation": {
     "required": "خاصك تعمر هاد لخانة",
@@ -304,7 +305,26 @@
     "google_unavailable": "تسجيل الدخول بـ Google ماشي متاح دابا",
     "google_init_failed": "ما قدرناش نحضّرو تسجيل الدخول بـ Google",
     "google_login_success": "دخلتي للحساب بـ Google!",
-    "google_login_failed": "فشل تسجيل الدخول بـ Google"
+    "google_login_failed": "فشل تسجيل الدخول بـ Google",
+    "reset_link_invalid": "الرابط ديال التغيير ماشي صحيح",
+    "reset_link_invalid_desc": "هاد الرابط ناقص شي معلومات. طلب واحد جديد عافاك.",
+    "request_new_link": "طلب رابط جديد",
+    "link_expired": "الرابط سالات صلاحيتو",
+    "link_expired_desc": "هاد الرابط ما بقاش خدام. طلب واحد جديد — كيسالي من بعد 60 دقيقة.",
+    "create_new_password": "دير كلمة سر جديدة",
+    "create_new_password_desc": "ختار كلمة سر قوية فيها 8 حروف ولا كثر.",
+    "new_password": "كلمة السر الجديدة",
+    "new_password_placeholder": "8 حروف على الأقل",
+    "confirm_password": "أكد كلمة السر",
+    "confirm_password_placeholder": "عاود كتب كلمة السر",
+    "saving": "كنسجلو...",
+    "set_new_password": "سجل كلمة السر الجديدة",
+    "password_updated": "تبدلات كلمة السر",
+    "password_updated_desc": "تبدلات كلمة السر. دابا تقدر تدخل بالكلمة الجديدة.",
+    "almost_there": "بقا ليك شوية.",
+    "almost_there_sub": "ختار كلمة سر قوية وترجع لحسابك.",
+    "rate_limited": "طلبتي بزاف ديال الروابط. تسنى شي دقايق وعاود.",
+    "password_reset_success": "تبدلات كلمة السر بنجاح"
   },
   "navigation": {
     "home": "الرئيسية",
@@ -913,7 +933,10 @@
       "download_invoice": "حمل لفاكتورة",
       "invoice": "لفاكتورة",
       "support": "لمساعدة",
-      "clear_filters": "نضّي التصفية"
+      "clear_filters": "نضّي التصفية",
+      "cancel_order": "لغي الطلبية",
+      "request_return": "طلب الرجوع",
+      "return_request": "طلب الرجوع"
     },
     "filter": {
       "all": "كاع لكوموندات",
@@ -1038,7 +1061,19 @@
     "subtitle": "طلبات",
     "items_count": "الحاجات",
     "order_number": "نمرة الطلب",
-    "total_amount": "المبلغ الكلي"
+    "total_amount": "المبلغ الكلي",
+    "cancel": {
+      "title": "تلغي هاد الطلبية؟",
+      "desc": "ما يمكنش ترجع فهاد القرار. تقدر دير طلبية جديدة وقتما بغيتي.",
+      "reason_label": "السبب (اختياري)",
+      "reason_placeholder": "قول لينا علاش كتلغي…",
+      "cancelling": "كنلغيو…",
+      "confirm": "لغي الطلبية"
+    },
+    "return": {
+      "title": "طلب الرجوع",
+      "desc": "قول لينا شنو وقع وحنا نديرو ليك الرجوع."
+    }
   },
   "checkout": {
     "title": "الخلاص",
@@ -1418,7 +1453,8 @@
     "fetch_failed_title": "ما قدرناش نحملو المنتجات",
     "productNotFoundDesc": "هاد المنتج ما تلقاش أو ما عادش متاح.",
     "something_went_wrong": "وقع مشكل",
-    "product_load_failed": "ما قدرناش نحيدو المنتج"
+    "product_load_failed": "ما قدرناش نحيدو المنتج",
+    "stock_unavailable": "هاد المنتوج ما كاينش دابا"
   },
   "notifications": {
     "success": {
@@ -2057,7 +2093,8 @@
       "tabs": {
         "exchanges": "التبديل",
         "returnProcess": "طريقة الرجوع",
-        "returnsPolicy": "سياسة الرجوع"
+        "returnsPolicy": "سياسة الرجوع",
+        "request": "طلب الرجوع"
       },
       "availabilityText": "التبديلات خاضعة للتوفر. إذا المنتوج اللي بغيت ما كاينش، كايعطيوك المبلغ بدل.",
       "contactSupport": "توصل بخدمة الزباينة",
@@ -2535,6 +2572,43 @@
       "helpTitle": "محتاج للمساعدة؟",
       "helpText": "إلا عندك شي سؤال على الرجوع، تواصل مع فريق المساعدة.",
       "contactButton": "تواصل مع المساعدة"
+    },
+    "request": {
+      "title": "طلب الرجوع ديال السلعة",
+      "desc": "ختار طلبية توصلات وقول لينا شنو وقع. خاص تطلب الرجوع ف 14 يوم من التوصيل.",
+      "login_title": "دخل لحسابك باش تطلب الرجوع",
+      "login_desc": "خاصك تكون داخل لحسابك باش تصيفط طلب الرجوع.",
+      "no_delivered": "ما كاينة حتى طلبية توصلات يمكن ترجعها.",
+      "loading_orders": "كنجيبو الطلبيات ديالك…",
+      "select_order": "الطلبية",
+      "select_order_placeholder": "— ختار طلبية —",
+      "checking": "كنتأكدو واش كاين شي طلب قديم…",
+      "existing_title": "كاين طلب رجوع قديم لهاد الطلبية.",
+      "status_label": "الحالة:",
+      "reason_label": "السبب:",
+      "reason": "علاش بغيتي ترجع السلعة",
+      "reason_placeholder": "— ختار السبب —",
+      "details": "تفاصيل زايدة (اختياري)",
+      "details_placeholder": "شرح المشكل مزيان…",
+      "submit": "صيفط طلب الرجوع",
+      "submitting": "كنصيفطو…",
+      "success": "تصيفط طلب الرجوع. الفريق ديالنا غادي يشوفو قريب.",
+      "order_required": "ختار شي طلبية عافاك.",
+      "reason_required": "ختار السبب عافاك.",
+      "submit_error": "ما قدرناش نصيفطو طلب الرجوع. عاود مرة أخرى."
+    },
+    "status": {
+      "pending": "كيتسنى المراجعة",
+      "approved": "مقبول",
+      "rejected": "مرفوض",
+      "completed": "سالا"
+    },
+    "reason": {
+      "damaged": "السلعة مخسرة",
+      "wrong_item": "سلعة ماشي هي هاديك",
+      "not_as_described": "ماشي بحال فالوصف",
+      "size_issue": "مشكل فالقياس",
+      "other": "سبب آخر"
     }
   },
   "hero": {
@@ -3233,7 +3307,9 @@
         "messageRequired": "الرسالة واجبة",
         "messageTooLong": "الرسالة خص تكون أقل من 500 حرف"
       },
-      "phonePlaceholder": "+212 (0) 7 XX XX XX XX"
+      "phonePlaceholder": "+212 (0) 7 XX XX XX XX",
+      "rate_limited": "صيفطتي بزاف ديال الرسائل. تسنى شوية قبل ما تعاود.",
+      "error": "وقع شي مشكل. عاود ولا صيفط لينا إيميل نيشان."
     }
   },
   "offline": {
@@ -3971,7 +4047,50 @@
       "remove_image": "إزالة الصورة",
       "section_info": "معلومات المنتج",
       "section_pricing": "الفئة والتسعير",
-      "section_image": "صورة المنتج"
+      "section_image": "صورة المنتج",
+      "edit_title": "بدّل المنتوج",
+      "edit_submit_cta": "سجل التبديلات",
+      "update_success": "تبدل المنتوج بنجاح",
+      "update_error": "ما قدرناش نبدلو المنتوج. عاود مرة أخرى.",
+      "fetch_error": "ما قدرناش نجيبو تفاصيل المنتوج.",
+      "not_found": "المنتوج ما كاينش ولا ما عندكش الصلاحية تبدلو.",
+      "suspended_error": "الحساب ديالك محبوس. تواصل مع الدعم باش تحل المشكل.",
+      "edit_eyebrow": "السطوك"
+    },
+    "products": {
+      "edit_aria": "بدّل {{name}}"
+    },
+    "store_settings": {
+      "profile_section_title": "البروفيل ديال الحانوت",
+      "profile_section_desc": "بدّل المعلومات لي كيشوفو الناس على الحانوت ديالك.",
+      "label_name": "سمية الحانوت",
+      "label_email": "الإيميل ديال الخدمة",
+      "label_description": "وصف الحانوت",
+      "label_phone": "نمرة التيليفون",
+      "label_address": "العنوان",
+      "save_cta": "سجل البروفيل",
+      "saving": "كنسجلو…",
+      "saved_indicator": "تسجل",
+      "save_success": "تسجل البروفيل ديال الحانوت",
+      "save_error": "ما تسجلش البروفيل. عاود مرة أخرى.",
+      "validation_error": "صحح الأخطاء لي لتحت وعاود.",
+      "fetch_error": "ما قدرناش نجيبو البروفيل ديال الحانوت."
+    },
+    "nav": {
+      "messages": "الرسائل"
+    },
+    "dashboard": {
+      "no_orders": "مازال ما عندك حتى طلبية — شارك الحانوت ديالك وبدا!",
+      "add_first_product_cta": "زيد أول منتوج ديالك",
+      "earnings_error": "ما قدرناش نجيبو الأرباح.",
+      "eyebrow": "فضاء البائع",
+      "title": "الطابلو ديال التحكم",
+      "kpi_gross": "الدخل الإجمالي",
+      "kpi_net": "الدخل الصافي",
+      "kpi_orders": "الطلبيات",
+      "kpi_commission": "العمولة",
+      "recent_orders": "آخر الطلبيات",
+      "view_all_orders": "شوف كاع الطلبيات"
     }
   },
   "size_guide": {

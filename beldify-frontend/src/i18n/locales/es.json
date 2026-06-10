@@ -117,7 +117,8 @@
     "view_all": "Ver Todo",
     "womens_traditional_wear": "Ropa Tradicional para Mujer",
     "womens_traditional_wear_description": "Explora nuestra selección de trajes tradicionales elegantes para mujer",
-    "yesterday": "Ayer"
+    "yesterday": "Ayer",
+    "go_back": "Volver"
   },
   "validation": {
     "required": "Este campo es obligatorio",
@@ -285,7 +286,26 @@
     "google_init_failed": "Error al inicializar el inicio de sesión con Google",
     "google_login_success": "¡Inicio de sesión con Google exitoso!",
     "google_login_failed": "Error al iniciar sesión con Google",
-    "username": "Nombre de usuario"
+    "username": "Nombre de usuario",
+    "reset_link_invalid": "Enlace de restablecimiento no válido",
+    "reset_link_invalid_desc": "Este enlace de restablecimiento está incompleto. Solicita uno nuevo.",
+    "request_new_link": "Solicitar un nuevo enlace",
+    "link_expired": "Enlace caducado",
+    "link_expired_desc": "Este enlace ya no es válido. Solicita uno nuevo: caducan a los 60 minutos.",
+    "create_new_password": "Crear nueva contraseña",
+    "create_new_password_desc": "Elige una contraseña segura de al menos 8 caracteres.",
+    "new_password": "Nueva contraseña",
+    "new_password_placeholder": "Mín. 8 caracteres",
+    "confirm_password": "Confirmar contraseña",
+    "confirm_password_placeholder": "Repite tu contraseña",
+    "saving": "Guardando...",
+    "set_new_password": "Establecer nueva contraseña",
+    "password_updated": "Contraseña actualizada",
+    "password_updated_desc": "Tu contraseña ha sido cambiada. Ya puedes iniciar sesión con la nueva.",
+    "almost_there": "Ya casi está.",
+    "almost_there_sub": "Elige una contraseña segura y habrás vuelto.",
+    "rate_limited": "Has solicitado demasiados enlaces. Espera unos minutos e inténtalo de nuevo.",
+    "password_reset_success": "Contraseña actualizada correctamente"
   },
   "navigation": {
     "home": "Inicio",
@@ -894,7 +914,10 @@
       "download_invoice": "Descargar factura",
       "clear_filters": "Limpiar filtros",
       "invoice": "Factura",
-      "support": "Soporte"
+      "support": "Soporte",
+      "cancel_order": "Cancelar pedido",
+      "request_return": "Solicitar devolución",
+      "return_request": "Solicitud de devolución"
     },
     "filter": {
       "all": "Todos los pedidos",
@@ -1019,7 +1042,19 @@
     "subtitle": "pedidos",
     "items_count": "Artículos",
     "order_number": "Número de pedido",
-    "total_amount": "Cantidad total"
+    "total_amount": "Cantidad total",
+    "cancel": {
+      "title": "¿Cancelar este pedido?",
+      "desc": "Esta acción no se puede deshacer. Puedes hacer un nuevo pedido cuando quieras.",
+      "reason_label": "Motivo (opcional)",
+      "reason_placeholder": "Cuéntanos por qué cancelas…",
+      "cancelling": "Cancelando…",
+      "confirm": "Cancelar pedido"
+    },
+    "return": {
+      "title": "Solicitar una devolución",
+      "desc": "Cuéntanos qué salió mal y organizaremos la devolución."
+    }
   },
   "order_confirmation": {
     "not_found": {
@@ -1477,7 +1512,8 @@
     "fetch_failed_title": "No se pudieron cargar los productos",
     "productNotFoundDesc": "Este producto no se encontró o ya no está disponible.",
     "something_went_wrong": "Algo salió mal",
-    "product_load_failed": "Error al cargar el producto"
+    "product_load_failed": "Error al cargar el producto",
+    "stock_unavailable": "Este artículo no está disponible"
   },
   "notifications": {
     "success": {
@@ -2191,7 +2227,8 @@
       "tabs": {
         "exchanges": "Intercambios",
         "returnProcess": "Proceso de devolución",
-        "returnsPolicy": "Política de devoluciones"
+        "returnsPolicy": "Política de devoluciones",
+        "request": "Solicitar devolución"
       },
       "availabilityText": "Los intercambios están sujetos a disponibilidad. Si tu reemplazo preferido no está disponible, emitiremos un reembolso en su lugar.",
       "contactSupport": "Contactar soporte",
@@ -2374,6 +2411,43 @@
       "helpTitle": "¿Necesitas Ayuda?",
       "helpText": "Si tienes alguna pregunta sobre nuestro proceso de devolución, por favor contacta a nuestro equipo de servicio al cliente.",
       "contactButton": "Contactar Soporte"
+    },
+    "request": {
+      "title": "Solicitar una devolución",
+      "desc": "Selecciona un pedido entregado y cuéntanos qué salió mal. Las devoluciones deben solicitarse dentro de los 14 días posteriores a la entrega.",
+      "login_title": "Inicia sesión para solicitar una devolución",
+      "login_desc": "Debes iniciar sesión para enviar una solicitud de devolución.",
+      "no_delivered": "No se encontraron pedidos entregados aptos para devolución.",
+      "loading_orders": "Cargando tus pedidos…",
+      "select_order": "Pedido",
+      "select_order_placeholder": "— Selecciona un pedido —",
+      "checking": "Comprobando solicitudes existentes…",
+      "existing_title": "Ya existe una solicitud de devolución para este pedido.",
+      "status_label": "Estado:",
+      "reason_label": "Motivo:",
+      "reason": "Motivo de la devolución",
+      "reason_placeholder": "— Selecciona un motivo —",
+      "details": "Detalles adicionales (opcional)",
+      "details_placeholder": "Describe el problema con más detalle…",
+      "submit": "Enviar solicitud de devolución",
+      "submitting": "Enviando…",
+      "success": "Solicitud de devolución enviada. Nuestro equipo la revisará pronto.",
+      "order_required": "Selecciona un pedido.",
+      "reason_required": "Selecciona un motivo.",
+      "submit_error": "No se pudo enviar tu solicitud de devolución. Inténtalo de nuevo."
+    },
+    "status": {
+      "pending": "Pendiente",
+      "approved": "Aprobada",
+      "rejected": "Rechazada",
+      "completed": "Completada"
+    },
+    "reason": {
+      "damaged": "Artículo dañado",
+      "wrong_item": "Artículo equivocado",
+      "not_as_described": "No coincide con la descripción",
+      "size_issue": "Problema de talla",
+      "other": "Otro"
     }
   },
   "product_details": {
@@ -3466,7 +3540,9 @@
         "messageRequired": "El mensaje es obligatorio",
         "messageTooLong": "El mensaje debe tener menos de 500 caracteres"
       },
-      "phonePlaceholder": "+212 (0) 7 XX XX XX XX"
+      "phonePlaceholder": "+212 (0) 7 XX XX XX XX",
+      "rate_limited": "Has enviado demasiados mensajes recientemente. Espera un poco antes de volver a intentarlo.",
+      "error": "Algo salió mal. Inténtalo de nuevo o escríbenos directamente."
     }
   },
   "offline": {
@@ -4030,6 +4106,51 @@
       "title": "Conviértete en Vendedor",
       "validation_business_type": "Por favor selecciona un tipo de negocio",
       "validation_country": "Por favor selecciona un país"
+    },
+    "product": {
+      "edit_title": "Editar producto",
+      "edit_submit_cta": "Guardar cambios",
+      "update_success": "Producto actualizado correctamente",
+      "update_error": "No se pudo actualizar el producto. Inténtalo de nuevo.",
+      "fetch_error": "No se pudieron cargar los detalles del producto.",
+      "not_found": "Producto no encontrado o no tienes permiso para editarlo.",
+      "suspended_error": "Tu cuenta está suspendida. Contacta con soporte para resolverlo.",
+      "edit_eyebrow": "Inventario"
+    },
+    "products": {
+      "edit_aria": "Editar {{name}}"
+    },
+    "store_settings": {
+      "profile_section_title": "Perfil de la tienda",
+      "profile_section_desc": "Actualiza la información pública de tu tienda.",
+      "label_name": "Nombre de la tienda",
+      "label_email": "Correo comercial",
+      "label_description": "Descripción de la tienda",
+      "label_phone": "Número de teléfono",
+      "label_address": "Dirección",
+      "save_cta": "Guardar perfil",
+      "saving": "Guardando…",
+      "saved_indicator": "Guardado",
+      "save_success": "Perfil de la tienda guardado",
+      "save_error": "No se pudo guardar el perfil. Inténtalo de nuevo.",
+      "validation_error": "Corrige los errores a continuación e inténtalo de nuevo.",
+      "fetch_error": "No se pudo cargar el perfil de la tienda."
+    },
+    "nav": {
+      "messages": "Mensajes"
+    },
+    "dashboard": {
+      "no_orders": "Aún no hay pedidos: ¡comparte tu tienda para empezar!",
+      "add_first_product_cta": "Añade tu primer producto",
+      "earnings_error": "No se pudieron cargar los datos de ganancias.",
+      "eyebrow": "Panel del vendedor",
+      "title": "Panel",
+      "kpi_gross": "Ingresos brutos",
+      "kpi_net": "Ingresos netos",
+      "kpi_orders": "Pedidos",
+      "kpi_commission": "Comisión",
+      "recent_orders": "Pedidos recientes",
+      "view_all_orders": "Ver todos los pedidos"
     }
   },
   "header": {

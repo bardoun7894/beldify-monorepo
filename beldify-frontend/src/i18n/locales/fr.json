@@ -117,7 +117,8 @@
     "view_all": "Voir tout",
     "womens_traditional_wear": "Vêtements traditionnels pour femmes",
     "womens_traditional_wear_description": "Parcourez notre sélection de vêtements traditionnels élégants pour femmes",
-    "yesterday": "Hier"
+    "yesterday": "Hier",
+    "go_back": "Retour"
   },
   "validation": {
     "required": "Ce champ est obligatoire",
@@ -285,7 +286,26 @@
     "google_init_failed": "Échec de l'initialisation de la connexion Google",
     "google_login_success": "Connexion Google réussie !",
     "google_login_failed": "Échec de la connexion avec Google",
-    "username": "Nom d'utilisateur"
+    "username": "Nom d'utilisateur",
+    "reset_link_invalid": "Lien de réinitialisation invalide",
+    "reset_link_invalid_desc": "Ce lien de réinitialisation est incomplet. Veuillez en demander un nouveau.",
+    "request_new_link": "Demander un nouveau lien",
+    "link_expired": "Lien expiré",
+    "link_expired_desc": "Ce lien n'est plus valide. Demandez-en un nouveau — ils expirent après 60 minutes.",
+    "create_new_password": "Créer un nouveau mot de passe",
+    "create_new_password_desc": "Choisissez un mot de passe fort d'au moins 8 caractères.",
+    "new_password": "Nouveau mot de passe",
+    "new_password_placeholder": "Min. 8 caractères",
+    "confirm_password": "Confirmer le mot de passe",
+    "confirm_password_placeholder": "Répétez votre mot de passe",
+    "saving": "Enregistrement...",
+    "set_new_password": "Définir le nouveau mot de passe",
+    "password_updated": "Mot de passe mis à jour",
+    "password_updated_desc": "Votre mot de passe a été modifié. Vous pouvez maintenant vous connecter avec le nouveau.",
+    "almost_there": "Vous y êtes presque.",
+    "almost_there_sub": "Choisissez un mot de passe fort et vous êtes de retour.",
+    "rate_limited": "Trop de demandes de réinitialisation. Patientez quelques minutes puis réessayez.",
+    "password_reset_success": "Mot de passe mis à jour avec succès"
   },
   "navigation": {
     "home": "Accueil",
@@ -894,7 +914,10 @@
       "download_invoice": "Télécharger la facture",
       "clear_filters": "Effacer les filtres",
       "invoice": "Facture",
-      "support": "Support"
+      "support": "Support",
+      "cancel_order": "Annuler la commande",
+      "request_return": "Demander un retour",
+      "return_request": "Demande de retour"
     },
     "filter": {
       "all": "Toutes les commandes",
@@ -1019,7 +1042,19 @@
     "subtitle": "commandes",
     "items_count": "Articles",
     "order_number": "Numéro de Commande",
-    "total_amount": "Montant Total"
+    "total_amount": "Montant Total",
+    "cancel": {
+      "title": "Annuler cette commande ?",
+      "desc": "Cette action est irréversible. Vous pouvez repasser commande à tout moment.",
+      "reason_label": "Motif (facultatif)",
+      "reason_placeholder": "Dites-nous pourquoi vous annulez…",
+      "cancelling": "Annulation…",
+      "confirm": "Annuler la commande"
+    },
+    "return": {
+      "title": "Demander un retour",
+      "desc": "Dites-nous ce qui n'a pas été et nous organiserons le retour."
+    }
   },
   "order_confirmation": {
     "not_found": {
@@ -1477,7 +1512,8 @@
     "fetch_failed_title": "Impossible de charger les produits",
     "productNotFoundDesc": "Ce produit est introuvable ou n'est plus disponible.",
     "something_went_wrong": "Une erreur est survenue",
-    "product_load_failed": "Échec du chargement du produit"
+    "product_load_failed": "Échec du chargement du produit",
+    "stock_unavailable": "Cet article n'est pas disponible"
   },
   "notifications": {
     "success": {
@@ -2201,7 +2237,8 @@
       "tabs": {
         "exchanges": "Échanges",
         "returnProcess": "Processus de Retour",
-        "returnsPolicy": "Politique de Retour"
+        "returnsPolicy": "Politique de Retour",
+        "request": "Demander un retour"
       },
       "availabilityText": "Les échanges sont soumis à la disponibilité. Si votre produit de remplacement préféré n'est pas disponible, nous émettrons un remboursement à la place.",
       "contactSupport": "Contacter le Support",
@@ -2384,6 +2421,43 @@
       "helpTitle": "Besoin d'Aide?",
       "helpText": "Si vous avez des questions sur notre processus de retour, veuillez contacter notre équipe de service client.",
       "contactButton": "Contacter le Support"
+    },
+    "request": {
+      "title": "Demander un retour",
+      "desc": "Sélectionnez une commande livrée et dites-nous ce qui n'a pas été. Les retours doivent être demandés sous 14 jours après livraison.",
+      "login_title": "Connectez-vous pour demander un retour",
+      "login_desc": "Vous devez être connecté pour soumettre une demande de retour.",
+      "no_delivered": "Aucune commande livrée éligible à un retour.",
+      "loading_orders": "Chargement de vos commandes…",
+      "select_order": "Commande",
+      "select_order_placeholder": "— Sélectionnez une commande —",
+      "checking": "Vérification des demandes existantes…",
+      "existing_title": "Une demande de retour existe déjà pour cette commande.",
+      "status_label": "Statut :",
+      "reason_label": "Motif :",
+      "reason": "Motif du retour",
+      "reason_placeholder": "— Sélectionnez un motif —",
+      "details": "Détails supplémentaires (facultatif)",
+      "details_placeholder": "Décrivez le problème plus en détail…",
+      "submit": "Envoyer la demande de retour",
+      "submitting": "Envoi en cours…",
+      "success": "Demande de retour envoyée. Notre équipe l'examinera rapidement.",
+      "order_required": "Veuillez sélectionner une commande.",
+      "reason_required": "Veuillez sélectionner un motif.",
+      "submit_error": "Impossible d'envoyer votre demande de retour. Réessayez."
+    },
+    "status": {
+      "pending": "En attente",
+      "approved": "Approuvé",
+      "rejected": "Refusé",
+      "completed": "Terminé"
+    },
+    "reason": {
+      "damaged": "Article endommagé",
+      "wrong_item": "Mauvais article",
+      "not_as_described": "Non conforme à la description",
+      "size_issue": "Problème de taille",
+      "other": "Autre"
     }
   },
   "community": {
@@ -3411,7 +3485,9 @@
         "messageRequired": "Le message est requis",
         "messageTooLong": "Le message doit comporter moins de 500 caractères"
       },
-      "phonePlaceholder": "+212 (0) 7 XX XX XX XX"
+      "phonePlaceholder": "+212 (0) 7 XX XX XX XX",
+      "rate_limited": "Vous avez envoyé trop de messages récemment. Patientez un moment avant de réessayer.",
+      "error": "Une erreur est survenue. Réessayez ou écrivez-nous directement."
     }
   },
   "offline": {
@@ -3969,7 +4045,50 @@
       "name_en_label": "Nom du produit (anglais)",
       "category_label": "Catégorie",
       "price_mad_label": "Prix (MAD)",
-      "quantity_label": "Quantité"
+      "quantity_label": "Quantité",
+      "edit_title": "Modifier le produit",
+      "edit_submit_cta": "Enregistrer les modifications",
+      "update_success": "Produit mis à jour avec succès",
+      "update_error": "Impossible de mettre à jour le produit. Réessayez.",
+      "fetch_error": "Impossible de charger les détails du produit.",
+      "not_found": "Produit introuvable ou vous n'avez pas la permission de le modifier.",
+      "suspended_error": "Votre compte est suspendu. Contactez le support pour résoudre le problème.",
+      "edit_eyebrow": "Inventaire"
+    },
+    "products": {
+      "edit_aria": "Modifier {{name}}"
+    },
+    "store_settings": {
+      "profile_section_title": "Profil de la boutique",
+      "profile_section_desc": "Mettez à jour les informations publiques de votre boutique.",
+      "label_name": "Nom de la boutique",
+      "label_email": "E-mail professionnel",
+      "label_description": "Description de la boutique",
+      "label_phone": "Numéro de téléphone",
+      "label_address": "Adresse",
+      "save_cta": "Enregistrer le profil",
+      "saving": "Enregistrement…",
+      "saved_indicator": "Enregistré",
+      "save_success": "Profil de la boutique enregistré",
+      "save_error": "Impossible d'enregistrer le profil. Réessayez.",
+      "validation_error": "Corrigez les erreurs ci-dessous et réessayez.",
+      "fetch_error": "Impossible de charger le profil de la boutique."
+    },
+    "nav": {
+      "messages": "Messages"
+    },
+    "dashboard": {
+      "no_orders": "Pas encore de commandes — partagez votre boutique pour démarrer !",
+      "add_first_product_cta": "Ajoutez votre premier produit",
+      "earnings_error": "Impossible de charger les données de gains.",
+      "eyebrow": "Espace vendeur",
+      "title": "Tableau de bord",
+      "kpi_gross": "Revenu brut",
+      "kpi_net": "Revenu net",
+      "kpi_orders": "Commandes",
+      "kpi_commission": "Commission",
+      "recent_orders": "Commandes récentes",
+      "view_all_orders": "Voir toutes les commandes"
     }
   },
   "size_guide": {
