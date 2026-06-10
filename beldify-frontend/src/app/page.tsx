@@ -3,6 +3,10 @@ import { getHomeDataPayload } from './api/home/route';
 import logger from '@/utils/consoleLogger';
 import type { CommunityPost } from '@/types/community';
 
+// Revalidate every 60 seconds so the home page stays fresh without a
+// full rebuild. DiscoverFeed is client-side so it refreshes per request.
+export const revalidate = 60;
+
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://pro.beldify.com';
 
 async function getHomeData() {
@@ -33,7 +37,7 @@ type Category = {
 
 async function getTopCategories(): Promise<Category[]> {
   try {
-    const res = await fetch(`${API_URL}/api/categories/topCategories`, { next: { revalidate: 300 } });
+    const res = await fetch(`${API_URL}/api/categories/topCategories`, { next: { revalidate: 60 } });
     if (!res.ok) return [];
     const json = await res.json();
     const items = json.categories || json.data || [];
@@ -58,7 +62,7 @@ async function getOpenSoukPosts(): Promise<CommunityPost[]> {
   try {
     const res = await fetch(
       `${API_URL}/api/v1/community/posts?status=open&limit=3&sort=latest`,
-      { next: { revalidate: 300 } },
+      { next: { revalidate: 60 } },
     );
     if (!res.ok) return [];
     const json = await res.json();

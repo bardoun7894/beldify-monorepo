@@ -5,9 +5,9 @@ import Image from 'next/image';
 import Link from 'next/link';
 import {
   ShieldCheck,
-  Lock,
   RotateCcw,
   Headphones,
+  Truck,
   MapPin,
   BadgeCheck,
   ArrowRight,
@@ -21,6 +21,7 @@ import '@/i18n/config';
 import FeaturedSections from '@/components/home/FeaturedSections';
 import OpenSoukHero from '@/components/home/OpenSoukHero';
 import MegaOffers from '@/components/MegaOffers';
+import DiscoverFeed from '@/components/home/DiscoverFeed';
 import LoadingSpinner from '@/components/common/LoadingSpinner';
 import Newsletter from '@/components/Newsletter';
 import PostCard from '@/components/community/PostCard';
@@ -111,10 +112,11 @@ export default function HomeContent({ categories, data, openSoukPosts = [] }: Ho
   ];
 
   return (
-    <main className="min-h-screen bg-background text-foreground">
+    <div className="min-h-screen bg-background text-foreground">
 
       {/* ── HERO ──────────────────────────────────────────────────────────── */}
-      <section className="relative isolate overflow-hidden min-h-[85vh] flex items-center">
+      {/* Mobile ≤38vh, desktop ≤45vh — compact for marketplace, not brand editorial */}
+      <section className="relative isolate overflow-hidden min-h-[38vh] lg:min-h-[45vh] flex items-center">
         {/* Background image */}
         <div className="absolute inset-0 -z-10">
           <Image
@@ -125,9 +127,10 @@ export default function HomeContent({ categories, data, openSoukPosts = [] }: Ho
             sizes="100vw"
             className="object-cover object-center"
           />
-          {/* Dark indigo editorial overlay — flat /85 per DESIGN.md §6.1 dark-hero
-              spec, keeps white copy legible on any photo in both LTR and RTL. */}
-          <div className="absolute inset-0 bg-indigo-950/85" />
+          {/* Dark indigo editorial overlay — directional gradient so the dark stop
+              sits under the end-aligned copy. RTL override flips to gradient-to-r
+              so the opaque end stays under the right-aligned Darija headline. */}
+          <div className="absolute inset-0 bg-gradient-to-l from-indigo-950/90 via-indigo-950/75 to-indigo-950/40 [dir=rtl]:bg-gradient-to-r" />
           {/* Ambient radial warmth — bottom right */}
           <div
             aria-hidden
@@ -135,8 +138,8 @@ export default function HomeContent({ categories, data, openSoukPosts = [] }: Ho
           />
         </div>
 
-        {/* Hero content — END-aligned on LTR (right side), START-aligned on RTL */}
-        <div className="mx-auto max-w-7xl w-full px-6 py-24 sm:py-32 lg:py-40 flex justify-end">
+        {/* Hero content — compact for marketplace. Darija headline + one CTA pair. */}
+        <div className="mx-auto max-w-7xl w-full px-4 sm:px-6 py-10 sm:py-14 lg:py-16 flex justify-end">
           <div className="max-w-lg text-end">
             {/* Eyebrow — amber parchment chip */}
             <span className="inline-flex items-center gap-2 rounded-full bg-amber-500/20 px-3.5 py-1.5 text-xs font-medium text-amber-200 ring-1 ring-amber-500/30">
@@ -148,50 +151,19 @@ export default function HomeContent({ categories, data, openSoukPosts = [] }: Ho
             <h1
               dir="rtl"
               lang="ar"
-              className="font-arabic mt-5 text-5xl sm:text-6xl lg:text-7xl font-bold leading-[1.1] tracking-tight text-white"
+              className="font-arabic mt-4 text-4xl sm:text-5xl lg:text-6xl font-bold leading-[1.1] tracking-tight text-white"
             >
               لباس ديال زمان.
               <br />
               <span className="text-amber-400">مصنوع لليوم.</span>
             </h1>
 
-            {/* English subtitle — italic, lighter weight */}
-            <p className="mt-3 text-lg font-medium text-white/70 italic tracking-wide">
-              {t('home.hero.subtitle', 'Worn for centuries. Made for today.')}
-            </p>
-
-            {/* Etymology lockup */}
-            <div
-              className="flex items-baseline gap-3 flex-wrap-reverse mt-5 mb-2 justify-end"
-              aria-label="Beldify — Beldi reimagined"
-            >
-              <span
-                dir="ltr"
-                lang="en"
-                style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
-                className="text-2xl font-bold text-amber-400 italic leading-tight"
-              >
-                ify
-              </span>
-              <span className="text-amber-500/60 text-xl select-none" aria-hidden="true">×</span>
-              <span dir="rtl" lang="ar" className="font-arabic text-2xl font-semibold text-white leading-tight">
-                بلدي
-              </span>
-            </div>
-            <p className="text-xs text-white/65 mb-8 tracking-wide">
-              {t('home.hero.etymology', 'beldi (بلدي) — local, artisan, of the country')}
-            </p>
-
-            <p className="mt-4 text-base leading-relaxed text-white/80 max-w-md ms-auto">
-              {t('home.hero.description', "Caftans, djellabas, and bespoke tailoring from Morocco's finest ateliers — delivered worldwide.")}
-            </p>
-
             {/* Search entry — navigates to /products?q= on submit */}
             <form
               action="/products"
               method="get"
               role="search"
-              className="mt-6 flex items-center gap-2 max-w-md ms-auto"
+              className="mt-5 flex items-center gap-2 max-w-md ms-auto"
               aria-label={t('home.hero.search_label', 'Search the marketplace')}
             >
               <label htmlFor="hero-search" className="sr-only">
@@ -202,7 +174,7 @@ export default function HomeContent({ categories, data, openSoukPosts = [] }: Ho
                 type="search"
                 name="q"
                 placeholder={t('home.hero.search_placeholder', 'Search caftans, djellabas…')}
-                className="flex-1 min-w-0 rounded-xl bg-indigo-800 border border-white/20 px-4 py-2.5 text-sm text-white placeholder:text-white/50 focus:outline-none focus:ring-2 focus:ring-amber-400/60 focus:border-amber-400/60 transition-colors duration-200"
+                className="flex-1 min-w-0 rounded-xl bg-indigo-800 border border-white/20 px-4 py-2.5 text-sm text-white placeholder:text-white/65 focus:outline-none focus:ring-2 focus:ring-amber-400/60 focus:border-amber-400/60 transition-colors duration-200"
               />
               <button
                 type="submit"
@@ -213,8 +185,8 @@ export default function HomeContent({ categories, data, openSoukPosts = [] }: Ho
               </button>
             </form>
 
-            {/* CTAs */}
-            <div className="mt-6 flex flex-wrap gap-3 justify-end">
+            {/* Single CTA pair */}
+            <div className="mt-5 flex flex-wrap gap-3 justify-end">
               <Link
                 href="/products"
                 className="inline-flex items-center gap-2 rounded-xl bg-indigo-700 px-6 py-3 text-sm font-semibold text-white shadow-atlas-sm transition-all duration-200 hover:bg-indigo-800 hover:-translate-y-0.5 hover:shadow-atlas-md focus:outline-none focus:ring-2 focus:ring-indigo-700/40 focus:ring-offset-2 focus:ring-offset-indigo-950"
@@ -232,7 +204,7 @@ export default function HomeContent({ categories, data, openSoukPosts = [] }: Ho
               </Link>
             </div>
 
-            {/* Discovery chip — decorative; describes a discovery aid, not a guarantee */}
+            {/* Discovery chip */}
             <div className="mt-4 flex justify-end">
               <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-amber-500/20 text-amber-200 text-xs font-medium ring-1 ring-amber-500/25 animate-fade-in-up">
                 <Sparkles size={12} className="shrink-0" aria-hidden="true" />
@@ -243,15 +215,65 @@ export default function HomeContent({ categories, data, openSoukPosts = [] }: Ho
         </div>
       </section>
 
+      {/* ── CATEGORY CHIPS RAIL ───────────────────────────────────────────── */}
+      {categories.length > 0 && (
+        <section
+          className="border-b border-amber-200/40 bg-white"
+          aria-label={t('home.categories.rail_label', 'Browse categories')}
+        >
+          <div
+            className="-mx-0 flex gap-3 overflow-x-auto snap-x snap-mandatory px-4 py-3 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+            role="list"
+          >
+            {categories.map((c) => (
+              <Link
+                key={c.id}
+                href={`/categories/${c.slug || c.id}`}
+                role="listitem"
+                className="group snap-start shrink-0 flex flex-col items-center gap-1.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/40 rounded-xl"
+                aria-label={catName(c)}
+              >
+                <span className="relative flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-full bg-amber-50 ring-1 ring-amber-200 transition-all duration-200 group-hover:ring-indigo-700 group-hover:ring-2">
+                  <Image
+                    src={c.image}
+                    alt=""
+                    fill
+                    sizes="56px"
+                    className="object-cover transition-transform duration-300 group-hover:scale-105"
+                  />
+                </span>
+                <span
+                  className={`text-[11px] font-medium text-gray-700 text-center leading-tight whitespace-nowrap max-w-[64px] truncate ${isArabicScript ? 'font-arabic' : ''}`}
+                  dir={isArabicScript ? 'rtl' : 'ltr'}
+                >
+                  {catName(c)}
+                </span>
+              </Link>
+            ))}
+            <Link
+              href="/categories"
+              className="snap-start shrink-0 flex flex-col items-center gap-1.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/40 rounded-xl"
+            >
+              <span className="flex h-14 w-14 items-center justify-center rounded-full bg-indigo-50 ring-1 ring-indigo-200">
+                <ArrowRight className="h-5 w-5 text-indigo-700 rtl:rotate-180" aria-hidden="true" />
+              </span>
+              <span className="text-[11px] font-medium text-indigo-700 text-center leading-tight whitespace-nowrap">
+                {t('home.categories.viewAll', 'All')}
+              </span>
+            </Link>
+          </div>
+        </section>
+      )}
+
       {/* ── TRUST STRIP ───────────────────────────────────────────────────── */}
       <section
         className="border-y border-amber-200/40 bg-amber-50"
-        aria-label="Why shop with Beldify"
+        aria-label={t('home.trust.label', 'Why shop with Beldify')}
       >
-        <div className="mx-auto max-w-7xl px-6 py-6 grid grid-cols-2 sm:grid-cols-4 gap-6">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 py-5 grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6">
           {([
+            { labelKey: 'home.trust.free_delivery', labelFallback: 'Free delivery +500 MAD', labelAr: 'توصيل مجاني فوق 500 درهم', Icon: Truck },
             { labelKey: 'home.trust.verified_sellers', labelFallback: 'Verified sellers', labelAr: 'بياعة موثوقين', Icon: ShieldCheck },
-            { labelKey: 'home.trust.secure_payments', labelFallback: 'Secure payments', labelAr: 'دفع آمن', Icon: Lock },
             { labelKey: 'home.trust.returns', labelFallback: '14-day returns', labelAr: 'الرجوع حتى لـ14 يوم', Icon: RotateCcw },
             { labelKey: 'home.trust.support', labelFallback: 'Support AR / FR / EN', labelAr: 'مساعدة بثلاث لغات', Icon: Headphones },
           ] as const).map(({ labelKey, labelFallback, labelAr, Icon }) => (
@@ -268,8 +290,8 @@ export default function HomeContent({ categories, data, openSoukPosts = [] }: Ho
         </div>
       </section>
 
-      {/* ── CATEGORY RAIL ─────────────────────────────────────────────────── */}
-      <section className="mx-auto max-w-7xl px-6 py-16 sm:py-20">
+      {/* ── CATEGORY GRID (editorial, below fold) ─────────────────────────── */}
+      <section className="mx-auto max-w-7xl px-4 sm:px-6 py-12 sm:py-16">
         <div className="flex items-end justify-between mb-10">
           <div>
             <h2 className="text-3xl sm:text-4xl font-bold text-gray-900">
@@ -377,7 +399,7 @@ export default function HomeContent({ categories, data, openSoukPosts = [] }: Ho
       </Suspense>
 
       {/* ── SPECIAL OFFERS (2-col editorial) ─────────────────────────────── */}
-      <section className="mx-auto max-w-7xl px-6 py-16 sm:py-20">
+      <section className="mx-auto max-w-7xl px-4 sm:px-6 py-12 sm:py-16">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Left — dark indigo editorial card */}
           <div className="relative overflow-hidden rounded-2xl bg-indigo-950 ring-1 ring-white/10 shadow-atlas-lg">
@@ -476,7 +498,7 @@ export default function HomeContent({ categories, data, openSoukPosts = [] }: Ho
             opacity: 0.07,
           }}
         />
-        <div className="relative mx-auto max-w-7xl px-6 py-20 sm:py-24 grid lg:grid-cols-2 gap-12 items-center">
+        <div className="relative mx-auto max-w-7xl px-4 sm:px-6 py-16 sm:py-20 grid lg:grid-cols-2 gap-12 items-center">
           <div>
             <div className="inline-flex items-center gap-2 rounded-full bg-amber-500/20 px-3.5 py-1.5 mb-5 text-xs font-medium text-amber-300 ring-1 ring-amber-500/30">
               <Scissors className="h-3.5 w-3.5" aria-hidden="true" />
@@ -535,7 +557,7 @@ export default function HomeContent({ categories, data, openSoukPosts = [] }: Ho
       </section>
 
       {/* ── OPEN SOUK RAIL ────────────────────────────────────────────────── */}
-      <section className="mx-auto max-w-7xl px-6 py-16 sm:py-20">
+      <section className="mx-auto max-w-7xl px-4 sm:px-6 py-12 sm:py-16">
         <div className="flex items-end justify-between mb-10">
           <div>
             <div className="inline-flex items-center gap-2 rounded-full bg-amber-100 px-3.5 py-1.5 mb-4 text-xs font-medium text-amber-700 ring-1 ring-amber-200">
@@ -612,7 +634,7 @@ export default function HomeContent({ categories, data, openSoukPosts = [] }: Ho
       </section>
 
       {/* ── ATELIERS RAIL ─────────────────────────────────────────────────── */}
-      <section className="mx-auto max-w-7xl px-6 py-16 sm:py-20">
+      <section className="mx-auto max-w-7xl px-4 sm:px-6 py-12 sm:py-16">
         <div className="flex items-end justify-between mb-10">
           <div>
             <h2
@@ -680,7 +702,7 @@ export default function HomeContent({ categories, data, openSoukPosts = [] }: Ho
 
       {/* ── THE JOURNAL ───────────────────────────────────────────────────── */}
       <section className="bg-amber-50 border-t border-amber-200/40">
-        <div className="mx-auto max-w-7xl px-6 py-16 sm:py-20">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 py-12 sm:py-16">
           <div className="flex items-end justify-between mb-10">
             <div>
               <h2
@@ -692,7 +714,7 @@ export default function HomeContent({ categories, data, openSoukPosts = [] }: Ho
               <p className="mt-1 text-sm text-gray-500">{t('home.journal.subtitle', 'Stories from the atelier')}</p>
             </div>
             <Link
-              href="/journal"
+              href="/community"
               className="hidden sm:inline-flex items-center gap-1 text-sm font-semibold text-indigo-700 hover:text-indigo-800 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-indigo-700/30 rounded"
             >
               {t('home.journal.view_all', 'All stories')} <ArrowRight className="h-4 w-4" aria-hidden="true" />
@@ -825,10 +847,15 @@ export default function HomeContent({ categories, data, openSoukPosts = [] }: Ho
         </div>
       </section>
 
+      {/* ── DISCOVER FEED (infinite "more to love" feed) ─────────────────── */}
+      <Suspense fallback={<LoadingSpinner />}>
+        <DiscoverFeed />
+      </Suspense>
+
       {/* ── NEWSLETTER ────────────────────────────────────────────────────── */}
       <Suspense fallback={<LoadingSpinner />}>
         <Newsletter />
       </Suspense>
-    </main>
+    </div>
   );
 }
