@@ -124,13 +124,12 @@ export default function TraditionalProductCard({
       onAddToWishlist(product as Product);
     } else {
       toast.success(
-        isWishlisted 
-          ? t('wishlist.removed') 
-          : t('wishlist.added'), 
+        isWishlisted
+          ? t('wishlist.removed')
+          : t('wishlist.added'),
         {
           position: isRTL ? 'bottom-left' : 'bottom-right',
           duration: 2000,
-          icon: isWishlisted ? '💔' : '❤️'
         }
       );
     }

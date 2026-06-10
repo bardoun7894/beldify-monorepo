@@ -17,6 +17,7 @@ import {
   Check,
   Maximize2,
   XCircle,
+  Truck,
 } from 'lucide-react';
 import OfferCountdownChip from './OfferCountdownChip';
 
@@ -127,13 +128,12 @@ const ProductCard = memo(function ProductCard({
     } else {
       // Default behavior
       toast.success(
-        isWishlisted 
-          ? t('wishlist.removed') 
-          : t('wishlist.added'), 
+        isWishlisted
+          ? t('wishlist.removed')
+          : t('wishlist.added'),
         {
           position: isRTL ? 'bottom-left' : 'bottom-right',
           duration: 2000,
-          icon: isWishlisted ? '💔' : '❤️'
         }
       );
     }
@@ -279,6 +279,14 @@ const ProductCard = memo(function ProductCard({
             {displayName}
           </h3>
         </Link>
+
+        {/* Free-shipping badge — shown when price exceeds 500 MAD */}
+        {displayPrice > 500 && (
+          <div className="flex items-center gap-1 text-[9px] font-semibold text-emerald-700 bg-emerald-50 border border-emerald-100 rounded-full px-2 py-0.5 w-fit">
+            <Truck className="h-2.5 w-2.5" aria-hidden="true" />
+            {t('product.free_shipping', 'شحن مجاني')}
+          </div>
+        )}
 
         {/* Price + Add-to-cart */}
         <div className="flex items-center justify-between gap-2 mt-auto pt-0.5">

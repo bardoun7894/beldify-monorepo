@@ -110,7 +110,6 @@ export default function ProductQuickView({
       {
         position: isRTL ? 'bottom-left' : 'bottom-right',
         duration: 2000,
-        icon: isWishlisted ? '💔' : '❤️'
       }
     );
   };

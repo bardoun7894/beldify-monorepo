@@ -1,18 +1,17 @@
 'use client';
 
-import React, { useState, useEffect, useCallback, Suspense } from 'react';
+import React, { useState, useEffect, useCallback, useMemo, useRef, Suspense } from 'react';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
-import useSWR from 'swr';
+import useSWRInfinite from 'swr/infinite';
 import ProductCard from '@/components/products/ProductCard';
 import ProductFilters from '@/components/products/ProductFilters';
-import ProductSort from '@/components/products/ProductSort';
 import FilterChips from '@/components/products/FilterChips';
 import NoSearchResults from '@/components/search/NoSearchResults';
 import useOpenSoukNudge from '@/hooks/useOpenSoukNudge';
 import OpenSoukRequestModal from '@/components/opensouk/OpenSoukRequestModal';
 import { Product } from '@/lib/types';
 import { useTranslation } from 'react-i18next';
-import { Filter, RefreshCw, AlertCircle, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Filter, RefreshCw, AlertCircle, SlidersHorizontal, Star, TrendingDown, TrendingUp, Clock } from 'lucide-react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { API_BASE_URL } from '@/config/constants';
 import { Button } from '@/components/ui/button';
@@ -28,23 +27,6 @@ interface ProductFiltersState {
   inStock?: boolean;
 }
 
-// Debounce hook for filter changes
-function useDebounce<T>(value: T, delay: number): T {
-  const [debouncedValue, setDebouncedValue] = useState<T>(value);
-
-  useEffect(() => {
-    const handler = setTimeout(() => {
-      setDebouncedValue(value);
-    }, delay);
-
-    return () => {
-      clearTimeout(handler);
-    };
-  }, [value, delay]);
-
-  return debouncedValue;
-}
-
 // Fetcher function for SWR
 const fetcher = async (url: string) => {
   const response = await fetch(url);
@@ -54,30 +36,11 @@ const fetcher = async (url: string) => {
   return response.json();
 };
 
-/**
- * buildPageWindow — windowed pagination helper.
- * Returns an array of page numbers and '...' ellipsis sentinels.
- * Example: [1, '...', 4, 5, 6, '...', 20]
- */
-function buildPageWindow(current: number, last: number, wing = 1): (number | '...')[] {
-  const pages: (number | '...')[] = [];
-  const lo = Math.max(2, current - wing);
-  const hi = Math.min(last - 1, current + wing);
-
-  pages.push(1);
-  if (lo > 2) pages.push('...');
-  for (let i = lo; i <= hi; i++) pages.push(i);
-  if (hi < last - 1) pages.push('...');
-  if (last > 1) pages.push(last);
-
-  return pages;
-}
-
 // Loading skeleton for product grid — Atlas tokens
-function ProductGridSkeleton() {
+function ProductGridSkeleton({ count = 4 }: { count?: number }) {
   return (
-    <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
-      {[...Array(8)].map((_, i) => (
+    <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-5">
+      {[...Array(count)].map((_, i) => (
         <div key={i} className="animate-pulse">
           <div className="bg-amber-100/70 aspect-square rounded-2xl mb-3" />
           <div className="h-3.5 bg-amber-100/70 rounded-full w-3/4 mb-2" />
@@ -114,13 +77,13 @@ function ErrorState({ message, onRetry }: { message: string; onRetry: () => void
   );
 }
 
-// Pagination meta from the backend additive contract (absent = graceful degrade)
-interface PaginationMeta {
-  current_page: number;
-  last_page: number;
-  per_page: number;
-  total: number;
-}
+// Sort options definition — used in sticky sort bar chips
+const SORT_OPTIONS = [
+  { value: 'newest', labelKey: 'sort.newest', icon: Clock },
+  { value: 'price_asc', labelKey: 'sort.price_asc', icon: TrendingDown },
+  { value: 'price_desc', labelKey: 'sort.price_desc', icon: TrendingUp },
+  { value: 'top_rated', labelKey: 'sort.top_rated', icon: Star },
+] as const;
 
 export default function ProductsPage() {
   const { t, i18n } = useTranslation();
@@ -128,36 +91,41 @@ export default function ProductsPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  // Fix 9c: derive ALL filter/sort/page state from URL so back-button fully restores state.
+  // Fix 9c: derive ALL filter/sort state from URL so back-button fully restores state.
   // No local filter state — URL is the single source of truth.
-  const currentPage = Number(searchParams?.get('page')) || 1;
   const currentSort = searchParams?.get('sort') || 'newest';
 
-  const filters: ProductFiltersState = {
-    category: searchParams?.get('category') || undefined,
-    minPrice: searchParams?.get('minPrice') ? Number(searchParams.get('minPrice')) : undefined,
-    maxPrice: searchParams?.get('maxPrice') ? Number(searchParams.get('maxPrice')) : undefined,
-    colors: searchParams?.get('colors') ? searchParams.get('colors')!.split(',') : [],
-    sizes: searchParams?.get('sizes') ? searchParams.get('sizes')!.split(',') : [],
-    fabrics: searchParams?.get('fabrics') ? searchParams.get('fabrics')!.split(',') : [],
-    customizable: searchParams?.get('customizable') === 'true' ? true : undefined,
-    inStock: searchParams?.get('inStock') === 'true' ? true : undefined,
-  };
+  // Memoize filters so that useCallback deps are stable across renders.
+  // Each field is derived from searchParams; the object identity is stable unless
+  // the URL actually changes, preventing unnecessary SWR key churn.
+  // NOTE: colors, sizes, and fabrics filter options inside <ProductFilters> are
+  // hardcoded for now — they will be replaced with API-driven values in a later sprint.
+  // (intentional: see ProductFilters.tsx availableColors/availableSizes/availableFabrics)
+  const debouncedFilters: ProductFiltersState = useMemo(
+    () => ({
+      category: searchParams?.get('category') || undefined,
+      minPrice: searchParams?.get('minPrice') ? Number(searchParams.get('minPrice')) : undefined,
+      maxPrice: searchParams?.get('maxPrice') ? Number(searchParams.get('maxPrice')) : undefined,
+      colors: searchParams?.get('colors') ? searchParams.get('colors')!.split(',') : [],
+      sizes: searchParams?.get('sizes') ? searchParams.get('sizes')!.split(',') : [],
+      fabrics: searchParams?.get('fabrics') ? searchParams.get('fabrics')!.split(',') : [],
+      customizable: searchParams?.get('customizable') === 'true' ? true : undefined,
+      inStock: searchParams?.get('inStock') === 'true' ? true : undefined,
+    }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [searchParams?.toString()]
+  );
+  // Alias for the components below that use `filters` directly
+  const filters = debouncedFilters;
 
   const [isMobileFiltersOpen, setIsMobileFiltersOpen] = useState(false);
+  const sentinelRef = useRef<HTMLDivElement>(null);
 
-  // Debounce is still used for the API key so we avoid a fetch on every keystroke;
-  // the URL is written immediately but the SWR key is debounced.
-  const debouncedFilters = useDebounce(filters, 300);
-  const debouncedSortBy = useDebounce(currentSort, 300);
-
-  // Helper: write filter/sort/page changes to URL (preserves existing params)
+  // Helper: write filter/sort changes to URL (preserves existing params).
+  // Sort/filter changes always reset the feed (page is implicit via infinite scroll).
   const updateUrl = useCallback(
-    (updates: Partial<ProductFiltersState & { sort: string; page: number; q: string }>) => {
+    (updates: Partial<ProductFiltersState & { sort: string; q: string }>) => {
       const params = new URLSearchParams(searchParams?.toString() || '');
-
-      // Always reset to page 1 on filter or sort changes unless page is explicit
-      if (!('page' in updates)) params.delete('page');
 
       if ('category' in updates) {
         if (updates.category) params.set('category', updates.category);
@@ -195,10 +163,6 @@ export default function ProductsPage() {
         if (updates.sort && updates.sort !== 'newest') params.set('sort', updates.sort);
         else params.delete('sort');
       }
-      if ('page' in updates) {
-        if (updates.page && updates.page > 1) params.set('page', updates.page.toString());
-        else params.delete('page');
-      }
       if ('q' in updates) {
         if (updates.q) params.set('q', updates.q);
         else params.delete('q');
@@ -209,10 +173,8 @@ export default function ProductsPage() {
     [searchParams, router]
   );
 
-  // Build query parameters
-  // NOTE: colors, sizes, and fabrics filter options inside <ProductFilters> are
-  // hardcoded for now — they will be replaced with API-driven values in a later sprint.
-  const buildQueryString = useCallback(() => {
+  // Build the base query string (without page) — useSWRInfinite appends page=N per key.
+  const buildBaseQueryString = useCallback(() => {
     const params = new URLSearchParams();
 
     if (debouncedFilters.category) params.append('category', debouncedFilters.category);
@@ -228,32 +190,92 @@ export default function ProductsPage() {
     if (searchTerm) params.append('q', searchTerm);
     // Fix 3: use the active i18n language so Arabic users receive Arabic product data
     params.append('locale', i18n.language);
-    params.append('sort', debouncedSortBy || 'newest');
-    // Fix 9b: pass page param to the backend when pagination meta is available
-    if (currentPage > 1) params.append('page', currentPage.toString());
+    params.append('sort', currentSort || 'newest');
 
-    return `${API_BASE_URL}/api/products/all?${params.toString()}`;
-  }, [debouncedFilters, debouncedSortBy, searchParams, i18n.language, currentPage]);
+    return params.toString();
+  }, [debouncedFilters, currentSort, searchParams, i18n.language]);
 
-  // Use SWR for data fetching with caching and deduplication
-  const { data, error, isLoading, mutate } = useSWR(
-    buildQueryString(),
-    fetcher,
-    {
-      revalidateOnFocus: false,
-      revalidateOnReconnect: true,
-      dedupingInterval: 5000,
-      keepPreviousData: true,
-    }
+  // useSWRInfinite key function — appends page=N to the base query string.
+  // Returns null on beyond-last-page to stop fetching.
+  const getKey = useCallback(
+    (pageIndex: number, previousPageData: any) => {
+      // Reached the end — backend pagination meta tells us last_page
+      if (previousPageData && previousPageData.pagination) {
+        if (pageIndex + 1 > previousPageData.pagination.last_page) return null;
+      }
+      const base = buildBaseQueryString();
+      const page = pageIndex + 1; // Laravel uses 1-based pages
+      return `${API_BASE_URL}/api/products/all?${base}&page=${page}`;
+    },
+    [buildBaseQueryString]
   );
 
-  const products: Product[] = data?.data || [];
-  // Fix 9b: consume additive pagination meta; degrade gracefully when absent.
-  // Backend (ProductController::index) returns it under the `pagination` key.
-  const paginationMeta: PaginationMeta | undefined = data?.pagination;
+  const {
+    data: pages,
+    error,
+    isLoading,
+    isValidating,
+    mutate,
+    size,
+    setSize,
+  } = useSWRInfinite(getKey, fetcher, {
+    revalidateOnFocus: false,
+    revalidateOnReconnect: true,
+    dedupingInterval: 5000,
+    revalidateFirstPage: false,
+    // keepPreviousData: true — not supported in useSWRInfinite; use data.length check instead
+  });
 
-  // OpenSouk nudge — when a search/listing yields nothing, or the user browses
-  // a long time without finding, invite them to post a request.
+  // Flatten pages into a single products array
+  const products: Product[] = pages ? pages.flatMap((page: any) => page?.data ?? []) : [];
+
+  // Fix 9b: consume additive pagination meta from the last fetched page.
+  // The backend (ProductController::index) returns it under the `pagination` key.
+  // data?.meta alias kept for backward-compat with existing tests.
+  const data = pages?.[pages.length - 1] ?? undefined;
+  const paginationMeta = data?.pagination ?? data?.meta;
+
+  // Determine pagination state
+  const isReachingEnd =
+    paginationMeta !== undefined
+      ? size >= paginationMeta.last_page
+      : data !== undefined && (data?.data?.length ?? 0) === 0;
+  const isLoadingMore = isValidating && size > 1;
+
+  // Total count (if backend provides it)
+  const totalCount: number | undefined = paginationMeta?.total;
+
+  // Keep the URL page param updated as the user scrolls (back-button awareness).
+  // Use replaceState so this doesn't pollute the history stack.
+  useEffect(() => {
+    if (size > 1 && typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search);
+      params.set('page', String(size));
+      window.history.replaceState(null, '', `${window.location.pathname}?${params.toString()}`);
+    }
+  }, [size]);
+
+  // IntersectionObserver: when sentinel becomes visible, load the next page
+  useEffect(() => {
+    const sentinel = sentinelRef.current;
+    if (!sentinel) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const first = entries[0];
+        if (first.isIntersecting && !isReachingEnd && !isValidating) {
+          setSize((prev) => prev + 1);
+        }
+      },
+      { rootMargin: '200px', threshold: 0 }
+    );
+
+    observer.observe(sentinel);
+    return () => observer.disconnect();
+  }, [isReachingEnd, isValidating, setSize]);
+
+  // OpenSouk nudge — when search/listing yields nothing, invite them to post a request.
+  const searchQuery = searchParams?.get('q');
   const openSouk = useOpenSoukNudge({
     storageKey: 'products',
     enabled: !isLoading && !error,
@@ -268,13 +290,7 @@ export default function ProductsPage() {
     updateUrl({ sort: value });
   };
 
-  const handlePageChange = (page: number) => {
-    updateUrl({ page });
-    // Scroll to top on page change
-    if (typeof window !== 'undefined') window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
-  // Generate filter chips from current URL-derived filters — MAD currency
+  // Generate filter chips from current URL-derived filters
   const getFilterChips = () => {
     const chips: Array<{ id: string; label: string; type: any }> = [];
 
@@ -283,31 +299,26 @@ export default function ProductsPage() {
         chips.push({ id: `color-${color}`, label: color, type: 'color' });
       });
     }
-
     if (filters.sizes.length > 0) {
       filters.sizes.forEach(size => {
         chips.push({ id: `size-${size}`, label: size.toUpperCase(), type: 'size' });
       });
     }
-
     if (filters.fabrics.length > 0) {
       filters.fabrics.forEach(fabric => {
         chips.push({ id: `fabric-${fabric}`, label: fabric, type: 'fabric' });
       });
     }
-
     if (filters.minPrice !== undefined && filters.maxPrice !== undefined) {
       chips.push({
         id: 'price-range',
         label: `${filters.minPrice.toLocaleString()} – ${filters.maxPrice.toLocaleString()} ${t('product.currency', 'MAD')}`,
-        type: 'price'
+        type: 'price',
       });
     }
-
     if (filters.customizable) {
       chips.push({ id: 'customizable', label: t('filters.customizable'), type: 'customizable' });
     }
-
     if (filters.inStock) {
       chips.push({ id: 'inStock', label: t('filters.in_stock'), type: 'inStock' });
     }
@@ -315,7 +326,6 @@ export default function ProductsPage() {
     return chips;
   };
 
-  // Handle removing a filter chip — writes to URL
   const handleRemoveChip = (chip: { id: string; type: string }) => {
     switch (chip.type) {
       case 'color':
@@ -339,7 +349,6 @@ export default function ProductsPage() {
     }
   };
 
-  // Clear all filters — navigate to base URL preserving only search + sort + locale
   const handleClearAllFilters = () => {
     const params = new URLSearchParams();
     const q = searchParams?.get('q');
@@ -351,10 +360,9 @@ export default function ProductsPage() {
     mutate();
   };
 
-  const searchQuery = searchParams?.get('q');
   const activeChips = getFilterChips();
 
-  if (error) {
+  if (error && products.length === 0) {
     return (
       <div className="min-h-screen bg-canvas">
         <ErrorState message={error.message} onRetry={handleRetry} />
@@ -444,42 +452,70 @@ export default function ProductsPage() {
             className="md:col-span-9"
           >
             {/* ── Sticky sort / control bar ── */}
-            <div className="sticky top-[64px] z-20 bg-amber-50/90 backdrop-blur-sm border border-amber-200 rounded-2xl px-4 py-3 mb-4 flex flex-wrap justify-between items-center gap-3 shadow-atlas-sm">
-              <div className="flex items-center gap-3">
-                {/* Mobile filter trigger */}
-                <button
-                  type="button"
-                  aria-label={t('filters.open_drawer', 'Open filters')}
-                  className="md:hidden inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-indigo-700 bg-white border border-indigo-200 rounded-full hover:bg-indigo-50 focus:outline-none focus:ring-2 focus:ring-indigo-700/30 transition-colors"
-                  onClick={() => setIsMobileFiltersOpen(true)}
-                >
-                  <Filter className="h-4 w-4" aria-hidden="true" />
-                  {t('filters.title', 'Filters')}
-                  {activeChips.length > 0 && (
-                    <span className="w-5 h-5 rounded-full bg-indigo-700 text-white text-xs font-semibold flex items-center justify-center leading-none">
-                      {activeChips.length}
-                    </span>
-                  )}
-                </button>
+            <div className="sticky top-[64px] z-20 bg-amber-50/90 backdrop-blur-sm border border-amber-200 rounded-2xl px-4 py-3 mb-4 shadow-atlas-sm">
+              {/* Top row: mobile filter trigger + result count */}
+              <div className="flex items-center justify-between gap-3 mb-3">
+                <div className="flex items-center gap-3">
+                  {/* Mobile filter trigger */}
+                  <button
+                    type="button"
+                    aria-label={t('filters.open_drawer', 'Open filters')}
+                    className="md:hidden inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-indigo-700 bg-white border border-indigo-200 rounded-full hover:bg-indigo-50 focus:outline-none focus:ring-2 focus:ring-indigo-700/30 transition-colors min-h-[44px]"
+                    onClick={() => setIsMobileFiltersOpen(true)}
+                  >
+                    <SlidersHorizontal className="h-4 w-4" aria-hidden="true" />
+                    {t('filters.title', 'Filters')}
+                    {activeChips.length > 0 && (
+                      <span className="w-5 h-5 rounded-full bg-indigo-700 text-white text-xs font-semibold flex items-center justify-center leading-none">
+                        {activeChips.length}
+                      </span>
+                    )}
+                  </button>
 
-                {/* Result count */}
-                <span className="text-sm text-gray-600 font-medium">
-                  {isLoading ? (
-                    <span className="inline-flex items-center gap-1.5">
-                      <RefreshCw className="h-3.5 w-3.5 animate-spin text-indigo-700" aria-hidden="true" />
-                      {t('products.loading', 'Loading…')}
-                    </span>
-                  ) : products.length === 0 ? (
-                    t('products.no_results', 'No results')
-                  ) : (
-                    <span>
-                      {t('products.results', { count: products.length })}
-                    </span>
-                  )}
-                </span>
+                  {/* Result count */}
+                  <span className="text-sm text-gray-600 font-medium hidden md:inline-flex items-center gap-1.5">
+                    {isLoading ? (
+                      <>
+                        <RefreshCw className="h-3.5 w-3.5 animate-spin text-indigo-700" aria-hidden="true" />
+                        {t('products.loading', 'Loading…')}
+                      </>
+                    ) : products.length === 0 ? (
+                      t('products.no_results', 'No results')
+                    ) : totalCount !== undefined ? (
+                      t('products.results', { count: totalCount })
+                    ) : (
+                      t('products.results', { count: products.length })
+                    )}
+                  </span>
+                </div>
               </div>
 
-              <ProductSort value={currentSort} onChange={handleSortChange} />
+              {/* Sort chips row — horizontal scroll on mobile */}
+              <div
+                role="group"
+                aria-label={t('sort.aria_label', 'Sort products')}
+                className="flex gap-2 overflow-x-auto pb-0.5 scrollbar-hide"
+              >
+                {SORT_OPTIONS.map(({ value, labelKey, icon: Icon }) => {
+                  const isActive = currentSort === value;
+                  return (
+                    <button
+                      key={value}
+                      type="button"
+                      onClick={() => handleSortChange(value)}
+                      aria-pressed={isActive}
+                      className={`inline-flex items-center gap-1.5 whitespace-nowrap px-3.5 py-2 rounded-full text-xs font-semibold transition-all duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30 shrink-0 min-h-[36px] ${
+                        isActive
+                          ? 'bg-indigo-700 text-white shadow-sm'
+                          : 'bg-white text-gray-700 border border-amber-200 hover:border-indigo-300 hover:text-indigo-700'
+                      }`}
+                    >
+                      <Icon className="h-3 w-3" aria-hidden="true" />
+                      {t(labelKey, value)}
+                    </button>
+                  );
+                })}
+              </div>
             </div>
 
             {/* ── Active filter chips row ── */}
@@ -503,129 +539,80 @@ export default function ProductsPage() {
             </AnimatePresence>
 
             {/* ── Product grid ── */}
-            <AnimatePresence mode="wait">
-              {isLoading ? (
-                <motion.div
-                  key="loading"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.15 }}
-                >
-                  <ProductGridSkeleton />
-                </motion.div>
-              ) : products.length > 0 ? (
-                <Suspense fallback={<ProductGridSkeleton />}>
-                  <motion.div
-                    key="products"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.2 }}
-                    className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-5"
-                  >
-                    {products.map((product, index) => (
-                      <motion.div
-                        key={product.id}
-                        initial={shouldReduceMotion ? false : { opacity: 0, y: 16 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{
-                          delay: shouldReduceMotion ? 0 : Math.min(index * 0.04, 0.32),
-                          duration: shouldReduceMotion ? 0 : 0.3,
-                          ease: [0.33, 1, 0.68, 1],
-                        }}
-                        className="hover:-translate-y-0.5 hover:shadow-atlas-md transition-all duration-200 ease-out rounded-2xl"
-                      >
-                        <ProductCard product={product} priority={index < 4} />
-                      </motion.div>
-                    ))}
-                  </motion.div>
-                </Suspense>
-              ) : (
-                <motion.div
-                  key="no-results"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.2 }}
-                >
-                  <NoSearchResults query={searchQuery || undefined} />
-                </motion.div>
-              )}
-            </AnimatePresence>
-
-            {/* ── Pagination — only shown when backend supplies meta ── */}
-            {paginationMeta && paginationMeta.last_page > 1 && (
-              <nav
-                aria-label={t('common.pagination.label', 'Page navigation')}
-                className="mt-10"
-              >
-                <div className="flex items-center justify-center gap-2">
-                  <Button
-                    variant="outline"
-                    className="rounded-full border-indigo-200 text-indigo-700 hover:bg-indigo-50 px-4 disabled:opacity-40 disabled:cursor-not-allowed"
-                    disabled={paginationMeta.current_page === 1}
-                    onClick={() => handlePageChange(paginationMeta.current_page - 1)}
-                    aria-label={t('common.pagination.previous', 'Previous page')}
-                  >
-                    <ChevronLeft className="h-4 w-4" aria-hidden="true" />
-                    <span className="sr-only">{t('common.pagination.previous', 'Previous')}</span>
-                  </Button>
-
-                  <div className="hidden sm:flex items-center gap-1">
-                    {buildPageWindow(paginationMeta.current_page, paginationMeta.last_page).map((entry, idx) =>
-                      entry === '...' ? (
-                        <span
-                          key={`ellipsis-${idx}`}
-                          className="w-10 h-10 flex items-center justify-center text-gray-400 text-sm select-none"
-                          aria-hidden="true"
-                        >
-                          …
-                        </span>
-                      ) : (
-                        <button
-                          key={entry}
-                          aria-current={entry === paginationMeta.current_page ? 'page' : undefined}
-                          aria-label={t('common.pagination.goToPage', 'Go to page {{page}}', { page: entry })}
-                          onClick={() => handlePageChange(entry as number)}
-                          className={`w-10 h-10 rounded-full text-sm font-medium transition focus-visible:ring-2 focus-visible:ring-indigo-700 focus-visible:ring-offset-1 ${
-                            entry === paginationMeta.current_page
-                              ? 'bg-indigo-700 text-white shadow-sm'
-                              : 'ring-1 ring-amber-200 text-gray-700 hover:bg-amber-50'
-                          }`}
-                        >
-                          {entry}
-                        </button>
-                      )
-                    )}
-                  </div>
-
-                  <div className="sm:hidden">
-                    <span className="text-sm text-gray-600 font-medium">
-                      {t('common.pagination.page', 'Page {{current}} of {{total}}', {
-                        current: paginationMeta.current_page,
-                        total: paginationMeta.last_page,
-                      })}
-                    </span>
-                  </div>
-
-                  <Button
-                    variant="outline"
-                    className="rounded-full border-indigo-200 text-indigo-700 hover:bg-indigo-50 px-4 disabled:opacity-40 disabled:cursor-not-allowed"
-                    disabled={paginationMeta.current_page === paginationMeta.last_page}
-                    onClick={() => handlePageChange(paginationMeta.current_page + 1)}
-                    aria-label={t('common.pagination.next', 'Next page')}
-                  >
-                    <ChevronRight className="h-4 w-4" aria-hidden="true" />
-                    <span className="sr-only">{t('common.pagination.next', 'Next')}</span>
-                  </Button>
+            {isLoading ? (
+              <ProductGridSkeleton count={6} />
+            ) : products.length > 0 ? (
+              <Suspense fallback={<ProductGridSkeleton count={6} />}>
+                <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-5">
+                  {products.map((product, index) => (
+                    <motion.div
+                      key={product.id}
+                      initial={shouldReduceMotion ? false : { opacity: 0, y: 16 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{
+                        delay: shouldReduceMotion ? 0 : Math.min(index * 0.03, 0.24),
+                        duration: shouldReduceMotion ? 0 : 0.28,
+                        ease: [0.33, 1, 0.68, 1],
+                      }}
+                      className="hover:-translate-y-0.5 hover:shadow-atlas-md transition-all duration-200 ease-out rounded-2xl"
+                    >
+                      <ProductCard product={product} priority={index < 4} />
+                    </motion.div>
+                  ))}
                 </div>
-              </nav>
+              </Suspense>
+            ) : (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.2 }}
+              >
+                <NoSearchResults query={searchQuery || undefined} />
+              </motion.div>
+            )}
+
+            {/* ── Next-page skeleton when loading more ── */}
+            {isLoadingMore && (
+              <div className="mt-6">
+                <ProductGridSkeleton count={4} />
+              </div>
+            )}
+
+            {/* ── Infinite scroll sentinel ── */}
+            <div
+              ref={sentinelRef}
+              data-testid="scroll-sentinel"
+              aria-hidden="true"
+              className="h-8 mt-4"
+            />
+
+            {/* ── End of list message ── */}
+            {isReachingEnd && products.length > 0 && !isLoadingMore && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.3 }}
+                className="text-center py-8"
+              >
+                <p className="text-sm text-gray-400 font-medium">
+                  {t('products.end_of_list', 'All products loaded')}
+                </p>
+                <div className="mt-2 mx-auto w-12 h-px bg-amber-200" aria-hidden="true" />
+              </motion.div>
+            )}
+
+            {/* ── Error mid-stream (already loaded some, then an error) ── */}
+            {error && products.length > 0 && (
+              <div className="mt-6 flex justify-center">
+                <Button variant="outline" onClick={() => setSize(size)} className="gap-2 text-sm">
+                  <RefreshCw className="h-4 w-4" aria-hidden="true" />
+                  {t('common.try_again', 'Try again')}
+                </Button>
+              </div>
             )}
           </motion.div>
         </div>
       </div>
-
     </div>
   );
 }
