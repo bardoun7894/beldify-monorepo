@@ -1,6 +1,6 @@
 'use client';
 
-import { Suspense } from 'react';
+import { Suspense, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import {
@@ -80,6 +80,13 @@ export default function HomeContent({ categories, data, openSoukPosts = [], hero
   const catName = (c: Category) =>
     isArabicScript ? c.name_ar || c.name_en : c.name_en || c.name_ar;
 
+  // Track which category grid tiles have a broken image so we can swap to the
+  // neutral letter-tile fallback. Key = category id (number → string).
+  const [catImageError, setCatImageError] = useState<Record<number, boolean>>({});
+
+  // Track which journal article images failed
+  const [journalImgError, setJournalImgError] = useState<Record<number, boolean>>({});
+
   // Static fallback ateliers — used when the API returns an empty array.
   // Backend shape confirmed: RecommendedController returns { id, name, rating,
   // profile_image, speciality, experience_years }. The live data replaces this
@@ -109,9 +116,30 @@ export default function HomeContent({ categories, data, openSoukPosts = [], hero
   // available, replace this array with a dynamic fetch. Do not add a backend
   // call here without an actual endpoint to target.
   const journal = [
-    { tag: 'Craft', title: 'Inside a Fez brocade atelier', excerpt: 'How fourth-generation weavers in Fez still hand-thread gold into festival caftans.', author: 'Imane Bennani', readTime: '6 min', img: 'https://pro.beldify.com/storage/categories/category_4_caftan.png' },
-    { tag: 'Wedding', title: 'A takchita built in 3 fittings', excerpt: 'Following one bride from sketch to ceremony with Maison Marrakech.', author: 'Salma El Aoud', readTime: '8 min', img: 'https://pro.beldify.com/storage/categories/category_14_wedding-dresses.png' },
-    { tag: 'Heritage', title: 'Sizing a djellaba, the Moroccan way', excerpt: 'A field guide to measurements that travel — with no tape measure surprises.', author: 'Karim Lahlou', readTime: '5 min', img: 'https://pro.beldify.com/storage/categories/category_5_womens-djellaba.png' },
+    {
+      tag: t('home.journal.article1_tag'),
+      title: t('home.journal.article1_title'),
+      excerpt: t('home.journal.article1_excerpt'),
+      author: 'Imane Bennani',
+      readTime: '6',
+      img: 'https://pro.beldify.com/storage/categories/category_4_caftan.png',
+    },
+    {
+      tag: t('home.journal.article2_tag'),
+      title: t('home.journal.article2_title'),
+      excerpt: t('home.journal.article2_excerpt'),
+      author: 'Salma El Aoud',
+      readTime: '8',
+      img: 'https://pro.beldify.com/storage/categories/category_14_wedding-dresses.png',
+    },
+    {
+      tag: t('home.journal.article3_tag'),
+      title: t('home.journal.article3_title'),
+      excerpt: t('home.journal.article3_excerpt'),
+      author: 'Karim Lahlou',
+      readTime: '5',
+      img: 'https://pro.beldify.com/storage/categories/category_5_womens-djellaba.png',
+    },
   ];
 
   return (
@@ -178,17 +206,20 @@ export default function HomeContent({ categories, data, openSoukPosts = [], hero
       >
         <div className="mx-auto max-w-7xl px-4 sm:px-6 py-5 grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6">
           {([
-            { labelKey: 'home.trust.free_delivery', labelFallback: 'Free delivery +500 MAD', Icon: Truck },
-            { labelKey: 'home.trust.verified_sellers', labelFallback: 'Verified sellers', Icon: ShieldCheck },
-            { labelKey: 'home.trust.returns', labelFallback: '14-day returns', Icon: RotateCcw },
-            { labelKey: 'home.trust.support', labelFallback: 'Support AR / FR / EN', Icon: Headphones },
-          ] as const).map(({ labelKey, labelFallback, Icon }) => (
+            { labelKey: 'home.trust.free_delivery', labelFallback: 'Free delivery +500 MAD', subKey: 'home.trust.delivery_sub', subFallback: 'In major cities in 48 hours', Icon: Truck },
+            { labelKey: 'home.trust.returns', labelFallback: '14-day returns', subKey: 'home.trust.returns_sub', subFallback: 'No fees, no hassle', Icon: RotateCcw },
+            { labelKey: 'home.trust.verified_sellers', labelFallback: 'Verified sellers', subKey: 'home.trust.sellers_sub', subFallback: 'Workshops inspected one by one', Icon: ShieldCheck },
+            { labelKey: 'home.trust.support', labelFallback: 'Support AR / FR / EN', subKey: 'home.trust.support_sub', subFallback: 'WhatsApp, phone, email', Icon: Headphones },
+          ] as const).map(({ labelKey, labelFallback, subKey, subFallback, Icon }) => (
             <div key={labelKey} className="flex flex-col items-center gap-2 text-center">
               <span className="h-10 w-10 rounded-full bg-white flex items-center justify-center ring-1 ring-gray-200 text-indigo-700">
                 <Icon className="h-5 w-5" strokeWidth={1.8} aria-hidden="true" />
               </span>
               <span className="text-xs sm:text-sm font-medium text-gray-900 leading-snug">
                 {t(labelKey, labelFallback)}
+              </span>
+              <span className="text-[11px] text-gray-500 leading-snug">
+                {t(subKey, subFallback)}
               </span>
             </div>
           ))}
@@ -233,23 +264,39 @@ export default function HomeContent({ categories, data, openSoukPosts = [], hero
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 auto-rows-[1fr] gap-3 sm:gap-5">
               {categories.map((c, idx) => {
                 const featured = idx === 0 && categories.length >= 4;
+                const imgFailed = catImageError[c.id] || !c.image;
+                // Derive a simple initial letter for the neutral fallback tile
+                const initial = (catName(c) || '').charAt(0).toUpperCase();
                 return (
                 <Link
                   key={c.id}
                   href={`/categories/${c.slug || c.id}`}
                   aria-label={catName(c)}
-                  className={`group relative overflow-hidden rounded-2xl ring-1 ring-gray-200 bg-white shadow-atlas-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-atlas-md focus:outline-none focus:ring-2 focus:ring-indigo-700/40 focus:ring-offset-2 ${featured ? 'sm:col-span-2 lg:col-span-2' : ''}`}
+                  className={`group relative overflow-hidden rounded-2xl ring-1 ring-gray-200 shadow-atlas-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-atlas-md focus:outline-none focus:ring-2 focus:ring-indigo-700/40 focus:ring-offset-2 ${featured ? 'sm:col-span-2 lg:col-span-2' : ''} ${imgFailed ? 'bg-gray-100' : 'bg-white'}`}
                   style={{ aspectRatio: featured ? '8/5' : '4/5' }}
                 >
-                  <Image
-                    src={c.image}
-                    alt=""
-                    fill
-                    sizes={featured ? '(min-width:1024px) 50vw, (min-width:640px) 66vw, 100vw' : '(min-width:1024px) 25vw, (min-width:640px) 33vw, 50vw'}
-                    className="object-cover transition duration-500 ease-out group-hover:scale-110"
-                  />
-                  {/* Stronger bottom gradient keeps the label legible over any image */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent" />
+                  {imgFailed ? (
+                    /* Neutral fallback tile — light gray background + initial letter */
+                    <div className="absolute inset-0 flex items-center justify-center bg-gray-100">
+                      <span
+                        className="text-4xl font-bold text-indigo-700/30 select-none"
+                        aria-hidden="true"
+                      >
+                        {initial}
+                      </span>
+                    </div>
+                  ) : (
+                    <Image
+                      src={c.image}
+                      alt=""
+                      fill
+                      sizes={featured ? '(min-width:1024px) 50vw, (min-width:640px) 66vw, 100vw' : '(min-width:1024px) 25vw, (min-width:640px) 33vw, 50vw'}
+                      className="object-cover transition duration-500 ease-out group-hover:scale-110"
+                      onError={() => setCatImageError((prev) => ({ ...prev, [c.id]: true }))}
+                    />
+                  )}
+                  {/* Gradient only rendered when image is present (not over the neutral fallback) */}
+                  {!imgFailed && <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent" />}
                   {typeof c.itemCount === 'number' && c.itemCount > 0 && (
                     <span className="absolute top-3 end-3 inline-flex items-center gap-1 rounded-full bg-white px-2.5 py-1 text-[11px] font-semibold text-gray-900 shadow-sm">
                       <Package className="h-3 w-3 text-indigo-700" aria-hidden="true" />
@@ -259,16 +306,16 @@ export default function HomeContent({ categories, data, openSoukPosts = [], hero
                   <div className="absolute bottom-4 start-4 end-4 flex items-end justify-between gap-2">
                     <h3
                       dir={isArabicScript ? 'rtl' : 'ltr'}
-                      className={`text-white font-semibold leading-tight ${isArabicScript ? 'font-arabic' : ''}`}
+                      className={`font-semibold leading-tight ${imgFailed ? 'text-gray-800' : 'text-white'} ${isArabicScript ? 'font-arabic' : ''}`}
                       style={{
                         fontFamily: isArabicScript ? undefined : '"Playfair Display", ui-serif, Georgia, serif',
                         fontSize: featured ? '1.75rem' : '1.125rem',
-                        textShadow: '0 1px 8px rgba(0,0,0,0.55)',
+                        textShadow: imgFailed ? 'none' : '0 1px 8px rgba(0,0,0,0.55)',
                       }}
                     >
                       {catName(c)}
                     </h3>
-                    <span className="shrink-0 grid place-items-center h-8 w-8 rounded-full bg-white/0 text-white opacity-0 -translate-x-1 transition-all duration-300 group-hover:bg-white/95 group-hover:text-indigo-700 group-hover:opacity-100 group-hover:translate-x-0">
+                    <span className={`shrink-0 grid place-items-center h-8 w-8 rounded-full opacity-0 -translate-x-1 transition-all duration-300 ${imgFailed ? 'group-hover:bg-indigo-50 group-hover:text-indigo-700' : 'bg-white/0 text-white group-hover:bg-white/95 group-hover:text-indigo-700'} group-hover:opacity-100 group-hover:translate-x-0`}>
                       <ArrowRight className="h-4 w-4 rtl:rotate-180" aria-hidden="true" />
                     </span>
                   </div>
@@ -628,19 +675,31 @@ export default function HomeContent({ categories, data, openSoukPosts = [], hero
 
           {/* Asymmetric: 1 tall left + 2 stacked right on desktop */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-            {journal.map((a, idx) => (
+            {journal.map((a, idx) => {
+              const journalFallback = journalImgError[idx] || !a.img;
+              return (
               <article
                 key={a.title}
                 className={`group rounded-2xl overflow-hidden ring-1 ring-gray-200 bg-white shadow-atlas-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-atlas-md ${idx === 0 ? 'md:row-span-2 md:flex md:flex-col' : ''}`}
               >
                 <div className={`relative overflow-hidden ${idx === 0 ? 'md:flex-1' : 'aspect-[16/10]'}`}>
-                  <Image
-                    src={a.img}
-                    alt={a.title}
-                    fill
-                    sizes="(min-width:768px) 33vw, 100vw"
-                    className="object-cover transition duration-500 group-hover:scale-105"
-                  />
+                  {journalFallback ? (
+                    /* Neutral fallback when journal image is dead or missing */
+                    <div className="absolute inset-0 bg-gray-100 flex items-center justify-center">
+                      <span className="text-4xl font-bold text-indigo-700/20 select-none" aria-hidden="true">
+                        {a.tag?.charAt(0).toUpperCase() ?? 'J'}
+                      </span>
+                    </div>
+                  ) : (
+                    <Image
+                      src={a.img}
+                      alt={a.title}
+                      fill
+                      sizes="(min-width:768px) 33vw, 100vw"
+                      className="object-cover transition duration-500 group-hover:scale-105"
+                      onError={() => setJournalImgError((prev) => ({ ...prev, [idx]: true }))}
+                    />
+                  )}
                   <div className="absolute top-3 start-3">
                     <span className="inline-flex items-center rounded-full bg-white px-2.5 py-0.5 text-[11px] font-semibold uppercase tracking-wide text-indigo-700">
                       {a.tag}
@@ -660,7 +719,8 @@ export default function HomeContent({ categories, data, openSoukPosts = [], hero
                   </p>
                 </div>
               </article>
-            ))}
+              );
+            })}
           </div>
         </div>
       </section>

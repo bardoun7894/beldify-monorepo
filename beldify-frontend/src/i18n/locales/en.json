@@ -4175,7 +4175,11 @@
       "returns": "14-day returns",
       "support": "Support in AR / FR / EN",
       "label": "Why shop with Beldify",
-      "free_delivery": "Free delivery +500 MAD"
+      "free_delivery": "Free delivery +500 MAD",
+      "delivery_sub": "In major cities in 48 hours",
+      "returns_sub": "No fees, no hassle",
+      "sellers_sub": "Workshops inspected one by one",
+      "support_sub": "WhatsApp, phone, email"
     },
     "categories": {
       "title": "Shop the souk",
@@ -4215,7 +4219,16 @@
       "subtitle": "Stories from the atelier",
       "view_all": "All stories",
       "read_time_suffix": "read",
-      "headingAr": "المجلة"
+      "headingAr": "المجلة",
+      "article1_title": "Inside a Fez brocade atelier",
+      "article1_excerpt": "How fourth-generation weavers in Fez still hand-thread gold into festival caftans.",
+      "article1_tag": "Craft",
+      "article2_title": "A takchita built in 3 fittings",
+      "article2_excerpt": "Following one bride from sketch to ceremony with Maison Marrakech.",
+      "article2_tag": "Wedding",
+      "article3_title": "Sizing a djellaba, the Moroccan way",
+      "article3_excerpt": "A field guide to measurements that travel — with no tape measure surprises.",
+      "article3_tag": "Heritage"
     },
     "seller": {
       "headline_line1": "Sell your craft.",

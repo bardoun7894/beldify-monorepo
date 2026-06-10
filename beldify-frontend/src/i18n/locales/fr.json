@@ -3968,7 +3968,11 @@
       "returns": "Retours sous 14 jours",
       "support": "Support AR / FR / EN",
       "label": "Pourquoi acheter sur Beldify",
-      "free_delivery": "Livraison gratuite dès 500 MAD"
+      "free_delivery": "Livraison gratuite dès 500 MAD",
+      "delivery_sub": "Dans les grandes villes en 48 h",
+      "returns_sub": "Sans frais, sans tracas",
+      "sellers_sub": "Ateliers inspectés un par un",
+      "support_sub": "WhatsApp, téléphone, email"
     },
     "categories": {
       "title": "Achetez au souk",
@@ -4008,7 +4012,16 @@
       "subtitle": "Histoires de l'atelier",
       "view_all": "Toutes les histoires",
       "read_time_suffix": "lecture",
-      "headingAr": "المجلة"
+      "headingAr": "المجلة",
+      "article1_title": "Au cœur d'un atelier de brocart de Fès",
+      "article1_excerpt": "Comment des tisserands de quatrième génération à Fès brodent encore l'or à la main dans les caftans de fête.",
+      "article1_tag": "Artisanat",
+      "article2_title": "Une takchita réalisée en 3 essayages",
+      "article2_excerpt": "Nous avons suivi une mariée du croquis à la cérémonie avec la Maison Marrakech.",
+      "article2_tag": "Mariage",
+      "article3_title": "Prendre les mesures d'une djellaba à la marocaine",
+      "article3_excerpt": "Un guide terrain pour des mesures fiables — sans mauvaises surprises.",
+      "article3_tag": "Patrimoine"
     },
     "seller": {
       "headline_line1": "Vendez votre savoir-faire.",

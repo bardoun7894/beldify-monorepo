@@ -3999,7 +3999,11 @@
       "returns": "Devoluciones en 14 días",
       "support": "Soporte en AR / FR / EN",
       "label": "Por qué comprar en Beldify",
-      "free_delivery": "Envío gratis desde 500 MAD"
+      "free_delivery": "Envío gratis desde 500 MAD",
+      "delivery_sub": "En grandes ciudades en 48 horas",
+      "returns_sub": "Sin gastos, sin complicaciones",
+      "sellers_sub": "Talleres inspeccionados uno a uno",
+      "support_sub": "WhatsApp, teléfono, email"
     },
     "categories": {
       "title": "Compra en el zoco",
@@ -4039,7 +4043,16 @@
       "subtitle": "Historias del taller",
       "view_all": "Todas las historias",
       "read_time_suffix": "lectura",
-      "headingAr": "المجلة"
+      "headingAr": "المجلة",
+      "article1_title": "Dentro de un taller de brocado en Fez",
+      "article1_excerpt": "Cómo los tejedores de cuarta generación en Fez siguen bordando oro a mano en caftanes de fiesta.",
+      "article1_tag": "Artesanía",
+      "article2_title": "Una takchita confeccionada en 3 pruebas",
+      "article2_excerpt": "Acompañamos a una novia desde el boceto hasta la ceremonia con Maison Marrakech.",
+      "article2_tag": "Bodas",
+      "article3_title": "Tomar medidas para una djellaba a la manera marroquí",
+      "article3_excerpt": "Guía de campo para medidas que funcionan en cualquier lugar, sin sorpresas.",
+      "article3_tag": "Patrimonio"
     },
     "seller": {
       "headline_line1": "Vende tu artesanía.",
