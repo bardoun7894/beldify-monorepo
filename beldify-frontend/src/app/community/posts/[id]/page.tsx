@@ -27,6 +27,8 @@ import {
 import { useAuth } from '@/contexts/AuthContext';
 import { getAuthToken } from '@/utils/authUtils';
 import { useDirection } from '@/hooks/useDirection';
+import logger from '@/utils/consoleLogger';
+import toast from '@/utils/toast';
 import {
   fetchCommunityPost,
   fetchPostResponses,
@@ -133,21 +135,21 @@ export default function PostDetailPage() {
             );
 
             if (!responsesResponse.ok) {
-              console.warn('Failed to fetch responses, continuing without them');
+              logger.warn('Failed to fetch responses, continuing without them');
               setResponses([]);
             } else {
               const responsesResult = await responsesResponse.json();
               setResponses(responsesResult.data || []);
             }
           } catch (responseError) {
-            console.error('Error fetching responses:', responseError);
+            logger.error('Error fetching responses:', responseError);
             setResponses([]);
           }
         } else {
           throw new Error(t('community.error_invalid_post_data'));
         }
       } catch (err) {
-        console.error('Error in fetchData:', err);
+        logger.error('Error in fetchData:', err);
         setError(
           err instanceof Error
             ? err.message
@@ -170,7 +172,7 @@ export default function PostDetailPage() {
   const handleAcceptResponse = async (responseId: number) => {
     const postUserId = post?.userId || post?.user?.id;
     if (!post || postUserId !== Number(user?.id)) {
-      alert(t('community.not_authorized'));
+      toast.error(t('community.not_authorized', 'You are not authorized to perform this action'));
       return;
     }
 
@@ -189,8 +191,8 @@ export default function PostDetailPage() {
       const updatedResponsesData = await fetchPostResponses(postId);
       setResponses(updatedResponsesData || []);
     } catch (err) {
-      console.error('Error accepting response:', err);
-      alert(t('community.error_accepting_response'));
+      logger.error('Error accepting response:', err);
+      toast.error(t('community.error_accepting_response', 'Could not accept the response. Please try again.'));
     } finally {
       setIsSubmitting(false);
     }
@@ -199,7 +201,7 @@ export default function PostDetailPage() {
   const handleRejectResponse = async (responseId: number) => {
     const postUserId = post?.userId || post?.user?.id;
     if (!post || postUserId !== Number(user?.id)) {
-      alert(t('community.not_authorized'));
+      toast.error(t('community.not_authorized', 'You are not authorized to perform this action'));
       return;
     }
 
@@ -211,8 +213,8 @@ export default function PostDetailPage() {
       const updatedResponsesData = await fetchPostResponses(postId);
       setResponses(updatedResponsesData || []);
     } catch (err) {
-      console.error('Error rejecting response:', err);
-      alert(t('community.error_rejecting_response'));
+      logger.error('Error rejecting response:', err);
+      toast.error(t('community.error_rejecting_response', 'Could not reject the response. Please try again.'));
     } finally {
       setIsSubmitting(false);
     }

@@ -136,6 +136,11 @@ interface StockResponse {
 }
 
 export const cartService = {
+  // TODO: Backend route /cart/merge-guest does not exist yet
+  async mergeGuestCart(): Promise<void> {
+    debugLog('mergeGuestCart called but backend route /cart/merge-guest does not exist yet');
+  },
+
   async getCartRelatedProducts(productId?: string, limit: number = 8) {
     try {
       const params: Record<string, any> = { limit };

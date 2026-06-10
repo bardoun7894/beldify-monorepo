@@ -5,8 +5,8 @@ import { Heart, ShoppingCart, Trash2, ArrowRight } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useWishlist } from '@/contexts/WishlistContext';
+import { useCart } from '@/contexts/CartContext';
 import { useSearchParams } from 'next/navigation';
-import axios from '@/lib/axios';
 import toast from '@/utils/toast';
 import { useState } from 'react';
 import { handleImageError, getImageUrl } from '@/utils/imageUtils';
@@ -22,6 +22,7 @@ export default function WishlistPage() {
   const locale = searchParams?.get('locale') || 'en';
   const isRTL = i18n.language === 'ar' || i18n.language === 'ma';
   const { wishlistItems, isLoading, removeFromWishlist } = useWishlist();
+  const { addItem } = useCart();
   const [imageError, setImageError] = useState<{ [key: number]: boolean }>({});
 
   const handleAddToCart = async (e: React.MouseEvent, productId: number) => {

@@ -27,10 +27,10 @@ export async function GET() {
         });
         redisStatus = await redisCheck.json();
       } catch (redisError) {
-        redisStatus = { 
-          connected: false, 
-          error: redisError instanceof Error ? redisError.message : 'Unknown Redis error' 
-        };
+        redisStatus = {
+          connected: false,
+          error: redisError instanceof Error ? redisError.message : 'Unknown Redis error',
+        } as { connected: boolean; error?: string };
       }
     }
 

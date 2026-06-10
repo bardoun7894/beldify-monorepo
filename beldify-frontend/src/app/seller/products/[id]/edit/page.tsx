@@ -21,7 +21,7 @@ import Link from 'next/link';
 import { useRouter, useParams } from 'next/navigation';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '@/hooks/useAuth';
-import { getSellerProduct, updateSellerProduct } from '@/services/sellerProductService';
+import { getSellerProduct, updateSellerProduct, deleteSellerProduct } from '@/services/sellerProductService';
 import { getSellerProducts, getStoreProfile } from '@/services/sellerOnboardingService';
 import {
   fetchVerticalConfig,
@@ -94,6 +94,8 @@ export default function SellerEditProductPage() {
   const [categoriesLoading, setCategoriesLoading] = useState(true);
   const [pageLoading, setPageLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
+  const [deleting, setDeleting] = useState(false);
+  const [deleteConfirm, setDeleteConfirm] = useState(false);
   const [suspended, setSuspended] = useState(false);
   const [loadError, setLoadError] = useState<string | null>(null);
   const [submitError, setSubmitError] = useState<string | null>(null);
@@ -214,6 +216,28 @@ export default function SellerEditProductPage() {
   const clearImage = () => {
     setForm((prev) => ({ ...prev, product_image: null, imagePreview: null }));
     if (imageInputRef.current) imageInputRef.current.value = '';
+  };
+
+  const handleDelete = async () => {
+    if (!deleteConfirm) {
+      setDeleteConfirm(true);
+      return;
+    }
+    setDeleting(true);
+    try {
+      await deleteSellerProduct(productId);
+      toast.success(t('seller.product.delete_success', 'Product deleted.'));
+      router.push('/seller/products');
+    } catch (err: any) {
+      if (err?.response?.status === 403) {
+        setSuspended(true);
+      } else {
+        toast.error(t('seller.product.delete_error', 'Failed to delete product. Please try again.'));
+      }
+    } finally {
+      setDeleting(false);
+      setDeleteConfirm(false);
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -650,6 +674,49 @@ export default function SellerEditProductPage() {
                 )}
               </button>
             </form>
+
+            {/* Danger zone — delete product */}
+            <div className="mt-8 rounded-2xl ring-1 ring-rose-200 bg-rose-50 p-6">
+              <h2 className="text-sm font-semibold text-rose-700 uppercase tracking-wide mb-2">
+                {t('seller.product.danger_zone', 'Danger zone')}
+              </h2>
+              <p className="text-sm text-rose-600 mb-4">
+                {t('seller.product.delete_warning', 'Deleting this product is permanent and cannot be undone.')}
+              </p>
+              {deleteConfirm ? (
+                <div className="flex items-center gap-3">
+                  <span className="text-sm font-medium text-rose-700">
+                    {t('seller.product.delete_confirm_prompt', 'Are you sure?')}
+                  </span>
+                  <button
+                    type="button"
+                    onClick={handleDelete}
+                    disabled={deleting}
+                    className="inline-flex items-center gap-2 rounded-full bg-rose-600 hover:bg-rose-700 text-white px-5 py-2 text-sm font-semibold transition disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus-visible:ring-2 focus-visible:ring-rose-500 focus-visible:ring-offset-2"
+                  >
+                    {deleting
+                      ? t('seller.product.deleting', 'Deleting...')
+                      : t('seller.product.delete_confirm_yes', 'Yes, delete')}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setDeleteConfirm(false)}
+                    disabled={deleting}
+                    className="rounded-full ring-1 ring-rose-300 text-rose-700 px-5 py-2 text-sm font-medium hover:bg-rose-100 transition focus:outline-none focus-visible:ring-2 focus-visible:ring-rose-400 focus-visible:ring-offset-2"
+                  >
+                    {t('common.cancel', 'Cancel')}
+                  </button>
+                </div>
+              ) : (
+                <button
+                  type="button"
+                  onClick={handleDelete}
+                  className="inline-flex items-center gap-2 rounded-full ring-1 ring-rose-300 text-rose-700 px-5 py-2 text-sm font-medium hover:bg-rose-100 transition focus:outline-none focus-visible:ring-2 focus-visible:ring-rose-400 focus-visible:ring-offset-2"
+                >
+                  {t('seller.product.delete_cta', 'Delete product')}
+                </button>
+              )}
+            </div>
           </>
         )}
       </main>

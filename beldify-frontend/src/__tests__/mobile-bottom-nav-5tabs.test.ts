@@ -34,8 +34,11 @@ describe('MobileBottomNav — 5-tab marketplace bottom bar', () => {
     expect(navFile).toContain('/profile');
   });
 
-  it('has تسجيل الدخول label for guest account slot', () => {
-    expect(navFile).toContain('تسجيل الدخول');
+  it('has دخول label for guest account slot (login_short abbreviated form)', () => {
+    // MobileBottomNav uses t('navigation.login_short', 'دخول') — the abbreviated
+    // form that fits the narrow tab width.  'تسجيل الدخول' is the long form used
+    // on the full login page, not in the bottom nav.
+    expect(navFile).toContain('دخول');
     expect(navFile).toContain('/login');
   });
 

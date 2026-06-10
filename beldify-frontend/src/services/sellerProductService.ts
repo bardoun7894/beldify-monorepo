@@ -79,3 +79,13 @@ export async function updateSellerProduct(
   );
   return response.data;
 }
+
+/**
+ * DELETE /api/seller/products/{id}
+ * Permanently deletes an owned product.
+ * Throws AxiosError with status 404 if the product is not found.
+ * Throws AxiosError with status 403 if the store is suspended.
+ */
+export async function deleteSellerProduct(id: number | string): Promise<void> {
+  await api.delete(`/api/seller/products/${id}`);
+}

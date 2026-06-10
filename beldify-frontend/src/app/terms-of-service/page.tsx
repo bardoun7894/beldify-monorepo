@@ -2,7 +2,7 @@
 
 import { useTranslation } from 'react-i18next';
 import { FileText } from 'lucide-react';
-import { API_BASE_URL } from '@/config/constants';
+// API_BASE_URL import removed — Seller Terms now links to internal anchor
 
 export default function TermsOfServicePage() {
   const { t, i18n } = useTranslation();
@@ -106,15 +106,20 @@ export default function TermsOfServicePage() {
                 {t('content.termsOfService.section3p2', 'When you place an order through our Services, you are making an offer to purchase the products in your cart. We reserve the right to accept or decline your offer for any reason, including product availability, errors in product information or pricing, or suspected fraudulent activity.')}
               </p>
 
-              <h3 className="mt-8 text-xl font-semibold text-indigo-900">
+              <h3
+                id="seller-terms"
+                className="mt-8 text-xl font-semibold text-indigo-900"
+              >
                 {t('content.termsOfService.section4Title', '4. Seller Marketplace')}
               </h3>
               <p className="text-gray-700 leading-relaxed">
                 {t('content.termsOfService.section4p1', 'Beldify provides a platform for sellers to offer their products to buyers. Sellers are independent third parties, and we are not responsible for their products, actions, or omissions. While we strive to ensure a safe and reliable marketplace, we cannot guarantee the quality, safety, or legality of products sold by third-party sellers.')}
               </p>
               <p className="text-gray-700 leading-relaxed">
-                {t('content.termsOfService.section4p2', 'For sellers using our platform, additional terms apply. Please refer to the Seller Terms available at')}{' '}
-                <a href={API_BASE_URL} className="text-indigo-600 hover:text-indigo-800 underline">{API_BASE_URL}</a>{' '}
+                {t('content.termsOfService.section4p2', 'For sellers using our platform, additional terms apply. Please refer to the')}{' '}
+                <a href="/terms-of-service#seller-terms" className="text-indigo-600 hover:text-indigo-800 underline">
+                  {t('content.termsOfService.sellerTermsLink', 'Seller Terms')}
+                </a>{' '}
                 {t('content.termsOfService.section4p2Suffix', 'for more information.')}
               </p>
 

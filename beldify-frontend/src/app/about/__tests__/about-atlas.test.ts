@@ -35,8 +35,10 @@ describe('about/page.tsx — Atlas compliance', () => {
     expect(pageSrc).toContain('rounded-2xl');
   });
 
-  it('uses amber-50 for page background', () => {
-    expect(pageSrc).toContain('bg-amber-50');
+  it('uses bg-canvas (Atlas neutral near-white) for page background', () => {
+    // about/page.tsx switched from bg-amber-50 to bg-canvas (the Atlas design
+    // token mapped to the neutral near-white #fcfcfc canvas).
+    expect(pageSrc).toContain('bg-canvas');
   });
 
   it('uses indigo-700 for CTA links (not indigo-600)', () => {

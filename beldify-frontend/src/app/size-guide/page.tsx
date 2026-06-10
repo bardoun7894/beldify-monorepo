@@ -369,11 +369,18 @@ export default function SizeGuidePage() {
             </div>
           </div>
           <div className="relative h-[400px] rounded-2xl overflow-hidden ring-1 ring-gray-200">
+            {/* /images/measurement-guide.jpg does not exist in public/.
+                Using hero-atelier.jpg as a visual stand-in; onError hides the
+                container if that image is also unavailable. */}
             <Image
-              src="/images/measurement-guide.jpg"
+              src="/images/hero-atelier.jpg"
               alt={t('content.sizeGuide.measurementGuideAlt', 'Measurement Guide')}
               fill
               className="object-cover"
+              onError={(e) => {
+                const parent = (e.currentTarget as HTMLImageElement).parentElement;
+                if (parent) parent.style.display = 'none';
+              }}
             />
           </div>
         </div>

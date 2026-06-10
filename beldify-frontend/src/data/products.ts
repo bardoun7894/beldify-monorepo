@@ -58,6 +58,8 @@ export const products: Product[] = [
       '/images/products/kaftan-blue-3.jpg',
     ],
     category: 'kaftan',
+    in_stock: true,
+    is_featured: true,
     stock: 5,
     customizable: true,
     styles: [

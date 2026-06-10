@@ -3,15 +3,22 @@
 import { useTranslation } from 'react-i18next';
 import Link from 'next/link';
 import Image from 'next/image';
-import { useEffect, useState } from 'react';
-import { Star, MapPin, Briefcase, ArrowRight, Search, SlidersHorizontal } from 'lucide-react';
+import { useEffect, useState, useMemo, useCallback } from 'react';
+import { Star, MapPin, Briefcase, ArrowRight, Search, SlidersHorizontal, ChevronLeft, ChevronRight } from 'lucide-react';
 import tailorService, { Tailor } from '@/services/tailorService';
 
 /**
  * bug 10: this listing was 100% hardcoded mock data despite a working API + service.
  * It now fetches real tailors from /api/tailors and maps the PII-safe Resource fields
  * onto the existing Atlas card layout.
+ *
+ * Fix 2: filter pills, search input, pagination, and Clear Filters are now all wired.
+ * The backend /api/tailors does not expose server-side filter/search params so all
+ * filtering, searching, and pagination are implemented client-side over the fetched list.
  */
+
+const PAGE_SIZE = 9;
+
 interface TailorCard {
   id: number;
   name: string;
@@ -55,6 +62,11 @@ export default function TailorsPage() {
   const [tailors, setTailors] = useState<TailorCard[]>([]);
   const [loading, setLoading] = useState(true);
 
+  // Filter + search + pagination state (Fix 2)
+  const [activeFilter, setActiveFilter] = useState<string>('all');
+  const [searchQuery, setSearchQuery] = useState<string>('');
+  const [currentPage, setCurrentPage] = useState<number>(1);
+
   useEffect(() => {
     let active = true;
     (async () => {
@@ -73,14 +85,59 @@ export default function TailorsPage() {
     };
   }, []);
 
-  const featuredTailors = tailors.filter((tailor) => tailor.featured);
+  // Reset to page 1 whenever filter or search changes
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [activeFilter, searchQuery]);
 
-  const filterLabels = [
-    t('content.tailors.filterAll', 'All Tailors'),
-    t('content.tailors.filterTraditional', 'Traditional'),
-    t('content.tailors.filterModern', 'Modern'),
-    t('content.tailors.filterWedding', 'Wedding'),
+  const filterOptions: Array<{ key: string; label: string }> = [
+    { key: 'all', label: t('content.tailors.filterAll', 'All Tailors') },
+    { key: 'traditional', label: t('content.tailors.filterTraditional', 'Traditional') },
+    { key: 'modern', label: t('content.tailors.filterModern', 'Modern') },
+    { key: 'wedding', label: t('content.tailors.filterWedding', 'Wedding') },
   ];
+
+  // Client-side filtering by specialty / name
+  const filteredByCategory = useMemo(() => {
+    if (activeFilter === 'all') return tailors;
+    return tailors.filter(
+      (tailor) =>
+        tailor.specialty.toLowerCase().includes(activeFilter.toLowerCase()) ||
+        tailor.name.toLowerCase().includes(activeFilter.toLowerCase()),
+    );
+  }, [tailors, activeFilter]);
+
+  // Client-side search over name, specialty, location
+  const filteredBySearch = useMemo(() => {
+    const q = searchQuery.trim().toLowerCase();
+    if (!q) return filteredByCategory;
+    return filteredByCategory.filter(
+      (tailor) =>
+        tailor.name.toLowerCase().includes(q) ||
+        tailor.specialty.toLowerCase().includes(q) ||
+        tailor.location.toLowerCase().includes(q),
+    );
+  }, [filteredByCategory, searchQuery]);
+
+  // Client-side pagination
+  const totalPages = Math.max(1, Math.ceil(filteredBySearch.length / PAGE_SIZE));
+  const paginatedTailors = useMemo(() => {
+    const start = (currentPage - 1) * PAGE_SIZE;
+    return filteredBySearch.slice(start, start + PAGE_SIZE);
+  }, [filteredBySearch, currentPage]);
+
+  const featuredTailors = useMemo(
+    () => paginatedTailors.filter((tailor) => tailor.featured),
+    [paginatedTailors],
+  );
+
+  const hasActiveFilters = activeFilter !== 'all' || searchQuery.trim().length > 0;
+
+  const handleClearFilters = useCallback(() => {
+    setActiveFilter('all');
+    setSearchQuery('');
+    setCurrentPage(1);
+  }, []);
 
   return (
     <div className="min-h-screen bg-white">
@@ -115,24 +172,29 @@ export default function TailorsPage() {
               {t('content.tailors.filterBy', 'Filter by:')}
             </div>
             <div className="flex flex-wrap gap-2">
-              {filterLabels.map((label, i) => (
+              {filterOptions.map((item) => (
                 <button
-                  key={label}
-                  className={`px-4 py-2 rounded-full text-sm font-medium transition ${
-                    i === 0
+                  key={item.key}
+                  onClick={() => setActiveFilter(item.key)}
+                  aria-pressed={activeFilter === item.key}
+                  className={`px-4 py-2 rounded-full text-sm font-medium transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/40 ${
+                    activeFilter === item.key
                       ? 'bg-indigo-700 text-white shadow-atlas-sm'
                       : 'bg-white text-indigo-700 ring-1 ring-indigo-200 hover:ring-indigo-400'
                   }`}
                 >
-                  {label}
+                  {item.label}
                 </button>
               ))}
             </div>
             <div className="relative md:ms-auto">
-              <Search className="h-4 w-4 text-gray-400 absolute start-3 top-1/2 -translate-y-1/2" />
+              <Search className="h-4 w-4 text-gray-400 absolute start-3 top-1/2 -translate-y-1/2 pointer-events-none" aria-hidden="true" />
               <input
                 type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder={t('content.tailors.searchPlaceholder', 'Search tailors...')}
+                aria-label={t('content.tailors.searchPlaceholder', 'Search tailors...')}
                 className="ps-9 pe-4 py-2.5 rounded-full text-sm text-gray-800 bg-amber-50 ring-1 ring-amber-200 focus:ring-2 focus:ring-indigo-700/30 focus:border-indigo-700 focus:outline-none w-full md:w-64"
               />
             </div>
@@ -214,6 +276,11 @@ export default function TailorsPage() {
               >
                 {t('content.tailors.allTailors', 'All Expert Tailors')}
               </h2>
+              {!loading && (
+                <span className="text-sm text-gray-500">
+                  ({filteredBySearch.length})
+                </span>
+              )}
             </div>
             <div className="mt-3 h-px w-full bg-amber-200/70" aria-hidden />
           </div>
@@ -224,16 +291,21 @@ export default function TailorsPage() {
                 <div key={i} className="h-80 rounded-2xl bg-amber-50 ring-1 ring-amber-200 animate-pulse" />
               ))}
             </div>
-          ) : tailors.length === 0 ? (
+          ) : paginatedTailors.length === 0 ? (
             <div className="text-center py-16 rounded-2xl ring-1 ring-gray-200 bg-white">
               <p className="text-gray-500 text-base">{t('content.tailors.noResults', 'No tailors found matching your criteria.')}</p>
-              <button className="mt-4 rounded-full px-5 py-2.5 text-sm font-medium bg-amber-50 text-amber-800 ring-1 ring-amber-200 hover:ring-amber-400 transition">
-                {t('content.tailors.clearFilters', 'Clear Filters')}
-              </button>
+              {hasActiveFilters && (
+                <button
+                  onClick={handleClearFilters}
+                  className="mt-4 rounded-full px-5 py-2.5 text-sm font-medium bg-amber-50 text-amber-800 ring-1 ring-amber-200 hover:ring-amber-400 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500"
+                >
+                  {t('content.tailors.clearFilters', 'Clear Filters')}
+                </button>
+              )}
             </div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {tailors.map((tailor) => (
+              {paginatedTailors.map((tailor) => (
                 <div
                   key={tailor.id}
                   className="rounded-2xl ring-1 ring-gray-200 bg-white shadow-atlas-sm overflow-hidden transition hover:-translate-y-0.5 hover:shadow-atlas-md group flex flex-col"
@@ -295,29 +367,41 @@ export default function TailorsPage() {
           )}
         </div>
 
-        {/* Pagination */}
-        <div className="mt-16 flex items-center justify-center gap-1">
-          <a href="#" className="flex items-center justify-center h-9 w-9 rounded-full ring-1 ring-amber-200 text-indigo-700 hover:bg-amber-50 transition text-sm">
-            &lsaquo;
-          </a>
-          {[1, 2, 3].map((page) => (
-            <a
-              key={page}
-              href="#"
-              className={`flex items-center justify-center h-9 w-9 rounded-full text-sm font-medium transition ${
-                page === 1
-                  ? 'bg-indigo-700 text-white'
-                  : 'ring-1 ring-amber-200 text-indigo-700 hover:bg-amber-50'
-              }`}
+        {/* Pagination — real page state, no href="#" (Fix 2) */}
+        {!loading && totalPages > 1 && (
+          <div className="mt-16 flex items-center justify-center gap-1" role="navigation" aria-label={t('pagination.label', 'Pagination')}>
+            <button
+              onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+              disabled={currentPage === 1}
+              aria-label={t('pagination.previous', 'Previous page')}
+              className="flex items-center justify-center h-9 w-9 rounded-full ring-1 ring-amber-200 text-indigo-700 hover:bg-amber-50 transition text-sm disabled:opacity-40 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/40"
             >
-              {page}
-            </a>
-          ))}
-          <span className="text-gray-400 px-1">…</span>
-          <a href="#" className="flex items-center justify-center h-9 w-9 rounded-full ring-1 ring-amber-200 text-indigo-700 hover:bg-amber-50 transition text-sm">
-            &rsaquo;
-          </a>
-        </div>
+              <ChevronLeft className="h-4 w-4" aria-hidden="true" />
+            </button>
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+              <button
+                key={page}
+                onClick={() => setCurrentPage(page)}
+                aria-current={page === currentPage ? 'page' : undefined}
+                className={`flex items-center justify-center h-9 w-9 rounded-full text-sm font-medium transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/40 ${
+                  page === currentPage
+                    ? 'bg-indigo-700 text-white'
+                    : 'ring-1 ring-amber-200 text-indigo-700 hover:bg-amber-50'
+                }`}
+              >
+                {page}
+              </button>
+            ))}
+            <button
+              onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+              disabled={currentPage === totalPages}
+              aria-label={t('pagination.next', 'Next page')}
+              className="flex items-center justify-center h-9 w-9 rounded-full ring-1 ring-amber-200 text-indigo-700 hover:bg-amber-50 transition text-sm disabled:opacity-40 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/40"
+            >
+              <ChevronRight className="h-4 w-4" aria-hidden="true" />
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );

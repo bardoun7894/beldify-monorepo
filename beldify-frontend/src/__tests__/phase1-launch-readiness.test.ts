@@ -40,11 +40,11 @@ describe('UNIT 1 — COD checkout', () => {
   });
 
   it('COD method card has NO "Coming soon" overlay — it is immediately selectable', () => {
-    // paypal and card have the coming-soon overlay; cod must not
-    // The overlay condition is `method.id !== 'cod'`
-    expect(checkout).toContain("method.id !== 'cod'");
-    // Confirm there is no direct unconditional overlay on cod
-    // (i.e., the overlay wrapping is gated by method.id !== 'cod')
+    // paypal and card return a non-null reason from paymentDisabledReason();
+    // cod returns null so it has no overlay.  The gate is paymentDisabledReason(method).
+    expect(checkout).toMatch(/paymentDisabledReason\s*\(/);
+    // COD must never have an unconditional overlay — confirmed by the null-check on the helper
+    expect(checkout).toMatch(/paymentDisabledReason\(method\)\s*&&/);
   });
 
   it('on success routes to /order-confirmation with orderId from response', () => {
@@ -226,9 +226,11 @@ describe('UNIT 4 — Homepage i18n extraction', () => {
     expect(content).toContain("home.trust.verified_sellers");
   });
 
-  it('HomeContent.tsx calls t() for home.trust.secure_payments', () => {
+  it('HomeContent.tsx calls t() for home.trust.free_delivery', () => {
+    // The trust strip uses 4 keys: free_delivery, verified_sellers, returns, support.
+    // secure_payments was removed in the neutral-canvas overhaul (2026-06-10).
     const content = read(homeContentPath);
-    expect(content).toContain("home.trust.secure_payments");
+    expect(content).toContain("home.trust.free_delivery");
   });
 
   it('HomeContent.tsx calls t() for home.trust.returns', () => {

@@ -182,11 +182,7 @@ export default function PreferencesSettings() {
               id="pref-push-notifications"
               icon={Smartphone}
               title={t('preferences.push_notifications.title')}
-              description={
-                pushPermission === 'denied'
-                  ? t('preferences.push_notifications.blocked')
-                  : t('preferences.push_notifications.description')
-              }
+              description={t('preferences.push_notifications.description')}
               checked={isPushSubscribed}
               onToggle={async () => {
                 if (isPushLoading) return;

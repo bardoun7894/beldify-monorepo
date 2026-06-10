@@ -143,7 +143,7 @@ export default function SellerOnboardingPage() {
 
       <main className="max-w-3xl mx-auto px-6 py-8 space-y-6">
         {/* Approval status banner */}
-        <StatusBanner status={status} t={t} />
+        <StatusBanner status={status} t={t as (key: string, fallback?: string) => string} />
 
         {/* Progress bar */}
         <div className="bg-white rounded-2xl ring-1 ring-gray-200 shadow-sm p-6">

@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useAuth } from '@/contexts/AuthContext';
 import {
   CheckCircle2,
   XCircle,
@@ -38,8 +39,8 @@ function getReturnStatusPill(status: ReturnRequestStatus) {
 
 function RequestReturnSection() {
   const { t } = useTranslation();
+  const { isAuthenticated } = useAuth();
 
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [orders, setOrders] = useState<Order[]>([]);
   const [loadingOrders, setLoadingOrders] = useState(false);
   const [selectedOrderNumber, setSelectedOrderNumber] = useState('');
@@ -51,17 +52,9 @@ function RequestReturnSection() {
   const [loadingExisting, setLoadingExisting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
-  // Check auth on mount
+  // Load delivered orders when authenticated
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const token = localStorage.getItem('token');
-      setIsLoggedIn(!!token);
-    }
-  }, []);
-
-  // Load delivered orders when logged in
-  useEffect(() => {
-    if (!isLoggedIn) return;
+    if (!isAuthenticated) return;
     setLoadingOrders(true);
     orderService
       .getOrders()
@@ -128,7 +121,7 @@ function RequestReturnSection() {
     }
   };
 
-  if (!isLoggedIn) {
+  if (!isAuthenticated) {
     return (
       <div className="bg-white rounded-2xl p-6 sm:p-8 shadow-sm ring-1 ring-gray-200 flex flex-col items-center text-center gap-4">
         <div className="w-12 h-12 rounded-full bg-amber-50 ring-1 ring-amber-200 flex items-center justify-center">

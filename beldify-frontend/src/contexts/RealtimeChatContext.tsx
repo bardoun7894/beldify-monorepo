@@ -97,7 +97,6 @@ export const RealtimeChatProvider: React.FC<{ children: React.ReactNode }> = ({ 
         wsPort: parseInt(process.env.NEXT_PUBLIC_REVERB_PORT || '8082'),
         wssPort: parseInt(process.env.NEXT_PUBLIC_REVERB_PORT || '8082'),
         forceTLS: useTLS,
-        encrypted: useTLS,
         enabledTransports: useTLS ? ['wss'] : ['ws'],
         cluster: 'mt1', // Required for Pusher compatibility
         authEndpoint: `${process.env.NEXT_PUBLIC_API_URL}/broadcasting/auth`,

@@ -81,7 +81,7 @@ export async function GET(request: NextRequest) {
     // Return the image with proper content type and caching
     return new NextResponse(response.data, {
       headers: {
-        'Content-Type': contentType,
+        'Content-Type': String(contentType),
         'Cache-Control': 'public, max-age=86400', // Cache for 24 hours
       }
     });

@@ -66,9 +66,14 @@ describe('checkout/page.tsx — Atlas compliance', () => {
     expect(src).not.toMatch(/STEP\s+\d+\s+OF\s+\d+/i);
   });
 
-  it('stepper uses aria-current="step" for a11y', () => {
-    const src = readPage();
-    expect(src).toMatch(/aria-current.*step/);
+  it('CheckoutProgressBar component uses aria-current="step" for a11y', () => {
+    // aria-current="step" lives in CheckoutProgressBar, not inline in page.tsx.
+    // page.tsx imports and renders <CheckoutProgressBar currentStep={...} />.
+    const progressBar = fs.readFileSync(
+      path.resolve(__dirname, '../../../components/checkout/CheckoutProgressBar.tsx'),
+      'utf-8'
+    );
+    expect(progressBar).toMatch(/aria-current.*step/);
   });
 
   it('uses Playfair Display for the main heading', () => {

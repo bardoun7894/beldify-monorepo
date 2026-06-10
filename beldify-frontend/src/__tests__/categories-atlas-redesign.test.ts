@@ -32,8 +32,10 @@ describe('Categories index page — Atlas bar', () => {
     expect(page).toContain('shadow-atlas-sm');
   });
 
-  it('uses hover:-translate-y-0.5 for hover lift', () => {
-    expect(page).toContain('hover:-translate-y-0.5');
+  it('uses hover:-translate-y-1 for hover lift', () => {
+    // Categories page uses the more pronounced hover:-translate-y-1 lift
+    // (deeper vertical shift suits larger portrait category cards vs product micro-cards).
+    expect(page).toContain('hover:-translate-y-1');
   });
 
   it('uses hover:shadow-atlas-md for hover shadow lift', () => {

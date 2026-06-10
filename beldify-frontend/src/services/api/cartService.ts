@@ -4,9 +4,9 @@ import { CartService, CartServiceResponse, StockResponse } from './types';
 
 export const cartService: CartService = {
   // TODO: Backend route /cart/merge-guest does not exist yet
-  async mergeGuestCart() {
+  async mergeGuestCart(): Promise<CartServiceResponse> {
     logger.warn('mergeGuestCart called but backend route /cart/merge-guest does not exist yet');
-    return {};
+    return { status: 'success' } as CartServiceResponse;
   },
   async getCart() {
     try {

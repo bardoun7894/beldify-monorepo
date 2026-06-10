@@ -2,6 +2,7 @@ import api from '@/lib/api';
 import logger from '@/utils/consoleLogger';
 
 export interface StoreRequestPayload {
+  store_name?: string;
   store_type_id: number;
   business_type: string;
   country: string;
@@ -46,6 +47,7 @@ export async function submitStoreRequest(
 
     // Use FormData to support optional logo upload
     const formData = new FormData();
+    if (payload.store_name) formData.append('store_name', payload.store_name);
     formData.append('store_type_id', String(payload.store_type_id));
     formData.append('business_type', payload.business_type);
     formData.append('country', payload.country);

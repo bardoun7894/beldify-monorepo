@@ -22,9 +22,9 @@ export async function POST(request: NextRequest) {
     // Enhanced security checks
     const authHeader = request.headers.get('authorization');
     const expectedToken = process.env.CACHE_CLEAR_TOKEN;
-    const clientIp = request.headers.get('x-forwarded-for')?.split(',')[0] || 
-                    request.headers.get('x-real-ip') || 
-                    request.ip || 'unknown';
+    const clientIp = request.headers.get('x-forwarded-for')?.split(',')[0] ||
+                    request.headers.get('x-real-ip') ||
+                    'unknown';
     
     // Log the attempt
     console.warn(`Cache clear attempt from IP: ${clientIp}`);

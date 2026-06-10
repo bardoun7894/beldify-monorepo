@@ -98,8 +98,8 @@ export const fetchCategories = async () => {
 // Tailors API
 export const fetchTailors = async (): Promise<Tailor[]> => {
   try {
-    const response = await api.get<ApiResponse<Tailor>>('/api/fetch-tailors'); // Add /api/
-    return response.data?.data?.tailors || [];
+    const response = await api.get<ApiResponse<Tailor[]>>('/api/fetch-tailors'); // Add /api/
+    return response.data?.data || [];
   } catch (error) {
     logger.error('Error fetching tailors:', error);
     return [];
@@ -145,8 +145,9 @@ export const fetchBestSellers = async (): Promise<Product[]> => {
     }
     
     // Fallback for old API format
-    if (response.data?.best_sellers && Array.isArray(response.data.best_sellers)) {
-      return response.data.best_sellers;
+    const dataAny = response.data as any;
+    if (dataAny?.best_sellers && Array.isArray(dataAny.best_sellers)) {
+      return dataAny.best_sellers;
     }
     
     logger.warn('Best sellers response format unexpected:', response.data);
@@ -161,8 +162,8 @@ export const fetchBestSellers = async (): Promise<Product[]> => {
 // Featured API
 export const fetchFeatured = async (): Promise<Product[]> => {
   try {
-    const response = await api.get<ApiResponse<Product>>('/api/fetch-featured'); // Add /api/
-    return response.data?.data?.featured || [];
+    const response = await api.get<ApiResponse<Product[]>>('/api/fetch-featured'); // Add /api/
+    return response.data?.data || [];
   } catch (error) {
     logger.error('Error fetching featured items:', error);
     return [];

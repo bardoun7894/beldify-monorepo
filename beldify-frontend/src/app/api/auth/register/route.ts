@@ -29,7 +29,7 @@ export async function POST(request: NextRequest) {
       );
     }
     
-    const sanitizedData = validation.data;
+    const sanitizedData = validation.data!;
     
     // Get headers from the incoming request
     const contentType = request.headers.get('content-type');

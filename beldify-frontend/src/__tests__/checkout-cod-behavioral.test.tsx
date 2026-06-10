@@ -37,7 +37,16 @@ vi.mock('next/image', () => ({
 
 vi.mock('react-i18next', () => ({
   useTranslation: () => ({
-    t: (key: string, fallback?: string) => fallback ?? key,
+    t: (key: string, _fallback?: string) => {
+      // Return English strings for checkout action keys so tests can use
+      // getByRole('button', { name: /.../ }) with English regex.
+      const overrides: Record<string, string> = {
+        'checkout.actions.continue_to_confirm': 'Continue to confirmation',
+        'checkout.actions.confirm_order': 'Place order',
+        'checkout.actions.processing': 'Processing...',
+      };
+      return overrides[key] ?? _fallback ?? key;
+    },
     i18n: { language: 'en' },
   }),
 }));
@@ -180,7 +189,7 @@ describe('Checkout COD — behavioral tests', () => {
     fireEvent.change(stateInput, { target: { name: 'state', value: 'Grand Casablanca' } });
 
     // Continue to payment step via the summary CTA button (type=submit on the form)
-    const continueBtn = screen.getByRole('button', { name: /continue to payment/i });
+    const continueBtn = screen.getByRole('button', { name: /continue to confirmation/i });
     fireEvent.click(continueBtn);
 
     await waitFor(() => {
@@ -197,7 +206,7 @@ describe('Checkout COD — behavioral tests', () => {
     fireEvent.change(cityInput, { target: { name: 'city', value: 'Casablanca' } });
     const stateInput = screen.getByLabelText(/region/i);
     fireEvent.change(stateInput, { target: { name: 'state', value: 'Grand Casablanca' } });
-    fireEvent.click(screen.getByRole('button', { name: /continue to payment/i }));
+    fireEvent.click(screen.getByRole('button', { name: /continue to confirmation/i }));
 
     await waitFor(() => {
       expect(screen.queryByText('Payment method')).not.toBeNull();
@@ -226,7 +235,7 @@ describe('Checkout COD — behavioral tests', () => {
     });
 
     // Advance to step 2
-    fireEvent.click(screen.getByRole('button', { name: /continue to payment/i }));
+    fireEvent.click(screen.getByRole('button', { name: /continue to confirmation/i }));
 
     await waitFor(() => {
       expect(screen.queryByText('Payment method')).not.toBeNull();
@@ -255,7 +264,7 @@ describe('Checkout COD — behavioral tests', () => {
       target: { name: 'state', value: 'Grand Casablanca' },
     });
 
-    fireEvent.click(screen.getByRole('button', { name: /continue to payment/i }));
+    fireEvent.click(screen.getByRole('button', { name: /continue to confirmation/i }));
 
     await waitFor(() => {
       expect(screen.queryByText('Payment method')).not.toBeNull();

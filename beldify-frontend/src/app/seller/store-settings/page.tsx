@@ -246,11 +246,8 @@ export default function StoreSettingsPage() {
       toast.success(t('seller.store_settings.vertical_saved', 'Store type updated!'));
       setTimeout(() => setVerticalSaved(false), 2500);
     } catch {
-      // Graceful degradation — fall back to optimistic update
-      setStoreType(pendingVertical);
-      setPendingVertical(null);
-      setVerticalSaved(true);
-      setTimeout(() => setVerticalSaved(false), 2500);
+      // API failure — revert: do NOT apply the optimistic update
+      toast.error(t('seller.store_settings.vertical_save_error', 'Failed to update store type. Please try again.'));
     } finally {
       setVerticalSaving(false);
     }

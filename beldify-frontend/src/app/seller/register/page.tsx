@@ -106,6 +106,7 @@ export default function SellerRegisterPage() {
     setIsSubmitting(true);
     try {
       const payload: StoreRequestPayload = {
+        store_name: form.store_name || undefined,
         store_type_id: BUSINESS_TYPE_TO_STORE_TYPE[form.business_type] ?? 1,
         business_type: form.business_type,
         country: form.country,

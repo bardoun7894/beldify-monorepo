@@ -14,7 +14,7 @@ import {
 } from 'lucide-react';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 
-import { fetchCommunityPosts } from '@/services/communityService';
+import { fetchCommunityPosts, fetchMyPosts } from '@/services/communityService';
 import PostCard from '@/components/community/PostCard';
 import JobFiltersPanel from '@/components/community/JobFiltersPanel';
 import JobSortBar from '@/components/community/JobSortBar';
@@ -168,56 +168,34 @@ export default function CommunityPage() {
     loadPosts();
   }, [loadPosts]);
 
-  // ── Fetch user's own posts (server-side filter via user_id param) ──────────
-  // The backend GET /api/v1/community/posts supports ?user_id= for server-side
-  // filtering. We use a direct fetch here because fetchCommunityPosts does not
-  // forward the user_id key to the query string — editing the service is out of
-  // this packet's scope. The endpoint paginates via `limit` (not `per_page`).
-  // If the user is not logged in this effect never runs — no fetch is made.
+  // ── Fetch user's own posts via communityService.fetchMyPosts ──────────────
+  // fetchMyPosts routes through the configured axiosInstance (NEXT_PUBLIC_API_URL)
+  // so it hits the real backend — unlike the previous raw fetch('/api/v1/...').
   useEffect(() => {
-    if (!isAuthenticated || !user?.id) return;
-    const controller = new AbortController();
-    const userId = String(user.id);
+    if (!isAuthenticated) return;
+    let cancelled = false;
 
-    const fetchUserPosts = async () => {
+    const loadMyPosts = async () => {
       setLoadingUserPosts(true);
       try {
-        const params = new URLSearchParams({
-          user_id: userId,
-          limit: '20',
-          page: '1',
-        });
-        const token =
-          typeof window !== 'undefined'
-            ? localStorage.getItem('token')
-            : null;
-        const res = await fetch(`/api/v1/community/posts?${params}`, {
-          signal: controller.signal,
-          credentials: 'include',
-          headers: {
-            Accept: 'application/json',
-            ...(token ? { Authorization: `Bearer ${token}` } : {}),
-          },
-        });
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        const json = await res.json();
-        if (!controller.signal.aborted) {
-          setUserPosts(Array.isArray(json?.data) ? json.data : []);
+        const result = await fetchMyPosts({ page: 1, per_page: 20 });
+        if (!cancelled) {
+          setUserPosts(Array.isArray(result.data) ? result.data : []);
         }
       } catch (err) {
-        if (!controller.signal.aborted) {
+        if (!cancelled) {
           logger.error('Error fetching user posts:', err);
         }
       } finally {
-        if (!controller.signal.aborted) {
+        if (!cancelled) {
           setLoadingUserPosts(false);
         }
       }
     };
 
-    fetchUserPosts();
-    return () => controller.abort();
-  }, [isAuthenticated, user?.id]);
+    loadMyPosts();
+    return () => { cancelled = true; };
+  }, [isAuthenticated]);
 
   // ── Handlers ─────────────────────────────────────────────────────────────
   const handleFiltersChange = (next: JobFilters) => {
