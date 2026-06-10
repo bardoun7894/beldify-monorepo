@@ -1,5 +1,8 @@
-import type { } from '@serwist/next/worker';
-import { defaultCache, Serwist } from 'serwist';
+// defaultCache lives in @serwist/next/worker, NOT the core serwist package —
+// importing it from 'serwist' resolves to undefined at runtime and the
+// `...defaultCache` spread below kills SW evaluation ("not iterable").
+import { defaultCache } from '@serwist/next/worker';
+import { Serwist } from 'serwist';
 
 declare const self: ServiceWorkerGlobalScope;
 
