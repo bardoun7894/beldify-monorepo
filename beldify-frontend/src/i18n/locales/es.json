@@ -750,10 +750,12 @@
     "discount": "{{discount}}% de descuento",
     "sort": {
       "title": "Ordenar por",
-      "newest": "Productos más nuevos",
+      "newest": "Más recientes",
       "price_low_high": "Precio: Menor a mayor",
       "price_high_low": "Precio: Mayor a menor",
-      "popular": "Más populares"
+      "popular": "Mejor valorados",
+      "price_low": "Precio: menor a mayor",
+      "price_high": "Precio: mayor a menor"
     },
     "filters": {
       "price_range": "Rango de precio",
@@ -3903,19 +3905,24 @@
       "verified_sellers": "Vendedores verificados",
       "secure_payments": "Pagos seguros",
       "returns": "Devoluciones en 14 días",
-      "support": "Soporte en AR / FR / EN"
+      "support": "Soporte en AR / FR / EN",
+      "label": "Por qué comprar en Beldify",
+      "free_delivery": "Envío gratis desde 500 MAD"
     },
     "categories": {
       "title": "Compra en el zoco",
       "subtitle": "Explorar el zoco",
       "viewAll": "Todas las categorías",
-      "empty": "Las categorías aparecerán aquí una vez que el catálogo esté activo."
+      "empty": "Las categorías aparecerán aquí una vez que el catálogo esté activo.",
+      "rail_label": "Explorar categorías"
     },
     "offers": {
       "editorial_title": "Elegancia Tradicional",
       "editorial_description": "Nuestras mejores creaciones de prêt-à-porter marroquí — caftanes y chilabas de temporada.",
       "cta_shop_collection": "Comprar la colección",
-      "cta_explore": "Explorar ahora"
+      "cta_explore": "Explorar ahora",
+      "festive_title": "Colección de Ocasiones",
+      "festive_description": "Caftanes y takchitas para bodas y ocasiones especiales, bordados a mano con amor."
     },
     "tailoring": {
       "headline": "¿Quieres que sea a tu medida?",
@@ -3926,16 +3933,19 @@
       "step2_title": "Enviar medidas",
       "step2_detail": "Usa nuestro formulario guiado o sube un patrón existente.",
       "step3_title": "Recibir tu prenda",
-      "step3_detail": "Acabado a mano y enviado a tu puerta en 2–4 semanas."
+      "step3_detail": "Acabado a mano y enviado a tu puerta en 2–4 semanas.",
+      "badge_ar": "خياطة على القياس"
     },
     "ateliers": {
       "subtitle": "Talleres seleccionados",
-      "view_all": "Todos los talleres"
+      "view_all": "Todos los talleres",
+      "headingAr": "ورشات مختارة"
     },
     "journal": {
       "subtitle": "Historias del taller",
       "view_all": "Todas las historias",
-      "read_time_suffix": "lectura"
+      "read_time_suffix": "lectura",
+      "headingAr": "المجلة"
     },
     "seller": {
       "headline_line1": "Vende tu artesanía.",
@@ -3946,7 +3956,7 @@
       "stat_range_label": "Rango de precio típico",
       "stat_sellers_label": "Vendedores activos",
       "stat_protection_label": "Protección del comprador",
-      "stat_sellers_value": "Crecer"
+      "stat_sellers_value": "En crecimiento"
     },
     "openSouk": {
       "eyebrow": "En vivo",

@@ -362,10 +362,10 @@ export default function HomeContent({ categories, data, openSoukPosts = [], hero
                 className="text-3xl sm:text-4xl font-bold text-gray-900 leading-tight"
                 style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
               >
-                كوليكسيون المناسبات
+                {t('home.offers.festive_title', 'كوليكسيون المناسبات')}
               </h2>
               <p className="mt-4 text-gray-600 text-base max-w-sm">
-                قفاطين وتكاشط للأعراس والمناسبات، مطرّزين باليد وبالحب.
+                {t('home.offers.festive_description', 'قفاطين وتكاشط للأعراس والمناسبات، مطرّزين باليد وبالحب.')}
               </p>
               <Link
                 href="/products?category=festive"
@@ -408,7 +408,7 @@ export default function HomeContent({ categories, data, openSoukPosts = [], hero
           <div>
             <div className="inline-flex items-center gap-2 rounded-full bg-amber-500/20 px-3.5 py-1.5 mb-5 text-xs font-medium text-amber-300 ring-1 ring-amber-500/30">
               <Scissors className="h-3.5 w-3.5" aria-hidden="true" />
-              خياطة على القياس
+              {t('home.tailoring.badge_ar', 'خياطة على القياس')}
             </div>
             <h2
               className="text-3xl sm:text-4xl font-bold leading-tight"
@@ -547,7 +547,7 @@ export default function HomeContent({ categories, data, openSoukPosts = [], hero
               className="text-3xl sm:text-4xl font-bold text-gray-900"
               style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
             >
-              <span dir="rtl" lang="ar" className="font-arabic">ورشات مختارة</span>
+              <span dir="rtl" lang="ar" className="font-arabic">{t('home.ateliers.headingAr', 'ورشات مختارة')}</span>
             </h2>
             <p className="mt-1 text-sm text-gray-500">{t('home.ateliers.subtitle', 'Curated ateliers')}</p>
           </div>
@@ -579,7 +579,7 @@ export default function HomeContent({ categories, data, openSoukPosts = [], hero
                 {/* Verified badge */}
                 <span className="absolute top-3 end-3 inline-flex items-center gap-1 rounded-full bg-white px-2.5 py-1 text-[11px] font-semibold text-indigo-700 shadow-sm">
                   <BadgeCheck className="h-3.5 w-3.5 text-amber-500" strokeWidth={2.2} aria-hidden="true" />
-                  Verified
+                  {t('shop.verified', 'Verified')}
                 </span>
               </div>
               <div className="p-4">
@@ -615,7 +615,7 @@ export default function HomeContent({ categories, data, openSoukPosts = [], hero
                 className="text-3xl sm:text-4xl font-bold text-gray-900"
                 style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
               >
-                <span dir="rtl" lang="ar" className="font-arabic">المجلة</span>
+                <span dir="rtl" lang="ar" className="font-arabic">{t('home.journal.headingAr', 'المجلة')}</span>
               </h2>
               <p className="mt-1 text-sm text-gray-500">{t('home.journal.subtitle', 'Stories from the atelier')}</p>
             </div>

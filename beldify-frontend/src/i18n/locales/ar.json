@@ -777,10 +777,12 @@
     "discount": "{{discount}}% تخفيض",
     "sort": {
       "title": "ترتيب حسب",
-      "newest": "أحدث المنتجات",
+      "newest": "الأحدث",
       "price_low_high": "السعر: من الأقل إلى الأعلى",
       "price_high_low": "السعر: من الأعلى إلى الأقل",
-      "popular": "الأكثر شعبية"
+      "popular": "الأعلى تقييماً",
+      "price_low": "السعر: من الأرخص",
+      "price_high": "السعر: من الأغلى"
     },
     "filters": {
       "price_range": "نطاق السعر",
@@ -4141,19 +4143,24 @@
       "verified_sellers": "بائعون موثوقون",
       "secure_payments": "مدفوعات آمنة",
       "returns": "إرجاع خلال 14 يومًا",
-      "support": "الدعم بالعربية والفرنسية والإنجليزية"
+      "support": "الدعم بالعربية والفرنسية والإنجليزية",
+      "label": "لماذا تتسوق مع Beldify",
+      "free_delivery": "توصيل مجاني فوق 500 درهم"
     },
     "categories": {
       "title": "تسوق في السوق",
       "subtitle": "تصفح السوق",
       "viewAll": "كل الأصناف",
-      "empty": "ستظهر الفئات هنا بمجرد إطلاق الكتالوج."
+      "empty": "ستظهر الفئات هنا بمجرد إطلاق الكتالوج.",
+      "rail_label": "تصفح الفئات"
     },
     "offers": {
       "editorial_title": "الأناقة التقليدية",
       "editorial_description": "أجمل تصاميمنا للأزياء المغربية الجاهزة — قفاطين وجلابيب موسمية.",
       "cta_shop_collection": "تسوق المجموعة",
-      "cta_explore": "استكشف الآن"
+      "cta_explore": "استكشف الآن",
+      "festive_title": "كوليكسيون المناسبات",
+      "festive_description": "قفاطين وتكاشط للأعراس والمناسبات، مطرزة يدويًا وبحب."
     },
     "tailoring": {
       "headline": "تريده مخيطاً على مقاسك؟",
@@ -4164,16 +4171,19 @@
       "step2_title": "أرسل المقاسات",
       "step2_detail": "استخدم النموذج الإرشادي أو ارفع باترون موجوداً.",
       "step3_title": "استلم قطعتك",
-      "step3_detail": "منتهية يدوياً وتُشحن إلى بابك في 2–4 أسابيع."
+      "step3_detail": "منتهية يدوياً وتُشحن إلى بابك في 2–4 أسابيع.",
+      "badge_ar": "خياطة على القياس"
     },
     "ateliers": {
       "subtitle": "محترفات مختارة بعناية",
-      "view_all": "جميع المحترفات"
+      "view_all": "جميع المحترفات",
+      "headingAr": "ورشات مختارة"
     },
     "journal": {
       "subtitle": "قصص من المحترف",
       "view_all": "جميع القصص",
-      "read_time_suffix": "قراءة"
+      "read_time_suffix": "قراءة",
+      "headingAr": "المجلة"
     },
     "seller": {
       "headline_line1": "بِع حرفتك.",
@@ -4184,7 +4194,7 @@
       "stat_range_label": "النطاق السعري النموذجي",
       "stat_sellers_label": "بائعون نشطون",
       "stat_protection_label": "حماية المشتري",
-      "stat_sellers_value": "كيكبر"
+      "stat_sellers_value": "في نمو"
     },
     "openSouk": {
       "eyebrow": "مباشر الآن",

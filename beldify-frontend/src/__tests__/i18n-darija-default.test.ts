@@ -15,10 +15,16 @@ describe('i18n — Darija (ma) is the default language', () => {
     expect(config).toMatch(/lng:\s*'ma'/);
   });
 
-  it("lists 'ma' first in fallbackLng", () => {
-    const m = config.match(/fallbackLng:\s*\[([^\]]*)\]/);
-    expect(m).toBeTruthy();
-    const first = m![1].split(',')[0].replace(/['"\s]/g, '');
+  it("has 'ma' as the primary fallback (object form: default key lists ma first)", () => {
+    // fallbackLng was converted from array to object form so Latin-script locales
+    // can fall back to English instead of Darija.
+    // The default: key must still list 'ma' first to preserve the Darija default.
+    const m = config.match(/fallbackLng\s*:\s*\{([^}]*)\}/s);
+    expect(m, "fallbackLng must be an object").toBeTruthy();
+    // default: ['ma', ...] — 'ma' must appear as first item in the default array
+    const defaultMatch = m![1].match(/default\s*:\s*\[([^\]]*)\]/);
+    expect(defaultMatch, "fallbackLng must have a 'default' key").toBeTruthy();
+    const first = defaultMatch![1].split(',')[0].replace(/['"\s]/g, '');
     expect(first).toBe('ma');
   });
 

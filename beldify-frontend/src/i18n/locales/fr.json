@@ -750,10 +750,12 @@
     "discount": "{{discount}}% de réduction",
     "sort": {
       "title": "Trier par",
-      "newest": "Nouveautés",
+      "newest": "Les plus récents",
       "price_low_high": "Prix : croissant",
       "price_high_low": "Prix : décroissant",
-      "popular": "Plus populaires"
+      "popular": "Mieux notés",
+      "price_low": "Prix croissant",
+      "price_high": "Prix décroissant"
     },
     "filters": {
       "price_range": "Fourchette de prix",
@@ -3865,19 +3867,24 @@
       "verified_sellers": "Vendeurs vérifiés",
       "secure_payments": "Paiements sécurisés",
       "returns": "Retours sous 14 jours",
-      "support": "Support AR / FR / EN"
+      "support": "Support AR / FR / EN",
+      "label": "Pourquoi acheter sur Beldify",
+      "free_delivery": "Livraison gratuite dès 500 MAD"
     },
     "categories": {
       "title": "Achetez au souk",
       "subtitle": "Parcourir le souk",
       "viewAll": "Toutes les catégories",
-      "empty": "Les catégories apparaîtront ici une fois le catalogue en ligne."
+      "empty": "Les catégories apparaîtront ici une fois le catalogue en ligne.",
+      "rail_label": "Parcourir les catégories"
     },
     "offers": {
       "editorial_title": "Élégance Traditionnelle",
       "editorial_description": "Nos plus belles créations de prêt-à-porter marocain — caftans et djellabas de saison.",
       "cta_shop_collection": "Acheter la collection",
-      "cta_explore": "Explorer maintenant"
+      "cta_explore": "Explorer maintenant",
+      "festive_title": "Collection Occasions",
+      "festive_description": "Caftans et takchitas pour mariages et grandes occasions, brodés à la main avec amour."
     },
     "tailoring": {
       "headline": "Vous voulez un sur-mesure ?",
@@ -3888,16 +3895,19 @@
       "step2_title": "Envoyer vos mensurations",
       "step2_detail": "Utilisez notre formulaire guidé ou téléchargez un patron existant.",
       "step3_title": "Recevoir votre pièce",
-      "step3_detail": "Finition à la main et livraison à votre porte en 2 à 4 semaines."
+      "step3_detail": "Finition à la main et livraison à votre porte en 2 à 4 semaines.",
+      "badge_ar": "خياطة على القياس"
     },
     "ateliers": {
       "subtitle": "Ateliers sélectionnés",
-      "view_all": "Tous les ateliers"
+      "view_all": "Tous les ateliers",
+      "headingAr": "ورشات مختارة"
     },
     "journal": {
       "subtitle": "Histoires de l'atelier",
       "view_all": "Toutes les histoires",
-      "read_time_suffix": "lecture"
+      "read_time_suffix": "lecture",
+      "headingAr": "المجلة"
     },
     "seller": {
       "headline_line1": "Vendez votre savoir-faire.",

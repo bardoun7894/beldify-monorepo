@@ -4,6 +4,7 @@ import { Toaster } from 'react-hot-toast';
 import { isDebuggingEnabled } from '@/utils/debugMode';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
+import LanguageSuggestionBanner from '@/components/common/LanguageSuggestionBanner';
 
 import '@/i18n/config';
 import { useDirection } from '@/hooks/useDirection';
@@ -55,6 +56,7 @@ export default function RootLayoutClient({ children }: RootLayoutClientProps) {
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-50">
+      <LanguageSuggestionBanner />
       <Navbar />
       {/* Navbar is position:sticky (occupies flow space) — no top padding needed */}
       <main className="flex-grow">{children}</main>

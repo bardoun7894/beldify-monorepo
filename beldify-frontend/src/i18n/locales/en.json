@@ -777,10 +777,12 @@
     "discount": "{{discount}}% off",
     "sort": {
       "title": "Sort by",
-      "newest": "Newest Products",
+      "newest": "Newest",
       "price_low_high": "Price: Low to High",
       "price_high_low": "Price: High to Low",
-      "popular": "Most Popular"
+      "popular": "Top Rated",
+      "price_low": "Price: Low to High",
+      "price_high": "Price: High to Low"
     },
     "filters": {
       "price_range": "Price Range",
@@ -3926,19 +3928,24 @@
       "verified_sellers": "Verified sellers",
       "secure_payments": "Secure payments",
       "returns": "14-day returns",
-      "support": "Support in AR / FR / EN"
+      "support": "Support in AR / FR / EN",
+      "label": "Why shop with Beldify",
+      "free_delivery": "Free delivery +500 MAD"
     },
     "categories": {
       "title": "Shop the souk",
       "subtitle": "Browse the souk",
       "viewAll": "All categories",
-      "empty": "Categories will appear here once the catalogue is live."
+      "empty": "Categories will appear here once the catalogue is live.",
+      "rail_label": "Browse categories"
     },
     "offers": {
       "editorial_title": "Traditional Elegance",
       "editorial_description": "Our finest ready-to-wear Moroccan creations — seasonal caftans and djellabas.",
       "cta_shop_collection": "Shop the collection",
-      "cta_explore": "Explore now"
+      "cta_explore": "Explore now",
+      "festive_title": "Occasions Collection",
+      "festive_description": "Kaftans and takchitas for weddings and special occasions, hand-embroidered with love."
     },
     "tailoring": {
       "headline": "Want it tailored to you?",
@@ -3949,16 +3956,19 @@
       "step2_title": "Send measurements",
       "step2_detail": "Use our guided form or upload an existing pattern.",
       "step3_title": "Receive your piece",
-      "step3_detail": "Hand-finished and shipped to your door in 2–4 weeks."
+      "step3_detail": "Hand-finished and shipped to your door in 2–4 weeks.",
+      "badge_ar": "خياطة على القياس"
     },
     "ateliers": {
       "subtitle": "Curated ateliers",
-      "view_all": "All ateliers"
+      "view_all": "All ateliers",
+      "headingAr": "ورشات مختارة"
     },
     "journal": {
       "subtitle": "Stories from the atelier",
       "view_all": "All stories",
-      "read_time_suffix": "read"
+      "read_time_suffix": "read",
+      "headingAr": "المجلة"
     },
     "seller": {
       "headline_line1": "Sell your craft.",
@@ -3969,7 +3979,7 @@
       "stat_range_label": "Typical listing range",
       "stat_sellers_label": "Active sellers",
       "stat_protection_label": "Buyer protection",
-      "stat_sellers_value": "1000+"
+      "stat_sellers_value": "Growing"
     },
     "openSouk": {
       "eyebrow": "Live now",

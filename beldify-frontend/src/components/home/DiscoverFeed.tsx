@@ -166,9 +166,9 @@ export default function DiscoverFeed() {
       ) {
         return null;
       }
-      return `${API_BASE}/api/products/all?locale=ma&sort=newest&page=${pageIndex + 1}`;
+      return `${API_BASE}/api/products/all?locale=${i18n.language}&sort=newest&page=${pageIndex + 1}`;
     },
-    [],
+    [i18n.language],
   );
 
   const { data: pages, size, setSize, isLoading, isValidating } =
