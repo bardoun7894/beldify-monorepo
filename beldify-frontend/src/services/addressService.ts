@@ -61,24 +61,56 @@ export interface CheckoutShippingPrefill {
 type CreatePayload = Omit<SavedAddress, 'id' | 'is_default'> & { [k: string]: any };
 type UpdatePayload = Partial<Omit<SavedAddress, 'id'>>;
 
+/**
+ * Reconciled to the live backend contract (BE-3, 2026-06-10):
+ *   GET  /api/user/addresses     → {success, data: [address, ...]}   (array directly)
+ *   POST/PUT                     → {success, data: {…address…}}      (object directly)
+ *   fields: name (single string), type (home|work|other), phone,
+ *           address_line_1/address_line_2, city, state, postal_code, country
+ * The UI keeps first_name/last_name/address/apartment/label — mapped both ways here.
+ */
+const TYPE_FROM_LABEL: Record<string, string> = { home: 'home', work: 'work' };
+
 function normaliseAddress(raw: any): SavedAddress {
+  const name = String(raw.name ?? `${raw.first_name ?? ''} ${raw.last_name ?? ''}`.trim());
+  const spaceIdx = name.indexOf(' ');
   return {
     id: Number(raw.id),
-    label: raw.label ?? undefined,
-    first_name: String(raw.first_name ?? ''),
-    last_name: String(raw.last_name ?? ''),
+    label: raw.type ? String(raw.type).charAt(0).toUpperCase() + String(raw.type).slice(1) : raw.label ?? undefined,
+    first_name: spaceIdx === -1 ? name : name.slice(0, spaceIdx),
+    last_name: spaceIdx === -1 ? '' : name.slice(spaceIdx + 1),
     email: raw.email ? String(raw.email) : undefined,
     phone: raw.phone ? String(raw.phone) : undefined,
-    address: String(raw.address ?? ''),
-    apartment: raw.apartment ?? undefined,
+    address: String(raw.address_line_1 ?? raw.address ?? ''),
+    apartment: raw.address_line_2 ?? raw.apartment ?? undefined,
     city: String(raw.city ?? ''),
-    // state may be absent on some backends
     state: raw.state ? String(raw.state) : undefined,
-    // backend may call this postal_code or zip_code
     postal_code: String(raw.postal_code ?? raw.zip_code ?? ''),
-    country: String(raw.country ?? ''),
+    country: String(raw.country ?? 'MA'),
     is_default: Boolean(raw.is_default),
   };
+}
+
+function toApiPayload(
+  payload: Partial<SavedAddress> & { [k: string]: any },
+  withCreateDefaults = false,
+): Record<string, any> {
+  const out: Record<string, any> = {
+    name: [payload.first_name, payload.last_name].filter(Boolean).join(' ') || payload.name,
+    phone: payload.phone,
+    address_line_1: payload.address ?? payload.address_line_1,
+    address_line_2: payload.apartment ?? payload.address_line_2,
+    city: payload.city,
+    state: payload.state,
+    postal_code: payload.postal_code,
+    country: payload.country || (withCreateDefaults ? 'MA' : undefined),
+    type: payload.label !== undefined || withCreateDefaults
+      ? TYPE_FROM_LABEL[String(payload.label ?? '').toLowerCase()] ?? (withCreateDefaults ? 'home' : 'other')
+      : undefined,
+  };
+  if (typeof payload.is_default === 'boolean') out.is_default = payload.is_default;
+  Object.keys(out).forEach((k) => out[k] === undefined && delete out[k]);
+  return out;
 }
 
 export const addressService = {
@@ -88,7 +120,9 @@ export const addressService = {
       const response = await api.get('/api/user/addresses');
       const payload = response?.data;
       if (!payload?.success) return [];
-      const addresses: any[] = payload?.data?.addresses ?? [];
+      const addresses: any[] = Array.isArray(payload?.data)
+        ? payload.data
+        : payload?.data?.addresses ?? [];
       if (!Array.isArray(addresses)) return [];
       return addresses.map(normaliseAddress);
     } catch (error) {
@@ -99,15 +133,15 @@ export const addressService = {
 
   /** Create a new saved address. Throws on failure (caller handles toast). */
   async create(payload: CreatePayload): Promise<SavedAddress> {
-    const response = await api.post('/api/user/addresses', payload);
-    const raw = response?.data?.data?.address;
+    const response = await api.post('/api/user/addresses', toApiPayload(payload, true));
+    const raw = response?.data?.data?.address ?? response?.data?.data;
     return normaliseAddress(raw);
   },
 
   /** Update an existing address. Throws on failure. */
   async update(id: number, payload: UpdatePayload): Promise<SavedAddress> {
-    const response = await api.put(`/api/user/addresses/${id}`, payload);
-    const raw = response?.data?.data?.address;
+    const response = await api.put(`/api/user/addresses/${id}`, toApiPayload(payload));
+    const raw = response?.data?.data?.address ?? response?.data?.data;
     return normaliseAddress(raw);
   },
 

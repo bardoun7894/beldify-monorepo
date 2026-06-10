@@ -106,7 +106,16 @@ describe('addressService', () => {
       };
       const result = await addressService.create(payload);
 
-      expect(mockPost).toHaveBeenCalledWith('/api/user/addresses', payload);
+      // outbound payload is mapped to the live backend contract (BE-3)
+      expect(mockPost).toHaveBeenCalledWith('/api/user/addresses', {
+        name: 'Hassan Benali',
+        phone: '0612345678',
+        address_line_1: '1 Rue de Fez',
+        city: 'Casablanca',
+        state: 'Casablanca',
+        country: 'MA',
+        type: 'home',
+      });
       expect(result.id).toBe(1);
     });
 
@@ -129,7 +138,10 @@ describe('addressService', () => {
 
       const result = await addressService.update(1, { label: 'Work' });
 
-      expect(mockPut).toHaveBeenCalledWith('/api/user/addresses/1', { label: 'Work' });
+      // label maps to backend `type`; partial updates send only provided fields
+      expect(mockPut).toHaveBeenCalledWith('/api/user/addresses/1', {
+        type: 'work',
+      });
       expect(result.label).toBe('Work');
     });
   });
