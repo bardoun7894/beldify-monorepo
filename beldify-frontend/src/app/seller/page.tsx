@@ -55,7 +55,7 @@ function OnboardingBanner({ status }: { status: OnboardingStatusData }) {
       <div className="flex items-center gap-3 p-3 rounded-xl bg-emerald-50 ring-1 ring-emerald-200 text-sm">
         <CheckCircle className="w-4 h-4 text-emerald-600 shrink-0" aria-hidden="true" />
         <span className="text-emerald-800 font-medium">Store active and live</span>
-        <Link href="/seller/onboarding" className="ml-auto text-xs text-emerald-600 hover:underline shrink-0">
+        <Link href="/seller/onboarding" className="ms-auto text-xs text-emerald-600 hover:underline shrink-0">
           View journey
         </Link>
       </div>
@@ -73,7 +73,7 @@ function OnboardingBanner({ status }: { status: OnboardingStatusData }) {
     <div className="flex items-center gap-3 p-3 rounded-xl bg-amber-50 ring-1 ring-amber-200 text-sm">
       <AlertCircle className="w-4 h-4 text-amber-600 shrink-0" aria-hidden="true" />
       <span className="text-amber-800 font-medium">Application under review</span>
-      <Link href="/seller/onboarding" className="ml-auto text-xs text-amber-600 hover:underline shrink-0">
+      <Link href="/seller/onboarding" className="ms-auto text-xs text-amber-600 hover:underline shrink-0">
         Track progress
       </Link>
     </div>

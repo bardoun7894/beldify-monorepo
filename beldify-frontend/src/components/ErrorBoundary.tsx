@@ -120,7 +120,7 @@ function DefaultErrorFallback({ error, retry }: { error: Error; retry: () => voi
             onClick={retry}
             className="flex-1 inline-flex justify-center items-center px-4 py-3 text-sm font-semibold rounded-2xl text-white bg-indigo-700 hover:bg-indigo-800 transition focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
           >
-            <ArrowPathIcon className="h-4 w-4 mr-2" />
+            <ArrowPathIcon className="h-4 w-4 me-2" />
             {t('errors.boundary.retry', 'Try Again')}
           </button>
 
@@ -142,7 +142,7 @@ function APIErrorFallback({ error, retry }: { error: Error; retry: () => void })
   return (
     <div className="p-4 bg-rose-50 border border-rose-200 rounded-2xl">
       <div className="flex">
-        <ExclamationTriangleIcon className="h-5 w-5 text-rose-700 mr-2 flex-shrink-0" />
+        <ExclamationTriangleIcon className="h-5 w-5 text-rose-700 me-2 flex-shrink-0" />
         <div className="flex-1">
           <h3 className="text-sm font-semibold text-rose-800">
             {t('errors.api.title', 'Failed to load data')}

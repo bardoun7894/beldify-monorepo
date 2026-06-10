@@ -247,7 +247,7 @@ export default function SellerProfilePage() {
             </h1>
           </div>
           {completionPct !== null && (
-            <span className="ml-auto text-sm font-semibold text-indigo-700 bg-indigo-50 rounded-full px-3 py-1">
+            <span className="ms-auto text-sm font-semibold text-indigo-700 bg-indigo-50 rounded-full px-3 py-1">
               {completionPct}%
             </span>
           )}

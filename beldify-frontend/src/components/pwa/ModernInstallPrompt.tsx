@@ -62,9 +62,9 @@ export default function ModernInstallPrompt() {
   }
 
   const benefits = [
-    { icon: BoltIcon, text: t('pwa.benefits.lightning_fast', 'Lightning fast loading'), color: 'text-primary-500' },
+    { icon: BoltIcon, text: t('pwa.benefits.lightning_fast', 'Lightning fast loading'), color: 'text-amber-500' },
     { icon: HeartIcon, text: t('pwa.benefits.save_favorites', 'Save your favorites offline'), color: 'text-red-500' },
-    { icon: BellIcon, text: t('pwa.benefits.exclusive_deals', 'Get exclusive deal alerts'), color: 'text-secondary-500' },
+    { icon: BellIcon, text: t('pwa.benefits.exclusive_deals', 'Get exclusive deal alerts'), color: 'text-indigo-600' },
     { icon: SparklesIcon, text: t('pwa.benefits.one_tap', 'One-tap access from home'), color: 'text-purple-500' }
   ];
 
@@ -108,10 +108,10 @@ export default function ModernInstallPrompt() {
                 ) : (
                   <>
                     {/* Solid Color Header */}
-                    <div className="relative overflow-hidden bg-secondary-500 px-4 py-6 sm:px-6 sm:py-8">
+                    <div className="relative overflow-hidden bg-indigo-900 px-4 py-6 sm:px-6 sm:py-8">
                       <button
                         onClick={handleDismiss}
-                        className="absolute right-3 top-3 sm:right-4 sm:top-4 rounded-full bg-white bg-opacity-20 p-1.5 sm:p-2 text-white hover:bg-opacity-30 transition-all"
+                        className="absolute end-3 top-3 sm:end-4 sm:top-4 rounded-full bg-white bg-opacity-20 p-1.5 sm:p-2 text-white hover:bg-opacity-30 transition-all"
                       >
                         <XMarkIcon className="h-4 w-4 sm:h-5 sm:w-5" />
                       </button>
@@ -132,14 +132,14 @@ export default function ModernInstallPrompt() {
                           <Dialog.Title as="h3" className="text-lg sm:text-2xl font-bold text-white">
                             {t('pwa.modern.title', 'Shop Smarter, Faster')}
                           </Dialog.Title>
-                          <p className="mt-1 text-xs sm:text-sm text-secondary-100">
+                          <p className="mt-1 text-xs sm:text-sm text-indigo-100">
                             {t('pwa.modern.subtitle', 'Install our app for the best shopping experience')}
                           </p>
                         </div>
                       </div>
 
                       {/* Animated dots */}
-                      <div className="absolute -right-2 top-6 sm:-right-4 sm:top-8 flex space-x-1">
+                      <div className="absolute -end-2 top-6 sm:-end-4 sm:top-8 flex space-x-1">
                         <span className="h-1.5 w-1.5 sm:h-2 sm:w-2 animate-pulse rounded-full bg-white opacity-40"></span>
                         <span className="h-1.5 w-1.5 sm:h-2 sm:w-2 animate-pulse rounded-full bg-white opacity-40 animation-delay-200"></span>
                         <span className="h-1.5 w-1.5 sm:h-2 sm:w-2 animate-pulse rounded-full bg-white opacity-40 animation-delay-400"></span>
@@ -152,7 +152,7 @@ export default function ModernInstallPrompt() {
                         {benefits.map((benefit, index) => (
                           <div
                             key={index}
-                            className="group relative rounded-lg border border-gray-200 p-3 transition-all hover:border-secondary-500 hover:shadow-md"
+                            className="group relative rounded-lg border border-gray-200 p-3 transition-all hover:border-indigo-900 hover:shadow-md"
                           >
                             <div className="flex items-start space-x-2 sm:space-x-3">
                               <benefit.icon className={`h-4 w-4 sm:h-5 sm:w-5 flex-shrink-0 ${benefit.color} transition-transform group-hover:scale-110`} />
@@ -164,14 +164,14 @@ export default function ModernInstallPrompt() {
 
                       {/* Platform-specific Instructions */}
                       {isIOS && (
-                        <div className="mt-3 sm:mt-4 rounded-lg bg-primary-50 p-3">
+                        <div className="mt-3 sm:mt-4 rounded-lg bg-amber-50 p-3">
                           <div className="flex items-start space-x-2">
-                            <DevicePhoneMobileIcon className="h-4 w-4 sm:h-5 sm:w-5 text-primary-600 flex-shrink-0" />
+                            <DevicePhoneMobileIcon className="h-4 w-4 sm:h-5 sm:w-5 text-amber-600 flex-shrink-0" />
                             <div className="flex-1">
-                              <p className="text-xs font-medium text-primary-900">
+                              <p className="text-xs font-medium text-amber-900">
                                 {t('pwa.modern.ios_hint', 'iOS Quick Install:')}
                               </p>
-                              <p className="mt-1 text-xs text-primary-700">
+                              <p className="mt-1 text-xs text-amber-800">
                                 {t('pwa.modern.ios_instruction', 'Tap the share button and select "Add to Home Screen"')}
                               </p>
                             </div>
@@ -187,16 +187,16 @@ export default function ModernInstallPrompt() {
                           <button
                             type="button"
                             onClick={handleInstall}
-                            className="inline-flex flex-1 justify-center items-center rounded-lg sm:rounded-xl bg-secondary-600 px-4 py-2.5 sm:py-3 text-sm font-semibold text-white shadow-lg hover:bg-secondary-700 transform transition-all hover:scale-105"
+                            className="inline-flex flex-1 justify-center items-center rounded-lg sm:rounded-xl bg-indigo-900 px-4 py-2.5 sm:py-3 text-sm font-semibold text-white shadow-lg hover:bg-indigo-800 transform transition-all hover:scale-105"
                           >
-                            <BoltIcon className="mr-2 h-4 w-4 sm:h-5 sm:w-5" />
+                            <BoltIcon className="me-2 h-4 w-4 sm:h-5 sm:w-5" />
                             <span className="text-xs sm:text-sm">{t('pwa.modern.install_now', 'Install Now - It\'s Free!')}</span>
                           </button>
                         ) : isIOS ? (
                           <button
                             type="button"
                             onClick={handleDismiss}
-                            className="inline-flex flex-1 justify-center items-center rounded-lg sm:rounded-xl bg-secondary-600 px-4 py-2.5 sm:py-3 text-sm font-semibold text-white shadow-lg hover:bg-secondary-700"
+                            className="inline-flex flex-1 justify-center items-center rounded-lg sm:rounded-xl bg-indigo-900 px-4 py-2.5 sm:py-3 text-sm font-semibold text-white shadow-lg hover:bg-indigo-800"
                           >
                             <span className="text-xs sm:text-sm">{t('pwa.modern.got_it', 'Got it!')}</span>
                           </button>

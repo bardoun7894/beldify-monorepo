@@ -41,19 +41,19 @@ export default function PWAReminderBanner() {
 
   return (
     <div
-      className={`fixed bottom-4 left-4 right-4 sm:left-auto sm:right-4 sm:w-80 md:w-96 z-40 transition-all duration-300 ${
+      className={`fixed bottom-4 start-4 end-4 sm:start-auto sm:end-4 sm:w-80 md:w-96 z-40 transition-all duration-300 ${
         isAnimating ? 'translate-y-0 opacity-100' : 'translate-y-full opacity-0'
       }`}
     >
-      <div className="relative overflow-hidden rounded-xl sm:rounded-2xl bg-secondary-500 p-1">
+      <div className="relative overflow-hidden rounded-xl sm:rounded-2xl bg-indigo-900 p-1">
         {/* Animated solid border */}
-        <div className="absolute inset-0 bg-secondary-400 opacity-50 blur-lg animate-pulse"></div>
+        <div className="absolute inset-0 bg-indigo-800/40"></div>
         
         <div className="relative bg-white rounded-lg sm:rounded-xl p-3 sm:p-4">
           {/* Close button */}
           <button
             onClick={handleDismiss}
-            className="absolute right-2 top-2 rounded-full bg-gray-100 p-1 hover:bg-gray-200 transition-colors"
+            className="absolute end-2 top-2 rounded-full bg-gray-100 p-1 hover:bg-gray-200 transition-colors"
           >
             <XMarkIcon className="h-3 w-3 sm:h-4 sm:w-4 text-gray-600" />
           </button>
@@ -62,10 +62,10 @@ export default function PWAReminderBanner() {
             {/* Icon */}
             <div className="flex-shrink-0">
               <div className="relative">
-                <div className="h-10 w-10 sm:h-12 sm:w-12 rounded-full bg-secondary-500 flex items-center justify-center">
+                <div className="h-10 w-10 sm:h-12 sm:w-12 rounded-full bg-indigo-900 flex items-center justify-center">
                   <DevicePhoneMobileIcon className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
                 </div>
-                <SparklesIcon className="absolute -top-0.5 -right-0.5 sm:-top-1 sm:-right-1 h-4 w-4 sm:h-5 sm:w-5 text-primary-400 animate-pulse" />
+                <SparklesIcon className="absolute -top-0.5 -end-0.5 sm:-top-1 sm:-end-1 h-4 w-4 sm:h-5 sm:w-5 text-amber-500 animate-pulse" />
               </div>
             </div>
 
@@ -80,10 +80,10 @@ export default function PWAReminderBanner() {
 
               {/* Benefits list */}
               <div className="mt-2 flex flex-wrap gap-1 sm:gap-2">
-                <span className="inline-flex items-center rounded-full bg-secondary-50 px-2 py-0.5 sm:py-1 text-xs font-medium text-secondary-700">
+                <span className="inline-flex items-center rounded-full bg-indigo-50 px-2 py-0.5 sm:py-1 text-xs font-medium text-indigo-700">
                   {t('pwa.reminder.faster', '2x Faster')}
                 </span>
-                <span className="inline-flex items-center rounded-full bg-primary-50 px-2 py-0.5 sm:py-1 text-xs font-medium text-primary-700">
+                <span className="inline-flex items-center rounded-full bg-amber-50 px-2 py-0.5 sm:py-1 text-xs font-medium text-amber-800">
                   {t('pwa.reminder.offline', 'Works Offline')}
                 </span>
                 <span className="inline-flex items-center rounded-full bg-green-50 px-2 py-0.5 sm:py-1 text-xs font-medium text-green-700">
@@ -95,7 +95,7 @@ export default function PWAReminderBanner() {
               <div className="mt-2 sm:mt-3 flex space-x-2">
                 <button
                   onClick={handleOpenApp}
-                  className="flex-1 rounded-lg bg-secondary-600 px-3 py-1 sm:py-1.5 text-xs font-semibold text-white hover:bg-secondary-700 transition-colors"
+                  className="flex-1 rounded-lg bg-indigo-900 px-3 py-1 sm:py-1.5 text-xs font-semibold text-white hover:bg-indigo-800 transition-colors"
                 >
                   {t('pwa.reminder.open_app', 'Open App')}
                 </button>
@@ -129,7 +129,7 @@ export function PWAMinimalReminder() {
   if (!isVisible) return null;
 
   return (
-    <div className="fixed top-0 left-0 right-0 z-40 bg-secondary-500 py-2 px-3 sm:px-4">
+    <div className="fixed top-0 start-0 end-0 z-40 bg-indigo-900 py-2 px-3 sm:px-4">
       <div className="flex items-center justify-between max-w-7xl mx-auto">
         <div className="flex items-center space-x-2 min-w-0 flex-1">
           <DevicePhoneMobileIcon className="h-4 w-4 sm:h-5 sm:w-5 text-white flex-shrink-0" />
@@ -137,7 +137,7 @@ export function PWAMinimalReminder() {
             {t('pwa.minimal_reminder', 'Get a better experience with our app!')}
           </p>
         </div>
-        <div className="flex items-center space-x-2 sm:space-x-3 ml-2">
+        <div className="flex items-center space-x-2 sm:space-x-3 ms-2">
           <button
             onClick={() => window.open(`${window.location.origin}?mode=pwa`, '_blank')}
             className="text-xs sm:text-sm font-medium text-white underline hover:no-underline whitespace-nowrap"

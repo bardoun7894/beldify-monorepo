@@ -138,14 +138,14 @@ const ReviewsSection: React.FC<ReviewsSectionProps> = ({ productId, productName 
           >
             {showReviewForm ? (
               <>
-                <svg className="h-5 w-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="h-5 w-5 me-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                 </svg>
                 {t('common.cancel')}
               </>
             ) : (
               <>
-                <PlusCircleIcon className="h-5 w-5 mr-2" />
+                <PlusCircleIcon className="h-5 w-5 me-2" />
                 {t('reviews.write_review_button')}
               </>
             )}
@@ -191,7 +191,7 @@ const ReviewsSection: React.FC<ReviewsSectionProps> = ({ productId, productName 
               onClick={() => setShowFilters(prev => !prev)} 
               className="md:hidden bg-white border border-gray-200 text-gray-700 hover:bg-gray-50 shadow-sm"
             >
-              <AdjustmentsHorizontalIcon className="h-5 w-5 mr-2" />
+              <AdjustmentsHorizontalIcon className="h-5 w-5 me-2" />
               {t('common.actions.filters')}
             </Button>
             <Select value={activeFilters.sort} onValueChange={handleSortChange}>
@@ -227,7 +227,7 @@ const ReviewsSection: React.FC<ReviewsSectionProps> = ({ productId, productName 
                         >
                           <div className="flex items-center">
                             <span>{r}</span>
-                            <StarIcon className="h-4 w-4 ml-1 inline-block" />
+                            <StarIcon className="h-4 w-4 ms-1 inline-block" />
                           </div>
                         </Button>
                     ))}
@@ -281,7 +281,7 @@ const ReviewsSection: React.FC<ReviewsSectionProps> = ({ productId, productName 
               className="mt-6 bg-indigo-700 hover:bg-indigo-800 text-white shadow-sm"
               size="lg"
             >
-              <PlusCircleIcon className="h-5 w-5 mr-2" />
+              <PlusCircleIcon className="h-5 w-5 me-2" />
               {t('reviews.write_review_button')}
             </Button>
           </div>
@@ -303,7 +303,7 @@ const ReviewsSection: React.FC<ReviewsSectionProps> = ({ productId, productName 
               size="lg"
             >
               {t('reviews.load_more_reviews')}
-              <svg className="ml-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="ms-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
               </svg>
             </Button>

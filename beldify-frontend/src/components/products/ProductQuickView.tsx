@@ -226,7 +226,7 @@ export default function ProductQuickView({
                             <div className="flex">
                               {renderStars(rating)}
                             </div>
-                            <span className="text-sm text-gray-600 ml-1">
+                            <span className="text-sm text-gray-600 ms-1">
                               ({reviews_count || 0})
                             </span>
                           </div>
