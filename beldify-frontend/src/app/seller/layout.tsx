@@ -15,6 +15,7 @@ import {
   User,
   Store,
   ArrowRight,
+  MessageSquare,
 } from 'lucide-react';
 
 // ─── Routes that belong to the acquisition funnel ───────────────────────────
@@ -44,6 +45,10 @@ function buildNavItems(
     { label: t('seller.nav.earnings', 'Earnings'), href: '/seller/earnings', icon: DollarSign },
     { label: t('seller.nav.store_settings', 'Store Settings'), href: '/seller/store-settings', icon: Settings },
     { label: t('seller.nav.profile', 'Profile'), href: '/seller/profile', icon: User },
+    // NOTE: unread badge omitted — getUnreadCount() from messagingService exists but is buyer-scoped
+    // (hits /api/v1/buyer/messages/unread-count). No seller-scoped unread endpoint found in src/services.
+    // Plain link added per task spec. Revisit when seller messaging endpoint ships.
+    { label: t('seller.nav.messages', 'Messages'), href: '/community/messages', icon: MessageSquare },
   ];
 }
 

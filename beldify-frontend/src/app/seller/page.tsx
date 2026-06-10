@@ -21,6 +21,7 @@ import {
   AlertCircle,
   XCircle,
   Clock,
+  Plus,
 } from 'lucide-react';
 
 const playfair = { fontFamily: '"Playfair Display", ui-serif, Georgia, serif' };
@@ -50,7 +51,16 @@ function StatusBadge({ status }: { status: string }) {
 
 // ── Onboarding banner ─────────────────────────────────────────────────────────
 function OnboardingBanner({ status }: { status: OnboardingStatusData }) {
-  if (status.store_status === 'active') {
+  if (status.store_status === 'suspended') {
+    return (
+      <div className="flex items-center gap-3 p-3 rounded-xl bg-rose-50 ring-1 ring-rose-200 text-sm">
+        <XCircle className="w-4 h-4 text-rose-600 shrink-0" aria-hidden="true" />
+        <span className="text-rose-800 font-medium">Store suspended — contact support</span>
+      </div>
+    );
+  }
+
+  if (status.store_status === 'active' && (status.overall_percentage ?? 100) >= 100) {
     return (
       <div className="flex items-center gap-3 p-3 rounded-xl bg-emerald-50 ring-1 ring-emerald-200 text-sm">
         <CheckCircle className="w-4 h-4 text-emerald-600 shrink-0" aria-hidden="true" />
@@ -61,20 +71,31 @@ function OnboardingBanner({ status }: { status: OnboardingStatusData }) {
       </div>
     );
   }
-  if (status.store_status === 'suspended') {
-    return (
-      <div className="flex items-center gap-3 p-3 rounded-xl bg-rose-50 ring-1 ring-rose-200 text-sm">
-        <XCircle className="w-4 h-4 text-rose-600 shrink-0" aria-hidden="true" />
-        <span className="text-rose-800 font-medium">Store suspended — contact support</span>
-      </div>
-    );
-  }
+
+  // Onboarding nudge — active store with incomplete profile OR pending application
+  const pct = status.overall_percentage ?? 0;
+  const isPending = status.store_status === 'pending';
+
   return (
-    <div className="flex items-center gap-3 p-3 rounded-xl bg-amber-50 ring-1 ring-amber-200 text-sm">
-      <AlertCircle className="w-4 h-4 text-amber-600 shrink-0" aria-hidden="true" />
-      <span className="text-amber-800 font-medium">Application under review</span>
-      <Link href="/seller/onboarding" className="ms-auto text-xs text-amber-600 hover:underline shrink-0">
-        Track progress
+    <div className="flex items-start gap-3 p-4 rounded-xl bg-amber-50 ring-1 ring-amber-200 text-sm">
+      <AlertCircle className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" aria-hidden="true" />
+      <div className="flex-1 min-w-0">
+        <p className="text-amber-800 font-medium">
+          {isPending
+            ? 'Application under review'
+            : `Complete your store setup — ${pct}% done`}
+        </p>
+        {!isPending && (
+          <p className="text-amber-700 text-xs mt-0.5">
+            Finish your profile to unlock all features and start selling.
+          </p>
+        )}
+      </div>
+      <Link
+        href="/seller/onboarding"
+        className="shrink-0 text-xs font-medium text-amber-700 hover:text-amber-900 hover:underline"
+      >
+        {isPending ? 'Track progress' : 'Complete setup'}
       </Link>
     </div>
   );
@@ -223,11 +244,18 @@ export default function SellerDashboardPage() {
             {[1, 2, 3].map((i) => <Skeleton key={i} className="h-10" />)}
           </div>
         ) : orders.length === 0 ? (
-          <div className="flex flex-col items-center justify-center py-12 text-center">
-            <Clock className="w-8 h-8 text-amber-300 mb-3" aria-hidden="true" />
+          <div className="flex flex-col items-center justify-center py-12 text-center px-6 gap-3">
+            <Clock className="w-8 h-8 text-amber-300" aria-hidden="true" />
             <p className="text-sm text-gray-500">
               {t('seller.dashboard.no_orders', 'No orders yet — share your store to get started!')}
             </p>
+            <Link
+              href="/seller/products/new"
+              className="inline-flex items-center gap-2 bg-indigo-700 hover:bg-indigo-800 text-white rounded-full px-5 py-2 text-xs font-semibold transition-colors mt-1"
+            >
+              <Plus className="w-3.5 h-3.5" aria-hidden="true" />
+              {t('seller.dashboard.add_first_product_cta', 'Add your first product')}
+            </Link>
           </div>
         ) : (
           <div className="overflow-x-auto">

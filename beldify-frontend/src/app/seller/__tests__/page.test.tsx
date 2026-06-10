@@ -139,8 +139,9 @@ describe('SellerDashboardPage', () => {
   it('renders onboarding status indicator', async () => {
     const { default: Page } = await import('../page');
     render(<Page />);
-    // Active store status should show active/live/approved text
-    const statusEl = await screen.findByText(/active|approved|live/i);
+    // MOCK_ONBOARDING has overall_percentage: 90, so the nudge banner renders
+    // showing "Complete your store setup — 90% done" (not the full-active variant)
+    const statusEl = await screen.findByText(/complete your store setup|90% done/i);
     expect(statusEl).toBeTruthy();
   });
 

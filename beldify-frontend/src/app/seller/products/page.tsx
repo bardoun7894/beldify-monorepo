@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '@/hooks/useAuth';
 import { getSellerProducts, SellerProduct } from '@/services/sellerOnboardingService';
-import { Plus, Package, AlertCircle } from 'lucide-react';
+import { Plus, Package, AlertCircle, Pencil } from 'lucide-react';
 
 const playfair = { fontFamily: '"Playfair Display", ui-serif, Georgia, serif' };
 
@@ -94,56 +94,71 @@ export default function SellerProductsPage() {
       {/* Products list */}
       {!loading && !error && products.length > 0 && (
         <div className="bg-white rounded-2xl ring-1 ring-amber-200 shadow-sm overflow-hidden">
-          <table className="w-full text-sm">
-            <thead>
-              <tr className="text-left text-xs text-gray-400 uppercase tracking-wide bg-amber-50/50 border-b border-amber-100">
-                <th className="px-5 py-3 font-medium">
-                  {t('seller.products.col_name', 'Product')}
-                </th>
-                <th className="px-5 py-3 font-medium text-right">
-                  {t('seller.products.col_price', 'Price (MAD)')}
-                </th>
-                <th className="px-5 py-3 font-medium text-right">
-                  {t('seller.products.col_stock', 'Stock')}
-                </th>
-                <th className="px-5 py-3 font-medium">
-                  {t('seller.products.col_status', 'Status')}
-                </th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-amber-50">
-              {products.map((product) => {
-                const stock = (product as any).quantity ?? (product as any).stock ?? '—';
-                return (
-                  <tr key={product.id} className="hover:bg-amber-50/30 transition-colors">
-                    <td className="px-5 py-3.5 font-medium text-gray-900">
-                      {product.name}
-                    </td>
-                    <td className="px-5 py-3.5 text-right text-gray-700">
-                      {fmtPrice(product.price)} DH
-                    </td>
-                    <td className="px-5 py-3.5 text-right text-gray-700">
-                      {stock}
-                    </td>
-                    <td className="px-5 py-3.5">
-                      <span
-                        className={[
-                          'inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium',
-                          product.is_active
-                            ? 'bg-emerald-100 text-emerald-800'
-                            : 'bg-gray-100 text-gray-600',
-                        ].join(' ')}
-                      >
-                        {product.is_active
-                          ? t('seller.products.status_active', 'Active')
-                          : t('seller.products.status_inactive', 'Inactive')}
-                      </span>
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="text-left text-xs text-gray-400 uppercase tracking-wide bg-amber-50/50 border-b border-amber-100">
+                  <th className="px-5 py-3 font-medium">
+                    {t('seller.products.col_name', 'Product')}
+                  </th>
+                  <th className="px-5 py-3 font-medium text-right">
+                    {t('seller.products.col_price', 'Price (MAD)')}
+                  </th>
+                  <th className="px-5 py-3 font-medium text-right">
+                    {t('seller.products.col_stock', 'Stock')}
+                  </th>
+                  <th className="px-5 py-3 font-medium">
+                    {t('seller.products.col_status', 'Status')}
+                  </th>
+                  <th className="px-5 py-3 font-medium">
+                    <span className="sr-only">{t('common.actions', 'Actions')}</span>
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-amber-50">
+                {products.map((product) => {
+                  const stock = (product as any).quantity ?? (product as any).stock ?? '—';
+                  return (
+                    <tr key={product.id} className="hover:bg-amber-50/30 transition-colors">
+                      <td className="px-5 py-3.5 font-medium text-gray-900">
+                        {product.name}
+                      </td>
+                      <td className="px-5 py-3.5 text-right text-gray-700">
+                        {fmtPrice(product.price)} DH
+                      </td>
+                      <td className="px-5 py-3.5 text-right text-gray-700">
+                        {stock}
+                      </td>
+                      <td className="px-5 py-3.5">
+                        <span
+                          className={[
+                            'inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium',
+                            product.is_active
+                              ? 'bg-emerald-100 text-emerald-800'
+                              : 'bg-gray-100 text-gray-600',
+                          ].join(' ')}
+                        >
+                          {product.is_active
+                            ? t('seller.products.status_active', 'Active')
+                            : t('seller.products.status_inactive', 'Inactive')}
+                        </span>
+                      </td>
+                      <td className="px-5 py-3.5">
+                        <Link
+                          href={`/seller/products/${product.id}/edit`}
+                          className="inline-flex items-center gap-1.5 text-xs font-medium text-indigo-700 hover:text-indigo-900 transition-colors"
+                          aria-label={t('seller.products.edit_aria', 'Edit {{name}}', { name: product.name })}
+                        >
+                          <Pencil className="w-3.5 h-3.5" aria-hidden="true" />
+                          {t('common.edit', 'Edit')}
+                        </Link>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
         </div>
       )}
     </div>
