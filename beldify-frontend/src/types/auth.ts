@@ -6,6 +6,8 @@ export interface User {
   first_name?: string;
   last_name?: string;
   email: string;
+  /** ISO timestamp when the email was verified; null / absent means unverified */
+  email_verified_at?: string | null;
   contact_number: string;
   address_en: string | null;
   address_ar: string | null;

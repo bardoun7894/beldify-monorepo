@@ -13,6 +13,7 @@ import GeneralSettings from './components/GeneralSettings';
 import SecuritySettings from './components/SecuritySettings';
 import PreferencesSettings from './components/PreferencesSettings';
 import AddressBook from './components/AddressBook';
+import EmailVerificationBanner from './components/EmailVerificationBanner';
 
 const tabIcons = {
   general: <User className="me-2 h-5 w-5" aria-hidden="true" />,
@@ -82,6 +83,9 @@ export default function ProfilePage() {
             { label: t('title', { defaultValue: 'Profile' }) },
           ]}
         />
+
+        {/* Email verification banner — only shown when email_verified_at is null/absent */}
+        <EmailVerificationBanner emailVerifiedAt={user.email_verified_at ?? null} />
 
         <motion.div
           initial={{ opacity: 0, y: 16 }}

@@ -27,7 +27,79 @@ export interface ResetPasswordResult {
   message: string;
 }
 
+export interface ResendVerificationResult {
+  success: true;
+  already_verified?: boolean;
+  message?: string;
+}
+
+export interface VerifyEmailParams {
+  id: string;
+  hash: string;
+  expires: string;
+  signature: string;
+}
+
+export interface VerifyEmailResult {
+  success: true;
+  already_verified?: boolean;
+  message?: string;
+}
+
 export const authService = {
+  /**
+   * POST /api/auth/email/verification-notification (authenticated)
+   *
+   * Re-sends the verification email. Returns {success:true} or
+   * {success:true,already_verified:true}. Throws 'rate_limit' on 429.
+   */
+  async resendVerification(): Promise<ResendVerificationResult> {
+    try {
+      const response = await api.post('/api/auth/email/verification-notification');
+      return response.data as ResendVerificationResult;
+    } catch (error: unknown) {
+      logger.error('resendVerification error:', error);
+      if (axios.isAxiosError(error)) {
+        if (error.response?.status === 429) {
+          throw new Error('rate_limit');
+        }
+        throw new Error(error.response?.data?.message || error.message || 'request_failed');
+      }
+      throw error;
+    }
+  },
+
+  /**
+   * POST /api/auth/email/verify (public)
+   *
+   * Sends the signed verification params from the email link. Returns
+   * {success:true} or {success:true,already_verified:true}. Throws
+   * 'invalid_or_expired' when the link is bad or expired.
+   */
+  async verifyEmail(params: VerifyEmailParams): Promise<VerifyEmailResult> {
+    try {
+      const response = await api.post('/api/auth/email/verify', params);
+      const data = response.data;
+      // Backend may return 200 with success:false for invalid/expired
+      if (data && data.success === false) {
+        throw new Error(data.message || 'invalid_or_expired');
+      }
+      return data as VerifyEmailResult;
+    } catch (error: unknown) {
+      logger.error('verifyEmail error:', error);
+      // Re-throw if we already threw above (not an axios error)
+      if (error instanceof Error && !axios.isAxiosError(error)) {
+        throw error;
+      }
+      if (axios.isAxiosError(error)) {
+        const message =
+          error.response?.data?.message || error.message || 'invalid_or_expired';
+        throw new Error(message);
+      }
+      throw error;
+    }
+  },
+
   /**
    * POST /api/auth/forgot-password
    *

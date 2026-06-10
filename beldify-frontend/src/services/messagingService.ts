@@ -230,6 +230,33 @@ export const sendMessage = async (
 };
 
 /**
+ * Get unread message count for the seller (seller-scoped endpoint).
+ * Hits /api/v1/backend/messages/unread-count (Sanctum auth required).
+ * Returns a plain number; returns 0 and does NOT throw on any failure
+ * so callers can use it safely in polling hooks.
+ */
+export const getSellerUnreadCount = async (): Promise<number> => {
+  try {
+    const authToken = localStorage.getItem('token');
+
+    if (!authToken) {
+      logger.warn('No authentication token found for seller unread count');
+      return 0;
+    }
+
+    const response = await axios.get(`${API_BASE_URL}/api/v1/backend/messages/unread-count`, {
+      headers: getAuthHeaders(),
+      withCredentials: true,
+    });
+
+    return response.data?.unread_count ?? 0;
+  } catch (error) {
+    logger.error('Error fetching seller unread message count:', error);
+    return 0;
+  }
+};
+
+/**
  * Get unread message count
  */
 export const getUnreadCount = async (lastCheckedTimestamp?: number): Promise<{

@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useTranslation } from 'react-i18next';
@@ -17,6 +17,46 @@ import {
   ArrowRight,
   MessageSquare,
 } from 'lucide-react';
+import { getSellerUnreadCount } from '@/services/messagingService';
+
+const POLL_INTERVAL_MS = 60_000; // 60 seconds
+
+/**
+ * Poll the seller-scoped unread endpoint on mount + every 60 s.
+ * Returns the count to display (0 = badge hidden; 99+ cap enforced).
+ */
+function useSellerUnreadCount(): number {
+  const [count, setCount] = useState(0);
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    const fetchCount = async () => {
+      try {
+        const n = await getSellerUnreadCount();
+        if (!cancelled) setCount(n);
+      } catch {
+        // silently fail — badge simply stays at current value
+      }
+    };
+
+    fetchCount();
+    intervalRef.current = setInterval(fetchCount, POLL_INTERVAL_MS);
+
+    return () => {
+      cancelled = true;
+      if (intervalRef.current !== null) clearInterval(intervalRef.current);
+    };
+  }, []);
+
+  return count;
+}
+
+/** Format the badge label — caps at 99+. Exported for unit tests. */
+export function formatBadge(count: number): string {
+  return count > 99 ? '99+' : String(count);
+}
 
 // ─── Routes that belong to the acquisition funnel ───────────────────────────
 // These are pages a *non-seller* user accesses to apply / onboard.
@@ -60,6 +100,7 @@ export default function SellerLayout({ children }: { children: React.ReactNode }
   const router = useRouter();
   const { isAuthenticated, user } = useAuth();
   const isRTL = i18n.language === 'ar' || i18n.language === 'ma';
+  const sellerUnreadCount = useSellerUnreadCount();
 
   // ── Funnel bypass — register / onboarding pages own their own chrome ──────
   if (isFunnelRoute(pathname)) {
@@ -148,6 +189,7 @@ export default function SellerLayout({ children }: { children: React.ReactNode }
               href === '/seller'
                 ? pathname === '/seller'
                 : pathname.startsWith(href);
+            const isMessages = href === '/community/messages';
             return (
               <Link
                 key={href}
@@ -161,7 +203,15 @@ export default function SellerLayout({ children }: { children: React.ReactNode }
                 ].join(' ')}
               >
                 <Icon className="w-4 h-4 shrink-0" aria-hidden="true" />
-                {label}
+                <span className="flex-1">{label}</span>
+                {isMessages && sellerUnreadCount > 0 && (
+                  <span
+                    aria-label={`${sellerUnreadCount} unread messages`}
+                    className="inline-flex items-center justify-center min-w-[1.25rem] h-5 px-1.5 rounded-full text-xs font-bold bg-amber-400 text-indigo-950 leading-none"
+                  >
+                    {formatBadge(sellerUnreadCount)}
+                  </span>
+                )}
               </Link>
             );
           })}
