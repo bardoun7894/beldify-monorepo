@@ -13,6 +13,8 @@ import { useAuth } from '@/hooks/useAuth';
 import logger from '@/utils/consoleLogger';
 import { usePWATriggers } from '@/hooks/usePWATriggers';
 import { getImageUrl } from '@/utils/imageUtils';
+import { shippingService, type ShippingMethod } from '@/services/shippingService';
+import { addressService, type SavedAddress } from '@/services/addressService';
 import {
   ShoppingBag,
   ArrowRight,
@@ -29,18 +31,17 @@ import {
   BadgeCheck,
   Headphones,
   Check,
+  ChevronDown,
+  BookUser,
 } from 'lucide-react';
 
 // ── Playfair inline style token ───────────────────────────────────────────────
 const playfair = { fontFamily: '"Playfair Display", ui-serif, Georgia, serif' };
 
-// ── Shipping config — single source of truth ──────────────────────────────────
-// Free-shipping threshold and standard/express method prices live here so the
-// method card and the order summary can never drift apart.
-// Note: for the buyNow path, authoritative shipping comes from the quote endpoint.
+// ── Shipping config — LEGACY FALLBACK CONSTANTS ──────────────────────────────
+// These are now the fallback only. Live values come from shippingService.getMethods().
+// Kept here so the order-summary FREE badge and quote comparison still compile.
 const FREE_SHIPPING_THRESHOLD = 500;
-const STANDARD_SHIPPING_PRICE = 30;
-const EXPRESS_SHIPPING_PRICE = 70;
 
 // ── Quote shape ───────────────────────────────────────────────────────────────
 interface CheckoutQuote {
@@ -91,7 +92,8 @@ interface PaymentMethod {
 // the server rule in OrderService::assertCodAllowed.
 const COD_MAX_AMOUNT = 500;
 
-type ShippingMethodKey = 'standard' | 'express' | 'pickup';
+// Fallback key type kept for the initial state; real IDs come from API methods.
+type ShippingMethodKey = string;
 
 // ── Constants ─────────────────────────────────────────────────────────────────
 const initialShippingInfo: ShippingInfo = {
@@ -197,6 +199,15 @@ export default function CheckoutPage() {
   const [isLoadingLocation, setIsLoadingLocation] = useState(false);
   const [sendUpdates, setSendUpdates] = useState(true);
   const [shippingMethod, setShippingMethod] = useState<ShippingMethodKey>('standard');
+
+  // ── Dynamic shipping methods (Task 1) ────────────────────────────────────
+  const [dynamicShippingMethods, setDynamicShippingMethods] = useState<ShippingMethod[]>([]);
+  const [shippingMethodsLoading, setShippingMethodsLoading] = useState(false);
+
+  // ── Saved addresses (Task 2 — auth only) ─────────────────────────────────
+  const [savedAddresses, setSavedAddresses] = useState<SavedAddress[]>([]);
+  const [selectedAddressId, setSelectedAddressId] = useState<number | null>(null);
+  const [saveNewAddress, setSaveNewAddress] = useState(false);
 
   // ── Quote state (buyNow path only) ───────────────────────────────────────
   const [quote, setQuote] = useState<CheckoutQuote | null>(null);
@@ -711,6 +722,8 @@ export default function CheckoutPage() {
           })),
           shipping_info: shippingPayload,
           payment_method: normalizedPaymentMethod,
+          // Additive — backend ignores if not yet supported
+          shipping_method_id: shippingMethod,
           status: 'pending',
           subtotal: String(cartState.subtotal),
           tax_amount: String(cartState.tax_amount),
@@ -720,6 +733,28 @@ export default function CheckoutPage() {
           coupon_code: cartState.coupon_code || null,
         };
         response = await orderService.createOrder(orderData);
+      }
+
+      // ── Task 2: Save new address (non-blocking, auth only) ──────────────
+      // Only save when the user typed a fresh address (no existing address selected)
+      // and checked the "save this address" box.
+      if (isAuthenticated && saveNewAddress && !selectedAddressId) {
+        addressService
+          .create({
+            first_name: shippingPayload.first_name,
+            last_name: shippingPayload.last_name,
+            email: shippingPayload.email,
+            phone: shippingPayload.phone,
+            address: shippingPayload.address,
+            apartment: shippingPayload.apartment,
+            city: shippingPayload.city,
+            state: shippingPayload.state,
+            postal_code: shippingPayload.zip_code,
+            country: shippingPayload.country,
+          })
+          .catch((err) => {
+            logger.warn('Non-blocking: failed to save address:', err);
+          });
       }
 
       if (response.success || response.status === 'success') {
@@ -809,6 +844,30 @@ export default function CheckoutPage() {
     setSelectedPayment(methodId);
   };
 
+  // ── Task 2: Prefill form from selected saved address ─────────────────────
+  const handleAddressSelect = (addressId: number) => {
+    setSelectedAddressId(addressId);
+    const addr = savedAddresses.find((a) => a.id === addressId);
+    if (!addr) return;
+    const prefill = addressService.prefillFromAddress(addr);
+    setShippingInfo((prev) => ({
+      ...prev,
+      firstName: prefill.firstName || prev.firstName,
+      lastName: prefill.lastName || prev.lastName,
+      email: prefill.email || prev.email,
+      phone: prefill.phone || prev.phone,
+      address: prefill.address,
+      apartment: prefill.apartment ?? prev.apartment,
+      city: prefill.city,
+      state: prefill.state,
+      postalCode: prefill.postalCode ?? '',
+      country: prefill.country,
+    }));
+    // Reset validation errors after prefill
+    setValidationErrors({});
+    setTouchedFields({});
+  };
+
   // ── Fetch quote whenever buyNow item or delivery country changes ──────────
   // This drives authoritative totals and COD eligibility for the guest path.
   useEffect(() => {
@@ -840,6 +899,64 @@ export default function CheckoutPage() {
       cancelled = true;
     };
   }, [isBuyNow, buyNowItem, shippingInfo.country]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // ── Task 1: Load dynamic shipping methods ────────────────────────────────
+  // Fetch whenever subtotal changes. On failure, dynamicShippingMethods stays []
+  // and renderDeliveryStep falls back to the hardcoded shippingMethodOptions below.
+  useEffect(() => {
+    let cancelled = false;
+    const load = async () => {
+      setShippingMethodsLoading(true);
+      try {
+        const methods = await shippingService.getMethods(subtotal);
+        if (!cancelled) setDynamicShippingMethods(methods);
+      } catch {
+        // getMethods never throws (it catches internally), but guard just in case
+        if (!cancelled) setDynamicShippingMethods([]);
+      } finally {
+        if (!cancelled) setShippingMethodsLoading(false);
+      }
+    };
+    load();
+    return () => { cancelled = true; };
+  }, [subtotal]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // ── Task 2: Load saved addresses for authenticated users ──────────────────
+  useEffect(() => {
+    if (!isAuthenticated) return;
+    let cancelled = false;
+    const load = async () => {
+      try {
+        const addresses = await addressService.list();
+        if (cancelled) return;
+        setSavedAddresses(addresses);
+        // Preselect the default address if one exists
+        const defaultAddr = addresses.find((a) => a.is_default) ?? addresses[0] ?? null;
+        if (defaultAddr) {
+          setSelectedAddressId(defaultAddr.id);
+          // Prefill form fields from the default address
+          const prefill = addressService.prefillFromAddress(defaultAddr);
+          setShippingInfo((prev) => ({
+            ...prev,
+            firstName: prefill.firstName || prev.firstName,
+            lastName: prefill.lastName || prev.lastName,
+            email: prefill.email || prev.email,
+            phone: prefill.phone || prev.phone,
+            address: prefill.address || prev.address,
+            apartment: prefill.apartment ?? prev.apartment,
+            city: prefill.city || prev.city,
+            state: prefill.state || prev.state,
+            postalCode: prefill.postalCode ?? prev.postalCode,
+            country: prefill.country || prev.country,
+          }));
+        }
+      } catch {
+        // Non-blocking — address book failure must not break checkout
+      }
+    };
+    load();
+    return () => { cancelled = true; };
+  }, [isAuthenticated]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // If COD becomes ineligible (cart > limit or shipping leaves Morocco) while it
   // is the selected method, fall back to the first transfer option.
@@ -1035,7 +1152,20 @@ export default function CheckoutPage() {
     </div>
   );
 
-  // ── Delivery step ─────────────────────────────────────────────────────────
+  // ── Delivery step — shipping method options ───────────────────────────────
+  // If dynamic methods loaded: use them; else fall back to hardcoded constants.
+  // Each option gets an icon by matching id prefix.
+  const getMethodIcon = (id: string) => {
+    if (id === 'express') return <Zap className="w-5 h-5 text-indigo-700" aria-hidden="true" />;
+    if (id === 'pickup') return <Store className="w-5 h-5 text-indigo-700" aria-hidden="true" />;
+    return <Truck className="w-5 h-5 text-indigo-700" aria-hidden="true" />;
+  };
+
+  // Source of truth for rendered options
+  const activeMethods = dynamicShippingMethods.length > 0
+    ? dynamicShippingMethods
+    : shippingService.getFallback(subtotal);
+
   const shippingMethodOptions: Array<{
     key: ShippingMethodKey;
     icon: React.ReactNode;
@@ -1043,35 +1173,16 @@ export default function CheckoutPage() {
     eta: string;
     price: string;
     isFree: boolean;
-  }> = [
-    {
-      key: 'standard',
-      icon: <Truck className="w-5 h-5 text-indigo-700" aria-hidden="true" />,
-      name: t('checkout.shipping.methods.standard.name', 'Standard Delivery'),
-      eta: t('checkout.shipping.methods.standard.eta', '3–5 business days'),
-      price:
-        subtotal >= FREE_SHIPPING_THRESHOLD
-          ? t('checkout.shipping.methods.standard.free', 'Free')
-          : `${formatAmount(STANDARD_SHIPPING_PRICE)} MAD`,
-      isFree: subtotal >= FREE_SHIPPING_THRESHOLD,
-    },
-    {
-      key: 'express',
-      icon: <Zap className="w-5 h-5 text-indigo-700" aria-hidden="true" />,
-      name: t('checkout.shipping.methods.express.name', 'Express Delivery'),
-      eta: t('checkout.shipping.methods.express.eta', '1–2 business days'),
-      price: `${formatAmount(EXPRESS_SHIPPING_PRICE)} MAD`,
-      isFree: false,
-    },
-    {
-      key: 'pickup',
-      icon: <Store className="w-5 h-5 text-indigo-700" aria-hidden="true" />,
-      name: t('checkout.shipping.methods.pickup.name', 'Pickup — Tetouan'),
-      eta: t('checkout.shipping.methods.pickup.eta', 'Ready next business day'),
-      price: t('checkout.shipping.methods.pickup.free', 'Free'),
-      isFree: true,
-    },
-  ];
+  }> = activeMethods.map((m) => ({
+    key: m.id,
+    icon: getMethodIcon(m.id),
+    name: m.name,
+    eta: m.delivery_time,
+    price: m.is_free
+      ? t('checkout.shipping.methods.standard.free', 'Free')
+      : `${formatAmount(m.cost)} MAD`,
+    isFree: m.is_free,
+  }));
 
   const renderDeliveryStep = () => (
     <form
@@ -1157,6 +1268,51 @@ export default function CheckoutPage() {
         >
           {t('checkout.address.title', 'Delivery address')}
         </h2>
+
+        {/* ── Task 2: Saved address dropdown (auth only) ──────────────────── */}
+        {isAuthenticated && savedAddresses.length > 0 && (
+          <div className="mb-5">
+            <label
+              htmlFor="saved-address-select"
+              className="block text-sm font-medium text-gray-700 mb-1.5"
+            >
+              <BookUser className="inline w-4 h-4 me-1.5 text-indigo-600" aria-hidden="true" />
+              {t('checkout.address.saved_addresses', 'Saved addresses')}
+            </label>
+            <div className="relative">
+              <select
+                id="saved-address-select"
+                value={selectedAddressId ?? ''}
+                onChange={(e) => {
+                  const val = e.target.value;
+                  if (val === '') {
+                    setSelectedAddressId(null);
+                  } else {
+                    handleAddressSelect(Number(val));
+                  }
+                }}
+                className={`${inputClass()} appearance-none pe-9`}
+                aria-label={t('checkout.address.saved_addresses', 'Saved addresses')}
+              >
+                <option value="">{t('checkout.address.type_new', 'Enter a new address')}</option>
+                {savedAddresses.map((addr) => (
+                  <option key={addr.id} value={addr.id}>
+                    {addr.label
+                      ? `${addr.label} — `
+                      : ''}{addr.first_name} {addr.last_name}, {addr.city}
+                    {addr.is_default
+                      ? ` (${t('checkout.address.default_badge', 'Default')})`
+                      : ''}
+                  </option>
+                ))}
+              </select>
+              <ChevronDown
+                className="absolute end-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none"
+                aria-hidden="true"
+              />
+            </div>
+          </div>
+        )}
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           {/* Full name — spans 2 */}
@@ -1385,6 +1541,21 @@ export default function CheckoutPage() {
             />
           </div>
         </div>
+
+        {/* ── Task 2: Save this address checkbox (auth only, fresh address) ── */}
+        {isAuthenticated && !selectedAddressId && (
+          <label className="flex items-center gap-3 cursor-pointer select-none group mt-4">
+            <input
+              type="checkbox"
+              checked={saveNewAddress}
+              onChange={(e) => setSaveNewAddress(e.target.checked)}
+              className="w-4 h-4 rounded border-amber-300 text-indigo-700 focus:ring-indigo-700/30 bg-amber-50"
+            />
+            <span className="text-sm text-gray-600 group-hover:text-gray-800 transition-colors">
+              {t('checkout.address.save_for_next', 'Save this address for future orders')}
+            </span>
+          </label>
+        )}
       </section>
 
       {/* Shipping method card */}

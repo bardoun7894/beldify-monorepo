@@ -5,18 +5,20 @@ import { motion, AnimatePresence, MotionConfig } from 'framer-motion';
 import { useAuth } from '@/contexts/AuthContext';
 import { useRouter } from 'next/navigation';
 import { useTranslation } from 'react-i18next';
-import { User, Lock, Settings } from 'lucide-react';
+import { User, Lock, Settings, BookUser } from 'lucide-react';
 import Breadcrumbs from '@/components/navigation/Breadcrumbs';
 import ProfileHeader from './components/ProfileHeader';
 import ProfileTabs from './components/ProfileTabs';
 import GeneralSettings from './components/GeneralSettings';
 import SecuritySettings from './components/SecuritySettings';
 import PreferencesSettings from './components/PreferencesSettings';
+import AddressBook from './components/AddressBook';
 
 const tabIcons = {
   general: <User className="me-2 h-5 w-5" aria-hidden="true" />,
   security: <Lock className="me-2 h-5 w-5" aria-hidden="true" />,
   preferences: <Settings className="me-2 h-5 w-5" aria-hidden="true" />,
+  addresses: <BookUser className="me-2 h-5 w-5" aria-hidden="true" />,
 };
 
 export default function ProfilePage() {
@@ -58,6 +60,8 @@ export default function ProfilePage() {
         return <SecuritySettings />;
       case 'preferences':
         return <PreferencesSettings />;
+      case 'addresses':
+        return <AddressBook />;
       default:
         return <GeneralSettings />;
     }
@@ -98,7 +102,7 @@ export default function ProfilePage() {
             <div className="md:col-span-3 bg-amber-50 p-4 border-e border-amber-100">
               {/* Mobile: horizontal scroll pill tabs */}
               <div className="flex gap-2 overflow-x-auto pb-1 md:hidden snap-x snap-mandatory">
-                {(['general', 'security', 'preferences'] as const).map((tab) => {
+                {(['general', 'security', 'preferences', 'addresses'] as const).map((tab) => {
                   const isActive = activeTab === tab;
                   return (
                     <button

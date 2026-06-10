@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { User, Lock, Settings, ChevronRight } from 'lucide-react';
+import { User, Lock, Settings, ChevronRight, BookUser } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { LucideIcon } from 'lucide-react';
 
@@ -23,6 +23,7 @@ export default function ProfileTabs({ activeTab, onTabChange }: ProfileTabsProps
     { id: 'general', icon: User, label: t('tabs.general') },
     { id: 'security', icon: Lock, label: t('tabs.security') },
     { id: 'preferences', icon: Settings, label: t('tabs.preferences') },
+    { id: 'addresses', icon: BookUser, label: t('tabs.addresses', { defaultValue: 'Addresses' }) },
   ];
 
   return (
