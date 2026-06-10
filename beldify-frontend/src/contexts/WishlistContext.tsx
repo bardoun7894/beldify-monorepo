@@ -75,9 +75,13 @@ export function WishlistProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
+  // refreshWishlist changes identity on every render; including it would cause an infinite
+  // fetch loop. isAuthenticated is the correct sole trigger.
+  /* eslint-disable react-hooks/exhaustive-deps */
   useEffect(() => {
     refreshWishlist();
   }, [isAuthenticated]);
+  /* eslint-enable react-hooks/exhaustive-deps */
 
   const isInWishlist = (productId: number): boolean => {
     return wishlistItems.some((item) => item.product_id === productId);

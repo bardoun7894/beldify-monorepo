@@ -65,7 +65,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   }, []);
 
-  // Check authentication status on mount and cache the result
+  // Check authentication status on mount and cache the result.
+  // checkAuth and handleAuthError are defined after this effect and intentionally omitted from
+  // the dep array: including them would create a new function reference on every render and
+  // cause an infinite auth-check loop.
+  /* eslint-disable react-hooks/exhaustive-deps */
   useEffect(() => {
     // Check if token is expired (older than 24 hours)
     const tokenTimestamp = localStorage.getItem('token_timestamp');
@@ -116,6 +120,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       setLoading(false);
     }
   }, [pathname]); // Re-run when pathname changes to handle navigation
+  /* eslint-enable react-hooks/exhaustive-deps */
 
   const checkAuth = async (isInitialLoad = true) => {
     if (!isInitialLoad) setLoading(true); // Set loading true only for non-initial checks

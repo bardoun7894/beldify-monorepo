@@ -41,13 +41,15 @@ export default function CartPage() {
   const { triggerOnCartAdd } = usePWATriggers();
 
   // Trigger PWA prompt when user has items in cart
+  // triggerOnCartAdd is a stable PWA trigger; adding it as a dep would cause infinite
+  // PWA re-prompts on every item-count change.
+  /* eslint-disable react-hooks/exhaustive-deps */
   React.useEffect(() => {
     if (state?.items?.length && state.items.length > 0) {
       triggerOnCartAdd();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    // triggerOnCartAdd is a stable PWA trigger; adding it would cause infinite PWA re-prompts on every item-count change.
   }, [state?.items?.length]);
+  /* eslint-enable react-hooks/exhaustive-deps */
 
   // Coupon state
   const [couponCode, setCouponCode] = React.useState('');
@@ -55,7 +57,6 @@ export default function CartPage() {
   const handleApplyCoupon = async () => {
     const code = couponCode.trim();
     if (!code) {
-      // @ts-expect-error Known issue with toast translation
       toast.error(t('cart.coupon.enter_code', 'Please enter a promo code'));
       return;
     }
@@ -233,7 +234,7 @@ export default function CartPage() {
               taxAmount={taxAmount}
               discountAmount={discountAmount}
               totalAmount={totalAmount}
-              couponCode={state.coupon_code}
+              couponCode={state.coupon_code ?? undefined}
               couponInputValue={couponCode}
               onCouponInputChange={setCouponCode}
               onApplyCoupon={handleApplyCoupon}
@@ -286,7 +287,7 @@ export default function CartPage() {
             {t('cart.bespoke.headline', 'Want it tailored to you?')}
           </h2>
           <Link
-            href="/bespoke"
+            href="/custom-orders/new"
             className="inline-flex items-center justify-center px-8 py-3 bg-amber-500 hover:bg-amber-400 text-amber-950 font-bold rounded-full transition-colors duration-200 text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-400 shadow-atlas-sm"
           >
             {t('cart.bespoke.cta', 'Book a consultation')}

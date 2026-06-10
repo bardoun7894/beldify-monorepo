@@ -201,7 +201,11 @@ export function EnhancedPWAProvider({ children }: { children: ReactNode }) {
     };
   }, [loadEngagement]);
 
-  // Initialize and set up event listeners
+  // Initialize and set up event listeners. Mount-only: registers global PWA event listeners once.
+  // Functions like checkIfInstalled, checkPWAMode, isInstalled, isPWAMode, loadEngagement,
+  // saveEngagement are intentionally omitted from deps — re-registering on every state change
+  // would cause duplicate handlers and break the PWA install flow.
+  /* eslint-disable react-hooks/exhaustive-deps */
   useEffect(() => {
     try {
       // Check installation status
@@ -325,6 +329,7 @@ export function EnhancedPWAProvider({ children }: { children: ReactNode }) {
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
+  /* eslint-enable react-hooks/exhaustive-deps */
 
   // Track cart and wishlist changes
   useEffect(() => {

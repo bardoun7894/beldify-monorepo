@@ -103,6 +103,9 @@ export default function RequestCustomPieceForm() {
   // Keep the local bilingual helper — intentional, do not convert to react-i18next
   const t = (en: string, ar: string) => (isRTL ? ar : en);
 
+  // `t` here is a local bilingual helper re-derived from `isRTL` on every render; `isRTL` is
+  // already in the dep array. Listing `t` separately would add a new function ref each render.
+  /* eslint-disable react-hooks/exhaustive-deps */
   const onFiles = useCallback(
     (files: FileList | null) => {
       if (!files) return;
@@ -128,6 +131,7 @@ export default function RequestCustomPieceForm() {
     },
     [isRTL]
   );
+  /* eslint-enable react-hooks/exhaustive-deps */
 
   const removeImage = (idx: number) => {
     setImages((prev) => prev.filter((_, i) => i !== idx));

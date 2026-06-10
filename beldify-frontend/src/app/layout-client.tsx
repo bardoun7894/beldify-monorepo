@@ -22,6 +22,9 @@ export default function RootLayoutClient({ children }: RootLayoutClientProps) {
   const [isClient, setIsClient] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
+  // Mount-only language bootstrap — including i18n in the dep array would cause
+  // initializeApp to re-run on every language change, creating an infinite loop.
+  /* eslint-disable react-hooks/exhaustive-deps */
   useEffect(() => {
     const initializeApp = async () => {
       setIsClient(true);
@@ -41,9 +44,8 @@ export default function RootLayoutClient({ children }: RootLayoutClientProps) {
     };
 
     initializeApp();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    // Mount-only language bootstrap — including i18n would cause initializeApp to re-run on every language change, creating an infinite loop.
   }, []);
+  /* eslint-enable react-hooks/exhaustive-deps */
 
   if (isLoading) {
     // Only show loading overlay on first homepage visit

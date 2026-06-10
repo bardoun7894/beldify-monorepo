@@ -170,6 +170,7 @@ export default function PostCard({ post, isUserPost = false }: PostCardProps) {
         {/* ── Image band ── */}
         <div className="relative h-44 bg-amber-50 shrink-0 overflow-hidden">
           {post.images && post.images.length > 0 && getImageSrc(post.images[0]) && !coverImgError ? (
+            // eslint-disable-next-line @next/next/no-img-element -- user-uploaded API image; domain is dynamic, next/image requires unoptimized={true}
             <img
               src={getImageSrc(post.images[0])}
               alt={post.title}
@@ -279,6 +280,7 @@ export default function PostCard({ post, isUserPost = false }: PostCardProps) {
             {/* Buyer avatar + name */}
             <div className="flex items-center gap-1.5 min-w-0">
               {buyerAvatar && !buyerImgError ? (
+                // eslint-disable-next-line @next/next/no-img-element -- user-uploaded avatar from unknown API domain; arbitrary user content cannot be listed in next.config remotePatterns
                 <img
                   src={buyerAvatar}
                   alt={buyerName}

@@ -180,9 +180,15 @@ export default function LoginPage() {
     }
   };
 
-  // Load the Google Identity Services script — only when client_id is configured
+  // Mount-only effect: loads the Google Identity script once. initializeGoogleButton and t
+  // are referenced inside but must not trigger a re-load on language or function identity changes.
+  /* eslint-disable react-hooks/exhaustive-deps */
   useEffect(() => {
     if (!process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID) return;
+
+    // Capture the button container ref at effect registration time so the cleanup
+    // closure uses the value that was current when the effect ran, not at teardown.
+    const buttonContainer = googleButtonRef.current;
 
     // Skip if the script is already loaded
     if (document.querySelector('script#google-identity-script')) {
@@ -214,22 +220,18 @@ export default function LoginPage() {
           window.google.accounts.id.cancel();
         }
 
-        // Copy ref to local variable so the cleanup reads the value captured at
-        // effect registration time, not the (possibly stale) ref at teardown.
-        const buttonEl = googleButtonRef.current;
-        if (buttonEl) {
-          while (buttonEl.firstChild) {
-            buttonEl.removeChild(buttonEl.firstChild);
+        // Use the ref value captured at effect registration time (above).
+        if (buttonContainer) {
+          while (buttonContainer.firstChild) {
+            buttonContainer.removeChild(buttonContainer.firstChild);
           }
         }
       } catch (e) {
         logger.error('Error during Google Identity cleanup:', e);
       }
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    // Mount-only effect: loads the Google Identity script once. initializeGoogleButton and t
-    // are referenced inside but must not cause a re-load on language or function identity changes.
   }, []);
+  /* eslint-enable react-hooks/exhaustive-deps */
 
   const initializeGoogleButton = () => {
     if (!window.google || !googleButtonRef.current) return;

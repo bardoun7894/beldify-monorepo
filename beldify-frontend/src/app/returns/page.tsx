@@ -593,10 +593,10 @@ export default function ReturnsPage() {
                 ))}
               </div>
 
-              {/* Process illustration */}
+              {/* Process illustration — external Contabo storage domain is not in next.config
+                  remotePatterns, so next/image would error at runtime; plain <img> is correct here. */}
               <div className="flex justify-center">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                {/* External Contabo storage domain is not in next.config remotePatterns; next/image would error at runtime. */}
                 <img
                   src="https://eu2.contabostorage.com/c7737d32901c47be91e8263ad074fd38:beldify1storage/assets/return-process.svg"
                   alt={t('account.returns.process_illustration_alt', 'Return process illustration')}

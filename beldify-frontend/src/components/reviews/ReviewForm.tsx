@@ -193,6 +193,7 @@ export const ReviewForm: React.FC<ReviewFormProps> = ({
         <div className="mt-2 flex items-center flex-wrap gap-4">
           {imagePreviews.map((previewUrl, index) => (
             <div key={index} className="relative w-24 h-24 border border-gray-200 rounded-lg overflow-hidden group shadow-md transition-all duration-200 hover:shadow-lg">
+              {/* eslint-disable-next-line @next/next/no-img-element -- blob: objectURL from URL.createObjectURL; next/image cannot handle blob URLs */}
               <img src={previewUrl} alt={t('reviews.review_image')} className="w-full h-full object-cover" />
               <button
                 type="button"

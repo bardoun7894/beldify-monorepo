@@ -99,8 +99,17 @@ export const MessagingProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     }
   }, [isAuthenticated, user, unreadCount]);
 
-  // Create a debounced version of refreshUnreadCount
-  const debouncedRefresh = useCallback(debounce(refreshUnreadCount, 300), [refreshUnreadCount]);
+  // Create a debounced version of refreshUnreadCount.
+  // Inline the debounce body so useCallback receives a plain inline function and
+  // ESLint can statically verify the dependency list.
+  const debouncedRefresh = useCallback(() => {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+    }
+    timeoutRef.current = setTimeout(() => {
+      refreshUnreadCount();
+    }, 300);
+  }, [refreshUnreadCount]);
 
   // Initial fetch when user is authenticated
   useEffect(() => {

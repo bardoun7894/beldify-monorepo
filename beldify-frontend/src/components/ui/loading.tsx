@@ -16,8 +16,8 @@ const sizeClasses = {
 export function Loading({ size = 'md', className = '', showText = false }: LoadingProps) {
   const { t, i18n } = useTranslation();
 
-  // Use a key to force re-render when language changes
-  const loadingText = React.useMemo(() => t('common.loading'), [t, i18n.language]);
+  // t already changes identity when the language changes — no need to list i18n.language separately.
+  const loadingText = React.useMemo(() => t('common.loading'), [t]);
 
   return (
     <div className="flex flex-col items-center justify-center relative gap-2">
@@ -51,8 +51,8 @@ export function LoadingOverlay({ showOnlyOnce = false }) {
   const { t, i18n } = useTranslation();
   const [showLoader, setShowLoader] = React.useState(true);
   
-  // Use a key to force re-render when language changes - moved outside conditional
-  const loadingExperience = React.useMemo(() => t('common.loading_experience'), [t, i18n.language]);
+  // t already changes identity when the language changes — no need to list i18n.language separately.
+  const loadingExperience = React.useMemo(() => t('common.loading_experience'), [t]);
 
   React.useEffect(() => {
     if (showOnlyOnce) {

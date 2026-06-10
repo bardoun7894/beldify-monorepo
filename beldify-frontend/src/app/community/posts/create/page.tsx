@@ -78,7 +78,7 @@ interface PreviewAsideProps {
   requiredSkills: string[];
   imageCount: number;
   isRTL: boolean;
-  t: (key: string, fallback?: string) => string;
+  t: (key: string, fallback?: string, ...rest: unknown[]) => string;
 }
 
 function PreviewAside({
@@ -260,6 +260,9 @@ export default function CreatePostPage() {
     }
   }, [isAuthenticated, router]);
 
+  // t is intentionally omitted — re-fetching categories on every language change is wasteful;
+  // labels come from API category data, not from the i18n translation function.
+  /* eslint-disable react-hooks/exhaustive-deps */
   useEffect(() => {
     const fetchCategories = async () => {
       try {
@@ -273,8 +276,8 @@ export default function CreatePostPage() {
       }
     };
     fetchCategories();
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
-  // t is intentionally omitted — re-fetching categories on every language change is wasteful; labels come from category data.
+  }, []);
+  /* eslint-enable react-hooks/exhaustive-deps */
 
   useEffect(() => {
     const productId = searchParams.get('productId');
@@ -292,7 +295,7 @@ export default function CreatePostPage() {
         }\n\nPlease let me know if you can create something similar with custom modifications.`,
       }));
     }
-  }, [searchParams]);
+  }, [searchParams, t]);
 
   const timelineString = `${formData.timelineValue || '1'} ${formData.timelineUnit || 'weeks'}`;
 
