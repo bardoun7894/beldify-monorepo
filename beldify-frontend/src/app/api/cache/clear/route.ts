@@ -27,7 +27,7 @@ export async function POST(request: NextRequest) {
                     request.ip || 'unknown';
     
     // Log the attempt
-    console.log(`Cache clear attempt from IP: ${clientIp}`);
+    console.warn(`Cache clear attempt from IP: ${clientIp}`);
     
     if (!expectedToken) {
       console.error('CACHE_CLEAR_TOKEN environment variable is not set');

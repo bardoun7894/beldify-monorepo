@@ -216,7 +216,7 @@
   .start-4  { inset-inline-start: 1rem; }
   .end-4    { inset-inline-end: 1rem; }
   /* MAD currency helper — always LTR regardless of document direction */
-  .currency-mad { direction: ltr; unicode-bidi: embed; }
+  .currency-mad { direction: ltr; unicode-bidi: embed; display: inline-block; }
 }
 
 /* Moroccan Decorative Elements */
