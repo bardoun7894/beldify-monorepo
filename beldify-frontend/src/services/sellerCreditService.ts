@@ -65,7 +65,7 @@ export type PurchaseStatus = 'pending' | 'approved' | 'rejected';
 
 export interface CreditPurchaseRecord {
   id: number;
-  pack_name: string;
+  pack_name: string | null;
   credits: number;
   price_mad: number;
   status: PurchaseStatus;
