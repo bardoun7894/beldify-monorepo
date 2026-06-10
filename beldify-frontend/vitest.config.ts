@@ -28,6 +28,8 @@ export default defineConfig({
       ['src/app/checkout/__tests__/**', 'jsdom'],
       // seller page component tests
       ['src/app/seller/**/__tests__/**', 'jsdom'],
+      // buyer-AI component tests
+      ['src/components/buyer-ai/__tests__/**', 'jsdom'],
     ],
   },
 });

@@ -1009,8 +1009,8 @@
     "items": {
       "title": "Produits",
       "quantity": "Quantité : {{count}}",
-      "color": "Couleur : {{color}}",
-      "size": "Taille : {{size}}",
+      "color": "Couleur",
+      "size": "Taille",
       "product": "Produit",
       "product_image": "Image du produit",
       "each": "l'unité",
@@ -1786,12 +1786,7 @@
     "reviews_count": "{{count}} avis"
   },
   "footer": {
-    "newsletter": {
-      "title": "Restez connecté",
-      "description": "Inscrivez-vous à notre newsletter pour recevoir des offres exclusives, des nouveautés et des idées sur la mode traditionnelle marocaine.",
-      "email_placeholder": "Entrez votre email",
-      "subscribe": "S'abonner"
-    },
+    "newsletter": "Newsletter",
     "company": {
       "about": "Beldify",
       "description": "Nous proposons le meilleur de la mode marocaine traditionnelle et moderne",
@@ -2383,7 +2378,97 @@
       "returnsTitle": "Retours et Échanges",
       "stillHaveQuestions": "Vous avez encore des questions?",
       "subtitle": "Trouvez les réponses aux questions courantes sur nos produits et services",
-      "title": "Questions Fréquemment Posées"
+      "title": "Questions Fréquemment Posées",
+      "account": [
+        {
+          "question": "Comment créer un compte ?",
+          "answer": "Vous pouvez créer un compte en cliquant sur le bouton « S'inscrire » dans le coin supérieur droit de notre site Web. Vous devrez fournir votre adresse e-mail et créer un mot de passe, ou vous pouvez vous inscrire en utilisant votre compte Google."
+        },
+        {
+          "question": "Puis-je faire mes achats sans créer de compte ?",
+          "answer": "Oui, vous pouvez naviguer et faire vos achats en tant que client invité. Cependant, créer un compte vous permet de suivre vos commandes, d'enregistrer vos produits préférés et de bénéficier d'un processus de paiement plus rapide."
+        },
+        {
+          "question": "Comment puis-je suivre ma commande ?",
+          "answer": "Une fois votre commande expédiée, vous recevrez un e-mail de confirmation avec les informations de suivi. Vous pouvez également consulter l'état de votre commande dans votre compte sous « Historique des commandes »."
+        },
+        {
+          "question": "Comment puis-je réinitialiser mon mot de passe ?",
+          "answer": "Vous pouvez réinitialiser votre mot de passe en cliquant sur « Mot de passe oublié » sur la page de connexion. Nous vous enverrons un e-mail avec les instructions pour créer un nouveau mot de passe."
+        }
+      ],
+      "general": [
+        {
+          "question": "Qu'est-ce que Beldify ?",
+          "answer": "Beldify est une place de marché en ligne spécialisée dans la mode et les accessoires marocains traditionnels et modernes. Nous connectons les artisans et les créateurs avec des clients du monde entier, en offrant des produits authentiques et de haute qualité."
+        },
+        {
+          "question": "Où êtes-vous situés ?",
+          "answer": "Notre siège social est à Tétouan, au Maroc, mais nous livrons aux clients du monde entier."
+        },
+        {
+          "question": "Comment puis-je communiquer avec le service client ?",
+          "answer": "Vous pouvez joindre notre équipe d'assistance à la clientèle par courriel à support@beldify.com, par téléphone au +212 (0) 7 08 15 03 51, ou via notre page Contact."
+        },
+        {
+          "question": "Quelles langues supportez-vous ?",
+          "answer": "Notre site Web est disponible en anglais et en arabe. Notre équipe de service à la clientèle parle l'anglais, l'arabe et le français."
+        }
+      ],
+      "payments": [
+        {
+          "question": "Quels modes de paiement acceptez-vous ?",
+          "answer": "Nous acceptons les cartes de crédit/débit (Visa, Mastercard, American Express), PayPal et les options de paiement local pour les clients au Maroc."
+        },
+        {
+          "question": "Est-ce sûr d'utiliser ma carte de crédit sur votre site Web ?",
+          "answer": "Oui, notre site Web utilise le chiffrement SSL pour protéger vos informations de paiement. Nous ne stockons pas les détails complets de votre carte de crédit sur nos serveurs."
+        },
+        {
+          "question": "Quand serai-je facturé pour ma commande ?",
+          "answer": "Votre paiement est traité immédiatement lorsque vous passez votre commande."
+        },
+        {
+          "question": "Offrez-vous des options de paiement échelonné ?",
+          "answer": "Actuellement, nous n'offrons pas d'options de paiement échelonné, mais nous travaillons à l'ajout de cette fonctionnalité à l'avenir."
+        }
+      ],
+      "products": [
+        {
+          "question": "Comment puis-je trouver ma taille ?",
+          "answer": "Nous fournissons des guides de taille détaillés pour tous nos vêtements. Vous pouvez trouver le lien du guide de taille sur chaque page de produit. Pour les vêtements marocains traditionnels, nous vous recommandons de consulter notre page complète du guide des tailles."
+        },
+        {
+          "question": "Vos produits sont-ils fabriqués à la main ?",
+          "answer": "Beaucoup de nos produits sont fabriqués à la main par des artisans marocains qualifiés. Chaque description de produit précise si l'article est fait main ou fabriqué à la machine."
+        },
+        {
+          "question": "Puis-je demander des mesures personnalisées ?",
+          "answer": "Oui, pour de nombreux vêtements traditionnels, nous offrons des services de couture personnalisée. Recherchez l'option « Taille personnalisée » sur les pages de produit admissibles, ou contactez-nous pour plus d'informations."
+        },
+        {
+          "question": "Quels matériaux sont utilisés dans vos produits ?",
+          "answer": "Nous utilisons une variété de matériaux traditionnels et modernes. Chaque description de produit inclut des informations détaillées sur les matériaux utilisés."
+        }
+      ],
+      "returns": [
+        {
+          "question": "Quelle est votre politique de retour ?",
+          "answer": "Nous offrons une politique de retour de 30 jours pour la plupart des articles. Les articles sur mesure et personnalisés ne peuvent être retournés que s'il y a un défaut de fabrication. Veuillez consulter notre page Retours pour plus de détails."
+        },
+        {
+          "question": "Comment puis-je initier un retour ?",
+          "answer": "Pour initier un retour, accédez à votre compte, trouvez la commande et sélectionnez « Retourner les articles ». Suivez les instructions pour générer une étiquette d'expédition de retour et une autorisation de retour."
+        },
+        {
+          "question": "Qui paie les frais d'expédition de retour ?",
+          "answer": "Les frais d'expédition de retour sont la responsabilité du client, sauf en cas d'articles défectueux ou d'erreurs d'expédition de notre part."
+        },
+        {
+          "question": "Combien de temps faut-il pour traiter un remboursement ?",
+          "answer": "Une fois que nous recevons votre retour, il faut généralement 5 à 7 jours ouvrables pour traiter et émettre un remboursement à votre mode de paiement d'origine."
+        }
+      ]
     },
     "sellers": {
       "benefit1Text": "Accédez aux clients du monde entier grâce à notre livraison internationale et notre support multilingue.",
@@ -2423,7 +2508,25 @@
       "testimonial3Name": "Amina R.",
       "testimonial3Text": "Beldify a transformé ma petite entreprise en une marque internationale. L'exposition aux clients mondiaux a été inestimable pour la croissance.",
       "testimonialsTitle": "Histoires de succès des vendeurs",
-      "title": "Devenir vendeur"
+      "title": "Devenir vendeur",
+      "sellerFaqs": [
+        {
+          "question": "Combien coûte la vente sur Beldify ?",
+          "answer": "L'inscription est gratuite. Nous facturons une commission de 10 % sur chaque vente, qui comprend le traitement des paiements. Il n'y a pas de frais mensuels ni de frais d'inscription."
+        },
+        {
+          "question": "Comment et quand suis-je payé ?",
+          "answer": "Les paiements sont traités toutes les deux semaines pour toutes les commandes complétées. Vous pouvez recevoir les paiements par virement bancaire ou d'autres méthodes de paiement acceptées dans votre pays."
+        },
+        {
+          "question": "Dois-je gérer l'expédition ?",
+          "answer": "Oui, les vendeurs sont responsables de l'expédition de leurs produits. Nous fournissons des directives d'expédition et une intégration avec les principaux transporteurs pour faciliter le processus."
+        },
+        {
+          "question": "Quels produits puis-je vendre sur Beldify ?",
+          "answer": "Nous nous concentrons sur la mode marocaine, les accessoires, la décoration intérieure et l'artisanat. Tous les produits doivent être authentiques et conformes à nos normes de place de marché."
+        }
+      ]
     }
   },
   "returns": {
@@ -3804,7 +3907,8 @@
       "ai_chip": "Annonces assistées par IA",
       "stat_range_label": "Fourchette de prix typique",
       "stat_sellers_label": "Vendeurs actifs",
-      "stat_protection_label": "Protection de l'acheteur"
+      "stat_protection_label": "Protection de l'acheteur",
+      "stat_sellers_value": "En croissance"
     },
     "openSouk": {
       "eyebrow": "En direct",
@@ -4180,7 +4284,16 @@
       "status_suspended_title": "Votre boutique a été suspendue",
       "status_suspended_body": "Veuillez contacter le support pour résoudre ce problème.",
       "status_pending_title": "Demande en cours d'examen",
-      "status_pending_body": "Nous vous notifierons une fois la décision prise."
+      "status_pending_body": "Nous vous notifierons une fois la décision prise.",
+      "apply_cta": "Postuler pour vendre",
+      "fetch_error": "Impossible de charger le statut d'intégration.",
+      "login_body": "Vous devez être connecté pour accéder au tableau de bord d'intégration des vendeurs.",
+      "login_title": "Connectez-vous pour voir votre parcours de vendeur",
+      "not_started_body": "Postulez pour devenir vendeur sur Beldify et commencez votre parcours.",
+      "not_started_title": "Vous n'avez pas encore postulé",
+      "sign_in": "Se connecter",
+      "status_needs_details": "Veuillez compléter votre profil pour accélérer l'examen.",
+      "unknown_error": "Une erreur inconnue s'est produite."
     },
     "profile": {
       "eyebrow": "Profil de la boutique",
@@ -4189,7 +4302,36 @@
       "store_name_label": "Nom de la boutique",
       "contact_email_label": "Email de contact",
       "contact_phone_label": "Téléphone",
-      "description_label": "Description de la boutique"
+      "description_label": "Description de la boutique",
+      "address_label": "Adresse",
+      "address_placeholder": "Adresse de rue",
+      "banner_hint": "Dimensions recommandées 1440x400px",
+      "banner_label": "Bannière du magasin",
+      "banner_preview_alt": "Bannière du magasin",
+      "city_label": "Ville",
+      "country_label": "Pays",
+      "description_placeholder": "Parlez aux acheteurs de votre magasin et de ce qui le rend spécial...",
+      "fetch_error": "Impossible de charger votre profil.",
+      "login_title": "Connectez-vous pour modifier votre profil",
+      "logo_hint": "JPG ou PNG, max 2 Mo",
+      "logo_label": "Logo du magasin",
+      "logo_preview_alt": "Logo du magasin",
+      "return_policy_label": "Politique de retour",
+      "return_policy_placeholder": "Quelle est votre politique de retour et de remboursement ?",
+      "save_error": "Impossible d'enregistrer. Veuillez réessayer.",
+      "save_success": "Profil sauvegardé !",
+      "saving": "Enregistrement en cours...",
+      "section_basic": "Informations de base",
+      "section_images": "Images",
+      "section_location": "Localisation",
+      "section_policies": "Politiques",
+      "shipping_policy_label": "Politique d'expédition",
+      "shipping_policy_placeholder": "Comment expédiez-vous ? Délai de livraison estimé...",
+      "sign_in": "Se connecter",
+      "store_name_placeholder": "Le nom de votre magasin",
+      "suspended_body": "Veuillez contacter le support pour résoudre ce problème.",
+      "suspended_title": "Votre magasin est suspendu",
+      "validation_error": "Veuillez vérifier votre saisie."
     },
     "product": {
       "eyebrow": "Produits",
@@ -4209,7 +4351,32 @@
       "edit_eyebrow": "Inventaire",
       "section_attributes": "Attributs du produit",
       "vertical_required": "{{field}} est requis pour ce type de produit.",
-      "vertical_save_failed": "Produit enregistré, mais ses attributs personnalisés n'ont pas pu être enregistrés. Modifiez le produit pour les ajouter."
+      "vertical_save_failed": "Produit enregistré, mais ses attributs personnalisés n'ont pas pu être enregistrés. Modifiez le produit pour les ajouter.",
+      "create_error": "Impossible de créer le produit. Veuillez réessayer.",
+      "create_success": "Produit ajouté !",
+      "description_ar_label": "Description (Arabe)",
+      "description_label": "Description",
+      "description_placeholder": "Décrivez votre produit...",
+      "image_hint_size": "JPG, PNG ou WebP - max 5 Mo",
+      "image_preview_alt": "Aperçu du produit",
+      "image_upload_hint": "Cliquez pour télécharger l'image du produit",
+      "is_active_label": "Lister le produit comme actif (visible par les acheteurs)",
+      "login_title": "Connectez-vous pour ajouter un produit",
+      "name_ar_label": "Nom du produit (Arabe)",
+      "name_en_placeholder": "Par exemple, Caftan Marocain Royal",
+      "remove_image": "Supprimer l'image",
+      "section_image": "Image du produit",
+      "section_info": "Informations sur le produit",
+      "section_pricing": "Catégorie et prix",
+      "sign_in": "Se connecter",
+      "submitting": "Soumission en cours...",
+      "suspended_body": "Vous ne pouvez pas ajouter de produits tant que votre magasin est suspendu. Veuillez contacter le support.",
+      "suspended_title": "Votre magasin est suspendu",
+      "validation_category": "Veuillez sélectionner une catégorie.",
+      "validation_error": "Veuillez vérifier votre saisie.",
+      "validation_name": "Le nom du produit (en anglais) est obligatoire.",
+      "validation_price": "Veuillez entrer un prix valide.",
+      "validation_quantity": "Veuillez entrer une quantité valide."
     },
     "products": {
       "edit_aria": "Modifier {{name}}"
@@ -4498,6 +4665,50 @@
       "credits_unit": "crédit(s)",
       "cta": "Recharger des crédits",
       "later": "Plus tard"
+    }
+  },
+  "buyerAi": {
+    "reviewSummary": {
+      "cardAriaLabel": "Résumé des avis par IA",
+      "header": "Résumé des avis",
+      "proAriaLabel": "Positif : {{text}}",
+      "conAriaLabel": "Note : {{text}}",
+      "provenance": "Généré par IA à partir des avis clients",
+      "reviewsWord": "avis"
+    },
+    "searchAssist": {
+      "placeholder": "Recherchez ou posez une question naturellement…",
+      "inputAriaLabel": "Rechercher des produits",
+      "assistAriaLabel": "Recherche IA",
+      "assistTooltip": "Rechercher avec l'assistant IA",
+      "clearReply": "Effacer la réponse IA",
+      "replyAriaLabel": "Résultat de recherche IA"
+    },
+    "sizeAdvisor": {
+      "entry": "Trouver ma taille",
+      "entryAriaLabel": "Trouver ma taille",
+      "chipLabel": "Conseiller de taille IA",
+      "sheetTitle": "Conseiller de taille IA",
+      "heightLabel": "Taille (cm)",
+      "weightLabel": "Poids (kg)",
+      "fitLabel": "Préférence de coupe (optionnel)",
+      "fit_slim": "Ajusté",
+      "fit_regular": "Régulier",
+      "fit_loose": "Ample",
+      "usualSizeLabel": "Votre taille habituelle (optionnel)",
+      "selectSizePlaceholder": "Sélectionner...",
+      "submitLabel": "Obtenir une recommandation",
+      "loading": "Calcul en cours…",
+      "recommendedLabel": "Taille recommandée",
+      "confidenceHigh": "Haute confiance",
+      "confidenceMedium": "Confiance moyenne",
+      "confidenceLow": "Faible confiance — vérifiez le guide des tailles",
+      "useThisSize": "Utiliser cette taille",
+      "tryAgain": "Essayer d'autres mesures",
+      "unavailableMessage": "Le conseiller de taille IA est temporairement indisponible. Veuillez consulter le guide des tailles ou contacter le vendeur.",
+      "sizeChartLink": "Voir le guide des tailles",
+      "errorMessage": "Une erreur s'est produite. Veuillez réessayer.",
+      "provenance": "Propulsé par IA · assistant Beldify"
     }
   }
 }

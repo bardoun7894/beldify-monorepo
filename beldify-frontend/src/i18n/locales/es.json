@@ -1010,8 +1010,8 @@
       "title": "Artículos pedidos",
       "quantity": "Cantidad: {{count}}",
       "unit_price": "{{price}} MAD cada uno",
-      "color": "Color: {{color}}",
-      "size": "Talla: {{size}}",
+      "color": "Color",
+      "size": "Talla",
       "product": "Producto",
       "product_image": "Imagen del producto",
       "each": "cada uno",
@@ -1796,13 +1796,7 @@
       "quickLinks": "Enlaces rápidos",
       "sellers": "Vendedores"
     },
-    "shop": {
-      "traditionalDresses": "Vestidos tradicionales",
-      "kaftans": "Caftanes",
-      "djellabas": "Djellabas",
-      "accessories": "Accesorios",
-      "newArrivals": "Novedades"
-    },
+    "shop": "Tienda",
     "services": {
       "customTailoring": "Sastrería personalizada",
       "alterations": "Alteraciones",
@@ -2373,7 +2367,97 @@
       "returnsTitle": "Devoluciones e intercambios",
       "stillHaveQuestions": "¿Aún tienes preguntas?",
       "subtitle": "Encuentra respuestas a preguntas frecuentes sobre nuestros productos y servicios",
-      "title": "Preguntas frecuentes"
+      "title": "Preguntas frecuentes",
+      "account": [
+        {
+          "question": "¿Cómo creo una cuenta?",
+          "answer": "Puedes crear una cuenta haciendo clic en el botón 'Registrarse' en la esquina superior derecha de nuestro sitio web. Deberás proporcionar tu dirección de correo electrónico y crear una contraseña, o puedes registrarte usando tu cuenta de Google."
+        },
+        {
+          "question": "¿Puedo comprar sin crear una cuenta?",
+          "answer": "Sí, puedes navegar y comprar como invitado. Sin embargo, crear una cuenta te permite rastrear pedidos, guardar productos favoritos y disfrutar de un proceso de pago más rápido."
+        },
+        {
+          "question": "¿Cómo puedo rastrear mi pedido?",
+          "answer": "Una vez que tu pedido esté enviado, recibirás un correo de confirmación con información de rastreo. También puedes ver el estado de tu pedido en tu cuenta bajo 'Historial de pedidos'."
+        },
+        {
+          "question": "¿Cómo reinicio mi contraseña?",
+          "answer": "Puedes reiniciar tu contraseña haciendo clic en 'Contraseña olvidada' en la página de inicio de sesión. Te enviaremos un correo con instrucciones para crear una nueva contraseña."
+        }
+      ],
+      "general": [
+        {
+          "question": "¿Qué es Beldify?",
+          "answer": "Beldify es un mercado en línea especializado en moda y accesorios marroquíes tradicionales y modernos. Conectamos artesanos y diseñadores con clientes en todo el mundo, ofreciendo productos auténticos y de alta calidad."
+        },
+        {
+          "question": "¿Dónde están ubicados?",
+          "answer": "Nuestra sede está en Tetuán, Marruecos, pero enviamos a clientes en todo el mundo."
+        },
+        {
+          "question": "¿Cómo contacto con el servicio de atención al cliente?",
+          "answer": "Puedes ponerte en contacto con nuestro equipo de servicio al cliente por correo electrónico en support@beldify.com, por teléfono al +212 (0) 7 08 15 03 51, o a través de nuestra página de contacto."
+        },
+        {
+          "question": "¿Qué idiomas admiten?",
+          "answer": "Nuestro sitio web está disponible en inglés y árabe. Nuestro equipo de servicio al cliente habla inglés, árabe y francés."
+        }
+      ],
+      "payments": [
+        {
+          "question": "¿Qué métodos de pago aceptan?",
+          "answer": "Aceptamos tarjetas de crédito/débito (Visa, Mastercard, American Express), PayPal y opciones de pago locales para clientes en Marruecos."
+        },
+        {
+          "question": "¿Es seguro usar mi tarjeta de crédito en tu sitio web?",
+          "answer": "Sí, nuestro sitio web utiliza encriptación SSL para proteger tu información de pago. No almacenamos los detalles completos de tu tarjeta de crédito en nuestros servidores."
+        },
+        {
+          "question": "¿Cuándo se me cobrará por mi pedido?",
+          "answer": "Tu pago se procesa inmediatamente cuando realizas tu pedido."
+        },
+        {
+          "question": "¿Ofrecen opciones de pago a plazos?",
+          "answer": "Actualmente, no ofrecemos opciones de pago a plazos, pero estamos trabajando en agregar esta función en el futuro."
+        }
+      ],
+      "products": [
+        {
+          "question": "¿Cómo encuentro mi talla?",
+          "answer": "Proporcionamos guías de tallas detalladas para todos nuestros artículos de ropa. Puedes encontrar el enlace de la guía de tallas en cada página de producto. Para ropa marroquí tradicional, recomendamos consultar nuestra página completa de Guía de tallas."
+        },
+        {
+          "question": "¿Son sus productos hechos a mano?",
+          "answer": "Muchos de nuestros productos son hechos a mano por artesanos marroquíes hábiles. Cada descripción de producto especifica si el artículo es hecho a mano o hecho a máquina."
+        },
+        {
+          "question": "¿Puedo solicitar medidas personalizadas?",
+          "answer": "Sí, para muchas prendas tradicionales, ofrecemos servicios de confección personalizada. Busca la opción 'Tamaño personalizado' en las páginas de productos elegibles, o contáctanos para más información."
+        },
+        {
+          "question": "¿Qué materiales se utilizan en tus productos?",
+          "answer": "Utilizamos una variedad de materiales tradicionales y modernos. Cada descripción de producto incluye información detallada sobre los materiales utilizados."
+        }
+      ],
+      "returns": [
+        {
+          "question": "¿Cuál es su política de devolución?",
+          "answer": "Ofrecemos una política de devolución de 30 días para la mayoría de artículos. Los artículos hechos a medida y personalizados no pueden ser devueltos a menos que haya un defecto de fabricación. Por favor, consulta nuestra página de devoluciones para obtener todos los detalles."
+        },
+        {
+          "question": "¿Cómo inicio una devolución?",
+          "answer": "Para iniciar una devolución, ve a tu cuenta, encuentra el pedido y selecciona 'Devolver artículos'. Sigue las instrucciones para generar una etiqueta de envío de devolución y una autorización de devolución."
+        },
+        {
+          "question": "¿Quién paga el envío de devolución?",
+          "answer": "Los gastos de envío de devolución son responsabilidad del cliente, excepto en casos de artículos defectuosos o errores de envío de nuestra parte."
+        },
+        {
+          "question": "¿Cuánto tiempo tarda en procesarse un reembolso?",
+          "answer": "Una vez que recibamos tu devolución, normalmente tarda entre 5 y 7 días hábiles procesar e emitir un reembolso a tu método de pago original."
+        }
+      ]
     },
     "sellers": {
       "benefit1Text": "Acceda a clientes en todo el mundo con nuestro envío internacional y soporte multiidioma.",
@@ -2413,7 +2497,25 @@
       "testimonial3Name": "Amina R.",
       "testimonial3Text": "Beldify ha transformado mi pequeño negocio en una marca internacional. La exposición a clientes globales ha sido invaluable para el crecimiento.",
       "testimonialsTitle": "Historias de Éxito de Vendedores",
-      "title": "Convertirse en Vendedor"
+      "title": "Convertirse en Vendedor",
+      "sellerFaqs": [
+        {
+          "question": "¿Cuánto cuesta vender en Beldify?",
+          "answer": "El registro es gratuito. Cobramos una comisión del 10% en cada venta, que incluye el procesamiento de pagos. No hay cuotas mensuales ni tarifas de listado."
+        },
+        {
+          "question": "¿Cómo y cuándo recibo el pago?",
+          "answer": "Los pagos se procesan cada dos semanas para todos los pedidos completados. Puedes recibir pagos por transferencia bancaria u otros métodos de pago admitidos en tu país."
+        },
+        {
+          "question": "¿Necesito encargarse del envío?",
+          "answer": "Sí, los vendedores son responsables de enviar sus productos. Proporcionamos directrices de envío e integración con los principales transportistas para facilitar el proceso."
+        },
+        {
+          "question": "¿Qué productos puedo vender en Beldify?",
+          "answer": "Nos enfocamos en moda marroquí, accesorios, decoración del hogar y artesanías. Todos los productos deben ser auténticos y cumplir con nuestros estándares de mercado."
+        }
+      ]
     }
   },
   "returns": {
@@ -3843,7 +3945,8 @@
       "ai_chip": "Listados asistidos por IA",
       "stat_range_label": "Rango de precio típico",
       "stat_sellers_label": "Vendedores activos",
-      "stat_protection_label": "Protección del comprador"
+      "stat_protection_label": "Protección del comprador",
+      "stat_sellers_value": "Crecer"
     },
     "openSouk": {
       "eyebrow": "En vivo",
@@ -4271,7 +4374,39 @@
       "edit_eyebrow": "Inventario",
       "section_attributes": "Atributos del producto",
       "vertical_required": "{{field}} es obligatorio para este tipo de producto.",
-      "vertical_save_failed": "Producto guardado, pero no se pudieron guardar sus atributos personalizados. Edita el producto para añadirlos."
+      "vertical_save_failed": "Producto guardado, pero no se pudieron guardar sus atributos personalizados. Edita el producto para añadirlos.",
+      "category_label": "Categoría",
+      "create_error": "Falló la creación del producto. Por favor, intenta de nuevo.",
+      "create_success": "¡Producto añadido!",
+      "description_ar_label": "Descripción (árabe)",
+      "description_label": "Descripción",
+      "description_placeholder": "Describe tu producto...",
+      "eyebrow": "Productos",
+      "image_hint_size": "JPG, PNG o WebP - máx. 5 MB",
+      "image_preview_alt": "Vista previa del producto",
+      "image_upload_hint": "Haz clic para subir imagen del producto",
+      "is_active_label": "Listar producto como activo (visible para compradores)",
+      "login_title": "Inicia sesión para añadir un producto",
+      "name_ar_label": "Nombre del producto (árabe)",
+      "name_en_label": "Nombre del producto (inglés)",
+      "name_en_placeholder": "p. ej. Royal Moroccan Caftan",
+      "price_mad_label": "Precio (MAD)",
+      "quantity_label": "Cantidad",
+      "remove_image": "Eliminar imagen",
+      "section_image": "Imagen del producto",
+      "section_info": "Información del producto",
+      "section_pricing": "Categoría y precios",
+      "sign_in": "Inicia sesión",
+      "submit_cta": "Añadir producto",
+      "submitting": "Enviando...",
+      "suspended_body": "No puedes añadir productos mientras tu tienda está suspendida. Por favor, contacta con soporte.",
+      "suspended_title": "Tu tienda está suspendida",
+      "title": "Añadir un nuevo producto",
+      "validation_category": "Por favor, selecciona una categoría.",
+      "validation_error": "Por favor, revisa tu entrada.",
+      "validation_name": "Se requiere el nombre del producto (inglés).",
+      "validation_price": "Por favor, introduce un precio válido.",
+      "validation_quantity": "Por favor, introduce una cantidad válida."
     },
     "products": {
       "edit_aria": "Editar {{name}}"
@@ -4332,6 +4467,69 @@
       "kpi_commission": "Comisión",
       "recent_orders": "Pedidos recientes",
       "view_all_orders": "Ver todos los pedidos"
+    },
+    "onboarding": {
+      "add_product_cta": "Añadir producto",
+      "apply_cta": "Solicitar venta",
+      "complete_profile_cta": "Completar perfil",
+      "eyebrow": "Viaje como vendedor",
+      "fetch_error": "No se pudo cargar el estado de incorporación.",
+      "login_body": "Debes estar conectado para acceder al panel de incorporación de vendedor.",
+      "login_title": "Inicia sesión para ver tu viaje como vendedor",
+      "not_started_body": "Solicita convertirse en vendedor en Beldify e inicia tu viaje.",
+      "not_started_title": "Aún no has solicitado",
+      "overall_progress": "Progreso general",
+      "products_count": "Productos",
+      "profile_pct": "Perfil",
+      "sign_in": "Inicia sesión",
+      "status_active_body": "Los compradores pueden descubrir y comprar tus productos.",
+      "status_active_title": "¡Tu tienda está aprobada y en vivo!",
+      "status_needs_details": "Por favor, completa tu perfil para acelerar la revisión.",
+      "status_pending_body": "Te notificaremos una vez que se haya tomado una decisión.",
+      "status_pending_title": "Aplicación bajo revisión",
+      "status_suspended_body": "Por favor, contacta con soporte para resolver esto.",
+      "status_suspended_title": "Tu tienda ha sido suspendida",
+      "subtitle": "Rastrear tu progreso y completar cada paso para estar en vivo.",
+      "title": "Tu incorporación como vendedor",
+      "unknown_error": "Ocurrió un error desconocido."
+    },
+    "profile": {
+      "address_label": "Dirección",
+      "address_placeholder": "Dirección de la calle",
+      "banner_hint": "Se recomienda 1440x400px",
+      "banner_label": "Banner de la tienda",
+      "banner_preview_alt": "Banner de la tienda",
+      "city_label": "Ciudad",
+      "contact_email_label": "Correo electrónico de contacto",
+      "contact_phone_label": "Teléfono",
+      "country_label": "País",
+      "description_label": "Descripción de la tienda",
+      "description_placeholder": "Cuéntale a los compradores sobre tu tienda y qué la hace especial...",
+      "eyebrow": "Perfil de la tienda",
+      "fetch_error": "No se pudo cargar tu perfil.",
+      "login_title": "Inicia sesión para editar tu perfil",
+      "logo_hint": "JPG o PNG, máx. 2 MB",
+      "logo_label": "Logo de la tienda",
+      "logo_preview_alt": "Logo de la tienda",
+      "return_policy_label": "Política de devolución",
+      "return_policy_placeholder": "¿Cuál es tu política de devolución y reembolso?",
+      "save_cta": "Guardar perfil",
+      "save_error": "Falló la guardado. Por favor, intenta de nuevo.",
+      "save_success": "¡Perfil guardado!",
+      "saving": "Guardando...",
+      "section_basic": "Información básica",
+      "section_images": "Imágenes",
+      "section_location": "Ubicación",
+      "section_policies": "Políticas",
+      "shipping_policy_label": "Política de envío",
+      "shipping_policy_placeholder": "¿Cómo envías? Tiempo de entrega estimado...",
+      "sign_in": "Inicia sesión",
+      "store_name_label": "Nombre de la tienda",
+      "store_name_placeholder": "Nombre de tu tienda",
+      "suspended_body": "Por favor, contacta con soporte para resolver esto.",
+      "suspended_title": "Tu tienda ha sido suspendida",
+      "title": "Completa tu perfil",
+      "validation_error": "Por favor, revisa tu entrada."
     }
   },
   "header": {
@@ -4482,6 +4680,50 @@
       "credits_unit": "crédito(s)",
       "cta": "Recargar créditos",
       "later": "Quizás más tarde"
+    }
+  },
+  "buyerAi": {
+    "reviewSummary": {
+      "cardAriaLabel": "Resumen de reseñas por IA",
+      "header": "Resumen de reseñas",
+      "proAriaLabel": "Positivo: {{text}}",
+      "conAriaLabel": "Nota: {{text}}",
+      "provenance": "Generado por IA a partir de reseñas de compradores",
+      "reviewsWord": "reseñas"
+    },
+    "searchAssist": {
+      "placeholder": "Busca o pregunta naturalmente…",
+      "inputAriaLabel": "Buscar productos",
+      "assistAriaLabel": "Búsqueda con IA",
+      "assistTooltip": "Buscar con asistente IA",
+      "clearReply": "Borrar respuesta de IA",
+      "replyAriaLabel": "Resultado de búsqueda IA"
+    },
+    "sizeAdvisor": {
+      "entry": "Encontrar mi talla",
+      "entryAriaLabel": "Encontrar mi talla",
+      "chipLabel": "Asesor de talla IA",
+      "sheetTitle": "Asesor de talla IA",
+      "heightLabel": "Altura (cm)",
+      "weightLabel": "Peso (kg)",
+      "fitLabel": "Preferencia de ajuste (opcional)",
+      "fit_slim": "Ajustado",
+      "fit_regular": "Regular",
+      "fit_loose": "Holgado",
+      "usualSizeLabel": "Tu talla habitual (opcional)",
+      "selectSizePlaceholder": "Seleccionar...",
+      "submitLabel": "Obtener recomendación",
+      "loading": "Calculando…",
+      "recommendedLabel": "Talla recomendada",
+      "confidenceHigh": "Alta confianza",
+      "confidenceMedium": "Confianza media",
+      "confidenceLow": "Baja confianza — verifica la guía de tallas",
+      "useThisSize": "Usar esta talla",
+      "tryAgain": "Probar otras medidas",
+      "unavailableMessage": "El asesor de talla IA no está disponible temporalmente. Consulta la guía de tallas o contacta al vendedor.",
+      "sizeChartLink": "Ver guía de tallas",
+      "errorMessage": "Algo salió mal. Por favor intenta de nuevo.",
+      "provenance": "Potenciado por IA · asistente Beldify"
     }
   }
 }

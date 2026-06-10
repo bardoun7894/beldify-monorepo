@@ -35,6 +35,9 @@ import {
 } from 'lucide-react';
 import { PdpBuyBar } from '@/components/products/PdpBuyBar';
 import { HowToBuySheet } from '@/components/products/HowToBuySheet';
+import { AiReviewSummaryCard } from '@/components/buyer-ai/AiReviewSummaryCard';
+import { SizeAdvisorSheet } from '@/components/buyer-ai/SizeAdvisorSheet';
+import { getReviewSummary, type ReviewSummaryAI } from '@/services/buyerAiService';
 import { useCart } from '@/contexts/CartContext';
 import { useAuth } from '@/contexts/AuthContext';
 import { useWishlist } from '@/contexts/WishlistContext';
@@ -175,10 +178,13 @@ export default function ProductDetailsPage() {
   const [isZoomed, setIsZoomed] = useState(false);
   // "كيفاش نشري؟" how-to-buy sheet
   const [isHowToBuyOpen, setIsHowToBuyOpen] = useState(false);
+  // AI review summary — lazy-loaded when Reviews tab first becomes visible
+  const [aiReviewSummary, setAiReviewSummary] = useState<ReviewSummaryAI | null>(null);
+  const aiReviewFetchedRef = React.useRef(false);
   const { addItem } = useCart();
   const { user, isAuthenticated } = useAuth();
   const { isInWishlist, addToWishlist, removeFromWishlist } = useWishlist();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { isRTL } = useDirection();
   const router = useRouter();
 
@@ -1075,6 +1081,18 @@ export default function ProductDetailsPage() {
     router.push('/checkout?buyNow=1');
   };
 
+  // Lazy-fetch AI review summary when the Reviews tab first becomes visible.
+  // Spec: render ONLY on 200, never show skeleton-into-nothing (hide card on 204/null).
+  useEffect(() => {
+    if (activeTab !== 'reviews' || aiReviewFetchedRef.current || !id || !product) return;
+    aiReviewFetchedRef.current = true;
+    const productId = Array.isArray(id) ? id[0] : id;
+    getReviewSummary(productId, i18n?.language ?? 'ar')
+      .then(setAiReviewSummary)
+      .catch(() => { /* graceful: stays null */ });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeTab, id, product]);
+
   useEffect(() => {
     const fetchProduct = async () => {
       try {
@@ -1742,6 +1760,19 @@ export default function ProductDetailsPage() {
             </fieldset>
           )}
 
+          {/* AI size advisor — only shown when product has size variants */}
+          {availableSizes.length > 0 && (
+            <SizeAdvisorSheet
+              productId={product.id}
+              hasSizes={availableSizes.length > 0}
+              availableSizes={sizePills}
+              onSelectSize={(size) => {
+                const sizeObj = availableSizes.find(s => s.name === size);
+                if (sizeObj) handleSizeSelection(sizeObj);
+              }}
+            />
+          )}
+
           {/* Custom size link */}
           <Link
             href="/services/tailoring"
@@ -2086,6 +2117,8 @@ export default function ProductDetailsPage() {
             aria-labelledby="tab-reviews"
             className={activeTab === 'reviews' ? '' : 'hidden'}
           >
+            {/* AI review summary card — lazy-fetched; renders only on 200 (spec) */}
+            <AiReviewSummaryCard data={aiReviewSummary} />
             <ReviewsSection productId={product.id} productName={product.name} />
           </div>
         </div>

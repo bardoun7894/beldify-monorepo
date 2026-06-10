@@ -15,6 +15,8 @@ import { Filter, RefreshCw, AlertCircle, SlidersHorizontal, Star, TrendingDown, 
 import { useSearchParams, useRouter } from 'next/navigation';
 import { API_BASE_URL } from '@/config/constants';
 import { Button } from '@/components/ui/button';
+import { SearchAssistBar } from '@/components/buyer-ai/SearchAssistBar';
+import type { AssistFilters } from '@/services/buyerAiService';
 
 interface ProductFiltersState {
   category?: string;
@@ -77,12 +79,14 @@ function ErrorState({ message, onRetry }: { message: string; onRetry: () => void
   );
 }
 
-// Sort options definition — used in sticky sort bar chips
+// Sort options definition — used in sticky sort bar chips.
+// Keys live under products.sort.* namespace; inline fallbacks keep the UI
+// functional before the locale JSON merge lands (post-deploy hotfix pattern).
 const SORT_OPTIONS = [
-  { value: 'newest', labelKey: 'sort.newest', fallback: 'الجديد', icon: Clock },
-  { value: 'price_asc', labelKey: 'sort.price_asc', fallback: 'الأرخص أولاً', icon: TrendingDown },
-  { value: 'price_desc', labelKey: 'sort.price_desc', fallback: 'الأغلى أولاً', icon: TrendingUp },
-  { value: 'top_rated', labelKey: 'sort.top_rated', fallback: 'الأعلى تقييم', icon: Star },
+  { value: 'newest', labelKey: 'products.sort.newest', fallback: 'الجديد', icon: Clock },
+  { value: 'price_asc', labelKey: 'products.sort.price_low', fallback: 'الأرخص أولاً', icon: TrendingDown },
+  { value: 'price_desc', labelKey: 'products.sort.price_high', fallback: 'الأغلى أولاً', icon: TrendingUp },
+  { value: 'top_rated', labelKey: 'products.sort.popular', fallback: 'الأعلى تقييم', icon: Star },
 ] as const;
 
 export default function ProductsPage() {
@@ -360,6 +364,23 @@ export default function ProductsPage() {
     mutate();
   };
 
+  // SearchAssistBar callbacks
+  const handleAssistSearch = useCallback(
+    (query: string) => updateUrl({ q: query }),
+    [updateUrl]
+  );
+
+  const handleAssistFilters = useCallback(
+    (filters: AssistFilters) => {
+      const updates: Record<string, unknown> = { q: filters.keywords };
+      if (filters.category_id != null) updates.category = String(filters.category_id);
+      if (filters.price_min != null) updates.minPrice = filters.price_min;
+      if (filters.price_max != null) updates.maxPrice = filters.price_max;
+      updateUrl(updates as Parameters<typeof updateUrl>[0]);
+    },
+    [updateUrl]
+  );
+
   const activeChips = getFilterChips();
 
   if (error && products.length === 0) {
@@ -418,6 +439,14 @@ export default function ProductsPage() {
                 ? t('catalog.search.subheading', 'Browsing results across all verified ateliers.')
                 : t('catalog.products.subheading', 'Caftans, djellabas, hand-tailored pieces — sourced directly from verified Moroccan ateliers.')}
             </p>
+            {/* AI search assist bar */}
+            <div className="mt-6 max-w-lg">
+              <SearchAssistBar
+                onSearch={handleAssistSearch}
+                onAssistFilters={handleAssistFilters}
+                initialValue={searchQuery ?? ''}
+              />
+            </div>
           </motion.div>
         </div>
       </section>

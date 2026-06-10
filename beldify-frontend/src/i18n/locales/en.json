@@ -1059,7 +1059,13 @@
       "total_amount": "Total",
       "items_count": "{{count}} items"
     },
-    "payment_status": "Payment Status",
+    "payment_status": {
+      "paid": "Paid",
+      "pending": "Awaiting Payment",
+      "failed": "Payment Failed",
+      "refunded": "Refunded",
+      "completed": "Completed"
+    },
     "placed_on": "Order Date",
     "order_number": "Order Number",
     "items_count": "Items",
@@ -3962,7 +3968,8 @@
       "ai_chip": "AI-assisted listings",
       "stat_range_label": "Typical listing range",
       "stat_sellers_label": "Active sellers",
-      "stat_protection_label": "Buyer protection"
+      "stat_protection_label": "Buyer protection",
+      "stat_sellers_value": "1000+"
     },
     "openSouk": {
       "eyebrow": "Live now",
@@ -4306,7 +4313,25 @@
     "testimonial3Name": "Amina R.",
     "testimonial3Text": "Beldify transformed my small business into a global brand. The exposure to worldwide customers has been invaluable for growth.",
     "testimonialsTitle": "Seller Success Stories",
-    "title": "Become a Seller"
+    "title": "Become a Seller",
+    "sellerFaqs": [
+      {
+        "question": "How much does it cost to sell on Beldify?",
+        "answer": "Registration is free. We charge a 10% commission on each sale, which includes payment processing. There are no monthly fees or listing fees."
+      },
+      {
+        "question": "How and when do I receive payments?",
+        "answer": "Payments are processed bi-weekly for all completed orders. You can receive payments via bank transfer or other payment methods supported in your country."
+      },
+      {
+        "question": "Do I need to handle shipping?",
+        "answer": "Yes, sellers are responsible for shipping their products. We provide shipping guidelines and integration with major carriers to facilitate the process."
+      },
+      {
+        "question": "What products can I sell on Beldify?",
+        "answer": "We focus on Moroccan fashion, accessories, home décor, and handicrafts. All products must be authentic and comply with our marketplace standards."
+      }
+    ]
   },
   "preferences": {
     "email_notifications": {
@@ -4640,6 +4665,50 @@
       "credits_unit": "credits",
       "cta": "Top up credits",
       "later": "Maybe later"
+    }
+  },
+  "buyerAi": {
+    "reviewSummary": {
+      "cardAriaLabel": "AI review summary",
+      "header": "Review Summary",
+      "proAriaLabel": "Positive: {{text}}",
+      "conAriaLabel": "Note: {{text}}",
+      "provenance": "AI-generated from buyer reviews",
+      "reviewsWord": "reviews"
+    },
+    "searchAssist": {
+      "placeholder": "Search or ask naturally…",
+      "inputAriaLabel": "Search products",
+      "assistAriaLabel": "AI search",
+      "assistTooltip": "Search with AI assist",
+      "clearReply": "Clear AI reply",
+      "replyAriaLabel": "AI search result"
+    },
+    "sizeAdvisor": {
+      "entry": "Find my size",
+      "entryAriaLabel": "Find my size",
+      "chipLabel": "AI Size Advisor",
+      "sheetTitle": "AI Size Advisor",
+      "heightLabel": "Height (cm)",
+      "weightLabel": "Weight (kg)",
+      "fitLabel": "Fit preference (optional)",
+      "fit_slim": "Slim",
+      "fit_regular": "Regular",
+      "fit_loose": "Loose",
+      "usualSizeLabel": "Your usual size (optional)",
+      "selectSizePlaceholder": "Select...",
+      "submitLabel": "Get recommendation",
+      "loading": "Calculating…",
+      "recommendedLabel": "Recommended size",
+      "confidenceHigh": "High confidence",
+      "confidenceMedium": "Medium confidence",
+      "confidenceLow": "Low confidence — verify with size chart",
+      "useThisSize": "Use this size",
+      "tryAgain": "Try different measurements",
+      "unavailableMessage": "AI size advisor is temporarily unavailable. Please refer to the size chart or contact the seller.",
+      "sizeChartLink": "View size chart",
+      "errorMessage": "Something went wrong. Please try again.",
+      "provenance": "AI powered · beldify assistant"
     }
   }
 }
