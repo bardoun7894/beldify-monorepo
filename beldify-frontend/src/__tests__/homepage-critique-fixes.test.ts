@@ -9,6 +9,8 @@ const pageContent = readFileSync(join(SRC, 'app/page.tsx'), 'utf-8');
 // HomeContent.tsx holds the presentational JSX extracted from page.tsx for i18n.
 // Tests checking visual tokens / JSX content of the homepage must read homeContent.
 const homeContent = readFileSync(join(SRC, 'components/home/HomeContent.tsx'), 'utf-8');
+// Hero-specific tokens now live in BrandHeroSlide (extracted from HomeContent).
+const brandHeroSlideContent = readFileSync(join(SRC, 'components/home/BrandHeroSlide.tsx'), 'utf-8');
 const featuredSectionsContent = readFileSync(join(SRC, 'components/home/FeaturedSections.tsx'), 'utf-8');
 
 describe('P1 — FeaturedSections single source of truth (props, not client re-fetch)', () => {
@@ -41,7 +43,8 @@ describe('P1 — two product sections are visually differentiated (not identical
 
 describe('P2 — hero overlay gradient is RTL-aware (logical, tracks text alignment)', () => {
   it('overrides the gradient direction under dir=rtl so the dark stop sits under end-aligned copy', () => {
-    expect(homeContent).toMatch(/\[dir=rtl\]:bg-gradient-to-r/);
+    // RTL gradient override lives in BrandHeroSlide (extracted from HomeContent in hero-admin-switch)
+    expect(brandHeroSlideContent).toMatch(/\[dir=rtl\]:bg-gradient-to-r/);
   });
 });
 

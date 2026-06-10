@@ -2,6 +2,7 @@ import HomeContent from '@/components/home/HomeContent';
 import { getHomeDataPayload } from './api/home/route';
 import logger from '@/utils/consoleLogger';
 import type { CommunityPost } from '@/types/community';
+import type { HeroConfig } from '@/components/home/HeroSection';
 
 // Revalidate every 60 seconds so the home page stays fresh without a
 // full rebuild. DiscoverFeed is client-side so it refreshes per request.
@@ -20,6 +21,7 @@ async function getHomeData() {
     return {
       bestSellers: [], newArrivals: [], recommendedTailors: [],
       recommendedSellers: [], specialOffers: [],
+      hero: { mode: 'brand' as const, banners: [] } satisfies HeroConfig,
     };
   }
 }
@@ -80,5 +82,9 @@ export default async function Home() {
     getTopCategories(),
     getOpenSoukPosts(),
   ]);
-  return <HomeContent categories={categories} data={data} openSoukPosts={openSoukPosts} />;
+
+  // Extract hero config from payload; fall back to brand mode if missing
+  const hero: HeroConfig = (data as { hero?: HeroConfig }).hero ?? { mode: 'brand', banners: [] };
+
+  return <HomeContent categories={categories} data={data} openSoukPosts={openSoukPosts} hero={hero} />;
 }

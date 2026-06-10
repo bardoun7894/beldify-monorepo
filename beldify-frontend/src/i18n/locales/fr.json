@@ -3675,7 +3675,10 @@
       "search_placeholder": "Rechercher caftans, djellabas…",
       "search_btn": "Rechercher",
       "discovery_chip": "Découverte intelligente — trouvez votre style",
-      "ai_chip": "Stylisé par l'IA pour vous"
+      "ai_chip": "Stylisé par l'IA pour vous",
+      "carousel_prev": "Diapositive précédente",
+      "carousel_next": "Diapositive suivante",
+      "section_label": "Bannière principale"
     },
     "trust": {
       "verified_sellers": "Vendeurs vérifiés",

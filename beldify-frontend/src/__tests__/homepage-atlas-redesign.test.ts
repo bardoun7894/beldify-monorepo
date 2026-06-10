@@ -9,6 +9,8 @@ const pageContent = readFileSync(join(SRC, 'app/page.tsx'), 'utf-8');
 // HomeContent.tsx holds the presentational JSX extracted from page.tsx for i18n.
 // Visual token tests for homepage check homeContent (the presentational layer).
 const homeContent = readFileSync(join(SRC, 'components/home/HomeContent.tsx'), 'utf-8');
+// BrandHeroSlide.tsx is the extracted hero component — hero-specific token tests check here.
+const brandHeroSlideContent = readFileSync(join(SRC, 'components/home/BrandHeroSlide.tsx'), 'utf-8');
 const featuredSectionsContent = readFileSync(join(SRC, 'components/home/FeaturedSections.tsx'), 'utf-8');
 const megaOffersContent = readFileSync(join(SRC, 'components/MegaOffers.tsx'), 'utf-8');
 
@@ -49,7 +51,8 @@ describe('Homepage Atlas redesign — page.tsx', () => {
   });
 
   it('uses animate-fade-in-up for AI chip (defined in globals.css)', () => {
-    expect(homeContent).toContain('animate-fade-in-up');
+    // animate-fade-in-up lives in BrandHeroSlide (extracted from HomeContent)
+    expect(brandHeroSlideContent).toContain('animate-fade-in-up');
   });
 
   it('does not use gradient text background-clip pattern (AI slop)', () => {

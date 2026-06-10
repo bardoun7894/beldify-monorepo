@@ -3993,7 +3993,10 @@
       "search_placeholder": "ابحث عن قفاطين، جلابيب…",
       "search_btn": "بحث",
       "discovery_chip": "اكتشاف ذكي — اعثر على أناقتك",
-      "ai_chip": "تنسيق بالذكاء الاصطناعي خاص بك"
+      "ai_chip": "تنسيق بالذكاء الاصطناعي خاص بك",
+      "carousel_prev": "الشريحة السابقة",
+      "carousel_next": "الشريحة التالية",
+      "section_label": "الواجهة الرئيسية"
     },
     "trust": {
       "verified_sellers": "بائعون موثوقون",

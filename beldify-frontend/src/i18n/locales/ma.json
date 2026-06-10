@@ -3574,7 +3574,10 @@
       "search_placeholder": "قلّب على قفاطين، جلاليب…",
       "search_btn": "قلّب",
       "discovery_chip": "بحث ذكي باش تلقى الستايل ديالك",
-      "ai_chip": "اقتراحات على ذوقك"
+      "ai_chip": "اقتراحات على ذوقك",
+      "carousel_prev": "الصورة السابقة",
+      "carousel_next": "الصورة الجاية",
+      "section_label": "الصفحة الرئيسية"
     },
     "trust": {
       "verified_sellers": "بياعة موثوقين",

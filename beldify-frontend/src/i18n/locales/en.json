@@ -3808,7 +3808,10 @@
       "search_placeholder": "Search caftans, djellabas…",
       "search_btn": "Search",
       "discovery_chip": "Smart discovery — find your style",
-      "ai_chip": "AI styled for you"
+      "ai_chip": "AI styled for you",
+      "carousel_prev": "Previous slide",
+      "carousel_next": "Next slide",
+      "section_label": "Hero"
     },
     "trust": {
       "verified_sellers": "Verified sellers",

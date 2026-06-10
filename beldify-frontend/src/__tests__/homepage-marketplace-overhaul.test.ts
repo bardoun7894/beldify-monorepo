@@ -12,6 +12,8 @@ const SRC = join(ROOT, 'src');
 
 const page = () => readFileSync(join(SRC, 'app/page.tsx'), 'utf-8');
 const home = () => readFileSync(join(SRC, 'components/home/HomeContent.tsx'), 'utf-8');
+// Hero JSX was extracted to BrandHeroSlide; height tests check there now.
+const brandHeroSlide = () => readFileSync(join(SRC, 'components/home/BrandHeroSlide.tsx'), 'utf-8');
 const discoverPath = join(SRC, 'components/home/DiscoverFeed.tsx');
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -23,11 +25,13 @@ describe('Task 1 — Hero height compact (mobile ≤38vh, desktop ≤45vh)', () 
   });
 
   it('uses a compact hero height class (38vh mobile)', () => {
-    expect(home()).toMatch(/min-h-\[38vh\]/);
+    // Hero JSX extracted to BrandHeroSlide — heights live there now
+    expect(brandHeroSlide()).toMatch(/min-h-\[38vh\]/);
   });
 
   it('uses a compact hero height for desktop (45vh)', () => {
-    expect(home()).toMatch(/lg:min-h-\[45vh\]/);
+    // Hero JSX extracted to BrandHeroSlide — heights live there now
+    expect(brandHeroSlide()).toMatch(/lg:min-h-\[45vh\]/);
   });
 });
 

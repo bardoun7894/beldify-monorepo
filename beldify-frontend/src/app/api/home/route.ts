@@ -219,21 +219,21 @@ const mockHomeData = {
       id: 5,
       name: 'Modern Takchita',
       price: 349.99,
-      image: '/images/placeholder-product.svg',
+      image: '/images/products/takchita-white-1.jpg',
       isNew: true,
     },
     {
       id: 6,
       name: 'Silk Jabador',
       price: 199.99,
-      image: '/images/placeholder-product.svg',
+      image: '/images/products/jabador-navy-1.jpg',
       isNew: true,
     },
     {
       id: 7,
       name: 'Festive Caftan',
       price: 449.99,
-      image: '/images/placeholder-product.svg',
+      image: '/images/products/kaftan-burgundy-1.jpg',
       isNew: true,
     },
   ],
@@ -242,21 +242,21 @@ const mockHomeData = {
       id: 10,
       name: 'Classic Kandora',
       price: 299.99,
-      image: '/images/placeholder-product.svg',
+      image: '/images/products/djellaba-brown-1.jpg',
       category: "Men's Kandora",
     },
     {
       id: 11,
       name: 'Embroidered Thobe',
       price: 349.99,
-      image: '/images/placeholder-product.svg',
+      image: '/images/products/jabador-navy-1.jpg',
       category: "Men's Kandora",
     },
     {
       id: 12,
       name: 'Premium Bisht',
       price: 499.99,
-      image: '/images/placeholder-product.svg',
+      image: '/images/products/djellaba-brown-1.jpg',
       category: "Men's Kandora",
     },
   ],
@@ -265,21 +265,21 @@ const mockHomeData = {
       id: 13,
       name: 'Elegant Caftan',
       price: 399.99,
-      image: '/images/placeholder-product.svg',
+      image: '/images/products/kaftan-blue-1.jpg',
       category: "Caftan",
     },
     {
       id: 14,
       name: 'Beaded Takchita',
       price: 449.99,
-      image: '/images/placeholder-product.svg',
+      image: '/images/products/takchita-green-1.jpg',
       category: "Caftan",
     },
     {
       id: 15,
       name: 'Silk Jalabiya',
       price: 329.99,
-      image: '/images/placeholder-product.svg',
+      image: '/images/products/kaftan-burgundy-1.jpg',
       category: "Caftan",
     },
   ],
@@ -288,21 +288,21 @@ const mockHomeData = {
       id: 16,
       name: 'Kids Kandora',
       price: 149.99,
-      image: '/images/placeholder-product.svg',
+      image: '/images/products/djellaba-brown-1.jpg',
       category: "Children's Wear",
     },
     {
       id: 17,
       name: 'Girls Caftan',
       price: 169.99,
-      image: '/images/placeholder-product.svg',
+      image: '/images/products/kaftan-blue-1.jpg',
       category: "Children's Wear",
     },
     {
       id: 18,
       name: 'Festive Children Set',
       price: 189.99,
-      image: '/images/placeholder-product.svg',
+      image: '/images/products/takchita-white-1.jpg',
       category: "Children's Wear",
     },
   ],
@@ -311,14 +311,14 @@ const mockHomeData = {
       id: '1',
       title: 'Wedding Collection',
       description: 'Discover our exclusive wedding wear',
-      image: '/images/placeholder-product.svg',
+      image: '/images/products/takchita-white-1.jpg',
       link: '/collections/wedding',
     },
     {
       id: '2',
       title: 'Custom Tailoring',
       description: 'Get your perfect fit with our expert tailors',
-      image: '/images/placeholder-product.svg',
+      image: '/images/hero-atelier.jpg',
       link: '/services/tailoring',
     },
   ],
@@ -412,6 +412,25 @@ export async function getHomeDataPayload() {
         return mockRecommendedSellers;
       });
 
+    // Fetch hero-config — admin-switchable between brand and campaign carousel.
+    // On any fetch error / non-200 → graceful fallback to brand mode with no banners.
+    const heroFallback = { mode: 'brand' as const, banners: [] };
+    const hero = await fetch(`${API_BASE_URL}/api/hero-config`, {
+      next: { revalidate: 60 },
+    })
+      .then(async (res) => {
+        if (!res.ok) return heroFallback;
+        const json = await res.json();
+        return {
+          mode: json.mode === 'campaign' ? 'campaign' as const : 'brand' as const,
+          banners: Array.isArray(json.banners) ? json.banners : [],
+        };
+      })
+      .catch((error) => {
+        logger.error('Failed to fetch hero-config:', error);
+        return heroFallback;
+      });
+
     // Create the response data
     return {
       ...mockHomeData,
@@ -423,6 +442,7 @@ export async function getHomeDataPayload() {
       bestSellers,
       recommendedTailors,
       recommendedSellers,
+      hero,
     };
   } catch (error) {
     logger.error('Error building home data payload:', error);

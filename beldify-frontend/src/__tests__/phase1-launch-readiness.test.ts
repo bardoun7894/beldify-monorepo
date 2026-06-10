@@ -186,6 +186,8 @@ describe('UNIT 2 — sellerService exists', () => {
 // ─────────────────────────────────────────────────────────────────────────────
 describe('UNIT 4 — Homepage i18n extraction', () => {
   const homeContentPath = 'src/components/home/HomeContent.tsx';
+  // Hero i18n keys moved to BrandHeroSlide (extracted in hero-admin-switch feature)
+  const brandHeroSlidePath = 'src/components/home/BrandHeroSlide.tsx';
   const pagePath = 'src/app/page.tsx';
 
   it('HomeContent.tsx exists at src/components/home/HomeContent.tsx', () => {
@@ -203,39 +205,20 @@ describe('UNIT 4 — Homepage i18n extraction', () => {
     expect(content).toMatch(/useTranslation/);
   });
 
-  it('HomeContent.tsx calls t() for home.hero.eyebrow', () => {
-    const content = read(homeContentPath);
+  it('BrandHeroSlide.tsx calls t() for home.hero.eyebrow', () => {
+    // Hero i18n keys live in BrandHeroSlide after extraction
+    const content = read(brandHeroSlidePath);
     expect(content).toContain("home.hero.eyebrow");
   });
 
-  it('HomeContent.tsx calls t() for home.hero.subtitle', () => {
-    const content = read(homeContentPath);
-    expect(content).toContain("home.hero.subtitle");
-  });
-
-  it('HomeContent.tsx calls t() for home.hero.etymology', () => {
-    const content = read(homeContentPath);
-    expect(content).toContain("home.hero.etymology");
-  });
-
-  it('HomeContent.tsx calls t() for home.hero.description', () => {
-    const content = read(homeContentPath);
-    expect(content).toContain("home.hero.description");
-  });
-
-  it('HomeContent.tsx calls t() for home.hero.cta_shop', () => {
-    const content = read(homeContentPath);
+  it('BrandHeroSlide.tsx calls t() for home.hero.cta_shop', () => {
+    const content = read(brandHeroSlidePath);
     expect(content).toContain("home.hero.cta_shop");
   });
 
-  it('HomeContent.tsx calls t() for home.hero.cta_tailors', () => {
-    const content = read(homeContentPath);
+  it('BrandHeroSlide.tsx calls t() for home.hero.cta_tailors', () => {
+    const content = read(brandHeroSlidePath);
     expect(content).toContain("home.hero.cta_tailors");
-  });
-
-  it('HomeContent.tsx calls t() for home.hero.ai_chip', () => {
-    const content = read(homeContentPath);
-    expect(content).toContain("home.hero.ai_chip");
   });
 
   it('HomeContent.tsx calls t() for home.trust.verified_sellers', () => {

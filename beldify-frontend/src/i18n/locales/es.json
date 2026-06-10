@@ -3714,7 +3714,10 @@
       "search_placeholder": "Buscar caftanes, chilabas…",
       "search_btn": "Buscar",
       "discovery_chip": "Descubrimiento inteligente — encuentra tu estilo",
-      "ai_chip": "Estilizado con IA para ti"
+      "ai_chip": "Estilizado con IA para ti",
+      "carousel_prev": "Diapositiva anterior",
+      "carousel_next": "Diapositiva siguiente",
+      "section_label": "Banner principal"
     },
     "trust": {
       "verified_sellers": "Vendedores verificados",
