@@ -2,10 +2,21 @@
 // importing it from 'serwist' resolves to undefined at runtime and the
 // `...defaultCache` spread below kills SW evaluation ("not iterable").
 import { defaultCache } from '@serwist/next/worker';
-import { Serwist } from 'serwist';
+import {
+  Serwist,
+  CacheFirst,
+  NetworkFirst,
+  StaleWhileRevalidate,
+  ExpirationPlugin,
+  CacheableResponsePlugin,
+} from 'serwist';
 
 declare const self: ServiceWorkerGlobalScope;
 
+// IMPORTANT: serwist's runtime `runtimeCaching` requires strategy INSTANCES.
+// String handler names ('CacheFirst', …) are workbox build-config syntax — they
+// register fine but every matched fetch then calls .handle() on a string and
+// rejects with net::ERR_FAILED, silently killing all API/image requests.
 const serwist = new Serwist({
   precacheEntries: self.__SW_MANIFEST,
   skipWaiting: true,
@@ -14,57 +25,69 @@ const serwist = new Serwist({
   runtimeCaching: [
     // App shell — cache first with network fallback
     {
-      matcher: /^\/(_next\/static|icons|favicon)\//,
-      handler: 'CacheFirst',
-      options: {
+      matcher: ({ sameOrigin, url }) =>
+        sameOrigin && /^\/(_next\/static|icons|favicon)/.test(url.pathname),
+      handler: new CacheFirst({
         cacheName: 'static-assets',
-        expiration: {
-          maxEntries: 200,
-          maxAgeSeconds: 30 * 24 * 60 * 60, // 30 days
-        },
-      },
+        plugins: [
+          new ExpirationPlugin({
+            maxEntries: 200,
+            maxAgeSeconds: 30 * 24 * 60 * 60, // 30 days
+          }),
+        ],
+      }),
     },
-    // Images — stale-while-revalidate
+    // Images — stale-while-revalidate, only cache good responses
     {
       matcher: ({ request }) => request.destination === 'image',
-      handler: 'StaleWhileRevalidate',
-      options: {
+      handler: new StaleWhileRevalidate({
         cacheName: 'images',
-        expiration: {
-          maxEntries: 100,
-          maxAgeSeconds: 7 * 24 * 60 * 60, // 7 days
-        },
-      },
+        plugins: [
+          new CacheableResponsePlugin({ statuses: [200] }),
+          new ExpirationPlugin({
+            maxEntries: 100,
+            maxAgeSeconds: 7 * 24 * 60 * 60, // 7 days
+          }),
+        ],
+      }),
     },
-    // GET API requests — stale-while-revalidate for offline browsing
+    // GET API reads — network first so reloads always show fresh data,
+    // cached copy only as offline fallback. Auth/session endpoints excluded.
     {
       matcher: ({ url, request }) =>
         request.method === 'GET' &&
-        (url.pathname.startsWith('/api/') || url.hostname === 'api.beldify.com'),
-      handler: 'StaleWhileRevalidate',
-      options: {
+        !url.pathname.startsWith('/api/auth') &&
+        !url.pathname.startsWith('/api/csrf') &&
+        (url.pathname.startsWith('/api/') ||
+          url.hostname === 'api.beldify.com' ||
+          url.hostname === 'pro.beldify.com'),
+      handler: new NetworkFirst({
         cacheName: 'api-cache',
-        expiration: {
-          maxEntries: 50,
-          maxAgeSeconds: 5 * 60, // 5 minutes
-        },
-        // Don't cache non-2xx responses
-        plugins: [],
-      },
+        networkTimeoutSeconds: 6,
+        plugins: [
+          new CacheableResponsePlugin({ statuses: [200] }),
+          new ExpirationPlugin({
+            maxEntries: 50,
+            maxAgeSeconds: 10 * 60, // 10 minutes (offline fallback only)
+          }),
+        ],
+      }),
     },
     // Google Fonts — cache first
     {
-      matcher: /^https:\/\/fonts\.(googleapis|gstatic)\.com\//,
-      handler: 'CacheFirst',
-      options: {
+      matcher: ({ url }) => /fonts\.(googleapis|gstatic)\.com$/.test(url.hostname),
+      handler: new CacheFirst({
         cacheName: 'google-fonts',
-        expiration: {
-          maxEntries: 10,
-          maxAgeSeconds: 365 * 24 * 60 * 60, // 1 year
-        },
-      },
+        plugins: [
+          new CacheableResponsePlugin({ statuses: [0, 200] }),
+          new ExpirationPlugin({
+            maxEntries: 10,
+            maxAgeSeconds: 365 * 24 * 60 * 60, // 1 year
+          }),
+        ],
+      }),
     },
-    // Fallback: network-first for all other requests
+    // Fallback: Next.js-aware defaults for everything else
     ...defaultCache,
   ],
   fallbacks: {
