@@ -52,8 +52,8 @@ export default function RootLayoutClient({ children }: RootLayoutClientProps) {
   return (
     <div className="flex flex-col min-h-screen bg-gray-50">
       <Navbar />
-      {/* Add top padding to account for fixed navbar and bottom padding for mobile navigation */}
-      <main className="flex-grow pt-16 mt-0">{children}</main>
+      {/* Navbar is position:sticky (occupies flow space) — no top padding needed */}
+      <main className="flex-grow">{children}</main>
       <Footer />
       {isDebuggingEnabled() && (
         <Toaster

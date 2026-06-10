@@ -88,6 +88,9 @@ const ProductCard = memo(function ProductCard({
 
   // Use getImageUrl from imageUtils to handle image paths
   // Determine the image source with proper fallbacks
+  // Seed/demo products can carry dead external image URLs — fall back to the
+  // branded placeholder instead of the browser's broken-image glyph.
+  const [imgFailed, setImgFailed] = useState(false);
   const imageSrc = getImageUrl(main_image || (product as any).image_url || (images && images.length > 0 ? images[0] : null), DEFAULT_PLACEHOLDER_IMAGE);
   const altText = (product.name && product.name.trim() !== '') ? product.name : 'Product image'; // Ensure non-empty alt text
   
@@ -189,13 +192,13 @@ const ProductCard = memo(function ProductCard({
 
           {/* Image area */}
           <div className="absolute inset-0 bg-gradient-to-br from-amber-50/60 to-gray-100">
-            {imageSrc === '/placeholder-product.svg' ? (
+            {imgFailed || imageSrc === '/placeholder-product.svg' ? (
               <div className="flex flex-col items-center justify-center w-full h-full gap-2">
                 <div className="image-placeholder">
                   <ImageIcon className="h-10 w-10 text-gray-400" aria-hidden="true" />
                 </div>
                 <span className="text-xs text-gray-400 font-medium">
-                  {t('product.no_image')}
+                  {t('product.no_image', 'بلا تصويرة')}
                 </span>
               </div>
             ) : (
@@ -207,6 +210,7 @@ const ProductCard = memo(function ProductCard({
                   sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
                   className="object-cover transition-transform duration-500 ease-out group-hover:scale-105 will-change-transform"
                   priority={priority}
+                  onError={() => setImgFailed(true)}
                 />
                 {/* Subtle gradient scrim — darkens only bottom so badges stay legible */}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/15 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" aria-hidden="true" />

@@ -68,7 +68,7 @@ export default function MobileBottomNav() {
         }
       : {
           href: '/login',
-          label: t('navigation.login', 'تسجيل الدخول'),
+          label: t('navigation.login_short', 'دخول'),
           icon: LogIn,
           badge: null as number | null,
         },
@@ -146,7 +146,7 @@ export default function MobileBottomNav() {
                 className={cn(
                   'text-[10px] font-medium leading-none mt-0.5',
                   // Clamp so 5 labels never overflow on narrow screens
-                  'max-w-[56px] text-center truncate'
+                  'max-w-[72px] text-center truncate'
                 )}
               >
                 {item.label}

@@ -79,10 +79,10 @@ function ErrorState({ message, onRetry }: { message: string; onRetry: () => void
 
 // Sort options definition — used in sticky sort bar chips
 const SORT_OPTIONS = [
-  { value: 'newest', labelKey: 'sort.newest', icon: Clock },
-  { value: 'price_asc', labelKey: 'sort.price_asc', icon: TrendingDown },
-  { value: 'price_desc', labelKey: 'sort.price_desc', icon: TrendingUp },
-  { value: 'top_rated', labelKey: 'sort.top_rated', icon: Star },
+  { value: 'newest', labelKey: 'sort.newest', fallback: 'الجديد', icon: Clock },
+  { value: 'price_asc', labelKey: 'sort.price_asc', fallback: 'الأرخص أولاً', icon: TrendingDown },
+  { value: 'price_desc', labelKey: 'sort.price_desc', fallback: 'الأغلى أولاً', icon: TrendingUp },
+  { value: 'top_rated', labelKey: 'sort.top_rated', fallback: 'الأعلى تقييم', icon: Star },
 ] as const;
 
 export default function ProductsPage() {
@@ -496,7 +496,7 @@ export default function ProductsPage() {
                 aria-label={t('sort.aria_label', 'Sort products')}
                 className="flex gap-2 overflow-x-auto pb-0.5 scrollbar-hide"
               >
-                {SORT_OPTIONS.map(({ value, labelKey, icon: Icon }) => {
+                {SORT_OPTIONS.map(({ value, labelKey, fallback, icon: Icon }) => {
                   const isActive = currentSort === value;
                   return (
                     <button
@@ -511,7 +511,7 @@ export default function ProductsPage() {
                       }`}
                     >
                       <Icon className="h-3 w-3" aria-hidden="true" />
-                      {t(labelKey, value)}
+                      {t(labelKey, fallback)}
                     </button>
                   );
                 })}
