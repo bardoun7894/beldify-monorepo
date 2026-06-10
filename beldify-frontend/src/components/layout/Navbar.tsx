@@ -80,8 +80,12 @@ export default function Navbar() {
   const getLocalizedHref = useLocalizedHref();
   const router = useRouter();
   const pathname = usePathname();
-  const { cartItemCount } = useCart();
-  const { wishlistCount } = useWishlist();
+  // CartContext/WishlistContext expose no count shortcuts — destructuring
+  // cartItemCount/wishlistCount yielded undefined and the badges never rendered.
+  const { state: cartState } = useCart();
+  const cartItemCount = cartState?.items?.reduce((sum, item) => sum + item.quantity, 0) ?? 0;
+  const { wishlistItems } = useWishlist();
+  const wishlistCount = wishlistItems?.length ?? 0;
   const { unreadCount } = useMessaging();
 
   // Prefetch category pages on load
