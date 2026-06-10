@@ -18,6 +18,7 @@ import {
   Maximize2,
   XCircle,
 } from 'lucide-react';
+import OfferCountdownChip from './OfferCountdownChip';
 
 // Dynamic import for ProductQuickView to reduce initial bundle size
 const ProductQuickView = lazy(() => import('./ProductQuickView'));
@@ -67,6 +68,7 @@ const ProductCard = memo(function ProductCard({
     category_ar,
     stock_status,
     stock_quantity,
+    ends_at,
   } = product;
 
   const displayName = isRTL ? name_ar || name : name;
@@ -178,6 +180,12 @@ const ProductCard = memo(function ProductCard({
               </span>
             </div>
           )}
+
+          {/* Offer countdown chip — bottom-start, amber (render-gated on ends_at) */}
+          {/* NOTE: Renders only when backend exposes ends_at on product responses. */}
+          <div className="absolute bottom-2.5 start-2.5 z-10 pointer-events-none">
+            <OfferCountdownChip endsAt={ends_at} />
+          </div>
 
           {/* Image area */}
           <div className="absolute inset-0 bg-gradient-to-br from-amber-50/60 to-gray-100">

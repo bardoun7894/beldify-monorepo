@@ -405,13 +405,16 @@ export default function OrderDetailsPage() {
 
             {/* Desktop quick actions */}
             <div className="hidden md:flex items-center gap-2 flex-shrink-0">
-              <button
-                className="px-4 py-2 text-sm text-gray-700 bg-amber-50 rounded-2xl ring-1 ring-amber-200 hover:bg-amber-100 transition-all duration-200 flex items-center gap-1.5 focus:ring-2 focus:ring-indigo-700/30 focus:outline-none"
-                aria-label={t('orders.actions.invoice')}
-              >
-                <FileText className="w-4 h-4" strokeWidth={1.5} />
-                {t('orders.actions.invoice')}
-              </button>
+              {!isCancelledOrder && (
+                <Link
+                  href={`/orders/${orderNumber}/invoice`}
+                  className="px-4 py-2 text-sm text-gray-700 bg-amber-50 rounded-2xl ring-1 ring-amber-200 hover:bg-amber-100 transition-all duration-200 flex items-center gap-1.5 focus:ring-2 focus:ring-indigo-700/30 focus:outline-none"
+                  aria-label={t('orders.actions.invoice', 'Download / Print invoice')}
+                >
+                  <FileText className="w-4 h-4" strokeWidth={1.5} />
+                  {t('orders.actions.invoice', 'Invoice')}
+                </Link>
+              )}
               <button
                 className="px-4 py-2 text-sm text-indigo-700 bg-indigo-50 rounded-2xl ring-1 ring-indigo-200 hover:bg-indigo-100 transition-all duration-200 flex items-center gap-1.5 focus:ring-2 focus:ring-indigo-700/30 focus:outline-none"
                 aria-label={t('orders.actions.support')}
@@ -712,13 +715,21 @@ export default function OrderDetailsPage() {
                 {i18n.language === 'ar' ? 'اشترِ مرة أخرى' : 'Buy it again'}
               </button>
               <div className="grid grid-cols-2 gap-3">
-                <button
-                  className="px-4 py-3 bg-amber-50 text-gray-700 text-sm font-medium rounded-2xl ring-1 ring-amber-200 hover:bg-amber-100 transition-all duration-200 flex items-center justify-center gap-2 focus:ring-2 focus:ring-indigo-700/30 focus:outline-none"
-                  aria-label={t('orders.actions.invoice')}
-                >
-                  <FileText className="w-4 h-4" strokeWidth={1.5} />
-                  {t('orders.actions.invoice')}
-                </button>
+                {!isCancelledOrder ? (
+                  <Link
+                    href={`/orders/${orderNumber}/invoice`}
+                    className="px-4 py-3 bg-amber-50 text-gray-700 text-sm font-medium rounded-2xl ring-1 ring-amber-200 hover:bg-amber-100 transition-all duration-200 flex items-center justify-center gap-2 focus:ring-2 focus:ring-indigo-700/30 focus:outline-none"
+                    aria-label={t('orders.actions.invoice', 'Download / Print invoice')}
+                  >
+                    <FileText className="w-4 h-4" strokeWidth={1.5} />
+                    {t('orders.actions.invoice', 'Invoice')}
+                  </Link>
+                ) : (
+                  <span className="px-4 py-3 bg-gray-50 text-gray-400 text-sm font-medium rounded-2xl ring-1 ring-gray-200 flex items-center justify-center gap-2 cursor-not-allowed">
+                    <FileText className="w-4 h-4" strokeWidth={1.5} />
+                    {t('orders.actions.invoice', 'Invoice')}
+                  </span>
+                )}
                 <button
                   className="px-4 py-3 bg-indigo-700 text-white text-sm font-medium rounded-2xl hover:bg-indigo-800 transition-all duration-200 flex items-center justify-center gap-2 focus:ring-2 focus:ring-indigo-700/30 focus:outline-none"
                   aria-label={t('orders.actions.support')}
@@ -879,13 +890,16 @@ export default function OrderDetailsPage() {
                   />
                   {i18n.language === 'ar' ? 'اشترِ مرة أخرى' : 'Buy it again'}
                 </button>
-                <button
-                  className="w-full px-4 py-2.5 bg-indigo-700 text-white text-sm font-medium rounded-2xl hover:bg-indigo-800 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-atlas-md flex items-center justify-center gap-2 focus:ring-2 focus:ring-indigo-700/30 focus:outline-none"
-                  aria-label={t('orders.actions.download_invoice')}
-                >
-                  <FileText className="w-4 h-4 flex-shrink-0" strokeWidth={1.5} />
-                  {t('orders.actions.download_invoice')}
-                </button>
+                {!isCancelledOrder && (
+                  <Link
+                    href={`/orders/${orderNumber}/invoice`}
+                    className="w-full px-4 py-2.5 bg-indigo-700 text-white text-sm font-medium rounded-2xl hover:bg-indigo-800 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-atlas-md flex items-center justify-center gap-2 focus:ring-2 focus:ring-indigo-700/30 focus:outline-none"
+                    aria-label={t('orders.actions.download_invoice', 'Download / Print invoice')}
+                  >
+                    <FileText className="w-4 h-4 flex-shrink-0" strokeWidth={1.5} />
+                    {t('orders.actions.download_invoice', 'Download / Print invoice')}
+                  </Link>
+                )}
                 <button
                   className="w-full px-4 py-2.5 bg-amber-50 text-gray-700 text-sm font-medium rounded-2xl ring-1 ring-amber-200 hover:bg-amber-100 transition-all duration-200 flex items-center justify-center gap-2 focus:ring-2 focus:ring-indigo-700/30 focus:outline-none"
                   aria-label={t('orders.actions.contact_support')}

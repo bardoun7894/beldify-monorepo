@@ -500,11 +500,10 @@ export default function CheckoutPage() {
     try {
       setIsProcessing(true);
 
-      // Auth wall — skip for guest buy-now path
-      if (!isBuyNow && !user?.id) {
-        toast.error(t('checkout.errors.auth_required'));
-        return;
-      }
+      // Guest cart checkout is allowed — no auth wall here.
+      // Guests may complete COD / transfer orders without an account.
+      // The backend POST /api/orders/checkout accepts guest payloads (auth optional).
+      // Saved-addresses UI remains auth-only (handled separately via isAuthenticated guards).
 
       // Server-cart stock loop — skip for buy-now (no server cart involved)
       if (!isBuyNow) for (const item of cartState.items) {
@@ -709,7 +708,7 @@ export default function CheckoutPage() {
         };
 
         response = await (orderService as any).createCheckoutOrder(checkoutPayload);
-      } else {
+      } else if (isAuthenticated && user?.id) {
         // ── Authenticated cart path — POST /api/orders ──────────────────────
         const orderData = {
           items: cartState.items.map((item) => ({
@@ -733,6 +732,31 @@ export default function CheckoutPage() {
           coupon_code: cartState.coupon_code || null,
         };
         response = await orderService.createOrder(orderData);
+      } else {
+        // ── Guest cart path — POST /api/orders/checkout (auth optional) ────
+        // Guest has no account but can still check out via COD / transfer.
+        // Uses the same public endpoint as the buy-now flow.
+        const guestCartPayload = {
+          items: cartState.items.map((item) => ({
+            product_id: item.product.id,
+            quantity: item.quantity,
+            unit_price: typeof item.unit_price === 'string'
+              ? parseFloat(item.unit_price)
+              : item.unit_price,
+            ...(item.stock_id ? { stock_id: item.stock_id } : {}),
+            ...(item.variant_id ? { variant_id: item.variant_id } : {}),
+            store_id: item.store?.id ?? 0,
+          })),
+          shipping_info: shippingPayload,
+          payment_method: normalizedPaymentMethod,
+          subtotal: cartState.subtotal ?? 0,
+          tax_amount: cartState.tax_amount ?? 0,
+          shipping_amount: cartState.shipping_amount ?? 0,
+          discount_amount: cartState.discount_amount ?? 0,
+          total_amount: cartState.total_amount ?? 0,
+          coupon_code: cartState.coupon_code ?? null,
+        };
+        response = await (orderService as any).createCheckoutOrder(guestCartPayload);
       }
 
       // ── Task 2: Save new address (non-blocking, auth only) ──────────────

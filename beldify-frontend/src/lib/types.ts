@@ -57,6 +57,13 @@ export interface Product {
   stock_quantity: number;
   stock_status: 'in_stock' | 'low_stock' | 'out_of_stock';
   store_id: number;
+  /**
+   * ISO 8601 timestamp when the active offer/discount expires.
+   * Null/absent when no time-limited offer is active.
+   * NOTE: Backend (MegaOffer / ProductOffer) must expose this field for the
+   * countdown chip to render. See OfferCountdownChip.tsx for chip implementation.
+   */
+  ends_at?: string | null;
 }
 
 export interface BestSellersResponse {
