@@ -1273,7 +1273,11 @@
         "paypal": "Próximamente - Paga de forma segura a través de PayPal"
       },
       "cod_over_limit": "No disponible para más de 500 MAD",
-      "cod_morocco_only": "Solo disponible en Marruecos"
+      "cod_morocco_only": "Solo disponible en Marruecos",
+      "need_help_title": "¿No sabes cómo pagar?",
+      "need_help_body": "Escríbenos o llámanos y te guiamos.",
+      "whatsapp": "WhatsApp",
+      "call": "Llámanos"
     },
     "order_summary": {
       "title": "Resumen del pedido",

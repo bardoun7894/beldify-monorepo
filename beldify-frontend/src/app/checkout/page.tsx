@@ -33,6 +33,7 @@ import {
   Check,
   ChevronDown,
   BookUser,
+  MessageCircle,
 } from 'lucide-react';
 
 // ── Playfair inline style token ───────────────────────────────────────────────
@@ -54,6 +55,10 @@ interface CheckoutQuote {
   cod_max: number;
   currency: string;
 }
+
+// ── Support contact — for shoppers who don't know how to pay ───────────────────
+const SUPPORT_PHONE = process.env.NEXT_PUBLIC_SUPPORT_PHONE || '+212708150351';
+const SUPPORT_WHATSAPP = SUPPORT_PHONE.replace(/[^0-9]/g, '');
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 interface ShippingInfo {
@@ -1126,6 +1131,42 @@ export default function CheckoutPage() {
           </div>
         ))}
       </fieldset>
+
+      {/* Help for shoppers who don't know how to pay */}
+      <div className="mt-6 rounded-2xl bg-amber-50/60 ring-1 ring-amber-200 p-4">
+        <div className="flex items-start gap-3">
+          <Headphones className="w-5 h-5 text-indigo-700 flex-shrink-0 mt-0.5" aria-hidden="true" />
+          <div className="flex-1">
+            <p className="text-sm font-semibold text-gray-900">
+              {t('checkout.payment.need_help_title', 'Not sure how to pay?')}
+            </p>
+            <p className="text-xs text-gray-500 mt-0.5">
+              {t(
+                'checkout.payment.need_help_body',
+                "Message or call us and we'll guide you through it."
+              )}
+            </p>
+            <div className="flex flex-wrap gap-2 mt-3">
+              <a
+                href={`https://wa.me/${SUPPORT_WHATSAPP}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 text-xs font-medium text-green-700 bg-green-50 ring-1 ring-green-200 rounded-full px-3 py-1.5 hover:bg-green-100 transition-colors"
+              >
+                <MessageCircle className="w-3.5 h-3.5" aria-hidden="true" />
+                {t('checkout.payment.whatsapp', 'WhatsApp')}
+              </a>
+              <a
+                href={`tel:${SUPPORT_PHONE}`}
+                className="inline-flex items-center gap-1.5 text-xs font-medium text-indigo-700 bg-indigo-50 ring-1 ring-indigo-200 rounded-full px-3 py-1.5 hover:bg-indigo-100 transition-colors"
+              >
+                <Phone className="w-3.5 h-3.5" aria-hidden="true" />
+                {t('checkout.payment.call', 'Call us')}
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
 
       <div className="mt-8 flex justify-between gap-4">
         <button

@@ -254,31 +254,6 @@ class OrderService {
   }
 
   /**
-   * Upload payment proof / receipt for an offline transfer order.
-   * Public — no auth required so guests can upload after placing an order.
-   * POST /api/orders/{orderNumber}/payment-proof
-   * The file field name is a single constant — change it here if the backend
-   * team confirms a different name.
-   */
-  async uploadPaymentProof(
-    orderNumber: string,
-    file: File,
-    opts?: { reference?: string; email?: string }
-  ): Promise<void> {
-    // Backend (PaymentProofController@store) expects the upload under `file`.
-    const PAYMENT_PROOF_FIELD = 'file' as const;
-
-    const form = new FormData();
-    form.append(PAYMENT_PROOF_FIELD, file);
-    if (opts?.reference) form.append('reference', opts.reference);
-    if (opts?.email) form.append('email', opts.email);
-
-    await api.post(`/api/orders/${orderNumber}/payment-proof`, form, {
-      headers: { 'Content-Type': 'multipart/form-data' },
-    });
-  }
-
-  /**
    * Payout account + how-to-pay instructions for an offline transfer method.
    */
   async getPaymentInstructions(
@@ -289,6 +264,42 @@ class OrderService {
       return response.data?.data ?? null;
     } catch {
       return null;
+    }
+  }
+
+  /**
+   * Upload an offline-transfer payment receipt for an order.
+   * Backend: POST /api/orders/{orderNumber}/payment-proof (multipart).
+   * Works for guests too — the shipping email proves ownership.
+   */
+  async uploadPaymentProof(
+    orderNumber: string,
+    file: File,
+    opts: { reference?: string; email?: string } = {}
+  ): Promise<void> {
+    try {
+      const formData = new FormData();
+      formData.append('file', file);
+      if (opts.reference) formData.append('reference', opts.reference);
+      if (opts.email) formData.append('email', opts.email);
+
+      const response = await api.post(
+        `/api/orders/${encodeURIComponent(orderNumber)}/payment-proof`,
+        formData,
+        { headers: { 'Content-Type': 'multipart/form-data' } }
+      );
+
+      if (response.data?.status === 'error') {
+        throw new Error(response.data?.message || 'Failed to upload payment proof');
+      }
+    } catch (error) {
+      logger.error('Error uploading payment proof:', error);
+      if (axios.isAxiosError(error)) {
+        throw new Error(
+          error.response?.data?.message || error.message || 'Failed to upload payment proof'
+        );
+      }
+      throw error;
     }
   }
 
