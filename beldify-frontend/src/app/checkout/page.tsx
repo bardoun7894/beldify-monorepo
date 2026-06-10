@@ -34,7 +34,9 @@ import {
   ChevronDown,
   BookUser,
   MessageCircle,
+  ChevronRight,
 } from 'lucide-react';
+import { CheckoutProgressBar } from '@/components/checkout/CheckoutProgressBar';
 
 // ── Playfair inline style token ───────────────────────────────────────────────
 const playfair = { fontFamily: '"Playfair Display", ui-serif, Georgia, serif' };
@@ -222,6 +224,8 @@ export default function CheckoutPage() {
   // Form validation state
   const [validationErrors, setValidationErrors] = useState<Record<string, string>>({});
   const [touchedFields, setTouchedFields] = useState<Record<string, boolean>>({});
+  // Collapsible optional fields (apartment, postal code)
+  const [showExtraFields, setShowExtraFields] = useState(false);
 
   // Trigger PWA prompt on checkout page
   useEffect(() => {
@@ -1052,24 +1056,31 @@ export default function CheckoutPage() {
     );
   }
 
-  // ── Input helper ─────────────────────────────────────────────────────────
+  // ── Input helper — text-base + min-h-[48px] for non-technical users ─────
   const inputClass = (field?: string) =>
     `block w-full rounded-2xl bg-amber-50 ring-1 ${
       field && touchedFields[field] && validationErrors[field]
         ? 'ring-rose-400 focus:ring-rose-500'
         : 'ring-gray-200 focus:ring-indigo-700/40'
-    } px-3 py-2.5 text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 transition-all duration-150`;
+    } px-3 py-3 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 transition-all duration-150 min-h-[48px]`;
 
   // ── Payment step ─────────────────────────────────────────────────────────
   const renderPaymentSection = () => (
     <div className="bg-white rounded-2xl ring-1 ring-gray-200 p-6 shadow-atlas-sm">
       <h2
         id="payment-title"
-        className="text-xl font-semibold text-gray-900 mb-6"
+        className="text-xl font-semibold text-gray-900 mb-1"
         style={playfair}
       >
-        {t('checkout.payment.title', 'Payment method')}
+        {t('checkout.payment.title', 'طريقة الدفع')}
       </h2>
+      {/* COD subtitle — prominent for non-technical users */}
+      {codAllowed && (
+        <p className="text-sm text-indigo-600 mb-5">
+          {t('checkout.payment.cod_subtitle', 'خلّص ملي توصلك السلعة — الدفع عند الاستلام')}
+        </p>
+      )}
+      {!codAllowed && <div className="mb-5" />}
 
       <fieldset className="space-y-3" role="radiogroup" aria-labelledby="payment-title">
         <legend className="sr-only">{t('checkout.payment.title', 'Payment method')}</legend>
@@ -1180,37 +1191,28 @@ export default function CheckoutPage() {
         <button
           onClick={handlePaymentSubmit}
           disabled={isProcessing}
-          className="flex-1 inline-flex items-center justify-center gap-2 bg-indigo-700 hover:bg-indigo-800 text-white font-semibold rounded-full py-3 px-8 transition-all duration-200 hover-lift disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700/50"
+          className="flex-1 inline-flex flex-col items-center justify-center bg-amber-500 hover:bg-amber-400 text-amber-950 font-bold rounded-full py-3.5 px-8 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed text-base focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-400 shadow-sm min-h-[52px]"
         >
           {isProcessing ? (
             <>
               <svg
-                className="animate-spin h-4 w-4 text-white"
+                className="animate-spin h-4 w-4"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
                 aria-hidden="true"
               >
-                <circle
-                  className="opacity-25"
-                  cx="12"
-                  cy="12"
-                  r="10"
-                  stroke="currentColor"
-                  strokeWidth="4"
-                />
-                <path
-                  className="opacity-75"
-                  fill="currentColor"
-                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                />
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
               </svg>
-              <span>{t('checkout.actions.processing', 'Processing...')}</span>
+              <span>{t('checkout.actions.processing', 'جاري المعالجة...')}</span>
             </>
           ) : (
             <>
-              {t('checkout.actions.place_order', 'Place order')}
-              <ArrowRight className="w-4 h-4 rtl:rotate-180" aria-hidden="true" />
+              <span>{t('checkout.actions.place_order', 'أكّد الطلب')}</span>
+              <span className="text-xs font-medium opacity-80 tabular-nums currency-mad mt-0.5">
+                {formatAmount(totalAmount)} MAD
+              </span>
             </>
           )}
         </button>
@@ -1561,52 +1563,71 @@ export default function CheckoutPage() {
             )}
           </div>
 
-          {/* Postal code */}
-          <div>
-            <label
-              htmlFor="postalCode"
-              className="block text-sm font-medium text-gray-700 mb-1.5"
-            >
-              {t('checkout.address.postal_code', 'Postal code')}
-            </label>
-            <div className="relative">
-              <Hash className="absolute start-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" aria-hidden="true" />
+        </div>
+
+        {/* "زيد تفاصيل أخرى" — collapses postal code + apartment */}
+        <button
+          type="button"
+          onClick={() => setShowExtraFields((v) => !v)}
+          className="mt-3 inline-flex items-center gap-1.5 text-sm text-indigo-600 hover:text-indigo-800 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30 rounded"
+          aria-expanded={showExtraFields}
+        >
+          <ChevronRight
+            className={`w-4 h-4 transition-transform duration-200 ${showExtraFields ? 'rotate-90' : ''}`}
+            aria-hidden="true"
+          />
+          {t('checkout.address.extra_fields_toggle', 'زيد تفاصيل أخرى (الشقة، الكود البريدي)')}
+        </button>
+
+        {showExtraFields && (
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
+            {/* Postal code */}
+            <div>
+              <label
+                htmlFor="postalCode"
+                className="block text-sm font-medium text-gray-700 mb-1.5"
+              >
+                {t('checkout.address.postal_code', 'الكود البريدي')}
+              </label>
+              <div className="relative">
+                <Hash className="absolute start-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" aria-hidden="true" />
+                <input
+                  type="text"
+                  id="postalCode"
+                  name="postalCode"
+                  autoComplete="postal-code"
+                  value={shippingInfo.postalCode}
+                  onChange={handleShippingChange}
+                  placeholder="20000"
+                  className={`${inputClass()} ps-9`}
+                />
+              </div>
+            </div>
+
+            {/* Apartment */}
+            <div>
+              <label
+                htmlFor="apartment"
+                className="block text-sm font-medium text-gray-700 mb-1.5"
+              >
+                {t('checkout.address.apartment', 'الشقة أو الطابق')}{' '}
+                <span className="text-gray-400 font-normal text-xs">
+                  ({t('common.optional', 'اختياري')})
+                </span>
+              </label>
               <input
                 type="text"
-                id="postalCode"
-                name="postalCode"
-                autoComplete="postal-code"
-                value={shippingInfo.postalCode}
+                id="apartment"
+                name="apartment"
+                autoComplete="address-line2"
+                value={shippingInfo.apartment}
                 onChange={handleShippingChange}
-                placeholder="20000"
-                className={`${inputClass()} ps-9`}
+                placeholder={t('checkout.address.apartment_placeholder', 'شقة 4ب')}
+                className={inputClass()}
               />
             </div>
           </div>
-
-          {/* Apartment */}
-          <div>
-            <label
-              htmlFor="apartment"
-              className="block text-sm font-medium text-gray-700 mb-1.5"
-            >
-              {t('checkout.address.apartment', 'Apartment, suite, etc.')}{' '}
-              <span className="text-gray-400 font-normal text-xs">
-                ({t('common.optional', 'optional')})
-              </span>
-            </label>
-            <input
-              type="text"
-              id="apartment"
-              name="apartment"
-              autoComplete="address-line2"
-              value={shippingInfo.apartment}
-              onChange={handleShippingChange}
-              placeholder={t('checkout.address.apartment_placeholder', 'Apt 4B')}
-              className={inputClass()}
-            />
-          </div>
-        </div>
+        )}
 
         {/* ── Task 2: Save this address checkbox (auth only, fresh address) ── */}
         {isAuthenticated && !selectedAddressId && (
@@ -1815,22 +1836,24 @@ export default function CheckoutPage() {
         </span>
       </div>
 
-      {/* CTA */}
+      {/* CTA — full-width amber-500, total inside, Darija "أكّد الطلب" */}
       {step === 1 ? (
         <button
           type="submit"
           form="checkout-delivery"
-          className="w-full inline-flex items-center justify-center gap-2 bg-indigo-700 hover:bg-indigo-800 text-white rounded-full py-3 text-sm font-semibold transition-all duration-200 hover-lift focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700/50"
+          className="w-full inline-flex flex-col items-center justify-center bg-amber-500 hover:bg-amber-400 text-amber-950 rounded-full py-3.5 text-base font-bold transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-400 shadow-sm min-h-[52px]"
         >
-          {t('checkout.actions.continue_payment', 'Continue to payment')}
-          <ArrowRight className="w-4 h-4 rtl:rotate-180" aria-hidden="true" />
+          <span>{t('checkout.actions.continue_to_confirm', 'كمّل للتأكيد')}</span>
+          <span className="text-xs font-medium opacity-80 tabular-nums currency-mad mt-0.5">
+            {formatAmount(totalAmount)} MAD
+          </span>
         </button>
       ) : (
         <button
           type="button"
           onClick={handlePaymentSubmit}
           disabled={isProcessing}
-          className="w-full inline-flex items-center justify-center gap-2 bg-indigo-700 hover:bg-indigo-800 text-white rounded-full py-3 text-sm font-semibold transition-all duration-200 hover-lift disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700/50"
+          className="w-full inline-flex flex-col items-center justify-center bg-amber-500 hover:bg-amber-400 text-amber-950 rounded-full py-3.5 text-base font-bold transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-400 shadow-sm min-h-[52px]"
         >
           {isProcessing ? (
             <>
@@ -1838,12 +1861,14 @@ export default function CheckoutPage() {
                 <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                 <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
               </svg>
-              {t('checkout.actions.processing', 'Processing...')}
+              <span>{t('checkout.actions.processing', 'جاري المعالجة...')}</span>
             </>
           ) : (
             <>
-              {t('checkout.actions.place_order', 'Place order')}
-              <ArrowRight className="w-4 h-4 rtl:rotate-180" aria-hidden="true" />
+              <span>{t('checkout.actions.confirm_order', 'أكّد الطلب')}</span>
+              <span className="text-xs font-medium opacity-80 tabular-nums currency-mad mt-0.5">
+                {formatAmount(totalAmount)} MAD
+              </span>
             </>
           )}
         </button>
@@ -1898,57 +1923,26 @@ export default function CheckoutPage() {
     },
   ];
 
+  // Map 2-step checkout state to 3-step progress bar
+  // step 1 = المعلومات, step 2 = التأكيد (payment), bag always complete
+  const progressStep = step === 1 ? 2 : 3;
+
   return (
     <div className={`min-h-screen bg-canvas ${isRTL ? 'rtl' : 'ltr'}`}>
-      {/* ── Progress stepper strip ─────────────────────────────────────────── */}
-      <div className="bg-amber-50 border-b border-amber-200 py-5">
-        <div className="max-w-7xl mx-auto px-6">
-          <nav aria-label={t('checkout.stepper.aria_label', 'Checkout progress')}>
-            <ol className="flex items-center justify-center gap-0" role="list">
-              {steps.map((s, idx) => (
-                <li key={s.id} className="flex items-center">
-                  <div className="flex flex-col items-center">
-                    <span
-                      className={`flex h-8 w-8 items-center justify-center rounded-full text-xs font-semibold transition-all duration-200 ${
-                        s.completed
-                          ? 'bg-indigo-700 text-white shadow-atlas-sm'
-                          : s.active
-                          ? 'bg-indigo-700 text-white ring-2 ring-offset-2 ring-indigo-700/40'
-                          : 'bg-gray-200 text-gray-500'
-                      }`}
-                      aria-current={s.active ? 'step' : undefined}
-                    >
-                      {s.completed ? (
-                        <Check className="w-4 h-4" aria-hidden="true" />
-                      ) : s.active ? (
-                        <span className="h-2.5 w-2.5 rounded-full bg-amber-400" />
-                      ) : (
-                        <span aria-hidden="true">{s.id}</span>
-                      )}
-                    </span>
-                    <span
-                      className={`mt-1.5 text-xs font-medium whitespace-nowrap ${
-                        s.active
-                          ? 'text-indigo-700'
-                          : s.completed
-                          ? 'text-gray-700'
-                          : 'text-gray-400'
-                      }`}
-                    >
-                      {s.label}
-                    </span>
-                  </div>
-                  {idx < steps.length - 1 && (
-                    <div
-                      className={`w-12 sm:w-20 h-px mx-2 mb-5 transition-colors duration-300 ${
-                        steps[idx].completed ? 'bg-indigo-300' : 'bg-amber-200'
-                      }`}
-                    />
-                  )}
-                </li>
-              ))}
-            </ol>
-          </nav>
+      {/* ── 3-step progress bar (السلة ← المعلومات ← التأكيد) ──────────────── */}
+      <div className="bg-white border-b border-gray-100 py-2">
+        <div className="max-w-7xl mx-auto px-6 flex items-center justify-between gap-4">
+          <CheckoutProgressBar currentStep={progressStep as 1 | 2 | 3} />
+
+          {/* Guest login hint — demoted, never blocking */}
+          {!isAuthenticated && (
+            <Link
+              href={`/login?redirect=${encodeURIComponent('/checkout')}`}
+              className="hidden sm:inline-flex shrink-0 text-xs text-indigo-600 hover:text-indigo-800 underline underline-offset-2 transition-colors whitespace-nowrap focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30 rounded"
+            >
+              {t('checkout.guest.have_account', 'عندك حساب؟ دخل')}
+            </Link>
+          )}
         </div>
       </div>
 

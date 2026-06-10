@@ -29,7 +29,7 @@ export default function CartMobileBar({
 
   return (
     <div
-      className="md:hidden fixed bottom-0 start-0 end-0 z-40 bg-indigo-950 border-t border-indigo-800 px-4 pt-3 pb-[env(safe-area-inset-bottom,12px)]"
+      className="md:hidden fixed bottom-0 start-0 end-0 z-50 bg-indigo-950 border-t border-indigo-800 px-4 pt-3 pb-[env(safe-area-inset-bottom,12px)]"
       role="complementary"
       aria-label={t('cart.mobileBar.label', 'Cart summary')}
     >
@@ -50,13 +50,13 @@ export default function CartMobileBar({
           </p>
         </div>
 
-        {/* Checkout button */}
+        {/* Checkout button — amber-500 solid, Darija label */}
         <button
           onClick={onCheckout}
           disabled={loading}
-          className="flex-shrink-0 inline-flex items-center gap-2 bg-amber-500 hover:bg-amber-400 text-amber-950 rounded-full px-6 py-3 text-sm font-bold transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-amber-400 focus:ring-offset-2 focus:ring-offset-indigo-950 disabled:opacity-50 disabled:cursor-not-allowed shadow-atlas-sm"
+          className="flex-shrink-0 inline-flex items-center gap-2 bg-amber-500 hover:bg-amber-400 text-amber-950 rounded-full px-6 py-3 text-sm font-bold transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-amber-400 focus:ring-offset-2 focus:ring-offset-indigo-950 disabled:opacity-50 disabled:cursor-not-allowed shadow-atlas-sm min-h-[48px]"
         >
-          {t('cart.summary.checkout', 'Checkout')}
+          {t('cart.summary.checkout_darija', 'كمّل الشراء')}
           <ArrowRight className="w-4 h-4" aria-hidden="true" />
         </button>
       </div>

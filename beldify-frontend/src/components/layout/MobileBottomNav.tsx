@@ -1,5 +1,6 @@
 'use client';
 
+import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useCart } from '@/contexts/CartContext';
@@ -16,7 +17,12 @@ import {
 } from 'lucide-react';
 
 // Routes where the bottom nav is suppressed (full-screen checkout flow)
+// /products/[id] — detail pages show their own buy bar; suppress the tab bar
+// so both bars don't overlap. /products listing is intentionally NOT included.
 const HIDDEN_ROUTES = ['/checkout'];
+
+/** Matches /products/<anything> but NOT /products itself or /products/ */
+const PRODUCT_DETAIL_RE = /^\/products\/[^/]+$/;
 
 export default function MobileBottomNav() {
   const pathname = usePathname();
@@ -29,7 +35,10 @@ export default function MobileBottomNav() {
     cartState?.items?.reduce((sum, item) => sum + item.quantity, 0) ?? 0;
 
   // Hide on checkout routes — preserve existing hide behavior
-  const isHidden = HIDDEN_ROUTES.some((route) => pathname.startsWith(route));
+  // Also hide on PDP (/products/[id]) so the buy bar doesn't overlap
+  const isHidden =
+    HIDDEN_ROUTES.some((route) => pathname.startsWith(route)) ||
+    PRODUCT_DETAIL_RE.test(pathname);
   if (isHidden) return null;
 
   // Fixed 5 tabs — AliExpress / marketplace pattern for non-technical users

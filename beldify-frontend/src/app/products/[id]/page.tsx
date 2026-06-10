@@ -33,6 +33,8 @@ import {
   ChevronDown,
   Sparkles,
 } from 'lucide-react';
+import { PdpBuyBar } from '@/components/products/PdpBuyBar';
+import { HowToBuySheet } from '@/components/products/HowToBuySheet';
 import { useCart } from '@/contexts/CartContext';
 import { useAuth } from '@/contexts/AuthContext';
 import { useWishlist } from '@/contexts/WishlistContext';
@@ -171,6 +173,8 @@ export default function ProductDetailsPage() {
   const [activeTab, setActiveTab] = useState<'description' | 'specs' | 'sizing' | 'reviews'>('description');
   // Click-to-zoom lightbox state
   const [isZoomed, setIsZoomed] = useState(false);
+  // "كيفاش نشري؟" how-to-buy sheet
+  const [isHowToBuyOpen, setIsHowToBuyOpen] = useState(false);
   const { addItem } = useCart();
   const { user, isAuthenticated } = useAuth();
   const { isInWishlist, addToWishlist, removeFromWishlist } = useWishlist();
@@ -1318,8 +1322,9 @@ export default function ProductDetailsPage() {
     },
   };
 
+  // pb-28 on mobile = ~112px clearance for the PdpBuyBar (two rows + safe-area)
   return (
-    <div className="bg-canvas min-h-screen pb-20 md:pb-16">
+    <div className="bg-canvas min-h-screen pb-28 md:pb-16">
     {/* Product structured data for SEO */}
     <script
       type="application/ld+json"
@@ -1361,9 +1366,12 @@ export default function ProductDetailsPage() {
 
         {/* ── Left: Image gallery ── */}
         <div className="flex flex-col gap-4">
-          {/* Main image — 4:5 aspect, warm parchment bg, Atlas rounded-2xl */}
+          {/* Main image — constrained on mobile so title+price appear above the fold.
+              max-h-[55vh] on mobile keeps the gallery to ~55% of the viewport height,
+              letting the info pane title + price + buy CTA show within 390×844.
+              On desktop the layout is 2-col so the constraint is removed (lg:aspect-[4/5]). */}
           <div
-            className="relative w-full aspect-[4/5] rounded-2xl overflow-hidden ring-1 ring-amber-200 bg-amber-50 shadow-atlas-sm group cursor-zoom-in"
+            className="relative w-full max-h-[55vh] lg:max-h-none lg:aspect-[4/5] aspect-[4/5] rounded-2xl overflow-hidden ring-1 ring-amber-200 shadow-atlas-sm group cursor-zoom-in"
             onClick={() => getCurrentImageUrl() && setIsZoomed(true)}
             role="button"
             aria-label={t('product.zoom_image', 'Zoom image')}
@@ -2197,55 +2205,24 @@ export default function ProductDetailsPage() {
         );
       })()}
 
-      {/* Mobile sticky add-to-bag bar — safe-area aware */}
-      <div
-        className="fixed bottom-0 inset-x-0 z-40 bg-white border-t border-gray-100 px-4 pt-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))] md:hidden shadow-atlas-lg"
-        role="region"
-        aria-label={t('cart.sticky_bar', 'Add to bag')}
-      >
-        <div className="flex items-center gap-3 max-w-lg mx-auto">
-          <div className="shrink-0">
-            <p className="text-base font-bold text-indigo-700 tabular-nums currency-mad">
-              {formatPrice((selectedVariant?.price || product.price) * quantity)}
-            </p>
-            <p className="text-[11px] text-gray-400 uppercase tracking-wider">{t('product.total', 'Total')}</p>
-          </div>
-          <button
-            type="button"
-            onClick={() => { if (!shouldDisableButton()) handleAddToCart(); }}
-            disabled={shouldDisableButton()}
-            className={cn(
-              'flex-1 rounded-full py-3.5 flex items-center justify-center gap-2 text-sm font-semibold transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30',
-              shouldDisableButton()
-                ? 'bg-gray-100 text-gray-400 cursor-not-allowed ring-1 ring-gray-200'
-                : 'bg-indigo-700 text-white hover:bg-indigo-800 shadow-atlas-sm active:scale-[0.98]'
-            )}
-          >
-            <ShoppingBag className="h-4 w-4" aria-hidden />
-            {(() => {
-              if (!product?.variants || product.variants.length === 0) {
-                if (product?.stock && !product.stock.in_stock) return t('stock.out_of_stock', 'Out of stock');
-                if (product?.stock?.made_to_order) return t('stock.made_to_order', 'Made to order');
-                return t('cart.add_to_bag', 'Add to bag');
-              }
-              if (!selectedVariant) return t('product.select_options', 'Select options');
-              if (isOutOfStock(selectedVariant)) return t('stock.out_of_stock', 'Out of stock');
-              return t('cart.add_to_bag', 'Add to bag');
-            })()}
-          </button>
-          <button
-            type="button"
-            onClick={handleWishlistToggle}
-            aria-label={wishlisted ? t('wishlist.remove', 'Remove from wishlist') : t('wishlist.add', 'Add to wishlist')}
-            className="shrink-0 h-12 w-12 rounded-full flex items-center justify-center ring-1 ring-amber-200 bg-white hover:bg-amber-50 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30"
-          >
-            <Heart
-              className={cn('h-5 w-5 transition-colors', wishlisted ? 'fill-rose-600 text-rose-600' : 'text-gray-500')}
-              aria-hidden
-            />
-          </button>
-        </div>
-      </div>
+      {/* Mobile sticky buy bar — PdpBuyBar handles z-50 > MobileBottomNav z-40 */}
+      {/* MobileBottomNav is hidden on /products/[id] so there is no overlap */}
+      <PdpBuyBar
+        price={(selectedVariant?.price || product.price)}
+        quantity={quantity}
+        disabled={shouldDisableButton()}
+        onAddToCart={() => { if (!shouldDisableButton()) handleAddToCart(); }}
+        onBuyNow={handleBuyNow}
+        onHowToBuy={() => setIsHowToBuyOpen(true)}
+        addToCartLabel={t('cart.add_to_bag', 'زيد للسلة')}
+        buyNowLabel={t('product.buy_now', 'شري دابا')}
+      />
+
+      {/* "كيفاش نشري؟" bottom sheet — non-technical buyer onboarding */}
+      <HowToBuySheet
+        isOpen={isHowToBuyOpen}
+        onClose={() => setIsHowToBuyOpen(false)}
+      />
     </main>
     </div>
   );
