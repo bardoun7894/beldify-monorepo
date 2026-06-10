@@ -77,3 +77,31 @@ verification-notification 401, verify 422, regression set + homepage all 200.
 
 NOTE: shipping methods table empty on prod — checkout keeps hardcoded 30/70/free>500 behavior
 until methods are created in admin (Admin → Shipping). Frontend deploy still HELD for morning.
+
+## Morning incident — 06:45 (prod console errors) — FIXED
+
+Two user-visible prod failures found on www.beldify.com homepage:
+
+1. **Category images 400** via `/_next/image` — two stacked causes:
+   - `public/storage` symlink GONE on prod (overnight rsync killed it despite
+     --keep-dirlinks on deploy #2 — deploy #1 didn't use it). Files were intact in
+     `storage/app/public/categories/`. Fix: `docker exec beldify-backend php artisan storage:link`.
+   - API emitted `http://91.230.110.187:7894/storage/...` URLs (APP_URL holds the
+     internal origin), which next/image remotePatterns rightly rejects. Fix:
+     `ASSET_URL=https://pro.beldify.com` appended to prod `.env` (filesystems.php
+     public-disk url prefers ASSET_URL), then `docker compose -f docker-compose.backend.yml
+     up -d --force-recreate --no-deps app` (env_file is read at container create) +
+     `config:clear` + `cache:clear`. Verified: getAllCategories now returns
+     `https://pro.beldify.com/storage/...`, `_next/image` → 200 image/jpeg.
+   - `.env` backup left at `beldify-backend/.env.bak-assetfix-<ts>` on the server.
+
+2. **sw.js "s.defaultCache is not iterable"** — SW evaluation failed, PWA dead.
+   Root cause in source (NOT a dev-vs-prod build issue): `src/app/sw.ts` imported
+   `defaultCache` from `'serwist'`, but it is exported by `@serwist/next/worker`.
+   `typescript.ignoreBuildErrors: true` let it through; runtime spread of
+   `undefined` threw. Fix: corrected import, rebuilt frontend image
+   (`docker compose -f docker-compose.prod.yml build frontend && up -d frontend`).
+
+**Post-rsync checklist addition (alongside storage/logs perms):** verify
+`public/storage` symlink exists in the backend tree after EVERY rsync:
+`docker exec beldify-backend sh -c 'ls -ld /var/www/html/public/storage || php artisan storage:link'`
