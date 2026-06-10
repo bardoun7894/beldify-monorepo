@@ -42,7 +42,7 @@
     /* ============================================================
        ATLAS DESIGN TOKENS — per DESIGN.md (HSL triplets for hsl(var()))
        Primary = Deep Indigo #252555  |  Accent = Saffron Amber #fea619
-       Surface = Parchment #fbf9f4    |  Card = White #ffffff
+       Surface = Near-white #fcfcfc   |  Card = White #ffffff (60-30-10: neutral canvas, amber accent-only)
        ============================================================ */
 
     /* --- Atlas Primary Scale (Deep Indigo) --- */
@@ -56,7 +56,7 @@
     --atlas-on-secondary:      37 100% 26%;   /* #855300 — text on amber */
 
     /* --- Atlas Surface Scale --- */
-    --atlas-surface:           43 47% 97%;    /* #fbf9f4 — parchment background */
+    --atlas-surface:           0 0% 99%;      /* #fcfcfc — neutral near-white canvas (was parchment) */
     --atlas-card:              0 0% 100%;     /* #ffffff */
     --atlas-on-surface:        80 6% 10%;     /* #1b1c19 — ink */
     --atlas-on-surface-variant: 247 6% 29%;  /* #47464f — muted body copy */
@@ -86,7 +86,7 @@
     --amber-950: 21 92% 14%;     /* #451a03 */
 
     /* --- System Colors (semantic aliases wired to Atlas) --- */
-    --background: 43 47% 97%;    /* Atlas parchment #fbf9f4 */
+    --background: 0 0% 99%;      /* neutral near-white (was Atlas parchment) */
     --foreground: 80 6% 10%;     /* Atlas ink #1b1c19 */
     --card: 0 0% 100%;           /* white */
     --card-foreground: 80 6% 10%;
