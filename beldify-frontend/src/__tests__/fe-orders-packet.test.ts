@@ -2,7 +2,7 @@
  * TDD tests for PACKET FE-ORDERS fixes.
  * RED: written before production code changes; should all fail initially.
  */
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { readFileSync } from 'fs';
 import { join } from 'path';
 
@@ -10,6 +10,7 @@ const ROOT = join(__dirname, '..', '..');
 const detailPage = readFileSync(join(ROOT, 'src/app/orders/[orderNumber]/page.tsx'), 'utf-8');
 const ordersPage = readFileSync(join(ROOT, 'src/app/orders/page.tsx'), 'utf-8');
 const pdpPage    = readFileSync(join(ROOT, 'src/app/products/[id]/page.tsx'), 'utf-8');
+const apiTs      = readFileSync(join(ROOT, 'src/services/api.ts'), 'utf-8');
 
 const enJson  = JSON.parse(readFileSync(join(ROOT, 'src/i18n/locales/en.json'),  'utf-8'));
 const arJson  = JSON.parse(readFileSync(join(ROOT, 'src/i18n/locales/ar.json'),  'utf-8'));
@@ -17,19 +18,18 @@ const frJson  = JSON.parse(readFileSync(join(ROOT, 'src/i18n/locales/fr.json'), 
 const esJson  = JSON.parse(readFileSync(join(ROOT, 'src/i18n/locales/es.json'),  'utf-8'));
 const maJson  = JSON.parse(readFileSync(join(ROOT, 'src/i18n/locales/ma.json'),  'utf-8'));
 
-// ── Fix 1a: "Write a review" button removed (no backend endpoint) ───────────
+// ── Fix 1a: "Write a review" button restored — wired to live backend endpoint ─
+// NOTE: originally this test asserted the button was REMOVED (no backend).
+// The backend review endpoint (commit 472b6f06) is now live, so this suite
+// now asserts the button is PRESENT and uses the review-status gate.
 
-describe('Fix 1a — write review button hidden', () => {
-  it('orders/[orderNumber]/page.tsx does not render a clickable write-review button', () => {
-    // The button with write_review action should NOT be a live <button> element
-    // (it should be absent or only appear as a comment)
-    const buttonMatches = detailPage.match(/<button[^>]*write_review[^>]*>/g) || [];
-    expect(buttonMatches.length).toBe(0);
+describe('Fix 1a — write review button restored and wired', () => {
+  it('orders/[orderNumber]/page.tsx imports reviewService from api.ts', () => {
+    expect(detailPage).toMatch(/reviewService/);
   });
 
-  it('orders/[orderNumber]/page.tsx has a comment about review endpoint deferral', () => {
-    // A comment should explain why the button is hidden
-    expect(detailPage).toMatch(/review.*backend|backend.*review/i);
+  it('orders/[orderNumber]/page.tsx has review-status fetch guarded by delivered status', () => {
+    expect(detailPage).toMatch(/delivered.*review|review.*delivered|isDelivered.*review|review.*isDelivered/i);
   });
 });
 
@@ -209,6 +209,107 @@ describe('i18n — reorder keys present in all 5 locale files', () => {
 
     it(`${lang}.json has orders.reorder.error`, () => {
       expect((dict as any)?.orders?.reorder?.error).toBeTruthy();
+    });
+  }
+});
+
+// ── PACKET FE-ORDER-REVIEW: reviewService API stubs ──────────────────────────
+
+describe('FE-ORDER-REVIEW Task 1 — reviewService.getOrderReviewStatus', () => {
+  it('does not throw "not available" — calls GET /orders/{id}/review-status', async () => {
+    // The old stub threw immediately; the new impl should call the endpoint.
+    // We mock axios to avoid network; confirm it does NOT reject with the old error.
+    const axiosMock = { get: vi.fn().mockResolvedValue({ data: { success: true, reviewable: true, items: [] } }) };
+    vi.doMock('axios', () => ({ default: { create: () => axiosMock, isAxiosError: vi.fn() } }));
+
+    // Source-level assertion: the new impl calls api.get and uses orderId in the path
+    expect(apiTs).not.toContain("throw new Error('Order review status endpoint is not available on the backend.')");
+    expect(apiTs).toMatch(/api\.get\(.*orders.*review-status|`\/orders\/\${orderId}\/review-status`/);
+  });
+
+  it('signature accepts orderId string parameter (not _orderId)', () => {
+    // The new function should accept orderId (not _orderId which was the dead stub placeholder)
+    expect(apiTs).toMatch(/async getOrderReviewStatus\(orderId:/);
+  });
+});
+
+describe('FE-ORDER-REVIEW Task 1 — reviewService.submitOrderReview', () => {
+  it('does not throw "not available" — calls POST /orders/{id}/reviews', () => {
+    expect(apiTs).not.toContain("throw new Error('Order review submission endpoint is not available on the backend.')");
+    expect(apiTs).toMatch(/api\.post\(.*orders.*reviews|`\/orders\/\${orderId}\/reviews`/);
+  });
+
+  it('signature accepts orderId + items parameters', () => {
+    // New signature: submitOrderReview(orderId: string, items: ...)
+    expect(apiTs).toMatch(/async submitOrderReview\(orderId:/);
+  });
+});
+
+// ── PACKET FE-ORDER-REVIEW Task 2 — review button wiring in detail page ──────
+
+describe('FE-ORDER-REVIEW Task 2 — review button restored for delivered orders', () => {
+  it('orders/[orderNumber]/page.tsx imports reviewService (getOrderReviewStatus)', () => {
+    expect(detailPage).toMatch(/getOrderReviewStatus|reviewService/);
+  });
+
+  it('orders/[orderNumber]/page.tsx has review panel state (showReviewPanel or reviewPanel)', () => {
+    expect(detailPage).toMatch(/showReviewPanel|reviewPanelOpen|reviewModalOpen|showReview/i);
+  });
+
+  it('orders/[orderNumber]/page.tsx fetches review-status only for delivered/completed orders', () => {
+    // Must guard the fetch behind a delivered/completed status check
+    expect(detailPage).toMatch(/delivered.*review|review.*delivered|isDelivered.*review|review.*isDelivered/i);
+  });
+
+  it('orders/[orderNumber]/page.tsx renders a "Write a review" button when items are unreviewed', () => {
+    expect(detailPage).toMatch(/orders\.review\.write_review|write_review|writeReview/i);
+  });
+
+  it('orders/[orderNumber]/page.tsx renders a "Review submitted" chip when all items reviewed', () => {
+    expect(detailPage).toMatch(/orders\.review\.submitted|review_submitted|reviewSubmitted/i);
+  });
+
+  it('orders/[orderNumber]/page.tsx calls submitOrderReview on form submit', () => {
+    expect(detailPage).toMatch(/submitOrderReview/);
+  });
+
+  it('orders/[orderNumber]/page.tsx handles 409 conflict with toast.error', () => {
+    // Duplicate review conflict — must surface as toast.error
+    expect(detailPage).toMatch(/409|conflict/i);
+  });
+
+  it('orders/[orderNumber]/page.tsx success toast mentions moderation', () => {
+    // Toast must mention moderation (awaits_moderation / moderation key)
+    expect(detailPage).toMatch(/orders\.review\.moderation|awaits_moderation|moderation/i);
+  });
+});
+
+// ── PACKET FE-ORDER-REVIEW Task 3 — i18n review keys in all 5 locales ────────
+
+describe('FE-ORDER-REVIEW Task 3 — i18n orders.review.* keys present in all 5 locales', () => {
+  const locales: Array<[string, Record<string, unknown>]> = [
+    ['en', enJson], ['ar', arJson], ['fr', frJson], ['es', esJson], ['ma', maJson],
+  ];
+
+  for (const [lang, dict] of locales) {
+    it(`${lang}.json has orders.review.write_review`, () => {
+      expect((dict as any)?.orders?.review?.write_review).toBeTruthy();
+    });
+
+    it(`${lang}.json has orders.review.submitted`, () => {
+      expect((dict as any)?.orders?.review?.submitted).toBeTruthy();
+    });
+
+    it(`${lang}.json has orders.review.moderation`, () => {
+      expect((dict as any)?.orders?.review?.moderation).toBeTruthy();
+    });
+
+    it(`${lang}.json has orders.review.submit_all`, () => {
+      expect((dict as any)?.orders?.review?.submit_all).toBeTruthy();
+    });
+
+    it(`${lang}.json has orders.review.panel_title`, () => {
+      expect((dict as any)?.orders?.review?.panel_title).toBeTruthy();
     });
   }
 });

@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation';
 import { motion, useReducedMotion } from 'framer-motion';
 import { orderService, Order, OrderItem } from '@/services/orderService';
 import { returnService, ReturnRequest } from '@/services/returnService';
+import { reviewService } from '@/services/api';
 import toast from '@/utils/toast';
 import { useTranslation } from 'react-i18next';
 import { OrdersLoadingScreen } from '@/components/ui/LoadingManager';
@@ -69,6 +70,20 @@ export default function OrderDetailsPage() {
   const [returnDetails, setReturnDetails] = useState('');
   const [submittingReturn, setSubmittingReturn] = useState(false);
   const [returnError, setReturnError] = useState('');
+  // ── Review state ──────────────────────────────────────────────────────────
+  const [showReviewPanel, setShowReviewPanel] = useState(false);
+  const [reviewStatusLoading, setReviewStatusLoading] = useState(false);
+  const [reviewableItems, setReviewableItems] = useState<Array<{
+    order_item_id: number;
+    stock_id: number;
+    name: string;
+    reviewed: boolean;
+    review_id: number | null;
+  }>>([]);
+  const [reviewRatings, setReviewRatings] = useState<Record<number, number>>({});
+  const [reviewComments, setReviewComments] = useState<Record<number, string>>({});
+  const [reviewHover, setReviewHover] = useState<Record<number, number>>({});
+  const [submittingReview, setSubmittingReview] = useState(false);
   const { t, i18n } = useTranslation();
   const params = useParams();
   const searchParams = useSearchParams();
@@ -237,6 +252,61 @@ export default function OrderDetailsPage() {
     fetchOrder();
   }, [orderNumber]);
 
+  // Fetch review status once for delivered/completed orders
+  useEffect(() => {
+    if (!order || !orderNumber) return;
+    const s = order.status.toLowerCase();
+    if (s !== 'delivered' && s !== 'completed') return;
+    setReviewStatusLoading(true);
+    reviewService.getOrderReviewStatus(orderNumber)
+      .then((data) => {
+        if (data?.items) setReviewableItems(data.items);
+      })
+      .catch(() => {
+        // Non-fatal — review status is a progressive enhancement
+      })
+      .finally(() => setReviewStatusLoading(false));
+  }, [order, orderNumber]);
+
+  // ── Review submit handler ──────────────────────────────────────────────────
+  const handleReviewSubmit = async () => {
+    if (submittingReview) return;
+    const unreviewedItems = reviewableItems.filter((it) => !it.reviewed);
+    const items = unreviewedItems
+      .map((it) => ({
+        order_item_id: it.order_item_id,
+        rating: reviewRatings[it.order_item_id] ?? 0,
+        comment: reviewComments[it.order_item_id]?.trim() || undefined,
+      }))
+      .filter((it) => it.rating > 0);
+
+    if (items.length === 0) return;
+    setSubmittingReview(true);
+    try {
+      await reviewService.submitOrderReview(orderNumber, items);
+      toast.success(t('orders.review.moderation', 'Thanks — your review awaits moderation'));
+      // Refresh review status after submit
+      reviewService.getOrderReviewStatus(orderNumber)
+        .then((data) => { if (data?.items) setReviewableItems(data.items); })
+        .catch(() => {});
+      setShowReviewPanel(false);
+      setReviewRatings({});
+      setReviewComments({});
+    } catch (err: any) {
+      const status = err?.response?.status;
+      if (status === 409) {
+        toast.error(t('orders.review.error_duplicate', 'You have already reviewed this item.'));
+      } else if (status === 422) {
+        const msg = err?.response?.data?.message || t('orders.review.error_generic', 'Could not submit review. Please try again.');
+        toast.error(msg);
+      } else {
+        toast.error(t('orders.review.error_generic', 'Could not submit review. Please try again.'));
+      }
+    } finally {
+      setSubmittingReview(false);
+    }
+  };
+
   // Timeline icon per step
   const getTimelineIcon = (status: string, size: string = 'w-5 h-5') => {
     const props = { className: size, strokeWidth: 1.5 };
@@ -344,7 +414,9 @@ export default function OrderDetailsPage() {
   const isCancelledOrder = order.status.toLowerCase() === 'cancelled';
   const orderStatus = order.status.toLowerCase();
   const isCancellable = orderStatus === 'pending' || orderStatus === 'processing';
-  const isDelivered = orderStatus === 'delivered';
+  const isDelivered = orderStatus === 'delivered' || orderStatus === 'completed';
+  const hasUnreviewedItems = reviewableItems.some((it) => !it.reviewed);
+  const allItemsReviewed = reviewableItems.length > 0 && reviewableItems.every((it) => it.reviewed);
 
   // 14-day return window check — only applies when order date is available
   const isWithin14Days = (() => {
@@ -746,6 +818,25 @@ export default function OrderDetailsPage() {
                 </button>
               </div>
 
+              {/* Mobile: Write a review / Review submitted chip */}
+              {isDelivered && !reviewStatusLoading && hasUnreviewedItems && (
+                <button
+                  type="button"
+                  onClick={() => setShowReviewPanel(true)}
+                  className="w-full px-4 py-3 bg-amber-50 text-amber-800 text-sm font-medium rounded-2xl ring-1 ring-amber-200 hover:bg-amber-100 transition-all duration-200 flex items-center justify-center gap-2 focus:ring-2 focus:ring-amber-600/30 focus:outline-none"
+                  aria-label={t('orders.review.write_review', 'Write a review')}
+                >
+                  <Star className="w-4 h-4" strokeWidth={1.5} />
+                  {t('orders.review.write_review', 'Write a review')}
+                </button>
+              )}
+              {isDelivered && !reviewStatusLoading && allItemsReviewed && (
+                <div className="w-full px-4 py-3 rounded-2xl ring-1 ring-emerald-200 bg-emerald-50 flex items-center gap-2 text-sm text-emerald-800">
+                  <CheckCircle className="w-4 h-4 flex-shrink-0 text-emerald-600" strokeWidth={1.5} />
+                  {t('orders.review.submitted', 'Review submitted')}
+                </div>
+              )}
+
               {/* Mobile: Return + Cancel */}
               {canRequestReturn && (
                 <button
@@ -915,8 +1006,24 @@ export default function OrderDetailsPage() {
                   <MessageSquare className="w-4 h-4 flex-shrink-0" strokeWidth={1.5} />
                   {t('orders.actions.contact_support')}
                 </button>
-                {/* Write a review — removed until backend review endpoint ships.
-                    TODO: restore button when POST /api/products/{id}/reviews is live (src/services/api.ts:464). */}
+                {/* Write a review — gated by review-status endpoint (delivered only) */}
+                {isDelivered && !reviewStatusLoading && hasUnreviewedItems && (
+                  <button
+                    type="button"
+                    onClick={() => setShowReviewPanel(true)}
+                    className="w-full px-4 py-2.5 bg-amber-50 text-amber-800 text-sm font-medium rounded-2xl ring-1 ring-amber-200 hover:bg-amber-100 transition-all duration-200 flex items-center justify-center gap-2 focus:ring-2 focus:ring-amber-600/30 focus:outline-none"
+                    aria-label={t('orders.review.write_review', 'Write a review')}
+                  >
+                    <Star className="w-4 h-4 flex-shrink-0" strokeWidth={1.5} />
+                    {t('orders.review.write_review', 'Write a review')}
+                  </button>
+                )}
+                {isDelivered && !reviewStatusLoading && allItemsReviewed && (
+                  <div className="w-full px-4 py-2.5 rounded-2xl ring-1 ring-emerald-200 bg-emerald-50 flex items-center gap-2 text-sm text-emerald-800">
+                    <CheckCircle className="w-4 h-4 flex-shrink-0 text-emerald-600" strokeWidth={1.5} />
+                    {t('orders.review.submitted', 'Review submitted')}
+                  </div>
+                )}
 
                 {/* Return request button — only for delivered orders within 14d */}
                 {canRequestReturn && (
@@ -1024,6 +1131,142 @@ export default function OrderDetailsPage() {
                 {cancelling
                   ? t('orders.cancel.cancelling', 'Cancelling…')
                   : t('orders.cancel.confirm', 'Cancel order')}
+              </button>
+            </div>
+          </motion.div>
+        </div>
+      )}
+
+      {/* Review Panel ─────────────────────────────────────────────────────── */}
+      {showReviewPanel && (
+        <div
+          className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/30 backdrop-blur-sm p-4"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="review-panel-title"
+        >
+          <motion.div
+            initial={{ scale: 0.97, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ duration: 0.2, ease: [0.33, 1, 0.68, 1] }}
+            className="bg-white rounded-2xl w-full max-w-md shadow-atlas-lg ring-1 ring-amber-100 p-6 max-h-[90vh] overflow-y-auto"
+          >
+            <div className="flex items-start gap-3 mb-5">
+              <div className="w-10 h-10 rounded-full bg-amber-50 flex items-center justify-center flex-shrink-0">
+                <Star className="w-5 h-5 text-amber-600" strokeWidth={1.5} />
+              </div>
+              <div className="flex-1 min-w-0">
+                <h3
+                  id="review-panel-title"
+                  className="text-base font-semibold text-gray-900"
+                  style={playfair}
+                >
+                  {t('orders.review.panel_title', 'Review your order')}
+                </h3>
+                <p className="text-sm text-gray-500 mt-0.5">
+                  {t('orders.review.moderation', 'Thanks — your review awaits moderation')}
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={() => setShowReviewPanel(false)}
+                className="p-1 rounded-xl hover:bg-gray-100 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30 flex-shrink-0"
+                aria-label={t('common.close', 'Close')}
+              >
+                <XCircle className="w-5 h-5 text-gray-400" strokeWidth={1.5} />
+              </button>
+            </div>
+
+            <div className="space-y-5">
+              {reviewableItems
+                .filter((it) => !it.reviewed)
+                .map((item) => (
+                  <div
+                    key={item.order_item_id}
+                    className="rounded-2xl ring-1 ring-gray-100 p-4 space-y-3"
+                  >
+                    <p className="text-sm font-semibold text-gray-900 leading-snug">
+                      {item.name}
+                    </p>
+                    {/* 5-star picker — amber stars, 44px targets */}
+                    <div>
+                      <p className="text-xs font-medium text-gray-500 mb-1.5">
+                        {t('orders.review.star_label', 'Rate this item')}
+                        <span className="text-rose-500 ms-0.5">*</span>
+                      </p>
+                      <div className="flex items-center gap-1">
+                        {[1, 2, 3, 4, 5].map((star) => {
+                          const active = (reviewHover[item.order_item_id] || reviewRatings[item.order_item_id] || 0) >= star;
+                          return (
+                            <button
+                              key={star}
+                              type="button"
+                              onMouseEnter={() => setReviewHover((prev) => ({ ...prev, [item.order_item_id]: star }))}
+                              onMouseLeave={() => setReviewHover((prev) => ({ ...prev, [item.order_item_id]: 0 }))}
+                              onClick={() => setReviewRatings((prev) => ({ ...prev, [item.order_item_id]: star }))}
+                              className="w-11 h-11 flex items-center justify-center focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-500/40 rounded-lg transition-transform hover:scale-110"
+                              aria-label={`${star} ${t('reviews.form.your_rating', 'star')}`}
+                            >
+                              <Star
+                                className={`w-7 h-7 transition-colors ${active ? 'text-amber-400 fill-amber-400' : 'text-gray-300'}`}
+                                strokeWidth={1.5}
+                              />
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
+                    {/* Optional comment */}
+                    <div>
+                      <label
+                        htmlFor={`review-comment-${item.order_item_id}`}
+                        className="block text-xs font-medium text-gray-500 mb-1"
+                      >
+                        {t('orders.review.optional_comment', 'Comment (optional)')}
+                      </label>
+                      <textarea
+                        id={`review-comment-${item.order_item_id}`}
+                        value={reviewComments[item.order_item_id] ?? ''}
+                        onChange={(e) =>
+                          setReviewComments((prev) => ({
+                            ...prev,
+                            [item.order_item_id]: e.target.value,
+                          }))
+                        }
+                        rows={2}
+                        maxLength={500}
+                        placeholder={t('orders.review.comment_placeholder', 'Share your experience with this product…')}
+                        className="block w-full rounded-2xl border border-gray-200 bg-white px-4 py-2.5 text-sm text-gray-900 placeholder-gray-400 shadow-sm transition focus:border-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-700/20 resize-none"
+                      />
+                    </div>
+                  </div>
+                ))}
+            </div>
+
+            <div className="flex gap-3 mt-6">
+              <button
+                type="button"
+                onClick={() => { setShowReviewPanel(false); }}
+                className="flex-1 py-2.5 rounded-2xl border border-amber-200 text-gray-700 text-sm font-medium hover:bg-amber-50 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30"
+              >
+                {t('common.cancel', 'Cancel')}
+              </button>
+              <button
+                type="button"
+                onClick={handleReviewSubmit}
+                disabled={
+                  submittingReview ||
+                  reviewableItems.filter((it) => !it.reviewed).every(
+                    (it) => !reviewRatings[it.order_item_id]
+                  )
+                }
+                className="flex-1 py-2.5 rounded-2xl bg-indigo-700 hover:bg-indigo-800 text-white text-sm font-semibold transition-all duration-200 flex items-center justify-center gap-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed"
+                aria-busy={submittingReview}
+              >
+                {submittingReview && (
+                  <div className="w-4 h-4 rounded-full border-2 border-white/30 border-t-white animate-spin flex-shrink-0" />
+                )}
+                {t('orders.review.submit_all', 'Submit reviews')}
               </button>
             </div>
           </motion.div>

@@ -470,14 +470,35 @@ export const reviewService = {
     }
   },
   
-  // TODO: Backend does not expose order-specific review endpoints. These need backend implementation.
-  async getOrderReviewStatus(_orderId: string) {
-    throw new Error('Order review status endpoint is not available on the backend.');
+  /**
+   * GET /api/orders/{orderId}/review-status (Bearer)
+   * Returns { success, reviewable, items: [{ order_item_id, stock_id, name, reviewed, review_id }] }
+   * Only reviewable for delivered/completed orders; 403 for non-owner.
+   */
+  async getOrderReviewStatus(orderId: string) {
+    try {
+      const response = await api.get(`/orders/${orderId}/review-status`);
+      return response.data;
+    } catch (error) {
+      debugError('Error fetching order review status:', error);
+      throw error;
+    }
   },
 
-  // TODO: Backend does not expose order-specific review endpoints. These need backend implementation.
-  async submitOrderReview(_orderReviewData: any) {
-    throw new Error('Order review submission endpoint is not available on the backend.');
+  /**
+   * POST /api/orders/{orderId}/reviews (Bearer)
+   * Body: { items: [{ order_item_id, rating: 1-5, comment? }] }
+   * Returns 201 { success, created }; 422 undelivered/validation, 409 duplicate item review.
+   * Reviews enter moderation as status=pending, verified_purchase=true.
+   */
+  async submitOrderReview(orderId: string, items: Array<{ order_item_id: number; rating: number; comment?: string }>) {
+    try {
+      const response = await api.post(`/orders/${orderId}/reviews`, { items });
+      return response.data;
+    } catch (error) {
+      debugError('Error submitting order review:', error);
+      throw error;
+    }
   }
 };
 
