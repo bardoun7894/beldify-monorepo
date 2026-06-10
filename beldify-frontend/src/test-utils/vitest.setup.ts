@@ -11,6 +11,17 @@
 import { afterEach, expect, vi } from 'vitest';
 import { cleanup } from '@testing-library/react';
 import * as matchers from '@testing-library/jest-dom/matchers';
+import * as ReactAll from 'react';
+
+// When vitest.config.ts (without @vitejs/plugin-react) is the active config,
+// production files that use JSX without `import React` fail with
+// "React is not defined" because the automatic JSX runtime is not injected.
+// Assigning React to globalThis provides the fallback that the classic JSX
+// transform expects, keeping all component tests green regardless of which
+// config file vitest resolves.
+// This is safe: the assignment is a no-op when the automatic transform IS active.
+(globalThis as typeof globalThis & { React: typeof ReactAll }).React =
+  (globalThis as typeof globalThis & { React: typeof ReactAll }).React ?? ReactAll;
 
 // Extend vitest expect with jest-dom DOM matchers.
 // Using the explicit matchers import avoids the "expect is not defined" error
@@ -70,7 +81,6 @@ if (typeof window !== 'undefined') {
 
   // ResizeObserver — not in jsdom.
   if (typeof ResizeObserver === 'undefined') {
-    // @ts-expect-error -- intentional global stub for jsdom environments
     global.ResizeObserver = class ResizeObserver {
       observe() {}
       unobserve() {}

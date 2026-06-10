@@ -25,44 +25,44 @@ describe('OfferCountdownChip — static + logic checks', () => {
   });
 
   it('exports a default React component', async () => {
-    const mod = await import('../OfferCountdownChip.tsx');
+    const mod = await import('../OfferCountdownChip');
     expect(typeof mod.default).toBe('function');
   });
 
   it('exports isOfferActive helper', async () => {
-    const mod = await import('../OfferCountdownChip.tsx');
+    const mod = await import('../OfferCountdownChip');
     expect(typeof mod.isOfferActive).toBe('function');
   });
 
   it('isOfferActive returns false for null ends_at', async () => {
-    const { isOfferActive } = await import('../OfferCountdownChip.tsx');
+    const { isOfferActive } = await import('../OfferCountdownChip');
     expect(isOfferActive(null)).toBe(false);
   });
 
   it('isOfferActive returns false for undefined ends_at', async () => {
-    const { isOfferActive } = await import('../OfferCountdownChip.tsx');
+    const { isOfferActive } = await import('../OfferCountdownChip');
     expect(isOfferActive(undefined)).toBe(false);
   });
 
   it('isOfferActive returns false for a past ISO timestamp', async () => {
-    const { isOfferActive } = await import('../OfferCountdownChip.tsx');
+    const { isOfferActive } = await import('../OfferCountdownChip');
     const past = new Date(Date.now() - 60_000).toISOString();
     expect(isOfferActive(past)).toBe(false);
   });
 
   it('isOfferActive returns true for a future ISO timestamp', async () => {
-    const { isOfferActive } = await import('../OfferCountdownChip.tsx');
+    const { isOfferActive } = await import('../OfferCountdownChip');
     const future = new Date(Date.now() + 3_600_000).toISOString();
     expect(isOfferActive(future)).toBe(true);
   });
 
   it('exports formatCountdown helper', async () => {
-    const mod = await import('../OfferCountdownChip.tsx');
+    const mod = await import('../OfferCountdownChip');
     expect(typeof mod.formatCountdown).toBe('function');
   });
 
   it('formatCountdown returns "Ends in Xh Ym" for a timestamp ~2h 5m away', async () => {
-    const { formatCountdown } = await import('../OfferCountdownChip.tsx');
+    const { formatCountdown } = await import('../OfferCountdownChip');
     const twoHoursFiveMin = new Date(Date.now() + (2 * 60 + 5) * 60_000).toISOString();
     const result = formatCountdown(twoHoursFiveMin);
     // Should contain hour and minute counts
@@ -71,7 +71,7 @@ describe('OfferCountdownChip — static + logic checks', () => {
   });
 
   it('formatCountdown returns "Ends in Xm" (no hours) when < 1h away', async () => {
-    const { formatCountdown } = await import('../OfferCountdownChip.tsx');
+    const { formatCountdown } = await import('../OfferCountdownChip');
     const thirtyMin = new Date(Date.now() + 30 * 60_000).toISOString();
     const result = formatCountdown(thirtyMin);
     expect(result).toMatch(/30m/);

@@ -67,7 +67,7 @@ describe('WishlistContext — addToWishlist notify flags', () => {
     });
 
     const wishlistPost = mockPost.mock.calls.find(
-      ([url]: [string]) => url === '/api/wishlist'
+      (call: any[]) => call[0] === '/api/wishlist'
     );
     expect(wishlistPost).toBeDefined();
     const payload = wishlistPost![1];
@@ -86,7 +86,7 @@ describe('WishlistContext — addToWishlist notify flags', () => {
     });
 
     const wishlistPost = mockPost.mock.calls.find(
-      ([url]: [string]) => url === '/api/wishlist'
+      (call: any[]) => call[0] === '/api/wishlist'
     );
     expect(wishlistPost).toBeDefined();
     const payload = wishlistPost![1];
@@ -109,7 +109,7 @@ describe('WishlistContext — addToWishlist notify flags', () => {
     });
 
     const wishlistPost = mockPost.mock.calls.find(
-      ([url]: [string]) => url === '/api/wishlist'
+      (call: any[]) => call[0] === '/api/wishlist'
     );
     expect(wishlistPost).toBeDefined();
     const payload = wishlistPost![1];
@@ -129,7 +129,7 @@ describe('WishlistContext — addToWishlist notify flags', () => {
     });
 
     const wishlistPost = mockPost.mock.calls.find(
-      ([url]: [string]) => url === '/api/wishlist'
+      (call: any[]) => call[0] === '/api/wishlist'
     );
     expect(wishlistPost).toBeDefined();
     const payload = wishlistPost![1];

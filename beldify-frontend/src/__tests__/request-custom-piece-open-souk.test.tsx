@@ -9,6 +9,14 @@
  *    title / description / category_id + product_specifications[material]
  *  - Image files are appended as images[]
  *  - Unauthenticated users are redirected to login
+ *
+ * Implementation notes:
+ *  - Material selection is via chip buttons (not a <select>); the label
+ *    "Material" is not associated with a form control via htmlFor.
+ *    Tests interact with the chip buttons directly by their text label.
+ *  - Validation is in JS (not native HTML `required`); the submit handler
+ *    sets an error state and returns early when no material is selected.
+ *  - framer-motion is mocked to avoid AnimatePresence incompatibilities in jsdom.
  */
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import React from 'react';
@@ -31,7 +39,7 @@ vi.mock('react-i18next', () => ({
 }));
 
 vi.mock('@/contexts/AuthContext', () => ({
-  useAuth: () => ({ isAuthenticated: authed }),
+  useAuth: () => ({ isAuthenticated: authed, loading: false }),
 }));
 
 const createCommunityPostMock = vi.fn().mockResolvedValue({ id: 99 });
@@ -50,6 +58,16 @@ vi.mock('@/services/categoryService', () => ({
 
 vi.mock('@/utils/toast', () => ({ default: { success: vi.fn(), error: vi.fn() } }));
 
+// Mock framer-motion to avoid AnimatePresence/motion issues in jsdom.
+// motion.div becomes a plain <div>; AnimatePresence renders children directly.
+vi.mock('framer-motion', () => ({
+  motion: {
+    div: ({ children, ...rest }: React.ComponentProps<'div'>) =>
+      React.createElement('div', rest, children),
+  },
+  AnimatePresence: ({ children }: { children: React.ReactNode }) => React.createElement(React.Fragment, null, children),
+}));
+
 import RequestCustomPieceForm from '@/components/community/RequestCustomPieceForm';
 
 describe('RequestCustomPieceForm (Open Souk)', () => {
@@ -61,19 +79,27 @@ describe('RequestCustomPieceForm (Open Souk)', () => {
 
   it('does not post when Material is missing (the only required field)', async () => {
     render(<RequestCustomPieceForm />);
-    // Material select carries the native `required` attribute (the only required field).
-    expect((screen.getByLabelText(/material/i) as HTMLSelectElement).required).toBe(true);
+    // Material is presented as chip buttons — no form control with a label.
+    // Verify the chip buttons are rendered (at least "Gold" is visible).
+    await waitFor(() => expect(screen.getByRole('button', { name: /gold/i })).toBeInTheDocument());
+
+    // Click submit without selecting a material.
     fireEvent.click(screen.getByRole('button', { name: /post to open souk/i }));
-    // No material → request is never posted to Open Souk.
+
+    // The submit handler checks `if (!material)` and sets error — it never calls createCommunityPost.
     await new Promise((r) => setTimeout(r, 0));
     expect(createCommunityPostMock).not.toHaveBeenCalled();
+    // An error message should appear.
+    await waitFor(() => expect(screen.getByRole('alert')).toBeInTheDocument());
   });
 
   it('submits with ONLY Material chosen, auto-filling title/description/category + specs', async () => {
     render(<RequestCustomPieceForm />);
-    await waitFor(() => expect((screen.getByLabelText(/material/i) as HTMLSelectElement)).toBeTruthy());
+    // Wait for categories to load (async useEffect).
+    await waitFor(() => expect(screen.getByRole('button', { name: /gold/i })).toBeInTheDocument());
 
-    fireEvent.change(screen.getByLabelText(/material/i), { target: { value: 'gold' } });
+    // Select "Gold" chip — this sets material state.
+    fireEvent.click(screen.getByRole('button', { name: /gold/i }));
     fireEvent.click(screen.getByRole('button', { name: /post to open souk/i }));
 
     await waitFor(() => expect(createCommunityPostMock).toHaveBeenCalledTimes(1));
@@ -89,9 +115,11 @@ describe('RequestCustomPieceForm (Open Souk)', () => {
 
   it('appends uploaded images as images[]', async () => {
     render(<RequestCustomPieceForm />);
-    await waitFor(() => screen.getByLabelText(/material/i));
+    await waitFor(() => expect(screen.getByRole('button', { name: /silver/i })).toBeInTheDocument());
 
-    fireEvent.change(screen.getByLabelText(/material/i), { target: { value: 'silver' } });
+    // Select "Silver" chip.
+    fireEvent.click(screen.getByRole('button', { name: /silver/i }));
+
     const file = new File(['x'], 'ref.png', { type: 'image/png' });
     const input = document.getElementById('images') as HTMLInputElement;
     fireEvent.change(input, { target: { files: [file] } });

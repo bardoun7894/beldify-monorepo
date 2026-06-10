@@ -92,7 +92,7 @@ describe('AuthContext', () => {
         email: 'test@example.com',
         full_name: 'Test User',
         username: 'testuser'
-      } as User
+      } as unknown as User
 
       render(
         <MockAuthProvider value={{ user: mockUser, isAuthenticated: true }}>
@@ -194,7 +194,7 @@ describe('AuthContext', () => {
         email: 'test@example.com',
         full_name: 'Test User',
         username: 'testuser'
-      } as User
+      } as unknown as User
 
       render(
         <MockAuthProvider value={{
@@ -323,7 +323,7 @@ describe('AuthContext', () => {
         email: 'cached@example.com',
         full_name: 'Cached User',
         username: 'cacheduser'
-      } as User
+      } as unknown as User
 
       render(
         <MockAuthProvider value={{ user: mockUser, isAuthenticated: true, loading: false }}>
