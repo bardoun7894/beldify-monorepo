@@ -256,16 +256,12 @@ export default function ProductDetailsPage() {
       isNull: qty === null,
       isUndefined: qty === undefined,
       isZero: qty === 0,
-      isStringZero: qty === "0",
       isFalsy: !qty
     });
 
     // Check for all possible falsy/zero values
     if (qty === null || qty === undefined) return true;
-    if (typeof qty === 'number' && qty === 0) return true;
-    if (typeof qty === 'string' && qty === "0") return true;
-    if (typeof qty === 'string' && parseInt(qty) <= 0) return true;
-    if (typeof qty === 'number' && qty <= 0) return true;
+    if (qty <= 0) return true;
 
     return false;
   };
@@ -1339,7 +1335,7 @@ export default function ProductDetailsPage() {
               {t('navigation.home', 'Home')}
             </Link>
           </li>
-          <li><span className="text-amber-400 px-0.5">/</span></li>
+          <li><span className="text-gray-500">/</span></li>
           {displayCategory && (
             <>
               <li>
@@ -1350,7 +1346,7 @@ export default function ProductDetailsPage() {
                   {displayCategory}
                 </Link>
               </li>
-              <li><span className="text-amber-400 px-0.5">/</span></li>
+              <li><span className="text-gray-500">/</span></li>
             </>
           )}
           <li>
@@ -1488,7 +1484,7 @@ export default function ProductDetailsPage() {
               {formatPrice(displayPrice)}
             </span>
             {hasDiscount && (
-              <span className="text-base text-gray-400 line-through tabular-nums">
+              <span className="text-base text-gray-500 line-through tabular-nums">
                 {formatPrice(product.price)}
               </span>
             )}
@@ -2022,26 +2018,8 @@ export default function ProductDetailsPage() {
           >
             <div className="space-y-5 text-gray-600 text-sm leading-relaxed">
               <p className="text-base">{product.description}</p>
-              {product.description && (
-                <p className="text-gray-500">
-                  {t('product.description_secondary', 'Crafted by skilled artisans using traditional methods passed down through generations, this piece represents the finest in Moroccan craftsmanship.')}
-                </p>
-              )}
-              {/* Journal entry link card */}
-              <Link
-                href={`/journal/${product.category?.toLowerCase() ?? 'crafts'}`}
-                className="flex items-center justify-between mt-6 p-5 rounded-2xl bg-white ring-1 ring-gray-200 hover:ring-gray-300 hover:shadow-atlas-sm transition-all duration-200 group"
-              >
-                <div>
-                  <p className="text-xs uppercase tracking-[0.18em] text-amber-700 font-medium mb-1">
-                    {t('journal.from_the_journal', 'From the journal')}
-                  </p>
-                  <p className="text-sm font-semibold text-gray-900">
-                    {t('product.read_journal', 'Read the craft story')}
-                  </p>
-                </div>
-                <ArrowRight className="h-5 w-5 text-indigo-700 group-hover:translate-x-0.5 rtl:group-hover:-translate-x-0.5 transition-transform rtl:rotate-180 shrink-0" aria-hidden />
-              </Link>
+              {/* "From the journal" teaser removed — the journal route does not exist yet.
+                  TODO: restore link card when the journal section ships. */}
             </div>
           </div>
 

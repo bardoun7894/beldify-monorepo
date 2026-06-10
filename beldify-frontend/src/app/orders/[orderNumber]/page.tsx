@@ -657,25 +657,41 @@ export default function OrderDetailsPage() {
               {/* Order totals */}
               <div className="p-5 sm:p-6 bg-gray-50 border-t border-gray-100">
                 <div className="space-y-2">
-                  <div className="flex justify-between text-sm">
-                    <span className="text-gray-500">{t('orders.summary.subtotal')}</span>
-                    <span className="font-medium text-gray-900 currency-mad">{formatAmount(order.total_amount)}</span>
-                  </div>
-                  <div className="flex justify-between text-sm">
-                    <span className="text-gray-500">{t('orders.summary.shipping')}</span>
-                    <span className="font-medium text-emerald-700">{t('orders.summary.free')}</span>
-                  </div>
-                  <div className="pt-3 border-t border-gray-100">
-                    <div className="flex justify-between">
-                      <span className="text-base font-semibold text-gray-900">{t('orders.summary.total')}</span>
-                      <span
-                        className="text-xl font-bold text-indigo-700 currency-mad"
-                        style={playfair}
-                      >
-                        {formatAmount(order.total_amount)}
-                      </span>
-                    </div>
-                  </div>
+                  {/* Subtotal = sum of (unit_price × quantity) for each line item */}
+                  {(() => {
+                    const itemsSubtotal = order.items.reduce(
+                      (sum, item) => sum + (Number(item.unit_price) || 0) * (item.quantity || 1),
+                      0
+                    );
+                    const shippingAmount = Number(order.shipping_amount) || 0;
+                    return (
+                      <>
+                        <div className="flex justify-between text-sm">
+                          <span className="text-gray-500">{t('orders.summary.subtotal')}</span>
+                          <span className="font-medium text-gray-900 currency-mad">{formatAmount(itemsSubtotal)}</span>
+                        </div>
+                        <div className="flex justify-between text-sm">
+                          <span className="text-gray-500">{t('orders.summary.shipping')}</span>
+                          <span className="font-medium text-emerald-700">
+                            {shippingAmount === 0
+                              ? t('orders.summary.free', 'Free')
+                              : <span className="currency-mad">{formatAmount(shippingAmount)}</span>}
+                          </span>
+                        </div>
+                        <div className="pt-3 border-t border-gray-100">
+                          <div className="flex justify-between">
+                            <span className="text-base font-semibold text-gray-900">{t('orders.summary.total')}</span>
+                            <span
+                              className="text-xl font-bold text-indigo-700 currency-mad"
+                              style={playfair}
+                            >
+                              {formatAmount(order.total_amount)}
+                            </span>
+                          </div>
+                        </div>
+                      </>
+                    );
+                  })()}
                 </div>
               </div>
             </motion.div>
@@ -892,21 +908,15 @@ export default function OrderDetailsPage() {
                   </Link>
                 )}
                 <button
+                  onClick={() => window.open(`https://wa.me/${SUPPORT_WHATSAPP}`, '_blank', 'noopener,noreferrer')}
                   className="w-full px-4 py-2.5 bg-amber-50 text-gray-700 text-sm font-medium rounded-2xl ring-1 ring-amber-200 hover:bg-amber-100 transition-all duration-200 flex items-center justify-center gap-2 focus:ring-2 focus:ring-indigo-700/30 focus:outline-none"
-                  aria-label={t('orders.actions.contact_support')}
+                  aria-label={t('orders.actions.contact_support', 'Contact support via WhatsApp')}
                 >
                   <MessageSquare className="w-4 h-4 flex-shrink-0" strokeWidth={1.5} />
                   {t('orders.actions.contact_support')}
                 </button>
-                {isDelivered && (
-                  <button
-                    className="w-full px-4 py-2.5 bg-amber-50 text-gray-700 text-sm font-medium rounded-2xl ring-1 ring-amber-100 hover:bg-amber-100 transition-all duration-200 flex items-center justify-center gap-2 focus:ring-2 focus:ring-indigo-700/30 focus:outline-none"
-                    aria-label={t('orders.actions.write_review')}
-                  >
-                    <Star className="w-4 h-4 flex-shrink-0" strokeWidth={1.5} />
-                    {t('orders.actions.write_review')}
-                  </button>
-                )}
+                {/* Write a review — removed until backend review endpoint ships.
+                    TODO: restore button when POST /api/products/{id}/reviews is live (src/services/api.ts:464). */}
 
                 {/* Return request button — only for delivered orders within 14d */}
                 {canRequestReturn && (

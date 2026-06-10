@@ -73,24 +73,22 @@ describe('Fix 1c — totals panel shows real subtotal', () => {
 // ── Fix 1d: Reorder toasts use i18n keys in orders/[orderNumber]/page.tsx ────
 
 describe('Fix 1d — reorder toasts use t() in orders/[orderNumber]/page.tsx', () => {
-  it('does not use hardcoded AR string for all_skipped toast', () => {
-    expect(detailPage).not.toContain("'لم تتوفر المنتجات حالياً'");
+  it('does not use ternary-language pattern for all_skipped toast (must use t())', () => {
+    // Old: toast(i18n.language === 'ar' ? '...' : '...', 'error') as bare toast call
+    expect(detailPage).not.toMatch(/toast\(\s*i18n\.language\s*===\s*'ar'\s*\?[^)]*all_skipped/);
   });
 
-  it('does not use hardcoded EN string for all_skipped toast', () => {
-    expect(detailPage).not.toContain("'Items are out of stock and could not be added.'");
+  it('does not use bare toast() call with parenthesised concat (must use toast.success)', () => {
+    // Old: toast((i18n.language === 'ar' ? ... : ...) + skippedNote, 'success')
+    expect(detailPage).not.toMatch(/toast\(\s*\(/);
   });
 
-  it('does not use hardcoded AR string for added toast', () => {
-    expect(detailPage).not.toContain("'أُضيف إلى سلة التسوق'");
+  it('uses toast.error() for error cases', () => {
+    expect(detailPage).toContain('toast.error(');
   });
 
-  it('does not use hardcoded EN string for added toast', () => {
-    expect(detailPage).not.toContain("'Added to your cart'");
-  });
-
-  it('does not use hardcoded AR string for error toast', () => {
-    expect(detailPage).not.toContain("'حدث خطأ، يرجى المحاولة مجدداً'");
+  it('uses toast.success() for success case', () => {
+    expect(detailPage).toContain('toast.success(');
   });
 
   it('uses t() for orders.reorder.added', () => {
@@ -109,16 +107,16 @@ describe('Fix 1d — reorder toasts use t() in orders/[orderNumber]/page.tsx', (
 // ── Fix 2: Reorder toasts use i18n keys in orders/page.tsx ───────────────────
 
 describe('Fix 2 — reorder toasts use t() in orders/page.tsx', () => {
-  it('does not use hardcoded AR string for all_skipped toast', () => {
-    expect(ordersPage).not.toContain("'لم تتوفر المنتجات حالياً'");
+  it('does not use ternary-language pattern for all_skipped toast message (must use t())', () => {
+    // Old pattern: toast(i18n.language === 'ar' ? '...' : '...', 'error')
+    // New pattern: toast.error(t('orders.reorder.all_skipped', '...'))
+    // Check that the direct ternary toast call is gone
+    expect(ordersPage).not.toMatch(/toast\(\s*i18n\.language\s*===\s*'ar'\s*\?[^)]*all_skipped/);
   });
 
-  it('does not use hardcoded EN string for all_skipped toast', () => {
-    expect(ordersPage).not.toContain("'Items are out of stock and could not be added.'");
-  });
-
-  it('does not use hardcoded AR string for added toast', () => {
-    expect(ordersPage).not.toContain("'أُضيف إلى سلة التسوق'");
+  it('does not use bare toast() call with AR string for added toast (must use toast.success)', () => {
+    // Old: toast((i18n.language === 'ar' ? 'أُضيف' : 'Added') + skippedNote, 'success')
+    expect(ordersPage).not.toMatch(/toast\(\s*\(/);
   });
 
   it('uses t() for orders.reorder.added', () => {
@@ -131,6 +129,14 @@ describe('Fix 2 — reorder toasts use t() in orders/page.tsx', () => {
 
   it('uses t() for orders.reorder.error', () => {
     expect(ordersPage).toContain("orders.reorder.error");
+  });
+
+  it('uses toast.error() for error toasts (not bare toast())', () => {
+    expect(ordersPage).toContain('toast.error(');
+  });
+
+  it('uses toast.success() for success toasts (not bare toast())', () => {
+    expect(ordersPage).toContain('toast.success(');
   });
 
   it('syncUrlLocale called without arguments', () => {

@@ -4488,5 +4488,82 @@
     "saved_push_off": "Saved. Enable notifications to receive alerts",
     "unsupported": "Saved. Your browser does not support notifications",
     "saving": "Saving…"
+  },
+  "credits": {
+    "eyebrow": "Seller Hub",
+    "page_title": "AI Credits",
+    "page_subtitle": "Top up credits to use AI tools — listing writer, translator, and more.",
+    "fetch_error": "Could not load credit data. Please refresh.",
+    "no_packs": "No packs available. Check back soon.",
+    "buy_section_title": "Top up credits",
+    "balance_card": {
+      "eyebrow": "Your AI Credits",
+      "credits_label": "credits available",
+      "costs_label": "Feature costs",
+      "credits_unit": "credits"
+    },
+    "features": {
+      "listing_writer": "Listing Writer",
+      "store_creator": "Store Creator",
+      "translate_listing": "Auto-Translate",
+      "marketing_copy": "Marketing Copy"
+    },
+    "pack_card": {
+      "credits_unit": "credits",
+      "select_cta": "Buy this pack"
+    },
+    "purchase": {
+      "back": "Back to packs",
+      "form_title": "Complete your purchase",
+      "bank_details_label": "Bank transfer details",
+      "copy_rib": "Copy RIB",
+      "bank_details_unavailable": "Bank details not configured yet. Please contact support to complete your purchase.",
+      "receipt_label": "Payment receipt",
+      "receipt_hint": "JPG, PNG, WebP or PDF — max 5 MB",
+      "receipt_required": "Please upload your payment receipt",
+      "receipt_too_large": "Receipt must be smaller than 5 MB",
+      "reference_label": "Transfer reference (optional)",
+      "reference_placeholder": "Bank transfer reference code",
+      "submit_cta": "Submit purchase request",
+      "submitting": "Submitting…",
+      "submit_error": "Submission failed. Please try again.",
+      "success_title": "Purchase submitted!",
+      "success_body": "Your receipt is under review. Credits will be added once approved.",
+      "buy_more": "Buy more credits"
+    },
+    "history": {
+      "title": "Purchase history",
+      "empty": "No purchase history yet."
+    },
+    "ledger": {
+      "title": "Transaction history",
+      "empty": "No transactions yet."
+    },
+    "status": {
+      "approved": "approved",
+      "pending": "pending",
+      "rejected": "rejected"
+    },
+    "tx_type": {
+      "purchase": "Purchase",
+      "bonus": "Welcome bonus",
+      "consumption": "Used",
+      "refund": "Refund",
+      "adjustment": "Adjustment"
+    },
+    "modal": {
+      "eyebrow": "AI Credits",
+      "title": "Not enough credits",
+      "dismiss": "Dismiss",
+      "close": "Close modal",
+      "close_icon": "Go back",
+      "requires_credits": "requires credits you currently do not have.",
+      "generic_body": "You do not have enough credits to use this AI feature.",
+      "cost_label": "Required",
+      "balance_label": "Your balance",
+      "credits_unit": "credits",
+      "cta": "Top up credits",
+      "later": "Maybe later"
+    }
   }
 }

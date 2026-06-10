@@ -199,12 +199,13 @@ export default function SellerLayout({ children }: { children: React.ReactNode }
             {creditBalance !== null && (
               <Link
                 href="/seller/credits"
-                data-testid="credit-chip"
                 aria-label={t('seller.layout.credit_chip_aria', 'AI Credits balance')}
                 className="inline-flex items-center gap-1.5 bg-indigo-700 hover:bg-indigo-800 text-white rounded-full px-3 py-1 text-xs font-semibold transition-colors"
               >
-                <Sparkles className="w-3 h-3 text-amber-300" aria-hidden="true" />
-                {creditBalance}
+                <span data-testid="credit-chip" className="flex items-center gap-1.5">
+                  <Sparkles className="w-3 h-3 text-amber-300" aria-hidden="true" />
+                  {creditBalance}
+                </span>
               </Link>
             )}
             <Link

@@ -4476,5 +4476,82 @@
     "saved_push_off": "تم الحفظ. فعّل الإشعارات للحصول على تنبيهات",
     "unsupported": "تم الحفظ. المتصفح لا يدعم الإشعارات",
     "saving": "جارٍ الحفظ…"
+  },
+  "credits": {
+    "eyebrow": "لوحة البائع",
+    "page_title": "رصيد الذكاء الاصطناعي",
+    "page_subtitle": "أضف رصيداً لاستخدام أدوات الذكاء الاصطناعي — كاتب القوائم والمترجم والمزيد.",
+    "fetch_error": "تعذّر تحميل بيانات الرصيد. يرجى التحديث.",
+    "no_packs": "لا توجد باقات متاحة حالياً. تفقّد مجدداً لاحقاً.",
+    "buy_section_title": "شراء رصيد",
+    "balance_card": {
+      "eyebrow": "رصيدك من الذكاء الاصطناعي",
+      "credits_label": "رصيد متاح",
+      "costs_label": "تكلفة الميزات",
+      "credits_unit": "نقطة"
+    },
+    "features": {
+      "listing_writer": "كاتب القوائم",
+      "store_creator": "منشئ المتجر",
+      "translate_listing": "الترجمة التلقائية",
+      "marketing_copy": "المحتوى التسويقي"
+    },
+    "pack_card": {
+      "credits_unit": "نقطة",
+      "select_cta": "اشتر هذه الباقة"
+    },
+    "purchase": {
+      "back": "العودة إلى الباقات",
+      "form_title": "أكمل عملية الشراء",
+      "bank_details_label": "تفاصيل التحويل البنكي",
+      "copy_rib": "نسخ رقم الحساب",
+      "bank_details_unavailable": "لم تُضبط تفاصيل البنك بعد. يرجى التواصل مع الدعم لإتمام الشراء.",
+      "receipt_label": "إيصال الدفع",
+      "receipt_hint": "JPG أو PNG أو WebP أو PDF — بحد أقصى 5 ميجابايت",
+      "receipt_required": "يرجى رفع إيصال الدفع",
+      "receipt_too_large": "يجب أن يكون الإيصال أصغر من 5 ميجابايت",
+      "reference_label": "مرجع التحويل (اختياري)",
+      "reference_placeholder": "رمز مرجع التحويل البنكي",
+      "submit_cta": "إرسال طلب الشراء",
+      "submitting": "جارٍ الإرسال…",
+      "submit_error": "فشل الإرسال. يرجى المحاولة مجدداً.",
+      "success_title": "تم إرسال طلب الشراء!",
+      "success_body": "إيصالك قيد المراجعة. ستُضاف النقاط فور الموافقة.",
+      "buy_more": "اشترِ المزيد من النقاط"
+    },
+    "history": {
+      "title": "سجل المشتريات",
+      "empty": "لا سجل مشتريات بعد."
+    },
+    "ledger": {
+      "title": "سجل المعاملات",
+      "empty": "لا معاملات بعد."
+    },
+    "status": {
+      "approved": "مقبول",
+      "pending": "قيد الانتظار",
+      "rejected": "مرفوض"
+    },
+    "tx_type": {
+      "purchase": "شراء",
+      "bonus": "مكافأة الترحيب",
+      "consumption": "مستخدَم",
+      "refund": "استرداد",
+      "adjustment": "تعديل"
+    },
+    "modal": {
+      "eyebrow": "رصيد الذكاء الاصطناعي",
+      "title": "رصيد غير كافٍ",
+      "dismiss": "تجاهل",
+      "close": "إغلاق النافذة",
+      "close_icon": "العودة",
+      "requires_credits": "تتطلب نقاطاً غير متوفرة لديك حالياً.",
+      "generic_body": "ليس لديك نقاط كافية لاستخدام هذه الميزة.",
+      "cost_label": "مطلوب",
+      "balance_label": "رصيدك",
+      "credits_unit": "نقطة",
+      "cta": "إضافة رصيد",
+      "later": "ربما لاحقاً"
+    }
   }
 }

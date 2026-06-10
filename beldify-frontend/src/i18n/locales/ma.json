@@ -4342,5 +4342,82 @@
     "saved_push_off": "تسجّل. فعّل الإشعارات باش يوصلوك التنبيهات",
     "unsupported": "تسجّل. المتصفح ما كيدعمش الإشعارات",
     "saving": "كنسجلو…"
+  },
+  "credits": {
+    "eyebrow": "لوحة البايع",
+    "page_title": "نقاط الذكاء الاصطناعي",
+    "page_subtitle": "زيد نقاط باش تخدم بأدوات الذكاء الاصطناعي — كاتب الفيشات والترجمة وأكثر.",
+    "fetch_error": "ما قدرناش نحملو بيانات النقاط. عاود تحديث الصفحة.",
+    "no_packs": "ما كاينش باقات دابا. كارجع تشوف من بعد.",
+    "buy_section_title": "اشري نقاط",
+    "balance_card": {
+      "eyebrow": "النقاط ديالك",
+      "credits_label": "نقطة متوفرة",
+      "costs_label": "ثمن الميزات",
+      "credits_unit": "نقطة"
+    },
+    "features": {
+      "listing_writer": "كاتب الفيشة",
+      "store_creator": "منشئ الحانوت",
+      "translate_listing": "ترجمة تلقائية",
+      "marketing_copy": "محتوى تسويقي"
+    },
+    "pack_card": {
+      "credits_unit": "نقطة",
+      "select_cta": "اشري هاد الباقة"
+    },
+    "purchase": {
+      "back": "ارجع للباقات",
+      "form_title": "كمّل الشراء",
+      "bank_details_label": "معلومات التحويل البنكي",
+      "copy_rib": "نسخ رقم الحساب",
+      "bank_details_unavailable": "معلومات البنك ما تسجلاتش بعد. تواصل مع الدعم باش تكمّل الشراء.",
+      "receipt_label": "وصل الدفع",
+      "receipt_hint": "JPG أو PNG أو WebP أو PDF — الحد الأقصى 5 ميغا",
+      "receipt_required": "رفع وصل الدفع مهم",
+      "receipt_too_large": "الوصل خاصو يكون أصغر من 5 ميغا",
+      "reference_label": "مرجع التحويل (اختياري)",
+      "reference_placeholder": "كود مرجع التحويل البنكي",
+      "submit_cta": "رسل طلب الشراء",
+      "submitting": "كنرسلو…",
+      "submit_error": "فشل الإرسال. عاود المحاولة.",
+      "success_title": "تبعثات الطلب!",
+      "success_body": "الوصل ديالك قيد المراجعة. غادي تزادو النقاط ملي يتأكدو.",
+      "buy_more": "اشري نقاط زيادة"
+    },
+    "history": {
+      "title": "تاريخ المشتريات",
+      "empty": "ما كاينش تاريخ مشتريات بعد."
+    },
+    "ledger": {
+      "title": "تاريخ المعاملات",
+      "empty": "ما كاينش معاملات بعد."
+    },
+    "status": {
+      "approved": "مقبول",
+      "pending": "فالانتظار",
+      "rejected": "مرفوض"
+    },
+    "tx_type": {
+      "purchase": "شراء",
+      "bonus": "مكافأة الترحيب",
+      "consumption": "مستعمل",
+      "refund": "استرداد",
+      "adjustment": "تعديل"
+    },
+    "modal": {
+      "eyebrow": "نقاط الذكاء الاصطناعي",
+      "title": "النقاط ما كافياش",
+      "dismiss": "تجاهل",
+      "close": "قفل النافذة",
+      "close_icon": "ارجع",
+      "requires_credits": "محتاجة نقاط ما عندكش دابا.",
+      "generic_body": "ما عندكش نقاط كافية باش تخدم بهاد الميزة.",
+      "cost_label": "المطلوب",
+      "balance_label": "رصيدك",
+      "credits_unit": "نقطة",
+      "cta": "زيد نقاط",
+      "later": "من بعد ربما"
+    }
   }
 }

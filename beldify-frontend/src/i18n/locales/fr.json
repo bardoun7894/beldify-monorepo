@@ -4346,5 +4346,82 @@
     "saved_push_off": "Enregistré. Activez les notifications pour recevoir des alertes",
     "unsupported": "Enregistré. Votre navigateur ne prend pas en charge les notifications",
     "saving": "Enregistrement…"
+  },
+  "credits": {
+    "eyebrow": "Espace vendeur",
+    "page_title": "Crédits IA",
+    "page_subtitle": "Rechargez vos crédits pour utiliser les outils IA — rédacteur de fiches, traducteur et plus encore.",
+    "fetch_error": "Impossible de charger les données de crédits. Veuillez actualiser.",
+    "no_packs": "Aucun pack disponible pour le moment. Revenez bientôt.",
+    "buy_section_title": "Recharger des crédits",
+    "balance_card": {
+      "eyebrow": "Vos crédits IA",
+      "credits_label": "crédits disponibles",
+      "costs_label": "Coût des fonctionnalités",
+      "credits_unit": "crédit(s)"
+    },
+    "features": {
+      "listing_writer": "Rédacteur de fiches",
+      "store_creator": "Créateur de boutique",
+      "translate_listing": "Traduction automatique",
+      "marketing_copy": "Contenu marketing"
+    },
+    "pack_card": {
+      "credits_unit": "crédit(s)",
+      "select_cta": "Acheter ce pack"
+    },
+    "purchase": {
+      "back": "Retour aux packs",
+      "form_title": "Finaliser l'achat",
+      "bank_details_label": "Coordonnées bancaires",
+      "copy_rib": "Copier le RIB",
+      "bank_details_unavailable": "Coordonnées bancaires non configurées. Contactez le support pour finaliser votre achat.",
+      "receipt_label": "Justificatif de paiement",
+      "receipt_hint": "JPG, PNG, WebP ou PDF — max 5 Mo",
+      "receipt_required": "Veuillez téléverser votre justificatif de paiement",
+      "receipt_too_large": "Le justificatif doit peser moins de 5 Mo",
+      "reference_label": "Référence du virement (optionnel)",
+      "reference_placeholder": "Code de référence du virement",
+      "submit_cta": "Soumettre la demande d'achat",
+      "submitting": "Envoi en cours…",
+      "submit_error": "Échec de l'envoi. Veuillez réessayer.",
+      "success_title": "Demande envoyée !",
+      "success_body": "Votre justificatif est en cours de vérification. Les crédits seront ajoutés après validation.",
+      "buy_more": "Acheter plus de crédits"
+    },
+    "history": {
+      "title": "Historique des achats",
+      "empty": "Aucun achat enregistré."
+    },
+    "ledger": {
+      "title": "Historique des transactions",
+      "empty": "Aucune transaction pour le moment."
+    },
+    "status": {
+      "approved": "approuvé",
+      "pending": "en attente",
+      "rejected": "rejeté"
+    },
+    "tx_type": {
+      "purchase": "Achat",
+      "bonus": "Bonus de bienvenue",
+      "consumption": "Utilisé",
+      "refund": "Remboursement",
+      "adjustment": "Ajustement"
+    },
+    "modal": {
+      "eyebrow": "Crédits IA",
+      "title": "Crédits insuffisants",
+      "dismiss": "Ignorer",
+      "close": "Fermer la fenêtre",
+      "close_icon": "Retour",
+      "requires_credits": "nécessite des crédits que vous ne possédez pas actuellement.",
+      "generic_body": "Vous n'avez pas assez de crédits pour utiliser cette fonctionnalité IA.",
+      "cost_label": "Requis",
+      "balance_label": "Votre solde",
+      "credits_unit": "crédit(s)",
+      "cta": "Recharger des crédits",
+      "later": "Plus tard"
+    }
   }
 }

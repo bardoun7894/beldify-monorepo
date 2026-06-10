@@ -53,13 +53,7 @@ export default function OrdersPage() {
     try {
       const result = await orderService.reorder(orderNumber);
       if (result.items_skipped > 0 && result.items_added === 0) {
-        // FLAG: i18n key orders.reorder.all_skipped — hardcoded AR+EN pending i18n audit
-        toast(
-          i18n.language === 'ar'
-            ? 'لم تتوفر المنتجات حالياً'
-            : 'Items are out of stock and could not be added.',
-          'error'
-        );
+        toast.error(t('orders.reorder.all_skipped', 'Items are out of stock and could not be added.'));
         return;
       }
       const skippedNote =
@@ -68,19 +62,11 @@ export default function OrdersPage() {
             ? ` (${result.items_skipped} منتج غير متوفر)`
             : ` (${result.items_skipped} item${result.items_skipped > 1 ? 's' : ''} out of stock)`
           : '';
-      // FLAG: i18n key orders.reorder.added — hardcoded AR+EN pending i18n audit
-      toast(
-        (i18n.language === 'ar' ? 'أُضيف إلى سلة التسوق' : 'Added to your cart') + skippedNote,
-        'success'
-      );
+      toast.success(t('orders.reorder.added', 'Added to your cart') + skippedNote);
       router.push('/cart');
     } catch (err) {
       logger.error('Reorder error:', err);
-      // FLAG: i18n key orders.reorder.error — hardcoded AR+EN pending i18n audit
-      toast(
-        i18n.language === 'ar' ? 'حدث خطأ، يرجى المحاولة مجدداً' : 'Something went wrong. Please try again.',
-        'error'
-      );
+      toast.error(t('orders.reorder.error', 'Something went wrong. Please try again.'));
     } finally {
       setReorderingId(null);
     }
@@ -153,7 +139,7 @@ export default function OrdersPage() {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        syncUrlLocale(i18n.language);
+        syncUrlLocale();
         setLoading(true);
         const data = await orderService.getOrders();
         setOrders(data || []);
@@ -215,9 +201,7 @@ export default function OrdersPage() {
 
   if (loading) {
     return (
-      <OrdersLoadingScreen
-        isRTL={isRTL}
-      />
+      <OrdersLoadingScreen />
     );
   }
 

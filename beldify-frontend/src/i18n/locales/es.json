@@ -4330,5 +4330,82 @@
     "saved_push_off": "Guardado. Activa las notificaciones para recibir alertas",
     "unsupported": "Guardado. Tu navegador no admite notificaciones",
     "saving": "Guardando…"
+  },
+  "credits": {
+    "eyebrow": "Panel del vendedor",
+    "page_title": "Créditos IA",
+    "page_subtitle": "Recarga créditos para usar las herramientas de IA — redactor de fichas, traductor y más.",
+    "fetch_error": "No se pudieron cargar los datos de créditos. Por favor, actualiza.",
+    "no_packs": "No hay packs disponibles. Vuelve pronto.",
+    "buy_section_title": "Recargar créditos",
+    "balance_card": {
+      "eyebrow": "Tus créditos IA",
+      "credits_label": "créditos disponibles",
+      "costs_label": "Coste de funciones",
+      "credits_unit": "crédito(s)"
+    },
+    "features": {
+      "listing_writer": "Redactor de fichas",
+      "store_creator": "Creador de tienda",
+      "translate_listing": "Traducción automática",
+      "marketing_copy": "Contenido de marketing"
+    },
+    "pack_card": {
+      "credits_unit": "crédito(s)",
+      "select_cta": "Comprar este pack"
+    },
+    "purchase": {
+      "back": "Volver a los packs",
+      "form_title": "Completar la compra",
+      "bank_details_label": "Datos de transferencia bancaria",
+      "copy_rib": "Copiar número de cuenta",
+      "bank_details_unavailable": "Datos bancarios no configurados aún. Contacta con soporte para completar tu compra.",
+      "receipt_label": "Justificante de pago",
+      "receipt_hint": "JPG, PNG, WebP o PDF — máx. 5 MB",
+      "receipt_required": "Por favor, sube tu justificante de pago",
+      "receipt_too_large": "El justificante debe pesar menos de 5 MB",
+      "reference_label": "Referencia de transferencia (opcional)",
+      "reference_placeholder": "Código de referencia de la transferencia",
+      "submit_cta": "Enviar solicitud de compra",
+      "submitting": "Enviando…",
+      "submit_error": "Error al enviar. Por favor, inténtalo de nuevo.",
+      "success_title": "¡Solicitud enviada!",
+      "success_body": "Tu justificante está siendo revisado. Los créditos se añadirán una vez aprobado.",
+      "buy_more": "Comprar más créditos"
+    },
+    "history": {
+      "title": "Historial de compras",
+      "empty": "Sin historial de compras."
+    },
+    "ledger": {
+      "title": "Historial de transacciones",
+      "empty": "Sin transacciones aún."
+    },
+    "status": {
+      "approved": "aprobado",
+      "pending": "pendiente",
+      "rejected": "rechazado"
+    },
+    "tx_type": {
+      "purchase": "Compra",
+      "bonus": "Bono de bienvenida",
+      "consumption": "Usado",
+      "refund": "Reembolso",
+      "adjustment": "Ajuste"
+    },
+    "modal": {
+      "eyebrow": "Créditos IA",
+      "title": "Créditos insuficientes",
+      "dismiss": "Ignorar",
+      "close": "Cerrar ventana",
+      "close_icon": "Volver",
+      "requires_credits": "requiere créditos que actualmente no tienes.",
+      "generic_body": "No tienes suficientes créditos para usar esta función de IA.",
+      "cost_label": "Necesario",
+      "balance_label": "Tu saldo",
+      "credits_unit": "crédito(s)",
+      "cta": "Recargar créditos",
+      "later": "Quizás más tarde"
+    }
   }
 }
