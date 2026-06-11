@@ -7,6 +7,7 @@ import useSWRInfinite from 'swr/infinite';
 import { useTranslation } from 'react-i18next';
 import { ArrowRight } from 'lucide-react';
 import '@/i18n/config';
+import WishlistButton from '@/components/products/WishlistButton';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -21,6 +22,8 @@ interface FeedProduct {
   images?: string[];
   slug?: string | null;
   rating?: number;
+  reviews?: number;
+  review_count?: number;
   stock_quantity?: number;
 }
 
@@ -73,6 +76,13 @@ function MarketCard({ product, isArabicScript }: MarketCardProps) {
       ? Number(product.price) || 0
       : null;
 
+  const reviewCount =
+    typeof product.review_count === 'number'
+      ? product.review_count
+      : typeof product.reviews === 'number'
+      ? product.reviews
+      : 0;
+
   const imgSrc =
     product.main_image ||
     product.images?.[0] ||
@@ -123,10 +133,20 @@ function MarketCard({ product, isArabicScript }: MarketCardProps) {
           {typeof product.rating === 'number' && product.rating > 0 && (
             <p className="mt-1 text-[10px] text-amber-600 font-medium">
               {'★'.repeat(Math.round(product.rating))} {product.rating.toFixed(1)}
+              {reviewCount > 0 && (
+                <span className="text-gray-400 ms-1">({reviewCount})</span>
+              )}
             </p>
           )}
         </div>
       </Link>
+      {/* Wishlist heart — sits outside the Link to prevent nested interactive elements */}
+      <div className="absolute top-2 start-2 z-10">
+        <WishlistButton
+          productId={product.id}
+          className="flex h-8 w-8 items-center justify-center rounded-full bg-white/90 shadow-sm ring-1 ring-gray-200 backdrop-blur-sm transition-all duration-200 hover:bg-white hover:scale-110"
+        />
+      </div>
     </article>
   );
 }

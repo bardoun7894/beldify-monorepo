@@ -478,7 +478,10 @@
     "topBrands": "أفضل العلامات",
     "loadError": "فشل تحميل الأقسام المميزة.",
     "bestSellersDesc": "أكثر الأزياء المغربية التقليدية شعبية",
-    "newArrivalsDesc": "أحدث الإضافات إلى مجموعتنا"
+    "newArrivalsDesc": "أحدث الإضافات إلى مجموعتنا",
+    "inStock": "متوفر",
+    "lowStock": "آخر القطع",
+    "startsFrom": "يبدأ من"
   },
   "product": {
     "product_add_to_cart": "أضف إلى السلة",
@@ -4478,7 +4481,18 @@
       "postCta": "انشر طلبك",
       "browseCta": "تصفّح السوق",
       "emptyCta": "كن أول من ينشر طلباً",
-      "emptyBody": "لا توجد طلبات مفتوحة بعد. كن أول من ينشر طلباً ودع الورشات تأتي إليك."
+      "emptyBody": "لا توجد طلبات مفتوحة بعد. كن أول من ينشر طلباً ودع الورشات تأتي إليك.",
+      "exampleChip": "مثال",
+      "exampleBudgetLabel": "الميزانية",
+      "exampleTitle1": "قفطان للعرس",
+      "exampleBudget1": "2,000 – 4,000 درهم",
+      "exampleTag1": "نساء",
+      "exampleTitle2": "جلابة رجالية صوف",
+      "exampleBudget2": "800 – 1,200 درهم",
+      "exampleTag2": "رجال",
+      "exampleTitle3": "تكشيطة على القياس",
+      "exampleBudget3": "3,000 – 5,000 درهم",
+      "exampleTag3": "نساء"
     }
   },
   "journal": {

@@ -150,9 +150,13 @@ export default function HomeContent({ categories, data, openSoukPosts = [], hero
       <HeroSection hero={hero} />
 
       {/* ── CATEGORY CHIPS RAIL ───────────────────────────────────────────── */}
+      {/* On mobile (< lg) the rail sticks under the header (64px) so users can
+          browse categories while scrolling the page. Desktop: static position,
+          the rail scrolls away with the page content. The z-30 keeps it below
+          the site header (z-40) but above cards/images. */}
       {categories.length > 0 && (
         <section
-          className="border-b border-gray-100 bg-white"
+          className="border-b border-gray-100 bg-white sticky top-[64px] z-30 lg:static lg:z-auto"
           aria-label={t('home.categories.rail_label', 'Browse categories')}
         >
           <div
@@ -541,19 +545,68 @@ export default function HomeContent({ categories, data, openSoukPosts = [], hero
         </div>
 
         {openSoukPosts.length === 0 ? (
-          <div className="py-16 text-center rounded-2xl bg-gray-50 ring-1 ring-gray-200 shadow-atlas-sm">
-            <Sparkles className="h-10 w-10 text-amber-500 mx-auto mb-3" aria-hidden="true" />
-            <p className="text-sm text-gray-600 mb-5">
+          /* ── Open Souk empty state: illustrative example cards ─────────── */
+          <div className="space-y-8">
+            {/* Helper text */}
+            <p className="text-sm text-gray-500 text-center">
               {t('home.openSouk.emptyBody', 'No open briefs yet. Be the first to post one and let ateliers come to you.')}
             </p>
-            <Link
-              href="/community"
-              className="inline-flex items-center gap-2 rounded-xl bg-amber-500 px-6 py-3 text-sm font-semibold text-amber-950 transition-all duration-200 hover:bg-amber-400 hover:-translate-y-0.5 shadow-atlas-sm hover:shadow-atlas-md focus:outline-none focus:ring-2 focus:ring-amber-500/40 min-h-[44px]"
-              aria-label={t('home.openSouk.emptyCta', 'Be the first to post a brief')}
-            >
-              {t('home.openSouk.emptyCta', 'Be the first to post a brief')}
-              <ArrowRight className="h-4 w-4" aria-hidden="true" />
-            </Link>
+
+            {/* Three non-clickable example request cards (clearly labelled) */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4" aria-hidden="true">
+              {[
+                {
+                  title: t('home.openSouk.exampleTitle1', 'قفطان للعرس'),
+                  budget: t('home.openSouk.exampleBudget1', '2,000 – 4,000 درهم'),
+                  tag: t('home.openSouk.exampleTag1', 'نساء'),
+                },
+                {
+                  title: t('home.openSouk.exampleTitle2', 'جلابة رجالية صوف'),
+                  budget: t('home.openSouk.exampleBudget2', '800 – 1,200 درهم'),
+                  tag: t('home.openSouk.exampleTag2', 'رجال'),
+                },
+                {
+                  title: t('home.openSouk.exampleTitle3', 'تكشيطة على القياس'),
+                  budget: t('home.openSouk.exampleBudget3', '3,000 – 5,000 درهم'),
+                  tag: t('home.openSouk.exampleTag3', 'نساء'),
+                },
+              ].map((card, idx) => (
+                <div
+                  key={idx}
+                  /* pointer-events-none: cards are purely illustrative — not clickable */
+                  className="pointer-events-none select-none rounded-2xl bg-gray-50 ring-1 ring-gray-200 p-5 opacity-75"
+                >
+                  {/* "مثال" chip — makes it obvious this is illustrative */}
+                  <div className="flex items-center justify-between mb-3">
+                    <span className="inline-flex items-center rounded-full bg-indigo-50 px-2.5 py-0.5 text-[11px] font-semibold text-indigo-500 ring-1 ring-indigo-100">
+                      {t('home.openSouk.exampleChip', 'مثال')}
+                    </span>
+                    <span className="inline-flex items-center rounded-full bg-gray-100 px-2.5 py-0.5 text-[11px] font-medium text-gray-500">
+                      {card.tag}
+                    </span>
+                  </div>
+                  <h3 className="text-sm font-semibold text-gray-700 leading-snug mb-2" dir="rtl">
+                    {card.title}
+                  </h3>
+                  <p className="text-xs text-gray-500" dir="rtl">
+                    {t('home.openSouk.exampleBudgetLabel', 'الميزانية')}:{' '}
+                    <span className="font-medium text-gray-700">{card.budget}</span>
+                  </p>
+                </div>
+              ))}
+            </div>
+
+            {/* CTA — نشر أول طلب */}
+            <div className="text-center">
+              <Link
+                href="/community"
+                className="inline-flex items-center gap-2 rounded-xl bg-amber-500 px-6 py-3 text-sm font-semibold text-amber-950 transition-all duration-200 hover:bg-amber-400 hover:-translate-y-0.5 shadow-atlas-sm hover:shadow-atlas-md focus:outline-none focus:ring-2 focus:ring-amber-500/40 min-h-[44px]"
+                aria-label={t('home.openSouk.emptyCta', 'Be the first to post a brief')}
+              >
+                {t('home.openSouk.emptyCta', 'نشر أول طلب')}
+                <ArrowRight className="h-4 w-4" aria-hidden="true" />
+              </Link>
+            </div>
           </div>
         ) : (
           <>

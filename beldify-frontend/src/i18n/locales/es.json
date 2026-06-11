@@ -451,7 +451,10 @@
     "topBrands": "Mejores marcas",
     "loadError": "Error al cargar las secciones destacadas.",
     "bestSellersDesc": "Nuestra ropa tradicional marroquí más popular",
-    "newArrivalsDesc": "Últimas incorporaciones a nuestra colección"
+    "newArrivalsDesc": "Últimas incorporaciones a nuestra colección",
+    "inStock": "En stock",
+    "lowStock": "Últimas unidades",
+    "startsFrom": "Desde"
   },
   "product": {
     "product_add_to_cart": "Agregar al carrito",
@@ -4076,7 +4079,18 @@
       "postCta": "Publica tu brief",
       "browseCta": "Explorar el zoco",
       "emptyCta": "Sé el primero en publicar un brief",
-      "emptyBody": "Aún no hay briefs abiertos. Sé el primero en publicar uno y deja que los talleres vengan a ti."
+      "emptyBody": "Aún no hay briefs abiertos. Sé el primero en publicar uno y deja que los talleres vengan a ti.",
+      "exampleChip": "Ejemplo",
+      "exampleBudgetLabel": "Presupuesto",
+      "exampleTitle1": "Kaftan de boda",
+      "exampleBudget1": "2.000 – 4.000 MAD",
+      "exampleTag1": "Mujer",
+      "exampleTitle2": "Djellaba hombre lana",
+      "exampleBudget2": "800 – 1.200 MAD",
+      "exampleTag2": "Hombre",
+      "exampleTitle3": "Takchita a medida",
+      "exampleBudget3": "3.000 – 5.000 MAD",
+      "exampleTag3": "Mujer"
     }
   },
   "journal": {

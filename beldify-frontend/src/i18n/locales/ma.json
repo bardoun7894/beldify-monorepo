@@ -478,7 +478,10 @@
     "topBrands": "أحسن الماركات",
     "loadError": "ما قدرناش نحملو الأقسام المميزة.",
     "bestSellersDesc": "القفاطين والجلابات اللي عجبو الناس كثر",
-    "newArrivalsDesc": "آخر القطع اللي زادو فالسوق"
+    "newArrivalsDesc": "آخر القطع اللي زادو فالسوق",
+    "inStock": "متاح",
+    "lowStock": "بقى شوية",
+    "startsFrom": "يبدا من"
   },
   "product": {
     "product_add_to_cart": "زيد فالسلة",
@@ -3989,7 +3992,18 @@
       "postCta": "نشر الطلب ديالك",
       "browseCta": "شوف الطلبات",
       "emptyCta": "نشر أول طلب",
-      "emptyBody": "ما كاين حتى طلب مفتوح دابا. نشر الطلب ديالك وخلي الورشات يصيفطو ليك عروضهم."
+      "emptyBody": "ما كاين حتى طلب مفتوح دابا. نشر الطلب ديالك وخلي الورشات يصيفطو ليك عروضهم.",
+      "exampleChip": "مثال",
+      "exampleBudgetLabel": "الميزانية",
+      "exampleTitle1": "قفطان للعرس",
+      "exampleBudget1": "2,000 – 4,000 درهم",
+      "exampleTag1": "نساء",
+      "exampleTitle2": "جلابة رجالية صوف",
+      "exampleBudget2": "800 – 1,200 درهم",
+      "exampleTag2": "رجال",
+      "exampleTitle3": "تكشيطة على القياس",
+      "exampleBudget3": "3,000 – 5,000 درهم",
+      "exampleTag3": "نساء"
     }
   },
   "journal": {

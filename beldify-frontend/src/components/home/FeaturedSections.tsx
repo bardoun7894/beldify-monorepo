@@ -4,6 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowRight, Sparkles } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import WishlistButton from '@/components/products/WishlistButton';
 
 interface IncomingProduct {
   id: number;
@@ -15,6 +16,20 @@ interface IncomingProduct {
   isNew?: boolean;
   rating?: number;
   reviews?: number;
+  review_count?: number;
+  // Discount / compare price
+  compare_price?: number | string | null;
+  old_price?: number | string | null;
+  original_price?: number | string | null;
+  has_discount?: boolean;
+  discount_price?: number | string | null;
+  // Stock availability
+  stock_quantity?: number | null;
+  quantity?: number | null;
+  // Multi-variant detection
+  has_variants?: boolean;
+  variants?: unknown[];
+  variants_count?: number;
 }
 
 interface FeaturedSectionsProps {
@@ -29,35 +44,134 @@ interface NormalizedProduct {
   id: number;
   name: string;
   price: number;
+  comparePrice: number | null;
   image: string;
   isNew: boolean;
   rating: number;
   reviews: number;
+  stockQuantity: number | null;
+  hasVariants: boolean;
 }
 
 const PLACEHOLDER = '/placeholder-product.svg';
+// Low stock threshold — show "آخر القطع" amber chip when quantity ≤ this value
+const LOW_STOCK_THRESHOLD = 5;
 
 function normalize(items?: IncomingProduct[]): NormalizedProduct[] {
   if (!Array.isArray(items)) return [];
-  return items.map((p) => ({
-    id: p.id,
-    name: p.name,
-    price: Number(p.price) || 0,
-    image: p.image || p.main_image || p.images?.[0] || PLACEHOLDER,
-    isNew: Boolean(p.isNew),
-    rating: typeof p.rating === 'number' ? p.rating : 0,
-    reviews: typeof p.reviews === 'number' ? p.reviews : 0,
-  }));
+  return items.map((p) => {
+    // Resolve compare price from any of the three field names the backend may use
+    const rawCompare = p.compare_price ?? p.old_price ?? p.original_price ?? null;
+    const comparePrice = rawCompare !== null && rawCompare !== undefined
+      ? Number(rawCompare) || null
+      : null;
+
+    // Some backends send has_discount + discount_price instead of compare_price
+    const currentPrice =
+      p.has_discount && p.discount_price
+        ? Number(p.discount_price) || Number(p.price) || 0
+        : Number(p.price) || 0;
+    const resolvedCompare =
+      comparePrice ?? (p.has_discount && p.discount_price ? Number(p.price) || null : null);
+
+    const stockQuantity =
+      typeof p.stock_quantity === 'number'
+        ? p.stock_quantity
+        : typeof p.quantity === 'number'
+        ? p.quantity
+        : null;
+
+    const hasVariants =
+      Boolean(p.has_variants) ||
+      (Array.isArray(p.variants) && p.variants.length > 1) ||
+      (typeof p.variants_count === 'number' && p.variants_count > 1);
+
+    return {
+      id: p.id,
+      name: p.name,
+      price: currentPrice,
+      comparePrice: resolvedCompare,
+      image: p.image || p.main_image || p.images?.[0] || PLACEHOLDER,
+      isNew: Boolean(p.isNew),
+      rating: typeof p.rating === 'number' ? p.rating : 0,
+      reviews:
+        typeof p.review_count === 'number'
+          ? p.review_count
+          : typeof p.reviews === 'number'
+          ? p.reviews
+          : 0,
+      stockQuantity,
+      hasVariants,
+    };
+  });
 }
 
-/* Shared price + rating lockup so both layouts read identically at the card
-   level — only the *arrangement* of cards differs between the two sections. */
-function PriceTag({ price }: { price: number }) {
+/* ── PriceTag ────────────────────────────────────────────────────────────────
+   Renders the current price plus, when available:
+   - A rose-700 "-X%" badge (Tetouani Garnet = sale color per DESIGN.md)
+   - A line-through strikethrough of the original/compare price
+   - A "يبدأ من" prefix when the product has multiple variants
+*/
+function PriceTag({
+  price,
+  comparePrice,
+  hasVariants,
+}: {
+  price: number;
+  comparePrice: number | null;
+  hasVariants: boolean;
+}) {
+  const { t } = useTranslation();
+  const discountPct =
+    comparePrice && comparePrice > price
+      ? Math.round((1 - price / comparePrice) * 100)
+      : null;
+
   return (
-    <p className="text-sm font-semibold text-[hsl(var(--primary))]">
-      {/* MAD lockup isolated so the numeral + درهم don't reorder under bidi */}
-      <span className="currency-mad">{Number(price).toLocaleString('ar-MA')} درهم</span>
-    </p>
+    <div className="flex flex-wrap items-center gap-1.5">
+      {hasVariants && (
+        <span className="text-[10px] text-gray-500 leading-none">
+          {t('featuredSections.startsFrom', 'يبدأ من')}
+        </span>
+      )}
+      <p className="text-sm font-semibold text-[hsl(var(--primary))]">
+        <span className="currency-mad">{Number(price).toLocaleString('ar-MA')} درهم</span>
+      </p>
+      {comparePrice && comparePrice > price && (
+        <span className="text-[10px] text-gray-400 line-through tabular-nums">
+          {Number(comparePrice).toLocaleString('ar-MA')}
+        </span>
+      )}
+      {discountPct !== null && (
+        <span className="inline-flex items-center rounded-full bg-rose-700 px-1.5 py-0.5 text-[10px] font-bold text-white">
+          -{discountPct}%
+        </span>
+      )}
+    </div>
+  );
+}
+
+/* ── StockChip ────────────────────────────────────────────────────────────── */
+function StockChip({ stockQuantity }: { stockQuantity: number | null }) {
+  const { t } = useTranslation();
+  if (stockQuantity === null) return null;
+  if (stockQuantity <= 0) return null;
+
+  if (stockQuantity <= LOW_STOCK_THRESHOLD) {
+    return (
+      <span
+        className="inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-semibold ring-1"
+        style={{ backgroundColor: '#fef3c7', color: '#d97706', borderColor: '#fde68a' }}
+      >
+        {t('featuredSections.lowStock', 'آخر القطع')}
+      </span>
+    );
+  }
+
+  return (
+    <span className="inline-flex items-center rounded-full bg-emerald-50 px-2 py-0.5 text-[10px] font-semibold text-emerald-700 ring-1 ring-emerald-200">
+      {t('featuredSections.inStock', 'متوفر')}
+    </span>
   );
 }
 
@@ -187,6 +301,19 @@ export default function FeaturedSections(props: FeaturedSectionsProps) {
                     sizes="(min-width:1024px) 25vw, (min-width:640px) 33vw, 50vw"
                     className="object-cover object-center transition-transform duration-500 ease-out group-hover:scale-105"
                   />
+                  {/* Wishlist heart — top-end corner, non-blocking absolute layer */}
+                  <div className="absolute top-2 end-2 z-10">
+                    <WishlistButton
+                      productId={product.id}
+                      className="flex h-8 w-8 items-center justify-center rounded-full bg-white/90 shadow-sm ring-1 ring-gray-200 backdrop-blur-sm transition-all duration-200 hover:bg-white hover:scale-110"
+                    />
+                  </div>
+                  {/* Discount badge — top-start corner */}
+                  {product.comparePrice && product.comparePrice > product.price && (
+                    <span className="absolute top-2 start-2 z-10 inline-flex items-center rounded-full bg-rose-700 px-2 py-0.5 text-[10px] font-bold text-white shadow-sm tabular-nums">
+                      -{Math.round((1 - product.price / product.comparePrice) * 100)}%
+                    </span>
+                  )}
                 </div>
                 <div className="p-3">
                   <h3 className="text-sm font-medium text-foreground line-clamp-2 leading-snug">
@@ -198,10 +325,20 @@ export default function FeaturedSections(props: FeaturedSectionsProps) {
                       {product.name}
                     </Link>
                   </h3>
-                  <div className="mt-1.5 flex items-center justify-between">
-                    <PriceTag price={product.price} />
+                  <div className="mt-1.5">
+                    <PriceTag
+                      price={product.price}
+                      comparePrice={product.comparePrice}
+                      hasVariants={product.hasVariants}
+                    />
                   </div>
                   <StarRow rating={product.rating} reviews={product.reviews} />
+                  {/* Availability chip */}
+                  {product.stockQuantity !== null && (
+                    <div className="mt-1.5">
+                      <StockChip stockQuantity={product.stockQuantity} />
+                    </div>
+                  )}
                 </div>
               </div>
             ))}
@@ -250,10 +387,23 @@ export default function FeaturedSections(props: FeaturedSectionsProps) {
                     className="object-cover object-center transition-transform duration-500 ease-out group-hover:scale-105"
                   />
                   {product.isNew && (
-                    <span className="absolute top-3 start-3 inline-flex items-center rounded-full bg-[hsl(var(--primary))] px-2.5 py-0.5 text-[11px] font-semibold text-white shadow-sm">
+                    <span className="absolute top-3 start-3 z-10 inline-flex items-center rounded-full bg-[hsl(var(--primary))] px-2.5 py-0.5 text-[11px] font-semibold text-white shadow-sm">
                       {t('featuredSections.newBadge', 'New')}
                     </span>
                   )}
+                  {/* Discount badge when not showing "New" badge */}
+                  {!product.isNew && product.comparePrice && product.comparePrice > product.price && (
+                    <span className="absolute top-3 start-3 z-10 inline-flex items-center rounded-full bg-rose-700 px-2 py-0.5 text-[10px] font-bold text-white shadow-sm tabular-nums">
+                      -{Math.round((1 - product.price / product.comparePrice) * 100)}%
+                    </span>
+                  )}
+                  {/* Wishlist heart button */}
+                  <div className="absolute top-2 end-2 z-10">
+                    <WishlistButton
+                      productId={product.id}
+                      className="flex h-8 w-8 items-center justify-center rounded-full bg-white/90 shadow-sm ring-1 ring-gray-200 backdrop-blur-sm transition-all duration-200 hover:bg-white hover:scale-110"
+                    />
+                  </div>
                 </div>
                 <div className="p-3">
                   <h3 className="text-sm font-medium text-foreground line-clamp-2 leading-snug">
@@ -265,9 +415,21 @@ export default function FeaturedSections(props: FeaturedSectionsProps) {
                       {product.name}
                     </Link>
                   </h3>
-                  <div className="mt-1.5 flex items-center justify-between">
-                    <PriceTag price={product.price} />
+                  <div className="mt-1.5">
+                    <PriceTag
+                      price={product.price}
+                      comparePrice={product.comparePrice}
+                      hasVariants={product.hasVariants}
+                    />
                   </div>
+                  {/* StarRow — consistent across both card types */}
+                  <StarRow rating={product.rating} reviews={product.reviews} />
+                  {/* Availability chip */}
+                  {product.stockQuantity !== null && (
+                    <div className="mt-1.5">
+                      <StockChip stockQuantity={product.stockQuantity} />
+                    </div>
+                  )}
                 </div>
               </div>
             ))}

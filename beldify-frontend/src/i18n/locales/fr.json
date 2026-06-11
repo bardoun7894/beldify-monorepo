@@ -451,7 +451,10 @@
     "topBrands": "Meilleures marques",
     "loadError": "Impossible de charger les sections en vedette.",
     "bestSellersDesc": "Nos vêtements marocains traditionnels les plus populaires",
-    "newArrivalsDesc": "Les dernières additions à notre collection"
+    "newArrivalsDesc": "Les dernières additions à notre collection",
+    "inStock": "En stock",
+    "lowStock": "Dernières pièces",
+    "startsFrom": "À partir de"
   },
   "product": {
     "express_delivery": "Livraison express",
@@ -4045,7 +4048,18 @@
       "postCta": "Publier votre brief",
       "browseCta": "Parcourir le souk",
       "emptyCta": "Soyez le premier à publier un brief",
-      "emptyBody": "Aucun brief ouvert pour l'instant. Soyez le premier à en publier un et laissez les ateliers venir à vous."
+      "emptyBody": "Aucun brief ouvert pour l'instant. Soyez le premier à en publier un et laissez les ateliers venir à vous.",
+      "exampleChip": "Exemple",
+      "exampleBudgetLabel": "Budget",
+      "exampleTitle1": "Kaftan de mariage",
+      "exampleBudget1": "2 000 – 4 000 MAD",
+      "exampleTag1": "Femmes",
+      "exampleTitle2": "Djellaba homme laine",
+      "exampleBudget2": "800 – 1 200 MAD",
+      "exampleTag2": "Hommes",
+      "exampleTitle3": "Takchita sur mesure",
+      "exampleBudget3": "3 000 – 5 000 MAD",
+      "exampleTag3": "Femmes"
     }
   },
   "journal": {

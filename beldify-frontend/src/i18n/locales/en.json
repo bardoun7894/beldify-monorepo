@@ -478,7 +478,10 @@
     "topBrands": "Top Brands",
     "loadError": "Failed to load featured sections. Please try again later.",
     "bestSellersDesc": "Our most popular traditional Moroccan wear",
-    "newArrivalsDesc": "Latest additions to our collection"
+    "newArrivalsDesc": "Latest additions to our collection",
+    "inStock": "In stock",
+    "lowStock": "Last few",
+    "startsFrom": "From"
   },
   "product": {
     "product_add_to_cart": "Add to Cart",
@@ -4252,7 +4255,18 @@
       "postCta": "Post your brief",
       "browseCta": "Browse the souk",
       "emptyCta": "Be the first to post a brief",
-      "emptyBody": "No open briefs yet. Be the first to post one and let ateliers come to you."
+      "emptyBody": "No open briefs yet. Be the first to post one and let ateliers come to you.",
+      "exampleChip": "Example",
+      "exampleBudgetLabel": "Budget",
+      "exampleTitle1": "Wedding kaftan",
+      "exampleBudget1": "2,000 – 4,000 MAD",
+      "exampleTag1": "Women",
+      "exampleTitle2": "Men's wool djellaba",
+      "exampleBudget2": "800 – 1,200 MAD",
+      "exampleTag2": "Men",
+      "exampleTitle3": "Custom-fit takchita",
+      "exampleBudget3": "3,000 – 5,000 MAD",
+      "exampleTag3": "Women"
     }
   },
   "journal": {
