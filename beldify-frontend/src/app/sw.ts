@@ -12,10 +12,23 @@ import {
   ExpirationPlugin,
   CacheableResponsePlugin,
 } from 'serwist';
+import type { RuntimeCaching } from 'serwist';
 
 declare const self: ServiceWorkerGlobalScope & {
   __SW_MANIFEST: (string | { url: string; revision: string | null })[];
 };
+
+// defaultCache ends with two catch-alls — NetworkFirst "cross-origin" and a
+// /.*/ NetworkOnly — that respondWith() EVERY remaining GET, third-party
+// included. A client-blocked analytics request (e.g. the Cloudflare insights
+// beacon) then rejects inside the SW as a loud "no-response" error +
+// net::ERR_FAILED instead of the browser's quiet native failure. Strip them so
+// requests we don't explicitly handle bypass the SW entirely.
+const isCatchAll = (entry: RuntimeCaching): boolean =>
+  (entry.handler as { cacheName?: string }).cacheName === 'cross-origin' ||
+  (entry.matcher instanceof RegExp && entry.matcher.source === '.*');
+
+const scopedDefaultCache = defaultCache.filter((entry) => !isCatchAll(entry));
 
 // IMPORTANT: serwist's runtime `runtimeCaching` requires strategy INSTANCES.
 // String handler names ('CacheFirst', …) are workbox build-config syntax — they
@@ -41,9 +54,11 @@ const serwist = new Serwist({
         ],
       }),
     },
-    // Images — stale-while-revalidate, only cache good responses
+    // Images — stale-while-revalidate, only cache good responses. Same-origin
+    // only: responding to third-party image fetches turns adblocker blocks
+    // into SW "no-response" errors.
     {
-      matcher: ({ request }) => request.destination === 'image',
+      matcher: ({ request, sameOrigin }) => sameOrigin && request.destination === 'image',
       handler: new StaleWhileRevalidate({
         cacheName: 'images',
         plugins: [
@@ -91,8 +106,8 @@ const serwist = new Serwist({
         ],
       }),
     },
-    // Fallback: Next.js-aware defaults for everything else
-    ...defaultCache,
+    // Fallback: Next.js-aware defaults for everything else (catch-alls stripped)
+    ...scopedDefaultCache,
   ],
   fallbacks: {
     entries: [
