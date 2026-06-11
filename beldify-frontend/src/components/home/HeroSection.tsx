@@ -8,6 +8,7 @@ import { Autoplay, Pagination, A11y, Keyboard } from 'swiper/modules';
 import { useTranslation } from 'react-i18next';
 import CampaignArtSlides, { ArtSlide } from './CampaignArtSlides';
 import BrandHeroSlide from './BrandHeroSlide';
+import ProductHeroSlides, { type HeroProductItem } from './ProductHeroSlides';
 import '@/i18n/config';
 
 // Swiper CSS — import core + pagination module styles
@@ -33,6 +34,13 @@ export interface HeroConfig {
 
 interface HeroSectionProps {
   hero: HeroConfig;
+  /**
+   * Usable product items for the product-photo hero carousel.
+   * Pre-filtered by HomeContent: real images only, no placeholder-product.svg,
+   * capped at 4. When ≥2 items are present and mode is not campaign+banners,
+   * ProductHeroSlides renders instead of the art carousel.
+   */
+  products?: HeroProductItem[];
 }
 
 /**
@@ -107,23 +115,23 @@ function BannerSlide({ banner, isFirst }: { banner: HeroBanner; isFirst: boolean
 /**
  * HeroSection — the top-of-page hero component.
  *
- * Behavior (updated for campaign-art hero):
- *  - mode 'brand' OR banners.length === 0 → render CampaignArtSlides Swiper carousel
- *    (3 built-in art slides — no photos, pure CSS/SVG gradients)
- *  - mode 'campaign' AND banners.length > 0 → Swiper carousel:
- *      slides 0..2 = the 3 art slides (CampaignArtSlides)
- *      slides 3..N = one BannerSlide per DB banner
+ * Decision logic (priority order):
+ *  1. mode 'campaign' AND banners.length > 0 → campaign banner Swiper carousel
+ *     (art slides 0-2 + DB banners 3..N — unchanged behavior)
+ *  2. products ≥ 2 (usable, pre-filtered by HomeContent) → ProductHeroSlides
+ *     (product-photo hero — sells better than art slides)
+ *  3. last-resort fallback → CampaignArtSlides art carousel
+ *     (pure CSS/SVG, no photos needed)
  *
- * Carousel specs:
+ * Carousel specs (campaign banner path):
  *  - autoplay delay: 6000ms, pauseOnMouseEnter: true
  *  - loop: true
- *  - Pagination dots:
- *      Slides 1-2 (indigo bg): white/40 inactive, amber-500 active
- *      Slide 3 (amber bg): indigo-950/30 inactive, indigo-950 active
+ *  - Pagination dots: white/40 inactive, amber-500 active;
+ *    slide-3 amber bg inverts dots to indigo-950
  *  - RTL: Swiper reads `dir` from the DOM
  *  - prefers-reduced-motion: autoplay disabled
  */
-export default function HeroSection({ hero }: HeroSectionProps) {
+export default function HeroSection({ hero, products = [] }: HeroSectionProps) {
   const { t } = useTranslation();
   const [reducedMotion, setReducedMotion] = useState(false);
 
@@ -137,9 +145,16 @@ export default function HeroSection({ hero }: HeroSectionProps) {
   }, []);
 
   const showDBBanners = hero.mode === 'campaign' && hero.banners.length > 0;
+  const showProductHero = !showDBBanners && products.length >= 2;
 
-  // Both brand mode AND campaign mode (no banners) → render built-in art carousel
-  // Campaign mode with DB banners → art slides first, then DB banner slides
+  // ── Path 2 — ProductHeroSlides (product-photo carousel, best for conversion) ─
+  if (showProductHero) {
+    return <ProductHeroSlides products={products} />;
+  }
+
+  // ── Path 1 + 3 — campaign banner carousel OR art-slides fallback ──────────
+  // Path 1: campaign banners present → art slides (0-2) + DB banner slides (3-N)
+  // Path 3: no banners, <2 products → art slides only (last-resort fallback)
   return (
     <section
       className="relative min-h-[38vh] lg:min-h-[45vh]"
@@ -193,7 +208,7 @@ export default function HeroSection({ hero }: HeroSectionProps) {
           }
         }}
       >
-        {/* Art slides 0-2 — always present (default hero for brand mode) */}
+        {/* Art slides 0-2 — always present (default hero for brand mode + fallback) */}
         <SwiperSlide>
           <ArtSlide slide={1} />
         </SwiperSlide>

@@ -23,6 +23,7 @@ import OpenSoukHero from '@/components/home/OpenSoukHero';
 import HeroSection from '@/components/home/HeroSection';
 import MegaOffers from '@/components/MegaOffers';
 import type { HeroConfig } from '@/components/home/HeroSection';
+import type { HeroProductItem } from '@/components/home/ProductHeroSlides';
 import DiscoverFeed from '@/components/home/DiscoverFeed';
 import LoadingSpinner from '@/components/common/LoadingSpinner';
 import Newsletter from '@/components/Newsletter';
@@ -142,12 +143,63 @@ export default function HomeContent({ categories, data, openSoukPosts = [], hero
     },
   ];
 
+  // ── Hero product filtering ────────────────────────────────────────────────
+  // Build a list of up to 4 product slides for ProductHeroSlides.
+  // Rules (defensive — backend now filters, but keep client-side guard):
+  //  1. Pull from bestSellers first, fall back to newArrivals
+  //  2. Filter out items without a real image:
+  //     - falsy / empty string
+  //     - equals the branded placeholder
+  //     - obviously-dead patterns (data:, blob:)
+  //  3. Cap at 4 items (carousel max)
+  // HeroSection decides whether to render ProductHeroSlides (≥2 items) or fall
+  // back to CampaignArtSlides (<2 items).
+  const PLACEHOLDER_SVG = 'placeholder-product.svg';
+  const isUsableImage = (img?: string | null): boolean => {
+    if (!img || img.trim() === '') return false;
+    if (img.includes(PLACEHOLDER_SVG)) return false;
+    if (img.startsWith('data:') || img.startsWith('blob:')) return false;
+    return true;
+  };
+
+  const rawHeroPool = [
+    ...(Array.isArray(data.bestSellers) ? data.bestSellers : []),
+    ...(Array.isArray(data.newArrivals) ? data.newArrivals : []),
+  ] as Array<{
+    id: number;
+    name: string;
+    name_ar?: string | null;
+    price: number;
+    compare_price?: number | string | null;
+    discount_price?: number | string | null;
+    has_discount?: boolean;
+    image?: string | null;
+    main_image?: string | null;
+  }>;
+
+  const heroProducts: HeroProductItem[] = rawHeroPool
+    .filter((p) => {
+      const img = p.main_image || p.image;
+      return isUsableImage(img);
+    })
+    .slice(0, 4)
+    .map((p) => ({
+      id: p.id,
+      name: p.name,
+      name_ar: p.name_ar ?? null,
+      price: Number(p.price) || 0,
+      compare_price: p.compare_price,
+      discount_price: p.discount_price,
+      has_discount: p.has_discount,
+      image: (p.main_image || p.image) as string,
+    }));
+
   return (
     <div className="min-h-screen bg-background text-foreground">
 
       {/* ── HERO ──────────────────────────────────────────────────────────── */}
-      {/* Delegated to HeroSection — brand mode or campaign carousel per hero config */}
-      <HeroSection hero={hero} />
+      {/* Delegated to HeroSection — campaign banners > product hero > art fallback */}
+      <HeroSection hero={hero} products={heroProducts} />
 
       {/* ── CATEGORY CHIPS RAIL ───────────────────────────────────────────── */}
       {/* On mobile (< lg) the rail sticks under the header (64px) so users can
