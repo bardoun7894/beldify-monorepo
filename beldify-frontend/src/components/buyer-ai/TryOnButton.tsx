@@ -7,6 +7,7 @@
  *   (a) product vertical is apparel (isJewelry === false)
  *   (b) GET /api/tryon/config returns { enabled: true }
  *
+ * Paid mode: shows a subtle "1 credit" chip next to the label.
  * ANY error from the config fetch → hidden (never break the PDP).
  * Atlas styling: indigo secondary with sparkle/wand icon.
  */
@@ -14,7 +15,7 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Wand2 } from 'lucide-react';
-import { fetchTryonConfig } from '@/services/tryonService';
+import { fetchTryonConfig, TryonConfig } from '@/services/tryonService';
 import { cn } from '@/lib/utils';
 
 interface TryOnButtonProps {
@@ -32,20 +33,20 @@ export function TryOnButton({
   className,
 }: TryOnButtonProps) {
   const { t } = useTranslation();
-  const [enabled, setEnabled] = useState<boolean | null>(null);
+  const [config, setConfig] = useState<TryonConfig | null>(null);
 
   useEffect(() => {
     if (isJewelry) {
-      setEnabled(false);
+      setConfig({ enabled: false });
       return;
     }
     let cancelled = false;
     fetchTryonConfig()
       .then((cfg) => {
-        if (!cancelled) setEnabled(cfg.enabled);
+        if (!cancelled) setConfig(cfg);
       })
       .catch(() => {
-        if (!cancelled) setEnabled(false);
+        if (!cancelled) setConfig({ enabled: false });
       });
     return () => {
       cancelled = true;
@@ -53,7 +54,7 @@ export function TryOnButton({
   }, [isJewelry]);
 
   // Not yet resolved or disabled
-  if (!enabled) return null;
+  if (!config?.enabled) return null;
 
   return (
     <button
@@ -72,6 +73,21 @@ export function TryOnButton({
     >
       <Wand2 className="h-4 w-4 shrink-0" aria-hidden />
       <span>{t('tryon.button', 'Try it on')}</span>
+      {config.paid && (
+        <span
+          data-testid="tryon-credit-chip"
+          className={cn(
+            'inline-flex items-center rounded-full',
+            'bg-indigo-700/10 text-indigo-700',
+            'px-1.5 py-0.5 text-[10px] font-semibold leading-none',
+            'ring-1 ring-indigo-300/40',
+            'ltr:ml-0.5 rtl:mr-0.5'
+          )}
+          aria-label={t('tryon.credit_hint', '1 credit per try')}
+        >
+          {t('tryon.credit_chip', '1 credit')}
+        </span>
+      )}
     </button>
   );
 }

@@ -1,33 +1,67 @@
 'use client';
 
 /**
- * TryOnModal — virtual try-on flow (3-step)
+ * TryOnModal — virtual try-on flow (free + paid modes)
  *
- * Step 1: Photo picker (accept jpeg/png/webp; canvas downscale ≤2048px; preview)
- *         Privacy note + generate CTA
- * Step 2: Progress state — polling GET /api/tryon/status/{task_id} every 3s
- *         max 3 min (180s), clears on unmount
- * Step 3: Result — image + retry + Buy Now CTA
+ * FREE MODE (config.paid === false):
+ *   Step 1: Photo picker → Step 2: Generating → Step 3: Result
+ *   Error handling: 403 → hide feature, 429 → daily-limit message
  *
- * Error handling:
- *   403  → call onHideFeature + close
- *   429  → show friendly daily-limit message
- *   fail → inline error + retry
+ * PAID MODE (config.paid === true):
+ *   Guest:  Sign-in gate (no upload step exposed)
+ *   Authed: Balance chip → upload → generate (charges 1 credit)
+ *           402 / zero balance → top-up sheet (pack picker + bank RIB + receipt upload)
+ *           Failed with refunded:true → refund notice
  *
- * Accessibility: focus-trapped, Esc/backdrop close, RTL-aware
+ * Accessibility: focus-trapped dialog, Esc/backdrop close, RTL-aware
  */
 
-import React, { useEffect, useRef, useState, useCallback } from 'react';
+import React, {
+  useEffect,
+  useRef,
+  useState,
+  useCallback,
+} from 'react';
 import { useTranslation } from 'react-i18next';
-import { X, Wand2, RotateCcw, ShoppingBag, AlertCircle, Upload } from 'lucide-react';
+import {
+  X,
+  Wand2,
+  RotateCcw,
+  ShoppingBag,
+  AlertCircle,
+  Upload,
+  Copy,
+  Check,
+  LogIn,
+  Wallet,
+  Clock,
+  CheckCircle,
+  XCircle,
+} from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { submitTryon, fetchTryonStatus } from '@/services/tryonService';
+import {
+  submitTryon,
+  fetchTryonStatus,
+  fetchWalletBalance,
+  submitTopup,
+  fetchTopups,
+  TryonConfig,
+  TryonCreditPack,
+  TryonTopupRecord,
+} from '@/services/tryonService';
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Types
 // ─────────────────────────────────────────────────────────────────────────────
 
-type Step = 'pick' | 'generating' | 'success' | 'fail' | 'limit';
+type Step =
+  | 'guest_gate'    // paid mode, unauthenticated
+  | 'pick'          // photo upload
+  | 'generating'    // polling
+  | 'success'       // result
+  | 'fail'          // error
+  | 'limit'         // 429 daily limit (free mode)
+  | 'topup';        // 402 / zero balance → credit purchase sheet
 
 interface TryOnModalProps {
   open: boolean;
@@ -35,6 +69,12 @@ interface TryOnModalProps {
   onHideFeature: () => void;
   productId: string | number;
   onBuyNow: () => void;
+  /** Pre-fetched config from the parent PDP (avoids duplicate network call).
+   *  Defaults to free mode when omitted (backward compat). */
+  config?: TryonConfig;
+  /** Whether the current viewer is an authenticated buyer.
+   *  Defaults to false when omitted. */
+  isAuthenticated?: boolean;
 }
 
 const MAX_LONG_EDGE = 2048;
@@ -82,8 +122,278 @@ function downscaleImage(file: File): Promise<File> {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Component
+// TopupSheet sub-component
 // ─────────────────────────────────────────────────────────────────────────────
+
+interface TopupSheetProps {
+  packs: TryonCreditPack[];
+  rib: string;
+  topups: TryonTopupRecord[];
+  onSubmit: (packIndex: number, file: File) => Promise<void>;
+  submitting: boolean;
+  confirmed: boolean;
+}
+
+function TopupSheet({ packs, rib, topups, onSubmit, submitting, confirmed }: TopupSheetProps) {
+  const { t } = useTranslation();
+  const [selectedPack, setSelectedPack] = useState<number | null>(
+    // pre-select middle pack as "best value"
+    packs.length >= 3 ? 1 : packs.length > 0 ? 0 : null
+  );
+  const [receiptFile, setReceiptFile] = useState<File | null>(null);
+  const [ribCopied, setRibCopied] = useState(false);
+
+  const handleCopyRib = async () => {
+    try {
+      await navigator.clipboard.writeText(rib);
+      setRibCopied(true);
+      setTimeout(() => setRibCopied(false), 2000);
+    } catch {
+      // clipboard API not available in test env — ignore
+    }
+  };
+
+  const handleReceiptChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) setReceiptFile(file);
+  };
+
+  const handleSubmit = async () => {
+    if (selectedPack === null || !receiptFile) return;
+    await onSubmit(selectedPack, receiptFile);
+  };
+
+  if (confirmed) {
+    return (
+      <div
+        data-testid="tryon-topup-pending"
+        className="flex flex-col items-center gap-4 py-8 text-center"
+      >
+        <div className="h-14 w-14 rounded-full bg-amber-50 ring-1 ring-amber-200 flex items-center justify-center">
+          <Clock className="h-7 w-7 text-amber-600" aria-hidden />
+        </div>
+        <p className="text-sm font-semibold text-gray-900">
+          {t('tryon.topup_pending_title', 'Top-up pending approval')}
+        </p>
+        <p className="text-xs text-gray-500 leading-relaxed max-w-xs">
+          {t(
+            'tryon.topup_pending_desc',
+            'Your receipt has been submitted. An admin will validate your transfer shortly — credits will appear in your wallet once approved.'
+          )}
+        </p>
+      </div>
+    );
+  }
+
+  const selectedPrice = selectedPack !== null ? packs[selectedPack]?.price_mad : null;
+
+  return (
+    <div data-testid="tryon-topup-sheet" className="space-y-5">
+      {/* Pack picker */}
+      <div>
+        <p className="text-xs font-semibold uppercase tracking-wide text-gray-500 mb-3">
+          {t('tryon.choose_pack', 'Choose a pack')}
+        </p>
+        <div className="grid grid-cols-3 gap-2">
+          {packs.map((pack, idx) => {
+            const isBestValue = packs.length >= 3 && idx === 1;
+            const isSelected = selectedPack === idx;
+            return (
+              <button
+                key={idx}
+                type="button"
+                data-testid={`tryon-pack-card-${idx}`}
+                onClick={() => setSelectedPack(idx)}
+                className={cn(
+                  'relative flex flex-col items-center justify-center gap-1',
+                  'rounded-xl p-3 ring-1 transition-all duration-150',
+                  'focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/40',
+                  isSelected
+                    ? 'bg-indigo-50 ring-indigo-400 shadow-sm'
+                    : 'bg-white ring-gray-200 hover:ring-indigo-200'
+                )}
+                aria-pressed={isSelected}
+              >
+                {isBestValue && (
+                  <span className="absolute -top-2 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-indigo-700 px-2 py-0.5 text-[9px] font-bold text-white">
+                    {t('tryon.best_value', 'Best value')}
+                  </span>
+                )}
+                <span className="text-xl font-bold text-gray-900">{pack.credits}</span>
+                <span className="text-[10px] text-gray-500 font-medium">
+                  {t('tryon.credits_label', 'credits')}
+                </span>
+                <span className="text-sm font-semibold text-indigo-700 mt-0.5">
+                  {pack.price_mad} {t('common.currency_mad', 'MAD')}
+                </span>
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Bank transfer instructions */}
+      {selectedPack !== null && selectedPrice !== null && (
+        <div className="rounded-xl bg-gray-50 ring-1 ring-gray-200 p-4 space-y-3">
+          <p className="text-xs font-semibold text-gray-700">
+            {t('tryon.bank_transfer_title', 'Bank transfer details')}
+          </p>
+          <div className="space-y-2">
+            <div className="flex items-center justify-between gap-2">
+              <div className="flex-1 min-w-0">
+                <p className="text-[10px] text-gray-400 uppercase tracking-wide font-medium mb-0.5">
+                  {t('tryon.rib_label', 'RIB')}
+                </p>
+                <p
+                  data-testid="tryon-rib-display"
+                  className="text-xs font-mono text-gray-800 break-all"
+                >
+                  {rib}
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={handleCopyRib}
+                className="shrink-0 rounded-lg bg-white ring-1 ring-gray-200 p-1.5 text-gray-500 hover:text-indigo-700 hover:ring-indigo-300 transition-colors"
+                aria-label={t('tryon.copy_rib', 'Copy RIB')}
+              >
+                {ribCopied ? (
+                  <Check className="h-3.5 w-3.5 text-emerald-600" aria-hidden />
+                ) : (
+                  <Copy className="h-3.5 w-3.5" aria-hidden />
+                )}
+              </button>
+            </div>
+            <div>
+              <p className="text-[10px] text-gray-400 uppercase tracking-wide font-medium mb-0.5">
+                {t('tryon.amount_label', 'Exact amount')}
+              </p>
+              <p className="text-sm font-bold text-gray-900">
+                {selectedPrice} {t('common.currency_mad', 'MAD')}
+              </p>
+            </div>
+          </div>
+          <p className="text-[10px] text-gray-400 leading-relaxed">
+            {t(
+              'tryon.bank_transfer_note',
+              'Transfer the exact amount then upload your receipt below. Credits are added within 24 hours.'
+            )}
+          </p>
+        </div>
+      )}
+
+      {/* Receipt upload */}
+      <div>
+        <p className="text-xs font-semibold text-gray-700 mb-2">
+          {t('tryon.upload_receipt', 'Upload receipt')}
+        </p>
+        <label
+          htmlFor="tryon-receipt-file"
+          className={cn(
+            'flex items-center justify-center gap-2 rounded-xl ring-1 ring-dashed p-4 cursor-pointer transition-colors',
+            receiptFile
+              ? 'ring-emerald-300 bg-emerald-50'
+              : 'ring-gray-300 bg-gray-50 hover:bg-gray-100'
+          )}
+        >
+          {receiptFile ? (
+            <Check className="h-4 w-4 text-emerald-600 shrink-0" aria-hidden />
+          ) : (
+            <Upload className="h-4 w-4 text-gray-400 shrink-0" aria-hidden />
+          )}
+          <span className="text-xs text-gray-600 truncate">
+            {receiptFile
+              ? receiptFile.name
+              : t('tryon.receipt_hint', 'JPG, PNG, WebP or PDF — max 8 MB')}
+          </span>
+        </label>
+        <input
+          id="tryon-receipt-file"
+          data-testid="tryon-receipt-input"
+          type="file"
+          accept="image/jpeg,image/png,image/webp,application/pdf"
+          className="sr-only"
+          onChange={handleReceiptChange}
+        />
+      </div>
+
+      {/* Submit */}
+      <button
+        type="button"
+        data-testid="tryon-topup-submit"
+        onClick={handleSubmit}
+        disabled={selectedPack === null || !receiptFile || submitting}
+        className={cn(
+          'w-full flex items-center justify-center gap-2 rounded-full py-3.5',
+          'text-sm font-semibold transition-all duration-200',
+          'focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/40',
+          selectedPack === null || !receiptFile || submitting
+            ? 'bg-gray-100 text-gray-400 cursor-not-allowed ring-1 ring-gray-200'
+            : 'bg-indigo-700 hover:bg-indigo-800 text-white shadow-sm active:scale-[0.98]'
+        )}
+      >
+        {submitting
+          ? t('tryon.submitting_receipt', 'Submitting…')
+          : t('tryon.submit_receipt', 'Submit receipt')}
+      </button>
+
+      {/* My top-ups history */}
+      {topups.length > 0 && (
+        <div className="space-y-2">
+          <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide">
+            {t('tryon.my_topups', 'My top-ups')}
+          </p>
+          <ul className="space-y-1.5">
+            {topups.map((record) => (
+              <li
+                key={record.id}
+                className="flex items-center justify-between rounded-lg bg-gray-50 ring-1 ring-gray-100 px-3 py-2"
+              >
+                <div className="flex items-center gap-2">
+                  {record.status === 'approved' ? (
+                    <CheckCircle className="h-3.5 w-3.5 text-emerald-600 shrink-0" aria-hidden />
+                  ) : record.status === 'rejected' ? (
+                    <XCircle className="h-3.5 w-3.5 text-rose-500 shrink-0" aria-hidden />
+                  ) : (
+                    <Clock className="h-3.5 w-3.5 text-amber-500 shrink-0" aria-hidden />
+                  )}
+                  <span className="text-xs text-gray-700">
+                    +{record.credits} {t('tryon.credits_label', 'credits')}
+                  </span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="text-xs text-gray-500">{record.price_mad} MAD</span>
+                  <span
+                    className={cn(
+                      'inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-semibold',
+                      record.status === 'approved'
+                        ? 'bg-emerald-50 text-emerald-700 ring-1 ring-emerald-200'
+                        : record.status === 'rejected'
+                        ? 'bg-rose-50 text-rose-700 ring-1 ring-rose-200'
+                        : 'bg-amber-50 text-amber-700 ring-1 ring-amber-200'
+                    )}
+                  >
+                    {record.status === 'approved'
+                      ? t('tryon.status_approved', 'Approved')
+                      : record.status === 'rejected'
+                      ? t('tryon.status_rejected', 'Rejected')
+                      : t('tryon.status_pending', 'Pending')}
+                  </span>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Main component
+// ─────────────────────────────────────────────────────────────────────────────
+
+const DEFAULT_FREE_CONFIG: TryonConfig = { enabled: true, paid: false, free_credits: 0, packs: [], rib: '' };
 
 export function TryOnModal({
   open,
@@ -91,8 +401,12 @@ export function TryOnModal({
   onHideFeature,
   productId,
   onBuyNow,
+  config = DEFAULT_FREE_CONFIG,
+  isAuthenticated = false,
 }: TryOnModalProps) {
   const { t } = useTranslation();
+
+  // ── Core state ──
   const [step, setStep] = useState<Step>('pick');
   const [photoFile, setPhotoFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
@@ -100,6 +414,17 @@ export function TryOnModal({
   const [resultUrl, setResultUrl] = useState<string | null>(null);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [generating, setGenerating] = useState(false);
+  const [wasRefunded, setWasRefunded] = useState(false);
+
+  // ── Paid-mode state ──
+  const [balance, setBalance] = useState<number | null>(null);
+  const [topupPacks, setTopupPacks] = useState<TryonCreditPack[]>(config.packs ?? []);
+  const [topupRib, setTopupRib] = useState<string>(config.rib ?? '');
+  const [topups, setTopups] = useState<TryonTopupRecord[]>([]);
+  const [topupSubmitting, setTopupSubmitting] = useState(false);
+  const [topupConfirmed, setTopupConfirmed] = useState(false);
+
+  const isPaid = config.paid === true;
 
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const elapsedRef = useRef(0);
@@ -115,7 +440,7 @@ export function TryOnModal({
     elapsedRef.current = 0;
   }, []);
 
-  // Esc / backdrop close
+  // ── Esc / backdrop close ──
   useEffect(() => {
     if (!open) return;
     const handleKey = (e: KeyboardEvent) => {
@@ -125,23 +450,38 @@ export function TryOnModal({
     return () => document.removeEventListener('keydown', handleKey);
   }, [open, onClose]);
 
-  // Reset on re-open
+  // ── Reset on re-open ──
   useEffect(() => {
     if (open) {
-      setStep('pick');
+      const initialStep: Step =
+        isPaid && !isAuthenticated ? 'guest_gate' : 'pick';
+      setStep(initialStep);
       setPhotoFile(null);
       setPreviewUrl(null);
       setProgress(0);
       setResultUrl(null);
       setErrorMsg(null);
       setGenerating(false);
+      setWasRefunded(false);
+      setTopupConfirmed(false);
       clearPoll();
-    }
-  }, [open, clearPoll]);
 
-  // Clean up on unmount
+      // Fetch wallet balance + topup history when authed + paid
+      if (isPaid && isAuthenticated) {
+        fetchWalletBalance()
+          .then((w) => setBalance(w.balance))
+          .catch(() => setBalance(null));
+        fetchTopups()
+          .then(setTopups)
+          .catch(() => setTopups([]));
+      }
+    }
+  }, [open, isPaid, isAuthenticated, clearPoll]);
+
+  // ── Clean up on unmount ──
   useEffect(() => () => { clearPoll(); }, [clearPoll]);
 
+  // ── Polling ──
   const startPolling = useCallback((taskId: string) => {
     clearPoll();
     elapsedRef.current = 0;
@@ -162,6 +502,7 @@ export function TryOnModal({
           setStep('success');
         } else if (status.status === 'fail') {
           clearPoll();
+          if (status.refunded) setWasRefunded(true);
           setErrorMsg(status.error ?? t('tryon.error_generic', 'Processing failed.'));
           setStep('fail');
         }
@@ -184,18 +525,27 @@ export function TryOnModal({
     setGenerating(true);
     try {
       const scaledFile = await downscaleImage(photoFile);
-      const { task_id } = await submitTryon(productId, scaledFile);
-      taskIdRef.current = task_id;
+      const res = await submitTryon(productId, scaledFile);
+      taskIdRef.current = res.task_id;
+      // Update balance from response (paid mode)
+      if (res.balance !== undefined) setBalance(res.balance);
       setStep('generating');
       setProgress(0);
-      startPolling(task_id);
-    } catch (err: any) {
-      const status = err?.response?.status;
+      startPolling(res.task_id);
+    } catch (err: unknown) {
+      const anyErr = err as { response?: { status?: number; data?: { packs?: TryonCreditPack[]; rib?: string } } };
+      const status = anyErr?.response?.status;
       if (status === 403) {
         onHideFeature();
         onClose();
       } else if (status === 429) {
         setStep('limit');
+      } else if (status === 402) {
+        // Insufficient credits — show top-up sheet
+        const data = anyErr?.response?.data;
+        if (data?.packs) setTopupPacks(data.packs);
+        if (data?.rib) setTopupRib(data.rib);
+        setStep('topup');
       } else {
         setErrorMsg(t('tryon.error_generic', 'Something went wrong. Please try again.'));
         setStep('fail');
@@ -210,10 +560,27 @@ export function TryOnModal({
     setErrorMsg(null);
     setProgress(0);
     setResultUrl(null);
+    setWasRefunded(false);
     clearPoll();
   };
 
+  const handleTopupSubmit = async (packIndex: number, file: File) => {
+    setTopupSubmitting(true);
+    try {
+      await submitTopup(packIndex, file);
+      setTopupConfirmed(true);
+    } catch {
+      // Keep sheet open — user can retry
+    } finally {
+      setTopupSubmitting(false);
+    }
+  };
+
   if (!open) return null;
+
+  const loginHref = typeof window !== 'undefined'
+    ? `/login?redirect=${encodeURIComponent(window.location.pathname)}`
+    : '/login';
 
   return (
     <>
@@ -239,16 +606,31 @@ export function TryOnModal({
       >
         {/* Header */}
         <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100 shrink-0">
-          <div className="flex items-center gap-2">
-            <Wand2 className="h-5 w-5 text-indigo-700" aria-hidden />
-            <h2 className="text-base font-semibold text-gray-900">
+          <div className="flex items-center gap-2 min-w-0">
+            <Wand2 className="h-5 w-5 text-indigo-700 shrink-0" aria-hidden />
+            <h2 className="text-base font-semibold text-gray-900 truncate">
               {t('tryon.modal_title', 'Virtual try-on')}
             </h2>
+            {/* Balance chip — shown when paid + authed */}
+            {isPaid && isAuthenticated && balance !== null && (
+              <span
+                data-testid="tryon-balance-chip"
+                className={cn(
+                  'inline-flex items-center gap-1 rounded-full',
+                  'bg-indigo-50 ring-1 ring-indigo-200 text-indigo-700',
+                  'px-2 py-0.5 text-[10px] font-semibold shrink-0',
+                  'ltr:ml-1 rtl:mr-1'
+                )}
+              >
+                <Wallet className="h-2.5 w-2.5" aria-hidden />
+                {balance}
+              </span>
+            )}
           </div>
           <button
             type="button"
             onClick={onClose}
-            className="rounded-full p-1.5 text-gray-500 hover:bg-gray-100 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/40"
+            className="rounded-full p-1.5 text-gray-500 hover:bg-gray-100 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/40 shrink-0"
             aria-label={t('actions.close', 'Close')}
           >
             <X className="h-5 w-5" aria-hidden />
@@ -257,6 +639,55 @@ export function TryOnModal({
 
         {/* Body */}
         <div className="flex-1 overflow-y-auto px-6 py-5 space-y-5">
+
+          {/* ── Guest gate (paid mode, unauthenticated) ── */}
+          {step === 'guest_gate' && (
+            <div
+              data-testid="tryon-guest-gate"
+              className="flex flex-col items-center gap-5 py-8 text-center"
+            >
+              <div className="h-16 w-16 rounded-full bg-indigo-50 ring-1 ring-indigo-200 flex items-center justify-center">
+                <LogIn className="h-8 w-8 text-indigo-700" aria-hidden />
+              </div>
+              <div className="space-y-1">
+                <p className="text-base font-semibold text-gray-900">
+                  {t('tryon.guest_gate_title', 'Sign in to try on clothes')}
+                </p>
+                <p className="text-sm text-gray-500 leading-relaxed max-w-xs mx-auto">
+                  {t(
+                    'tryon.guest_gate_desc',
+                    'Your first try is free — sign in to get started.'
+                  )}
+                </p>
+              </div>
+              <div className="flex flex-col gap-3 w-full max-w-xs">
+                <a
+                  data-testid="tryon-signin-link"
+                  href={loginHref}
+                  className={cn(
+                    'inline-flex items-center justify-center gap-2 rounded-full py-3',
+                    'bg-indigo-700 hover:bg-indigo-800 text-white text-sm font-semibold shadow-sm',
+                    'transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/40'
+                  )}
+                >
+                  <LogIn className="h-4 w-4" aria-hidden />
+                  {t('tryon.signin_cta', 'Sign in')}
+                </a>
+                <button
+                  type="button"
+                  onClick={onClose}
+                  className={cn(
+                    'inline-flex items-center justify-center rounded-full py-3',
+                    'ring-1 ring-gray-200 text-gray-600 text-sm font-medium',
+                    'hover:ring-gray-300 hover:text-gray-900 transition-colors',
+                    'focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/40'
+                  )}
+                >
+                  {t('tryon.continue_browsing', 'Continue browsing')}
+                </button>
+              </div>
+            </div>
+          )}
 
           {/* ── Step 1: Photo picker ── */}
           {step === 'pick' && (
@@ -336,7 +767,6 @@ export function TryOnModal({
           {step === 'generating' && (
             <div className="flex flex-col items-center gap-6 py-6">
               <div className="relative h-20 w-20">
-                {/* Pulsing ring */}
                 <span className="absolute inset-0 rounded-full bg-indigo-100 animate-ping opacity-60" aria-hidden />
                 <span className="relative flex h-20 w-20 rounded-full bg-indigo-50 ring-1 ring-indigo-200 items-center justify-center">
                   <Wand2 className="h-8 w-8 text-indigo-600 animate-pulse" aria-hidden />
@@ -403,7 +833,7 @@ export function TryOnModal({
             </div>
           )}
 
-          {/* ── Daily limit message ── */}
+          {/* ── Daily limit (free mode 429) ── */}
           {step === 'limit' && (
             <div className="flex flex-col items-center gap-4 py-8 text-center">
               <div className="h-14 w-14 rounded-full bg-amber-50 ring-1 ring-amber-200 flex items-center justify-center">
@@ -415,10 +845,22 @@ export function TryOnModal({
               <p className="text-xs text-gray-500">
                 {t(
                   'tryon.daily_limit_desc',
-                  'You’ve reached today’s try-on limit. Try again tomorrow.'
+                  "You've reached today's try-on limit. Try again tomorrow."
                 )}
               </p>
             </div>
+          )}
+
+          {/* ── Top-up sheet (paid mode 402 / zero balance) ── */}
+          {step === 'topup' && (
+            <TopupSheet
+              packs={topupPacks}
+              rib={topupRib}
+              topups={topups}
+              onSubmit={handleTopupSubmit}
+              submitting={topupSubmitting}
+              confirmed={topupConfirmed}
+            />
           )}
 
           {/* ── Error / fail state ── */}
@@ -430,6 +872,15 @@ export function TryOnModal({
               <p className="text-sm text-gray-700">
                 {errorMsg ?? t('tryon.error_generic', 'Something went wrong.')}
               </p>
+              {/* Refund notice */}
+              {wasRefunded && (
+                <p
+                  data-testid="tryon-refund-notice"
+                  className="text-xs text-emerald-700 bg-emerald-50 ring-1 ring-emerald-200 rounded-lg px-3 py-2"
+                >
+                  {t('tryon.refund_notice', 'Your credit has been returned to your wallet.')}
+                </p>
+              )}
               <button
                 type="button"
                 onClick={handleRetry}
