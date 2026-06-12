@@ -45,6 +45,7 @@ import {
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { AiGenerateButton } from '@/components/seller/AiGenerateButton';
+import { AiImageGenerator } from '@/components/seller/AiImageGenerator';
 import { InsufficientCreditsModal } from '@/components/seller/InsufficientCreditsModal';
 import { getSellerCredits, FeatureCosts } from '@/services/sellerCreditService';
 import {
@@ -133,6 +134,9 @@ export default function SellerEditProductPage() {
     feature?: string;
   }>({ open: false });
 
+  // AI image generator — array of existing product images with ids
+  const [aiExistingImages, setAiExistingImages] = useState<{ id: number; url: string }[]>([]);
+
   const imageInputRef = useRef<HTMLInputElement>(null);
 
   // Fetch product data and categories in parallel
@@ -177,6 +181,19 @@ export default function SellerEditProductPage() {
           imagePreview: null,
           existingImageUrl: (product as any).product_image_url ?? (product as any).image_url ?? null,
         });
+        // Seed AI image generator with known product images
+        {
+          const imgs: { id: number; url: string }[] = [];
+          if (Array.isArray((product as any).images)) {
+            (product as any).images.forEach((img: any, idx: number) => {
+              if (img?.url) imgs.push({ id: img.id ?? idx + 1, url: img.url });
+            });
+          } else {
+            const singleUrl = (product as any).product_image_url ?? (product as any).image_url;
+            if (singleUrl) imgs.push({ id: Number(productId) || 1, url: singleUrl });
+          }
+          setAiExistingImages(imgs);
+        }
         // FE-J1: seed vertical spec from the product's existing customization_options.
         const existingOpts = (product as any).customization_options;
         if (existingOpts && typeof existingOpts === 'object') {
@@ -804,6 +821,21 @@ export default function SellerEditProductPage() {
                   onChange={handleImageChange}
                 />
               </div>
+
+              {/* AI image generator — visible when product has at least one existing image */}
+              {aiExistingImages.length > 0 && (
+                <AiImageGenerator
+                  productId={productId}
+                  existingImages={aiExistingImages}
+                  onRefresh={() => {
+                    // Re-derive existingImages from current form state after a new image is added
+                    const url = form.imagePreview ?? form.existingImageUrl;
+                    if (url) {
+                      setAiExistingImages([{ id: Number(productId) || 1, url }]);
+                    }
+                  }}
+                />
+              )}
 
               {/* FE-J1: vertical-specific attributes (jewelry etc.) */}
               {vertical && verticalFields.length > 0 && (

@@ -4238,6 +4238,24 @@
       "eta_label": "تاريخ التسليم المتوقع",
       "sending": "جارٍ الإرسال…",
       "send_cta": "إرسال العرض"
+    },
+    "ai_image": {
+      "section_title": "توليد بالذكاء الاصطناعي",
+      "pick_source": "اختر صورة مصدر",
+      "pick_style": "اختر الأسلوب",
+      "style_studio": "استوديو",
+      "style_lifestyle": "أسلوب حياة",
+      "style_white_bg": "خلفية بيضاء",
+      "generate_cta": "توليد بالذكاء الاصطناعي",
+      "generating": "جارٍ التوليد…",
+      "progress_label": "تقدم التوليد",
+      "generating_note": "يستغرق عادةً 20–60 ثانية",
+      "timeout": "انتهت مهلة المعالجة.",
+      "error_generic": "فشل التوليد.",
+      "success": "تمت إضافة الصورة المولّدة إلى منتجك!",
+      "generate_another": "توليد صورة أخرى",
+      "thumbnail_alt": "صورة المنتج",
+      "select_image_n": "اختر الصورة {{n}}"
     }
   },
   "security": {
@@ -5160,5 +5178,27 @@
     "notes_placeholder": "أي تفاصيل إضافية…",
     "sending": "جارٍ الإرسال…",
     "send_request": "إرسال الطلب"
+  },
+  "tryon": {
+    "button": "جرّبه عليك",
+    "button_label": "جرّبه عليك — قياس افتراضي",
+    "modal_title": "القياس الافتراضي",
+    "upload_hint": "ارفع صورتك",
+    "upload_formats": "JPG أو PNG أو WebP",
+    "preview_alt": "معاينة صورتك",
+    "remove_photo": "إزالة الصورة",
+    "privacy_note": "يتم معالجة صورتك بواسطة الذكاء الاصطناعي ولا تُحفظ في Beldify",
+    "generate_cta": "توليد",
+    "dressing_up": "جارٍ تجربة الملابس عليك…",
+    "progress_label": "تقدم التوليد",
+    "generating_note": "يستغرق عادةً من 20 إلى 60 ثانية",
+    "result_alt": "نتيجة القياس الافتراضي",
+    "retry": "حاول مجدداً",
+    "retry_label": "حاول مجدداً",
+    "buy_now": "اشتر الآن",
+    "daily_limit_title": "تم بلوغ الحد اليومي",
+    "daily_limit_desc": "لقد وصلت إلى حد التجربة اليومية. حاول مجدداً غداً.",
+    "timeout": "انتهت مهلة المعالجة. حاول مجدداً.",
+    "error_generic": "حدث خطأ ما. حاول مجدداً."
   }
 }

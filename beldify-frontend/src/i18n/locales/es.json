@@ -4830,6 +4830,24 @@
       "eta_label": "Fecha de Entrega Estimada (ETA)",
       "sending": "Enviando…",
       "send_cta": "Enviar Presupuesto"
+    },
+    "ai_image": {
+      "section_title": "Generar con IA",
+      "pick_source": "Seleccionar imagen fuente",
+      "pick_style": "Elegir un estilo",
+      "style_studio": "Estudio",
+      "style_lifestyle": "Estilo de vida",
+      "style_white_bg": "Fondo blanco",
+      "generate_cta": "Generar con IA",
+      "generating": "Generando…",
+      "progress_label": "Progreso de generación",
+      "generating_note": "Normalmente tarda entre 20 y 60 segundos",
+      "timeout": "El tiempo de procesamiento ha expirado.",
+      "error_generic": "La generación falló.",
+      "success": "¡Imagen generada y añadida a tu producto!",
+      "generate_another": "Generar otra",
+      "thumbnail_alt": "Imagen del producto",
+      "select_image_n": "Seleccionar imagen {{n}}"
     }
   },
   "header": {
@@ -5175,5 +5193,27 @@
     "notes_placeholder": "Cualquier detalle adicional…",
     "sending": "Enviando…",
     "send_request": "Enviar Solicitud"
+  },
+  "tryon": {
+    "button": "Probarlo",
+    "button_label": "Probarlo — prueba virtual",
+    "modal_title": "Prueba virtual",
+    "upload_hint": "Sube tu foto",
+    "upload_formats": "JPG, PNG o WebP",
+    "preview_alt": "Vista previa de tu foto",
+    "remove_photo": "Eliminar foto",
+    "privacy_note": "Tu foto es procesada por IA y no se almacena en Beldify",
+    "generate_cta": "Generar",
+    "dressing_up": "Vistiéndote…",
+    "progress_label": "Progreso de generación",
+    "generating_note": "Normalmente tarda entre 20 y 60 segundos",
+    "result_alt": "Resultado de la prueba virtual",
+    "retry": "Intentar de nuevo",
+    "retry_label": "Intentar de nuevo",
+    "buy_now": "Comprar ahora",
+    "daily_limit_title": "Límite diario alcanzado",
+    "daily_limit_desc": "Has alcanzado el límite de pruebas de hoy. Inténtalo de nuevo mañana.",
+    "timeout": "Tiempo de procesamiento agotado. Por favor, inténtalo de nuevo.",
+    "error_generic": "Algo salió mal. Por favor, inténtalo de nuevo."
   }
 }

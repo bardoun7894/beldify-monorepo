@@ -28,6 +28,12 @@ export default defineConfig({
       // register page uses React/JSX
       ['src/app/register/__tests__/**', 'jsdom'],
       ['src/app/checkout/__tests__/**', 'jsdom'],
+      // seller page component tests
+      ['src/app/seller/**/__tests__/**', 'jsdom'],
+      // buyer-AI component tests
+      ['src/components/buyer-ai/__tests__/**', 'jsdom'],
+      // seller component tests
+      ['src/components/seller/__tests__/**', 'jsdom'],
     ],
   },
 });

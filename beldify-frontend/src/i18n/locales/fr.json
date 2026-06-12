@@ -4737,6 +4737,24 @@
       "eta_label": "Date de livraison estimée (ETA)",
       "sending": "Envoi en cours…",
       "send_cta": "Envoyer le devis"
+    },
+    "ai_image": {
+      "section_title": "Générer avec l'IA",
+      "pick_source": "Sélectionner une image source",
+      "pick_style": "Choisir un style",
+      "style_studio": "Studio",
+      "style_lifestyle": "Lifestyle",
+      "style_white_bg": "Fond blanc",
+      "generate_cta": "Générer avec l'IA",
+      "generating": "Génération en cours…",
+      "progress_label": "Progression de la génération",
+      "generating_note": "Cela prend généralement 20 à 60 secondes",
+      "timeout": "Le délai de traitement a expiré.",
+      "error_generic": "La génération a échoué.",
+      "success": "Image générée et ajoutée à votre produit !",
+      "generate_another": "Générer une autre",
+      "thumbnail_alt": "Image du produit",
+      "select_image_n": "Sélectionner l'image {{n}}"
     }
   },
   "size_guide": {
@@ -5160,5 +5178,27 @@
     "notes_placeholder": "Tous les détails supplémentaires…",
     "sending": "Envoi en cours…",
     "send_request": "Envoyer la demande"
+  },
+  "tryon": {
+    "button": "L'essayer",
+    "button_label": "L'essayer — essayage virtuel",
+    "modal_title": "Essayage virtuel",
+    "upload_hint": "Téléchargez votre photo",
+    "upload_formats": "JPG, PNG ou WebP",
+    "preview_alt": "Aperçu de votre photo",
+    "remove_photo": "Supprimer la photo",
+    "privacy_note": "Votre photo est traitée par l'IA et n'est pas stockée sur Beldify",
+    "generate_cta": "Générer",
+    "dressing_up": "Essayage en cours…",
+    "progress_label": "Progression de la génération",
+    "generating_note": "Cela prend généralement 20 à 60 secondes",
+    "result_alt": "Résultat de l'essayage virtuel",
+    "retry": "Réessayer",
+    "retry_label": "Réessayer",
+    "buy_now": "Acheter maintenant",
+    "daily_limit_title": "Limite quotidienne atteinte",
+    "daily_limit_desc": "Vous avez atteint la limite d'essayage du jour. Réessayez demain.",
+    "timeout": "Délai de traitement expiré. Veuillez réessayer.",
+    "error_generic": "Une erreur s'est produite. Veuillez réessayer."
   }
 }

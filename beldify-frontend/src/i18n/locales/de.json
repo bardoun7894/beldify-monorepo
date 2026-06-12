@@ -4009,6 +4009,24 @@
       "eta_label": "Geschätztes Lieferdatum (ETA)",
       "sending": "Wird gesendet…",
       "send_cta": "Angebot senden"
+    },
+    "ai_image": {
+      "section_title": "Mit KI generieren",
+      "pick_source": "Quellbild auswählen",
+      "pick_style": "Stil auswählen",
+      "style_studio": "Studio",
+      "style_lifestyle": "Lifestyle",
+      "style_white_bg": "Weißer Hintergrund",
+      "generate_cta": "Mit KI generieren",
+      "generating": "Wird generiert…",
+      "progress_label": "Generierungsfortschritt",
+      "generating_note": "Das dauert normalerweise 20 bis 60 Sekunden",
+      "timeout": "Verarbeitungszeit abgelaufen.",
+      "error_generic": "Generierung fehlgeschlagen.",
+      "success": "Bild generiert und zu Ihrem Produkt hinzugefügt!",
+      "generate_another": "Noch eins generieren",
+      "thumbnail_alt": "Produktbild",
+      "select_image_n": "Bild {{n}} auswählen"
     }
   },
   "security": {
@@ -5115,5 +5133,27 @@
     "notes_placeholder": "Weitere Details…",
     "sending": "Wird gesendet…",
     "send_request": "Anfrage senden"
+  },
+  "tryon": {
+    "button": "Anprobieren",
+    "button_label": "Anprobieren — virtuelle Anprobe",
+    "modal_title": "Virtuelle Anprobe",
+    "upload_hint": "Foto hochladen",
+    "upload_formats": "JPG, PNG oder WebP",
+    "preview_alt": "Vorschau Ihres Fotos",
+    "remove_photo": "Foto entfernen",
+    "privacy_note": "Ihr Foto wird von KI verarbeitet und nicht auf Beldify gespeichert",
+    "generate_cta": "Generieren",
+    "dressing_up": "Sie werden eingekleidet…",
+    "progress_label": "Generierungsfortschritt",
+    "generating_note": "Das dauert normalerweise 20 bis 60 Sekunden",
+    "result_alt": "Ergebnis der virtuellen Anprobe",
+    "retry": "Erneut versuchen",
+    "retry_label": "Erneut versuchen",
+    "buy_now": "Jetzt kaufen",
+    "daily_limit_title": "Tageslimit erreicht",
+    "daily_limit_desc": "Sie haben das heutige Anprobe-Limit erreicht. Versuchen Sie es morgen erneut.",
+    "timeout": "Verarbeitungszeit abgelaufen. Bitte versuchen Sie es erneut.",
+    "error_generic": "Etwas ist schiefgelaufen. Bitte versuchen Sie es erneut."
   }
 }

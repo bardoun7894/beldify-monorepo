@@ -4012,6 +4012,24 @@
       "eta_label": "Estimated Delivery Date (ETA)",
       "sending": "Sending…",
       "send_cta": "Send Quote"
+    },
+    "ai_image": {
+      "section_title": "Generate with AI",
+      "pick_source": "Select a source image",
+      "pick_style": "Choose a style",
+      "style_studio": "Studio",
+      "style_lifestyle": "Lifestyle",
+      "style_white_bg": "White background",
+      "generate_cta": "Generate with AI",
+      "generating": "Generating…",
+      "progress_label": "Generation progress",
+      "generating_note": "This usually takes 20–60 seconds",
+      "timeout": "Processing timed out.",
+      "error_generic": "Generation failed.",
+      "success": "Image generated and added to your product!",
+      "generate_another": "Generate another",
+      "thumbnail_alt": "Product image",
+      "select_image_n": "Select image {{n}}"
     }
   },
   "security": {
@@ -5160,5 +5178,27 @@
     "notes_placeholder": "Any additional details…",
     "sending": "Sending…",
     "send_request": "Send Request"
+  },
+  "tryon": {
+    "button": "Try it on",
+    "button_label": "Try it on — virtual fitting",
+    "modal_title": "Virtual try-on",
+    "upload_hint": "Upload your photo",
+    "upload_formats": "JPG, PNG or WebP",
+    "preview_alt": "Your photo preview",
+    "remove_photo": "Remove photo",
+    "privacy_note": "Your photo is processed by AI and not stored on Beldify",
+    "generate_cta": "Generate",
+    "dressing_up": "Dressing you up…",
+    "progress_label": "Generation progress",
+    "generating_note": "This usually takes 20–60 seconds",
+    "result_alt": "Virtual try-on result",
+    "retry": "Try again",
+    "retry_label": "Try again",
+    "buy_now": "Buy now",
+    "daily_limit_title": "Daily limit reached",
+    "daily_limit_desc": "You've reached today's try-on limit. Try again tomorrow.",
+    "timeout": "Processing timed out. Please try again.",
+    "error_generic": "Something went wrong. Please try again."
   }
 }

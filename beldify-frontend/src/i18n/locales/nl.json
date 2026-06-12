@@ -4009,6 +4009,24 @@
       "eta_label": "Geschatte leveringsdatum (ETA)",
       "sending": "Verzenden…",
       "send_cta": "Offerte verzenden"
+    },
+    "ai_image": {
+      "section_title": "Genereren met AI",
+      "pick_source": "Selecteer een bronafbeelding",
+      "pick_style": "Kies een stijl",
+      "style_studio": "Studio",
+      "style_lifestyle": "Lifestyle",
+      "style_white_bg": "Witte achtergrond",
+      "generate_cta": "Genereren met AI",
+      "generating": "Bezig met genereren…",
+      "progress_label": "Voortgang generatie",
+      "generating_note": "Dit duurt gewoonlijk 20 tot 60 seconden",
+      "timeout": "Verwerkingstijd verlopen.",
+      "error_generic": "Generatie mislukt.",
+      "success": "Afbeelding gegenereerd en toegevoegd aan uw product!",
+      "generate_another": "Nog een genereren",
+      "thumbnail_alt": "Productafbeelding",
+      "select_image_n": "Afbeelding {{n}} selecteren"
     }
   },
   "security": {
@@ -5115,5 +5133,27 @@
     "notes_placeholder": "Aanvullende details…",
     "sending": "Verzenden…",
     "send_request": "Aanvraag verzenden"
+  },
+  "tryon": {
+    "button": "Probeer het aan",
+    "button_label": "Probeer het aan — virtueel passen",
+    "modal_title": "Virtueel passen",
+    "upload_hint": "Upload je foto",
+    "upload_formats": "JPG, PNG of WebP",
+    "preview_alt": "Voorbeeld van je foto",
+    "remove_photo": "Foto verwijderen",
+    "privacy_note": "Je foto wordt verwerkt door AI en niet opgeslagen op Beldify",
+    "generate_cta": "Genereren",
+    "dressing_up": "Je wordt aangekleed…",
+    "progress_label": "Voortgang generatie",
+    "generating_note": "Dit duurt gewoonlijk 20 tot 60 seconden",
+    "result_alt": "Resultaat virtueel passen",
+    "retry": "Opnieuw proberen",
+    "retry_label": "Opnieuw proberen",
+    "buy_now": "Nu kopen",
+    "daily_limit_title": "Daglimiet bereikt",
+    "daily_limit_desc": "Je hebt de daglimiet voor passen bereikt. Probeer het morgen opnieuw.",
+    "timeout": "Verwerkingstijd verlopen. Probeer het opnieuw.",
+    "error_generic": "Er is iets misgegaan. Probeer het opnieuw."
   }
 }

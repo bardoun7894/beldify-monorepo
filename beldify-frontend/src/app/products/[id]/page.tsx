@@ -44,6 +44,8 @@ import { useWishlist } from '@/contexts/WishlistContext';
 import toast from '@/utils/toast';
 import JewelryFields from '@/components/products/JewelryFields';
 import { isJewelryProduct, hasRingSizes } from './verticalDetection';
+import { TryOnButton } from '@/components/buyer-ai/TryOnButton';
+import { TryOnModal } from '@/components/buyer-ai/TryOnModal';
 
 interface ProductImage {
   id: string;
@@ -186,6 +188,9 @@ export default function ProductDetailsPage() {
   const [isZoomed, setIsZoomed] = useState(false);
   // "كيفاش نشري؟" how-to-buy sheet
   const [isHowToBuyOpen, setIsHowToBuyOpen] = useState(false);
+  // Virtual try-on modal
+  const [isTryOnOpen, setIsTryOnOpen] = useState(false);
+  const [tryOnHidden, setTryOnHidden] = useState(false);
   // AI review summary — lazy-loaded when Reviews tab first becomes visible
   const [aiReviewSummary, setAiReviewSummary] = useState<ReviewSummaryAI | null>(null);
   const aiReviewFetchedRef = React.useRef(false);
@@ -1934,6 +1939,14 @@ export default function ProductDetailsPage() {
               <ArrowRight className="h-4 w-4 rtl:rotate-180" aria-hidden />
             </button>
 
+            {/* Virtual try-on — clothing only, hidden when disabled or 403 */}
+            {!tryOnHidden && (
+              <TryOnButton
+                isJewelry={isJewelry}
+                onOpen={() => setIsTryOnOpen(true)}
+              />
+            )}
+
             {/* Tertiary CTA: Save to wishlist */}
             <button
               type="button"
@@ -2345,6 +2358,20 @@ export default function ProductDetailsPage() {
         isOpen={isHowToBuyOpen}
         onClose={() => setIsHowToBuyOpen(false)}
       />
+
+      {/* Virtual try-on modal — clothing products only */}
+      {!isJewelry && (
+        <TryOnModal
+          open={isTryOnOpen}
+          onClose={() => setIsTryOnOpen(false)}
+          onHideFeature={() => {
+            setTryOnHidden(true);
+            setIsTryOnOpen(false);
+          }}
+          productId={String(id ?? '')}
+          onBuyNow={handleBuyNow}
+        />
+      )}
     </main>
     </div>
   );
