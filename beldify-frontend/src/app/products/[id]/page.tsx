@@ -46,6 +46,7 @@ import JewelryFields from '@/components/products/JewelryFields';
 import { isJewelryProduct, hasRingSizes } from './verticalDetection';
 import { TryOnButton } from '@/components/buyer-ai/TryOnButton';
 import { TryOnModal } from '@/components/buyer-ai/TryOnModal';
+import { fetchTryonConfig, type TryonConfig } from '@/services/tryonService';
 
 interface ProductImage {
   id: string;
@@ -191,6 +192,23 @@ export default function ProductDetailsPage() {
   // Virtual try-on modal
   const [isTryOnOpen, setIsTryOnOpen] = useState(false);
   const [tryOnHidden, setTryOnHidden] = useState(false);
+  // Shared try-on config — fetched once, passed to both button and modal so
+  // paid mode (sign-in gate, wallet, top-up) activates correctly
+  const [tryonConfig, setTryonConfig] = useState<TryonConfig | undefined>(undefined);
+
+  useEffect(() => {
+    let cancelled = false;
+    fetchTryonConfig()
+      .then((cfg) => {
+        if (!cancelled) setTryonConfig(cfg);
+      })
+      .catch(() => {
+        if (!cancelled) setTryOnHidden(true);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
   // AI review summary — lazy-loaded when Reviews tab first becomes visible
   const [aiReviewSummary, setAiReviewSummary] = useState<ReviewSummaryAI | null>(null);
   const aiReviewFetchedRef = React.useRef(false);
@@ -1943,6 +1961,8 @@ export default function ProductDetailsPage() {
             {!tryOnHidden && (
               <TryOnButton
                 isJewelry={isJewelry}
+                productId={String(id ?? '')}
+                config={tryonConfig}
                 onOpen={() => setIsTryOnOpen(true)}
               />
             )}
@@ -2369,6 +2389,8 @@ export default function ProductDetailsPage() {
             setIsTryOnOpen(false);
           }}
           productId={String(id ?? '')}
+          config={tryonConfig}
+          isAuthenticated={isAuthenticated}
           onBuyNow={handleBuyNow}
         />
       )}

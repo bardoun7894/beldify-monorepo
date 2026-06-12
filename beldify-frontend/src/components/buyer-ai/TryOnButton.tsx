@@ -24,6 +24,9 @@ interface TryOnButtonProps {
   productId: string | number;
   onOpen: () => void;
   className?: string;
+  /** Pre-fetched config from the parent PDP — skips the internal fetch so
+   *  button and modal share one /api/tryon/config call. */
+  config?: TryonConfig;
 }
 
 export function TryOnButton({
@@ -31,13 +34,20 @@ export function TryOnButton({
   productId: _productId,
   onOpen,
   className,
+  config: externalConfig,
 }: TryOnButtonProps) {
   const { t } = useTranslation();
-  const [config, setConfig] = useState<TryonConfig | null>(null);
+  const [config, setConfig] = useState<TryonConfig | null>(
+    isJewelry ? { enabled: false } : externalConfig ?? null
+  );
 
   useEffect(() => {
     if (isJewelry) {
       setConfig({ enabled: false });
+      return;
+    }
+    if (externalConfig) {
+      setConfig(externalConfig);
       return;
     }
     let cancelled = false;
@@ -51,7 +61,7 @@ export function TryOnButton({
     return () => {
       cancelled = true;
     };
-  }, [isJewelry]);
+  }, [isJewelry, externalConfig]);
 
   // Not yet resolved or disabled
   if (!config?.enabled) return null;
