@@ -5140,6 +5140,7 @@
     "modal_title": "Virtuelle Anprobe",
     "upload_hint": "Foto hochladen",
     "upload_formats": "JPG, PNG oder WebP",
+    "file_too_large": "Das Foto ist zu groß. Bitte wähle ein Bild unter 8 MB.",
     "preview_alt": "Vorschau Ihres Fotos",
     "remove_photo": "Foto entfernen",
     "privacy_note": "Ihr Foto wird von KI verarbeitet und nicht auf Beldify gespeichert",

@@ -5140,6 +5140,7 @@
     "modal_title": "Virtueel passen",
     "upload_hint": "Upload je foto",
     "upload_formats": "JPG, PNG of WebP",
+    "file_too_large": "Foto is te groot. Kies een afbeelding van minder dan 8 MB.",
     "preview_alt": "Voorbeeld van je foto",
     "remove_photo": "Foto verwijderen",
     "privacy_note": "Je foto wordt verwerkt door AI en niet opgeslagen op Beldify",

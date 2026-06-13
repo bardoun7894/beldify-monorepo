@@ -5200,6 +5200,7 @@
     "modal_title": "Prueba virtual",
     "upload_hint": "Sube tu foto",
     "upload_formats": "JPG, PNG o WebP",
+    "file_too_large": "La foto es demasiado grande. Elige una imagen de menos de 8 MB.",
     "preview_alt": "Vista previa de tu foto",
     "remove_photo": "Eliminar foto",
     "privacy_note": "Tu foto es procesada por IA y no se almacena en Beldify",

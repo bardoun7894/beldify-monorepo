@@ -5185,6 +5185,7 @@
     "modal_title": "القياس الافتراضي",
     "upload_hint": "ارفع صورتك",
     "upload_formats": "JPG أو PNG أو WebP",
+    "file_too_large": "الصورة كبيرة جدًا. الرجاء اختيار صورة أقل من 8 ميغابايت.",
     "preview_alt": "معاينة صورتك",
     "remove_photo": "إزالة الصورة",
     "privacy_note": "يتم معالجة صورتك بواسطة الذكاء الاصطناعي ولا تُحفظ في Beldify",

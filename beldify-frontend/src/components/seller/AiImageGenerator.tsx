@@ -119,14 +119,15 @@ export function AiImageGenerator({
         style: selectedStyle,
       });
       startPolling(task_id);
-    } catch (err: any) {
-      if (err?.response?.status === 403) {
+    } catch (err: unknown) {
+      const anyErr = err as { response?: { status?: number; data?: { message?: string } } };
+      if (anyErr?.response?.status === 403) {
         clearPoll();
         setVisible(false);
         return;
       }
       setStatus('fail');
-      setErrorMsg(err?.response?.data?.message ?? t('seller.ai_image.error_generic', 'Generation failed.'));
+      setErrorMsg(anyErr?.response?.data?.message ?? t('seller.ai_image.error_generic', 'Generation failed.'));
     }
   };
 

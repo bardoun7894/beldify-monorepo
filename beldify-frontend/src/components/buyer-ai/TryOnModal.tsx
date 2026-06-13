@@ -39,6 +39,7 @@ import {
   XCircle,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import toast from '@/utils/toast';
 import {
   submitTryon,
   fetchTryonStatus,
@@ -78,6 +79,9 @@ interface TryOnModalProps {
 }
 
 const MAX_LONG_EDGE = 2048;
+// Mirror the backend cap (POST /api/tryon rejects >8MB) so we fail fast on the
+// client instead of wasting an upload on a slow connection.
+const MAX_FILE_BYTES = 8 * 1024 * 1024;
 const POLL_INTERVAL_MS = 3000;
 const MAX_POLL_MS = 180_000; // 3 minutes
 
@@ -481,6 +485,15 @@ export function TryOnModal({
   // ── Clean up on unmount ──
   useEffect(() => () => { clearPoll(); }, [clearPoll]);
 
+  // ── Revoke the preview blob URL whenever it changes or on unmount ──
+  // Cleanup runs with the *previous* previewUrl before the next value is set,
+  // so this single effect covers reset, remove-photo, re-pick, and unmount —
+  // no blob leak per modal-open cycle.
+  useEffect(() => {
+    if (!previewUrl) return;
+    return () => URL.revokeObjectURL(previewUrl);
+  }, [previewUrl]);
+
   // ── Polling ──
   const startPolling = useCallback((taskId: string) => {
     clearPoll();
@@ -515,6 +528,14 @@ export function TryOnModal({
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
+    if (file.size > MAX_FILE_BYTES) {
+      toast.error(
+        t('tryon.file_too_large', 'Photo is too large. Please choose an image under 8MB.')
+      );
+      // Clear the input so re-picking the same (resized) file still fires onChange.
+      if (fileInputRef.current) fileInputRef.current.value = '';
+      return;
+    }
     const url = URL.createObjectURL(file);
     setPhotoFile(file);
     setPreviewUrl(url);
@@ -535,7 +556,11 @@ export function TryOnModal({
     } catch (err: unknown) {
       const anyErr = err as { response?: { status?: number; data?: { packs?: TryonCreditPack[]; rib?: string } } };
       const status = anyErr?.response?.status;
-      if (status === 403) {
+      if (status === 401) {
+        // Session expired mid-flow (paid mode) — fall back to the sign-in gate
+        // rather than an opaque error.
+        setStep('guest_gate');
+      } else if (status === 403) {
         onHideFeature();
         onClose();
       } else if (status === 429) {
@@ -561,6 +586,10 @@ export function TryOnModal({
     setProgress(0);
     setResultUrl(null);
     setWasRefunded(false);
+    setPhotoFile(null);
+    setPreviewUrl(null);
+    // Reset the input so re-selecting the same photo fires onChange again.
+    if (fileInputRef.current) fileInputRef.current.value = '';
     clearPoll();
   };
 
@@ -716,7 +745,11 @@ export function TryOnModal({
                   />
                   <button
                     type="button"
-                    onClick={() => { setPhotoFile(null); setPreviewUrl(null); }}
+                    onClick={() => {
+                      setPhotoFile(null);
+                      setPreviewUrl(null);
+                      if (fileInputRef.current) fileInputRef.current.value = '';
+                    }}
                     className="absolute top-2 end-2 rounded-full bg-white/90 p-1.5 text-gray-600 hover:bg-white transition-colors"
                     aria-label={t('tryon.remove_photo', 'Remove photo')}
                   >

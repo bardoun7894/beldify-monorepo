@@ -5185,6 +5185,7 @@
     "modal_title": "Virtual try-on",
     "upload_hint": "Upload your photo",
     "upload_formats": "JPG, PNG or WebP",
+    "file_too_large": "Photo is too large. Please choose an image under 8MB.",
     "preview_alt": "Your photo preview",
     "remove_photo": "Remove photo",
     "privacy_note": "Your photo is processed by AI and not stored on Beldify",

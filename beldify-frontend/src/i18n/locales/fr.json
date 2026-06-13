@@ -5185,6 +5185,7 @@
     "modal_title": "Essayage virtuel",
     "upload_hint": "Téléchargez votre photo",
     "upload_formats": "JPG, PNG ou WebP",
+    "file_too_large": "La photo est trop volumineuse. Veuillez choisir une image de moins de 8 Mo.",
     "preview_alt": "Aperçu de votre photo",
     "remove_photo": "Supprimer la photo",
     "privacy_note": "Votre photo est traitée par l'IA et n'est pas stockée sur Beldify",
