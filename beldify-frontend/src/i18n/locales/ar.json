@@ -5249,5 +5249,81 @@
     "status_rejected": "مرفوض",
     "status_pending": "قيد الانتظار",
     "refund_notice": "تمت إعادة رصيدك إلى محفظتك."
+  },
+  "payouts": {
+    "eyebrow": "لوحة البائع",
+    "page_title": "المدفوعات",
+    "page_subtitle": "اسحب أرباحك إلى حسابك البنكي.",
+    "fetch_error": "تعذّر تحميل بيانات المدفوعات. يرجى إعادة التحميل.",
+    "balance_card": {
+      "eyebrow": "أرباحك",
+      "available_label": "قابل للسحب",
+      "min_note": "الحد الأدنى للسحب: {{min}} {{currency}}",
+      "framing": "أرباحك جاهزة للسحب"
+    },
+    "bank_details": {
+      "title": "الحساب البنكي",
+      "edit_aria": "تعديل البيانات البنكية",
+      "edit": "تعديل",
+      "edit_title": "تعديل الحساب البنكي",
+      "add_title": "إضافة حساب بنكي",
+      "account_holder": "صاحب الحساب",
+      "account_holder_placeholder": "الاسم الكامل كما يظهر في البنك",
+      "bank_name": "البنك",
+      "bank_name_placeholder": "مثال: CIH، عتيجارواف، BMCE",
+      "rib": "رمز RIB",
+      "rib_hint": "24 رقماً",
+      "rib_placeholder": "230 780 4823412300048754 91",
+      "rib_invalid": "يجب أن يتكوّن رمز RIB من 24 رقماً بالضبط",
+      "save_cta": "حفظ البيانات البنكية",
+      "save": "حفظ",
+      "saving": "جارٍ الحفظ…",
+      "cancel": "إلغاء",
+      "saved_toast": "تم حفظ البيانات البنكية",
+      "save_error": "تعذّر حفظ البيانات البنكية. يرجى المحاولة مجدداً.",
+      "missing_title": "لم يُضَف حساب بنكي",
+      "missing_body": "أضف رمز RIB الخاص بك لتتمكن من طلب سحب الأرباح. البيانات البنكية مطلوبة قبل تقديم طلب السحب.",
+      "add_cta": "إضافة حساب بنكي"
+    },
+    "form": {
+      "title": "طلب سحب أرباح",
+      "subtitle": "سيتم تحويل المبلغ إلى حسابك البنكي من قِبَل المنصة.",
+      "amount_label": "المبلغ",
+      "amount_required": "يرجى إدخال المبلغ",
+      "below_min": "الحد الأدنى لمبلغ السحب هو {{min}} {{currency}}",
+      "above_available": "الحد الأقصى المتاح هو {{available}} {{currency}}",
+      "submit_cta": "طلب السحب",
+      "submitting": "جارٍ الإرسال…",
+      "available_hint": "المتاح: {{available}} {{currency}}",
+      "gate_no_bank_details": "أضف بياناتك البنكية أعلاه لتتمكن من طلب السحب.",
+      "gate_open_request": "لديك طلب سحب معلّق بالفعل.",
+      "gate_open_request_sub": "يُسمح بطلب واحد مفتوح في وقت واحد. انتظر حتى تتم معالجته.",
+      "gate_below_min": "رصيدك ({{available}} درهم) أقل من الحد الأدنى للسحب وهو {{min}} درهم.",
+      "error_below_min": "المبلغ أقل من الحد الأدنى وهو {{min}} {{currency}}",
+      "error_above_available": "المبلغ يتجاوز رصيدك المتاح وهو {{available}} {{currency}}",
+      "error_no_bank_details": "يرجى إضافة بياناتك البنكية (RIB) قبل طلب السحب",
+      "error_open_request": "لديك طلب سحب معلّق بالفعل. انتظر حتى يتم معالجته.",
+      "error_generic": "تعذّر تقديم طلبك. يرجى المحاولة مجدداً."
+    },
+    "success": {
+      "title": "تم تقديم الطلب!",
+      "body": "طلب السحب قيد المراجعة. سيقوم مالك المنصة بتحويل الأموال بنكياً وتحديث الحالة."
+    },
+    "history": {
+      "title": "سجل المدفوعات",
+      "empty": "لا توجد طلبات سحب حتى الآن.",
+      "requested_on": "طُلب في",
+      "reference": "المرجع:",
+      "paid_on": "دُفع في"
+    },
+    "status": {
+      "pending": "معلّق",
+      "approved": "موافق عليه",
+      "rejected": "مرفوض",
+      "paid": "مدفوع"
+    },
+    "no_bank_details": "أضف بياناتك البنكية لطلب السحب.",
+    "open_request_exists": "لديك طلب مفتوح بالفعل.",
+    "below_min": "الرصيد أقل من الحد الأدنى للسحب."
   }
 }

@@ -478,7 +478,10 @@
     "topBrands": "Top merken",
     "loadError": "Kon aanbevolen secties niet laden. Probeer het later opnieuw.",
     "bestSellersDesc": "Onze populairste traditionele Marokkaanse kleding",
-    "newArrivalsDesc": "Recente toevoegingen aan onze collectie"
+    "newArrivalsDesc": "Recente toevoegingen aan onze collectie",
+    "inStock": "Op voorraad",
+    "lowStock": "Laatste stuks",
+    "startsFrom": "Vanaf"
   },
   "product": {
     "product_add_to_cart": "Toevoegen aan winkelwagen",
@@ -4176,7 +4179,16 @@
       "ai_chip": "AI gestyled voor jou",
       "carousel_prev": "Vorige dia",
       "carousel_next": "Volgende dia",
-      "section_label": "Hero"
+      "section_label": "Hero",
+      "art_slide1_headline": "Gratis bezorging boven 500 MAD",
+      "art_slide1_subline": "Kaftans en djellabas van vertrouwde Marokkaanse ateliers",
+      "art_slide1_cta": "Nu winkelen",
+      "art_slide2_headline": "Op maat gemaakt naar jouw maten",
+      "art_slide2_subline": "Kies je atelier, stuur je maten op en ontvang je kledingstuk thuis",
+      "art_slide2_cta": "Kledingmaatbestelling starten",
+      "art_slide3_headline": "Open Souk — plaats je brief en laat ateliers concurreren",
+      "art_slide3_subline": "Onze ambachtslieden strijden om jouw project",
+      "art_slide3_cta": "Plaats nu een brief"
     },
     "trust": {
       "verified_sellers": "Geverifieerde verkopers",
@@ -4184,7 +4196,11 @@
       "returns": "14 dagen retour",
       "support": "Ondersteuning in AR / FR / EN",
       "label": "Waarom shoppen bij Beldify",
-      "free_delivery": "Gratis bezorging vanaf 500 MAD"
+      "free_delivery": "Gratis bezorging vanaf 500 MAD",
+      "delivery_sub": "In grote steden binnen 48 uur",
+      "returns_sub": "Geen kosten, geen gedoe",
+      "sellers_sub": "Ateliers één voor één gecontroleerd",
+      "support_sub": "WhatsApp, telefoon, e-mail"
     },
     "categories": {
       "title": "Shop de souk",
@@ -4224,7 +4240,16 @@
       "subtitle": "Verhalen uit het atelier",
       "view_all": "Alle verhalen",
       "read_time_suffix": "lezen",
-      "headingAr": "المجلة"
+      "headingAr": "المجلة",
+      "article1_title": "Binnenin een brocade-atelier in Fez",
+      "article1_excerpt": "Hoe vierdegeneratie wevers in Fez nog steeds goud met de hand in feestkaftans verweven.",
+      "article1_tag": "Ambacht",
+      "article2_title": "Een takchita gebouwd in 3 passsingen",
+      "article2_excerpt": "Eén bruid volgen van schets tot ceremonie bij Maison Marrakech.",
+      "article2_tag": "Bruiloft",
+      "article3_title": "Een djellaba opmeten op z'n Marokkaans",
+      "article3_excerpt": "Een veldgids voor maten die reizen — zonder verrassingen van de meetlint.",
+      "article3_tag": "Erfgoed"
     },
     "seller": {
       "headline_line1": "Verkoop je werk.",
@@ -4248,7 +4273,18 @@
       "postCta": "Post je brief",
       "browseCta": "Blader door de souk",
       "emptyCta": "Wees de eerste om een brief te posten",
-      "emptyBody": "Nog geen openstaande brieven. Wees de eerste om er een te posten en laat ateliers naar je toe komen."
+      "emptyBody": "Nog geen openstaande brieven. Wees de eerste om er een te posten en laat ateliers naar je toe komen.",
+      "exampleChip": "Voorbeeld",
+      "exampleBudgetLabel": "Budget",
+      "exampleTitle1": "Bruiloftskaftan",
+      "exampleBudget1": "2.000 – 4.000 MAD",
+      "exampleTag1": "Dames",
+      "exampleTitle2": "Wollen djellaba voor heren",
+      "exampleBudget2": "800 – 1.200 MAD",
+      "exampleTag2": "Heren",
+      "exampleTitle3": "Op maat gemaakte takchita",
+      "exampleBudget3": "3.000 – 5.000 MAD",
+      "exampleTag3": "Dames"
     }
   },
   "journal": {
@@ -4875,7 +4911,16 @@
       "finish": "Afwerking",
       "specs_aria": "Sieraad-specificaties",
       "piece_specs": "Stukspecificaties"
-    }
+    },
+    "bespoke": {
+      "eyebrow": "Maatwerk Sieraden",
+      "headline": "Vraag een op maat gemaakt stuk aan",
+      "body": "Kies je metaal, steen, gravering en ringmaat. Onze meestergoudsmeden vervaardigen een stuk speciaal voor jou.",
+      "cta": "Start een maatwerk sieradenbestelling"
+    },
+    "ring_size": "Ringmaat",
+    "ring_size_info": "Ringmaten zijn in EU-nummerformaat (bijv. 48–72). Gebruik een ringmater of meet de binnendiameter van een bestaande ring in millimeters om je maat te vinden.",
+    "request_custom_size": "Vraag een aangepaste maat aan"
   },
   "notify_me": {
     "back_in_stock": "Stel me op de hoogte als het weer voorradig is",
@@ -5182,5 +5227,81 @@
     "status_rejected": "Afgewezen",
     "status_pending": "In afwachting",
     "refund_notice": "Je krediet is teruggestort in je portemonnee."
+  },
+  "payouts": {
+    "eyebrow": "Verkoperspaneel",
+    "page_title": "Uitbetalingen",
+    "page_subtitle": "Zet je verdiensten over naar je bankrekening.",
+    "fetch_error": "Uitbetalingsgegevens konden niet worden geladen. Vernieuw de pagina.",
+    "balance_card": {
+      "eyebrow": "Jouw verdiensten",
+      "available_label": "opneembaar",
+      "min_note": "Minimum uitbetaling: {{min}} {{currency}}",
+      "framing": "jouw verdiensten klaar voor opname"
+    },
+    "bank_details": {
+      "title": "Bankrekening",
+      "edit_aria": "Bankgegevens bewerken",
+      "edit": "Bewerken",
+      "edit_title": "Bankrekening bewerken",
+      "add_title": "Bankrekening toevoegen",
+      "account_holder": "Rekeninghouder",
+      "account_holder_placeholder": "Volledige naam zoals op je bankrekening",
+      "bank_name": "Bank",
+      "bank_name_placeholder": "bijv. CIH Bank, Attijariwafa, BMCE",
+      "rib": "RIB",
+      "rib_hint": "24 cijfers",
+      "rib_placeholder": "230 780 4823412300048754 91",
+      "rib_invalid": "RIB moet exact 24 cijfers bevatten",
+      "save_cta": "Bankgegevens opslaan",
+      "save": "Opslaan",
+      "saving": "Opslaan…",
+      "cancel": "Annuleren",
+      "saved_toast": "Bankgegevens opgeslagen",
+      "save_error": "Bankgegevens konden niet worden opgeslagen. Probeer het opnieuw.",
+      "missing_title": "Geen bankrekening toegevoegd",
+      "missing_body": "Voeg je RIB toe om een uitbetaling aan te vragen. Bankgegevens zijn vereist voor een aanvraag.",
+      "add_cta": "Bankrekening toevoegen"
+    },
+    "form": {
+      "title": "Uitbetaling aanvragen",
+      "subtitle": "Het bedrag wordt door het platform overgemaakt naar je bankrekening.",
+      "amount_label": "Bedrag",
+      "amount_required": "Voer een bedrag in",
+      "below_min": "Minimum uitbetaling is {{min}} {{currency}}",
+      "above_available": "Maximum beschikbaar is {{available}} {{currency}}",
+      "submit_cta": "Uitbetaling aanvragen",
+      "submitting": "Verzenden…",
+      "available_hint": "Beschikbaar: {{available}} {{currency}}",
+      "gate_no_bank_details": "Voeg hierboven je bankgegevens toe om een uitbetaling aan te vragen.",
+      "gate_open_request": "Je hebt al een openstaande uitbetalingsaanvraag.",
+      "gate_open_request_sub": "Er kan slechts één aanvraag tegelijk open zijn. Wacht tot deze is verwerkt.",
+      "gate_below_min": "Je saldo ({{available}} MAD) is lager dan het minimum van {{min}} MAD.",
+      "error_below_min": "Bedrag is lager dan het minimum van {{min}} {{currency}}",
+      "error_above_available": "Bedrag overschrijdt je beschikbaar saldo van {{available}} {{currency}}",
+      "error_no_bank_details": "Voeg je bankgegevens (RIB) toe voordat je een uitbetaling aanvraagt",
+      "error_open_request": "Je hebt al een openstaande aanvraag. Wacht tot deze is verwerkt.",
+      "error_generic": "Aanvraag kon niet worden ingediend. Probeer het opnieuw."
+    },
+    "success": {
+      "title": "Aanvraag ingediend!",
+      "body": "Je uitbetalingsaanvraag wordt beoordeeld. De platformeigenaar maakt het geld over via bankoverschrijving."
+    },
+    "history": {
+      "title": "Uitbetalingsgeschiedenis",
+      "empty": "Nog geen uitbetalingsaanvragen.",
+      "requested_on": "Aangevraagd op",
+      "reference": "Ref.:",
+      "paid_on": "Betaald op"
+    },
+    "status": {
+      "pending": "in behandeling",
+      "approved": "goedgekeurd",
+      "rejected": "afgewezen",
+      "paid": "betaald"
+    },
+    "no_bank_details": "Voeg je bankgegevens toe om een uitbetaling aan te vragen.",
+    "open_request_exists": "Je hebt al een openstaande aanvraag.",
+    "below_min": "Saldo is lager dan het minimale uitbetalingsbedrag."
   }
 }
