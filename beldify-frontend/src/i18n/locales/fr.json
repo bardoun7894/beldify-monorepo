@@ -5227,5 +5227,81 @@
     "status_rejected": "Refusé",
     "status_pending": "En attente",
     "refund_notice": "Votre crédit a été recrédité sur votre portefeuille."
+  },
+  "payouts": {
+    "eyebrow": "Espace Vendeur",
+    "page_title": "Virements",
+    "page_subtitle": "Retirez vos gains sur votre compte bancaire.",
+    "fetch_error": "Impossible de charger les données de virement. Veuillez rafraîchir.",
+    "balance_card": {
+      "eyebrow": "Vos gains",
+      "available_label": "retirable",
+      "min_note": "Virement minimum : {{min}} {{currency}}",
+      "framing": "vos gains prêts à être retirés"
+    },
+    "bank_details": {
+      "title": "Compte bancaire",
+      "edit_aria": "Modifier les coordonnées bancaires",
+      "edit": "Modifier",
+      "edit_title": "Modifier le compte bancaire",
+      "add_title": "Ajouter un compte bancaire",
+      "account_holder": "Titulaire du compte",
+      "account_holder_placeholder": "Nom complet tel qu'il figure sur votre compte",
+      "bank_name": "Banque",
+      "bank_name_placeholder": "ex. CIH Bank, Attijariwafa, BMCE",
+      "rib": "RIB",
+      "rib_hint": "24 chiffres",
+      "rib_placeholder": "230 780 4823412300048754 91",
+      "rib_invalid": "Le RIB doit contenir exactement 24 chiffres",
+      "save_cta": "Enregistrer les coordonnées bancaires",
+      "save": "Enregistrer",
+      "saving": "Enregistrement…",
+      "cancel": "Annuler",
+      "saved_toast": "Coordonnées bancaires enregistrées",
+      "save_error": "Impossible d'enregistrer les coordonnées. Veuillez réessayer.",
+      "missing_title": "Aucun compte bancaire enregistré",
+      "missing_body": "Ajoutez votre RIB pour pouvoir demander un virement. Les coordonnées bancaires sont requises avant toute demande.",
+      "add_cta": "Ajouter un compte bancaire"
+    },
+    "form": {
+      "title": "Demander un virement",
+      "subtitle": "Le montant sera viré sur votre compte bancaire par la plateforme.",
+      "amount_label": "Montant",
+      "amount_required": "Veuillez saisir un montant",
+      "below_min": "Le montant minimum est de {{min}} {{currency}}",
+      "above_available": "Le solde disponible est de {{available}} {{currency}}",
+      "submit_cta": "Demander le virement",
+      "submitting": "Envoi en cours…",
+      "available_hint": "Disponible : {{available}} {{currency}}",
+      "gate_no_bank_details": "Ajoutez vos coordonnées bancaires ci-dessus pour demander un virement.",
+      "gate_open_request": "Vous avez déjà une demande de virement en attente.",
+      "gate_open_request_sub": "Une seule demande peut être ouverte à la fois. Attendez qu'elle soit traitée.",
+      "gate_below_min": "Votre solde ({{available}} MAD) est inférieur au minimum de virement de {{min}} MAD.",
+      "error_below_min": "Le montant est inférieur au minimum de {{min}} {{currency}}",
+      "error_above_available": "Le montant dépasse votre solde disponible de {{available}} {{currency}}",
+      "error_no_bank_details": "Veuillez ajouter vos coordonnées bancaires (RIB) avant de faire une demande",
+      "error_open_request": "Vous avez déjà une demande en attente. Attendez qu'elle soit traitée.",
+      "error_generic": "Impossible de soumettre votre demande. Veuillez réessayer."
+    },
+    "success": {
+      "title": "Demande envoyée !",
+      "body": "Votre demande de virement est en cours d'examen. Le propriétaire de la plateforme effectuera le virement bancaire."
+    },
+    "history": {
+      "title": "Historique des virements",
+      "empty": "Aucune demande de virement pour l'instant.",
+      "requested_on": "Demandé le",
+      "reference": "Réf. :",
+      "paid_on": "Payé le"
+    },
+    "status": {
+      "pending": "en attente",
+      "approved": "approuvé",
+      "rejected": "rejeté",
+      "paid": "payé"
+    },
+    "no_bank_details": "Ajoutez vos coordonnées bancaires pour demander un virement.",
+    "open_request_exists": "Vous avez déjà une demande ouverte.",
+    "below_min": "Le solde est inférieur au montant minimum de virement."
   }
 }

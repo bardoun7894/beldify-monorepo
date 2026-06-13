@@ -5227,5 +5227,81 @@
     "status_rejected": "Rejected",
     "status_pending": "Pending",
     "refund_notice": "Your credit has been returned to your wallet."
+  },
+  "payouts": {
+    "eyebrow": "Seller Hub",
+    "page_title": "Payouts",
+    "page_subtitle": "Withdraw your earnings to your bank account.",
+    "fetch_error": "Could not load payout data. Please refresh.",
+    "balance_card": {
+      "eyebrow": "Your Earnings",
+      "available_label": "withdrawable",
+      "min_note": "Minimum payout: {{min}} {{currency}}",
+      "framing": "your earnings ready to withdraw"
+    },
+    "bank_details": {
+      "title": "Bank account",
+      "edit_aria": "Edit bank details",
+      "edit": "Edit",
+      "edit_title": "Edit bank account",
+      "add_title": "Add bank account",
+      "account_holder": "Account holder",
+      "account_holder_placeholder": "Full name as on your bank account",
+      "bank_name": "Bank",
+      "bank_name_placeholder": "e.g. CIH Bank, Attijariwafa, BMCE",
+      "rib": "RIB",
+      "rib_hint": "24 digits",
+      "rib_placeholder": "230 780 4823412300048754 91",
+      "rib_invalid": "RIB must be exactly 24 digits",
+      "save_cta": "Save bank details",
+      "save": "Save",
+      "saving": "Saving…",
+      "cancel": "Cancel",
+      "saved_toast": "Bank details saved",
+      "save_error": "Could not save bank details. Please try again.",
+      "missing_title": "No bank account added",
+      "missing_body": "Add your RIB to be able to request a payout. Your bank details are required before submitting a withdrawal.",
+      "add_cta": "Add bank account"
+    },
+    "form": {
+      "title": "Request a payout",
+      "subtitle": "The amount will be transferred to your bank account by the platform.",
+      "amount_label": "Amount",
+      "amount_required": "Please enter an amount",
+      "below_min": "Minimum payout amount is {{min}} {{currency}}",
+      "above_available": "Maximum available is {{available}} {{currency}}",
+      "submit_cta": "Request payout",
+      "submitting": "Submitting…",
+      "available_hint": "Available: {{available}} {{currency}}",
+      "gate_no_bank_details": "Add your bank account details above to request a payout.",
+      "gate_open_request": "You already have a pending payout request.",
+      "gate_open_request_sub": "Only one request can be open at a time. Wait for it to be processed.",
+      "gate_below_min": "Your balance ({{available}} MAD) is below the minimum payout of {{min}} MAD.",
+      "error_below_min": "Amount is below the minimum of {{min}} {{currency}}",
+      "error_above_available": "Amount exceeds your available balance of {{available}} {{currency}}",
+      "error_no_bank_details": "Please add your bank details (RIB) before requesting a payout",
+      "error_open_request": "You already have a pending payout request. Wait for it to be processed.",
+      "error_generic": "Could not submit your request. Please try again."
+    },
+    "success": {
+      "title": "Request submitted!",
+      "body": "Your payout request is under review. The platform owner will transfer the funds by bank transfer and mark it as paid."
+    },
+    "history": {
+      "title": "Payout history",
+      "empty": "No payout requests yet.",
+      "requested_on": "Requested",
+      "reference": "Ref:",
+      "paid_on": "Paid on"
+    },
+    "status": {
+      "pending": "pending",
+      "approved": "approved",
+      "rejected": "rejected",
+      "paid": "paid"
+    },
+    "no_bank_details": "Add your bank account details to request a payout.",
+    "open_request_exists": "You already have an open request pending.",
+    "below_min": "Balance is below the minimum payout amount."
   }
 }

@@ -5242,5 +5242,81 @@
     "status_rejected": "Rechazado",
     "status_pending": "Pendiente",
     "refund_notice": "Tu crédito ha sido devuelto a tu cartera."
+  },
+  "payouts": {
+    "eyebrow": "Panel de Vendedor",
+    "page_title": "Pagos",
+    "page_subtitle": "Retira tus ganancias a tu cuenta bancaria.",
+    "fetch_error": "No se pudieron cargar los datos de pagos. Por favor, recarga.",
+    "balance_card": {
+      "eyebrow": "Tus ganancias",
+      "available_label": "disponible para retirar",
+      "min_note": "Pago mínimo: {{min}} {{currency}}",
+      "framing": "tus ganancias listas para retirar"
+    },
+    "bank_details": {
+      "title": "Cuenta bancaria",
+      "edit_aria": "Editar datos bancarios",
+      "edit": "Editar",
+      "edit_title": "Editar cuenta bancaria",
+      "add_title": "Agregar cuenta bancaria",
+      "account_holder": "Titular de la cuenta",
+      "account_holder_placeholder": "Nombre completo como aparece en tu cuenta",
+      "bank_name": "Banco",
+      "bank_name_placeholder": "ej. CIH Bank, Attijariwafa, BMCE",
+      "rib": "RIB",
+      "rib_hint": "24 dígitos",
+      "rib_placeholder": "230 780 4823412300048754 91",
+      "rib_invalid": "El RIB debe tener exactamente 24 dígitos",
+      "save_cta": "Guardar datos bancarios",
+      "save": "Guardar",
+      "saving": "Guardando…",
+      "cancel": "Cancelar",
+      "saved_toast": "Datos bancarios guardados",
+      "save_error": "No se pudieron guardar los datos. Por favor, inténtalo de nuevo.",
+      "missing_title": "No hay cuenta bancaria registrada",
+      "missing_body": "Agrega tu RIB para poder solicitar un pago. Los datos bancarios son obligatorios antes de enviar una solicitud.",
+      "add_cta": "Agregar cuenta bancaria"
+    },
+    "form": {
+      "title": "Solicitar un pago",
+      "subtitle": "El importe será transferido a tu cuenta bancaria por la plataforma.",
+      "amount_label": "Importe",
+      "amount_required": "Por favor, introduce un importe",
+      "below_min": "El importe mínimo es de {{min}} {{currency}}",
+      "above_available": "El máximo disponible es {{available}} {{currency}}",
+      "submit_cta": "Solicitar pago",
+      "submitting": "Enviando…",
+      "available_hint": "Disponible: {{available}} {{currency}}",
+      "gate_no_bank_details": "Agrega tus datos bancarios arriba para solicitar un pago.",
+      "gate_open_request": "Ya tienes una solicitud de pago pendiente.",
+      "gate_open_request_sub": "Solo puede haber una solicitud abierta a la vez. Espera a que sea procesada.",
+      "gate_below_min": "Tu saldo ({{available}} MAD) está por debajo del pago mínimo de {{min}} MAD.",
+      "error_below_min": "El importe está por debajo del mínimo de {{min}} {{currency}}",
+      "error_above_available": "El importe supera tu saldo disponible de {{available}} {{currency}}",
+      "error_no_bank_details": "Por favor, agrega tus datos bancarios (RIB) antes de solicitar un pago",
+      "error_open_request": "Ya tienes una solicitud pendiente. Espera a que sea procesada.",
+      "error_generic": "No se pudo enviar tu solicitud. Por favor, inténtalo de nuevo."
+    },
+    "success": {
+      "title": "¡Solicitud enviada!",
+      "body": "Tu solicitud de pago está bajo revisión. El propietario de la plataforma realizará la transferencia bancaria."
+    },
+    "history": {
+      "title": "Historial de pagos",
+      "empty": "No hay solicitudes de pago aún.",
+      "requested_on": "Solicitado el",
+      "reference": "Ref.:",
+      "paid_on": "Pagado el"
+    },
+    "status": {
+      "pending": "pendiente",
+      "approved": "aprobado",
+      "rejected": "rechazado",
+      "paid": "pagado"
+    },
+    "no_bank_details": "Agrega tus datos bancarios para solicitar un pago.",
+    "open_request_exists": "Ya tienes una solicitud abierta.",
+    "below_min": "El saldo está por debajo del importe mínimo de pago."
   }
 }

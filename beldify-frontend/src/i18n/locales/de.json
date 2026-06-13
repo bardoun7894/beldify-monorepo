@@ -478,7 +478,10 @@
     "topBrands": "Top-Marken",
     "loadError": "Fehler beim Laden der Featured Sections. Bitte später versuchen.",
     "bestSellersDesc": "Unsere beliebteste traditionelle marokkanische Bekleidung",
-    "newArrivalsDesc": "Neueste Ergänzungen zu unserer Sammlung"
+    "newArrivalsDesc": "Neueste Ergänzungen zu unserer Sammlung",
+    "inStock": "Auf Lager",
+    "lowStock": "Nur noch wenige",
+    "startsFrom": "Ab"
   },
   "product": {
     "product_add_to_cart": "In den Warenkorb",
@@ -4176,7 +4179,16 @@
       "ai_chip": "Von KI für dich gestylt",
       "carousel_prev": "Vorherige Folie",
       "carousel_next": "Nächste Folie",
-      "section_label": "Hero"
+      "section_label": "Hero",
+      "art_slide1_headline": "Kostenloser Versand ab 500 MAD",
+      "art_slide1_subline": "Kaftane und Djellabas von vertrauenswürdigen marokkanischen Ateliers",
+      "art_slide1_cta": "Jetzt einkaufen",
+      "art_slide2_headline": "Nach deinen Maßen angefertigt",
+      "art_slide2_subline": "Wähle dein Atelier, schick deine Maße und erhalte dein Stück nach Hause geliefert",
+      "art_slide2_cta": "Schneiderauftrag starten",
+      "art_slide3_headline": "Open Souk — veröffentliche deine Anfrage und lass Ateliers konkurrieren",
+      "art_slide3_subline": "Unsere Handwerker kämpfen um dein Projekt",
+      "art_slide3_cta": "Jetzt Anfrage veröffentlichen"
     },
     "trust": {
       "verified_sellers": "Verifizierte Verkäufer",
@@ -4184,7 +4196,11 @@
       "returns": "14 Tage Rückgaberecht",
       "support": "Support auf AR / FR / EN",
       "label": "Warum bei Beldify einkaufen",
-      "free_delivery": "Kostenloser Versand ab 500 MAD"
+      "free_delivery": "Kostenloser Versand ab 500 MAD",
+      "delivery_sub": "In großen Städten innerhalb von 48 Stunden",
+      "returns_sub": "Keine Gebühren, kein Aufwand",
+      "sellers_sub": "Ateliers einzeln geprüft",
+      "support_sub": "WhatsApp, Telefon, E-Mail"
     },
     "categories": {
       "title": "Erkunde den Souk",
@@ -4224,7 +4240,16 @@
       "subtitle": "Geschichten aus der Werkstatt",
       "view_all": "Alle Geschichten",
       "read_time_suffix": "Lesezeit",
-      "headingAr": "المجلة"
+      "headingAr": "المجلة",
+      "article1_title": "In einem Brokat-Atelier in Fez",
+      "article1_excerpt": "Wie vierte Generationen von Webern in Fez noch immer Gold von Hand in Festkaftane einfädeln.",
+      "article1_tag": "Handwerk",
+      "article2_title": "Eine Takchita in 3 Anproben entstanden",
+      "article2_excerpt": "Eine Braut von der Skizze bis zur Zeremonie bei Maison Marrakech begleitet.",
+      "article2_tag": "Hochzeit",
+      "article3_title": "Eine Djellaba auf marokkanische Art anpassen",
+      "article3_excerpt": "Ein Feldführer für Maße, die auf Reisen funktionieren — ohne Überraschungen beim Maßband.",
+      "article3_tag": "Kulturerbe"
     },
     "seller": {
       "headline_line1": "Verkaufe dein Handwerk.",
@@ -4248,7 +4273,18 @@
       "postCta": "Anfrage veröffentlichen",
       "browseCta": "Souk durchsuchen",
       "emptyCta": "Sei der Erste, der eine Anfrage veröffentlicht",
-      "emptyBody": "Noch keine offenen Anfragen. Sei der Erste, der eine veröffentlicht und lass Ateliers zu dir kommen."
+      "emptyBody": "Noch keine offenen Anfragen. Sei der Erste, der eine veröffentlicht und lass Ateliers zu dir kommen.",
+      "exampleChip": "Beispiel",
+      "exampleBudgetLabel": "Budget",
+      "exampleTitle1": "Hochzeitskaftan",
+      "exampleBudget1": "2.000 – 4.000 MAD",
+      "exampleTag1": "Damen",
+      "exampleTitle2": "Wolldjellaba für Herren",
+      "exampleBudget2": "800 – 1.200 MAD",
+      "exampleTag2": "Herren",
+      "exampleTitle3": "Maßgeschneiderte Takchita",
+      "exampleBudget3": "3.000 – 5.000 MAD",
+      "exampleTag3": "Damen"
     }
   },
   "journal": {
@@ -4875,7 +4911,16 @@
       "finish": "Oberflächenfinish",
       "specs_aria": "Schmuckspezifikationen",
       "piece_specs": "Stückspezifikationen"
-    }
+    },
+    "bespoke": {
+      "eyebrow": "Maßgefertigter Schmuck",
+      "headline": "Maßgefertigtes Stück anfragen",
+      "body": "Wähle dein Metall, deinen Stein, deine Gravur und Ringgröße. Unsere Meisterjuweliere fertigen ein speziell für dich gemachtes Stück an.",
+      "cta": "Maßgefertigte Schmuckbestellung starten"
+    },
+    "ring_size": "Ringgröße",
+    "ring_size_info": "Ringgrößen sind im EU-Zahlenformat angegeben (z.B. 48–72). Verwende einen Ringmesser oder miss den Innendurchmesser eines vorhandenen Rings in Millimetern, um deine Größe zu finden.",
+    "request_custom_size": "Sondergröße anfragen"
   },
   "notify_me": {
     "back_in_stock": "Benachrichtige mich, wenn es wieder verfügbar ist",
@@ -5182,5 +5227,81 @@
     "status_rejected": "Abgelehnt",
     "status_pending": "Ausstehend",
     "refund_notice": "Ihr Guthaben wurde in Ihre Brieftasche zurückgegeben."
+  },
+  "payouts": {
+    "eyebrow": "Verkäufer-Hub",
+    "page_title": "Auszahlungen",
+    "page_subtitle": "Heben Sie Ihre Einnahmen auf Ihr Bankkonto ab.",
+    "fetch_error": "Auszahlungsdaten konnten nicht geladen werden. Bitte neu laden.",
+    "balance_card": {
+      "eyebrow": "Ihre Einnahmen",
+      "available_label": "auszahlbar",
+      "min_note": "Mindestbetrag: {{min}} {{currency}}",
+      "framing": "Ihre Einnahmen zur Auszahlung bereit"
+    },
+    "bank_details": {
+      "title": "Bankkonto",
+      "edit_aria": "Bankdaten bearbeiten",
+      "edit": "Bearbeiten",
+      "edit_title": "Bankkonto bearbeiten",
+      "add_title": "Bankkonto hinzufügen",
+      "account_holder": "Kontoinhaber",
+      "account_holder_placeholder": "Vollständiger Name wie auf Ihrem Konto",
+      "bank_name": "Bank",
+      "bank_name_placeholder": "z.B. CIH Bank, Attijariwafa, BMCE",
+      "rib": "RIB",
+      "rib_hint": "24 Stellen",
+      "rib_placeholder": "230 780 4823412300048754 91",
+      "rib_invalid": "RIB muss genau 24 Ziffern enthalten",
+      "save_cta": "Bankdaten speichern",
+      "save": "Speichern",
+      "saving": "Wird gespeichert…",
+      "cancel": "Abbrechen",
+      "saved_toast": "Bankdaten gespeichert",
+      "save_error": "Bankdaten konnten nicht gespeichert werden. Bitte erneut versuchen.",
+      "missing_title": "Kein Bankkonto hinterlegt",
+      "missing_body": "Fügen Sie Ihre RIB hinzu, um eine Auszahlung beantragen zu können. Bankdaten sind vor dem Einreichen erforderlich.",
+      "add_cta": "Bankkonto hinzufügen"
+    },
+    "form": {
+      "title": "Auszahlung beantragen",
+      "subtitle": "Der Betrag wird von der Plattform auf Ihr Bankkonto überwiesen.",
+      "amount_label": "Betrag",
+      "amount_required": "Bitte geben Sie einen Betrag ein",
+      "below_min": "Mindestbetrag für Auszahlung ist {{min}} {{currency}}",
+      "above_available": "Maximal verfügbar: {{available}} {{currency}}",
+      "submit_cta": "Auszahlung beantragen",
+      "submitting": "Wird gesendet…",
+      "available_hint": "Verfügbar: {{available}} {{currency}}",
+      "gate_no_bank_details": "Fügen Sie oben Ihre Bankdaten hinzu, um eine Auszahlung zu beantragen.",
+      "gate_open_request": "Sie haben bereits einen ausstehenden Auszahlungsantrag.",
+      "gate_open_request_sub": "Es kann nur ein Antrag gleichzeitig offen sein. Warten Sie auf die Bearbeitung.",
+      "gate_below_min": "Ihr Guthaben ({{available}} MAD) liegt unter dem Mindestbetrag von {{min}} MAD.",
+      "error_below_min": "Betrag liegt unter dem Minimum von {{min}} {{currency}}",
+      "error_above_available": "Betrag übersteigt Ihr verfügbares Guthaben von {{available}} {{currency}}",
+      "error_no_bank_details": "Bitte hinterlegen Sie Ihre Bankdaten (RIB) vor der Antragstellung",
+      "error_open_request": "Sie haben bereits einen ausstehenden Antrag. Warten Sie auf die Bearbeitung.",
+      "error_generic": "Antrag konnte nicht eingereicht werden. Bitte erneut versuchen."
+    },
+    "success": {
+      "title": "Antrag eingereicht!",
+      "body": "Ihr Auszahlungsantrag wird geprüft. Der Plattformbetreiber überweist den Betrag per Banküberweisung."
+    },
+    "history": {
+      "title": "Auszahlungshistorie",
+      "empty": "Noch keine Auszahlungsanträge.",
+      "requested_on": "Beantragt am",
+      "reference": "Ref.:",
+      "paid_on": "Bezahlt am"
+    },
+    "status": {
+      "pending": "ausstehend",
+      "approved": "genehmigt",
+      "rejected": "abgelehnt",
+      "paid": "bezahlt"
+    },
+    "no_bank_details": "Fügen Sie Ihre Bankdaten hinzu, um eine Auszahlung zu beantragen.",
+    "open_request_exists": "Sie haben bereits einen offenen Antrag.",
+    "below_min": "Guthaben liegt unter dem Mindestbetrag für Auszahlungen."
   }
 }
