@@ -4647,7 +4647,8 @@
       "orders": "Pedidos",
       "products": "Productos",
       "profile": "Perfil",
-      "store_settings": "Configuración de la Tienda"
+      "store_settings": "Configuración de la Tienda",
+      "payouts": "Retiros"
     },
     "messages": {
       "eyebrow": "Panel del vendedor",
@@ -4765,7 +4766,8 @@
       "net": "Ingresos netos",
       "title": "Ingresos",
       "no_daily_data": "No hay datos diarios disponibles",
-      "chart_aria": "Gráfico de ganancias por día"
+      "chart_aria": "Gráfico de ganancias por día",
+      "request_payout_cta": "Solicitar un retiro"
     },
     "layout": {
       "become_seller_cta": "Conviértete en vendedor",

@@ -3892,7 +3892,8 @@
       "orders": "Bestellingen",
       "products": "Producten",
       "profile": "Profiel",
-      "store_settings": "Winkelinstellingen"
+      "store_settings": "Winkelinstellingen",
+      "payouts": "Uitbetalingen"
     },
     "messages": {
       "eyebrow": "Verkopers Hub",
@@ -3947,7 +3948,8 @@
       "net": "Nettoinkomsten",
       "title": "Inkomsten",
       "no_daily_data": "Geen dagelijkse gegevens beschikbaar",
-      "chart_aria": "Verdiengrafiek per dag"
+      "chart_aria": "Verdiengrafiek per dag",
+      "request_payout_cta": "Uitbetaling aanvragen"
     },
     "layout": {
       "become_seller_cta": "Word verkooper",

@@ -3892,7 +3892,8 @@
       "orders": "Orders",
       "products": "Products",
       "profile": "Profile",
-      "store_settings": "Store Settings"
+      "store_settings": "Store Settings",
+      "payouts": "Payouts"
     },
     "messages": {
       "eyebrow": "Seller Hub",
@@ -3947,7 +3948,8 @@
       "net": "Net revenue",
       "title": "Earnings",
       "no_daily_data": "No daily data available",
-      "chart_aria": "Earnings chart by day"
+      "chart_aria": "Earnings chart by day",
+      "request_payout_cta": "Request a payout"
     },
     "layout": {
       "become_seller_cta": "Become a seller",

@@ -4617,7 +4617,8 @@
       "orders": "Commandes",
       "products": "Produits",
       "profile": "Profil",
-      "store_settings": "Paramètres du magasin"
+      "store_settings": "Paramètres du magasin",
+      "payouts": "Retraits"
     },
     "messages": {
       "eyebrow": "Espace vendeur",
@@ -4672,7 +4673,8 @@
       "net": "Chiffre d'affaires net",
       "title": "Gains",
       "no_daily_data": "Aucune donnée quotidienne disponible",
-      "chart_aria": "Graphique des gains par jour"
+      "chart_aria": "Graphique des gains par jour",
+      "request_payout_cta": "Demander un retrait"
     },
     "layout": {
       "become_seller_cta": "Devenir vendeur",

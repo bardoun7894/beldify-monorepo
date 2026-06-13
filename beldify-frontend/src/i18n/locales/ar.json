@@ -4118,7 +4118,8 @@
       "orders": "الطلبات",
       "products": "المنتجات",
       "profile": "الملف الشخصي",
-      "store_settings": "إعدادات المتجر"
+      "store_settings": "إعدادات المتجر",
+      "payouts": "السحوبات"
     },
     "messages": {
       "eyebrow": "فضاء البائع",
@@ -4173,7 +4174,8 @@
       "net": "الإيراد الصافي",
       "title": "الأرباح",
       "no_daily_data": "لا توجد بيانات يومية",
-      "chart_aria": "مخطط الأرباح حسب اليوم"
+      "chart_aria": "مخطط الأرباح حسب اليوم",
+      "request_payout_cta": "اطلب سحب أرباحك"
     },
     "layout": {
       "become_seller_cta": "أصبح بائعًا",

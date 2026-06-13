@@ -4623,7 +4623,8 @@
       "orders": "الطلبات",
       "products": "المنتوجات",
       "profile": "الملف الشخصي",
-      "store_settings": "إعدادات المتجر"
+      "store_settings": "إعدادات المتجر",
+      "payouts": "السحوبات"
     },
     "messages": {
       "eyebrow": "فضاء البائع",
@@ -4678,7 +4679,8 @@
       "net": "الأرباح الصافية",
       "title": "الأرباح",
       "no_daily_data": "ما كايناش معطيات يومية",
-      "chart_aria": "مبيان الأرباح بالنهار"
+      "chart_aria": "مبيان الأرباح بالنهار",
+      "request_payout_cta": "طلب سحب الفلوس"
     },
     "layout": {
       "become_seller_cta": "كن بياع",

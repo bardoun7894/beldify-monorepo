@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useEffect, useState, useCallback } from 'react';
+import Link from 'next/link';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '@/hooks/useAuth';
 import {
@@ -8,7 +9,7 @@ import {
   SellerEarningsData,
   EarningsPeriod,
 } from '@/services/sellerDashboardService';
-import { TrendingUp, DollarSign, ShoppingBag, BarChart2, AlertCircle } from 'lucide-react';
+import { TrendingUp, DollarSign, ShoppingBag, BarChart2, AlertCircle, Wallet } from 'lucide-react';
 
 const playfair = { fontFamily: '"Playfair Display", ui-serif, Georgia, serif' };
 
@@ -127,6 +128,13 @@ export default function SellerEarningsPage() {
           <h1 className="text-xl font-bold text-gray-900" style={playfair}>
             {t('seller.earnings.title', 'Earnings')}
           </h1>
+          <Link
+            href="/seller/payouts"
+            className="mt-2 inline-flex items-center gap-1.5 text-sm font-semibold text-[hsl(var(--secondary))] hover:underline"
+          >
+            <Wallet className="w-4 h-4" />
+            {t('seller.earnings.request_payout_cta', 'Request a payout')}
+          </Link>
         </div>
 
         {/* Period switcher */}

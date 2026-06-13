@@ -3892,7 +3892,8 @@
       "orders": "Bestellungen",
       "products": "Produkte",
       "profile": "Profil",
-      "store_settings": "Shop-Einstellungen"
+      "store_settings": "Shop-Einstellungen",
+      "payouts": "Auszahlungen"
     },
     "messages": {
       "eyebrow": "Verkäufer-Hub",
@@ -3947,7 +3948,8 @@
       "net": "Nettoumsatz",
       "title": "Verdienste",
       "no_daily_data": "Keine Tagesdaten verfügbar",
-      "chart_aria": "Einnahmen-Diagramm pro Tag"
+      "chart_aria": "Einnahmen-Diagramm pro Tag",
+      "request_payout_cta": "Auszahlung anfordern"
     },
     "layout": {
       "become_seller_cta": "Werde Verkäufer",
