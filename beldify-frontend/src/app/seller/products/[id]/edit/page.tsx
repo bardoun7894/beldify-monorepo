@@ -182,18 +182,16 @@ export default function SellerEditProductPage() {
           existingImageUrl: (product as any).product_image_url ?? (product as any).image_url ?? null,
         });
         // Seed AI image generator with known product images
-        {
-          const imgs: { id: number; url: string }[] = [];
-          if (Array.isArray((product as any).images)) {
-            (product as any).images.forEach((img: any, idx: number) => {
-              if (img?.url) imgs.push({ id: img.id ?? idx + 1, url: img.url });
-            });
-          } else {
-            const singleUrl = (product as any).product_image_url ?? (product as any).image_url;
-            if (singleUrl) imgs.push({ id: Number(productId) || 1, url: singleUrl });
-          }
-          setAiExistingImages(imgs);
+        const imgs: { id: number; url: string }[] = [];
+        if (Array.isArray((product as any).images)) {
+          (product as any).images.forEach((img: any, idx: number) => {
+            if (img?.url) imgs.push({ id: img.id ?? idx + 1, url: img.url });
+          });
+        } else {
+          const singleUrl = (product as any).product_image_url ?? (product as any).image_url;
+          if (singleUrl) imgs.push({ id: Number(productId) || 1, url: singleUrl });
         }
+        setAiExistingImages(imgs);
         // FE-J1: seed vertical spec from the product's existing customization_options.
         const existingOpts = (product as any).customization_options;
         if (existingOpts && typeof existingOpts === 'object') {
@@ -828,11 +826,10 @@ export default function SellerEditProductPage() {
                   productId={productId}
                   existingImages={aiExistingImages}
                   onRefresh={() => {
-                    // Re-derive existingImages from current form state after a new image is added
-                    const url = form.imagePreview ?? form.existingImageUrl;
-                    if (url) {
-                      setAiExistingImages([{ id: Number(productId) || 1, url }]);
-                    }
+                    // AiImageGenerator manages its own internal image list and appends
+                    // the newly generated image on success — no parent rebuild needed.
+                    // This callback is kept for external side-effects (e.g. re-fetching
+                    // the product list) but must NOT clobber aiExistingImages.
                   }}
                 />
               )}

@@ -31,6 +31,11 @@ vi.mock('@/lib/utils', () => ({
     classes.filter(Boolean).join(' '),
 }));
 
+vi.mock('next/navigation', () => ({
+  usePathname: () => '/products/1',
+  useRouter: () => ({ push: vi.fn() }),
+}));
+
 const mockSubmitTryon = vi.fn();
 const mockFetchTryonStatus = vi.fn();
 vi.mock('@/services/tryonService', () => ({

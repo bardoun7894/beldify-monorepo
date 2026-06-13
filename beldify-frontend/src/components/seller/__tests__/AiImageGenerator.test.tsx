@@ -249,4 +249,63 @@ describe('AiImageGenerator', () => {
       expect(screen.queryByRole('button', { name: /generate with ai/i })).toBeNull();
     });
   });
+
+  it('newly generated image appears in picker after success and existing images are not lost', async () => {
+    mockSubmitAiImage.mockResolvedValue({ task_id: 'ai-img-task-append' });
+    mockFetchAiImageStatus.mockResolvedValue({
+      status: 'success',
+      progress: 100,
+      error: null,
+      image: { id: 99, url: 'https://example.com/generated.jpg' },
+    });
+
+    const AiImageGenerator = await importComponent();
+    render(
+      <AiImageGenerator
+        productId="42"
+        existingImages={MOCK_IMAGES}
+        onRefresh={vi.fn()}
+      />
+    );
+
+    // Initially 2 thumbnails are shown (from MOCK_IMAGES)
+    expect(screen.getAllByRole('radio').filter(r =>
+      (r as HTMLButtonElement).getAttribute('aria-label')?.match(/select image/i)
+    ).length).toBe(2);
+
+    fireEvent.click(screen.getByRole('radio', { name: /select image.*1/i }));
+
+    await waitFor(() => {
+      const btn = screen.getByRole('button', { name: /generate with ai/i });
+      if (btn.hasAttribute('disabled')) throw new Error('button still disabled');
+    });
+
+    vi.useFakeTimers();
+    try {
+      await act(async () => {
+        fireEvent.click(screen.getByRole('button', { name: /generate with ai/i }));
+      });
+
+      await act(async () => {
+        await vi.advanceTimersByTimeAsync(3500);
+      });
+    } finally {
+      vi.useRealTimers();
+    }
+
+    // After success: the picker must now show 3 thumbnails (2 original + 1 newly generated)
+    await waitFor(() => {
+      const thumbnails = screen.getAllByRole('radio').filter(r =>
+        (r as HTMLButtonElement).getAttribute('aria-label')?.match(/select image/i)
+      );
+      expect(thumbnails.length).toBe(3);
+    });
+
+    // The new generated image URL must appear in an img element
+    const imgs = screen.getAllByRole('img');
+    const generatedImg = imgs.find(
+      (img) => (img as HTMLImageElement).src === 'https://example.com/generated.jpg'
+    );
+    expect(generatedImg).toBeDefined();
+  });
 });

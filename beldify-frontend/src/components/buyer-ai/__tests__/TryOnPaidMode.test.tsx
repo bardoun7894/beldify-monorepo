@@ -30,6 +30,11 @@ vi.mock('@/lib/utils', () => ({
     classes.filter(Boolean).join(' '),
 }));
 
+vi.mock('next/navigation', () => ({
+  usePathname: () => '/products/123',
+  useRouter: () => ({ push: vi.fn() }),
+}));
+
 // ─── service mocks ────────────────────────────────────────────────────────────
 
 const mockFetchTryonConfig = vi.fn();
@@ -175,6 +180,28 @@ describe('TryOnModal — paid mode', () => {
       const link = screen.getByTestId('tryon-signin-link');
       expect(link).toBeInTheDocument();
       expect((link as HTMLAnchorElement).href).toMatch(/login/);
+    });
+  });
+
+  it('paid+guest gate: sign-in link carries the current pathname as redirect param (SSR-safe via usePathname)', async () => {
+    // usePathname mock returns '/products/123' (see mock at top of file)
+    const TryOnModal = await importModal();
+    render(
+      <TryOnModal
+        open={true}
+        onClose={vi.fn()}
+        onHideFeature={vi.fn()}
+        productId="1"
+        onBuyNow={vi.fn()}
+        config={PAID_CONFIG}
+        isAuthenticated={false}
+      />
+    );
+
+    await waitFor(() => {
+      const link = screen.getByTestId('tryon-signin-link') as HTMLAnchorElement;
+      // Must encode /products/123 as redirect param
+      expect(link.href).toContain(encodeURIComponent('/products/123'));
     });
   });
 
