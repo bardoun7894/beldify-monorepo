@@ -102,7 +102,7 @@ export default function VerticalProductForm({
   showErrors = false,
 }: VerticalProductFormProps) {
   const { t, i18n } = useTranslation();
-  const isRTL = i18n.language === 'ar';
+  const isRTL = i18n.language === 'ar' || i18n.language === 'ma';
 
   const [fields, setFields] = useState<VerticalField[]>([]);
   const [loading, setLoading] = useState(false);

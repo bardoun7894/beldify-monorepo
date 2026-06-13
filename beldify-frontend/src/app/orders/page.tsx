@@ -41,7 +41,7 @@ export default function OrdersPage() {
   const { t, i18n } = useTranslation();
   const searchParams = useSearchParams();
   const router = useRouter();
-  const isRTL = i18n.language === 'ar';
+  const isRTL = i18n.language === 'ar' || i18n.language === 'ma';
   const shouldReduceMotion = useReducedMotion();
   const [statusFilter, setStatusFilter] = useState<'all' | 'pending' | 'processing' | 'shipped' | 'delivered' | 'cancelled'>('all');
   const [query, setQuery] = useState('');
@@ -58,7 +58,7 @@ export default function OrdersPage() {
       }
       const skippedNote =
         result.items_skipped > 0
-          ? i18n.language === 'ar'
+          ? (i18n.language === 'ar' || i18n.language === 'ma')
             ? ` (${result.items_skipped} منتج غير متوفر)`
             : ` (${result.items_skipped} item${result.items_skipped > 1 ? 's' : ''} out of stock)`
           : '';
@@ -466,13 +466,13 @@ export default function OrdersPage() {
                         onClick={() => handleReorder(order.order_number, order.id)}
                         disabled={reorderingId === order.id}
                         className="inline-flex items-center gap-1.5 px-4 py-2.5 border border-indigo-200 text-indigo-700 text-sm font-medium rounded-2xl hover:bg-indigo-50 transition-all duration-200 flex-shrink-0 focus:ring-2 focus:ring-indigo-700/30 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed"
-                        aria-label={i18n.language === 'ar' ? 'اشترِ مرة أخرى' : 'Buy it again'}
+                        aria-label={(i18n.language === 'ar' || i18n.language === 'ma') ? 'اشترِ مرة أخرى' : 'Buy it again'}
                       >
                         <RefreshCw
                           className={`w-3.5 h-3.5 ${reorderingId === order.id ? 'animate-spin' : ''}`}
                           strokeWidth={2}
                         />
-                        {i18n.language === 'ar' ? 'اشترِ مرة أخرى' : 'Buy it again'}
+                        {(i18n.language === 'ar' || i18n.language === 'ma') ? 'اشترِ مرة أخرى' : 'Buy it again'}
                       </button>
                       <Link
                         href={`/orders/${order.order_number}`}

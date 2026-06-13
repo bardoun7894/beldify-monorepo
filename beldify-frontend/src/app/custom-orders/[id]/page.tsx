@@ -24,7 +24,7 @@ const playfair = { fontFamily: '"Playfair Display", ui-serif, Georgia, serif' };
 
 export default function CustomOrderTrackingPage() {
   const { t, i18n } = useTranslation();
-  const isRTL = i18n.language === 'ar';
+  const isRTL = i18n.language === 'ar' || i18n.language === 'ma';
   const params = useParams();
   const id = params ? Number(params.id) : null;
 

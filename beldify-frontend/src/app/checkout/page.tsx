@@ -1727,7 +1727,7 @@ export default function CheckoutPage() {
             <div className="relative w-12 h-12 flex-shrink-0 rounded-xl ring-1 ring-amber-200 overflow-hidden bg-amber-50">
               <Image
                 src={getImageUrl(buyNowItem.image, '/placeholder.png')}
-                alt={(i18n.language === 'ar' ? buyNowItem.name_ar : undefined) || buyNowItem.name || t('checkout.summary.product_image_alt')}
+                alt={((i18n.language === 'ar' || i18n.language === 'ma') ? buyNowItem.name_ar : undefined) || buyNowItem.name || t('checkout.summary.product_image_alt')}
                 fill
                 className="object-cover"
                 sizes="48px"
@@ -1738,7 +1738,7 @@ export default function CheckoutPage() {
             </div>
             <div className="flex-1 min-w-0">
               <p className="text-sm font-medium text-gray-900 truncate">
-                {(i18n.language === 'ar' ? buyNowItem.name_ar : undefined) || buyNowItem.name}
+                {((i18n.language === 'ar' || i18n.language === 'ma') ? buyNowItem.name_ar : undefined) || buyNowItem.name}
               </p>
             </div>
             <span className="text-sm font-semibold text-indigo-700 flex-shrink-0 tabular-nums currency-mad">
@@ -1749,7 +1749,7 @@ export default function CheckoutPage() {
           // ── Authenticated cart path ────────────────────────────────────────
           cartState!.items.map((item) => {
             const productName =
-              i18n.language === 'ar' ? item.product.name_ar : item.product.name;
+              (i18n.language === 'ar' || i18n.language === 'ma') ? item.product.name_ar : item.product.name;
             return (
               <li key={item.id} className="flex items-center gap-3">
                 <div className="relative w-12 h-12 flex-shrink-0 rounded-xl ring-1 ring-amber-200 overflow-hidden bg-amber-50">

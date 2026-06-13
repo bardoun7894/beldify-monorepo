@@ -30,7 +30,7 @@ export interface CustomOrderTimelineProps {
 
 export default function CustomOrderTimeline({ order, onAdvanced }: CustomOrderTimelineProps) {
   const { t, i18n } = useTranslation();
-  const isRTL = i18n.language === 'ar';
+  const isRTL = i18n.language === 'ar' || i18n.language === 'ma';
 
   const [selectedNext, setSelectedNext] = useState<CustomOrderStatus | ''>('');
   const [note, setNote] = useState('');

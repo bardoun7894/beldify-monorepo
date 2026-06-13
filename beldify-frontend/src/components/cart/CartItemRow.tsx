@@ -58,10 +58,10 @@ export default function CartItemRow({
   titleStyle,
 }: CartItemRowProps) {
   const { t, i18n } = useTranslation();
-  const isRTL = i18n.language === 'ar';
+  const isRTL = i18n.language === 'ar' || i18n.language === 'ma';
 
   const productName =
-    i18n.language === 'ar' && item.product.name_ar
+    (i18n.language === 'ar' || i18n.language === 'ma') && item.product.name_ar
       ? item.product.name_ar
       : item.product.name;
 

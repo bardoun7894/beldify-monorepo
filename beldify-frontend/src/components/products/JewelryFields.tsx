@@ -53,7 +53,7 @@ export interface JewelryFieldsProps {
 
 export default function JewelryFields({ spec, compact = false }: JewelryFieldsProps) {
   const { t, i18n } = useTranslation();
-  const isRTL = i18n.language === 'ar';
+  const isRTL = i18n.language === 'ar' || i18n.language === 'ma';
 
   // Build ordered list of fields that have a non-null, non-empty value
   const visibleFields = DISPLAY_ORDER

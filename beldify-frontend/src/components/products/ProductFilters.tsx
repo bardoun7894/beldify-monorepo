@@ -86,7 +86,7 @@ export default function ProductFilters({
   onMobileClose,
 }: ProductFiltersProps) {
   const { t, i18n } = useTranslation();
-  const isRTL = i18n.language === 'ar';
+  const isRTL = i18n.language === 'ar' || i18n.language === 'ma';
 
   const toggleFilter = (type: keyof typeof filters, value: any) => {
     if (Array.isArray(filters[type])) {
