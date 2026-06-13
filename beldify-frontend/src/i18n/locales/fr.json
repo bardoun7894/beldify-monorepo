@@ -5177,7 +5177,29 @@
     "notes_label": "Notes",
     "notes_placeholder": "Tous les détails supplémentaires…",
     "sending": "Envoi en cours…",
-    "send_request": "Envoyer la demande"
+    "send_request": "Envoyer la demande",
+    "deposit": {
+      "eyebrow": "Acompte requis",
+      "of_total": "sur {{total}} au total",
+      "subtitle": "Payez l'acompte pour confirmer votre commande personnalisée et démarrer la production.",
+      "choose_method": "Choisissez votre mode de paiement",
+      "method_cod": "Paiement à la livraison",
+      "method_transfer": "Virement bancaire",
+      "cod_description": "Vous paierez l'acompte en espèces à la livraison. Confirmez pour continuer.",
+      "confirm_cod": "Confirmer la commande",
+      "transfer_description": "Transférez le montant de l'acompte et téléchargez votre reçu ci-dessous.",
+      "reference_label": "Référence du virement",
+      "reference_placeholder": "ex. TXN-2026-001",
+      "proof_label": "Preuve de paiement / reçu",
+      "proof_aria": "Télécharger la preuve de paiement ou le reçu",
+      "choose_file": "Choisir le reçu (image ou PDF)",
+      "upload_receipt": "Télécharger le reçu et confirmer",
+      "file_required": "Veuillez joindre votre reçu de virement.",
+      "already_paid": "Acompte payé — votre commande est maintenant en cours.",
+      "success_cod": "Acompte confirmé ! Votre commande est maintenant en cours.",
+      "success_transfer": "Reçu téléchargé — nous le vérifierons sous peu.",
+      "error": "Impossible de traiter le paiement. Veuillez réessayer."
+    }
   },
   "tryon": {
     "button": "L'essayer",

@@ -5177,7 +5177,29 @@
     "notes_label": "Notes",
     "notes_placeholder": "Any additional details…",
     "sending": "Sending…",
-    "send_request": "Send Request"
+    "send_request": "Send Request",
+    "deposit": {
+      "eyebrow": "Deposit Required",
+      "of_total": "of {{total}} total",
+      "subtitle": "Pay the deposit to confirm your custom order and start production.",
+      "choose_method": "Choose payment method",
+      "method_cod": "Cash on Delivery",
+      "method_transfer": "Bank Transfer",
+      "cod_description": "You will pay the deposit in cash when your order is delivered. Confirm to proceed.",
+      "confirm_cod": "Confirm order",
+      "transfer_description": "Transfer the deposit amount and upload your payment receipt below.",
+      "reference_label": "Transfer reference",
+      "reference_placeholder": "e.g. TXN-2026-001",
+      "proof_label": "Payment proof / receipt",
+      "proof_aria": "Upload payment proof or receipt",
+      "choose_file": "Choose receipt (image or PDF)",
+      "upload_receipt": "Upload receipt & confirm",
+      "file_required": "Please attach your transfer receipt.",
+      "already_paid": "Deposit paid — your order is now in progress.",
+      "success_cod": "Deposit confirmed! Your order is now in progress.",
+      "success_transfer": "Receipt uploaded — we will verify it shortly.",
+      "error": "Could not process payment. Please try again."
+    }
   },
   "tryon": {
     "button": "Try it on",

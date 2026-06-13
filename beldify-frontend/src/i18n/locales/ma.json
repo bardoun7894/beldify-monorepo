@@ -5160,7 +5160,29 @@
     "notes_label": "ملاحظات",
     "notes_placeholder": "أي تفاصيل إضافية…",
     "sending": "جاري الإرسال…",
-    "send_request": "بعت الطلب"
+    "send_request": "بعت الطلب",
+    "deposit": {
+      "eyebrow": "العربون مطلوب",
+      "of_total": "من {{total}} كيّاملن",
+      "subtitle": "خلّص العربون باش تأكّد الطلب ديالك وتبدا التصنيع.",
+      "choose_method": "ختار طريقة الخلاص",
+      "method_cod": "خلاص عند التسليم",
+      "method_transfer": "تحويل بنكي",
+      "cod_description": "غادي تخلّص العربون بالنقد ملي يوصلك الطلب. أكّد باش تكمّل.",
+      "confirm_cod": "أكّد الطلب",
+      "transfer_description": "حوّل قيمة العربون وأرفق وصل الخلاص هنا من تحت.",
+      "reference_label": "مرجع التحويل",
+      "reference_placeholder": "مثلاً: TXN-2026-001",
+      "proof_label": "وصل الخلاص / الإثبات",
+      "proof_aria": "حمّل وصل الخلاص",
+      "choose_file": "ختار الوصل (صورة أو PDF)",
+      "upload_receipt": "حمّل الوصل وأكّد",
+      "file_required": "من فضلك أرفق وصل التحويل.",
+      "already_paid": "تخلّص العربون — الطلب ديالك كيتصنع دابا.",
+      "success_cod": "تأكّد العربون! الطلب ديالك كيتصنع دابا.",
+      "success_transfer": "الوصل تحمّل — غادي نتحققو منه قريباً.",
+      "error": "ما قدرناش نكمّلو الخلاص. عاود المحاولة."
+    }
   },
   "tryon": {
     "button": "جرّبه",

@@ -1,24 +1,29 @@
 'use client';
 
 /**
- * T036 — Buyer: made-to-order tracking page
+ * T036 — Buyer: made-to-order tracking page (extended for Open Souk OS-P1-8)
  *
  * Route: /custom-orders/[id]
  * Fetches GET /api/v1/custom-orders/{id} and renders:
  * - Status + quote details (quote_amount, eta)
+ * - Deposit payment panel (quoted orders, buyer only) — DepositPaymentPanel
  * - Progress timeline via MadeToOrderTimeline
+ *
+ * Ownership is inferred from order.customer.id vs auth user.id.
+ * Non-buyer: deposit panel is hidden (403 guard is enforced server-side too).
  *
  * LIVE WIRING (WS-A): fetchCustomOrder in customOrderService.ts (USE_MOCK flag)
  */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
-import { ArrowLeft, Loader2, XCircle } from 'lucide-react';
+import { ArrowLeft, Loader2, XCircle, ExternalLink } from 'lucide-react';
 import { fetchCustomOrder, CustomOrder } from '@/services/customOrderService';
 import MadeToOrderTimeline from '@/components/checkout/MadeToOrderTimeline';
+import DepositPaymentPanel from '@/components/checkout/DepositPaymentPanel';
 import JewelryFields from '@/components/products/JewelryFields';
-import { cn } from '@/lib/utils';
+import { useAuth } from '@/contexts/AuthContext';
 
 const playfair = { fontFamily: '"Playfair Display", ui-serif, Georgia, serif' };
 
@@ -28,11 +33,13 @@ export default function CustomOrderTrackingPage() {
   const params = useParams();
   const id = params ? Number(params.id) : null;
 
+  const { user } = useAuth();
+
   const [order, setOrder] = useState<CustomOrder | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
+  const loadOrder = useCallback(() => {
     if (!id || isNaN(id)) {
       setError(t('customOrders.error.invalid_id', 'Invalid order ID.'));
       setLoading(false);
@@ -44,7 +51,11 @@ export default function CustomOrderTrackingPage() {
       .then(data => setOrder(data))
       .catch(() => setError(t('customOrders.error.load_order', 'Failed to load order.')))
       .finally(() => setLoading(false));
-  }, [id, t]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [id, t]);
+
+  useEffect(() => {
+    loadOrder();
+  }, [loadOrder]);
 
   if (loading) {
     return (
@@ -75,6 +86,12 @@ export default function CustomOrderTrackingPage() {
 
   const isJewelry = order.vertical === 'jewelry';
 
+  // Determine buyer ownership: compare auth user id with order.customer.id
+  const isBuyer = !!user && Number(user.id) === order.customer.id;
+
+  // Back link — if order has a community_post_id, offer "Back to post" too
+  const communityPostId = (order as CustomOrder & { community_post_id?: number | null }).community_post_id;
+
   return (
     <div className="min-h-screen bg-canvas pb-20" dir={isRTL ? 'rtl' : 'ltr'}>
       {/* ── Header ── */}
@@ -87,19 +104,40 @@ export default function CustomOrderTrackingPage() {
           >
             <ArrowLeft className="h-5 w-5 rtl:rotate-180 text-gray-600" aria-hidden />
           </Link>
-          <div>
+          <div className="flex-1 min-w-0">
             <p className="text-xs uppercase tracking-[0.18em] text-amber-700 font-medium">
               {t('customOrders.tracking_eyebrow', 'Order Tracking')} · #{order.id}
             </p>
-            <h1 className="text-xl font-bold text-gray-900" style={isRTL ? undefined : playfair}>
+            <h1 className="text-xl font-bold text-gray-900 truncate" style={isRTL ? undefined : playfair}>
               {order.store.name}
             </h1>
           </div>
+          {/* Link back to the originating Open Souk post */}
+          {communityPostId && (
+            <Link
+              href={`/community/posts/${communityPostId}`}
+              className="shrink-0 inline-flex items-center gap-1.5 text-xs text-indigo-700 hover:text-indigo-900 font-medium transition-colors"
+            >
+              <ExternalLink className="h-3.5 w-3.5" aria-hidden />
+              {t('community.back_to_post', 'Back to Post')}
+            </Link>
+          )}
         </div>
       </header>
 
       {/* ── Body ── */}
       <main className="max-w-xl mx-auto px-6 pt-8 space-y-6">
+        {/* ── Deposit payment panel (quoted status, buyer only) ── */}
+        {order.status === 'quoted' && (
+          <DepositPaymentPanel
+            order={order as CustomOrder & { community_post_id?: number | null; post_response_id?: number | null }}
+            isBuyer={isBuyer}
+            onSuccess={(updated) => {
+              setOrder(updated);
+            }}
+          />
+        )}
+
         {/* Spec summary */}
         {isJewelry && (
           <JewelryFields spec={order.spec} />

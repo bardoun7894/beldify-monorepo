@@ -299,6 +299,56 @@ export async function advanceCustomOrder(id: number, payload: AdvancePayload): P
   return res.data.data;
 }
 
+// ─────────────────────────────────────────────────────────────────────────────
+// Deposit payment (Open Souk buyer journey — OS-P1-8)
+// ─────────────────────────────────────────────────────────────────────────────
+
+/** COD deposit payload */
+export interface DepositPaymentCodPayload {
+  method: 'cod';
+}
+
+/** Bank-transfer deposit payload */
+export interface DepositPaymentTransferPayload {
+  method: 'bank_transfer';
+  reference?: string;
+  file: File;
+}
+
+export type DepositPaymentPayload = DepositPaymentCodPayload | DepositPaymentTransferPayload;
+
+/**
+ * Buyer: pay the deposit for a quoted custom-order (Open Souk deal flow).
+ * POST /api/v1/custom-orders/{id}/deposit-payment
+ *
+ * COD → JSON body {method:'cod'}
+ * Bank transfer → multipart/form-data {method, reference?, file}
+ *
+ * Errors surfaced to caller: 403 not-the-buyer, 409 not-in-quoted-status, 422 missing-file
+ */
+export async function payDeposit(id: number, payload: DepositPaymentPayload): Promise<CustomOrder> {
+  if (payload.method === 'cod') {
+    const res = await api.post<{ data: CustomOrder }>(
+      `/api/v1/custom-orders/${id}/deposit-payment`,
+      { method: 'cod' }
+    );
+    return res.data.data;
+  }
+
+  // bank_transfer — multipart
+  const fd = new FormData();
+  fd.append('method', 'bank_transfer');
+  if (payload.reference) fd.append('reference', payload.reference);
+  fd.append('file', payload.file);
+
+  const res = await api.post<{ data: CustomOrder }>(
+    `/api/v1/custom-orders/${id}/deposit-payment`,
+    fd,
+    { headers: { 'Content-Type': 'multipart/form-data' } }
+  );
+  return res.data.data;
+}
+
 export const customOrderService = {
   submitCustomOrder,
   fetchCustomOrder,
@@ -306,4 +356,5 @@ export const customOrderService = {
   fetchSellerCustomOrders,
   submitQuote,
   advanceCustomOrder,
+  payDeposit,
 };

@@ -5177,7 +5177,29 @@
     "notes_label": "ملاحظات",
     "notes_placeholder": "أي تفاصيل إضافية…",
     "sending": "جارٍ الإرسال…",
-    "send_request": "إرسال الطلب"
+    "send_request": "إرسال الطلب",
+    "deposit": {
+      "eyebrow": "العربون مطلوب",
+      "of_total": "من أصل {{total}}",
+      "subtitle": "ادفع العربون لتأكيد طلبك المخصص وبدء الإنتاج.",
+      "choose_method": "اختر طريقة الدفع",
+      "method_cod": "الدفع عند الاستلام",
+      "method_transfer": "تحويل بنكي",
+      "cod_description": "ستدفع العربون نقداً عند استلام طلبك. أكّد للمتابعة.",
+      "confirm_cod": "تأكيد الطلب",
+      "transfer_description": "حوّل مبلغ العربون وأرفق إيصال الدفع أدناه.",
+      "reference_label": "مرجع التحويل",
+      "reference_placeholder": "مثال: TXN-2026-001",
+      "proof_label": "إثبات الدفع / الوصل",
+      "proof_aria": "ارفع إثبات الدفع أو الوصل",
+      "choose_file": "اختر الوصل (صورة أو PDF)",
+      "upload_receipt": "ارفع الوصل وأكّد",
+      "file_required": "يرجى إرفاق وصل التحويل.",
+      "already_paid": "تم دفع العربون — طلبك قيد التنفيذ الآن.",
+      "success_cod": "تم تأكيد العربون! طلبك قيد التنفيذ الآن.",
+      "success_transfer": "تم رفع الوصل — سنتحقق منه قريباً.",
+      "error": "تعذّر معالجة الدفع. يرجى المحاولة مجدداً."
+    }
   },
   "tryon": {
     "button": "جرّبه عليك",

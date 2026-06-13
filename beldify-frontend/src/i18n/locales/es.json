@@ -5192,7 +5192,29 @@
     "notes_label": "Notas",
     "notes_placeholder": "Cualquier detalle adicional…",
     "sending": "Enviando…",
-    "send_request": "Enviar Solicitud"
+    "send_request": "Enviar Solicitud",
+    "deposit": {
+      "eyebrow": "Depósito requerido",
+      "of_total": "de {{total}} en total",
+      "subtitle": "Paga el depósito para confirmar tu pedido personalizado e iniciar la producción.",
+      "choose_method": "Elige el método de pago",
+      "method_cod": "Pago contra entrega",
+      "method_transfer": "Transferencia bancaria",
+      "cod_description": "Pagarás el depósito en efectivo al recibir tu pedido. Confirma para continuar.",
+      "confirm_cod": "Confirmar pedido",
+      "transfer_description": "Transfiere el monto del depósito y sube tu comprobante de pago a continuación.",
+      "reference_label": "Referencia de la transferencia",
+      "reference_placeholder": "ej. TXN-2026-001",
+      "proof_label": "Comprobante de pago / recibo",
+      "proof_aria": "Subir comprobante de pago o recibo",
+      "choose_file": "Elegir recibo (imagen o PDF)",
+      "upload_receipt": "Subir recibo y confirmar",
+      "file_required": "Por favor adjunta tu comprobante de transferencia.",
+      "already_paid": "Depósito pagado — tu pedido está ahora en progreso.",
+      "success_cod": "¡Depósito confirmado! Tu pedido está ahora en progreso.",
+      "success_transfer": "Recibo subido — lo verificaremos en breve.",
+      "error": "No se pudo procesar el pago. Por favor, inténtalo de nuevo."
+    }
   },
   "tryon": {
     "button": "Probarlo",
