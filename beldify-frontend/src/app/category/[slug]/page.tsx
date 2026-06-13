@@ -42,7 +42,7 @@ export default function CategoryPage() {
   const { t, i18n } = useTranslation();
   const params = useParams();
   const slug = typeof params === 'object' && params !== null ? (params as any).slug : '';
-  const isRTL = i18n.language === 'ar';
+  const isRTL = i18n.language === 'ar' || i18n.language === 'ma';
 
   const [categoryData, setCategoryData] = useState<CategoryData | null>(null);
   const [loading, setLoading] = useState(true);

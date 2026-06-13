@@ -29,7 +29,7 @@ const playfair = { fontFamily: '"Playfair Display", ui-serif, Georgia, serif' };
 
 export default function SellerCustomOrdersPage() {
   const { t, i18n } = useTranslation();
-  const isRTL = i18n.language === 'ar';
+  const isRTL = i18n.language === 'ar' || i18n.language === 'ma';
 
   const [orders, setOrders] = useState<CustomOrderListItem[]>([]);
   const [selectedId, setSelectedId] = useState<number | null>(null);

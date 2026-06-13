@@ -68,7 +68,7 @@ const SELLER_ENTER_URL = `${process.env.NEXT_PUBLIC_API_URL}/seller/enter`;
 export default function SellerRegisterPage() {
   const { t, i18n } = useTranslation();
   const { isAuthenticated, user } = useAuth();
-  const isRTL = i18n.language === 'ar';
+  const isRTL = i18n.language === 'ar' || i18n.language === 'ma';
 
   const [form, setForm] = useState<FormState>(initialForm);
   const [isSubmitting, setIsSubmitting] = useState(false);

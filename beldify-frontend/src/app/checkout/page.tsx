@@ -158,7 +158,7 @@ export default function CheckoutPage() {
   const { state: cartState, clearCart } = useCart();
   const { t, i18n } = useTranslation();
   const { user, isAuthenticated } = useAuth();
-  const isRTL = i18n.language === 'ar';
+  const isRTL = i18n.language === 'ar' || i18n.language === 'ma';
   const { triggerOnCheckout } = usePWATriggers();
 
   // ── Buy-now guest mode ────────────────────────────────────────────────────
