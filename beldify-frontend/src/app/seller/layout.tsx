@@ -17,6 +17,7 @@ import {
   ArrowRight,
   MessageSquare,
   Sparkles,
+  Wallet,
 } from 'lucide-react';
 import { getSellerUnreadCount } from '@/services/messagingService';
 import { getSellerCredits } from '@/services/sellerCreditService';
@@ -107,6 +108,7 @@ function buildNavItems(
     { label: t('seller.nav.orders', 'Orders'), href: '/seller/orders', icon: ShoppingBag },
     { label: t('seller.nav.custom_orders', 'Custom Orders'), href: '/seller/custom-orders', icon: ClipboardList },
     { label: t('seller.nav.earnings', 'Earnings'), href: '/seller/earnings', icon: DollarSign },
+    { label: t('seller.nav.payouts', 'Payouts'), href: '/seller/payouts', icon: Wallet },
     { label: t('seller.nav.store_settings', 'Store Settings'), href: '/seller/store-settings', icon: Settings },
     { label: t('seller.nav.profile', 'Profile'), href: '/seller/profile', icon: User },
     { label: t('seller.nav.messages', 'Messages'), href: '/seller/messages', icon: MessageSquare },
@@ -119,7 +121,7 @@ export default function SellerLayout({ children }: { children: React.ReactNode }
   const { t, i18n } = useTranslation();
   const pathname = usePathname();
   const router = useRouter();
-  const { isAuthenticated, user } = useAuth();
+  const { isAuthenticated, user, loading } = useAuth();
   const isRTL = i18n.language === 'ar' || i18n.language === 'ma';
   const sellerUnreadCount = useSellerUnreadCount();
   const creditBalance = useSellerCreditBalance();
@@ -130,13 +132,17 @@ export default function SellerLayout({ children }: { children: React.ReactNode }
   }
 
   // ── Auth guard ────────────────────────────────────────────────────────────
+  if (loading) return null;
   if (!isAuthenticated) {
     router.push(`/login?redirect=${pathname}`);
     return null;
   }
 
   // ── Seller role guard ─────────────────────────────────────────────────────
-  const isSeller = user?.role === 'seller' || (user as any)?.is_seller === true;
+  const isSeller =
+    user?.role === 'store_owner' ||
+    user?.role === 'seller' ||
+    (user as any)?.is_seller === true;
   if (!isSeller) {
     return (
       <div

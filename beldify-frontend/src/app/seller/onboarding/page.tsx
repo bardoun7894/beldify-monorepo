@@ -96,8 +96,6 @@ export default function SellerOnboardingPage() {
     );
   }
 
-  const isSeller = user?.role === 'seller' || (user as any)?.is_seller === true;
-
   // ── Not started — redirect to register ───────────────────────────────────
   if (status.store_status === 'not_started') {
     return (

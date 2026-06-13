@@ -219,7 +219,10 @@ export default function SellerRegisterPage() {
   }
 
   // ── Authenticated — already a seller (user has seller role) ──────────────
-  const isSeller = user?.role === 'seller' || (user as any)?.is_seller === true;
+  const isSeller =
+    user?.role === 'store_owner' ||
+    user?.role === 'seller' ||
+    (user as any)?.is_seller === true;
   if (isAuthenticated && isSeller) {
     return (
       <div className={`min-h-screen bg-canvas ${isRTL ? 'rtl' : 'ltr'}`} dir={isRTL ? 'rtl' : 'ltr'}>
