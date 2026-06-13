@@ -61,7 +61,7 @@ export interface UpdateBankDetailsResult {
 /** Error payload returned by the backend on 422 */
 export interface PayoutErrorPayload {
   error: string;
-  code: 'below_min' | 'above_available' | 'no_bank_details' | 'open_request_exists';
+  code: 'below_min' | 'above_available' | 'no_bank_details' | 'open_request_exists' | 'disabled';
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
