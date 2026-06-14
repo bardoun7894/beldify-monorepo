@@ -38,6 +38,7 @@ import { CommunityPost, CommunityResponse, CommunityImage } from '@/types/commun
 import { S3_CONFIG, API_BASE_URL } from '@/config/constants';
 import LoadingSpinner from '@/components/common/LoadingSpinner';
 import ResponseCard from '@/components/community/ResponseCard';
+import { ProposalAiRanking } from '@/components/community/ProposalAiRanking';
 import { formatDistanceToNow } from 'date-fns';
 import { ar } from 'date-fns/locale';
 
@@ -809,6 +810,15 @@ export default function PostDetailPage() {
                   {t('community.proposal_already_submitted', 'You have already submitted a proposal for this job.')}
                 </p>
               </div>
+            )}
+
+            {/* AI Proposal Ranking — owner-only, shown above the proposals list */}
+            {isMyPost && responses.length > 0 && (
+              <ProposalAiRanking
+                postId={Number(postId)}
+                isOwner={isMyPost}
+                isRTL={isRTL}
+              />
             )}
 
             {/* Proposals list */}

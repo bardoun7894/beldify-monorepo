@@ -5327,5 +5327,25 @@
     "no_bank_details": "Ajoutez vos coordonnées bancaires pour demander un virement.",
     "open_request_exists": "Vous avez déjà une demande ouverte.",
     "below_min": "Le solde est inférieur au montant minimum de virement."
+  },
+  "opensoukAi": {
+    "draft_cta": "Rédiger avec l'IA",
+    "draft_generating": "Rédaction…",
+    "draft_prelude": "Besoin d'un coup de pouce ?",
+    "draft_region_label": "Brouillon IA",
+    "draft_unavailable": "La rédaction IA est actuellement indisponible.",
+    "draft_error": "Impossible de générer un brouillon. Veuillez réessayer.",
+    "draft_error_suspended": "La rédaction IA n'est pas disponible pour votre compte.",
+    "rank_cta": "Classer avec l'IA",
+    "rank_loading": "Classement…",
+    "rank_title": "Classement IA des propositions",
+    "rank_region_label": "Classement IA",
+    "rank_hint": "Cliquez sur \"Classer avec l'IA\" pour voir quelles propositions correspondent le mieux à votre brief.",
+    "rank_summary_label": "Résumé IA",
+    "rank_error": "Impossible de classer les propositions. Veuillez réessayer.",
+    "rank_error_forbidden": "Vous n'avez pas accès au classement de ces propositions.",
+    "view_proposal": "Voir la proposition",
+    "view_proposal_aria": "Voir la proposition #{{id}}",
+    "rank_unavailable": "Le classement IA n'est pas disponible actuellement."
   }
 }

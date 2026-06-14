@@ -34,6 +34,8 @@ export default defineConfig({
       ['src/components/buyer-ai/__tests__/**', 'jsdom'],
       // seller component tests
       ['src/components/seller/__tests__/**', 'jsdom'],
+      // community component tests (ProposalAiDraft, ProposalAiRanking)
+      ['src/components/community/__tests__/**', 'jsdom'],
     ],
   },
 });

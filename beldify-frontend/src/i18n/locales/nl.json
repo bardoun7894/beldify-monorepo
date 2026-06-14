@@ -5305,5 +5305,25 @@
     "no_bank_details": "Voeg je bankgegevens toe om een uitbetaling aan te vragen.",
     "open_request_exists": "Je hebt al een openstaande aanvraag.",
     "below_min": "Saldo is lager dan het minimale uitbetalingsbedrag."
+  },
+  "opensoukAi": {
+    "draft_cta": "Concept met AI",
+    "draft_generating": "Conceptschrijven…",
+    "draft_prelude": "Een vliegende start nodig?",
+    "draft_region_label": "AI-concept",
+    "draft_unavailable": "AI-conceptschrijven is momenteel niet beschikbaar.",
+    "draft_error": "Kon geen concept genereren. Probeer opnieuw.",
+    "draft_error_suspended": "AI-conceptschrijven is niet beschikbaar voor uw account.",
+    "rank_cta": "Rangschikken met AI",
+    "rank_loading": "Rangschikken…",
+    "rank_title": "AI-rangschikking van voorstellen",
+    "rank_region_label": "AI-rangschikking",
+    "rank_hint": "Klik op \"Rangschikken met AI\" om te zien welke voorstellen het beste bij uw brief passen.",
+    "rank_summary_label": "AI-samenvatting",
+    "rank_error": "Kon voorstellen niet rangschikken. Probeer opnieuw.",
+    "rank_error_forbidden": "U heeft geen toegang om deze voorstellen te rangschikken.",
+    "view_proposal": "Voorstel bekijken",
+    "view_proposal_aria": "Voorstel bekijken #{{id}}",
+    "rank_unavailable": "AI-rangschikking is momenteel niet beschikbaar."
   }
 }

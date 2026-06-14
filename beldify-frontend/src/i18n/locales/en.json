@@ -5327,5 +5327,25 @@
     "no_bank_details": "Add your bank account details to request a payout.",
     "open_request_exists": "You already have an open request pending.",
     "below_min": "Balance is below the minimum payout amount."
+  },
+  "opensoukAi": {
+    "draft_cta": "Draft with AI",
+    "draft_generating": "Drafting…",
+    "draft_prelude": "Need a head start?",
+    "draft_region_label": "AI Draft",
+    "draft_unavailable": "AI drafting is currently unavailable.",
+    "draft_error": "Could not generate a draft. Please try again.",
+    "draft_error_suspended": "AI drafting is unavailable for your account.",
+    "rank_cta": "Rank with AI",
+    "rank_loading": "Ranking…",
+    "rank_title": "AI Proposal Ranking",
+    "rank_region_label": "AI Ranking",
+    "rank_hint": "Click “Rank with AI” to see which proposals best match your brief.",
+    "rank_summary_label": "AI Summary",
+    "rank_error": "Could not rank proposals. Please try again.",
+    "rank_error_forbidden": "You do not have access to rank these proposals.",
+    "view_proposal": "View proposal",
+    "view_proposal_aria": "View proposal #{{id}}",
+    "rank_unavailable": "AI ranking is currently unavailable."
   }
 }
