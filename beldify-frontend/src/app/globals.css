@@ -481,6 +481,19 @@
   display: none;
 }
 
+/* §13.0 Hero Swiper pagination dots — Atlas token-driven, no inline <style> hacks */
+.hero-swiper .swiper-pagination-bullet {
+  background: rgba(255, 255, 255, 0.4);
+  opacity: 1;
+  width: 8px;
+  height: 8px;
+  transition: background 200ms, transform 200ms;
+}
+.hero-swiper .swiper-pagination-bullet-active {
+  background: hsl(var(--secondary));
+  transform: scale(1.25);
+}
+
 /* §13 Embroidery / zellige motif overlays — 10–15% opacity, static */
 .bg-motif-zellige {
   background-image: url('/motifs/zellige-tile.svg');

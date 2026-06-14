@@ -186,8 +186,7 @@ describe('UNIT 2 — sellerService exists', () => {
 // ─────────────────────────────────────────────────────────────────────────────
 describe('UNIT 4 — Homepage i18n extraction', () => {
   const homeContentPath = 'src/components/home/HomeContent.tsx';
-  // Hero i18n keys moved to BrandHeroSlide (extracted in hero-admin-switch feature)
-  const brandHeroSlidePath = 'src/components/home/BrandHeroSlide.tsx';
+  // FR5: BrandHeroSlide.tsx deleted. Hero i18n keys live in SplitCanvasSlide.tsx.
   const pagePath = 'src/app/page.tsx';
 
   it('HomeContent.tsx exists at src/components/home/HomeContent.tsx', () => {
@@ -205,14 +204,15 @@ describe('UNIT 4 — Homepage i18n extraction', () => {
     expect(content).toMatch(/useTranslation/);
   });
 
-  it('CampaignArtSlides.tsx calls t() for home.hero art slide keys (photo hero replaced by art slides)', () => {
-    // After campaign-art overhaul, BrandHeroSlide is a shim; hero i18n keys live in CampaignArtSlides
-    const content = read('src/components/home/CampaignArtSlides.tsx');
-    expect(content).toContain("home.hero.art_slide1_headline");
+  it('SplitCanvasSlide.tsx calls t() for home.trust.free_delivery (art slide 1 eyebrow key)', () => {
+    // FR5: CampaignArtSlides.tsx deleted. Hero art slide i18n keys live in SplitCanvasSlide.tsx.
+    const content = read('src/components/home/SplitCanvasSlide.tsx');
+    expect(content).toContain("home.trust.free_delivery");
   });
 
-  it('CampaignArtSlides.tsx uses useTranslation for all hero copy (no hardcoded strings)', () => {
-    const content = read('src/components/home/CampaignArtSlides.tsx');
+  it('SplitCanvasSlide.tsx uses useTranslation for all art variant hero copy (no hardcoded strings)', () => {
+    // FR5: CampaignArtSlides.tsx deleted. useTranslation moved to SplitCanvasSlide art variants.
+    const content = read('src/components/home/SplitCanvasSlide.tsx');
     expect(content).toContain("useTranslation");
   });
 

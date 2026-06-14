@@ -12,8 +12,8 @@ const SRC = join(ROOT, 'src');
 
 const page = () => readFileSync(join(SRC, 'app/page.tsx'), 'utf-8');
 const home = () => readFileSync(join(SRC, 'components/home/HomeContent.tsx'), 'utf-8');
-// Hero JSX was extracted to BrandHeroSlide; height tests check there now.
-const brandHeroSlide = () => readFileSync(join(SRC, 'components/home/BrandHeroSlide.tsx'), 'utf-8');
+// FR5: BrandHeroSlide.tsx deleted. Height tests check HeroSection + SplitCanvasSlide now.
+const heroSectionContent = () => readFileSync(join(SRC, 'components/home/HeroSection.tsx'), 'utf-8');
 const discoverPath = join(SRC, 'components/home/DiscoverFeed.tsx');
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -25,19 +25,13 @@ describe('Task 1 — Hero height compact (mobile ≤38vh, desktop ≤45vh)', () 
   });
 
   it('uses a compact hero height class (38vh mobile)', () => {
-    // After campaign-art overhaul, compact heights live in CampaignArtSlides or HeroSection
-    const heroSection = readFileSync(join(SRC, 'components/home/HeroSection.tsx'), 'utf-8');
-    const campaignArtSlides = readFileSync(join(SRC, 'components/home/CampaignArtSlides.tsx'), 'utf-8');
-    const combined = heroSection + campaignArtSlides;
-    expect(combined).toMatch(/min-h-\[38vh\]|h-\[260px\]|h-\[340px\]/);
+    // FR5: CampaignArtSlides.tsx deleted. Compact heights now live in HeroSection.tsx only.
+    expect(heroSectionContent()).toMatch(/min-h-\[38vh\]|h-\[260px\]|h-\[340px\]/);
   });
 
   it('uses a compact hero height for desktop (45vh)', () => {
-    // After campaign-art overhaul, compact heights live in CampaignArtSlides or HeroSection
-    const heroSection = readFileSync(join(SRC, 'components/home/HeroSection.tsx'), 'utf-8');
-    const campaignArtSlides = readFileSync(join(SRC, 'components/home/CampaignArtSlides.tsx'), 'utf-8');
-    const combined = heroSection + campaignArtSlides;
-    expect(combined).toMatch(/lg:min-h-\[45vh\]|lg:h-\[400px\]/);
+    // FR5: CampaignArtSlides.tsx deleted. Compact heights now live in HeroSection.tsx only.
+    expect(heroSectionContent()).toMatch(/lg:min-h-\[45vh\]|lg:h-\[400px\]/);
   });
 });
 

@@ -23,7 +23,7 @@ import OpenSoukHero from '@/components/home/OpenSoukHero';
 import HeroSection from '@/components/home/HeroSection';
 import MegaOffers from '@/components/MegaOffers';
 import type { HeroConfig } from '@/components/home/HeroSection';
-import type { HeroProductItem } from '@/components/home/ProductHeroSlides';
+import type { HeroProductItem } from '@/components/home/heroCompose';
 import DiscoverFeed from '@/components/home/DiscoverFeed';
 import LoadingSpinner from '@/components/common/LoadingSpinner';
 import Newsletter from '@/components/Newsletter';
@@ -144,7 +144,7 @@ export default function HomeContent({ categories, data, openSoukPosts = [], hero
   ];
 
   // ── Hero product filtering ────────────────────────────────────────────────
-  // Build a list of up to 4 product slides for ProductHeroSlides.
+  // Build a list of up to 4 product slides for the hero carousel.
   // Rules (defensive — backend now filters, but keep client-side guard):
   //  1. Pull from bestSellers first, fall back to newArrivals
   //  2. Filter out items without a real image:
@@ -152,8 +152,7 @@ export default function HomeContent({ categories, data, openSoukPosts = [], hero
   //     - equals the branded placeholder
   //     - obviously-dead patterns (data:, blob:)
   //  3. Cap at 4 items (carousel max)
-  // HeroSection decides whether to render ProductHeroSlides (≥2 items) or fall
-  // back to CampaignArtSlides (<2 items).
+  // heroCompose receives the filtered list and slots products before art slides.
   const PLACEHOLDER_SVG = 'placeholder-product.svg';
   const isUsableImage = (img?: string | null): boolean => {
     if (!img || img.trim() === '') return false;

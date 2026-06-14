@@ -9,8 +9,8 @@ const pageContent = readFileSync(join(SRC, 'app/page.tsx'), 'utf-8');
 // HomeContent.tsx holds the presentational JSX extracted from page.tsx for i18n.
 // Visual token tests for homepage check homeContent (the presentational layer).
 const homeContent = readFileSync(join(SRC, 'components/home/HomeContent.tsx'), 'utf-8');
-// BrandHeroSlide.tsx is the extracted hero component — hero-specific token tests check here.
-const brandHeroSlideContent = readFileSync(join(SRC, 'components/home/BrandHeroSlide.tsx'), 'utf-8');
+// FR5: BrandHeroSlide.tsx has been deleted. Hero-specific token tests now check SplitCanvasSlide.tsx.
+const splitCanvasContent = readFileSync(join(SRC, 'components/home/SplitCanvasSlide.tsx'), 'utf-8');
 const featuredSectionsContent = readFileSync(join(SRC, 'components/home/FeaturedSections.tsx'), 'utf-8');
 const megaOffersContent = readFileSync(join(SRC, 'components/MegaOffers.tsx'), 'utf-8');
 
@@ -56,13 +56,9 @@ describe('Homepage Atlas redesign — page.tsx', () => {
   });
 
   it('uses animate-fade-in-up or motion-safe animation in hero (defined in globals.css)', () => {
-    // After campaign-art overhaul, BrandHeroSlide is a shim; animation lives in CampaignArtSlides.
+    // FR5: CampaignArtSlides.tsx deleted. Animation now lives in SplitCanvasSlide art variants.
     // The art hero uses motion-safe:animate-pulse on decorative icons and CSS transitions.
-    const campaignArtContent = readFileSync(
-      join(process.cwd(), 'src/components/home/CampaignArtSlides.tsx'),
-      'utf-8'
-    );
-    expect(campaignArtContent).toMatch(/animate-|motion-safe|transition/);
+    expect(splitCanvasContent).toMatch(/animate-|motion-safe|transition/);
   });
 
   it('does not use gradient text background-clip pattern (AI slop)', () => {

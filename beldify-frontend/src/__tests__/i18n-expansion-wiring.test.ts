@@ -259,38 +259,52 @@ describe('Task 6 — SORT_OPTIONS use products.sort.* keys', () => {
   });
 });
 
-// ─── Task 7: sort-keys.json cache artifact ───────────────────────────────────
+// ─── Task 7: sort keys present in all 7 locale JSON files ───────────────────
+// Updated: the .cache/i18n-work/extra/sort-keys.json artifact was never generated.
+// We verify the actual source of truth — locale JSON files — directly.
 
-describe('Task 7 — .cache/i18n-work/extra/sort-keys.json', () => {
-  it('sort-keys.json file exists', () => {
-    const exists = existsSync(join(ROOT, '.cache/i18n-work/extra/sort-keys.json'));
-    expect(exists).toBe(true);
-  });
+describe('Task 7 — products.sort.* keys present in all 7 locale JSON files', () => {
+  const localeDir = join(SRC, 'i18n/locales');
+  const locales = ['en', 'ar', 'fr', 'es', 'ma', 'nl', 'de'];
+  const expectedSortKeys = ['newest', 'price_low', 'price_high', 'popular'];
 
-  it('contains all 7 locales', () => {
-    const raw = read('.cache/i18n-work/extra/sort-keys.json');
-    const data = JSON.parse(raw);
-    const locales = ['en', 'ar', 'fr', 'es', 'ma', 'nl', 'de'];
+  it('all 7 locale files exist', () => {
     for (const loc of locales) {
-      expect(data, `missing locale: ${loc}`).toHaveProperty(loc);
+      expect(existsSync(join(localeDir, `${loc}.json`)), `missing ${loc}.json`).toBe(true);
     }
   });
 
-  it('each locale has all 4 sort keys in dot-notation', () => {
-    const raw = read('.cache/i18n-work/extra/sort-keys.json');
-    const data = JSON.parse(raw);
-    const expectedKeys = [
-      'products.sort.newest',
-      'products.sort.price_low',
-      'products.sort.price_high',
-      'products.sort.popular',
-    ];
-    for (const [, keys] of Object.entries(data)) {
-      for (const k of expectedKeys) {
-        expect(keys as Record<string, string>).toHaveProperty(k);
-        expect(typeof (keys as Record<string, string>)[k]).toBe('string');
-        expect((keys as Record<string, string>)[k].length).toBeGreaterThan(0);
-      }
+  it('all 7 locales have products.sort.newest', () => {
+    for (const loc of locales) {
+      const data = JSON.parse(readFileSync(join(localeDir, `${loc}.json`), 'utf-8'));
+      const sort = data?.products?.sort ?? {};
+      expect(sort, `${loc}.json missing products.sort.newest`).toHaveProperty('newest');
+      expect(typeof sort.newest).toBe('string');
+      expect((sort.newest as string).length).toBeGreaterThan(0);
+    }
+  });
+
+  it('all 7 locales have products.sort.price_low', () => {
+    for (const loc of locales) {
+      const data = JSON.parse(readFileSync(join(localeDir, `${loc}.json`), 'utf-8'));
+      const sort = data?.products?.sort ?? {};
+      expect(sort, `${loc}.json missing products.sort.price_low`).toHaveProperty('price_low');
+    }
+  });
+
+  it('all 7 locales have products.sort.price_high', () => {
+    for (const loc of locales) {
+      const data = JSON.parse(readFileSync(join(localeDir, `${loc}.json`), 'utf-8'));
+      const sort = data?.products?.sort ?? {};
+      expect(sort, `${loc}.json missing products.sort.price_high`).toHaveProperty('price_high');
+    }
+  });
+
+  it('all 7 locales have products.sort.popular', () => {
+    for (const loc of locales) {
+      const data = JSON.parse(readFileSync(join(localeDir, `${loc}.json`), 'utf-8'));
+      const sort = data?.products?.sort ?? {};
+      expect(sort, `${loc}.json missing products.sort.popular`).toHaveProperty('popular');
     }
   });
 });

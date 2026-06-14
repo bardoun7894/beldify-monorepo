@@ -9,8 +9,8 @@ const pageContent = readFileSync(join(SRC, 'app/page.tsx'), 'utf-8');
 // HomeContent.tsx holds the presentational JSX extracted from page.tsx for i18n.
 // Tests checking visual tokens / JSX content of the homepage must read homeContent.
 const homeContent = readFileSync(join(SRC, 'components/home/HomeContent.tsx'), 'utf-8');
-// Hero-specific tokens now live in BrandHeroSlide (extracted from HomeContent).
-const brandHeroSlideContent = readFileSync(join(SRC, 'components/home/BrandHeroSlide.tsx'), 'utf-8');
+// FR5: BrandHeroSlide.tsx deleted. Hero-specific tokens now live in SplitCanvasSlide.tsx.
+const splitCanvasContent = readFileSync(join(SRC, 'components/home/SplitCanvasSlide.tsx'), 'utf-8');
 const featuredSectionsContent = readFileSync(join(SRC, 'components/home/FeaturedSections.tsx'), 'utf-8');
 
 describe('P1 — FeaturedSections single source of truth (props, not client re-fetch)', () => {
@@ -43,18 +43,10 @@ describe('P1 — two product sections are visually differentiated (not identical
 
 describe('P2 — hero overlay gradient is RTL-aware (logical, tracks text alignment)', () => {
   it('overrides the gradient direction under dir=rtl so the dark stop sits under end-aligned copy', () => {
-    // After campaign-art overhaul, BrandHeroSlide is a shim; RTL-aware gradient is now in
-    // CampaignArtSlides (art slides use logical properties) or HeroSection.
-    // The art slides use start/end logical classes which are inherently RTL-safe.
-    // We verify that the hero system does not use raw left/right CSS direction classes.
-    const campaignArtContent = readFileSync(
-      join(ROOT, 'src/components/home/CampaignArtSlides.tsx'),
-      'utf-8'
-    );
-    // Art slides must NOT use non-logical gradient direction (bg-gradient-to-l or bg-gradient-to-r
-    // with hard-coded LTR assumption); logical properties or gradient-to-br/gradient-to-bl used instead
-    // Verify by checking that start/end logical properties are used for content alignment
-    expect(campaignArtContent).toMatch(/max-w-7xl|start|items-center/);
+    // FR5: CampaignArtSlides.tsx deleted. RTL-aware layout now lives in SplitCanvasSlide.tsx.
+    // SplitCanvasSlide uses start/end logical classes which are inherently RTL-safe.
+    // The split-canvas layout uses lg:flex-row / lg:flex-row-reverse based on imageSide prop.
+    expect(splitCanvasContent).toMatch(/start|items-center|lg:flex-row/);
   });
 });
 

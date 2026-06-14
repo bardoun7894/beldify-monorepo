@@ -4176,7 +4176,16 @@
       "ai_chip": "Von KI für dich gestylt",
       "carousel_prev": "Vorherige Folie",
       "carousel_next": "Nächste Folie",
-      "section_label": "Hero"
+      "section_label": "Hero",
+      "art_slide1_headline": "Kostenlose Lieferung ab 500 MAD",
+      "art_slide1_subline": "Kaftans und Djellabas von vertrauenswürdigen marokkanischen Ateliers",
+      "art_slide1_cta": "Jetzt shoppen",
+      "art_slide2_headline": "Nach Maß gefertigt",
+      "art_slide2_subline": "Wähle dein Atelier, schick deine Maße, erhalte dein Stück nach Hause",
+      "art_slide2_cta": "Maßbestellung starten",
+      "art_slide3_headline": "Open Souk — schreib deine Anfrage und lass Ateliers mitbewerben",
+      "art_slide3_subline": "Unsere Handwerker bewerben sich für dein Projekt",
+      "art_slide3_cta": "Jetzt Anfrage stellen"
     },
     "trust": {
       "verified_sellers": "Verifizierte Verkäufer",
