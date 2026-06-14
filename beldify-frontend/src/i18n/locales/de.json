@@ -5305,5 +5305,23 @@
     "no_bank_details": "Fügen Sie Ihre Bankdaten hinzu, um eine Auszahlung zu beantragen.",
     "open_request_exists": "Sie haben bereits einen offenen Antrag.",
     "below_min": "Guthaben liegt unter dem Mindestbetrag für Auszahlungen."
+  },
+  "assistant": {
+    "launcher_aria": "Einkaufsassistenten öffnen",
+    "launcher_label": "Mit KI einkaufen",
+    "panel_title": "Einkaufsassistent",
+    "close": "Assistent schließen",
+    "messages_label": "Gespräch",
+    "input_placeholder": "Fragen Sie nach einem Produkt, Stil oder Preis…",
+    "input_aria": "Nachricht an Assistent",
+    "send": "Senden",
+    "thinking": "Assistent denkt nach…",
+    "welcome_title": "Willkommen!",
+    "welcome_message": "Fragen Sie mich nach Kaftanen, Djellabas, Schmuck — auf Darija, Arabisch, Französisch oder Englisch.",
+    "view_product": "Ansehen",
+    "error": "Etwas ist schiefgelaufen. Bitte versuchen Sie es erneut.",
+    "retry": "Erneut versuchen",
+    "chars_left": "Zeichen übrig",
+    "over_limit": "{{count}} Zeichen zu viel"
   }
 }

@@ -5305,5 +5305,23 @@
     "no_bank_details": "Voeg je bankgegevens toe om een uitbetaling aan te vragen.",
     "open_request_exists": "Je hebt al een openstaande aanvraag.",
     "below_min": "Saldo is lager dan het minimale uitbetalingsbedrag."
+  },
+  "assistant": {
+    "launcher_aria": "Winkelassistent openen",
+    "launcher_label": "Winkelen met AI",
+    "panel_title": "Winkelassistent",
+    "close": "Assistent sluiten",
+    "messages_label": "Gesprek",
+    "input_placeholder": "Vraag over een product, stijl of prijs…",
+    "input_aria": "Bericht aan assistent",
+    "send": "Versturen",
+    "thinking": "Assistent denkt na…",
+    "welcome_title": "Welkom!",
+    "welcome_message": "Stel me vragen over caftans, djellabas, sieraden — in Darija, Arabisch, Frans of Engels.",
+    "view_product": "Bekijken",
+    "error": "Er is iets misgegaan. Probeer het opnieuw.",
+    "retry": "Opnieuw proberen",
+    "chars_left": "tekens over",
+    "over_limit": "{{count}} tekens te veel"
   }
 }

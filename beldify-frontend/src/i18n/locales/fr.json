@@ -5327,5 +5327,23 @@
     "no_bank_details": "Ajoutez vos coordonnées bancaires pour demander un virement.",
     "open_request_exists": "Vous avez déjà une demande ouverte.",
     "below_min": "Le solde est inférieur au montant minimum de virement."
+  },
+  "assistant": {
+    "launcher_aria": "Ouvrir l'assistant shopping",
+    "launcher_label": "Acheter avec l'IA",
+    "panel_title": "Assistant Shopping",
+    "close": "Fermer l'assistant",
+    "messages_label": "Conversation",
+    "input_placeholder": "Posez une question sur un produit, style ou prix…",
+    "input_aria": "Message à l'assistant",
+    "send": "Envoyer",
+    "thinking": "L'assistant réfléchit…",
+    "welcome_title": "Bienvenue !",
+    "welcome_message": "Posez-moi des questions sur les caftans, djellabas, bijoux — en darija, arabe, français ou anglais.",
+    "view_product": "Voir",
+    "error": "Une erreur est survenue. Veuillez réessayer.",
+    "retry": "Réessayer",
+    "chars_left": "caractères restants",
+    "over_limit": "{{count}} caractères en trop"
   }
 }

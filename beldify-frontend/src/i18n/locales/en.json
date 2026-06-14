@@ -5327,5 +5327,23 @@
     "no_bank_details": "Add your bank account details to request a payout.",
     "open_request_exists": "You already have an open request pending.",
     "below_min": "Balance is below the minimum payout amount."
+  },
+  "assistant": {
+    "launcher_aria": "Open shopping assistant",
+    "launcher_label": "Shop with AI",
+    "panel_title": "Shopping Assistant",
+    "close": "Close assistant",
+    "messages_label": "Conversation",
+    "input_placeholder": "Ask about any product, style, or price…",
+    "input_aria": "Message to assistant",
+    "send": "Send",
+    "thinking": "Assistant is thinking…",
+    "welcome_title": "Welcome!",
+    "welcome_message": "Ask me about caftans, djellabas, jewellery — in Darija, Arabic, French or English.",
+    "view_product": "View",
+    "error": "Something went wrong. Please try again.",
+    "retry": "Retry",
+    "chars_left": "chars left",
+    "over_limit": "{{count}} over limit"
   }
 }

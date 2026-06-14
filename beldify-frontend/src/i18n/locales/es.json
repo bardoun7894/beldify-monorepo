@@ -5342,5 +5342,23 @@
     "no_bank_details": "Agrega tus datos bancarios para solicitar un pago.",
     "open_request_exists": "Ya tienes una solicitud abierta.",
     "below_min": "El saldo está por debajo del importe mínimo de pago."
+  },
+  "assistant": {
+    "launcher_aria": "Abrir asistente de compras",
+    "launcher_label": "Comprar con IA",
+    "panel_title": "Asistente de Compras",
+    "close": "Cerrar asistente",
+    "messages_label": "Conversación",
+    "input_placeholder": "Pregunta sobre cualquier producto, estilo o precio…",
+    "input_aria": "Mensaje al asistente",
+    "send": "Enviar",
+    "thinking": "El asistente está pensando…",
+    "welcome_title": "¡Bienvenido!",
+    "welcome_message": "Pregúntame sobre caftanes, djellabas, joyería — en darija, árabe, francés o inglés.",
+    "view_product": "Ver",
+    "error": "Algo salió mal. Por favor, inténtalo de nuevo.",
+    "retry": "Reintentar",
+    "chars_left": "caracteres restantes",
+    "over_limit": "{{count}} caracteres de más"
   }
 }
