@@ -24,6 +24,33 @@ export interface OrderItem {
   };
 }
 
+/**
+ * A single per-seller order within a multi-seller checkout group.
+ * Returned inside `data.orders[]` when the cart spans multiple stores.
+ */
+export interface PerSellerOrder {
+  id: number | string;
+  order_number: string;
+  store_id: number;
+  /** Human-readable store name, if the backend includes it */
+  store_name?: string;
+  total_amount?: number;
+  items?: OrderItem[];
+}
+
+/**
+ * Per-seller breakdown from the quote endpoint when the cart spans
+ * multiple stores. Added alongside the existing flat totals.
+ */
+export interface PerSellerQuote {
+  store_id: number;
+  /** Human-readable store name, if returned */
+  store_name?: string;
+  subtotal: number;
+  shipping_amount: number;
+  item_count: number;
+}
+
 export interface Order {
   id: string;
   order_number: string;
@@ -45,6 +72,17 @@ export interface Order {
   };
   shipping_amount?: number;
   tax_amount?: number;
+  /**
+   * NEW (multi-seller): shared reference across all per-seller orders
+   * created from a single cart checkout. Present when the backend ships
+   * the multi-seller split feature.
+   */
+  checkout_group_id?: string;
+  /**
+   * NEW (multi-seller): all per-seller orders from a split checkout.
+   * Length > 1 means the cart was split across multiple stores.
+   */
+  orders?: PerSellerOrder[];
 }
 
 export interface ShippingInfo {
@@ -249,6 +287,8 @@ class OrderService {
     cod_allowed: boolean;
     cod_max: number;
     currency: string;
+    /** Present when the cart spans >1 seller. Additive — backend may omit for single-seller. */
+    per_seller?: PerSellerQuote[];
   }> {
     const response = await api.post('/api/orders/quote', payload);
     return response.data;

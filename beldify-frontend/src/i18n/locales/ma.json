@@ -1418,7 +1418,8 @@
       "subtotal": "االمجموع الجزئي",
       "tax": "الضريبة",
       "total": "المجموع",
-      "product_image_alt": "صورة المنتج"
+      "product_image_alt": "صورة المنتج",
+      "seller_shipping": "الشحن — {{store}}"
     },
     "quote": {
       "loading": "كنحسبو المجموع…",
@@ -3749,6 +3750,13 @@
       "whatsapp": "واتساب",
       "call": "عيّط لينا",
       "send_to": "صيفط االخلاص لـ"
+    },
+    "split": {
+      "title": "طلبك تقسّم على {{count}} بيّاعين",
+      "description": "كل بيّاع غادي يجهّز الجزء ديالو ويرسله بوحدو. جميع الطلبات مضمونة بـ Beldify Buyer Guarantee.",
+      "group_ref": "رقم الشحنة:",
+      "seller_label": "البيّاع {{n}}",
+      "seller_order": "طلب"
     }
   },
   "messages": {

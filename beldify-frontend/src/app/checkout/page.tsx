@@ -47,6 +47,16 @@ const playfair = { fontFamily: '"Playfair Display", ui-serif, Georgia, serif' };
 const FREE_SHIPPING_THRESHOLD = 500;
 
 // ── Quote shape ───────────────────────────────────────────────────────────────
+
+/** Per-seller breakdown returned by the quote endpoint when cart spans >1 store. */
+interface PerSellerQuote {
+  store_id: number;
+  store_name?: string;
+  subtotal: number;
+  shipping_amount: number;
+  item_count: number;
+}
+
 interface CheckoutQuote {
   subtotal: number;
   tax_amount: number;
@@ -56,6 +66,8 @@ interface CheckoutQuote {
   cod_allowed: boolean;
   cod_max: number;
   currency: string;
+  /** Present when cart spans >1 seller — additive, backend may omit for single-seller. */
+  per_seller?: PerSellerQuote[];
 }
 
 // ── Support contact — for shoppers who don't know how to pay ───────────────────
@@ -1793,25 +1805,82 @@ export default function CheckoutPage() {
         <p className="text-xs text-rose-600 py-2" role="alert">{quoteError}</p>
       )}
 
-      <div className="border-t border-gray-200 pt-4 space-y-2 text-sm">
-        <div className="flex justify-between">
-          <span className="text-gray-600">{t('checkout.summary.subtotal', 'Subtotal')}</span>
-          <span className="text-gray-900 font-medium tabular-nums currency-mad">{formatAmount(subtotal)} MAD</span>
-        </div>
-        <div className="flex justify-between">
-          <span className="text-gray-600">{t('checkout.summary.shipping', 'Shipping')}</span>
-          {shippingAmount > 0 ? (
-            <span className="text-gray-900 font-medium tabular-nums currency-mad">
-              {formatAmount(shippingAmount)} MAD
-            </span>
-          ) : subtotal >= FREE_SHIPPING_THRESHOLD ? (
-            <span className="text-amber-700 font-semibold">
-              {t('cart.summary.free', 'Free')}
-            </span>
-          ) : (
-            <span className="text-gray-900 font-medium tabular-nums">—</span>
-          )}
-        </div>
+      {/* ── Per-seller shipping breakdown (multi-seller cart) ────────────────
+           When the quote returns per_seller with >1 entry, show individual
+           shipping fees per store so the buyer understands the N charges.
+           Falls back to the flat shipping line for single-seller carts. */}
+      {(() => {
+        // Resolve the per_seller array from the quote (buyNow path) or
+        // derive a synthetic one from the cart for the authenticated path.
+        // For the cart path we don't have a quote, so we only show per-seller
+        // breakdown when the quote is available and has >1 entry.
+        const perSeller = quote?.per_seller;
+        const isMultiSeller = Array.isArray(perSeller) && perSeller.length > 1;
+
+        // Helper: resolve store name from cart items by store_id
+        const resolveStoreName = (storeId: number, sellerEntry: PerSellerQuote): string => {
+          if (sellerEntry.store_name) return sellerEntry.store_name;
+          // Try to find store info from cart items
+          const cartItems = isBuyNow
+            ? null
+            : cartState?.items;
+          const matchItem = cartItems?.find(
+            (item) => (item.store?.id ?? 0) === storeId
+          );
+          const name = matchItem?.store?.name;
+          return name ?? `Shop #${storeId}`;
+        };
+
+        return (
+          <div className="border-t border-gray-200 pt-4 space-y-2 text-sm">
+            <div className="flex justify-between">
+              <span className="text-gray-600">{t('checkout.summary.subtotal', 'Subtotal')}</span>
+              <span className="text-gray-900 font-medium tabular-nums currency-mad">{formatAmount(subtotal)} MAD</span>
+            </div>
+
+            {isMultiSeller ? (
+              // ── Per-seller shipping rows ────────────────────────────────────
+              quote!.per_seller!.map((seller) => (
+                <div key={seller.store_id} className="flex justify-between">
+                  <span className="text-gray-600">
+                    {t('checkout.summary.seller_shipping', 'Shipping — {{store}}', {
+                      store: resolveStoreName(seller.store_id, seller),
+                    }).replace('{{store}}', resolveStoreName(seller.store_id, seller))}
+                  </span>
+                  {seller.shipping_amount > 0 ? (
+                    <span className="text-gray-900 font-medium tabular-nums currency-mad">
+                      {formatAmount(seller.shipping_amount)} MAD
+                    </span>
+                  ) : (
+                    <span className="text-amber-700 font-semibold">
+                      {t('cart.summary.free', 'Free')}
+                    </span>
+                  )}
+                </div>
+              ))
+            ) : (
+              // ── Flat shipping row (single seller or no per_seller data) ────
+              <div className="flex justify-between">
+                <span className="text-gray-600">{t('checkout.summary.shipping', 'Shipping')}</span>
+                {shippingAmount > 0 ? (
+                  <span className="text-gray-900 font-medium tabular-nums currency-mad">
+                    {formatAmount(shippingAmount)} MAD
+                  </span>
+                ) : subtotal >= FREE_SHIPPING_THRESHOLD ? (
+                  <span className="text-amber-700 font-semibold">
+                    {t('cart.summary.free', 'Free')}
+                  </span>
+                ) : (
+                  <span className="text-gray-900 font-medium tabular-nums">—</span>
+                )}
+              </div>
+            )}
+          </div>
+        );
+      })()}
+
+      {/* Tax + discount rows — always flat (same for single/multi seller) */}
+      <div className="space-y-2 text-sm">
         {taxAmount > 0 && (
           <div className="flex justify-between">
             <span className="text-gray-600">{t('checkout.summary.tax', 'Tax')}</span>

@@ -1220,6 +1220,13 @@
       "whatsapp": "WhatsApp",
       "call": "Appelez-nous",
       "send_to": "Envoyer le paiement à"
+    },
+    "split": {
+      "title": "Votre commande a été répartie entre {{count}} vendeurs",
+      "description": "Chaque vendeur préparera et expédiera sa partie indépendamment. Toutes les commandes sont couvertes par la Garantie Acheteur Beldify.",
+      "group_ref": "Réf. groupe :",
+      "seller_label": "Vendeur {{n}}",
+      "seller_order": "Commande"
     }
   },
   "checkout": {
@@ -1468,7 +1475,8 @@
       "subtotal": "Sous-total",
       "tax": "Taxes",
       "total": "Total",
-      "product_image_alt": "Image du produit"
+      "product_image_alt": "Image du produit",
+      "seller_shipping": "Livraison — {{store}}"
     },
     "quote": {
       "loading": "Calcul du total…",

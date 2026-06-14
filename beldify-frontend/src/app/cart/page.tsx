@@ -183,23 +183,58 @@ export default function CartPage() {
 
           {/* ── Left: cart items ─────────────────────────────────────────── */}
           <div className="lg:col-span-2 space-y-4">
-            {state.items.map((item) => {
-              // RTL: product title needs font-arabic when isRTL; skip Playfair (no Arabic glyphs).
-              // Free-shipping and discount display use text-[#855300] for WCAG AA on white.
+            {(() => {
+              // Group items by store when the cart spans multiple sellers.
+              // Single-seller cart: no grouping header rendered (identical to before).
+              const storeIds = [...new Set(state.items.map((i) => i.store?.id ?? 0))];
+              const isMultiStore = storeIds.length > 1;
+
               const itemTitleClass = `text-base font-semibold text-indigo-950 hover:text-indigo-700 transition-colors leading-snug line-clamp-2${isRTL ? ' font-arabic' : ''}`;
               const itemTitleStyle = isRTL ? undefined : playfair;
-              return (
-                <CartItemRow
-                  key={item.id}
-                  item={item}
-                  loading={loading}
-                  onQuantityChange={handleQuantityChange}
-                  onRemove={removeFromCart}
-                  titleClassName={itemTitleClass}
-                  titleStyle={itemTitleStyle}
-                />
-              );
-            })}
+
+              if (!isMultiStore) {
+                return state.items.map((item) => (
+                  <CartItemRow
+                    key={item.id}
+                    item={item}
+                    loading={loading}
+                    onQuantityChange={handleQuantityChange}
+                    onRemove={removeFromCart}
+                    titleClassName={itemTitleClass}
+                    titleStyle={itemTitleStyle}
+                  />
+                ));
+              }
+
+              // Multi-store: render a subtle seller header above each group
+              return storeIds.map((storeId) => {
+                const groupItems = state.items.filter((i) => (i.store?.id ?? 0) === storeId);
+                const storeName = groupItems[0]?.store?.name ?? `Shop #${storeId}`;
+                return (
+                  <div key={storeId} className="space-y-3">
+                    {/* Seller group header */}
+                    <div className="flex items-center gap-2 px-1">
+                      <div className="w-5 h-px bg-gray-200 flex-shrink-0" aria-hidden="true" />
+                      <p className="text-xs uppercase tracking-[0.14em] text-amber-700 font-medium whitespace-nowrap">
+                        {storeName}
+                      </p>
+                      <div className="flex-1 h-px bg-gray-200" aria-hidden="true" />
+                    </div>
+                    {groupItems.map((item) => (
+                      <CartItemRow
+                        key={item.id}
+                        item={item}
+                        loading={loading}
+                        onQuantityChange={handleQuantityChange}
+                        onRemove={removeFromCart}
+                        titleClassName={itemTitleClass}
+                        titleStyle={itemTitleStyle}
+                      />
+                    ))}
+                  </div>
+                );
+              });
+            })()}
 
             {/* Continue shopping */}
             <div className="pt-2">

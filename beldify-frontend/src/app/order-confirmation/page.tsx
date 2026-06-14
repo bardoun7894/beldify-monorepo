@@ -14,8 +14,9 @@ import {
   MessageCircle,
   ShieldCheck,
   MapPin,
+  Store,
 } from 'lucide-react';
-import { orderService, Order, OrderItem } from '@/services/orderService';
+import { orderService, Order, OrderItem, PerSellerOrder } from '@/services/orderService';
 import { useTranslation } from 'react-i18next';
 import toast from '@/utils/toast';
 import logger from '@/utils/consoleLogger';
@@ -264,6 +265,83 @@ export default function OrderConfirmationPage() {
               </span>
             </div>
           </div>
+
+          {/* ── Multi-seller split notice + per-seller order cards ───────── */}
+          {(() => {
+            const orders: PerSellerOrder[] | undefined = order?.orders;
+            const isMultiSeller = Array.isArray(orders) && orders.length > 1;
+            if (!isMultiSeller) return null;
+
+            return (
+              <>
+                {/* Split notice banner */}
+                <div className="bg-indigo-50 rounded-2xl ring-1 ring-indigo-200 px-5 py-4 flex items-start gap-3">
+                  <div className="w-8 h-8 rounded-full bg-indigo-100 ring-1 ring-indigo-300 flex items-center justify-center flex-shrink-0 mt-0.5">
+                    <Store className="w-4 h-4 text-indigo-700" aria-hidden="true" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-semibold text-indigo-900">
+                      {t(
+                        'order_confirmation.split.title',
+                        'Your order was split across {{count}} sellers',
+                      ).replace('{{count}}', String(orders!.length))}
+                    </p>
+                    <p className="text-xs text-indigo-700 mt-0.5 leading-relaxed">
+                      {t(
+                        'order_confirmation.split.description',
+                        'Each seller will prepare and ship their part independently. All orders are covered by Beldify Buyer Guarantee.',
+                      )}
+                    </p>
+                    {order?.checkout_group_id && (
+                      <p className="text-xs text-indigo-600 mt-1.5 font-mono break-all">
+                        {t('order_confirmation.split.group_ref', 'Group ref:')}
+                        {' '}
+                        <span className="font-semibold">{order.checkout_group_id}</span>
+                      </p>
+                    )}
+                  </div>
+                </div>
+
+                {/* Per-seller order cards */}
+                {/* orders is guaranteed non-empty by isMultiSeller guard above */}
+                {order.orders.map((sellerOrder, idx) => (
+                  <div
+                    key={sellerOrder.id}
+                    className="bg-white rounded-2xl shadow-atlas-sm ring-1 ring-gray-200 p-5"
+                  >
+                    <div className="flex items-center gap-2 mb-3">
+                      <div className="w-7 h-7 rounded-full bg-amber-50 ring-1 ring-amber-200 flex items-center justify-center flex-shrink-0">
+                        <Store className="w-3.5 h-3.5 text-amber-600" aria-hidden="true" />
+                      </div>
+                      <p className="text-xs uppercase tracking-[0.14em] text-amber-700 font-medium">
+                        {t('order_confirmation.split.seller_label', 'Seller {{n}}', {
+                          n: idx + 1,
+                        }).replace('{{n}}', String(idx + 1))}
+                      </p>
+                    </div>
+                    <div className="flex items-center gap-2 ps-9">
+                      <span className="text-xs text-gray-500">
+                        {t('order_confirmation.split.seller_order', 'Order')}
+                      </span>
+                      <span className="font-bold text-indigo-700 text-sm tabular-nums">
+                        #{sellerOrder.order_number}
+                      </span>
+                    </div>
+                    {typeof sellerOrder.total_amount === 'number' && (
+                      <div className="flex items-center gap-2 ps-9 mt-1">
+                        <span className="text-xs text-gray-500">
+                          {t('order_confirmation.summary.total', 'Total')}
+                        </span>
+                        <span className="font-semibold text-gray-900 text-sm tabular-nums currency-mad">
+                          {formatAmount(sellerOrder.total_amount)} MAD
+                        </span>
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </>
+            );
+          })()}
 
           {/* ── Shipping address card ────────────────────────────────────── */}
           <div className="bg-white rounded-2xl shadow-atlas-sm ring-1 ring-gray-200 p-6">

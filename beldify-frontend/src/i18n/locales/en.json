@@ -1247,6 +1247,13 @@
       "whatsapp": "WhatsApp",
       "call": "Call us",
       "send_to": "Send payment to"
+    },
+    "split": {
+      "title": "Your order was split across {{count}} sellers",
+      "description": "Each seller will prepare and ship their part independently. All orders are covered by Beldify Buyer Guarantee.",
+      "group_ref": "Group ref:",
+      "seller_label": "Seller {{n}}",
+      "seller_order": "Order"
     }
   },
   "checkout": {
@@ -1490,7 +1497,8 @@
       "subtotal": "Subtotal",
       "tax": "Tax",
       "total": "Total",
-      "product_image_alt": "Product image"
+      "product_image_alt": "Product image",
+      "seller_shipping": "Shipping — {{store}}"
     },
     "steps": {
       "payment": "Payment",
