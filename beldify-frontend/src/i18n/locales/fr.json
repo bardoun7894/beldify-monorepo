@@ -5327,5 +5327,21 @@
     "no_bank_details": "Ajoutez vos coordonnées bancaires pour demander un virement.",
     "open_request_exists": "Vous avez déjà une demande ouverte.",
     "below_min": "Le solde est inférieur au montant minimum de virement."
+  },
+  "listingAi": {
+    "cta": "Analyser avec l'IA",
+    "analyzing": "Analyse en cours...",
+    "results_title": "Analyse IA",
+    "unavailable": "L'analyse IA n'est pas disponible pour le moment.",
+    "error": "L'analyse a échoué. Veuillez réessayer.",
+    "quality_label": "Score de qualité",
+    "quality_aria": "Qualité de l'annonce {{score}} sur 100",
+    "tips_label": "Conseils",
+    "category_label": "Catégorie suggérée",
+    "apply_category": "Appliquer {{name}}",
+    "apply_category_aria": "Appliquer la catégorie {{name}}",
+    "attributes_label": "Attributs suggérés",
+    "apply_attribute_aria": "Appliquer {{key}} : {{value}}",
+    "flags_label": "Avertissements"
   }
 }

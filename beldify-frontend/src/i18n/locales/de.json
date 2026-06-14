@@ -5305,5 +5305,21 @@
     "no_bank_details": "Fügen Sie Ihre Bankdaten hinzu, um eine Auszahlung zu beantragen.",
     "open_request_exists": "Sie haben bereits einen offenen Antrag.",
     "below_min": "Guthaben liegt unter dem Mindestbetrag für Auszahlungen."
+  },
+  "listingAi": {
+    "cta": "Mit KI analysieren",
+    "analyzing": "Wird analysiert...",
+    "results_title": "KI-Analyse",
+    "unavailable": "KI-Analyse ist derzeit nicht verfügbar.",
+    "error": "Analyse fehlgeschlagen. Bitte versuche es erneut.",
+    "quality_label": "Qualitätspunktzahl",
+    "quality_aria": "Qualität der Anzeige {{score}} von 100",
+    "tips_label": "Tipps",
+    "category_label": "Vorgeschlagene Kategorie",
+    "apply_category": "Anwenden {{name}}",
+    "apply_category_aria": "Kategorie anwenden {{name}}",
+    "attributes_label": "Vorgeschlagene Attribute",
+    "apply_attribute_aria": "Anwenden {{key}}: {{value}}",
+    "flags_label": "Warnungen"
   }
 }

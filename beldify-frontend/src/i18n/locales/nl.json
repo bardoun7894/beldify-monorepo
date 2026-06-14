@@ -5305,5 +5305,21 @@
     "no_bank_details": "Voeg je bankgegevens toe om een uitbetaling aan te vragen.",
     "open_request_exists": "Je hebt al een openstaande aanvraag.",
     "below_min": "Saldo is lager dan het minimale uitbetalingsbedrag."
+  },
+  "listingAi": {
+    "cta": "Analyseren met AI",
+    "analyzing": "Analyseren...",
+    "results_title": "AI-analyse",
+    "unavailable": "AI-analyse is momenteel niet beschikbaar.",
+    "error": "Analyse mislukt. Probeer het opnieuw.",
+    "quality_label": "Kwaliteitsscore",
+    "quality_aria": "Kwaliteit van advertentie {{score}} van 100",
+    "tips_label": "Tips",
+    "category_label": "Voorgestelde categorie",
+    "apply_category": "Toepassen {{name}}",
+    "apply_category_aria": "Categorie toepassen {{name}}",
+    "attributes_label": "Voorgestelde kenmerken",
+    "apply_attribute_aria": "Toepassen {{key}}: {{value}}",
+    "flags_label": "Waarschuwingen"
   }
 }

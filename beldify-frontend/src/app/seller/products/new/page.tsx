@@ -29,6 +29,7 @@ import {
 import { cn } from '@/lib/utils';
 import { AiGenerateButton } from '@/components/seller/AiGenerateButton';
 import { InsufficientCreditsModal } from '@/components/seller/InsufficientCreditsModal';
+import { ListingAiAssistant } from '@/components/seller/ListingAiAssistant';
 import { getSellerCredits, FeatureCosts } from '@/services/sellerCreditService';
 import {
   generateListing,
@@ -425,6 +426,20 @@ export default function SellerNewProductPage() {
                 />
               </div>
             </div>
+
+            {/* Listing Intelligence Assistant — additive only, no effect on save path */}
+            <ListingAiAssistant
+              title={form.product_name_en}
+              description={form.description}
+              category_id={form.category_id ? Number(form.category_id) : undefined}
+              isRTL={isRTL}
+              onApplyCategory={(id, _name) => {
+                setForm((prev) => ({ ...prev, category_id: String(id) }));
+              }}
+              onApplyAttribute={(key, value) => {
+                setVerticalSpec((prev) => ({ ...prev, [key]: value }));
+              }}
+            />
 
             {/* AI Review step */}
             {aiReview && (

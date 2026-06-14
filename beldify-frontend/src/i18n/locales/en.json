@@ -5327,5 +5327,21 @@
     "no_bank_details": "Add your bank account details to request a payout.",
     "open_request_exists": "You already have an open request pending.",
     "below_min": "Balance is below the minimum payout amount."
+  },
+  "listingAi": {
+    "cta": "Analyze with AI",
+    "analyzing": "Analyzing...",
+    "results_title": "AI Analysis",
+    "unavailable": "AI analysis is not available right now.",
+    "error": "Analysis failed. Please try again.",
+    "quality_label": "Quality score",
+    "quality_aria": "Listing quality {{score}} out of 100",
+    "tips_label": "Tips",
+    "category_label": "Suggested category",
+    "apply_category": "Apply {{name}}",
+    "apply_category_aria": "Apply category {{name}}",
+    "attributes_label": "Suggested attributes",
+    "apply_attribute_aria": "Apply {{key}}: {{value}}",
+    "flags_label": "Warnings"
   }
 }

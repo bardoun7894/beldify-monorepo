@@ -5342,5 +5342,21 @@
     "no_bank_details": "Agrega tus datos bancarios para solicitar un pago.",
     "open_request_exists": "Ya tienes una solicitud abierta.",
     "below_min": "El saldo está por debajo del importe mínimo de pago."
+  },
+  "listingAi": {
+    "cta": "Analizar con IA",
+    "analyzing": "Analizando...",
+    "results_title": "Análisis de IA",
+    "unavailable": "El análisis de IA no está disponible en este momento.",
+    "error": "El análisis falló. Por favor, inténtalo de nuevo.",
+    "quality_label": "Puntuación de calidad",
+    "quality_aria": "Calidad del anuncio {{score}} de 100",
+    "tips_label": "Consejos",
+    "category_label": "Categoría sugerida",
+    "apply_category": "Aplicar {{name}}",
+    "apply_category_aria": "Aplicar categoría {{name}}",
+    "attributes_label": "Atributos sugeridos",
+    "apply_attribute_aria": "Aplicar {{key}}: {{value}}",
+    "flags_label": "Advertencias"
   }
 }
