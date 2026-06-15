@@ -116,11 +116,13 @@ describe('Sticky sort bar — products page', () => {
     expect(content).toContain('sticky');
   });
 
-  it('products/page.tsx has sort chip buttons for Newest, Price asc, Price desc, Top rated', () => {
-    const content = readFile(PAGE_PATH);
+  it('sort vocabulary (Newest, Price asc, Price desc, Top rated) is defined in sortConfig', () => {
+    // Spec 010: sort options were extracted from page.tsx into ./sortConfig.ts.
+    const content = readFile(path.resolve(__dirname, '../../../../src/app/products/sortConfig.ts'));
     expect(content).toContain('newest');
     expect(content).toContain('price_asc');
     expect(content).toContain('price_desc');
+    expect(content).toContain('top_rated');
   });
 });
 
