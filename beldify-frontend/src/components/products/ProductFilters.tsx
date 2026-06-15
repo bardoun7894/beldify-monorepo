@@ -12,6 +12,35 @@ import { useState, Fragment } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { Switch } from '@headlessui/react';
 
+// ── Facet types ────────────────────────────────────────────────────────────
+
+export interface FacetStore {
+  id: number;
+  name: string;
+  count: number;
+}
+
+export interface FacetVertical {
+  slug: string;
+  count: number;
+}
+
+export interface ProductFacets {
+  stores?: FacetStore[];
+  verticals?: FacetVertical[];
+  categories?: unknown[];
+  colors?: unknown[];
+  sizes?: unknown[];
+  fabrics?: unknown[];
+  price?: { min: number; max: number };
+}
+
+// ── Collapsed limit for store list ─────────────────────────────────────────
+
+const STORE_COLLAPSED_LIMIT = 5;
+
+// ── Props ──────────────────────────────────────────────────────────────────
+
 interface ProductFiltersProps {
   filters: {
     category?: string;
@@ -22,10 +51,14 @@ interface ProductFiltersProps {
     fabrics: string[];
     customizable?: boolean;
     inStock?: boolean;
+    store_ids?: number[];
+    verticals?: string[];
   };
   onChange: (filters: ProductFiltersProps['filters']) => void;
   isMobileOpen?: boolean;
   onMobileClose?: () => void;
+  /** API-provided facets for stores + verticals (optional — graceful if absent) */
+  facets?: ProductFacets;
 }
 
 interface FilterSectionProps {
@@ -84,9 +117,13 @@ export default function ProductFilters({
   onChange,
   isMobileOpen,
   onMobileClose,
+  facets,
 }: ProductFiltersProps) {
   const { t, i18n } = useTranslation();
   const isRTL = i18n.language === 'ar';
+
+  // ── Store "show more" state ──────────────────────────────────────────────
+  const [storesExpanded, setStoresExpanded] = useState(false);
 
   const toggleFilter = (type: keyof typeof filters, value: any) => {
     if (Array.isArray(filters[type])) {
@@ -387,6 +424,137 @@ export default function ProductFilters({
           </Switch.Group>
         </div>
       </FilterSection>
+
+      {/* ── Store / Seller facets ─────────────────────────────────────────
+          Rendered only when facets.stores is provided and non-empty.
+          Uses store_ids[] param to wire to the listing query. */}
+      {facets?.stores && facets.stores.length > 0 && (
+        <FilterSection title={t('facet_filters.stores', 'Store / Seller')}>
+          <div className="space-y-1.5">
+            {(storesExpanded ? facets.stores : facets.stores.slice(0, STORE_COLLAPSED_LIMIT)).map(
+              (store) => {
+                const isSelected = (filters.store_ids ?? []).includes(store.id);
+                return (
+                  <label
+                    key={store.id}
+                    className="flex items-center justify-between gap-2 cursor-pointer group/store py-0.5 touch-manipulation"
+                  >
+                    <span className="flex items-center gap-2">
+                      <span
+                        className={`relative flex h-4 w-4 shrink-0 items-center justify-center rounded border transition-colors duration-150 ${
+                          isSelected
+                            ? 'bg-indigo-700 border-indigo-700'
+                            : 'border-gray-300 bg-white group-hover/store:border-indigo-400'
+                        }`}
+                        aria-hidden="true"
+                      >
+                        {isSelected && (
+                          <svg className="h-2.5 w-2.5 text-white" viewBox="0 0 10 8" fill="none">
+                            <path d="M1 4l3 3 5-6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                          </svg>
+                        )}
+                      </span>
+                      <input
+                        type="checkbox"
+                        checked={isSelected}
+                        onChange={() => {
+                          const current = filters.store_ids ?? [];
+                          const next = isSelected
+                            ? current.filter((id) => id !== store.id)
+                            : [...current, store.id];
+                          onChange({ ...filters, store_ids: next });
+                        }}
+                        aria-label={store.name}
+                        className="sr-only"
+                      />
+                      <span
+                        className={`text-sm leading-none transition-colors duration-150 ${
+                          isSelected ? 'text-indigo-700 font-medium' : 'text-gray-600 group-hover/store:text-gray-900'
+                        }`}
+                      >
+                        {store.name}
+                      </span>
+                    </span>
+                    <span className="text-xs text-gray-400 tabular-nums shrink-0">{store.count}</span>
+                  </label>
+                );
+              }
+            )}
+
+            {/* Show more / less toggle */}
+            {facets.stores.length > STORE_COLLAPSED_LIMIT && (
+              <button
+                type="button"
+                onClick={() => setStoresExpanded((prev) => !prev)}
+                className="mt-1.5 text-xs font-medium text-indigo-700 hover:text-indigo-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30 transition-colors"
+              >
+                {storesExpanded
+                  ? t('facet_filters.show_less', 'Show less')
+                  : t('facet_filters.show_more', 'Show more')}
+              </button>
+            )}
+          </div>
+        </FilterSection>
+      )}
+
+      {/* ── Type / Vertical facets ────────────────────────────────────────
+          Rendered only when facets.verticals is provided and non-empty.
+          Labels are i18n-translated (jewelry→"مجوهرات", tailor→"خياطة", etc.)
+          Uses verticals[] param to wire to the listing query. */}
+      {facets?.verticals && facets.verticals.length > 0 && (
+        <FilterSection title={t('facet_filters.verticals', 'Type / Vertical')}>
+          <div className="space-y-1.5">
+            {facets.verticals.map((vertical) => {
+              const isSelected = (filters.verticals ?? []).includes(vertical.slug);
+              const label = t(`facet_filters.vertical.${vertical.slug}`, vertical.slug);
+              return (
+                <label
+                  key={vertical.slug}
+                  className="flex items-center justify-between gap-2 cursor-pointer group/vert py-0.5 touch-manipulation"
+                >
+                  <span className="flex items-center gap-2">
+                    <span
+                      className={`relative flex h-4 w-4 shrink-0 items-center justify-center rounded border transition-colors duration-150 ${
+                        isSelected
+                          ? 'bg-indigo-700 border-indigo-700'
+                          : 'border-gray-300 bg-white group-hover/vert:border-indigo-400'
+                      }`}
+                      aria-hidden="true"
+                    >
+                      {isSelected && (
+                        <svg className="h-2.5 w-2.5 text-white" viewBox="0 0 10 8" fill="none">
+                          <path d="M1 4l3 3 5-6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                        </svg>
+                      )}
+                    </span>
+                    <input
+                      type="checkbox"
+                      checked={isSelected}
+                      onChange={() => {
+                        const current = filters.verticals ?? [];
+                        const next = isSelected
+                          ? current.filter((v) => v !== vertical.slug)
+                          : [...current, vertical.slug];
+                        onChange({ ...filters, verticals: next });
+                      }}
+                      aria-label={label}
+                      className="sr-only"
+                    />
+                    <span
+                      className={`text-sm leading-none transition-colors duration-150 ${
+                        isSelected ? 'text-indigo-700 font-medium' : 'text-gray-600 group-hover/vert:text-gray-900'
+                      }`}
+                    >
+                      {label}
+                    </span>
+                  </span>
+                  <span className="text-xs text-gray-400 tabular-nums shrink-0">{vertical.count}</span>
+                </label>
+              );
+            })}
+          </div>
+        </FilterSection>
+      )}
     </div>
   );
 

@@ -1,6 +1,6 @@
 'use client';
 
-import { Fragment, useState, useEffect, useMemo } from 'react';
+import { Fragment, useState, useEffect, useMemo, useRef, useCallback, useId } from 'react';
 import Link from 'next/link';
 import { Dialog, Menu, Transition } from '@headlessui/react';
 import {
@@ -30,6 +30,7 @@ import { useMessaging } from '@/contexts/MessagingContext';
 import logger from '@/utils/consoleLogger';
 import NotificationBell from '@/components/notifications/NotificationBell';
 import { LOCALES, type Locale } from '@/middleware';
+import SearchSuggestions from '@/components/search/SearchSuggestions';
 
 interface FeaturedProduct {
   id: number;
@@ -71,8 +72,13 @@ export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [searchBarVisible, setSearchBarVisible] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const [suggestionsOpen, setSuggestionsOpen] = useState(false);
   const [categories, setCategories] = useState<Category[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+
+  // Combobox container ref for click-outside detection
+  const searchComboboxRef = useRef<HTMLDivElement>(null);
+  const searchInputId = useId();
 
   const { user, logout } = useAuth();
   const { t, i18n } = useTranslation();
@@ -128,6 +134,36 @@ export default function Navbar() {
     fetchCategories();
     return () => controller.abort();
   }, [router]);
+
+  // Click-outside: close suggestions dropdown when clicking outside the combobox
+  useEffect(() => {
+    const handlePointerDown = (e: PointerEvent) => {
+      if (
+        searchComboboxRef.current &&
+        !searchComboboxRef.current.contains(e.target as Node)
+      ) {
+        setSuggestionsOpen(false);
+      }
+    };
+    document.addEventListener('pointerdown', handlePointerDown);
+    return () => document.removeEventListener('pointerdown', handlePointerDown);
+  }, []);
+
+  const handleSearchQueryChange = useCallback((q: string) => {
+    setSearchQuery(q);
+    setSuggestionsOpen(q.length >= 2);
+  }, []);
+
+  const handleSuggestionSubmit = useCallback(
+    (q: string) => {
+      setSuggestionsOpen(false);
+      setSearchBarVisible(false);
+      setMobileMenuOpen(false);
+      const searchUrl = `/products?q=${encodeURIComponent(q.trim())}`;
+      router.push(searchUrl);
+    },
+    [router]
+  );
 
   const handleSearchSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -203,23 +239,51 @@ export default function Navbar() {
               </Link>
             ))}
 
-            {/* Pill search */}
-            <form
-              onSubmit={handleSearchSubmit}
+            {/* Pill search — combobox wrapper for typeahead suggestions */}
+            <div
+              ref={searchComboboxRef}
               className="relative flex-1 max-w-md mx-4 min-w-0"
             >
-              <span className="absolute start-4 inset-y-0 flex items-center pointer-events-none text-gray-400">
-                <Search className="h-4 w-4" aria-hidden="true" />
-              </span>
-              <input
-                type="search"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder={t('nav.search_placeholder', 'Search caftans, djellabas, tailors…')}
-                aria-label={t('nav.search_placeholder', 'Search caftans, djellabas, tailors…')}
-                className="w-full bg-white border border-gray-200 rounded-full py-2 ps-11 pe-4 text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-700/30 focus:border-indigo-700 transition-colors duration-200"
-              />
-            </form>
+              <form onSubmit={handleSearchSubmit}>
+                <span className="absolute start-4 inset-y-0 flex items-center pointer-events-none text-gray-400 z-10">
+                  <Search className="h-4 w-4" aria-hidden="true" />
+                </span>
+                <input
+                  id={searchInputId}
+                  type="search"
+                  role="combobox"
+                  aria-haspopup="listbox"
+                  aria-expanded={suggestionsOpen}
+                  aria-autocomplete="list"
+                  aria-controls={`${searchInputId}-listbox`}
+                  value={searchQuery}
+                  onChange={(e) => {
+                    const val = e.target.value;
+                    setSearchQuery(val);
+                    setSuggestionsOpen(val.length >= 2);
+                  }}
+                  onFocus={() => {
+                    if (searchQuery.length >= 2) setSuggestionsOpen(true);
+                  }}
+                  placeholder={t('nav.search_placeholder', 'Search caftans, djellabas, tailors…')}
+                  aria-label={t('nav.search_placeholder', 'Search caftans, djellabas, tailors…')}
+                  autoComplete="off"
+                  className="w-full bg-white border border-gray-200 rounded-full py-2 ps-11 pe-4 text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-700/30 focus:border-indigo-700 transition-colors duration-200"
+                />
+              </form>
+
+              {/* Typeahead suggestions dropdown */}
+              {suggestionsOpen && (
+                <SearchSuggestions
+                  query={searchQuery}
+                  onQueryChange={handleSearchQueryChange}
+                  onSubmit={handleSuggestionSubmit}
+                  onClose={() => setSuggestionsOpen(false)}
+                  listboxId={`${searchInputId}-listbox`}
+                  className="absolute top-full start-0 end-0 mt-1 z-50"
+                />
+              )}
+            </div>
           </div>
 
           {/* ── Right: icon cluster (desktop) ────────────────────────── */}

@@ -5335,5 +5335,26 @@
     "no_bank_details": "Add your bank account details to request a payout.",
     "open_request_exists": "You already have an open request pending.",
     "below_min": "Balance is below the minimum payout amount."
+  },
+  "search_typeahead": {
+    "suggestions_label": "Search suggestions",
+    "products": "Products",
+    "categories": "Categories",
+    "trending": "Trending",
+    "recent": "Recent searches"
+  },
+  "facet_filters": {
+    "stores": "Store / Seller",
+    "verticals": "Type / Vertical",
+    "show_more": "Show more",
+    "show_less": "Show less",
+    "vertical": {
+      "jewelry": "Jewelry",
+      "tailor": "Tailoring",
+      "fabric": "Fabric",
+      "caftan": "Caftan",
+      "djellaba": "Djellaba",
+      "accessory": "Accessories"
+    }
   }
 }

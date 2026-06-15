@@ -5335,5 +5335,26 @@
     "no_bank_details": "أضف بياناتك البنكية لطلب السحب.",
     "open_request_exists": "لديك طلب مفتوح بالفعل.",
     "below_min": "الرصيد أقل من الحد الأدنى للسحب."
+  },
+  "search_typeahead": {
+    "suggestions_label": "اقتراحات البحث",
+    "products": "منتجات",
+    "categories": "فئات",
+    "trending": "الأكثر بحثاً",
+    "recent": "عمليات بحث أخيرة"
+  },
+  "facet_filters": {
+    "stores": "المتجر / البائع",
+    "verticals": "النوع / التخصص",
+    "show_more": "عرض المزيد",
+    "show_less": "عرض أقل",
+    "vertical": {
+      "jewelry": "مجوهرات",
+      "tailor": "خياطة",
+      "fabric": "أقمشة",
+      "caftan": "قفطان",
+      "djellaba": "جلابة",
+      "accessory": "إكسسوارات"
+    }
   }
 }

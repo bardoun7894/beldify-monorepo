@@ -27,6 +27,10 @@ interface ProductFiltersState {
   fabrics: string[];
   customizable?: boolean;
   inStock?: boolean;
+  /** Store/seller facet filter — wired to ?store_id= query param */
+  store_ids?: number[];
+  /** Vertical/type facet filter — wired to ?vertical= query param */
+  verticals?: string[];
 }
 
 // Fetcher function for SWR
@@ -115,6 +119,13 @@ export default function ProductsPage() {
       fabrics: searchParams?.get('fabrics') ? searchParams.get('fabrics')!.split(',') : [],
       customizable: searchParams?.get('customizable') === 'true' ? true : undefined,
       inStock: searchParams?.get('inStock') === 'true' ? true : undefined,
+      // T8: store + vertical facet filters from URL
+      store_ids: searchParams?.get('store_id')
+        ? searchParams.get('store_id')!.split(',').map(Number)
+        : [],
+      verticals: searchParams?.get('vertical')
+        ? searchParams.get('vertical')!.split(',')
+        : [],
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [searchParams?.toString()]
@@ -171,6 +182,17 @@ export default function ProductsPage() {
         if (updates.q) params.set('q', updates.q);
         else params.delete('q');
       }
+      // T8: store + vertical facet params
+      if ('store_ids' in updates) {
+        if (updates.store_ids && updates.store_ids.length > 0)
+          params.set('store_id', updates.store_ids.join(','));
+        else params.delete('store_id');
+      }
+      if ('verticals' in updates) {
+        if (updates.verticals && updates.verticals.length > 0)
+          params.set('vertical', updates.verticals.join(','));
+        else params.delete('vertical');
+      }
 
       router.push(`/products?${params.toString()}`);
     },
@@ -190,6 +212,11 @@ export default function ProductsPage() {
     if (debouncedFilters.colors.length > 0) params.append('colors', debouncedFilters.colors.join(','));
     if (debouncedFilters.sizes.length > 0) params.append('sizes', debouncedFilters.sizes.join(','));
     if (debouncedFilters.fabrics.length > 0) params.append('fabrics', debouncedFilters.fabrics.join(','));
+    // T8: forward store_id + vertical to backend
+    if (debouncedFilters.store_ids && debouncedFilters.store_ids.length > 0)
+      params.append('store_id', debouncedFilters.store_ids.join(','));
+    if (debouncedFilters.verticals && debouncedFilters.verticals.length > 0)
+      params.append('vertical', debouncedFilters.verticals.join(','));
     const searchTerm = searchParams?.get('q');
     if (searchTerm) params.append('q', searchTerm);
     // Fix 3: use the active i18n language so Arabic users receive Arabic product data
@@ -238,6 +265,10 @@ export default function ProductsPage() {
   // data?.meta alias kept for backward-compat with existing tests.
   const data = pages?.[pages.length - 1] ?? undefined;
   const paginationMeta = data?.pagination ?? data?.meta;
+
+  // T8: Extract facets from first page (facets don't change across pages).
+  // Graceful: facets may be absent if backend hasn't deployed Wave 2 yet.
+  const facets = pages?.[0]?.facets ?? undefined;
 
   // Determine pagination state
   const isReachingEnd =
@@ -469,6 +500,7 @@ export default function ProductsPage() {
                 onChange={handleFilterChange}
                 isMobileOpen={isMobileFiltersOpen}
                 onMobileClose={() => setIsMobileFiltersOpen(false)}
+                facets={facets}
               />
             </div>
           </motion.aside>
