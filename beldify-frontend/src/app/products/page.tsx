@@ -11,12 +11,13 @@ import useOpenSoukNudge from '@/hooks/useOpenSoukNudge';
 import OpenSoukRequestModal from '@/components/opensouk/OpenSoukRequestModal';
 import { Product } from '@/lib/types';
 import { useTranslation } from 'react-i18next';
-import { Filter, RefreshCw, AlertCircle, SlidersHorizontal, Star, TrendingDown, TrendingUp, Clock } from 'lucide-react';
+import { Filter, RefreshCw, AlertCircle, SlidersHorizontal } from 'lucide-react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { API_BASE_URL } from '@/config/constants';
 import { Button } from '@/components/ui/button';
 import { SearchAssistBar } from '@/components/buyer-ai/SearchAssistBar';
 import type { AssistFilters } from '@/services/buyerAiService';
+import { sortOptionsForQuery, resolveSort, defaultSortForQuery } from './sortConfig';
 
 interface ProductFiltersState {
   category?: string;
@@ -83,16 +84,6 @@ function ErrorState({ message, onRetry }: { message: string; onRetry: () => void
   );
 }
 
-// Sort options definition — used in sticky sort bar chips.
-// Keys live under products.sort.* namespace; inline fallbacks keep the UI
-// functional before the locale JSON merge lands (post-deploy hotfix pattern).
-const SORT_OPTIONS = [
-  { value: 'newest', labelKey: 'products.sort.newest', fallback: 'الجديد', icon: Clock },
-  { value: 'price_asc', labelKey: 'products.sort.price_low', fallback: 'الأرخص أولاً', icon: TrendingDown },
-  { value: 'price_desc', labelKey: 'products.sort.price_high', fallback: 'الأغلى أولاً', icon: TrendingUp },
-  { value: 'top_rated', labelKey: 'products.sort.popular', fallback: 'الأعلى تقييم', icon: Star },
-] as const;
-
 export default function ProductsPage() {
   const { t, i18n } = useTranslation();
   const shouldReduceMotion = useReducedMotion();
@@ -101,7 +92,12 @@ export default function ProductsPage() {
 
   // Fix 9c: derive ALL filter/sort state from URL so back-button fully restores state.
   // No local filter state — URL is the single source of truth.
-  const currentSort = searchParams?.get('sort') || 'newest';
+  const searchQuery = searchParams?.get('q') || '';
+  const hasQuery = Boolean(searchQuery);
+  // Relevance is the default sort while searching (FULLTEXT score), newest otherwise.
+  const currentSort = resolveSort(searchParams?.get('sort'), hasQuery);
+  // Relevance chip only surfaces in search context.
+  const sortOptions = sortOptionsForQuery(hasQuery);
 
   // Memoize filters so that useCallback deps are stable across renders.
   // Each field is derived from searchParams; the object identity is stable unless
@@ -174,10 +170,6 @@ export default function ProductsPage() {
         if (updates.inStock) params.set('inStock', 'true');
         else params.delete('inStock');
       }
-      if ('sort' in updates) {
-        if (updates.sort && updates.sort !== 'newest') params.set('sort', updates.sort);
-        else params.delete('sort');
-      }
       if ('q' in updates) {
         if (updates.q) params.set('q', updates.q);
         else params.delete('q');
@@ -192,6 +184,14 @@ export default function ProductsPage() {
         if (updates.verticals && updates.verticals.length > 0)
           params.set('vertical', updates.verticals.join(','));
         else params.delete('vertical');
+      }
+      if ('sort' in updates) {
+        // Omit the param when it equals the contextual default (relevance while
+        // searching, newest otherwise) so URLs stay clean. Read q AFTER the q
+        // block above so a combined search+sort change uses the new query state.
+        const baseline = defaultSortForQuery(Boolean(params.get('q')));
+        if (updates.sort && updates.sort !== baseline) params.set('sort', updates.sort);
+        else params.delete('sort');
       }
 
       router.push(`/products?${params.toString()}`);
@@ -217,14 +217,13 @@ export default function ProductsPage() {
       params.append('store_id', debouncedFilters.store_ids.join(','));
     if (debouncedFilters.verticals && debouncedFilters.verticals.length > 0)
       params.append('vertical', debouncedFilters.verticals.join(','));
-    const searchTerm = searchParams?.get('q');
-    if (searchTerm) params.append('q', searchTerm);
+    if (searchQuery) params.append('q', searchQuery);
     // Fix 3: use the active i18n language so Arabic users receive Arabic product data
     params.append('locale', i18n.language);
-    params.append('sort', currentSort || 'newest');
+    params.append('sort', currentSort);
 
     return params.toString();
-  }, [debouncedFilters, currentSort, searchParams, i18n.language]);
+  }, [debouncedFilters, currentSort, searchQuery, i18n.language]);
 
   // useSWRInfinite key function — appends page=N to the base query string.
   // Returns null on beyond-last-page to stop fetching.
@@ -310,7 +309,7 @@ export default function ProductsPage() {
   }, [isReachingEnd, isValidating, setSize]);
 
   // OpenSouk nudge — when search/listing yields nothing, invite them to post a request.
-  const searchQuery = searchParams?.get('q');
+  // (searchQuery is derived once near the top of the component.)
   const openSouk = useOpenSoukNudge({
     storageKey: 'products',
     enabled: !isLoading && !error,
@@ -557,7 +556,7 @@ export default function ProductsPage() {
                 aria-label={t('sort.aria_label', 'Sort products')}
                 className="flex gap-2 overflow-x-auto pb-0.5 scrollbar-hide"
               >
-                {SORT_OPTIONS.map(({ value, labelKey, fallback, icon: Icon }) => {
+                {sortOptions.map(({ value, labelKey, fallback, icon: Icon }) => {
                   const isActive = currentSort === value;
                   return (
                     <button

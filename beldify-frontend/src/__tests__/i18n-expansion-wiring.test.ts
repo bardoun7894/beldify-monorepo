@@ -229,7 +229,8 @@ describe('Task 5 — axiosInstance sets Accept-Language from i18n', () => {
 // ─── Task 6: SORT_OPTIONS use products.sort.* keys ───────────────────────────
 
 describe('Task 6 — SORT_OPTIONS use products.sort.* keys', () => {
-  const page = read('src/app/products/page.tsx');
+  // Spec 010: sort options were extracted from page.tsx into sortConfig.ts.
+  const page = read('src/app/products/sortConfig.ts');
 
   it("uses 'products.sort.newest' key", () => {
     expect(page).toContain('products.sort.newest');
