@@ -155,6 +155,9 @@
     "collections_found": "collection",
     "no_results_description": "Essayez de modifier le filtre ou revenez plus tard.",
     "no_results_title": "Aucune catégorie trouvée",
+    "did_you_mean": "Vouliez-vous dire",
+    "open_souk_matches": "D’autres cherchent aussi ceci",
+    "open_souk_responses": "{{count}} offres",
     "topCategories": "Catégories populaires",
     "accessories": {
       "description": "Bijoux et accessoires traditionnels",

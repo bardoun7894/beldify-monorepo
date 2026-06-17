@@ -162,6 +162,9 @@
     "collections_found": "تصنيف",
     "no_results_description": "جرب تبدل الفلتر أو ارجع لاحقاً.",
     "no_results_title": "ما كاين حتى تصنيف",
+    "did_you_mean": "واش بغيتي تقول",
+    "open_souk_matches": "ناس خرين كيقلبو على هاد الشي",
+    "open_souk_responses": "{{count}} عروض",
     "accessories": {
       "description": "الجواهر والإكسسوارات التقليدية",
       "name": "الإكسسوارات"

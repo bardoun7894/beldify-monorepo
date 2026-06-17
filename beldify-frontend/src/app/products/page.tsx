@@ -238,6 +238,11 @@ export default function ProductsPage() {
   const data = pages?.[pages.length - 1] ?? undefined;
   const paginationMeta = data?.pagination ?? data?.meta;
 
+  // T10/T12: zero-result aids — backend attaches these to the first page only.
+  const firstPage: any = pages?.[0];
+  const didYouMean: string | null = firstPage?.did_you_mean ?? null;
+  const openSoukMatches = firstPage?.open_souk_matches ?? [];
+
   // Determine pagination state
   const isReachingEnd =
     paginationMeta !== undefined
@@ -595,7 +600,11 @@ export default function ProductsPage() {
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.2 }}
               >
-                <NoSearchResults query={searchQuery || undefined} />
+                <NoSearchResults
+                  query={searchQuery || undefined}
+                  didYouMean={didYouMean}
+                  openSoukMatches={openSoukMatches}
+                />
               </motion.div>
             )}
 
