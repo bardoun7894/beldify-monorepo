@@ -5,9 +5,22 @@ import Link from 'next/link';
 import { useTranslation } from 'react-i18next';
 import { Search, Lightbulb, ArrowRight, Megaphone } from 'lucide-react';
 
+interface OpenSoukMatch {
+  id: number;
+  title: string;
+  budget_min?: number | null;
+  budget_max?: number | null;
+  currency?: string;
+  response_count?: number;
+}
+
 interface NoSearchResultsProps {
   query?: string;
   suggestions?: string[];
+  /** "Did you mean X?" — backend curated-synonym suggestion on a dead-end search. */
+  didYouMean?: string | null;
+  /** Matching open Open Souk requests to cross-link to (T12). */
+  openSoukMatches?: OpenSoukMatch[];
 }
 
 const DEFAULT_SUGGESTIONS = [
@@ -22,6 +35,8 @@ const DEFAULT_SUGGESTIONS = [
 export default function NoSearchResults({
   query,
   suggestions = DEFAULT_SUGGESTIONS,
+  didYouMean = null,
+  openSoukMatches = [],
 }: NoSearchResultsProps) {
   const { t } = useTranslation();
 
@@ -41,8 +56,22 @@ export default function NoSearchResults({
       </h3>
 
       {query && (
-        <p className="text-gray-500 text-sm mb-8 max-w-xs">
+        <p className="text-gray-500 text-sm mb-3 max-w-xs">
           {t('search.no_results_for', 'No results for "{{query}}"', { query })}
+        </p>
+      )}
+
+      {/* Did you mean — curated synonym correction */}
+      {didYouMean && (
+        <p className="text-gray-600 text-sm mb-8">
+          {t('search.did_you_mean', 'Did you mean')}{' '}
+          <Link
+            href={`/products?q=${encodeURIComponent(didYouMean)}`}
+            className="font-semibold text-indigo-700 underline underline-offset-2 hover:text-indigo-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30 rounded"
+          >
+            {didYouMean}
+          </Link>
+          ?
         </p>
       )}
 
@@ -93,6 +122,30 @@ export default function NoSearchResults({
             <ArrowRight className="h-4 w-4 shrink-0 rtl:rotate-180" aria-hidden="true" />
           </Link>
         </div>
+
+        {/* T12 — matching open Open Souk requests for this dead-end search */}
+        {openSoukMatches.length > 0 && (
+          <div className="mt-6 text-start">
+            <h4 className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-3">
+              {t('search.open_souk_matches', 'People are looking for this too')}
+            </h4>
+            <ul className="space-y-2">
+              {openSoukMatches.map((match) => (
+                <li key={match.id}>
+                  <Link
+                    href={`/community/posts/${match.id}`}
+                    className="flex items-center justify-between gap-3 rounded-xl border border-gray-200 bg-white px-4 py-3 hover:border-indigo-300 hover:bg-indigo-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30 transition-colors"
+                  >
+                    <span className="text-sm text-gray-800 line-clamp-1 text-start">{match.title}</span>
+                    <span className="shrink-0 text-xs text-gray-500">
+                      {t('search.open_souk_responses', '{{count}} offers', { count: match.response_count ?? 0 })}
+                    </span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
 
         {/* OpenSouk — reverse-marketplace CTA (the core differentiator) */}
         <div className="mt-6 rounded-2xl bg-indigo-700 p-5 text-center text-white shadow-atlas-sm">

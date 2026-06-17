@@ -265,9 +265,13 @@ export default function ProductsPage() {
   const data = pages?.[pages.length - 1] ?? undefined;
   const paginationMeta = data?.pagination ?? data?.meta;
 
-  // T8: Extract facets from first page (facets don't change across pages).
-  // Graceful: facets may be absent if backend hasn't deployed Wave 2 yet.
-  const facets = pages?.[0]?.facets ?? undefined;
+  // T8: facets from first page (facets don't change across pages).
+  // T10/T12: zero-result aids (did-you-mean + Open Souk cross-link).
+  // Graceful: fields may be absent if the backend hasn't deployed the wave yet.
+  const firstPage: any = pages?.[0];
+  const facets = firstPage?.facets ?? undefined;
+  const didYouMean: string | null = firstPage?.did_you_mean ?? null;
+  const openSoukMatches = firstPage?.open_souk_matches ?? [];
 
   // Determine pagination state
   const isReachingEnd =
@@ -627,7 +631,11 @@ export default function ProductsPage() {
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.2 }}
               >
-                <NoSearchResults query={searchQuery || undefined} />
+                <NoSearchResults
+                  query={searchQuery || undefined}
+                  didYouMean={didYouMean}
+                  openSoukMatches={openSoukMatches}
+                />
               </motion.div>
             )}
 
