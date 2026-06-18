@@ -5,6 +5,13 @@ import { useAuth } from './AuthContext';
 import axios from '@/lib/axios';
 import toast from '@/utils/toast';
 import logger from '@/utils/consoleLogger';
+import { productService } from '@/services/api';
+import {
+  getGuestWishlist,
+  addGuestWishlistItem,
+  removeGuestWishlistItem,
+  clearGuestWishlist,
+} from '@/utils/guestWishlist';
 
 interface WishlistItem {
   id: number;
@@ -42,6 +49,7 @@ interface WishlistContextType {
   refreshWishlist: () => Promise<void>;
   isLoading: boolean;
 }
+
 // getImagePath function to get the image path
 function getImagePath(imageUrl: string): string {
   return imageUrl;
@@ -56,7 +64,9 @@ export function WishlistProvider({ children }: { children: React.ReactNode }) {
 
   const refreshWishlist = async () => {
     if (!isAuthenticated) {
-      setWishlistItems([]);
+      // Guest path: load from localStorage instead of clearing
+      const localItems = getGuestWishlist() as WishlistItem[];
+      setWishlistItems(localItems);
       setIsLoading(false);
       return;
     }
@@ -83,16 +93,61 @@ export function WishlistProvider({ children }: { children: React.ReactNode }) {
   }, [isAuthenticated]);
   /* eslint-enable react-hooks/exhaustive-deps */
 
+  // Listen for wishlist:refresh events (dispatched after merge-on-login)
+  /* eslint-disable react-hooks/exhaustive-deps */
+  useEffect(() => {
+    const handler = () => { refreshWishlist(); };
+    window.addEventListener('wishlist:refresh', handler);
+    return () => window.removeEventListener('wishlist:refresh', handler);
+  }, [isAuthenticated]);
+  /* eslint-enable react-hooks/exhaustive-deps */
+
   const isInWishlist = (productId: number): boolean => {
     return wishlistItems.some((item) => item.product_id === productId);
   };
 
   const addToWishlist = async (productId: number, opts?: WishlistNotifyOpts) => {
     if (!isAuthenticated) {
-      toast.error('Please login to add items to your wishlist');
+      // Guest path: fetch product snapshot then persist to localStorage
+      try {
+        const data = await productService.getProduct(productId);
+        const p = data?.product;
+        if (!p) {
+          toast.error('Product not found');
+          return;
+        }
+
+        const guestItem: WishlistItem = {
+          id: productId, // synthetic id — equals product_id for guest items
+          product_id: productId,
+          product: {
+            id: p.id,
+            name: p.name,
+            slug: p.slug ?? '',
+            description: p.description ?? '',
+            image_url: p.image_url ?? '',
+            price: p.price,
+            sale_price: p.sale_price ?? null,
+            is_on_sale: Boolean(p.is_on_sale),
+            discount_percentage: p.discount_percentage ?? 0,
+            variants: p.variants ?? { size: '', color: '', style: '' },
+          },
+        };
+
+        addGuestWishlistItem(guestItem);
+        setWishlistItems((prev) => {
+          if (prev.some((i) => i.product_id === productId)) return prev;
+          return [...prev, guestItem];
+        });
+        toast.success('Added to wishlist');
+      } catch (error) {
+        logger.error('Error adding to guest wishlist:', error);
+        toast.error('Failed to add item to wishlist');
+      }
       return;
     }
 
+    // Authenticated path — unchanged
     try {
       setIsLoading(true);
       const body: Record<string, unknown> = {
@@ -125,6 +180,8 @@ export function WishlistProvider({ children }: { children: React.ReactNode }) {
 
   const updateWishlistNotifications = async (productId: number, opts: WishlistNotifyOpts) => {
     if (!isAuthenticated) {
+      // Price-drop / back-in-stock notifications inherently need an account.
+      // This is intentional — guests are prompted to sign in.
       toast.error('Please login to manage your wishlist');
       return;
     }
@@ -151,10 +208,13 @@ export function WishlistProvider({ children }: { children: React.ReactNode }) {
 
   const removeFromWishlist = async (productId: number) => {
     if (!isAuthenticated) {
-      toast.error('Please login to manage your wishlist');
+      // Guest path: remove from localStorage and update state
+      removeGuestWishlistItem(productId);
+      setWishlistItems((prev) => prev.filter((i) => i.product_id !== productId));
       return;
     }
 
+    // Authenticated path — unchanged
     try {
       setIsLoading(true);
       const response = await axios.delete(`/api/wishlist/${productId}`);
