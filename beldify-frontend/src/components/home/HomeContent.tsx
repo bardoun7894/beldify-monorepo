@@ -30,6 +30,8 @@ import Newsletter from '@/components/Newsletter';
 import PostCard from '@/components/community/PostCard';
 import type { CommunityPost } from '@/types/community';
 import CategoryCard from '@/components/home/CategoryCard';
+import RecentlyViewedRail from '@/components/home/RecentlyViewedRail';
+import FollowedShopsRail from '@/components/home/FollowedShopsRail';
 
 type Category = {
   id: number;
@@ -911,10 +913,16 @@ export default function HomeContent({ categories, data, openSoukPosts = [], hero
         </div>
       </section>
 
+      {/* ── FROM SHOPS YOU FOLLOW ────────────────────────────────────────── */}
+      <FollowedShopsRail />
+
       {/* ── DISCOVER FEED (infinite "more to love" feed) ─────────────────── */}
       <Suspense fallback={<LoadingSpinner />}>
         <DiscoverFeed />
       </Suspense>
+
+      {/* ── RECENTLY VIEWED ──────────────────────────────────────────────── */}
+      <RecentlyViewedRail />
 
       {/* ── NEWSLETTER ────────────────────────────────────────────────────── */}
       <Suspense fallback={<LoadingSpinner />}>

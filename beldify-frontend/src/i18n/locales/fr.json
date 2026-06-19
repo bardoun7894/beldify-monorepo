@@ -4105,6 +4105,16 @@
       "wedding": "Mariages et occasions",
       "jewelry": "Univers des bijoux",
       "cta": "Découvrir"
+    },
+    "recentlyViewed": {
+      "title": "Consultés récemment",
+      "subtitle": "Les pièces que vous avez regardées"
+    },
+    "followedShops": {
+      "title": "Des boutiques que vous suivez",
+      "subtitle": "Nouveautés des ateliers que vous avez sauvegardés",
+      "empty": "Aucune nouveauté pour l'instant dans vos boutiques suivies",
+      "loginPrompt": "Connectez-vous pour voir les nouveautés des ateliers que vous suivez"
     }
   },
   "journal": {

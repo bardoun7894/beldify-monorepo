@@ -212,6 +212,37 @@ export const shopService = {
     }
   },
 
+  // Get products from shops the user follows
+  // Endpoint: GET /api/user/following/products?page=&per_page=
+  // Contract: { data: Product[], meta } — or empty { data: [], meta: null } on any error.
+  // Fail-safe: 401 (guest), 404 (no follows), network errors all return the empty shape.
+  async getFollowingProducts(page = 1, perPage = 12): Promise<{
+    data: Array<{
+      id: number;
+      name: string;
+      price: number;
+      main_image: string | null;
+      store_id: number;
+      store_name: string;
+      store_slug: string | null;
+      [key: string]: unknown;
+    }>;
+    meta: Record<string, unknown> | null;
+  }> {
+    try {
+      const response = await axiosInstance.get('/api/user/following/products', {
+        params: { page, per_page: perPage },
+      });
+      return {
+        data: response.data?.data ?? [],
+        meta: response.data?.meta ?? null,
+      };
+    } catch {
+      // Swallow 401/404/network — rail renders nothing
+      return { data: [], meta: null };
+    }
+  },
+
   // Check if user follows a shop
   async checkFollowing(shopId: string | number): Promise<{
     data?: { isFollowing: boolean };

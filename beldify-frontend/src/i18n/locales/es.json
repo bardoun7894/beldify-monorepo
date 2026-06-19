@@ -4131,6 +4131,16 @@
       "wedding": "Bodas y ocasiones especiales",
       "jewelry": "Mundo de la joyería",
       "cta": "Descubrir"
+    },
+    "recentlyViewed": {
+      "title": "Vistos recientemente",
+      "subtitle": "Artículos que has explorado"
+    },
+    "followedShops": {
+      "title": "De las tiendas que sigues",
+      "subtitle": "Novedades de los talleres que guardaste",
+      "empty": "Aún no hay novedades en las tiendas que sigues",
+      "loginPrompt": "Inicia sesión para ver las novedades de los talleres que sigues"
     }
   },
   "journal": {

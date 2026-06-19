@@ -4319,6 +4319,16 @@
       "wedding": "Bruiloften en gelegenheden",
       "jewelry": "Wereld van sieraden",
       "cta": "Ontdekken"
+    },
+    "recentlyViewed": {
+      "title": "Onlangs bekeken",
+      "subtitle": "Items die je hebt bekeken"
+    },
+    "followedShops": {
+      "title": "Van winkels die je volgt",
+      "subtitle": "Nieuwkomers van ateliers die je hebt opgeslagen",
+      "empty": "Nog geen nieuwkomers van je gevolgde winkels",
+      "loginPrompt": "Log in om nieuwkomers te zien van de ateliers die je volgt"
     }
   },
   "journal": {

@@ -4332,6 +4332,16 @@
       "wedding": "Weddings & occasions",
       "jewelry": "Jewellery world",
       "cta": "Discover"
+    },
+    "recentlyViewed": {
+      "title": "Recently viewed",
+      "subtitle": "Items you looked at"
+    },
+    "followedShops": {
+      "title": "From shops you follow",
+      "subtitle": "New arrivals from ateliers you saved",
+      "empty": "Nothing new from your followed shops yet",
+      "loginPrompt": "Sign in to see new arrivals from ateliers you follow"
     }
   },
   "journal": {

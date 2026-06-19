@@ -4319,6 +4319,16 @@
       "wedding": "Hochzeiten und besondere Anlässe",
       "jewelry": "Welt des Schmucks",
       "cta": "Entdecken"
+    },
+    "recentlyViewed": {
+      "title": "Zuletzt angesehen",
+      "subtitle": "Artikel, die du dir angeschaut hast"
+    },
+    "followedShops": {
+      "title": "Von Shops, denen du folgst",
+      "subtitle": "Neuankömmlinge aus Ateliers, die du gespeichert hast",
+      "empty": "Noch keine Neuankömmlinge aus deinen gefolgten Shops",
+      "loginPrompt": "Melde dich an, um Neuankömmlinge der Ateliers zu sehen, denen du folgst"
     }
   },
   "journal": {

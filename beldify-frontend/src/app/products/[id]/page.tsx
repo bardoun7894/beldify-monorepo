@@ -18,6 +18,7 @@ import { getColorName, useLazyColorName } from '@/utils/colorNamer';
 import { buildImageUrl, cn } from '@/lib/utils';
 import { getImageUrl } from '@/utils/imageUtils';
 import logger from '@/utils/consoleLogger';
+import { addRecentlyViewed } from '@/utils/recentlyViewed';
 import { CheckCircle2, XCircle, AlertCircle } from 'lucide-react';
 import {
   BadgeCheck,
@@ -816,26 +817,9 @@ export default function ProductDetailsPage() {
 
   // Function to handle adding to cart
   const handleAddToCart = async () => {
-    // Check authentication first
-    if (!isAuthenticated || !user) {
-      toast.error(t('auth.login_required'));
-      // Store the intended action and product info
-      sessionStorage.setItem('redirectAction', 'addToCart');
-      sessionStorage.setItem('redirectProductId', product?.id?.toString() || '');
-      if (selectedVariant) {
-        sessionStorage.setItem('redirectVariant', JSON.stringify({
-          id: selectedVariant.id,
-          color: selectedColor,
-          size: selectedSize,
-          fabric: selectedFabric
-        }));
-      }
-      sessionStorage.setItem('redirectQuantity', quantity.toString());
-      // Preserve the current URL for redirect after login
-      const currentUrl = window.location.pathname + window.location.search;
-      router.push(`/login?redirect=${encodeURIComponent(currentUrl)}`);
-      return;
-    }
+    // Guests can add to cart and check out via the guest cart (X-Guest-Token) —
+    // no login required. Do not gate add-to-cart behind authentication; the
+    // downstream addItem/cart logic works identically for guests and members.
 
     // Early exit if button should be disabled
     if (product?.variants && product.variants.length > 0) {
@@ -895,12 +879,17 @@ export default function ProductDetailsPage() {
 
     try {
       // ── Variant-less path (hybrid-stock backend contract) ──────────────────
-      // When a product has no variants, use product.stock object to add by stock_id.
-      if (product && product.variants.length === 0 && product.stock) {
-        const stockId = Number(product.stock.id);
+      // When a product has no variants, resolve the stock_id with the same
+      // precedence as handlePurchaseNow: product.stock.id → product.stock_id →
+      // product.id. The catalog serves flat stocks-table rows whose own id IS
+      // the stock_id (see KB beldify-catalog-stocks-table), so falling back to
+      // product.id is required — without it, add-to-cart silently no-ops for
+      // variant-less products that have no nested `stock` object.
+      if (product && product.variants.length === 0) {
+        const stockId = Number(product.stock?.id ?? product.stock_id ?? product.id);
         const loadingToast = toast.loading('Adding to cart...');
         try {
-          await addItem(Number(product.stock.id), quantity, 'stock');
+          await addItem(stockId, quantity, 'stock');
         } catch (error) {
           logger.error('Variant-less cart error:', {
             stockId,
@@ -961,26 +950,9 @@ export default function ProductDetailsPage() {
 
   // Function to handle direct purchase
   const handlePurchaseNow = async () => {
-    // Check authentication first
-    if (!isAuthenticated || !user) {
-      toast.error(t('auth.login_required'));
-      // Store the intended action and product info
-      sessionStorage.setItem('redirectAction', 'purchaseNow');
-      sessionStorage.setItem('redirectProductId', product?.id?.toString() || '');
-      if (selectedVariant) {
-        sessionStorage.setItem('redirectVariant', JSON.stringify({
-          id: selectedVariant.id,
-          color: selectedColor,
-          size: selectedSize,
-          fabric: selectedFabric
-        }));
-      }
-      sessionStorage.setItem('redirectQuantity', quantity.toString());
-      // Preserve the current URL for redirect after login
-      const currentUrl = window.location.pathname + window.location.search;
-      router.push(`/login?redirect=${encodeURIComponent(currentUrl)}`);
-      return;
-    }
+    // Guests can buy now via the guest cart + guest checkout (COD) — no login
+    // required. Do not gate direct purchase behind authentication; the flow adds
+    // to the guest cart and proceeds to /checkout, which supports guests.
 
     // Early exit if button should be disabled
     if (product?.variants && product.variants.length > 0) {
@@ -1172,6 +1144,18 @@ export default function ProductDetailsPage() {
       .then((data) => setAllRelatedProducts(data.products || []))
       .catch(() => setAllRelatedProducts([]));
   }, [id]);
+
+  // Track recently-viewed products in localStorage for the home-page shelf
+  useEffect(() => {
+    if (!product) return;
+    addRecentlyViewed({
+      id: Number(product.id),
+      name: product.name,
+      image: product.main_image || '',
+      price: product.price,
+      viewedAt: Date.now(),
+    });
+  }, [product]);
 
   if (loading) {
     return (
