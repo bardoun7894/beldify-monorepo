@@ -748,6 +748,8 @@
   "products": {
     "title": "Produits",
     "results": "{{count}} produit",
+    "results_one": "{{count}} produit",
+    "results_other": "{{count}} produits",
     "no_results": "Aucun produit trouvé",
     "add_to_cart": "Ajouter au panier",
     "customize": "Personnaliser",
@@ -976,7 +978,8 @@
       "cancel_order": "Annuler la commande",
       "request_return": "Demander un retour",
       "return_request": "Demande de retour",
-      "back_to_order": "Retour à la commande"
+      "back_to_order": "Retour à la commande",
+      "buy_again": "Racheter"
     },
     "filter": {
       "all": "Toutes les commandes",
@@ -1357,6 +1360,7 @@
       },
       "cod_over_limit": "Indisponible au-delà de 500 MAD",
       "cod_morocco_only": "Disponible uniquement au Maroc",
+      "gateway_coming_soon": "Bientôt disponible",
       "need_help_title": "Vous ne savez pas comment payer ?",
       "need_help_body": "Écrivez-nous ou appelez-nous, nous vous guidons.",
       "whatsapp": "WhatsApp",
@@ -5296,7 +5300,8 @@
     "status_approved": "Approuvé",
     "status_rejected": "Refusé",
     "status_pending": "En attente",
-    "refund_notice": "Votre crédit a été recrédité sur votre portefeuille."
+    "refund_notice": "Votre crédit a été recrédité sur votre portefeuille.",
+    "disclaimer": "Image approximative générée par IA — la taille et la coupe peuvent différer du produit réel"
   },
   "payouts": {
     "eyebrow": "Espace Vendeur",
@@ -5373,5 +5378,15 @@
     "no_bank_details": "Ajoutez vos coordonnées bancaires pour demander un virement.",
     "open_request_exists": "Vous avez déjà une demande ouverte.",
     "below_min": "Le solde est inférieur au montant minimum de virement."
+  },
+  "post_order_push": {
+    "title": "Suivez votre livraison",
+    "subtitle": "Nous vous notifions à chaque mise à jour de votre commande",
+    "enable_cta": "Activer les notifications",
+    "enabling": "Activation…",
+    "enable_aria": "Activer les notifications de livraison",
+    "guest_title": "Créez un compte pour suivre vos commandes",
+    "guest_cta": "Créer un compte",
+    "guest_aria": "Créer un compte pour suivre vos commandes"
   }
 }

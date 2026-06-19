@@ -568,7 +568,7 @@ export default function ProductsPage() {
                       type="button"
                       onClick={() => handleSortChange(value)}
                       aria-pressed={isActive}
-                      className={`inline-flex items-center gap-1.5 whitespace-nowrap px-3.5 py-2 rounded-full text-xs font-semibold transition-all duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30 shrink-0 min-h-[36px] ${
+                      className={`inline-flex items-center gap-1.5 whitespace-nowrap px-3.5 py-2 rounded-full text-xs font-semibold transition-all duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30 shrink-0 min-h-[44px] ${
                         isActive
                           ? 'bg-indigo-700 text-white shadow-sm'
                           : 'bg-white text-gray-700 border border-gray-200 hover:border-indigo-300 hover:text-indigo-700'

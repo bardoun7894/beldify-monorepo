@@ -775,6 +775,12 @@
   "products": {
     "title": "المنتوجات",
     "results": "{{count}} منتوج",
+    "results_zero": "ما لقينا حتى منتوج",
+    "results_one": "منتوج واحد",
+    "results_two": "جوج منتوجات",
+    "results_few": "{{count}} منتوجات",
+    "results_many": "{{count}} منتوج",
+    "results_other": "{{count}} منتوج",
     "no_results": "ما لقينا حتى منتوج",
     "add_to_cart": "زيد فلقفة",
     "customize": "فصّلو على قياسك",
@@ -1003,7 +1009,8 @@
       "cancel_order": "لغي الطلبية",
       "request_return": "طلب الرجوع",
       "return_request": "طلب الرجوع",
-      "back_to_order": "رجع للطلب"
+      "back_to_order": "رجع للطلب",
+      "buy_again": "اشتري مرة أخرى"
     },
     "filter": {
       "all": "كاع الطلبيات",
@@ -1300,6 +1307,7 @@
       },
       "cod_over_limit": "الدفع عند التوصيل ما متاحش فوق 500 درهم",
       "cod_morocco_only": "غير فالمغرب",
+      "gateway_coming_soon": "قريباً",
       "need_help_title": "ما عرفتيش كيفاش تخلّص؟",
       "need_help_body": "صيفط لينا واتساب ولا عيّط لينا ونعاونوك.",
       "whatsapp": "واتساب",
@@ -5296,7 +5304,8 @@
     "status_approved": "مقبول",
     "status_rejected": "مرفوض",
     "status_pending": "في الانتظار",
-    "refund_notice": "رجع ليك الكريدي ف المحفظة ديالك."
+    "refund_notice": "رجع ليك الكريدي ف المحفظة ديالك.",
+    "disclaimer": "صورة تقريبية مولّدة بالذكاء الاصطناعي — قد يختلف المقاس والقصّة عن المنتج الحقيقي"
   },
   "payouts": {
     "eyebrow": "لوحة البائع",
@@ -5373,5 +5382,15 @@
     "no_bank_details": "ضف المعلومات البنكية باش تطلب السحب.",
     "open_request_exists": "عندك طلب مفتوح بالفعل.",
     "below_min": "الرصيد أقل من الحد الأدنى."
+  },
+  "post_order_push": {
+    "title": "تابع شحنتك",
+    "subtitle": "غنبعثوليك إشعار فين تتبدل حالة طلبك",
+    "enable_cta": "فعّل الإشعارات",
+    "enabling": "جارٍ التفعيل…",
+    "enable_aria": "فعّل إشعارات الشحن",
+    "guest_title": "دير حساب باش تتبع طلباتك",
+    "guest_cta": "إنشاء حساب",
+    "guest_aria": "إنشاء حساب لمتابعة الطلب"
   }
 }

@@ -373,8 +373,11 @@ export default function CheckoutPage() {
 
   // Reason a method can't be picked (null = selectable).
   const paymentDisabledReason = (method: PaymentMethod): string | null => {
-    // Online gateways (card / PayPal) are bypassed — no real charge is taken.
-    // The order is created with payment_status 'pending' for manual confirmation.
+    // Online gateways (card / PayPal) produce phantom pending orders with no real charge.
+    // Hide them behind a "coming soon" overlay until a live gateway is activated.
+    if (method.kind === 'gateway') {
+      return t('checkout.payment.gateway_coming_soon', 'قريباً / Coming soon');
+    }
     if (method.kind === 'cod' && !codAllowed) {
       return effectiveTotalForCod > COD_MAX_AMOUNT
         ? t('checkout.payment.cod_over_limit', `Not available over ${COD_MAX_AMOUNT} MAD`)
@@ -1343,6 +1346,20 @@ export default function CheckoutPage() {
     ? dynamicShippingMethods
     : shippingService.getFallback(subtotal);
 
+  // Translate shipping method name + ETA by well-known id; fall back to
+  // backend-supplied strings (live API may already return localised values).
+  const getShippingMethodName = (id: string, fallback: string): string => {
+    const key = `checkout.shipping.methods.${id}.name`;
+    const translated = t(key, fallback);
+    return translated !== key ? translated : fallback;
+  };
+
+  const getShippingMethodEta = (id: string, fallback: string): string => {
+    const key = `checkout.shipping.methods.${id}.eta`;
+    const translated = t(key, fallback);
+    return translated !== key ? translated : fallback;
+  };
+
   const shippingMethodOptions: Array<{
     key: ShippingMethodKey;
     icon: React.ReactNode;
@@ -1353,8 +1370,8 @@ export default function CheckoutPage() {
   }> = activeMethods.map((m) => ({
     key: m.id,
     icon: getMethodIcon(m.id),
-    name: m.name,
-    eta: m.delivery_time,
+    name: getShippingMethodName(m.id, m.name),
+    eta: getShippingMethodEta(m.id, m.delivery_time),
     price: m.is_free
       ? t('checkout.shipping.methods.standard.free', 'Free')
       : `${formatAmount(m.cost)} MAD`,

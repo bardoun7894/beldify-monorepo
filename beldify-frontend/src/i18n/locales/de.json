@@ -775,6 +775,8 @@
   "products": {
     "title": "Produkte",
     "results": "{{count}} Produkt",
+    "results_one": "{{count}} Produkt",
+    "results_other": "{{count}} Produkte",
     "no_results": "Keine Produkte gefunden",
     "add_to_cart": "In den Warenkorb",
     "customize": "Anpassen",
@@ -1003,7 +1005,8 @@
       "cancel_order": "Bestellung stornieren",
       "request_return": "Rückgabe anfragen",
       "return_request": "Rückgabeanfrage",
-      "back_to_order": "Zurück zur Bestellung"
+      "back_to_order": "Zurück zur Bestellung",
+      "buy_again": "Erneut kaufen"
     },
     "filter": {
       "all": "Alle Bestellungen",
@@ -1372,6 +1375,7 @@
       },
       "cod_over_limit": "Nicht verfügbar über 500 MAD",
       "cod_morocco_only": "Nur innerhalb Marokkos verfügbar",
+      "gateway_coming_soon": "Demnächst verfügbar",
       "need_help_title": "Unsicher bei der Zahlung?",
       "need_help_body": "Schreib uns eine Nachricht oder ruf uns an — wir helfen dir gerne.",
       "whatsapp": "WhatsApp",
@@ -5266,7 +5270,8 @@
     "status_approved": "Genehmigt",
     "status_rejected": "Abgelehnt",
     "status_pending": "Ausstehend",
-    "refund_notice": "Ihr Guthaben wurde in Ihre Brieftasche zurückgegeben."
+    "refund_notice": "Ihr Guthaben wurde in Ihre Brieftasche zurückgegeben.",
+    "disclaimer": "KI-generierte Annäherung — Passform und Schnitt können vom echten Produkt abweichen"
   },
   "payouts": {
     "eyebrow": "Verkäufer-Hub",
@@ -5343,5 +5348,15 @@
     "no_bank_details": "Fügen Sie Ihre Bankdaten hinzu, um eine Auszahlung zu beantragen.",
     "open_request_exists": "Sie haben bereits einen offenen Antrag.",
     "below_min": "Guthaben liegt unter dem Mindestbetrag für Auszahlungen."
+  },
+  "post_order_push": {
+    "title": "Sendung verfolgen",
+    "subtitle": "Wir benachrichtigen dich bei jeder Statusänderung deiner Bestellung",
+    "enable_cta": "Benachrichtigungen aktivieren",
+    "enabling": "Wird aktiviert…",
+    "enable_aria": "Versandbenachrichtigungen aktivieren",
+    "guest_title": "Erstelle ein Konto, um deine Bestellungen zu verfolgen",
+    "guest_cta": "Konto erstellen",
+    "guest_aria": "Konto erstellen, um Bestellungen zu verfolgen"
   }
 }

@@ -775,6 +775,8 @@
   "products": {
     "title": "Products",
     "results": "{{count}} product",
+    "results_one": "{{count}} product",
+    "results_other": "{{count}} products",
     "no_results": "No products found",
     "add_to_cart": "Add to Cart",
     "customize": "Customize",
@@ -1003,7 +1005,8 @@
       "cancel_order": "Cancel order",
       "request_return": "Request return",
       "return_request": "Return request",
-      "back_to_order": "Back to order"
+      "back_to_order": "Back to order",
+      "buy_again": "Buy it again"
     },
     "filter": {
       "all": "All Orders",
@@ -1379,6 +1382,7 @@
       },
       "cod_over_limit": "Not available over 500 MAD",
       "cod_morocco_only": "Only available inside Morocco",
+      "gateway_coming_soon": "Coming soon",
       "need_help_title": "Not sure how to pay?",
       "need_help_body": "Message or call us and we'll guide you through it.",
       "whatsapp": "WhatsApp",
@@ -5296,7 +5300,8 @@
     "status_approved": "Approved",
     "status_rejected": "Rejected",
     "status_pending": "Pending",
-    "refund_notice": "Your credit has been returned to your wallet."
+    "refund_notice": "Your credit has been returned to your wallet.",
+    "disclaimer": "AI-generated approximation — fit and cut may differ from the real product"
   },
   "payouts": {
     "eyebrow": "Seller Hub",
@@ -5394,5 +5399,15 @@
       "djellaba": "Djellaba",
       "accessory": "Accessories"
     }
+  },
+  "post_order_push": {
+    "title": "Track your shipment",
+    "subtitle": "We'll notify you when your order status changes",
+    "enable_cta": "Enable notifications",
+    "enabling": "Enabling…",
+    "enable_aria": "Enable shipping notifications",
+    "guest_title": "Create an account to follow your orders",
+    "guest_cta": "Create account",
+    "guest_aria": "Create an account to track your orders"
   }
 }

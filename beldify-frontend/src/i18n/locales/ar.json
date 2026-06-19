@@ -775,6 +775,12 @@
   "products": {
     "title": "المنتجات",
     "results": "{{count}} منتج",
+    "results_zero": "لا توجد منتجات",
+    "results_one": "منتج واحد",
+    "results_two": "منتجان",
+    "results_few": "{{count}} منتجات",
+    "results_many": "{{count}} منتجًا",
+    "results_other": "{{count}} منتج",
     "no_results": "لم يتم العثور على منتجات",
     "add_to_cart": "أضف إلى السلة",
     "customize": "تخصيص",
@@ -1002,7 +1008,8 @@
       "cancel_order": "إلغاء الطلبية",
       "request_return": "طلب إرجاع",
       "return_request": "طلب الإرجاع",
-      "back_to_order": "العودة إلى الطلب"
+      "back_to_order": "العودة إلى الطلب",
+      "buy_again": "اشترِ مرة أخرى"
     },
     "filter": {
       "all": "جميع الطلبات",
@@ -1384,6 +1391,7 @@
       },
       "cod_over_limit": "غير متاح لأكثر من 500 درهم",
       "cod_morocco_only": "متاح داخل المغرب فقط",
+      "gateway_coming_soon": "قريباً",
       "need_help_title": "لست متأكداً كيف تدفع؟",
       "need_help_body": "راسلنا أو اتصل بنا وسنرشدك خطوة بخطوة.",
       "whatsapp": "واتساب",
@@ -5296,7 +5304,8 @@
     "status_approved": "موافق عليه",
     "status_rejected": "مرفوض",
     "status_pending": "قيد الانتظار",
-    "refund_notice": "تمت إعادة رصيدك إلى محفظتك."
+    "refund_notice": "تمت إعادة رصيدك إلى محفظتك.",
+    "disclaimer": "صورة تقريبية مولّدة بالذكاء الاصطناعي — قد يختلف المقاس والقصّة عن المنتج الحقيقي"
   },
   "payouts": {
     "eyebrow": "لوحة البائع",
@@ -5394,5 +5403,15 @@
       "djellaba": "جلابة",
       "accessory": "إكسسوارات"
     }
+  },
+  "post_order_push": {
+    "title": "تابع شحنتك",
+    "subtitle": "سنُخطرك عند تحديث حالة طلبك",
+    "enable_cta": "تفعيل الإشعارات",
+    "enabling": "جارٍ التفعيل…",
+    "enable_aria": "تفعيل إشعارات الشحن",
+    "guest_title": "أنشئ حسابًا لمتابعة طلباتك",
+    "guest_cta": "إنشاء حساب",
+    "guest_aria": "إنشاء حساب لمتابعة الطلب"
   }
 }
