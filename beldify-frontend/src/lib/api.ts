@@ -50,8 +50,9 @@ api.interceptors.request.use(
 
     if (token) {
       config.headers['Authorization'] = `Bearer ${token}`;
-    } else if (guestToken && config.url?.includes('/api/cart')) {
-      // Only add guest token for cart-related endpoints when not authenticated
+    } else if (guestToken && config.url?.includes('/api/')) {
+      // Attach guest token for all API calls when not authenticated,
+      // matching backend expectations for public endpoints (cart, orders, etc.)
       config.headers['X-Guest-Token'] = guestToken;
     }
 
@@ -74,9 +75,18 @@ api.interceptors.response.use(
   },
   async (error) => {
     if (error.response?.status === 401 && typeof window !== 'undefined') {
-      localStorage.removeItem('token');
-      const currentPath = window.location.pathname;
-      window.location.href = `/login?redirect=${encodeURIComponent(currentPath)}`;
+      // Only force a re-login when an actual auth session existed and is now
+      // invalid. Guests (no auth token) legitimately receive 401 from auth-only
+      // sub-endpoints reached on public pages (e.g. cart/related-products,
+      // cart coupons) — those must never hijack a guest to /login, or guest
+      // cart/checkout breaks. Protected routes are already gated upstream.
+      if (getAuthToken()) {
+        localStorage.removeItem('token');
+        const currentPath = window.location.pathname;
+        if (currentPath !== '/login') {
+          window.location.href = `/login?redirect=${encodeURIComponent(currentPath)}`;
+        }
+      }
     }
     return Promise.reject(error);
   }

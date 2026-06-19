@@ -246,7 +246,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const login = async (email: string, password: string, remember = false): Promise<AuthResponse> => {
     setLoading(true);
     try {
-      toast.debug(`Attempting login for email: ${email}`);
+      toast.debug('Attempting login');
       logger.log('Attempting login...');
 
       // Get CSRF token from our custom endpoint
@@ -380,7 +380,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           }
         }
 
-        toast.debug('Login response received successfully');
+        toast.debug('Login response received');
         toast.success('Successfully logged in');
 
         return { success: true, data: user, message: 'Login successful' };
@@ -400,7 +400,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       return { success: false, message: errorMessage };
     } catch (error: any) {
       // Log the error details in debug mode only
-      toast.debug(`Login error: ${error.message}`);
+      toast.debug('Login error occurred');
       logger.error('Login failed:', error.response || error);
       const message = error.response?.data?.message || 'Login failed';
       toast.error(message);
@@ -413,7 +413,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const register = async (userData: RegisterUserData): Promise<AuthResponse> => {
     setLoading(true);
     try {
-      toast.debug(`Attempting registration for email: ${userData.email}`);
+      toast.debug('Attempting registration');
       // Get CSRF token from our custom endpoint
       let csrfToken = '';
       try {
@@ -525,6 +525,19 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
         setUser(user);
         setIsAuthenticated(true);
+
+        // Merge guest cart (same pattern as login)
+        const guestToken = localStorage.getItem('guest_token');
+        if (guestToken) {
+          try {
+            await cartService.mergeGuestCart();
+            localStorage.removeItem('guest_token');
+            window.dispatchEvent(new Event('cart:refresh'));
+          } catch (mergeError) {
+            logger.error('Failed to merge guest cart after registration:', mergeError);
+          }
+        }
+
         await checkAuth(false); // Re-check auth to ensure profile is fresh after registration
         toast.debug('Registration successful');
         // Success toast is shown by the caller (register page) to avoid a
@@ -536,7 +549,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       throw new Error(response.data.message || 'Registration failed');
     } catch (error: any) {
       // Log the error details in debug mode only
-      toast.debug(`Registration error: ${error.message}`);
+      toast.debug('Registration error occurred');
       logger.error('Registration error:', error);
       if (error.response?.data?.errors) {
         // Extract validation errors
@@ -827,7 +840,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 // List of routes that require authentication
 const protectedRoutes = [
   '/profile',
-  '/checkout',
   '/orders',
   '/account',
   '/address',

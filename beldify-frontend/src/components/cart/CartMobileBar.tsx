@@ -57,7 +57,7 @@ export default function CartMobileBar({
           className="flex-shrink-0 inline-flex items-center gap-2 bg-amber-500 hover:bg-amber-400 text-amber-950 rounded-full px-6 py-3 text-sm font-bold transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-amber-400 focus:ring-offset-2 focus:ring-offset-indigo-950 disabled:opacity-50 disabled:cursor-not-allowed shadow-atlas-sm min-h-[48px]"
         >
           {t('cart.summary.checkout_darija', 'كمّل الشراء')}
-          <ArrowRight className="w-4 h-4" aria-hidden="true" />
+          <ArrowRight className="w-4 h-4 rtl:rotate-180" aria-hidden="true" />
         </button>
       </div>
     </div>

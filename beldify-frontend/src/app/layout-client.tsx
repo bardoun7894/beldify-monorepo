@@ -61,19 +61,17 @@ export default function RootLayoutClient({ children }: RootLayoutClientProps) {
       {/* Navbar is position:sticky (occupies flow space) — no top padding needed */}
       <main className="flex-grow">{children}</main>
       <Footer />
-      {isDebuggingEnabled() && (
-        <Toaster
-          position={isRTL ? 'top-left' : 'top-right'}
-          containerStyle={{ direction: isRTL ? 'rtl' : 'ltr' }}
-          toastOptions={{
-            duration: 3000,
-            style: {
-              background: '#333',
-              color: '#fff',
-            },
-          }}
-        />
-      )}
+      <Toaster
+        position={isRTL ? 'top-left' : 'top-right'}
+        containerStyle={{ direction: isRTL ? 'rtl' : 'ltr' }}
+        toastOptions={{
+          duration: 3000,
+          style: {
+            background: '#333',
+            color: '#fff',
+          },
+        }}
+      />
     </div>
   );
 }
