@@ -41,14 +41,20 @@ export interface PerSellerOrder {
 /**
  * Per-seller breakdown from the quote endpoint when the cart spans
  * multiple stores. Added alongside the existing flat totals.
+ *
+ * Plan.md FR-017 contract:
+ *   sellers: [{ store_id, store_name, subtotal, shipping_amount, tax_amount, discount_amount, items[] }]
  */
 export interface PerSellerQuote {
   store_id: number;
-  /** Human-readable store name, if returned */
+  /** Human-readable store name */
   store_name?: string;
   subtotal: number;
   shipping_amount: number;
-  item_count: number;
+  tax_amount?: number;
+  discount_amount?: number;
+  item_count?: number;
+  items?: Array<{ stock_id?: number; quantity: number; unit_price?: number; product_name?: string }>;
 }
 
 export interface Order {
@@ -287,7 +293,14 @@ class OrderService {
     cod_allowed: boolean;
     cod_max: number;
     currency: string;
-    /** Present when the cart spans >1 seller. Additive — backend may omit for single-seller. */
+    /**
+     * NEW (plan.md FR-017): per-seller breakdown when cart spans >1 seller.
+     * Each entry: { store_id, store_name, subtotal, shipping_amount, tax_amount,
+     *   discount_amount, items[] }.
+     * Additive — backend may omit for single-seller carts.
+     */
+    sellers?: PerSellerQuote[];
+    /** Legacy alias kept for back-compat during transition. */
     per_seller?: PerSellerQuote[];
   }> {
     const response = await api.post('/api/orders/quote', payload);

@@ -6,7 +6,7 @@ import Image from 'next/image';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useTranslation } from 'react-i18next';
 import { motion, useReducedMotion } from 'framer-motion';
-import { orderService, Order, OrderItem } from '@/services/orderService';
+import { orderService, Order, OrderItem, PerSellerOrder } from '@/services/orderService';
 import toast from '@/utils/toast';
 import { syncUrlLocale } from '@/i18n/config';
 import { OrdersLoadingScreen } from '@/components/ui/LoadingManager';
@@ -28,7 +28,17 @@ import {
   Sparkles,
   ChevronRight,
   RefreshCw,
+  Store,
 } from 'lucide-react';
+
+// ── OrderGroup type alias for orders that contain sub-orders (multi-seller) ───
+// plan.md: buyer sees one group card with per-seller sub-order rows.
+// The API returns Order objects where `orders[]` carries PerSellerOrder sub-orders
+// and `group_number` (or checkout_group_id) is the buyer-facing group reference.
+interface OrderGroup extends Order {
+  group_number?: string;
+  orders?: PerSellerOrder[];
+}
 import logger from '@/utils/consoleLogger';
 
 const playfair = { fontFamily: '"Playfair Display", ui-serif, Georgia, serif' };
@@ -347,7 +357,7 @@ export default function OrdersPage() {
           </motion.div>
         ) : (
           <div className="grid gap-5 mt-6 lg:grid-cols-2 lg:items-start">
-            {filteredOrders.map((order: Order, index: number) => (
+            {filteredOrders.map((order: OrderGroup, index: number) => (
               <motion.div
                 key={order.id}
                 initial={shouldReduceMotion ? false : { y: 16, opacity: 0 }}
@@ -443,6 +453,51 @@ export default function OrdersPage() {
                     )}
                   </div>
                 </div>
+
+                {/* ── Multi-seller sub-order rows (plan.md FR-011) ──────────────
+                     When the group has per-seller sub-orders, show each seller's
+                     order number + independent status badge, so the buyer can see
+                     A is "shipped" while B is still "pending" (spec US-3 scenario 2). */}
+                {Array.isArray(order.orders) && order.orders.length > 1 && (
+                  <div className="px-5 sm:px-6 py-3 border-t border-gray-100 bg-indigo-50/40">
+                    <p className="text-[10px] uppercase tracking-[0.14em] text-indigo-600 font-medium mb-2">
+                      {t('orders.group.sub_orders_label', '{{count}} sellers in this order', {
+                        count: order.orders.length,
+                      }).replace('{{count}}', String(order.orders.length))}
+                    </p>
+                    <ul className="space-y-1.5" role="list" aria-label={t('orders.group.sub_orders_aria', 'Per-seller sub-orders')}>
+                      {order.orders.map((subOrder: PerSellerOrder) => {
+                        const subOrderStatus = (subOrder as any).status || 'pending';
+                        const storeName = subOrder.store_name ?? `Shop #${subOrder.store_id}`;
+                        return (
+                          <li
+                            key={subOrder.id}
+                            className="flex items-center justify-between gap-2 py-1 px-2 rounded-xl bg-white ring-1 ring-indigo-100"
+                          >
+                            <div className="flex items-center gap-2 min-w-0">
+                              <div className="w-6 h-6 rounded-full bg-amber-50 ring-1 ring-amber-200 flex items-center justify-center flex-shrink-0">
+                                <Store className="w-3 h-3 text-amber-600" aria-hidden="true" />
+                              </div>
+                              <span className="text-xs font-medium text-gray-700 truncate">
+                                {storeName}
+                              </span>
+                              <span className="text-[10px] text-gray-400 font-mono tabular-nums flex-shrink-0">
+                                #{subOrder.order_number}
+                              </span>
+                            </div>
+                            {/* Per-seller independent status badge (plan.md FR-011) */}
+                            <span
+                              className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold flex-shrink-0 ${getStatusColor(subOrderStatus)}`}
+                            >
+                              {getStatusIcon(subOrderStatus)}
+                              {statusLabel(subOrderStatus)}
+                            </span>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  </div>
+                )}
 
                 {/* Order footer */}
                 <div className="px-5 sm:px-6 py-4 bg-gray-50 border-t border-gray-100">

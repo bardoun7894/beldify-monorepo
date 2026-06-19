@@ -206,19 +206,45 @@ export default function CartPage() {
                 ));
               }
 
-              // Multi-store: render a subtle seller header above each group
+              // Multi-store: render a seller header with per-seller subtotal + shipping
+              // note above each item group. The subtotal is derived from cart item
+              // prices; shipping info is a note to set buyer expectations (FR-017 full
+              // breakdown is surfaced on the checkout quote, not on the cart page).
               return storeIds.map((storeId) => {
                 const groupItems = state.items.filter((i) => (i.store?.id ?? 0) === storeId);
                 const storeName = groupItems[0]?.store?.name ?? `Shop #${storeId}`;
+                // Per-seller subtotal — computed locally from cart item prices
+                const sellerSubtotal = groupItems.reduce(
+                  (acc, item) => acc + (typeof item.unit_price === 'number' ? item.unit_price : parseFloat(String(item.unit_price) || '0')) * item.quantity,
+                  0
+                );
+                // Shipping note — exact per-seller shipping_amount comes from quote (FR-017)
+                // On the cart page we show a placeholder; checkout will show the real amount.
+                const sellerShippingNote = t('cart.seller.shipping_at_checkout', 'Shipping calculated at checkout');
                 return (
                   <div key={storeId} className="space-y-3">
-                    {/* Seller group header */}
-                    <div className="flex items-center gap-2 px-1">
-                      <div className="w-5 h-px bg-gray-200 flex-shrink-0" aria-hidden="true" />
-                      <p className="text-xs uppercase tracking-[0.14em] text-amber-700 font-medium whitespace-nowrap">
-                        {storeName}
-                      </p>
-                      <div className="flex-1 h-px bg-gray-200" aria-hidden="true" />
+                    {/* Seller group header — store name + per-seller subtotal + shipping note */}
+                    <div className="flex items-start justify-between gap-2 px-1">
+                      <div className="flex items-center gap-2 flex-1 min-w-0">
+                        <div className="w-5 h-px bg-gray-200 flex-shrink-0" aria-hidden="true" />
+                        <p className="text-xs uppercase tracking-[0.14em] text-amber-700 font-medium whitespace-nowrap">
+                          {storeName}
+                        </p>
+                        <div className="flex-1 h-px bg-gray-200" aria-hidden="true" />
+                      </div>
+                      {/* Per-seller financial summary (plan.md FR-017 / T2) */}
+                      <div className="flex-shrink-0 text-end">
+                        <p className="text-xs font-semibold text-gray-700 tabular-nums currency-mad">
+                          {new Intl.NumberFormat(i18n.language, {
+                            style: 'decimal',
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2,
+                          }).format(sellerSubtotal)} MAD
+                        </p>
+                        <p className="text-[10px] text-gray-400 mt-0.5 leading-tight" aria-label={sellerShippingNote}>
+                          {sellerShippingNote}
+                        </p>
+                      </div>
                     </div>
                     {groupItems.map((item) => (
                       <CartItemRow

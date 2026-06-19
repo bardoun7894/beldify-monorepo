@@ -48,13 +48,19 @@ const FREE_SHIPPING_THRESHOLD = 500;
 
 // ── Quote shape ───────────────────────────────────────────────────────────────
 
-/** Per-seller breakdown returned by the quote endpoint when cart spans >1 store. */
+/**
+ * Per-seller breakdown returned by the quote endpoint when cart spans >1 store.
+ * Plan.md FR-017 contract: { store_id, store_name, subtotal, shipping_amount,
+ *   tax_amount, discount_amount, items[] }
+ */
 interface PerSellerQuote {
   store_id: number;
   store_name?: string;
   subtotal: number;
   shipping_amount: number;
-  item_count: number;
+  tax_amount?: number;
+  discount_amount?: number;
+  item_count?: number;
 }
 
 interface CheckoutQuote {
@@ -66,7 +72,12 @@ interface CheckoutQuote {
   cod_allowed: boolean;
   cod_max: number;
   currency: string;
-  /** Present when cart spans >1 seller — additive, backend may omit for single-seller. */
+  /**
+   * NEW (plan.md FR-017): per-seller breakdown when cart spans >1 seller.
+   * Present when backend returns the multi-seller split feature.
+   */
+  sellers?: PerSellerQuote[];
+  /** Legacy alias kept for back-compat during transition. */
   per_seller?: PerSellerQuote[];
 }
 
@@ -806,7 +817,15 @@ export default function CheckoutPage() {
       }
 
       if (response.success || response.status === 'success') {
+        // Extract group_number first (new multi-seller OrderGroup identifier, plan.md)
+        // Fall back to order_number for single-seller / back-compat legacy clients.
+        const group_number =
+          response?.data?.group_number ||
+          response?.data?.order_group?.group_number ||
+          response?.group_number;
+
         const orderNumber =
+          group_number ||
           response?.data?.order_number ||
           response?.data?.order?.order_number ||
           response?.order_number ||
@@ -819,11 +838,19 @@ export default function CheckoutPage() {
         if (isBuyNow) {
           // Guest path: clear the buy-now stash and save order data for confirmation
           try { sessionStorage.removeItem('beldify_buy_now'); } catch { /* noop */ }
-          // Stash enough for the confirmation page (no auth, can't fetch from server)
+          // Stash enough for the confirmation page (no auth, can't fetch from server).
+          // FR-018: include group_number + orders[] so confirmation can enumerate sub-orders.
           try {
             const orderData = response?.data?.order || response?.data || response?.order || {};
+            // Sub-orders array from a multi-seller split checkout (plan.md)
+            const subOrders: Array<{ id: number | string; order_number: string; store_id: number; store_name?: string; total_amount?: number }> =
+              response?.data?.orders || response?.data?.order_group?.orders || [];
             const guestOrderStash = {
               order_number: orderNumber,
+              // NEW: group reference for FR-018 confirmation page sub-order enumeration
+              checkout_group_id: group_number,
+              // NEW: sub-orders from split checkout (plan.md sellers[])
+              orders: subOrders.length > 0 ? subOrders : undefined,
               payment_status: orderData.payment_status ||
                 (normalizedPaymentMethod === 'cash_on_delivery' ? 'pending' : 'awaiting_payment'),
               payment_method: normalizedPaymentMethod,
@@ -1810,11 +1837,11 @@ export default function CheckoutPage() {
            shipping fees per store so the buyer understands the N charges.
            Falls back to the flat shipping line for single-seller carts. */}
       {(() => {
-        // Resolve the per_seller array from the quote (buyNow path) or
-        // derive a synthetic one from the cart for the authenticated path.
+        // Resolve the sellers array from the quote (plan.md FR-017 contract).
+        // `sellers` is the new canonical field; `per_seller` is kept for back-compat.
         // For the cart path we don't have a quote, so we only show per-seller
         // breakdown when the quote is available and has >1 entry.
-        const perSeller = quote?.per_seller;
+        const perSeller = quote?.sellers ?? quote?.per_seller;
         const isMultiSeller = Array.isArray(perSeller) && perSeller.length > 1;
 
         // Helper: resolve store name from cart items by store_id
@@ -1839,8 +1866,8 @@ export default function CheckoutPage() {
             </div>
 
             {isMultiSeller ? (
-              // ── Per-seller shipping rows ────────────────────────────────────
-              quote!.per_seller!.map((seller) => (
+              // ── Per-seller shipping rows (plan.md FR-017 sellers[] contract) ─
+              (quote!.sellers ?? quote!.per_seller)!.map((seller) => (
                 <div key={seller.store_id} className="flex justify-between">
                   <span className="text-gray-600">
                     {t('checkout.summary.seller_shipping', 'Shipping — {{store}}', {
