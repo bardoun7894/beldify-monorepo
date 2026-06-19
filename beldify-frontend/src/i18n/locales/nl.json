@@ -3248,7 +3248,12 @@
       "budgetDesc": "Budget: Hoog → Laag",
       "latest": "Nieuwste",
       "oldest": "Oudste"
-    }
+    },
+    "previewLabel": "Je aanvraag",
+    "previewItem": "Geborduurde kaftan op maat",
+    "previewBudgetLabel": "Budget",
+    "previewDaysShort": "d",
+    "previewReplied": "{{n}} ateliers reageerden"
   },
   "catalog": {
     "categories": {

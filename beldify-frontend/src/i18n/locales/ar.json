@@ -3466,7 +3466,12 @@
       "budgetDesc": "الميزانية: الأعلى إلى الأقل",
       "latest": "الأحدث",
       "oldest": "الأقدم"
-    }
+    },
+    "previewLabel": "طلبك",
+    "previewItem": "قفطان مطرز حسب المقاس",
+    "previewBudgetLabel": "الميزانية",
+    "previewDaysShort": "ي",
+    "previewReplied": "{{n}} ورشات ردّت"
   },
   "brand": {
     "name": "بيلديفاي",

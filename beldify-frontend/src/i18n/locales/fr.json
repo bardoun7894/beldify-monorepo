@@ -3282,7 +3282,12 @@
       "budgetDesc": "Budget : haut → bas",
       "latest": "Plus récent",
       "oldest": "Plus ancien"
-    }
+    },
+    "previewLabel": "Votre demande",
+    "previewItem": "Caftan brodé sur-mesure",
+    "previewBudgetLabel": "Budget",
+    "previewDaysShort": "j",
+    "previewReplied": "{{n}} ateliers ont répondu"
   },
   "brand": {
     "name": "Beldify",

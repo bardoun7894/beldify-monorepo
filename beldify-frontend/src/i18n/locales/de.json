@@ -3248,7 +3248,12 @@
       "budgetDesc": "Budget: Hoch → Niedrig",
       "latest": "Neueste",
       "oldest": "Älteste"
-    }
+    },
+    "previewLabel": "Deine Anfrage",
+    "previewItem": "Maßgefertigter bestickter Kaftan",
+    "previewBudgetLabel": "Budget",
+    "previewDaysShort": "T",
+    "previewReplied": "{{n}} Werkstätten haben geantwortet"
   },
   "catalog": {
     "categories": {

@@ -4448,7 +4448,12 @@
       "budgetDesc": "الميزانية: من العالية للضعيفة",
       "latest": "الأحدث",
       "oldest": "الأقدم"
-    }
+    },
+    "previewLabel": "الطلب ديالك",
+    "previewItem": "قفطان مطرز على القياس",
+    "previewBudgetLabel": "الميزانية",
+    "previewDaysShort": "ي",
+    "previewReplied": "{{n}} ورشات جاوبو"
   },
   "seller": {
     "register": {

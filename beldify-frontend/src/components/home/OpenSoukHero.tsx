@@ -3,13 +3,17 @@
 import Link from 'next/link';
 import { useTranslation } from 'react-i18next';
 import { motion, useReducedMotion } from 'framer-motion';
-import { Megaphone, HandCoins, CheckCircle2, Sparkles, ArrowRight } from 'lucide-react';
+import { Sparkles, ArrowRight, BadgeCheck, Clock } from 'lucide-react';
 
 /**
  * OpenSoukHero — homepage showcase for Beldify's reverse marketplace (the core
  * differentiator). A bold full-width band: on the left the value prop + CTAs,
- * on the right a connected 3-step stepper (amber beads on a gradient rail):
- * Post your brief → Ateliers come to you → Choose & order.
+ * on the right a live "offers preview" that SHOWS the reverse auction — you post
+ * one brief and verified Tetouani ateliers send competing offers (price + delay).
+ *
+ * The offers are illustrative (atelier names are brand proper-nouns, prices are
+ * sample numbers) — a product preview from the buyer's point of view, who is the
+ * one who sees every offer they receive.
  *
  * Not a popup: this is the headline value prop, placed inline in the homepage.
  */
@@ -21,10 +25,11 @@ export default function OpenSoukHero() {
     ? undefined
     : { fontFamily: '"Playfair Display", ui-serif, Georgia, serif' as const };
 
-  const steps = [
-    { Icon: Megaphone, title: t('openSouk.flowPostTitle', 'Post your request'), body: t('openSouk.flowPostBody', '') },
-    { Icon: HandCoins, title: t('openSouk.flowBidsTitle', 'Ateliers come to you'), body: t('openSouk.flowBidsBody', '') },
-    { Icon: CheckCircle2, title: t('openSouk.flowChooseTitle', 'Choose & order'), body: t('openSouk.flowChooseBody', '') },
+  // Illustrative incoming offers (the reverse auction, made visible).
+  const offers = [
+    { initials: 'AA', name: 'Atelier Andaloussi', price: '1 180', days: 6, best: true },
+    { initials: 'DS', name: 'Dar Soraya', price: '1 350', days: 4 },
+    { initials: 'KT', name: 'Khyata Tetouan', price: '1 090', days: 8 },
   ];
 
   const container = {
@@ -34,6 +39,10 @@ export default function OpenSoukHero() {
   const item = {
     hidden: { opacity: 0, y: reduce ? 0 : 18 },
     show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] as const } },
+  };
+  const offerItem = {
+    hidden: { opacity: 0, y: reduce ? 0 : 14, scale: reduce ? 1 : 0.98 },
+    show: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.45, ease: [0.22, 1, 0.36, 1] as const } },
   };
 
   return (
@@ -106,38 +115,82 @@ export default function OpenSoukHero() {
             </motion.div>
           </motion.div>
 
-          {/* Connected 3-step stepper */}
-          <motion.ol variants={container} className="relative">
-            {/* vertical rail linking the beads */}
-            <span
-              aria-hidden
-              className="pointer-events-none absolute start-[27px] top-8 bottom-8 w-px bg-gradient-to-b from-amber-300/60 via-white/25 to-amber-300/30"
-            />
+          {/* Live offers preview — the reverse auction, made visible */}
+          <motion.div variants={item} className="relative" aria-hidden>
+            <div className="pointer-events-none absolute -inset-3 rounded-[2rem] bg-amber-300/10 blur-2xl" />
 
-            {steps.map(({ Icon, title, body }, i) => (
-              <motion.li
-                key={title}
-                variants={item}
-                className="relative flex gap-4 pb-4 last:pb-0"
-              >
-                {/* numbered bead on the rail */}
-                <div className="relative flex w-[54px] shrink-0 justify-center pt-3.5">
-                  <span className="relative z-10 grid h-11 w-11 place-items-center rounded-full bg-indigo-950 text-base font-bold text-amber-300 ring-1 ring-amber-300/40 shadow-atlas-sm">
-                    {i + 1}
-                  </span>
-                </div>
-
-                {/* card */}
-                <div className="flex-1 rounded-2xl bg-white/[0.06] p-4 ring-1 ring-white/15 backdrop-blur-sm transition-colors hover:bg-white/[0.1] hover:ring-white/25">
-                  <p className="flex items-center gap-2 text-sm font-bold leading-tight text-white">
-                    <Icon className="h-4 w-4 shrink-0 text-amber-300" aria-hidden />
-                    {title}
+            <motion.div
+              variants={container}
+              className="relative rounded-3xl bg-white/[0.07] p-4 sm:p-5 ring-1 ring-white/15 backdrop-blur-md shadow-atlas-xl"
+            >
+              {/* Brief header */}
+              <motion.div variants={item} className="flex items-start justify-between gap-3">
+                <div className="min-w-0">
+                  <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-indigo-200">
+                    {t('openSouk.previewLabel', 'Your request')}
                   </p>
-                  <p className="mt-1.5 text-[13px] leading-snug text-indigo-100/85">{body}</p>
+                  <p className="mt-1 truncate text-sm font-bold text-white">
+                    {t('openSouk.previewItem', 'Custom embroidered caftan')}
+                  </p>
                 </div>
-              </motion.li>
-            ))}
-          </motion.ol>
+                <span className="shrink-0 whitespace-nowrap rounded-lg bg-amber-300/15 px-2.5 py-1 text-[11px] font-semibold text-amber-200 ring-1 ring-amber-300/25">
+                  {t('openSouk.previewBudgetLabel', 'Budget')} · 1 200 MAD
+                </span>
+              </motion.div>
+
+              {/* Live "replied" indicator */}
+              <motion.div variants={item} className="mt-3 flex items-center gap-2 text-[11px] font-medium text-indigo-100">
+                <span className="relative flex h-1.5 w-1.5">
+                  <span className="absolute inline-flex h-full w-full rounded-full bg-amber-300/70 motion-safe:animate-ping" />
+                  <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-amber-300" />
+                </span>
+                {t('openSouk.previewReplied', { n: 5, defaultValue: '{{n}} ateliers replied' })}
+              </motion.div>
+
+              {/* Offer rows */}
+              <div className="mt-3 space-y-2">
+                {offers.map((o) => (
+                  <motion.div
+                    key={o.name}
+                    variants={offerItem}
+                    className={`flex items-center gap-3 rounded-2xl bg-white/[0.05] p-2.5 ring-1 ${o.best ? 'ring-amber-300/40' : 'ring-white/10'}`}
+                  >
+                    <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-gradient-to-br from-amber-300 to-amber-500 text-[11px] font-bold text-indigo-950">
+                      {o.initials}
+                    </span>
+                    <div className="min-w-0 flex-1">
+                      <p className="flex items-center gap-1 text-[13px] font-semibold text-white">
+                        <span className="truncate">{o.name}</span>
+                        <BadgeCheck className="h-3.5 w-3.5 shrink-0 text-amber-300" />
+                      </p>
+                      <p className="mt-0.5 flex items-center gap-1 text-[11px] text-indigo-200">
+                        <Clock className="h-3 w-3 shrink-0" />
+                        {o.days} {t('openSouk.previewDaysShort', 'd')}
+                      </p>
+                    </div>
+                    <div className="flex shrink-0 items-center gap-1.5">
+                      <span className="text-sm font-bold text-white">{o.price}</span>
+                      <span className="text-[10px] text-indigo-300">MAD</span>
+                      <ArrowRight className="h-3.5 w-3.5 text-indigo-300 rtl:rotate-180" />
+                    </div>
+                  </motion.div>
+                ))}
+
+                {/* more-offers hint (3 shown + 2 = the 5 in the header) */}
+                <motion.div variants={item} className="flex items-center justify-center gap-2 pt-1 text-[11px] font-medium text-indigo-300">
+                  <span className="flex -space-x-1.5 rtl:space-x-reverse">
+                    {[0, 1].map((i) => (
+                      <span
+                        key={i}
+                        className="h-5 w-5 rounded-full bg-gradient-to-br from-amber-300/80 to-amber-500/80 ring-2 ring-indigo-900"
+                      />
+                    ))}
+                  </span>
+                  <span>+2</span>
+                </motion.div>
+              </div>
+            </motion.div>
+          </motion.div>
         </motion.div>
       </div>
     </section>
