@@ -3,11 +3,13 @@
 import React, { useState, memo, Suspense, lazy } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { Product } from '@/lib/types';
 import { useTranslation } from 'react-i18next';
 import { formatPrice } from '@/utils/formatters';
 import { getImageUrl, DEFAULT_PLACEHOLDER_IMAGE } from '@/utils/imageUtils';
 import { useDirection } from '@/hooks/useDirection';
+import { useCart } from '@/contexts/CartContext';
 import toast from '@/utils/toast';
 import {
   ShoppingCart,
@@ -48,7 +50,9 @@ const ProductCard = memo(function ProductCard({
 }: ProductCardProps) {
   const { t } = useTranslation();
   const { isRTL } = useDirection();
-  
+  const { addItem } = useCart();
+  const router = useRouter();
+
   const [isHovering, setIsHovering] = useState(false);
   const [isAddingToCart, setIsAddingToCart] = useState(false);
   const [isWishlisted, setIsWishlisted] = useState(isInWishlist);
@@ -98,25 +102,47 @@ const ProductCard = memo(function ProductCard({
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    
+
     if (stock_quantity <= 0) return;
-    
-    setIsAddingToCart(true);
-    
-    // If there's a custom handler, use it
+
+    // If there's a custom handler, delegate to it
     if (onAddToCart) {
+      setIsAddingToCart(true);
       onAddToCart(product as Product);
       setTimeout(() => setIsAddingToCart(false), 1000);
-    } else {
-      // Default behavior
-      setTimeout(() => {
+      return;
+    }
+
+    // Resolve the canonical stock_id from the catalog (stocks table).
+    // Resolution order mirrors wishlist (page.tsx:44-47):
+    //   1. product.stock_id direct field (enriched catalog API response)
+    //   2. null → navigate to PDP for authoritative stock resolution
+    const stockId: number | null = product.stock_id
+      ? Number(product.stock_id)
+      : null;
+
+    if (stockId === null) {
+      // No resolvable stock id — send user to PDP where stock selection works correctly.
+      router.push(`/products/${id}`);
+      return;
+    }
+
+    setIsAddingToCart(true);
+    addItem(stockId, 1, 'stock')
+      .then(() => {
         setIsAddingToCart(false);
         toast.success(t('product.addedToCart'), {
           position: isRTL ? 'bottom-left' : 'bottom-right',
-          duration: 2000
+          duration: 2000,
         });
-      }, 600);
-    }
+      })
+      .catch(() => {
+        setIsAddingToCart(false);
+        toast.error(t('product.addToCartError', 'Could not add to cart. Please try again.'), {
+          position: isRTL ? 'bottom-left' : 'bottom-right',
+          duration: 3000,
+        });
+      });
   };
   
   // Handle wishlist toggle

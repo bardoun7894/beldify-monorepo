@@ -125,7 +125,12 @@
     "saving": "جاري الحفظ…",
     "show_less": "عرض أقل",
     "show_more": "عرض المزيد",
-    "need_help": "هل تحتاج مساعدة؟"
+    "need_help": "هل تحتاج مساعدة؟",
+    "whatsapp_chat": "واتساب",
+    "call_us": "اتصل بنا",
+    "email_us": "البريد الإلكتروني",
+    "support_toggle_open": "فتح قائمة الدعم",
+    "support_toggle_close": "إغلاق قائمة الدعم"
   },
   "validation": {
     "required": "هذا الحقل مطلوب",
@@ -4392,7 +4397,7 @@
     "aiStyling": "تنسيق بالذكاء الاصطناعي",
     "artisanMade": "صنع يدوي",
     "complete_the_look": "أكمل الإطلالة",
-    "trustedArtisan": "بائع حِرفي موثوق",
+    "trustedArtisan": "بائع على بلديفاي",
     "howToBuy": {
       "cod_note": "الدفع عند الاستلام — لا تحتاج إلى بطاقة مصرفية",
       "title": "كيف تشتري؟",

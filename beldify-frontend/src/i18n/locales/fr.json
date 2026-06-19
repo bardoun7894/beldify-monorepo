@@ -125,7 +125,12 @@
     "saving": "Enregistrement…",
     "show_less": "Afficher moins",
     "show_more": "Afficher plus",
-    "need_help": "Besoin d'aide ?"
+    "need_help": "Besoin d'aide ?",
+    "whatsapp_chat": "WhatsApp",
+    "call_us": "Nous appeler",
+    "email_us": "E-mail",
+    "support_toggle_open": "Ouvrir le menu d'assistance",
+    "support_toggle_close": "Fermer le menu d'assistance"
   },
   "validation": {
     "required": "Ce champ est obligatoire",
@@ -3939,7 +3944,7 @@
     "aiStyling": "Style IA pour vous",
     "artisanMade": "Fait artisanalement",
     "complete_the_look": "Complétez le look",
-    "trustedArtisan": "Vendeur artisan vérifié",
+    "trustedArtisan": "Vendeur sur Beldify",
     "howToBuy": {
       "cod_note": "Paiement à la livraison — vous n'avez pas besoin de carte bancaire",
       "title": "Comment acheter ?",

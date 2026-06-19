@@ -331,7 +331,7 @@ export default function ReturnsPage() {
     {
       id: 3,
       name: t('pages.returns.steps.step3.name', 'Ship Back'),
-      description: t('pages.returns.steps.step3.description', 'Use our prepaid return label to send items back'),
+      description: t('pages.returns.steps.step3.description', 'Send items back at your cost (defective or incorrect items are covered by Beldify)'),
     },
     {
       id: 4,
@@ -445,7 +445,7 @@ export default function ReturnsPage() {
                   {t('pages.returns.returnShipping.title', 'Return Shipping')}
                 </h3>
                 <p className="text-sm text-gray-600">
-                  {t('pages.returns.returnShipping.description', 'Return shipping costs may apply depending on your location.')}
+                  {t('pages.returns.returnShipping.description', 'Return shipping is the buyer\'s responsibility. Beldify covers return shipping only for defective or incorrect items.')}
                 </p>
               </div>
 
@@ -558,7 +558,7 @@ export default function ReturnsPage() {
                     {t('pages.returns.exchanges.internationalTitle', 'International Exchanges')}
                   </h3>
                   <p className="text-sm text-gray-600">
-                    {t('pages.returns.exchanges.internationalDescription', 'International customers are responsible for return shipping costs.')}
+                    {t('pages.returns.exchanges.internationalDescription', 'All customers are responsible for return shipping costs. Beldify covers return shipping only for defective or incorrect items.')}
                   </p>
                 </div>
               </div>

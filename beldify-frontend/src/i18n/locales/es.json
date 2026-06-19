@@ -125,7 +125,12 @@
     "saving": "Guardando…",
     "show_less": "Mostrar menos",
     "show_more": "Mostrar más",
-    "need_help": "¿Necesitas ayuda?"
+    "need_help": "¿Necesitas ayuda?",
+    "whatsapp_chat": "WhatsApp",
+    "call_us": "Llámanos",
+    "email_us": "Correo electrónico",
+    "support_toggle_open": "Abrir menú de soporte",
+    "support_toggle_close": "Cerrar menú de soporte"
   },
   "validation": {
     "required": "Este campo es obligatorio",
@@ -3970,7 +3975,7 @@
     "aiStyling": "Estilizado por IA",
     "artisanMade": "Hecho artesanalmente",
     "complete_the_look": "Completa el look",
-    "trustedArtisan": "Vendedor artesano verificado",
+    "trustedArtisan": "Vendedor en Beldify",
     "howToBuy": {
       "cod_note": "Pago contra entrega — no necesitas tarjeta bancaria",
       "title": "¿Cómo comprar?",

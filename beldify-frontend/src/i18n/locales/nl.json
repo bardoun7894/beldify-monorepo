@@ -125,7 +125,12 @@
     "saving": "Opslaan…",
     "show_less": "Minder weergeven",
     "show_more": "Meer weergeven",
-    "need_help": "Hulp nodig?"
+    "need_help": "Hulp nodig?",
+    "whatsapp_chat": "WhatsApp",
+    "call_us": "Bel ons",
+    "email_us": "E-mail",
+    "support_toggle_open": "Ondersteuningsmenu openen",
+    "support_toggle_close": "Ondersteuningsmenu sluiten"
   },
   "validation": {
     "required": "Dit veld is verplicht",
@@ -4158,7 +4163,7 @@
     "aiStyling": "AI-gestyld voor jou",
     "artisanMade": "Handgemaakt",
     "complete_the_look": "Maak de look compleet",
-    "trustedArtisan": "Geverifieerde ambachtsseller",
+    "trustedArtisan": "Verkoper op Beldify",
     "howToBuy": {
       "cod_note": "Betaling bij ontvangst — je hebt geen creditcard nodig",
       "title": "Hoe koop ik?",

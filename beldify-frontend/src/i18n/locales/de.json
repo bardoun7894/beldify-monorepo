@@ -125,7 +125,12 @@
     "saving": "Wird gespeichert …",
     "show_less": "Weniger anzeigen",
     "show_more": "Mehr anzeigen",
-    "need_help": "Brauchst du Hilfe?"
+    "need_help": "Brauchst du Hilfe?",
+    "whatsapp_chat": "WhatsApp",
+    "call_us": "Ruf uns an",
+    "email_us": "E-Mail",
+    "support_toggle_open": "Support-Menü öffnen",
+    "support_toggle_close": "Support-Menü schließen"
   },
   "validation": {
     "required": "Dieses Feld ist erforderlich",
@@ -4158,7 +4163,7 @@
     "aiStyling": "KI-Stil für dich",
     "artisanMade": "Handwerklich gefertigt",
     "complete_the_look": "Vervollständige deinen Look",
-    "trustedArtisan": "Verifizierter Handwerkerverkäufer",
+    "trustedArtisan": "Verkäufer auf Beldify",
     "howToBuy": {
       "cod_note": "Zahle bei Lieferung — keine Bankkarte erforderlich",
       "title": "Wie kaufe ich?",

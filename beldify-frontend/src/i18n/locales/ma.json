@@ -125,7 +125,12 @@
     "saving": "كاتخزن…",
     "show_less": "شوف أقل",
     "show_more": "شوف أكتر",
-    "need_help": "محتاج مساعدة؟"
+    "need_help": "محتاج مساعدة؟",
+    "whatsapp_chat": "واتساب",
+    "call_us": "اتصل بينا",
+    "email_us": "إيميل",
+    "support_toggle_open": "حل قائمة الدعم",
+    "support_toggle_close": "سدّ قائمة الدعم"
   },
   "validation": {
     "required": "خاصك تعمر هاد لخانة",
@@ -3900,7 +3905,7 @@
     "aiStyling": "تنسيق بالذكاء الاصطناعي",
     "artisanMade": "صناعة يدوية",
     "complete_the_look": "أكمل الإطلالة",
-    "trustedArtisan": "بائع حرفي موثوق",
+    "trustedArtisan": "بائع على بلديفاي",
     "howToBuy": {
       "cod_note": "الدفع عند الاستلام — ما محتاجش بطاقة بنكية",
       "title": "كيفاش نشري؟",

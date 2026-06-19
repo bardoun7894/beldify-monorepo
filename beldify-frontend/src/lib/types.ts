@@ -58,6 +58,12 @@ export interface Product {
   stock_status: 'in_stock' | 'low_stock' | 'out_of_stock';
   /** Legacy alias for stock_quantity used by some components */
   stock?: number;
+  /**
+   * Direct stock_id from the catalog API (stocks table PK).
+   * Use this for cart operations — the catalog lives in the stocks table.
+   * If absent, navigate to the PDP where stock resolution is authoritative.
+   */
+  stock_id?: number;
   store_id: number;
   /**
    * ISO 8601 timestamp when the active offer/discount expires.

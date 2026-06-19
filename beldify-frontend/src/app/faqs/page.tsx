@@ -18,7 +18,7 @@ const faqGroups: { heading: string; key: string; faqs: { q: string; a: string }[
       },
       {
         q: 'How do I track my order?',
-        a: "Once your order ships, you'll receive a confirmation email with a tracking link. You can also check your order status in the Orders section of your account.",
+        a: "Once your order ships, you'll receive a confirmation email with a tracking link. You can also contact our support team for an update on your order status.",
       },
     ],
   },
@@ -32,7 +32,7 @@ const faqGroups: { heading: string; key: string; faqs: { q: string; a: string }[
       },
       {
         q: 'How do I start a return?',
-        a: 'Log in, go to Orders, select the relevant order and follow the return instructions. Our team will issue a return label or reimburse reasonable return shipping costs for defective items.',
+        a: 'Visit our Returns page and follow the return instructions. Return shipping costs are your responsibility except for defective or incorrect items, which are covered by Beldify.',
       },
       {
         q: 'How long do refunds take?',
@@ -86,7 +86,7 @@ const faqGroups: { heading: string; key: string; faqs: { q: string; a: string }[
       },
       {
         q: 'What payment methods are accepted?',
-        a: 'Visa, Mastercard, PayPal, Apple Pay, Google Pay, and bank transfer. Cash on delivery is available for certain areas within Morocco.',
+        a: 'Cash on delivery (COD) for orders up to 500 MAD, and bank transfer with receipt upload for orders above 500 MAD.',
       },
       {
         q: 'How do I reset my password?',

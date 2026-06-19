@@ -125,7 +125,12 @@
     "saving": "Saving…",
     "show_less": "Show less",
     "show_more": "Show more",
-    "need_help": "Need Help?"
+    "need_help": "Need Help?",
+    "whatsapp_chat": "WhatsApp",
+    "call_us": "Call Us",
+    "email_us": "Email",
+    "support_toggle_open": "Open support menu",
+    "support_toggle_close": "Close support menu"
   },
   "validation": {
     "required": "This field is required",
@@ -4166,7 +4171,7 @@
     "aiStyling": "AI styled for you",
     "artisanMade": "Artisan made",
     "complete_the_look": "Complete the look",
-    "trustedArtisan": "Verified artisan seller",
+    "trustedArtisan": "Seller on Beldify",
     "howToBuy": {
       "cod_note": "Cash on delivery — no bank card needed",
       "title": "How to buy?",
