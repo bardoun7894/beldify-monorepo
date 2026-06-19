@@ -257,33 +257,6 @@ export default function HomeContent({ categories, data, openSoukPosts = [], hero
         </section>
       )}
 
-      {/* ── TRUST STRIP ───────────────────────────────────────────────────── */}
-      <section
-        className="border-y border-gray-100 bg-gray-50"
-        aria-label={t('home.trust.label', 'Why shop with Beldify')}
-      >
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 py-5 grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-0 sm:divide-x sm:divide-gray-200 rtl:divide-x-reverse">
-          {([
-            { labelKey: 'home.trust.free_delivery', labelFallback: 'Free delivery +500 MAD', subKey: 'home.trust.delivery_sub', subFallback: 'In major cities in 48 hours', Icon: Truck },
-            { labelKey: 'home.trust.returns', labelFallback: '14-day returns', subKey: 'home.trust.returns_sub', subFallback: 'No fees, no hassle', Icon: RotateCcw },
-            { labelKey: 'home.trust.verified_sellers', labelFallback: 'Verified sellers', subKey: 'home.trust.sellers_sub', subFallback: 'Workshops inspected one by one', Icon: ShieldCheck },
-            { labelKey: 'home.trust.support', labelFallback: 'Support AR / FR / EN', subKey: 'home.trust.support_sub', subFallback: 'WhatsApp, phone, email', Icon: Headphones },
-          ] as const).map(({ labelKey, labelFallback, subKey, subFallback, Icon }) => (
-            <div key={labelKey} className="flex flex-col items-center gap-2 text-center sm:px-6">
-              <span className="h-11 w-11 rounded-full bg-white flex items-center justify-center ring-1 ring-gray-200 text-indigo-700">
-                <Icon className="h-5 w-5" strokeWidth={1.8} aria-hidden="true" />
-              </span>
-              <span className="text-xs sm:text-sm font-medium text-gray-900 leading-snug">
-                {t(labelKey, labelFallback)}
-              </span>
-              <span className="text-[11px] text-gray-500 leading-snug">
-                {t(subKey, subFallback)}
-              </span>
-            </div>
-          ))}
-        </div>
-      </section>
-
       {/* ── SHOP-BY-OCCASION GRID ──────────────────────────────────────────── */}
       {/* 4 occasion tiles: 2-col mobile → 4-col desktop, aspect 4/5.          */}
       {/* Full-bleed image + gradient scrim + label, matches cat grid treatment. */}
@@ -896,6 +869,52 @@ export default function HomeContent({ categories, data, openSoukPosts = [], hero
       <Suspense fallback={<LoadingSpinner />}>
         <DiscoverFeed />
       </Suspense>
+
+      {/* ── TRUST STRIP (reassurance close, above the footer) ─────────────── */}
+      {/* Relocated from mid-page to the bottom of the scroll so it reads as a
+          closing reassurance beat instead of interrupting the merch flow.
+          Restyled from a flat gray divided bar into elevated white cards with a
+          Playfair / Arabic section heading and indigo brand tiles (Atlas). */}
+      <section className="bg-gray-50 border-t border-gray-100" aria-labelledby="trust-heading">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 py-12 sm:py-16">
+          <div className="text-center mb-9 sm:mb-12">
+            <h2 id="trust-heading" className="text-2xl sm:text-3xl font-bold text-gray-900">
+              {isArabicScript ? (
+                <span dir="rtl" lang="ar" className="font-arabic">
+                  {t('home.trust.label', 'علاش تشري من Beldify')}
+                </span>
+              ) : (
+                <span style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}>
+                  {t('home.trust.label', 'Why shop with Beldify')}
+                </span>
+              )}
+            </h2>
+          </div>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-5">
+            {([
+              { labelKey: 'home.trust.free_delivery', labelFallback: 'Free delivery +500 MAD', subKey: 'home.trust.delivery_sub', subFallback: 'In major cities in 48 hours', Icon: Truck },
+              { labelKey: 'home.trust.returns', labelFallback: '14-day returns', subKey: 'home.trust.returns_sub', subFallback: 'No fees, no hassle', Icon: RotateCcw },
+              { labelKey: 'home.trust.verified_sellers', labelFallback: 'Verified sellers', subKey: 'home.trust.sellers_sub', subFallback: 'Workshops inspected one by one', Icon: ShieldCheck },
+              { labelKey: 'home.trust.support', labelFallback: 'Support AR / FR / EN', subKey: 'home.trust.support_sub', subFallback: 'WhatsApp, phone, email', Icon: Headphones },
+            ] as const).map(({ labelKey, labelFallback, subKey, subFallback, Icon }) => (
+              <div
+                key={labelKey}
+                className="flex flex-col items-center gap-3 text-center rounded-2xl bg-white ring-1 ring-gray-200 shadow-atlas-sm px-4 py-6 sm:px-6 sm:py-8"
+              >
+                <span className="h-12 w-12 rounded-2xl bg-indigo-50 ring-1 ring-indigo-100 flex items-center justify-center text-indigo-700">
+                  <Icon className="h-5 w-5" strokeWidth={1.8} aria-hidden="true" />
+                </span>
+                <span className="text-sm font-semibold text-gray-900 leading-snug">
+                  {t(labelKey, labelFallback)}
+                </span>
+                <span className="text-xs text-gray-500 leading-relaxed">
+                  {t(subKey, subFallback)}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
       {/* ── NEWSLETTER ────────────────────────────────────────────────────── */}
       <Suspense fallback={<LoadingSpinner />}>
