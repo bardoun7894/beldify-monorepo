@@ -41,8 +41,8 @@ import {
   Building2,
 } from 'lucide-react';
 import toast from '@/utils/toast';
-
-const playfair = { fontFamily: '"Playfair Display", ui-serif, Georgia, serif' };
+import { Badge } from '@/components/ui/badge';
+import { payoutStatusVariant } from '@/constants/payoutStatusColors';
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 
@@ -78,6 +78,13 @@ function isValidRIB(rib: string): boolean {
 
 // ─── Status badge ─────────────────────────────────────────────────────────────
 
+const PAYOUT_STATUS_ICON: Record<string, React.ElementType> = {
+  paid: CheckCircle2,
+  approved: CheckCircle2,
+  rejected: XCircle,
+  pending: Clock,
+};
+
 function StatusBadge({
   id,
   status,
@@ -87,48 +94,17 @@ function StatusBadge({
   status: string;
   t: (k: string, f: string) => string;
 }) {
-  if (status === 'paid') {
-    return (
-      <span
-        data-testid={`badge-paid-${id}`}
-        className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-700"
-      >
-        <CheckCircle2 className="w-3 h-3" aria-hidden="true" />
-        {t('payouts.status.paid', 'paid')}
-      </span>
-    );
-  }
-  if (status === 'approved') {
-    return (
-      <span
-        data-testid={`badge-approved-${id}`}
-        className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-semibold bg-blue-100 text-blue-700"
-      >
-        <CheckCircle2 className="w-3 h-3" aria-hidden="true" />
-        {t('payouts.status.approved', 'approved')}
-      </span>
-    );
-  }
-  if (status === 'rejected') {
-    return (
-      <span
-        data-testid={`badge-rejected-${id}`}
-        className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-semibold bg-rose-100 text-rose-700"
-      >
-        <XCircle className="w-3 h-3" aria-hidden="true" />
-        {t('payouts.status.rejected', 'rejected')}
-      </span>
-    );
-  }
-  // pending (default)
+  const Icon = PAYOUT_STATUS_ICON[status] ?? Clock;
+  const key = ['paid', 'approved', 'rejected', 'pending'].includes(status) ? status : 'pending';
   return (
-    <span
-      data-testid={`badge-pending-${id}`}
-      className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-semibold bg-amber-100 text-amber-700"
+    <Badge
+      data-testid={`badge-${key}-${id}`}
+      variant={payoutStatusVariant(status)}
+      className="font-semibold"
     >
-      <Clock className="w-3 h-3" aria-hidden="true" />
-      {t('payouts.status.pending', 'pending')}
-    </span>
+      <Icon className="w-3 h-3" aria-hidden="true" />
+      {t(`payouts.status.${key}`, key)}
+    </Badge>
   );
 }
 
@@ -200,7 +176,7 @@ function BankDetailsDisplay({
       <div className="px-5 py-4 border-b border-gray-100 flex items-center justify-between">
         <div className="flex items-center gap-2">
           <Building2 className="w-4 h-4 text-indigo-600" aria-hidden="true" />
-          <h2 className="text-sm font-semibold text-gray-900" style={playfair}>
+          <h2 className="text-sm font-semibold text-gray-900 font-heading">
             {t('payouts.bank_details.title', 'Bank account')}
           </h2>
         </div>
@@ -225,7 +201,7 @@ function BankDetailsDisplay({
         </div>
         <div className="flex justify-between py-2.5">
           <dt className="text-gray-500">{t('payouts.bank_details.rib', 'RIB')}</dt>
-          <dd className="font-mono text-xs text-gray-900 break-all text-right max-w-[60%]">
+          <dd className="font-mono text-xs text-gray-900 break-all text-end max-w-[60%]">
             {details.rib}
           </dd>
         </div>
@@ -286,7 +262,7 @@ function BankDetailsEditor({
     >
       <div className="px-5 py-4 border-b border-gray-100 flex items-center gap-2">
         <Building2 className="w-4 h-4 text-indigo-600" aria-hidden="true" />
-        <h2 className="text-sm font-semibold text-gray-900" style={playfair}>
+        <h2 className="text-sm font-semibold text-gray-900 font-heading">
           {initial
             ? t('payouts.bank_details.edit_title', 'Edit bank account')
             : t('payouts.bank_details.add_title', 'Add bank account')}
@@ -465,7 +441,7 @@ function RequestPayoutForm({
       className="bg-white ring-1 ring-gray-200 rounded-2xl overflow-hidden"
     >
       <div className="px-5 py-4 border-b border-gray-100">
-        <h2 className="text-sm font-semibold text-gray-900" style={playfair}>
+        <h2 className="text-sm font-semibold text-gray-900 font-heading">
           {t('payouts.form.title', 'Request a payout')}
         </h2>
         <p className="text-xs text-gray-400 mt-0.5">
@@ -550,7 +526,7 @@ function PayoutHistory({
   return (
     <div className="bg-white ring-1 ring-gray-200 rounded-2xl overflow-hidden">
       <div className="px-5 py-4 border-b border-gray-100">
-        <h2 className="text-sm font-semibold text-gray-900" style={playfair}>
+        <h2 className="text-sm font-semibold text-gray-900 font-heading">
           {t('payouts.history.title', 'Payout history')}
         </h2>
       </div>
@@ -574,7 +550,7 @@ function PayoutHistory({
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2 flex-wrap mb-1">
                   <StatusBadge id={req.id} status={req.status} t={t} />
-                  <span className="text-xs font-bold text-gray-900 tabular-nums">
+                  <span className="text-xs font-bold text-gray-900 tabular-nums currency-mad">
                     {fmtMAD(req.amount)} MAD
                   </span>
                 </div>
@@ -679,7 +655,7 @@ export default function SellerPayoutsPage() {
         <p className="text-xs uppercase tracking-[0.18em] text-amber-600 font-medium mb-1">
           {t('payouts.eyebrow', 'Seller Hub')}
         </p>
-        <h1 className="text-xl font-bold text-gray-900" style={playfair}>
+        <h1 className="text-xl font-bold text-gray-900 font-heading">
           {t('payouts.page_title', 'Payouts')}
         </h1>
         <p className="text-sm text-gray-500 mt-1">
@@ -769,7 +745,7 @@ export default function SellerPayoutsPage() {
                 <CheckCircle2 className="w-6 h-6 text-emerald-600" aria-hidden="true" />
               </div>
               <div>
-                <p className="font-semibold text-gray-900" style={playfair}>
+                <p className="font-semibold text-gray-900 font-heading">
                   {t('payouts.success.title', 'Request submitted!')}
                 </p>
                 <p className="text-sm text-gray-500 mt-1">

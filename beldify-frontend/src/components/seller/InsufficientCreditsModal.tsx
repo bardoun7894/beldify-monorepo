@@ -23,6 +23,7 @@ import React from 'react';
 import Link from 'next/link';
 import { useTranslation } from 'react-i18next';
 import { Sparkles, X, ArrowRight } from 'lucide-react';
+import { Dialog } from '@/components/ui/dialog';
 
 export interface InsufficientCreditsModalProps {
   open: boolean;
@@ -49,30 +50,21 @@ export function InsufficientCreditsModal({
 }: InsufficientCreditsModalProps) {
   const { t } = useTranslation();
 
-  if (!open) return null;
-
   const featureLabel =
     feature && FEATURE_LABELS[feature]
       ? t(`credits.features.${feature}`, FEATURE_LABELS[feature])
       : feature ?? null;
 
   return (
-    /* Backdrop */
-    <div
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="insufficient-credits-title"
-      className="fixed inset-0 z-[80] flex items-end sm:items-center justify-center"
+    <Dialog
+      open={open}
+      onClose={onClose}
+      labelledBy="insufficient-credits-title"
+      panelClassName="w-full sm:max-w-md rounded-t-3xl sm:rounded-3xl overflow-hidden"
+      className="items-end sm:items-center"
     >
-      {/* Overlay */}
-      <div
-        className="absolute inset-0 bg-gray-950/60 backdrop-blur-sm"
-        aria-hidden="true"
-        onClick={onClose}
-      />
-
-      {/* Panel */}
-      <div className="relative w-full sm:max-w-md mx-auto bg-white rounded-t-3xl sm:rounded-3xl shadow-2xl ring-1 ring-black/5 overflow-hidden">
+      {/* Panel content */}
+      <div>
         {/* Header band */}
         <div className="bg-indigo-700 px-6 py-5 flex items-start gap-4">
           <div className="w-10 h-10 rounded-2xl bg-amber-400 flex items-center justify-center shrink-0">
@@ -168,7 +160,7 @@ export function InsufficientCreditsModal({
           </button>
         </div>
       </div>
-    </div>
+    </Dialog>
   );
 }
 

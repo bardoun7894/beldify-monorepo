@@ -14,8 +14,6 @@ import { MessagesSquare, RefreshCw, Search, ChevronRight } from 'lucide-react';
 import { convertStorageUrl } from '@/utils/storageUrls';
 import Image from 'next/image';
 
-const playfair = { fontFamily: '"Playfair Display", ui-serif, Georgia, serif' };
-
 function Skeleton() {
   return (
     <div className="space-y-2" aria-busy="true">
@@ -107,10 +105,10 @@ export default function SellerMessagesPage() {
     <div dir={isRTL ? 'rtl' : 'ltr'}>
       {/* ── Page header ───────────────────────────────────────────────────── */}
       <div className="mb-6">
-        <p className="text-xs font-semibold uppercase tracking-widest text-amber-500" style={playfair}>
+        <p className="text-xs font-semibold uppercase tracking-widest text-amber-500 font-heading">
           {t('seller.messages.eyebrow', 'Seller Hub')}
         </p>
-        <h1 className="mt-1 text-2xl font-bold text-gray-900" style={playfair}>
+        <h1 className="mt-1 text-2xl font-bold text-gray-900 font-heading">
           {t('seller.messages.title', 'Messages')}
         </h1>
         <p className="mt-1 text-sm text-gray-500">
@@ -155,7 +153,7 @@ export default function SellerMessagesPage() {
           <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-rose-50 ring-1 ring-rose-200">
             <MessagesSquare size={24} className="text-rose-500" aria-hidden="true" />
           </div>
-          <h3 className="font-semibold text-gray-900" style={playfair}>
+          <h3 className="font-semibold text-gray-900 font-heading">
             {t('seller.messages.error_title', 'Could not load messages')}
           </h3>
           <p className="mt-2 text-sm text-gray-500">
@@ -174,7 +172,7 @@ export default function SellerMessagesPage() {
           <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-indigo-50 ring-1 ring-indigo-200">
             <MessagesSquare size={36} className="text-indigo-700" aria-hidden="true" />
           </div>
-          <h3 className="font-bold text-gray-900" style={playfair}>
+          <h3 className="font-bold text-gray-900 font-heading">
             {t('seller.messages.empty_title', 'No messages yet')}
           </h3>
           <p className="mx-auto mt-3 max-w-sm text-sm leading-relaxed text-gray-500">

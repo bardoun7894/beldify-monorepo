@@ -24,8 +24,6 @@ import { groupMessagesByDay } from '@/utils/groupMessagesByDay';
 import { ConversationDateDivider } from '@/components/messaging/ConversationDateDivider';
 import logger from '@/utils/consoleLogger';
 
-const playfair = { fontFamily: '"Playfair Display", ui-serif, Georgia, serif' };
-
 // ── Polling interval while thread is open ────────────────────────────────────
 const POLL_INTERVAL_MS = 15_000;
 
@@ -199,7 +197,7 @@ export default function SellerThreadPage() {
         <div className="mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-gray-100 ring-1 ring-gray-200">
           <MessageSquare size={36} className="text-gray-400" aria-hidden="true" />
         </div>
-        <h2 className="text-xl font-bold text-gray-900" style={playfair}>
+        <h2 className="text-xl font-bold text-gray-900 font-heading">
           {t('seller.messages.not_found_title', 'Conversation not found')}
         </h2>
         <p className="mt-3 max-w-sm text-sm leading-relaxed text-gray-500">
@@ -238,7 +236,7 @@ export default function SellerThreadPage() {
           {loading ? (
             <div className="h-4 w-32 animate-pulse rounded-full bg-white/20" />
           ) : (
-            <h1 className="truncate text-[15px] font-semibold leading-tight" style={playfair}>
+            <h1 className="truncate text-[15px] font-semibold leading-tight font-heading">
               {otherUser.display_name || t('seller.messages.buyer', 'Buyer')}
             </h1>
           )}
@@ -309,7 +307,7 @@ export default function SellerThreadPage() {
             <div className="mb-5 flex h-18 w-18 items-center justify-center rounded-full bg-gray-100 ring-1 ring-gray-200">
               <MessageSquare size={32} className="text-gray-400" aria-hidden="true" />
             </div>
-            <h3 className="font-bold text-gray-900" style={playfair}>
+            <h3 className="font-bold text-gray-900 font-heading">
               {t('seller.messages.no_messages_title', 'No messages yet')}
             </h3>
             <p className="mt-2 max-w-xs text-sm leading-relaxed text-gray-400">

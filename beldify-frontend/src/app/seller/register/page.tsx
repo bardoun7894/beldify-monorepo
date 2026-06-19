@@ -16,8 +16,6 @@ import {
   Globe,
 } from 'lucide-react';
 
-const playfair = { fontFamily: '"Playfair Display", ui-serif, Georgia, serif' };
-
 // Map business_type strings to backend store_type_id values
 const BUSINESS_TYPE_TO_STORE_TYPE: Record<string, number> = {
   individual: 1,
@@ -141,10 +139,7 @@ export default function SellerRegisterPage() {
             <Store className="w-9 h-9 text-indigo-700" aria-hidden="true" />
           </div>
 
-          <h1
-            className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4 text-balance"
-            style={playfair}
-          >
+          <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4 text-balance font-heading">
             {t('seller.register.login_prompt_title', 'Sign in to continue')}
           </h1>
           <p className="text-gray-500 mb-8 max-w-sm text-sm leading-relaxed">
@@ -185,10 +180,7 @@ export default function SellerRegisterPage() {
             <CheckCircle className="w-10 h-10 text-indigo-700" strokeWidth={1.5} aria-hidden="true" />
           </div>
 
-          <h1
-            className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4 text-balance"
-            style={playfair}
-          >
+          <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4 text-balance font-heading">
             {t('seller.register.pending_title', 'Application received!')}
           </h1>
           <p className="text-gray-500 mb-8 max-w-md text-sm leading-relaxed">
@@ -231,10 +223,7 @@ export default function SellerRegisterPage() {
             <Store className="w-9 h-9 text-amber-600" aria-hidden="true" />
           </div>
 
-          <h1
-            className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4 text-balance"
-            style={playfair}
-          >
+          <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4 text-balance font-heading">
             {t('seller.register.already_seller_title', 'You already have a seller account')}
           </h1>
           <p className="text-gray-500 mb-8 max-w-sm text-sm leading-relaxed">
@@ -274,7 +263,7 @@ export default function SellerRegisterPage() {
           <p className="text-xs uppercase tracking-[0.18em] text-amber-400 font-medium mb-4">
             {t('seller.register.title', 'Become a Seller')}
           </p>
-          <h1 className="text-3xl sm:text-4xl font-bold text-white text-balance" style={playfair}>
+          <h1 className="text-3xl sm:text-4xl font-bold text-white text-balance font-heading">
             {t('seller.register.subtitle', 'Apply to join Beldify and sell your Moroccan crafts to buyers worldwide.')}
           </h1>
         </div>
@@ -283,7 +272,7 @@ export default function SellerRegisterPage() {
       {/* Form container */}
       <main className="max-w-2xl mx-auto px-6 py-12">
         <div className="bg-white rounded-2xl ring-1 ring-gray-200 p-8 shadow-atlas-sm">
-          <h2 className="text-xl font-semibold text-gray-900 mb-6" style={playfair}>
+          <h2 className="text-xl font-semibold text-gray-900 mb-6 font-heading">
             {t('seller.register.form_title', 'Tell us about your store')}
           </h2>
 

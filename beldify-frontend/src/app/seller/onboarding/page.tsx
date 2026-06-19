@@ -20,8 +20,6 @@ import {
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
-const playfair = { fontFamily: '"Playfair Display", ui-serif, Georgia, serif' };
-
 export default function SellerOnboardingPage() {
   const { t, i18n } = useTranslation();
   const { isAuthenticated, user } = useAuth();
@@ -50,7 +48,7 @@ export default function SellerOnboardingPage() {
           <div className="w-16 h-16 rounded-full bg-indigo-50 ring-2 ring-indigo-200 flex items-center justify-center mb-6">
             <Store className="w-8 h-8 text-indigo-700" aria-hidden="true" />
           </div>
-          <h1 className="text-2xl font-bold text-gray-900 mb-3" style={playfair}>
+          <h1 className="text-2xl font-bold text-gray-900 mb-3 font-heading">
             {t('seller.onboarding.login_title', 'Sign in to view your seller journey')}
           </h1>
           <p className="text-gray-500 text-sm mb-8">
@@ -104,7 +102,7 @@ export default function SellerOnboardingPage() {
           <div className="w-16 h-16 rounded-full bg-amber-50 ring-2 ring-amber-200 flex items-center justify-center mb-6">
             <Store className="w-8 h-8 text-amber-600" aria-hidden="true" />
           </div>
-          <h1 className="text-2xl font-bold text-gray-900 mb-3" style={playfair}>
+          <h1 className="text-2xl font-bold text-gray-900 mb-3 font-heading">
             {t('seller.onboarding.not_started_title', "You haven't applied yet")}
           </h1>
           <p className="text-gray-500 text-sm mb-8">
@@ -130,7 +128,7 @@ export default function SellerOnboardingPage() {
           <p className="text-xs uppercase tracking-[0.18em] text-amber-700 font-medium mb-2">
             {t('seller.onboarding.eyebrow', 'Seller Journey')}
           </p>
-          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900" style={playfair}>
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 font-heading">
             {t('seller.onboarding.title', 'Your Seller Onboarding')}
           </h1>
           <p className="text-sm text-gray-500 mt-1">
@@ -149,7 +147,7 @@ export default function SellerOnboardingPage() {
             <span className="text-sm font-medium text-gray-700">
               {t('seller.onboarding.overall_progress', 'Overall progress')}
             </span>
-            <span className="text-sm font-semibold text-indigo-700">
+            <span className="text-sm font-semibold text-indigo-700 tabular-nums">
               {status.overall_percentage}%
             </span>
           </div>
@@ -170,7 +168,7 @@ export default function SellerOnboardingPage() {
               <p className="text-xs text-gray-400 uppercase tracking-wide">
                 {t('seller.onboarding.profile_pct', 'Profile')}
               </p>
-              <p className="text-base font-semibold text-gray-800">
+              <p className="text-base font-semibold text-gray-800 tabular-nums">
                 {status.profile_completion_percentage}%
               </p>
             </div>
@@ -178,7 +176,7 @@ export default function SellerOnboardingPage() {
               <p className="text-xs text-gray-400 uppercase tracking-wide">
                 {t('seller.onboarding.products_count', 'Products')}
               </p>
-              <p className="text-base font-semibold text-gray-800">
+              <p className="text-base font-semibold text-gray-800 tabular-nums">
                 {status.products_count}
               </p>
             </div>

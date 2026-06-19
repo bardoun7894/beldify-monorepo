@@ -55,8 +55,6 @@ import {
   ListingLocaleResult,
 } from '@/services/sellerAiService';
 
-const playfair = { fontFamily: '"Playfair Display", ui-serif, Georgia, serif' };
-
 const inputClass =
   'block w-full rounded-2xl bg-amber-50 ring-1 ring-amber-200 focus:ring-2 focus:ring-indigo-700/40 px-4 py-2.5 text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none transition-all duration-150';
 
@@ -438,7 +436,7 @@ export default function SellerEditProductPage() {
       <div className="min-h-screen bg-background" dir={isRTL ? 'rtl' : 'ltr'}>
         <div className="max-w-2xl mx-auto px-6 py-24 flex flex-col items-center text-center">
           <Package className="w-10 h-10 text-indigo-600 mb-6" aria-hidden="true" />
-          <h1 className="text-xl font-bold text-gray-900 mb-3" style={playfair}>
+          <h1 className="text-xl font-bold text-gray-900 mb-3 font-heading">
             {t('seller.product.login_title', 'Sign in to edit a product')}
           </h1>
           <Link
@@ -461,7 +459,7 @@ export default function SellerEditProductPage() {
           <div className="w-16 h-16 rounded-full bg-rose-50 ring-2 ring-rose-200 flex items-center justify-center mb-6">
             <XCircle className="w-8 h-8 text-rose-600" aria-hidden="true" />
           </div>
-          <h1 className="text-xl font-bold text-gray-900 mb-3" style={playfair}>
+          <h1 className="text-xl font-bold text-gray-900 mb-3 font-heading">
             {t('seller.product.suspended_title', 'Your store is suspended')}
           </h1>
           <p className="text-gray-500 text-sm">
@@ -488,7 +486,7 @@ export default function SellerEditProductPage() {
             <p className="text-xs uppercase tracking-[0.18em] text-amber-700 font-medium">
               {t('seller.product.eyebrow', 'Products')}
             </p>
-            <h1 className="text-xl font-bold text-gray-900" style={playfair}>
+            <h1 className="text-xl font-bold text-gray-900 font-heading">
               {t('seller.product.edit_title', 'Edit product')}
             </h1>
           </div>
