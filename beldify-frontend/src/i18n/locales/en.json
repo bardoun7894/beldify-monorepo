@@ -4318,10 +4318,15 @@
     "occasion": {
       "title": "Shop by occasion",
       "subtitle": "The right piece for every moment",
+      "cta": "Shop now",
       "wedding": "Wedding",
+      "weddingDesc": "Caftans, takchitas & bridal gowns",
       "eid": "Eid",
+      "eidDesc": "Festive looks for the whole family",
       "summer": "Summer",
-      "gifts": "Gifts"
+      "summerDesc": "Lightweight djellabas & breezy sets",
+      "gifts": "Gifts",
+      "giftsDesc": "Jewelry & finds they'll love"
     },
     "zones": {
       "wedding": "Weddings & occasions",

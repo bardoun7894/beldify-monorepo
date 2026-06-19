@@ -933,43 +933,63 @@ interface OccasionTileProps {
   href: string;
   image: string;
   label: string;
+  desc: string;
+  cta: string;
+  index: string;
   isArabicScript: boolean;
 }
 
-function OccasionTile({ href, image, label, isArabicScript }: OccasionTileProps) {
+function OccasionTile({ href, image, label, desc, cta, index, isArabicScript }: OccasionTileProps) {
   const [imgError, setImgError] = useState(false);
   const initial = label.charAt(0).toUpperCase();
+  const showImage = !imgError && !!image;
 
   return (
     <Link
       href={href}
-      aria-label={label}
-      className="group relative overflow-hidden rounded-2xl ring-1 ring-gray-200 shadow-atlas-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-atlas-md focus:outline-none focus:ring-2 focus:ring-indigo-700/40 focus:ring-offset-2 bg-white"
+      aria-label={desc ? `${label} — ${desc}` : label}
+      className="group relative block overflow-hidden rounded-2xl ring-1 ring-gray-200 shadow-atlas-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-atlas-md focus:outline-none focus:ring-2 focus:ring-indigo-700/40 focus:ring-offset-2 bg-white"
       style={{ aspectRatio: '4/5' }}
     >
-      {imgError || !image ? (
-        <div className="absolute inset-0 flex items-center justify-center bg-gray-100">
-          <span className="text-4xl font-bold text-indigo-700/30 select-none" aria-hidden="true">
-            {initial}
-          </span>
-        </div>
-      ) : (
+      {showImage ? (
         <Image
           src={image}
           alt=""
           fill
           sizes="(min-width:1024px) 25vw, (min-width:640px) 33vw, 50vw"
-          className="object-cover transition duration-500 ease-out group-hover:scale-110"
+          className="object-cover transition duration-700 ease-out group-hover:scale-105"
           onError={() => setImgError(true)}
         />
+      ) : (
+        <div className="absolute inset-0 flex items-center justify-center bg-gray-100">
+          <span className="text-4xl font-bold text-indigo-700/30 select-none" aria-hidden="true">
+            {initial}
+          </span>
+        </div>
       )}
-      {!imgError && image && (
-        <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent" />
+
+      {/* Richer, taller scrim so the multi-line copy stays legible over any image */}
+      {showImage && (
+        <div
+          className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/45 to-transparent"
+          aria-hidden="true"
+        />
       )}
-      <div className="absolute bottom-4 start-4 end-4 flex items-end justify-between gap-2">
+
+      {/* Editorial index number, top-start corner */}
+      <span
+        aria-hidden="true"
+        className="absolute top-3 start-3.5 text-sm font-semibold tabular-nums text-white/45"
+        style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
+      >
+        {index}
+      </span>
+
+      {/* Content block: title + tagline + persistent CTA */}
+      <div className="absolute inset-x-0 bottom-0 p-4 sm:p-5">
         <h3
           dir={isArabicScript ? 'rtl' : 'ltr'}
-          className={`text-lg font-semibold leading-tight text-white ${isArabicScript ? 'font-arabic' : ''}`}
+          className={`text-lg sm:text-xl font-semibold leading-tight text-white ${isArabicScript ? 'font-arabic' : ''}`}
           style={{
             fontFamily: isArabicScript ? undefined : '"Playfair Display", ui-serif, Georgia, serif',
             textShadow: '0 1px 8px rgba(0,0,0,0.55)',
@@ -977,8 +997,31 @@ function OccasionTile({ href, image, label, isArabicScript }: OccasionTileProps)
         >
           {label}
         </h3>
-        <span className="shrink-0 grid place-items-center h-8 w-8 rounded-full opacity-0 -translate-x-1 rtl:translate-x-1 transition-all duration-300 bg-white/0 text-white group-hover:bg-white/95 group-hover:text-indigo-700 group-hover:opacity-100 group-hover:translate-x-0">
-          <ArrowRight className="h-4 w-4 rtl:rotate-180" aria-hidden="true" />
+
+        {desc && (
+          <p
+            dir={isArabicScript ? 'rtl' : 'ltr'}
+            className={`mt-1 text-xs sm:text-[13px] leading-snug text-white/75 line-clamp-2 ${isArabicScript ? 'font-arabic' : ''}`}
+          >
+            {desc}
+          </p>
+        )}
+
+        <span
+          dir={isArabicScript ? 'rtl' : 'ltr'}
+          className={`mt-3 inline-flex items-center gap-1.5 text-[11px] font-semibold text-white ${isArabicScript ? 'font-arabic' : 'uppercase tracking-[0.14em]'}`}
+        >
+          <span className="relative">
+            {cta}
+            <span
+              className="absolute -bottom-0.5 start-0 h-px w-0 bg-amber-400 transition-all duration-300 group-hover:w-full"
+              aria-hidden="true"
+            />
+          </span>
+          <ArrowRight
+            className="h-3.5 w-3.5 rtl:rotate-180 transition-transform duration-300 group-hover:translate-x-0.5 rtl:group-hover:-translate-x-0.5"
+            aria-hidden="true"
+          />
         </span>
       </div>
     </Link>
@@ -1005,24 +1048,32 @@ function OccasionGrid({ categories, isArabicScript }: OccasionGridProps) {
     {
       key: 'home.occasion.wedding',
       fallback: 'عرس',
+      descKey: 'home.occasion.weddingDesc',
+      descFallback: 'قفاطين، تكاشط وكسوة العرس',
       href: '/products?category=festive',
       image: 'https://pro.beldify.com/storage/categories/category_14_wedding-dresses.png',
     },
     {
       key: 'home.occasion.eid',
       fallback: 'عيد',
+      descKey: 'home.occasion.eidDesc',
+      descFallback: 'كسوة العيد لكامل العائلة',
       href: '/categories/caftan',
       image: 'https://pro.beldify.com/storage/categories/category_4_caftan.png',
     },
     {
       key: 'home.occasion.summer',
       fallback: 'صيف',
+      descKey: 'home.occasion.summerDesc',
+      descFallback: 'جلابات خفيفة وأطقم ديال الصيف',
       href: '/categories/womens-djellaba',
       image: 'https://pro.beldify.com/storage/categories/category_5_womens-djellaba.png',
     },
     {
       key: 'home.occasion.gifts',
       fallback: 'هدايا',
+      descKey: 'home.occasion.giftsDesc',
+      descFallback: 'حلي وهدايا كيعجبو',
       href: '/categories/jewelry',
       image: jewelryImage,
     },
@@ -1066,12 +1117,15 @@ function OccasionGrid({ categories, isArabicScript }: OccasionGridProps) {
 
       {/* 4-tile grid: 2-col mobile, 4-col desktop */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-5">
-        {occasions.map((occ) => (
+        {occasions.map((occ, i) => (
           <OccasionTile
             key={occ.key}
             href={occ.href}
             image={occ.image}
             label={t(occ.key, occ.fallback)}
+            desc={t(occ.descKey, occ.descFallback)}
+            cta={t('home.occasion.cta', 'تسوّق الآن')}
+            index={String(i + 1).padStart(2, '0')}
             isArabicScript={isArabicScript}
           />
         ))}

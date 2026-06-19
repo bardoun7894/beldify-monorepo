@@ -4091,10 +4091,15 @@
     "occasion": {
       "title": "Acheter selon l'occasion",
       "subtitle": "La pièce parfaite pour chaque moment",
+      "cta": "Découvrir",
       "wedding": "Mariage",
+      "weddingDesc": "Caftans, takchitas & robes de mariée",
       "eid": "Aïd",
+      "eidDesc": "Tenues de fête pour toute la famille",
       "summer": "Été",
-      "gifts": "Cadeaux"
+      "summerDesc": "Djellabas légères & ensembles d'été",
+      "gifts": "Cadeaux",
+      "giftsDesc": "Bijoux & idées qui font plaisir"
     },
     "zones": {
       "wedding": "Mariages et occasions",
