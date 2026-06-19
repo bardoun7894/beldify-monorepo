@@ -24,20 +24,22 @@ describe('Task 1 — Hero height compact (mobile ≤38vh, desktop ≤45vh)', () 
     expect(home()).not.toContain('min-h-[85vh]');
   });
 
-  it('uses a compact hero height class (38vh mobile)', () => {
-    // After campaign-art overhaul, compact heights live in CampaignArtSlides or HeroSection
+  it('uses a compact hero height class (mobile — fixed px, not 85vh)', () => {
+    // Updated 2026-06-19: heights moved from vh to fixed px (h-[300px] sm:h-[400px] lg:h-[480px])
+    // so the rail + trust strip stay above fold reliably across viewport sizes.
     const heroSection = readFileSync(join(SRC, 'components/home/HeroSection.tsx'), 'utf-8');
     const campaignArtSlides = readFileSync(join(SRC, 'components/home/CampaignArtSlides.tsx'), 'utf-8');
     const combined = heroSection + campaignArtSlides;
-    expect(combined).toMatch(/min-h-\[38vh\]|h-\[260px\]|h-\[340px\]/);
+    expect(combined).toMatch(/h-\[300px\]|h-\[260px\]|h-\[340px\]/);
   });
 
-  it('uses a compact hero height for desktop (45vh)', () => {
-    // After campaign-art overhaul, compact heights live in CampaignArtSlides or HeroSection
+  it('uses a compact hero height for desktop (fixed px, not 85vh)', () => {
+    // Updated 2026-06-19: lg:h-[480px] replaces the old lg:h-[400px] / lg:min-h-[45vh].
+    // 480px keeps hero, rail, and trust strip within a typical ~900px desktop viewport.
     const heroSection = readFileSync(join(SRC, 'components/home/HeroSection.tsx'), 'utf-8');
     const campaignArtSlides = readFileSync(join(SRC, 'components/home/CampaignArtSlides.tsx'), 'utf-8');
     const combined = heroSection + campaignArtSlides;
-    expect(combined).toMatch(/lg:min-h-\[45vh\]|lg:h-\[400px\]/);
+    expect(combined).toMatch(/lg:h-\[480px\]|lg:h-\[400px\]/);
   });
 });
 

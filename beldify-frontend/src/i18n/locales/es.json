@@ -4028,7 +4028,9 @@
       "subtitle": "Explorar el zoco",
       "viewAll": "Todas las categorías",
       "empty": "Las categorías aparecerán aquí una vez que el catálogo esté activo.",
-      "rail_label": "Explorar categorías"
+      "rail_label": "Explorar categorías",
+      "products_count": "{{count}} productos",
+      "sub_chips_more": "+{{n}} más"
     },
     "offers": {
       "editorial_title": "Elegancia Tradicional",
@@ -4106,6 +4108,25 @@
       "exampleTitle3": "Takchita a medida",
       "exampleBudget3": "3.000 – 5.000 MAD",
       "exampleTag3": "Mujer"
+    },
+    "marquee": {
+      "free_delivery": "Envío gratis en pedidos superiores a 500 MAD",
+      "returns": "Devoluciones gratuitas en 14 días",
+      "cod": "Pago contra reembolso disponible",
+      "support": "Atención al cliente en árabe, francés e inglés"
+    },
+    "occasion": {
+      "title": "Compra según la ocasión",
+      "subtitle": "La pieza perfecta para cada momento",
+      "wedding": "Boda",
+      "eid": "Aïd",
+      "summer": "Verano",
+      "gifts": "Regalos"
+    },
+    "zones": {
+      "wedding": "Bodas y ocasiones especiales",
+      "jewelry": "Mundo de la joyería",
+      "cta": "Descubrir"
     }
   },
   "journal": {

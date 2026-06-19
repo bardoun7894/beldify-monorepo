@@ -194,16 +194,51 @@ export default function Navbar() {
 
   const currentLangLabel = i18n.language?.toUpperCase().slice(0, 2) || 'EN';
 
+  // Derive once; used for marquee Arabic font-rendering fix and category labels
+  const isArabicLocale = ['ar', 'ma'].includes(i18n.language);
+
+  const promoMessages = [
+    { key: 'home.marquee.free_delivery', fallback: 'Free delivery on orders over 500 MAD' },
+    { key: 'home.marquee.returns',        fallback: '14-day free returns' },
+    { key: 'home.marquee.cod',            fallback: 'Cash on delivery available' },
+    { key: 'home.marquee.support',        fallback: 'Support in Arabic, French & English' },
+  ] as const;
+
   return (
     <>
-      {/* ── Announcement strip — Atlas indigo-950 surface ──────────── */}
-      <div className="bg-indigo-950 text-amber-100 py-2 text-center text-xs font-medium tracking-wide">
-        <span className="opacity-90">
-          {t(
-            'nav.announcement',
-            'Free shipping across Morocco on orders over 500 MAD — Free returns within 14 days'
-          )}
-        </span>
+      {/* ── Promo announcements — Atlas indigo-950 surface, 4-message CSS crossfade ── */}
+      {/* Accessibility split:                                                           */}
+      {/*   • sr-only <ul> lists ALL 4 messages — this is the AT surface                */}
+      {/*   • The animated container is aria-hidden="true" as a whole; AT ignores it    */}
+      {/* Pure-CSS opacity crossfade: each message is absolutely positioned and          */}
+      {/* cycles in/out via staggered @keyframes. Zero JS, zero new deps.               */}
+      {/* prefers-reduced-motion: global rule in globals.css collapses animation         */}
+      {/* durations to 0.01ms — showing only the first (non-animated) message.          */}
+      <div className="bg-indigo-950 text-amber-100 py-2 text-center text-xs font-medium tracking-wide overflow-hidden">
+        {/* Visually-hidden static list — the real AT surface for all 4 messages */}
+        <ul
+          className="sr-only"
+          aria-label={t('nav.announcement', 'Promotional announcements')}
+        >
+          {promoMessages.map((msg) => (
+            <li key={msg.key}>{t(msg.key, msg.fallback)}</li>
+          ))}
+        </ul>
+
+        {/* Animated container — purely visual, hidden from assistive technology */}
+        <div
+          aria-hidden="true"
+          className="relative h-[1.25rem] mx-auto max-w-7xl px-6"
+        >
+          {promoMessages.map((msg, idx) => (
+            <span
+              key={msg.key}
+              className={`absolute inset-0 flex items-center justify-center opacity-0 motion-reduce:opacity-0 ${idx === 0 ? 'marquee-item-0' : idx === 1 ? 'marquee-item-1' : idx === 2 ? 'marquee-item-2' : 'marquee-item-3'}`}
+            >
+              <span className={`opacity-90${isArabicLocale ? ' font-arabic' : ''}`}>{t(msg.key, msg.fallback)}</span>
+            </span>
+          ))}
+        </div>
       </div>
 
       {/* ── Sticky main bar — parchment surface ──────────────────────── */}

@@ -18,7 +18,7 @@ import '@/i18n/config';
  * Used by HeroSection as the default when mode=brand OR banners=[].
  * Also rendered as slide 0 in the campaign carousel.
  *
- * Heights: mobile h-[260px], tablet h-[340px], desktop h-[400px]
+ * Heights: mobile h-[300px], tablet h-[400px], desktop h-[480px]
  * prefers-reduced-motion: decorative animations are suppressed via Tailwind
  * motion-safe: prefix on all animated classes.
  */
@@ -33,7 +33,7 @@ export function ArtSlide({ slide }: ArtSlideProps) {
 
   if (slide === 1) {
     return (
-      <div className="relative isolate overflow-hidden h-[260px] sm:h-[340px] lg:h-[400px] flex items-center bg-gradient-to-br from-indigo-950 to-indigo-800">
+      <div className="relative isolate overflow-hidden h-[300px] sm:h-[400px] lg:h-[480px] flex items-center bg-gradient-to-br from-indigo-950 to-indigo-800">
         {/* Amber starburst/zellige pattern overlay */}
         <div
           aria-hidden="true"
@@ -65,7 +65,7 @@ export function ArtSlide({ slide }: ArtSlideProps) {
             </span>
 
             {/* Headline */}
-            <h2 className="mt-3 text-2xl sm:text-4xl lg:text-5xl font-bold leading-[1.1] tracking-tight text-white">
+            <h2 className="mt-3 text-2xl sm:text-4xl lg:text-6xl font-bold leading-[1.1] tracking-tight text-white">
               {t('home.hero.art_slide1_headline', 'Free delivery over 500 MAD')}
             </h2>
 
@@ -91,7 +91,7 @@ export function ArtSlide({ slide }: ArtSlideProps) {
 
   if (slide === 2) {
     return (
-      <div className="relative isolate overflow-hidden h-[260px] sm:h-[340px] lg:h-[400px] flex items-center bg-gradient-to-br from-indigo-900 to-indigo-700">
+      <div className="relative isolate overflow-hidden h-[300px] sm:h-[400px] lg:h-[480px] flex items-center bg-gradient-to-br from-indigo-900 to-indigo-700">
         {/* Oversized decorative Scissors icon — rotated, low opacity */}
         <div
           aria-hidden="true"
@@ -123,7 +123,7 @@ export function ArtSlide({ slide }: ArtSlideProps) {
             </span>
 
             {/* Headline */}
-            <h2 className="mt-3 text-2xl sm:text-4xl lg:text-5xl font-bold leading-[1.1] tracking-tight text-white">
+            <h2 className="mt-3 text-2xl sm:text-4xl lg:text-6xl font-bold leading-[1.1] tracking-tight text-white">
               {t('home.hero.art_slide2_headline', 'Tailored to your measurements')}
             </h2>
 
@@ -149,7 +149,7 @@ export function ArtSlide({ slide }: ArtSlideProps) {
 
   // Slide 3 — OPEN SOUK (inverted: amber background, indigo typography)
   return (
-    <div className="relative isolate overflow-hidden h-[260px] sm:h-[340px] lg:h-[400px] flex items-center bg-gradient-to-br from-amber-500 to-amber-600">
+    <div className="relative isolate overflow-hidden h-[300px] sm:h-[400px] lg:h-[480px] flex items-center bg-gradient-to-br from-amber-500 to-amber-600">
       {/* Indigo starburst/zellige pattern overlay on amber bg */}
       <div
         aria-hidden="true"
@@ -187,7 +187,7 @@ export function ArtSlide({ slide }: ArtSlideProps) {
           </span>
 
           {/* Headline — indigo-950 on amber */}
-          <h2 className="mt-3 text-2xl sm:text-4xl lg:text-5xl font-bold leading-[1.1] tracking-tight text-indigo-950">
+          <h2 className="mt-3 text-2xl sm:text-4xl lg:text-6xl font-bold leading-[1.1] tracking-tight text-indigo-950">
             {t('home.hero.art_slide3_headline', 'Open Souk — post your brief and let ateliers compete')}
           </h2>
 

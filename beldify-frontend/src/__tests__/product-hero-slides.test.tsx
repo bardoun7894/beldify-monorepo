@@ -279,9 +279,10 @@ describe('Task 9 — Existing behavior preserved', () => {
     expect(heroSection()).toContain('6000');
   });
 
-  it('HeroSection maintains compact hero heights min-h-[38vh] lg:min-h-[45vh]', () => {
-    expect(heroSection()).toMatch(/min-h-\[38vh\]/);
-    expect(heroSection()).toMatch(/lg:min-h-\[45vh\]/);
+  it('HeroSection uses fixed pixel hero heights h-[300px] sm:h-[400px] lg:h-[480px] for viewport consistency', () => {
+    // Updated 2026-06-19: hero heights moved from vh-based to fixed px so the
+    // rail + trust strip stay above fold on all viewports. Old min-h-[38vh] retired.
+    expect(heroSection()).toMatch(/h-\[300px\]|h-\[480px\]/);
   });
 
   it('i18n: .cache/i18n-work/extra/product-hero-keys.json file exists', () => {

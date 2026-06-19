@@ -4,12 +4,14 @@ import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Autoplay, Pagination, A11y, Keyboard } from 'swiper/modules';
+import { Autoplay, Pagination, Navigation, A11y, Keyboard } from 'swiper/modules';
 import { useTranslation } from 'react-i18next';
+import { Sparkles } from 'lucide-react';
 import '@/i18n/config';
 
 import 'swiper/css';
 import 'swiper/css/pagination';
+import 'swiper/css/navigation';
 import 'swiper/css/a11y';
 
 export interface HeroProductItem {
@@ -98,11 +100,12 @@ export default function ProductHeroSlides({ products }: ProductHeroSlidesProps) 
 
   return (
     <section
-      className="relative h-[260px] sm:h-[340px] lg:h-[400px]"
+      className="relative h-[300px] sm:h-[400px] lg:h-[480px]"
       aria-label={t('home.hero.section_label', 'Hero')}
       dir={isRTL ? 'rtl' : 'ltr'}
     >
       {/* Atlas dot styling — amber-500 active, white/40 inactive */}
+      {/* Navigation arrow override — subtle translucent circles, lg+ only */}
       <style>{`
         .product-hero-swiper .swiper-pagination-bullet {
           background: rgba(255,255,255,0.4);
@@ -115,11 +118,43 @@ export default function ProductHeroSlides({ products }: ProductHeroSlidesProps) 
           background: rgb(245 158 11); /* amber-500 */
           transform: scale(1.25);
         }
+        .product-hero-swiper .swiper-button-prev,
+        .product-hero-swiper .swiper-button-next {
+          display: none;
+        }
+        @media (min-width: 1024px) {
+          .product-hero-swiper .swiper-button-prev,
+          .product-hero-swiper .swiper-button-next {
+            display: flex;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(4px);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.25);
+            transition: background 200ms;
+          }
+          .product-hero-swiper .swiper-button-prev:hover,
+          .product-hero-swiper .swiper-button-next:hover {
+            background: rgba(255,255,255,0.25);
+          }
+          .product-hero-swiper .swiper-button-prev:focus-visible,
+          .product-hero-swiper .swiper-button-next:focus-visible {
+            outline: 2px solid rgb(245 158 11); /* amber-500 */
+            outline-offset: 2px;
+          }
+          .product-hero-swiper .swiper-button-prev::after,
+          .product-hero-swiper .swiper-button-next::after {
+            font-size: 14px;
+            font-weight: 700;
+          }
+        }
       `}</style>
 
       <Swiper
         className="product-hero-swiper h-full"
-        modules={[Autoplay, Pagination, A11y, Keyboard]}
+        modules={[Autoplay, Pagination, Navigation, A11y, Keyboard]}
         loop
         autoplay={
           reducedMotion
@@ -127,6 +162,7 @@ export default function ProductHeroSlides({ products }: ProductHeroSlidesProps) 
             : { delay: 5000, disableOnInteraction: false, pauseOnMouseEnter: true }
         }
         pagination={{ clickable: true }}
+        navigation
         a11y={{
           prevSlideMessage: t('home.hero.carousel_prev', 'Previous slide'),
           nextSlideMessage: t('home.hero.carousel_next', 'Next slide'),
@@ -143,7 +179,7 @@ export default function ProductHeroSlides({ products }: ProductHeroSlidesProps) 
 
           return (
             <SwiperSlide key={product.id}>
-              <div className="relative h-[260px] sm:h-[340px] lg:h-[400px] overflow-hidden">
+              <div className="relative h-[300px] sm:h-[400px] lg:h-[480px] overflow-hidden">
                 {/* Full-bleed product image */}
                 <div className="absolute inset-0 -z-10">
                   <Image
@@ -154,8 +190,9 @@ export default function ProductHeroSlides({ products }: ProductHeroSlidesProps) 
                     sizes="100vw"
                     className="object-cover object-center"
                   />
-                  {/* Gradient scrim — bottom-heavy for text legibility */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-indigo-950/80 via-indigo-950/25 to-transparent" />
+                  {/* Gradient scrim — bottom-up (primary legibility) + start-side (busy images) */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-indigo-950/85 via-indigo-950/25 to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-r from-indigo-950/50 to-transparent rtl:bg-gradient-to-l" />
                 </div>
 
                 {/* Discount badge — top-end, rose-700 matching ProductCard convention */}
@@ -168,12 +205,18 @@ export default function ProductHeroSlides({ products }: ProductHeroSlidesProps) 
                 )}
 
                 {/* Content — bottom-anchored text + CTA */}
-                <div className="absolute inset-0 flex items-end pb-8 sm:pb-10 lg:pb-12">
+                <div className="absolute inset-0 flex items-end pb-8 sm:pb-10 lg:pb-14">
                   <div className="mx-auto max-w-7xl w-full px-4 sm:px-6">
                     <div className="max-w-lg">
+                      {/* Eyebrow chip — consistent with ArtSlide eyebrow style */}
+                      <span className="inline-flex items-center gap-2 rounded-full bg-amber-500/20 px-3.5 py-1.5 text-xs font-medium text-amber-300 ring-1 ring-amber-500/30">
+                        <Sparkles className="h-3.5 w-3.5" aria-hidden="true" />
+                        {t('home.hero.product_eyebrow', 'Handcrafted in Morocco')}
+                      </span>
+
                       {/* Product name — locale-aware */}
                       <h2
-                        className="text-2xl sm:text-3xl lg:text-4xl font-bold leading-tight text-white"
+                        className="mt-3 text-3xl sm:text-4xl lg:text-6xl font-bold leading-tight text-white"
                         dir={isArabicScript ? 'rtl' : 'ltr'}
                         lang={isArabicScript ? 'ar' : undefined}
                         style={isArabicScript ? undefined : {

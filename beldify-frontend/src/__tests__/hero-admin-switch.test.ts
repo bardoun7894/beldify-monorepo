@@ -167,9 +167,11 @@ describe('Task 2b — HeroSection.tsx carousel logic', () => {
     expect(heroSection()).toMatch(/banners\.length|banners\s*&&|showDBBanners/);
   });
 
-  it('HeroSection maintains compact hero heights min-h-[38vh] lg:min-h-[45vh]', () => {
-    expect(heroSection()).toMatch(/min-h-\[38vh\]/);
-    expect(heroSection()).toMatch(/lg:min-h-\[45vh\]/);
+  it('HeroSection uses fixed pixel hero heights (not 85vh) — h-[300px] sm:h-[400px] lg:h-[480px]', () => {
+    // Updated 2026-06-19: heights migrated from vh-based to fixed px for viewport predictability.
+    // The section wraps the Swiper which sets h-[300px] sm:h-[400px] lg:h-[480px].
+    const content = heroSection();
+    expect(content).toMatch(/h-\[300px\]|h-\[480px\]/);
   });
 });
 

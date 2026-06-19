@@ -263,6 +263,45 @@
   }
 }
 
+/* ─── Promo marquee crossfade — Navbar announcement strip ─────────────────── */
+/*                                                                               */
+/* 4 messages, each visible for 4 s with a 0.5 s fade transition.               */
+/* Total cycle = 4 × (4 + 0.5) = 18 s.                                          */
+/* Stagger: each item delays by (idx × 4.5) s.                                  */
+/* Under prefers-reduced-motion, globals.css collapses animation-duration to     */
+/* 0.01ms and animation-iteration-count to 1 → messages flash in/out instantly. */
+/* marquee-static ensures item 0 stays visible without animation.                */
+@keyframes promo-crossfade {
+  0%   { opacity: 0; }   /* hidden at start of cycle */
+  2%   { opacity: 1; }   /* fade in (~0.36s) */
+  23%  { opacity: 1; }   /* hold visible (~3.8s) */
+  27%  { opacity: 0; }   /* fade out; next item (delay 4.5s = 25%) fades in */
+  100% { opacity: 0; }   /* stay hidden until the cycle repeats */
+}
+
+.marquee-item-0 { animation: promo-crossfade 18s ease-in-out 0s    infinite; }
+.marquee-item-1 { animation: promo-crossfade 18s ease-in-out 4.5s  infinite; }
+.marquee-item-2 { animation: promo-crossfade 18s ease-in-out 9s    infinite; }
+.marquee-item-3 { animation: promo-crossfade 18s ease-in-out 13.5s infinite; }
+
+/* Pause all items on hover over the strip — aria-live of the parent handles SR */
+[role="marquee"]:hover .marquee-item-0,
+[role="marquee"]:hover .marquee-item-1,
+[role="marquee"]:hover .marquee-item-2,
+[role="marquee"]:hover .marquee-item-3 {
+  animation-play-state: paused;
+}
+
+/* Reduced-motion: show only item 0 as static text, hide the rest */
+@media (prefers-reduced-motion: reduce) {
+  .marquee-item-0 { animation: none !important; opacity: 1 !important; }
+  .marquee-item-1,
+  .marquee-item-2,
+  .marquee-item-3 { animation: none !important; opacity: 0 !important; }
+}
+
+/* ─────────────────────────────────────────────────────────────────────────── */
+
 /* AI chip entrance animation — DESIGN.md §11.3 */
 @keyframes fade-in-up {
   from {

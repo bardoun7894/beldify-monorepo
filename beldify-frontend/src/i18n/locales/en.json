@@ -4224,7 +4224,9 @@
       "subtitle": "Browse the souk",
       "viewAll": "All categories",
       "empty": "Categories will appear here once the catalogue is live.",
-      "rail_label": "Browse categories"
+      "rail_label": "Browse categories",
+      "products_count": "{{count}} products",
+      "sub_chips_more": "+{{n}} more"
     },
     "offers": {
       "editorial_title": "Traditional Elegance",
@@ -4302,6 +4304,25 @@
       "exampleTitle3": "Custom-fit takchita",
       "exampleBudget3": "3,000 – 5,000 MAD",
       "exampleTag3": "Women"
+    },
+    "marquee": {
+      "free_delivery": "Free delivery on orders over 500 MAD",
+      "returns": "14-day free returns",
+      "cod": "Cash on delivery available",
+      "support": "Support in Arabic, French & English"
+    },
+    "occasion": {
+      "title": "Shop by occasion",
+      "subtitle": "The right piece for every moment",
+      "wedding": "Wedding",
+      "eid": "Eid",
+      "summer": "Summer",
+      "gifts": "Gifts"
+    },
+    "zones": {
+      "wedding": "Weddings & occasions",
+      "jewelry": "Jewellery world",
+      "cta": "Discover"
     }
   },
   "journal": {

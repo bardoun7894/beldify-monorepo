@@ -37,11 +37,15 @@ describe('Fix 1 — Category grid image fallback (no dark blobs)', () => {
   });
 
   it('category grid image src uses the same field (c.image) as the chips rail', () => {
-    // Both chips rail and grid must use c.image — not different fields
+    // Both chips rail and grid must use c.image — not different fields.
+    // After the CategoryCard refactor, the grid passes c.image as the `image`
+    // prop to CategoryCard (image={c.image}), while the chips rail still uses
+    // src={c.image} directly. Check for both patterns.
     const content = home();
-    // Count how many Image fills reference c.image (must be >= 2 for both sections)
-    const imageMatches = content.match(/src=\{c\.image/g) || [];
-    expect(imageMatches.length).toBeGreaterThanOrEqual(2);
+    const directImageMatches = content.match(/src=\{c\.image/g) || [];
+    const propImageMatches = content.match(/image=\{c\.image/g) || [];
+    const totalMatches = directImageMatches.length + propImageMatches.length;
+    expect(totalMatches).toBeGreaterThanOrEqual(2);
   });
 });
 

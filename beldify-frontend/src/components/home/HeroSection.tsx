@@ -4,16 +4,18 @@ import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Autoplay, Pagination, A11y, Keyboard } from 'swiper/modules';
+import { Autoplay, Pagination, Navigation, A11y, Keyboard } from 'swiper/modules';
 import { useTranslation } from 'react-i18next';
 import CampaignArtSlides, { ArtSlide } from './CampaignArtSlides';
 import BrandHeroSlide from './BrandHeroSlide';
 import ProductHeroSlides, { type HeroProductItem } from './ProductHeroSlides';
+import { Sparkles } from 'lucide-react';
 import '@/i18n/config';
 
-// Swiper CSS — import core + pagination module styles
+// Swiper CSS — import core + pagination + navigation module styles
 import 'swiper/css';
 import 'swiper/css/pagination';
+import 'swiper/css/navigation';
 import 'swiper/css/a11y';
 
 export interface HeroBanner {
@@ -67,10 +69,15 @@ function positionClasses(text_position: string): string {
  * Full-bleed next/image + indigo gradient + localized copy + amber CTA chip.
  */
 function BannerSlide({ banner, isFirst }: { banner: HeroBanner; isFirst: boolean }) {
+  const { t, i18n } = useTranslation();
+  const isArabicScript = ['ar', 'ma'].includes(i18n.language);
   const alignment = positionClasses(banner.text_position);
 
   return (
-    <div className="relative isolate overflow-hidden min-h-[38vh] lg:min-h-[45vh] flex items-center">
+    <div
+      dir={isArabicScript ? 'rtl' : 'ltr'}
+      className="relative isolate overflow-hidden h-[300px] sm:h-[400px] lg:h-[480px] flex items-center"
+    >
       {/* Full-bleed background image */}
       <div className="absolute inset-0 -z-10">
         <Image
@@ -81,14 +88,24 @@ function BannerSlide({ banner, isFirst }: { banner: HeroBanner; isFirst: boolean
           sizes="100vw"
           className="object-cover object-center"
         />
-        {/* Gradient overlay for legibility — indigo-950 dark to translucent */}
-        <div className="absolute inset-0 bg-gradient-to-t from-indigo-950/70 to-indigo-950/20" />
+        {/* Gradient scrim — bottom-up + start-side for legibility on busy images */}
+        <div className="absolute inset-0 bg-gradient-to-t from-indigo-950/85 via-indigo-950/25 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-r from-indigo-950/50 to-transparent rtl:bg-gradient-to-l" />
       </div>
 
       {/* Content */}
       <div className={`mx-auto max-w-7xl w-full px-4 sm:px-6 py-10 sm:py-14 lg:py-16 flex flex-col ${alignment}`}>
         <div className="max-w-lg">
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold leading-[1.1] tracking-tight text-white">
+          {/* Eyebrow chip — consistent with ProductHeroSlides and ArtSlides */}
+          <span className="inline-flex items-center gap-2 rounded-full bg-amber-500/20 px-3.5 py-1.5 text-xs font-medium text-amber-300 ring-1 ring-amber-500/30">
+            <Sparkles className="h-3.5 w-3.5" aria-hidden="true" />
+            {t('home.hero.banner_eyebrow', 'Featured collection')}
+          </span>
+          <h2
+            className={`mt-3 text-3xl sm:text-4xl lg:text-5xl font-bold leading-[1.1] tracking-tight text-white ${isArabicScript ? 'font-arabic' : ''}`}
+            lang={isArabicScript ? 'ar' : undefined}
+            style={isArabicScript ? undefined : { fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
+          >
             {banner.title}
           </h2>
           {banner.subtitle && (
@@ -157,10 +174,11 @@ export default function HeroSection({ hero, products = [] }: HeroSectionProps) {
   // Path 3: no banners, <2 products → art slides only (last-resort fallback)
   return (
     <section
-      className="relative min-h-[38vh] lg:min-h-[45vh]"
+      className="relative h-[300px] sm:h-[400px] lg:h-[480px]"
       aria-label={t('home.hero.section_label', 'Hero')}
     >
       {/* Atlas dot styling — override default swiper blue with brand tokens */}
+      {/* Navigation arrow override — hidden on mobile, shown on lg+ */}
       <style>{`
         .hero-swiper .swiper-pagination-bullet {
           background: rgba(255,255,255,0.4);
@@ -180,11 +198,44 @@ export default function HeroSection({ hero, products = [] }: HeroSectionProps) {
         .hero-swiper-slide-3-active .swiper-pagination-bullet-active {
           background: rgb(30 27 75); /* indigo-950 */
         }
+        /* Navigation buttons — hidden on mobile, visible on lg+ */
+        .hero-swiper .swiper-button-prev,
+        .hero-swiper .swiper-button-next {
+          display: none;
+        }
+        @media (min-width: 1024px) {
+          .hero-swiper .swiper-button-prev,
+          .hero-swiper .swiper-button-next {
+            display: flex;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(4px);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.25);
+            transition: background 200ms;
+          }
+          .hero-swiper .swiper-button-prev:hover,
+          .hero-swiper .swiper-button-next:hover {
+            background: rgba(255,255,255,0.25);
+          }
+          .hero-swiper .swiper-button-prev:focus-visible,
+          .hero-swiper .swiper-button-next:focus-visible {
+            outline: 2px solid rgb(245 158 11); /* amber-500 */
+            outline-offset: 2px;
+          }
+          .hero-swiper .swiper-button-prev::after,
+          .hero-swiper .swiper-button-next::after {
+            font-size: 14px;
+            font-weight: 700;
+          }
+        }
       `}</style>
 
       <Swiper
         className="hero-swiper h-full"
-        modules={[Autoplay, Pagination, A11y, Keyboard]}
+        modules={[Autoplay, Pagination, Navigation, A11y, Keyboard]}
         loop
         autoplay={
           reducedMotion
@@ -192,6 +243,7 @@ export default function HeroSection({ hero, products = [] }: HeroSectionProps) {
             : { delay: 6000, disableOnInteraction: false, pauseOnMouseEnter: true }
         }
         pagination={{ clickable: true }}
+        navigation
         a11y={{
           prevSlideMessage: t('home.hero.carousel_prev', 'Previous slide'),
           nextSlideMessage: t('home.hero.carousel_next', 'Next slide'),

@@ -4216,7 +4216,9 @@
       "subtitle": "Blader door de souk",
       "viewAll": "Alle categorieën",
       "empty": "Categorieën verschijnen hier zodra de catalogus live gaat.",
-      "rail_label": "Categorieën bekijken"
+      "rail_label": "Categorieën bekijken",
+      "products_count": "{{count}} producten",
+      "sub_chips_more": "+{{n}} meer"
     },
     "offers": {
       "editorial_title": "Traditionele Elegantie",
@@ -4294,6 +4296,25 @@
       "exampleTitle3": "Op maat gemaakte takchita",
       "exampleBudget3": "3.000 – 5.000 MAD",
       "exampleTag3": "Dames"
+    },
+    "marquee": {
+      "free_delivery": "Gratis levering bij bestellingen boven 500 MAD",
+      "returns": "Gratis retour binnen 14 dagen",
+      "cod": "Betaling bij levering beschikbaar",
+      "support": "Klantenservice in Arabisch, Frans en Engels"
+    },
+    "occasion": {
+      "title": "Shop per gelegenheid",
+      "subtitle": "Het perfecte stuk voor elk moment",
+      "wedding": "Bruiloft",
+      "eid": "Eid",
+      "summer": "Zomer",
+      "gifts": "Cadeaus"
+    },
+    "zones": {
+      "wedding": "Bruiloften en gelegenheden",
+      "jewelry": "Wereld van sieraden",
+      "cta": "Ontdekken"
     }
   },
   "journal": {

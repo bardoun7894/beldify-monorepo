@@ -4216,7 +4216,9 @@
       "subtitle": "Stöbere im Souk",
       "viewAll": "Alle Kategorien",
       "empty": "Kategorien erscheinen hier, sobald der Katalog live ist.",
-      "rail_label": "Kategorien durchstöbern"
+      "rail_label": "Kategorien durchstöbern",
+      "products_count": "{{count}} Produkte",
+      "sub_chips_more": "+{{n}} mehr"
     },
     "offers": {
       "editorial_title": "Zeitlose Eleganz",
@@ -4294,6 +4296,25 @@
       "exampleTitle3": "Maßgeschneiderte Takchita",
       "exampleBudget3": "3.000 – 5.000 MAD",
       "exampleTag3": "Damen"
+    },
+    "marquee": {
+      "free_delivery": "Kostenloser Versand ab 500 MAD",
+      "returns": "Kostenlose Rücksendung innerhalb von 14 Tagen",
+      "cod": "Zahlung bei Lieferung verfügbar",
+      "support": "Kundenservice auf Arabisch, Französisch und Englisch"
+    },
+    "occasion": {
+      "title": "Nach Anlass einkaufen",
+      "subtitle": "Das perfekte Stück für jeden Moment",
+      "wedding": "Hochzeit",
+      "eid": "Eid",
+      "summer": "Sommer",
+      "gifts": "Geschenke"
+    },
+    "zones": {
+      "wedding": "Hochzeiten und besondere Anlässe",
+      "jewelry": "Welt des Schmucks",
+      "cta": "Entdecken"
     }
   },
   "journal": {

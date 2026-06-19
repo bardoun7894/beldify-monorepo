@@ -3997,7 +3997,9 @@
       "subtitle": "Parcourir le souk",
       "viewAll": "Toutes les catégories",
       "empty": "Les catégories apparaîtront ici une fois le catalogue en ligne.",
-      "rail_label": "Parcourir les catégories"
+      "rail_label": "Parcourir les catégories",
+      "products_count": "{{count}} produits",
+      "sub_chips_more": "+{{n}} autres"
     },
     "offers": {
       "editorial_title": "Élégance Traditionnelle",
@@ -4075,6 +4077,25 @@
       "exampleTitle3": "Takchita sur mesure",
       "exampleBudget3": "3 000 – 5 000 MAD",
       "exampleTag3": "Femmes"
+    },
+    "marquee": {
+      "free_delivery": "Livraison offerte dès 500 MAD",
+      "returns": "Retours gratuits sous 14 jours",
+      "cod": "Paiement à la livraison disponible",
+      "support": "Assistance en arabe, français et anglais"
+    },
+    "occasion": {
+      "title": "Acheter selon l'occasion",
+      "subtitle": "La pièce parfaite pour chaque moment",
+      "wedding": "Mariage",
+      "eid": "Aïd",
+      "summer": "Été",
+      "gifts": "Cadeaux"
+    },
+    "zones": {
+      "wedding": "Mariages et occasions",
+      "jewelry": "Univers des bijoux",
+      "cta": "Découvrir"
     }
   },
   "journal": {

@@ -29,6 +29,7 @@ import LoadingSpinner from '@/components/common/LoadingSpinner';
 import Newsletter from '@/components/Newsletter';
 import PostCard from '@/components/community/PostCard';
 import type { CommunityPost } from '@/types/community';
+import CategoryCard from '@/components/home/CategoryCard';
 
 type Category = {
   id: number;
@@ -37,6 +38,7 @@ type Category = {
   image: string;
   slug?: string;
   itemCount?: number;
+  sub_categories?: Category[];
   subCategories?: Category[];
   subcategories?: Category[];
 };
@@ -212,7 +214,7 @@ export default function HomeContent({ categories, data, openSoukPosts = [], hero
           aria-label={t('home.categories.rail_label', 'Browse categories')}
         >
           <div
-            className="-mx-0 flex gap-3 overflow-x-auto snap-x snap-mandatory px-4 py-3 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+            className="-mx-0 flex gap-3 lg:gap-6 overflow-x-auto snap-x snap-mandatory px-4 py-3 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden lg:mx-auto lg:w-fit lg:max-w-7xl lg:px-6"
             role="list"
           >
             {categories.map((c) => (
@@ -223,17 +225,17 @@ export default function HomeContent({ categories, data, openSoukPosts = [], hero
                 className="group snap-start shrink-0 flex flex-col items-center gap-1.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/40 rounded-xl"
                 aria-label={catName(c)}
               >
-                <span className="relative flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-full bg-gray-50 ring-1 ring-gray-200 transition-all duration-200 group-hover:ring-indigo-700 group-hover:ring-2">
+                <span className="relative flex h-14 w-14 lg:h-[68px] lg:w-[68px] shrink-0 items-center justify-center overflow-hidden rounded-full bg-gray-50 ring-1 ring-gray-200 transition-all duration-200 group-hover:ring-indigo-700 group-hover:ring-2 group-hover:-translate-y-0.5">
                   <Image
                     src={c.image}
                     alt=""
                     fill
-                    sizes="56px"
+                    sizes="(min-width:1024px) 68px, 56px"
                     className="object-cover transition-transform duration-300 group-hover:scale-105"
                   />
                 </span>
                 <span
-                  className={`text-[11px] font-medium text-gray-700 text-center leading-tight whitespace-nowrap max-w-[64px] truncate ${isArabicScript ? 'font-arabic' : ''}`}
+                  className={`text-[11px] font-medium text-gray-700 group-hover:text-indigo-700 text-center leading-tight line-clamp-2 max-w-[84px] transition-colors duration-200 ${isArabicScript ? 'font-arabic' : ''}`}
                   dir={isArabicScript ? 'rtl' : 'ltr'}
                 >
                   {catName(c)}
@@ -242,13 +244,13 @@ export default function HomeContent({ categories, data, openSoukPosts = [], hero
             ))}
             <Link
               href="/categories"
-              className="snap-start shrink-0 flex flex-col items-center gap-1.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/40 rounded-xl"
+              className="group snap-start shrink-0 flex flex-col items-center gap-1.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/40 rounded-xl"
             >
-              <span className="flex h-14 w-14 items-center justify-center rounded-full bg-indigo-50 ring-1 ring-indigo-200">
-                <ArrowRight className="h-5 w-5 text-indigo-700 rtl:rotate-180" aria-hidden="true" />
+              <span className="flex h-14 w-14 lg:h-[68px] lg:w-[68px] items-center justify-center rounded-full bg-indigo-50 ring-1 ring-indigo-200 transition-all duration-200 group-hover:bg-indigo-700 group-hover:ring-indigo-700 group-hover:-translate-y-0.5">
+                <ArrowRight className="h-5 w-5 text-indigo-700 group-hover:text-white rtl:rotate-180 transition-colors duration-200" aria-hidden="true" />
               </span>
-              <span className="text-[11px] font-medium text-indigo-700 text-center leading-tight whitespace-nowrap">
-                {t('home.categories.viewAll', 'All')}
+              <span className={`text-[11px] font-medium text-indigo-700 text-center leading-tight line-clamp-2 max-w-[84px] ${isArabicScript ? 'font-arabic' : ''}`}>
+                {t('home.categories.viewAll', 'All categories')}
               </span>
             </Link>
           </div>
@@ -260,15 +262,15 @@ export default function HomeContent({ categories, data, openSoukPosts = [], hero
         className="border-y border-gray-100 bg-gray-50"
         aria-label={t('home.trust.label', 'Why shop with Beldify')}
       >
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 py-5 grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 py-5 grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-0 sm:divide-x sm:divide-gray-200 rtl:divide-x-reverse">
           {([
             { labelKey: 'home.trust.free_delivery', labelFallback: 'Free delivery +500 MAD', subKey: 'home.trust.delivery_sub', subFallback: 'In major cities in 48 hours', Icon: Truck },
             { labelKey: 'home.trust.returns', labelFallback: '14-day returns', subKey: 'home.trust.returns_sub', subFallback: 'No fees, no hassle', Icon: RotateCcw },
             { labelKey: 'home.trust.verified_sellers', labelFallback: 'Verified sellers', subKey: 'home.trust.sellers_sub', subFallback: 'Workshops inspected one by one', Icon: ShieldCheck },
             { labelKey: 'home.trust.support', labelFallback: 'Support AR / FR / EN', subKey: 'home.trust.support_sub', subFallback: 'WhatsApp, phone, email', Icon: Headphones },
           ] as const).map(({ labelKey, labelFallback, subKey, subFallback, Icon }) => (
-            <div key={labelKey} className="flex flex-col items-center gap-2 text-center">
-              <span className="h-10 w-10 rounded-full bg-white flex items-center justify-center ring-1 ring-gray-200 text-indigo-700">
+            <div key={labelKey} className="flex flex-col items-center gap-2 text-center sm:px-6">
+              <span className="h-11 w-11 rounded-full bg-white flex items-center justify-center ring-1 ring-gray-200 text-indigo-700">
                 <Icon className="h-5 w-5" strokeWidth={1.8} aria-hidden="true" />
               </span>
               <span className="text-xs sm:text-sm font-medium text-gray-900 leading-snug">
@@ -281,6 +283,12 @@ export default function HomeContent({ categories, data, openSoukPosts = [], hero
           ))}
         </div>
       </section>
+
+      {/* ── SHOP-BY-OCCASION GRID ──────────────────────────────────────────── */}
+      {/* 4 occasion tiles: 2-col mobile → 4-col desktop, aspect 4/5.          */}
+      {/* Full-bleed image + gradient scrim + label, matches cat grid treatment. */}
+      <OccasionGrid categories={categories} isArabicScript={isArabicScript} />
+
 
       {/* ── CATEGORY GRID (editorial, below fold) ─────────────────────────── */}
       <section className="mx-auto max-w-7xl px-4 sm:px-6 py-12 sm:py-16">
@@ -316,66 +324,34 @@ export default function HomeContent({ categories, data, openSoukPosts = [], hero
           <>
             {/* Mobile: 2-col grid; Tablet: 3-col; Desktop: editorial 4-col with a
                 wider featured lead tile (idx 0 spans 2 cols) so the rail reads as
-                brand-editorial, not a flat equal product grid. */}
+                brand-editorial, not a flat equal product grid.
+                Each tile is a rich CategoryCard: Playfair title + product count
+                + subcategory quick-chips (up to 3) + Atlas design tokens. */}
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 auto-rows-[1fr] gap-3 sm:gap-5">
               {categories.map((c, idx) => {
                 const featured = idx === 0 && categories.length >= 4;
                 const imgFailed = catImageError[c.id] || !c.image;
-                // Derive a simple initial letter for the neutral fallback tile
-                const initial = (catName(c) || '').charAt(0).toUpperCase();
                 return (
-                <Link
-                  key={c.id}
-                  href={`/categories/${c.slug || c.id}`}
-                  aria-label={catName(c)}
-                  className={`group relative overflow-hidden rounded-2xl ring-1 ring-gray-200 shadow-atlas-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-atlas-md focus:outline-none focus:ring-2 focus:ring-indigo-700/40 focus:ring-offset-2 ${featured ? 'sm:col-span-2 lg:col-span-2' : ''} ${imgFailed ? 'bg-gray-100' : 'bg-white'}`}
-                  style={{ aspectRatio: featured ? '8/5' : '4/5' }}
-                >
-                  {imgFailed ? (
-                    /* Neutral fallback tile — light gray background + initial letter */
-                    <div className="absolute inset-0 flex items-center justify-center bg-gray-100">
-                      <span
-                        className="text-4xl font-bold text-indigo-700/30 select-none"
-                        aria-hidden="true"
-                      >
-                        {initial}
-                      </span>
-                    </div>
-                  ) : (
-                    <Image
-                      src={c.image}
-                      alt=""
-                      fill
-                      sizes={featured ? '(min-width:1024px) 50vw, (min-width:640px) 66vw, 100vw' : '(min-width:1024px) 25vw, (min-width:640px) 33vw, 50vw'}
-                      className="object-cover transition duration-500 ease-out group-hover:scale-110"
-                      onError={() => setCatImageError((prev) => ({ ...prev, [c.id]: true }))}
+                  <div
+                    key={c.id}
+                    className={featured ? 'sm:col-span-2 lg:col-span-2' : ''}
+                  >
+                    <CategoryCard
+                      id={c.id}
+                      name_en={c.name_en}
+                      name_ar={c.name_ar}
+                      image={c.image}
+                      slug={c.slug}
+                      itemCount={c.itemCount}
+                      sub_categories={c.sub_categories}
+                      subCategories={c.subCategories}
+                      subcategories={c.subcategories}
+                      featured={featured}
+                      isArabicScript={isArabicScript}
+                      imgFailed={imgFailed}
+                      onImageError={(id) => setCatImageError((prev) => ({ ...prev, [id]: true }))}
                     />
-                  )}
-                  {/* Gradient only rendered when image is present (not over the neutral fallback) */}
-                  {!imgFailed && <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent" />}
-                  {typeof c.itemCount === 'number' && c.itemCount > 0 && (
-                    <span className="absolute top-3 end-3 inline-flex items-center gap-1 rounded-full bg-white px-2.5 py-1 text-[11px] font-semibold text-gray-900 shadow-sm">
-                      <Package className="h-3 w-3 text-indigo-700" aria-hidden="true" />
-                      {c.itemCount}
-                    </span>
-                  )}
-                  <div className="absolute bottom-4 start-4 end-4 flex items-end justify-between gap-2">
-                    <h3
-                      dir={isArabicScript ? 'rtl' : 'ltr'}
-                      className={`font-semibold leading-tight ${imgFailed ? 'text-gray-800' : 'text-white'} ${isArabicScript ? 'font-arabic' : ''}`}
-                      style={{
-                        fontFamily: isArabicScript ? undefined : '"Playfair Display", ui-serif, Georgia, serif',
-                        fontSize: featured ? '1.75rem' : '1.125rem',
-                        textShadow: imgFailed ? 'none' : '0 1px 8px rgba(0,0,0,0.55)',
-                      }}
-                    >
-                      {catName(c)}
-                    </h3>
-                    <span className={`shrink-0 grid place-items-center h-8 w-8 rounded-full opacity-0 -translate-x-1 transition-all duration-300 ${imgFailed ? 'group-hover:bg-indigo-50 group-hover:text-indigo-700' : 'bg-white/0 text-white group-hover:bg-white/95 group-hover:text-indigo-700'} group-hover:opacity-100 group-hover:translate-x-0`}>
-                      <ArrowRight className="h-4 w-4 rtl:rotate-180" aria-hidden="true" />
-                    </span>
                   </div>
-                </Link>
                 );
               })}
             </div>
@@ -928,3 +904,160 @@ export default function HomeContent({ categories, data, openSoukPosts = [], hero
     </div>
   );
 }
+
+// ─── Shop-by-Occasion Grid ──────────────────────────────────────────────────
+// 4 tiles in a 2-col/4-col responsive grid. Full-bleed image + gradient scrim
+// + bottom-anchored label + hover lift + image zoom — identical treatment to
+// the editorial category grid above.
+
+interface OccasionTileProps {
+  href: string;
+  image: string;
+  label: string;
+  isArabicScript: boolean;
+}
+
+function OccasionTile({ href, image, label, isArabicScript }: OccasionTileProps) {
+  const [imgError, setImgError] = useState(false);
+  const initial = label.charAt(0).toUpperCase();
+
+  return (
+    <Link
+      href={href}
+      aria-label={label}
+      className="group relative overflow-hidden rounded-2xl ring-1 ring-gray-200 shadow-atlas-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-atlas-md focus:outline-none focus:ring-2 focus:ring-indigo-700/40 focus:ring-offset-2 bg-white"
+      style={{ aspectRatio: '4/5' }}
+    >
+      {imgError || !image ? (
+        <div className="absolute inset-0 flex items-center justify-center bg-gray-100">
+          <span className="text-4xl font-bold text-indigo-700/30 select-none" aria-hidden="true">
+            {initial}
+          </span>
+        </div>
+      ) : (
+        <Image
+          src={image}
+          alt=""
+          fill
+          sizes="(min-width:1024px) 25vw, (min-width:640px) 33vw, 50vw"
+          className="object-cover transition duration-500 ease-out group-hover:scale-110"
+          onError={() => setImgError(true)}
+        />
+      )}
+      {!imgError && image && (
+        <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent" />
+      )}
+      <div className="absolute bottom-4 start-4 end-4 flex items-end justify-between gap-2">
+        <h3
+          dir={isArabicScript ? 'rtl' : 'ltr'}
+          className={`text-lg font-semibold leading-tight text-white ${isArabicScript ? 'font-arabic' : ''}`}
+          style={{
+            fontFamily: isArabicScript ? undefined : '"Playfair Display", ui-serif, Georgia, serif',
+            textShadow: '0 1px 8px rgba(0,0,0,0.55)',
+          }}
+        >
+          {label}
+        </h3>
+        <span className="shrink-0 grid place-items-center h-8 w-8 rounded-full opacity-0 -translate-x-1 rtl:translate-x-1 transition-all duration-300 bg-white/0 text-white group-hover:bg-white/95 group-hover:text-indigo-700 group-hover:opacity-100 group-hover:translate-x-0">
+          <ArrowRight className="h-4 w-4 rtl:rotate-180" aria-hidden="true" />
+        </span>
+      </div>
+    </Link>
+  );
+}
+
+interface OccasionGridProps {
+  categories: Category[];
+  isArabicScript: boolean;
+}
+
+function OccasionGrid({ categories, isArabicScript }: OccasionGridProps) {
+  const { t } = useTranslation();
+
+  // Gifts tile: prefer a jewelry category image, fall back to caftan
+  const jewelryCategory = categories.find(
+    (c) => (c.slug || '').includes('jewelry') || (c.name_en || '').toLowerCase().includes('jewel')
+  );
+  const jewelryImage =
+    jewelryCategory?.image ||
+    'https://pro.beldify.com/storage/categories/category_4_caftan.png';
+
+  const occasions = [
+    {
+      key: 'home.occasion.wedding',
+      fallback: 'عرس',
+      href: '/products?category=festive',
+      image: 'https://pro.beldify.com/storage/categories/category_14_wedding-dresses.png',
+    },
+    {
+      key: 'home.occasion.eid',
+      fallback: 'عيد',
+      href: '/categories/caftan',
+      image: 'https://pro.beldify.com/storage/categories/category_4_caftan.png',
+    },
+    {
+      key: 'home.occasion.summer',
+      fallback: 'صيف',
+      href: '/categories/womens-djellaba',
+      image: 'https://pro.beldify.com/storage/categories/category_5_womens-djellaba.png',
+    },
+    {
+      key: 'home.occasion.gifts',
+      fallback: 'هدايا',
+      href: '/categories/jewelry',
+      image: jewelryImage,
+    },
+  ] as const;
+
+  return (
+    <section
+      className="mx-auto max-w-7xl px-4 sm:px-6 pt-12 pb-0 sm:pt-16 sm:pb-0"
+      aria-label={t('home.occasion.title', 'تسوق حسب المناسبة')}
+    >
+      {/* Section header */}
+      <div className="flex items-end justify-between mb-8">
+        <div>
+          {/* Eyebrow dot */}
+          <div className="inline-flex items-center gap-2 mb-3">
+            <span className="h-1.5 w-1.5 rounded-full bg-amber-500" aria-hidden="true" />
+            <span className={`text-xs text-amber-700 font-medium ${isArabicScript ? 'font-arabic' : 'uppercase tracking-[0.18em]'}`}>
+              {t('home.occasion.subtitle', 'لكل مناسبة اللباس الكيف')}
+            </span>
+          </div>
+          <h2 className="text-3xl sm:text-4xl font-bold text-gray-900">
+            {isArabicScript ? (
+              <span dir="rtl" lang="ar" className="font-arabic text-gray-900">
+                {t('home.occasion.title', 'تسوق حسب المناسبة')}
+              </span>
+            ) : (
+              <span style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}>
+                {t('home.occasion.title', 'Shop by occasion')}
+              </span>
+            )}
+          </h2>
+        </div>
+        <Link
+          href="/categories"
+          className="hidden sm:inline-flex items-center gap-1 text-sm font-semibold text-indigo-700 hover:text-indigo-800 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-indigo-700/30 rounded"
+        >
+          {t('home.categories.viewAll', 'All categories')}
+          <ArrowRight className="h-4 w-4 rtl:rotate-180" aria-hidden="true" />
+        </Link>
+      </div>
+
+      {/* 4-tile grid: 2-col mobile, 4-col desktop */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-5">
+        {occasions.map((occ) => (
+          <OccasionTile
+            key={occ.key}
+            href={occ.href}
+            image={occ.image}
+            label={t(occ.key, occ.fallback)}
+            isArabicScript={isArabicScript}
+          />
+        ))}
+      </div>
+    </section>
+  );
+}
+
