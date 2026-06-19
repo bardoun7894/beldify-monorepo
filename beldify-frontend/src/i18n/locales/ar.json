@@ -152,6 +152,9 @@
     "collections_found": "تصنيف",
     "no_results_description": "جرّب تعديل الفلتر أو تحقّق مجدداً لاحقاً.",
     "no_results_title": "لا توجد تصنيفات",
+    "did_you_mean": "هل تقصد",
+    "open_souk_matches": "آخرون يبحثون عن هذا أيضاً",
+    "open_souk_responses": "{{count}} عروض",
     "topCategories": "أهم الفئات",
     "accessories": {
       "description": "مجوهرات وإكسسوارات تقليدية",

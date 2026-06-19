@@ -7,6 +7,7 @@ import toast from '@/utils/toast';
 import logger from '@/utils/consoleLogger';
 import { User, AuthResponse } from '@/types/auth';
 import { cartService } from '@/services/api';
+import { getGuestWishlist, clearGuestWishlist } from '@/utils/guestWishlist';
 
 // Define interface for registration data
 interface RegisterUserData {
@@ -350,6 +351,32 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             // Keep the guest token so a later session can retry the merge.
             logger.error('Failed to merge guest cart:', error);
             // Don't show error to user, as login was still successful
+          }
+        }
+
+        // Merge guest wishlist (localStorage) into the user's account, mirroring
+        // the guest-cart merge above. Each item is an independent POST; duplicates
+        // (already-in-wishlist) are expected and harmless, so allSettled + always
+        // clear afterwards to avoid re-POSTing on every future login. Never block
+        // login on a merge failure.
+        const guestWishlist = getGuestWishlist();
+        if (guestWishlist.length > 0) {
+          try {
+            await Promise.allSettled(
+              guestWishlist.map((item) =>
+                axios.post('/api/wishlist', {
+                  product_id: item.product_id,
+                  notify_price_drop: false,
+                  notify_back_in_stock: false,
+                  notes: '',
+                })
+              )
+            );
+          } catch (error) {
+            logger.error('Failed to merge guest wishlist:', error);
+          } finally {
+            clearGuestWishlist();
+            window.dispatchEvent(new Event('wishlist:refresh'));
           }
         }
 

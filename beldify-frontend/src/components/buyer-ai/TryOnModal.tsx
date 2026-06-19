@@ -22,6 +22,7 @@ import React, {
   useState,
   useCallback,
 } from 'react';
+import { usePathname } from 'next/navigation';
 import { useTranslation } from 'react-i18next';
 import {
   X,
@@ -409,6 +410,7 @@ export function TryOnModal({
   isAuthenticated = false,
 }: TryOnModalProps) {
   const { t } = useTranslation();
+  const pathname = usePathname();
 
   // ── Core state ──
   const [step, setStep] = useState<Step>('pick');
@@ -607,9 +609,8 @@ export function TryOnModal({
 
   if (!open) return null;
 
-  const loginHref = typeof window !== 'undefined'
-    ? `/login?redirect=${encodeURIComponent(window.location.pathname)}`
-    : '/login';
+  // usePathname() is SSR-safe (unlike window.location.pathname which is undefined on the server).
+  const loginHref = `/login?redirect=${encodeURIComponent(pathname ?? '/')}`;
 
   return (
     <>

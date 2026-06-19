@@ -54,7 +54,7 @@ const MAX_BYTES = 2048 * 1024; // 2 MB — matches backend images.* max:2048
 
 export default function RequestCustomPieceForm() {
   const { i18n } = useTranslation();
-  const isRTL = i18n.language === 'ar';
+  const isRTL = i18n.language === 'ar' || i18n.language === 'ma';
   const router = useRouter();
   const { isAuthenticated, loading: authLoading } = useAuth();
 

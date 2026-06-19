@@ -6,7 +6,7 @@ export function useLanguage() {
   const searchParams = useSearchParams();
   const locale = searchParams?.get('locale') || 'en';
 
-  const dir = locale === 'ar' ? 'rtl' : 'ltr';
+  const dir = (locale === 'ar' || locale === 'ma') ? 'rtl' : 'ltr';
   const language = locale;
 
   return {

@@ -25,11 +25,9 @@ import QuoteForm from '@/components/seller/QuoteForm';
 import CustomOrderTimeline from '@/components/seller/CustomOrderTimeline';
 import { cn } from '@/lib/utils';
 
-const playfair = { fontFamily: '"Playfair Display", ui-serif, Georgia, serif' };
-
 export default function SellerCustomOrdersPage() {
   const { t, i18n } = useTranslation();
-  const isRTL = i18n.language === 'ar';
+  const isRTL = i18n.language === 'ar' || i18n.language === 'ma';
 
   const [orders, setOrders] = useState<CustomOrderListItem[]>([]);
   const [selectedId, setSelectedId] = useState<number | null>(null);
@@ -121,7 +119,7 @@ export default function SellerCustomOrdersPage() {
             <p className="text-xs uppercase tracking-[0.18em] text-amber-700 font-medium">
               {t('customOrders.seller_dashboard', 'Seller Dashboard')}
             </p>
-            <h1 className="text-2xl font-bold text-gray-900" style={isRTL ? undefined : playfair}>
+            <h1 className="text-2xl font-bold text-gray-900 font-heading">
               {selectedOrder
                 ? t('customOrders.order_title', 'Order #{{id}}', { id: selectedOrder.id })
                 : t('customOrders.page_title', 'Custom Orders')}

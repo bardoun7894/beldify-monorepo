@@ -9,9 +9,7 @@ import {
   SellerEarningsData,
   EarningsPeriod,
 } from '@/services/sellerDashboardService';
-import { TrendingUp, DollarSign, ShoppingBag, BarChart2, AlertCircle, Wallet } from 'lucide-react';
-
-const playfair = { fontFamily: '"Playfair Display", ui-serif, Georgia, serif' };
+import { TrendingUp, DollarSign, ShoppingBag, BarChart2, AlertCircle, Wallet, ArrowRight } from 'lucide-react';
 
 function fmtMAD(n: number) {
   return n.toLocaleString('fr-MA', { minimumFractionDigits: 0 });
@@ -125,16 +123,9 @@ export default function SellerEarningsPage() {
           <p className="text-xs uppercase tracking-[0.18em] text-amber-600 font-medium mb-1">
             {t('seller.earnings.eyebrow', 'Seller Hub')}
           </p>
-          <h1 className="text-xl font-bold text-gray-900" style={playfair}>
+          <h1 className="text-xl font-bold text-gray-900 font-heading">
             {t('seller.earnings.title', 'Earnings')}
           </h1>
-          <Link
-            href="/seller/payouts"
-            className="mt-2 inline-flex items-center gap-1.5 text-sm font-semibold text-[hsl(var(--secondary))] hover:underline"
-          >
-            <Wallet className="w-4 h-4" />
-            {t('seller.earnings.request_payout_cta', 'Request a payout')}
-          </Link>
         </div>
 
         {/* Period switcher */}
@@ -237,17 +228,42 @@ export default function SellerEarningsPage() {
             <dl className="divide-y divide-gray-100 text-sm">
               <div className="flex justify-between px-5 py-3">
                 <dt className="text-gray-500">{t('seller.earnings.gross', 'Gross revenue')}</dt>
-                <dd className="font-medium text-gray-900">{fmtMAD(earnings.gross_revenue)} DH</dd>
+                <dd className="font-medium text-gray-900 tabular-nums currency-mad">{fmtMAD(earnings.gross_revenue)} DH</dd>
               </div>
               <div className="flex justify-between px-5 py-3">
                 <dt className="text-gray-500">{t('seller.earnings.commission', 'Platform commission')}</dt>
-                <dd className="font-medium text-rose-600">−{fmtMAD(earnings.total_commission)} DH</dd>
+                <dd className="font-medium text-rose-600 tabular-nums currency-mad">−{fmtMAD(earnings.total_commission)} DH</dd>
               </div>
               <div className="flex justify-between px-5 py-3 bg-gray-50">
                 <dt className="font-semibold text-gray-900">{t('seller.earnings.net', 'Net revenue')}</dt>
-                <dd className="font-bold text-emerald-700 text-base">{fmtMAD(earnings.net_revenue)} DH</dd>
+                <dd className="font-bold text-emerald-700 text-base tabular-nums currency-mad">{fmtMAD(earnings.net_revenue)} DH</dd>
               </div>
             </dl>
+          </div>
+
+          {/* Payouts CTA */}
+          <div className="bg-indigo-50 ring-1 ring-indigo-100 rounded-2xl p-5 flex items-center justify-between gap-4 flex-wrap">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-indigo-100 flex items-center justify-center shrink-0">
+                <Wallet className="w-5 h-5 text-indigo-700" aria-hidden="true" />
+              </div>
+              <div>
+                <p className="text-sm font-semibold text-indigo-900 font-heading">
+                  {t('seller.earnings.payouts_cta_title', 'Ready to withdraw?')}
+                </p>
+                <p className="text-xs text-indigo-600 mt-0.5">
+                  {t('seller.earnings.payouts_cta_body', 'Request a bank transfer payout from your available earnings.')}
+                </p>
+              </div>
+            </div>
+            <Link
+              href="/seller/payouts"
+              data-testid="earnings-payout-cta"
+              className="inline-flex items-center gap-2 bg-indigo-700 hover:bg-indigo-800 text-white rounded-xl px-4 py-2.5 text-xs font-semibold transition-colors shrink-0"
+            >
+              {t('seller.earnings.payouts_cta_btn', 'Request payout')}
+              <ArrowRight className="w-3.5 h-3.5 rtl:rotate-180" aria-hidden="true" />
+            </Link>
           </div>
         </>
       )}

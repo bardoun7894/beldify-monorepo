@@ -120,7 +120,7 @@ export default function ProductFilters({
   facets,
 }: ProductFiltersProps) {
   const { t, i18n } = useTranslation();
-  const isRTL = i18n.language === 'ar';
+  const isRTL = i18n.language === 'ar' || i18n.language === 'ma';
 
   // ── Store "show more" state ──────────────────────────────────────────────
   const [storesExpanded, setStoresExpanded] = useState(false);

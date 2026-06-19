@@ -152,6 +152,9 @@
     "collections_found": "Kollektion",
     "no_results_description": "Versuche den Filter anzupassen oder komme später vorbei.",
     "no_results_title": "Keine Kategorien gefunden",
+    "did_you_mean": "Meinten Sie",
+    "open_souk_matches": "Andere suchen das auch",
+    "open_souk_responses": "{{count}} Angebote",
     "topCategories": "Top Kategorien",
     "accessories": {
       "description": "Traditioneller Schmuck und Accessoires",

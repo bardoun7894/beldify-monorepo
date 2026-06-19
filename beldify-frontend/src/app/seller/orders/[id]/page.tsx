@@ -13,8 +13,16 @@ import {
   OrderStatus,
 } from '@/services/sellerDashboardService';
 import { ArrowLeft, MapPin, Calendar } from 'lucide-react';
-
-const playfair = { fontFamily: '"Playfair Display", ui-serif, Georgia, serif' };
+import { Badge } from '@/components/ui/badge';
+import {
+  Table,
+  TableHeader,
+  TableBody,
+  TableRow,
+  TableHead,
+  TableCell,
+} from '@/components/ui/table';
+import { orderStatusVariant, ORDER_STATUS_LABEL } from '@/constants/orderStatusColors';
 
 const UPDATABLE_STATUSES: Array<{ value: OrderStatus; label: string }> = [
   { value: 'pending', label: 'Pending' },
@@ -24,21 +32,11 @@ const UPDATABLE_STATUSES: Array<{ value: OrderStatus; label: string }> = [
   { value: 'cancelled', label: 'Cancelled' },
 ];
 
-const STATUS_CONFIG: Record<string, { label: string; classes: string }> = {
-  pending:    { label: 'Pending',    classes: 'bg-amber-100 text-amber-800' },
-  processing: { label: 'Processing', classes: 'bg-indigo-100 text-indigo-800' },
-  shipped:    { label: 'Shipped',    classes: 'bg-blue-100 text-blue-800' },
-  delivered:  { label: 'Delivered',  classes: 'bg-emerald-100 text-emerald-800' },
-  cancelled:  { label: 'Cancelled',  classes: 'bg-rose-100 text-rose-800' },
-  refunded:   { label: 'Refunded',   classes: 'bg-gray-100 text-gray-700' },
-};
-
 function StatusBadge({ status }: { status: OrderStatus }) {
-  const cfg = STATUS_CONFIG[status] ?? { label: status, classes: 'bg-gray-100 text-gray-700' };
   return (
-    <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${cfg.classes}`}>
-      {cfg.label}
-    </span>
+    <Badge variant={orderStatusVariant(status)}>
+      {ORDER_STATUS_LABEL[status] ?? status}
+    </Badge>
   );
 }
 
@@ -149,7 +147,7 @@ export default function SellerOrderDetailPage() {
               <p className="text-xs uppercase tracking-[0.18em] text-amber-600 font-medium mb-1">
                 {t('seller.order_detail.eyebrow', 'Order Detail')}
               </p>
-              <h1 className="text-xl font-bold text-gray-900" style={playfair}>
+              <h1 className="text-xl font-bold text-gray-900 font-heading">
                 {order.order_number}
               </h1>
               <div className="flex items-center gap-3 mt-2">
@@ -200,40 +198,32 @@ export default function SellerOrderDetailPage() {
                   {t('seller.order_detail.items_heading', 'Items')}
                 </h2>
               </div>
-              <div className="overflow-x-auto">
-                <table className="w-full text-sm">
-                  <thead>
-                    <tr className="text-left text-xs text-gray-400 uppercase tracking-wide bg-gray-50 border-b border-gray-100">
-                      <th className="px-5 py-3 font-medium">
-                        {t('seller.order_detail.col_product', 'Product')}
-                      </th>
-                      <th className="px-5 py-3 font-medium">
-                        {t('seller.order_detail.col_variant', 'Variant')}
-                      </th>
-                      <th className="px-5 py-3 font-medium text-right">
-                        {t('seller.order_detail.col_qty', 'Qty')}
-                      </th>
-                      <th className="px-5 py-3 font-medium text-right">
-                        {t('seller.order_detail.col_unit', 'Unit')}
-                      </th>
-                      <th className="px-5 py-3 font-medium text-right">
-                        {t('seller.order_detail.col_total', 'Total')}
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-gray-100">
-                    {order.items.map((item, idx) => (
-                      <tr key={idx} className="hover:bg-gray-50 transition-colors">
-                        <td className="px-5 py-3.5 font-medium text-gray-900">{item.product_name}</td>
-                        <td className="px-5 py-3.5 text-gray-500 text-xs">{item.variant ?? '—'}</td>
-                        <td className="px-5 py-3.5 text-right text-gray-700">{item.quantity}</td>
-                        <td className="px-5 py-3.5 text-right text-gray-700">{fmtMAD(item.unit_price)} DH</td>
-                        <td className="px-5 py-3.5 text-right font-medium text-gray-900">{fmtMAD(item.line_total)} DH</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
+              <Table>
+                <TableHeader>
+                  <TableRow className="bg-gray-50 border-b border-gray-100">
+                    <TableHead>{t('seller.order_detail.col_product', 'Product')}</TableHead>
+                    <TableHead>{t('seller.order_detail.col_variant', 'Variant')}</TableHead>
+                    <TableHead numeric>{t('seller.order_detail.col_qty', 'Qty')}</TableHead>
+                    <TableHead numeric>{t('seller.order_detail.col_unit', 'Unit')}</TableHead>
+                    <TableHead numeric>{t('seller.order_detail.col_total', 'Total')}</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {order.items.map((item, idx) => (
+                    <TableRow key={idx} className="hover:bg-gray-50">
+                      <TableCell className="py-3.5 font-medium text-gray-900">{item.product_name}</TableCell>
+                      <TableCell className="py-3.5 text-gray-500 text-xs">{item.variant ?? '—'}</TableCell>
+                      <TableCell numeric className="py-3.5 text-gray-700">{item.quantity}</TableCell>
+                      <TableCell numeric className="py-3.5 text-gray-700">
+                        <span className="currency-mad">{fmtMAD(item.unit_price)} DH</span>
+                      </TableCell>
+                      <TableCell numeric className="py-3.5 font-medium text-gray-900">
+                        <span className="currency-mad">{fmtMAD(item.line_total)} DH</span>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
             </div>
 
             {/* Sidebar: financials + customer + shipping */}

@@ -21,7 +21,7 @@ const playfair = { fontFamily: '"Playfair Display", ui-serif, Georgia, serif' };
 
 export default function NewCustomOrderPage() {
   const { t, i18n } = useTranslation();
-  const isRTL = i18n.language === 'ar';
+  const isRTL = i18n.language === 'ar' || i18n.language === 'ma';
 
   return (
     <div className="min-h-screen bg-canvas pb-20" dir={isRTL ? 'rtl' : 'ltr'}>

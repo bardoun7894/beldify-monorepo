@@ -23,29 +23,27 @@ import {
   Clock,
   Plus,
 } from 'lucide-react';
-
-const playfair = { fontFamily: '"Playfair Display", ui-serif, Georgia, serif' };
+import { Badge } from '@/components/ui/badge';
+import {
+  Table,
+  TableHeader,
+  TableBody,
+  TableRow,
+  TableHead,
+  TableCell,
+} from '@/components/ui/table';
+import { orderStatusVariant, ORDER_STATUS_LABEL } from '@/constants/orderStatusColors';
 
 function fmtMAD(n: number) {
   return n.toLocaleString('fr-MA', { minimumFractionDigits: 0 });
 }
 
 // ── Status badge ──────────────────────────────────────────────────────────────
-const STATUS_CONFIG: Record<string, { label: string; classes: string }> = {
-  pending:    { label: 'Pending',    classes: 'bg-amber-100 text-amber-800' },
-  processing: { label: 'Processing', classes: 'bg-indigo-100 text-indigo-800' },
-  shipped:    { label: 'Shipped',    classes: 'bg-blue-100 text-blue-800' },
-  delivered:  { label: 'Delivered',  classes: 'bg-emerald-100 text-emerald-800' },
-  cancelled:  { label: 'Cancelled',  classes: 'bg-rose-100 text-rose-800' },
-  refunded:   { label: 'Refunded',   classes: 'bg-gray-100 text-gray-700' },
-};
-
 function StatusBadge({ status }: { status: string }) {
-  const cfg = STATUS_CONFIG[status] ?? { label: status, classes: 'bg-gray-100 text-gray-700' };
   return (
-    <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${cfg.classes}`}>
-      {cfg.label}
-    </span>
+    <Badge variant={orderStatusVariant(status)}>
+      {ORDER_STATUS_LABEL[status] ?? status}
+    </Badge>
   );
 }
 
@@ -174,7 +172,7 @@ export default function SellerDashboardPage() {
         <p className="text-xs uppercase tracking-[0.18em] text-amber-600 font-medium mb-1">
           {t('seller.dashboard.eyebrow', 'Seller Hub')}
         </p>
-        <h1 className="text-xl font-bold text-gray-900" style={playfair}>
+        <h1 className="text-xl font-bold text-gray-900 font-heading">
           {t('seller.dashboard.title', 'Dashboard')}
         </h1>
       </div>
@@ -260,47 +258,37 @@ export default function SellerDashboardPage() {
             </Link>
           </div>
         ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm">
-              <thead>
-                <tr className="text-left text-xs text-gray-400 uppercase tracking-wide bg-gray-50">
-                  <th className="px-5 py-3 font-medium">
-                    {t('seller.orders.col_number', 'Order')}
-                  </th>
-                  <th className="px-5 py-3 font-medium">
-                    {t('seller.orders.col_customer', 'Customer')}
-                  </th>
-                  <th className="px-5 py-3 font-medium">
-                    {t('seller.orders.col_status', 'Status')}
-                  </th>
-                  <th className="px-5 py-3 font-medium text-right">
-                    {t('seller.orders.col_total', 'Total')}
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-gray-100">
-                {orders.map((order) => (
-                  <tr key={order.id} className="hover:bg-gray-50 transition-colors">
-                    <td className="px-5 py-3">
-                      <Link
-                        href={`/seller/orders/${order.id}`}
-                        className="font-medium text-indigo-700 hover:underline"
-                      >
-                        {order.order_number}
-                      </Link>
-                    </td>
-                    <td className="px-5 py-3 text-gray-700">{order.customer_name}</td>
-                    <td className="px-5 py-3">
-                      <StatusBadge status={order.status} />
-                    </td>
-                    <td className="px-5 py-3 text-right font-medium text-gray-900">
-                      {fmtMAD(order.total_amount)} DH
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+          <Table>
+            <TableHeader>
+              <TableRow className="bg-gray-50">
+                <TableHead>{t('seller.orders.col_number', 'Order')}</TableHead>
+                <TableHead>{t('seller.orders.col_customer', 'Customer')}</TableHead>
+                <TableHead>{t('seller.orders.col_status', 'Status')}</TableHead>
+                <TableHead numeric>{t('seller.orders.col_total', 'Total')}</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {orders.map((order) => (
+                <TableRow key={order.id} className="hover:bg-gray-50">
+                  <TableCell>
+                    <Link
+                      href={`/seller/orders/${order.id}`}
+                      className="font-medium text-indigo-700 hover:underline"
+                    >
+                      {order.order_number}
+                    </Link>
+                  </TableCell>
+                  <TableCell className="text-gray-700">{order.customer_name}</TableCell>
+                  <TableCell>
+                    <StatusBadge status={order.status} />
+                  </TableCell>
+                  <TableCell numeric className="font-medium text-gray-900">
+                    <span className="currency-mad">{fmtMAD(order.total_amount)} DH</span>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
         )}
       </div>
     </div>

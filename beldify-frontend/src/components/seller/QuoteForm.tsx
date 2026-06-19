@@ -21,7 +21,7 @@ export interface QuoteFormProps {
 
 export default function QuoteForm({ order, onQuoted }: QuoteFormProps) {
   const { t, i18n } = useTranslation();
-  const isRTL = i18n.language === 'ar';
+  const isRTL = i18n.language === 'ar' || i18n.language === 'ma';
 
   const [quoteAmount, setQuoteAmount] = useState('');
   const [depositAmount, setDepositAmount] = useState('');

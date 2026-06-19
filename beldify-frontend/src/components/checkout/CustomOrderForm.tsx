@@ -44,7 +44,7 @@ export interface CustomOrderFormProps {
 
 export default function CustomOrderForm({ storeId, storeName, vertical }: CustomOrderFormProps) {
   const { t, i18n } = useTranslation();
-  const isRTL = i18n.language === 'ar';
+  const isRTL = i18n.language === 'ar' || i18n.language === 'ma';
   const router = useRouter();
 
   const [fields, setFields] = useState<VerticalField[]>([]);

@@ -42,8 +42,6 @@ import {
   InsufficientCreditsError,
 } from '@/services/sellerAiService';
 
-const playfair = { fontFamily: '"Playfair Display", ui-serif, Georgia, serif' };
-
 const inputClass =
   'block w-full rounded-2xl bg-amber-50 ring-1 ring-amber-200 focus:ring-2 focus:ring-indigo-700/40 px-4 py-2.5 text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none transition-all duration-150';
 
@@ -331,7 +329,7 @@ export default function StoreSettingsPage() {
           <p className="text-xs uppercase tracking-[0.18em] text-amber-700 font-medium mb-0.5">
             {t('seller.store_settings.eyebrow', 'Store Settings')}
           </p>
-          <h1 className="text-2xl font-bold text-gray-900" style={playfair}>
+          <h1 className="text-2xl font-bold text-gray-900 font-heading">
             {t('seller.store_settings.title', 'Store profile')}
           </h1>
         </div>

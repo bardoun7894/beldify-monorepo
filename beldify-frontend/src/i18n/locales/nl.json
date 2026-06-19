@@ -152,6 +152,9 @@
     "collections_found": "collectie",
     "no_results_description": "Probeer het filter aan te passen of kom later terug.",
     "no_results_title": "Geen categorieën gevonden",
+    "did_you_mean": "Bedoelde je",
+    "open_souk_matches": "Anderen zoeken dit ook",
+    "open_souk_responses": "{{count}} aanbiedingen",
     "topCategories": "Populaire categorieën",
     "accessories": {
       "description": "Traditionele sieraden en accessoires",

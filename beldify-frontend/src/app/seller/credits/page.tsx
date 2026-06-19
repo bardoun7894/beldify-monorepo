@@ -38,8 +38,6 @@ import {
 } from 'lucide-react';
 import toast from '@/utils/toast';
 
-const playfair = { fontFamily: '"Playfair Display", ui-serif, Georgia, serif' };
-
 // ─── Types ────────────────────────────────────────────────────────────────────
 type PurchaseStep = 'packs' | 'payment' | 'success';
 
@@ -157,7 +155,7 @@ function PackCard({
       type="button"
       onClick={() => onSelect(pack)}
       aria-label={pack.name}
-      className="flex flex-col items-start bg-white ring-1 ring-gray-200 hover:ring-indigo-400 rounded-2xl p-5 text-left transition-all hover:-translate-y-0.5 hover:shadow-md group w-full"
+      className="flex flex-col items-start bg-white ring-1 ring-gray-200 hover:ring-indigo-400 rounded-2xl p-5 text-start transition-all hover:-translate-y-0.5 hover:shadow-md group w-full"
     >
       <div className="w-9 h-9 rounded-xl bg-amber-100 flex items-center justify-center mb-3">
         <Sparkles className="w-4 h-4 text-amber-600" aria-hidden="true" />
@@ -364,7 +362,7 @@ function PurchaseHistory({
   return (
     <div className="bg-white ring-1 ring-gray-200 rounded-2xl overflow-hidden">
       <div className="px-5 py-4 border-b border-gray-100">
-        <h2 className="text-sm font-semibold text-gray-900" style={playfair}>
+        <h2 className="text-sm font-semibold text-gray-900 font-heading">
           {t('credits.history.title', 'Purchase history')}
         </h2>
       </div>
@@ -417,7 +415,7 @@ function TransactionLedger({
   return (
     <div className="bg-white ring-1 ring-gray-200 rounded-2xl overflow-hidden">
       <div className="px-5 py-4 border-b border-gray-100">
-        <h2 className="text-sm font-semibold text-gray-900" style={playfair}>
+        <h2 className="text-sm font-semibold text-gray-900 font-heading">
           {t('credits.ledger.title', 'Transaction history')}
         </h2>
       </div>
@@ -427,7 +425,7 @@ function TransactionLedger({
             {/* Signed amount */}
             <span
               className={[
-                'text-sm font-bold tabular-nums w-14 shrink-0 text-right',
+                'text-sm font-bold tabular-nums w-14 shrink-0 text-end',
                 tx.amount > 0 ? 'text-emerald-600' : 'text-rose-600',
               ].join(' ')}
             >
@@ -443,7 +441,7 @@ function TransactionLedger({
               )}
             </div>
             {/* Balance after */}
-            <div className="text-right shrink-0">
+            <div className="text-end shrink-0">
               <p className="text-xs text-gray-500">
                 → {tx.balance_after}
               </p>
@@ -516,7 +514,7 @@ export default function SellerCreditsPage() {
         <p className="text-xs uppercase tracking-[0.18em] text-amber-600 font-medium mb-1">
           {t('credits.eyebrow', 'Seller Hub')}
         </p>
-        <h1 className="text-xl font-bold text-gray-900" style={playfair}>
+        <h1 className="text-xl font-bold text-gray-900 font-heading">
           {t('credits.page_title', 'AI Credits')}
         </h1>
         <p className="text-sm text-gray-500 mt-1">
@@ -554,7 +552,7 @@ export default function SellerCreditsPage() {
 
           {/* Buy credits section */}
           <div>
-            <h2 className="text-sm font-semibold text-gray-900 mb-3" style={playfair}>
+            <h2 className="text-sm font-semibold text-gray-900 mb-3 font-heading">
               {t('credits.buy_section_title', 'Top up credits')}
             </h2>
 
@@ -595,7 +593,7 @@ export default function SellerCreditsPage() {
                   <CheckCircle2 className="w-6 h-6 text-emerald-600" aria-hidden="true" />
                 </div>
                 <div>
-                  <p className="font-semibold text-gray-900" style={playfair}>
+                  <p className="font-semibold text-gray-900 font-heading">
                     {t('credits.purchase.success_title', 'Purchase submitted!')}
                   </p>
                   <p className="text-sm text-gray-500 mt-1">

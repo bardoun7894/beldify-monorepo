@@ -37,7 +37,7 @@ export default function CartPage() {
   } = useCart();
   const router = useRouter();
   const { t, i18n } = useTranslation();
-  const isRTL = i18n.language === 'ar';
+  const isRTL = i18n.language === 'ar' || i18n.language === 'ma';
   const { triggerOnCartAdd } = usePWATriggers();
 
   // Trigger PWA prompt when user has items in cart

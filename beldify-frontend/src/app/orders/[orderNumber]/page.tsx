@@ -88,7 +88,7 @@ export default function OrderDetailsPage() {
   const params = useParams();
   const searchParams = useSearchParams();
   const router = useRouter();
-  const isRTL = i18n.language === 'ar';
+  const isRTL = i18n.language === 'ar' || i18n.language === 'ma';
   const shouldReduceMotion = useReducedMotion();
   const orderNumber = params?.orderNumber as string;
 
@@ -105,7 +105,7 @@ export default function OrderDetailsPage() {
       }
       const skippedNote =
         result.items_skipped > 0
-          ? i18n.language === 'ar'
+          ? (i18n.language === 'ar' || i18n.language === 'ma')
             ? ` (${result.items_skipped} منتج غير متوفر)`
             : ` (${result.items_skipped} item${result.items_skipped > 1 ? 's' : ''} out of stock)`
           : '';
@@ -132,11 +132,11 @@ export default function OrderDetailsPage() {
       // Bust the cache entry so the orders list also picks up the new status
       orderService.resetCache(`order:${orderNumber}`);
       toast.success(
-        i18n.language === 'ar' ? 'تم إلغاء الطلب' : 'Order cancelled'
+        (i18n.language === 'ar' || i18n.language === 'ma') ? 'تم إلغاء الطلب' : 'Order cancelled'
       );
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : '';
-      toast.error(msg || (i18n.language === 'ar' ? 'تعذّر الإلغاء' : 'Could not cancel this order'));
+      toast.error(msg || ((i18n.language === 'ar' || i18n.language === 'ma') ? 'تعذّر الإلغاء' : 'Could not cancel this order'));
     } finally {
       setCancelling(false);
     }
@@ -147,7 +147,7 @@ export default function OrderDetailsPage() {
     e.preventDefault();
     if (!returnReason) {
       setReturnError(
-        i18n.language === 'ar' ? 'يرجى اختيار سبب' : 'Please select a reason'
+        (i18n.language === 'ar' || i18n.language === 'ma') ? 'يرجى اختيار سبب' : 'Please select a reason'
       );
       return;
     }
@@ -163,12 +163,12 @@ export default function OrderDetailsPage() {
       setReturnReason('');
       setReturnDetails('');
       toast.success(
-        i18n.language === 'ar' ? 'تم إرسال طلب الإرجاع' : 'Return request submitted'
+        (i18n.language === 'ar' || i18n.language === 'ma') ? 'تم إرسال طلب الإرجاع' : 'Return request submitted'
       );
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : '';
       setReturnError(
-        msg || (i18n.language === 'ar' ? 'تعذّر إرسال الطلب' : 'Could not submit return request')
+        msg || ((i18n.language === 'ar' || i18n.language === 'ma') ? 'تعذّر إرسال الطلب' : 'Could not submit return request')
       );
     } finally {
       setSubmittingReturn(false);
@@ -784,13 +784,13 @@ export default function OrderDetailsPage() {
                 onClick={handleReorder}
                 disabled={reordering}
                 className="w-full px-4 py-3 border border-indigo-200 text-indigo-700 text-sm font-medium rounded-2xl hover:bg-indigo-50 transition-all duration-200 flex items-center justify-center gap-2 focus:ring-2 focus:ring-indigo-700/30 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed"
-                aria-label={i18n.language === 'ar' ? 'اشترِ مرة أخرى' : 'Buy it again'}
+                aria-label={(i18n.language === 'ar' || i18n.language === 'ma') ? 'اشترِ مرة أخرى' : 'Buy it again'}
               >
                 <RefreshCw
                   className={`w-4 h-4 ${reordering ? 'animate-spin' : ''}`}
                   strokeWidth={1.5}
                 />
-                {i18n.language === 'ar' ? 'اشترِ مرة أخرى' : 'Buy it again'}
+                {(i18n.language === 'ar' || i18n.language === 'ma') ? 'اشترِ مرة أخرى' : 'Buy it again'}
               </button>
               <div className="grid grid-cols-2 gap-3">
                 {!isCancelledOrder ? (
@@ -980,13 +980,13 @@ export default function OrderDetailsPage() {
                   onClick={handleReorder}
                   disabled={reordering}
                   className="w-full px-4 py-2.5 border border-indigo-200 text-indigo-700 text-sm font-medium rounded-2xl hover:bg-indigo-50 transition-all duration-200 flex items-center justify-center gap-2 focus:ring-2 focus:ring-indigo-700/30 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed"
-                  aria-label={i18n.language === 'ar' ? 'اشترِ مرة أخرى' : 'Buy it again'}
+                  aria-label={(i18n.language === 'ar' || i18n.language === 'ma') ? 'اشترِ مرة أخرى' : 'Buy it again'}
                 >
                   <RefreshCw
                     className={`w-4 h-4 flex-shrink-0 ${reordering ? 'animate-spin' : ''}`}
                     strokeWidth={1.5}
                   />
-                  {i18n.language === 'ar' ? 'اشترِ مرة أخرى' : 'Buy it again'}
+                  {(i18n.language === 'ar' || i18n.language === 'ma') ? 'اشترِ مرة أخرى' : 'Buy it again'}
                 </button>
                 {!isCancelledOrder && (
                   <Link

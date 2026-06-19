@@ -60,6 +60,8 @@ export function AiImageGenerator({
 }: AiImageGeneratorProps) {
   const { t } = useTranslation();
   const [visible, setVisible] = useState(true);
+  // Internal image list — starts from existingImages prop, new AI images get appended on success.
+  const [images, setImages] = useState<ProductImageItem[]>(existingImages);
   const [selectedImageId, setSelectedImageId] = useState<number | null>(null);
   const [selectedStyle, setSelectedStyle] = useState<AiImageStyle>('studio');
   const [status, setStatus] = useState<GenStatus>('idle');
@@ -96,6 +98,15 @@ export function AiImageGenerator({
         if (res.status === 'success') {
           clearPoll();
           setStatus('success');
+          // Append the newly generated image to the picker so it's immediately
+          // visible for a second round — existing entries are never discarded.
+          if (res.image) {
+            setImages((prev) => {
+              // Guard against duplicates if polling fires twice
+              if (prev.some((img) => img.id === res.image!.id)) return prev;
+              return [...prev, res.image!];
+            });
+          }
           onRefresh();
         } else if (res.status === 'fail') {
           clearPoll();
@@ -151,7 +162,7 @@ export function AiImageGenerator({
       </div>
 
       {/* Thumbnail picker */}
-      {existingImages.length > 0 && (
+      {images.length > 0 && (
         <div className="space-y-2">
           <p className="text-xs text-gray-500">
             {t('seller.ai_image.pick_source', 'Select a source image')}
@@ -161,7 +172,7 @@ export function AiImageGenerator({
             role="radiogroup"
             aria-label={t('seller.ai_image.pick_source', 'Select a source image')}
           >
-            {existingImages.map((img) => (
+            {images.map((img) => (
               <button
                 key={img.id}
                 type="button"

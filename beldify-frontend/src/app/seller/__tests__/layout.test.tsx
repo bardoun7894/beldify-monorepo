@@ -47,9 +47,11 @@ vi.mock('@/hooks/useAuth', () => ({
   useAuth: () => mockUseAuth(),
 }));
 
-const AUTH_SELLER = { isAuthenticated: true, user: { role: 'seller', is_seller: true } };
-const AUTH_BUYER  = { isAuthenticated: true, user: { role: 'buyer',  is_seller: false } };
-const UNAUTH      = { isAuthenticated: false, user: null };
+const AUTH_SELLER       = { isAuthenticated: true,  loading: false, user: { role: 'seller',      is_seller: true  } };
+const AUTH_STORE_OWNER  = { isAuthenticated: true,  loading: false, user: { role: 'store_owner', is_seller: false } };
+const AUTH_BUYER        = { isAuthenticated: true,  loading: false, user: { role: 'buyer',       is_seller: false } };
+const UNAUTH            = { isAuthenticated: false, loading: false, user: null };
+const AUTH_LOADING      = { isAuthenticated: false, loading: true,  user: null };
 
 // ── Tests ──────────────────────────────────────────────────────────────────
 
@@ -113,5 +115,30 @@ describe('SellerLayout', () => {
     const { default: Layout } = await import('../layout');
     render(<Layout><span data-testid="page-content">DASHBOARD</span></Layout>);
     expect(screen.getByTestId('page-content')).toBeTruthy();
+  });
+
+  // FIX 1 — store_owner role must pass the seller guard
+  it('renders the seller shell for a user with role store_owner (canonical seller role)', async () => {
+    mockPathname = '/seller';
+    mockUseAuth.mockReturnValue(AUTH_STORE_OWNER);
+    const { default: Layout } = await import('../layout');
+    render(<Layout><span data-testid="store-owner-content">STORE_OWNER</span></Layout>);
+    // Must NOT show the "Become a seller" wall
+    expect(screen.queryByRole('link', { name: /become a seller/i })).toBeNull();
+    // Must render sidebar nav links
+    expect(screen.getAllByRole('link', { name: /dashboard/i }).length).toBeGreaterThan(0);
+    expect(screen.getByTestId('store-owner-content')).toBeTruthy();
+  });
+
+  // FIX 2 — loading state must return null (no premature redirect)
+  it('returns null (no redirect) while auth is still loading', async () => {
+    mockPathname = '/seller';
+    mockUseAuth.mockReturnValue(AUTH_LOADING);
+    const { default: Layout } = await import('../layout');
+    const { container } = render(<Layout><span>CHILD</span></Layout>);
+    // Must not redirect while loading
+    expect(mockPush).not.toHaveBeenCalled();
+    // Must render nothing (null)
+    expect(container.firstChild).toBeNull();
   });
 });

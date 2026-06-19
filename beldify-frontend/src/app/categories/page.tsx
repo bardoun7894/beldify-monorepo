@@ -114,7 +114,7 @@ export default function CategoriesPage() {
   const [error, setError] = useState<string | null>(null);
   const [selectedGender, setSelectedGender] = useState<string>('All');
 
-  const isRTL = i18n.language === 'ar';
+  const isRTL = i18n.language === 'ar' || i18n.language === 'ma';
 
   const genderFilters = [
     { label: t('common.all'), value: 'All' },

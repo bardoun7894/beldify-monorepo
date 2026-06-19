@@ -19,6 +19,7 @@ import { render, screen, waitFor, cleanup } from '@testing-library/react';
 vi.mock('next/navigation', () => ({
   useParams: () => ({ id: '99' }),
   useRouter: () => ({ push: vi.fn() }),
+  usePathname: () => '/products/99',
 }));
 
 // ── i18n ─────────────────────────────────────────────────────────────────────

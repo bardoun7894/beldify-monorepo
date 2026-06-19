@@ -10,7 +10,6 @@ import {
   Package,
   ShoppingBag,
   DollarSign,
-  Wallet,
   ClipboardList,
   Settings,
   User,
@@ -18,9 +17,12 @@ import {
   ArrowRight,
   MessageSquare,
   Sparkles,
+  Wallet,
+  MoreHorizontal,
 } from 'lucide-react';
 import { getSellerUnreadCount } from '@/services/messagingService';
 import { getSellerCredits } from '@/services/sellerCreditService';
+import { Dialog } from '@/components/ui/dialog';
 
 const POLL_INTERVAL_MS = 60_000; // 60 seconds
 
@@ -109,22 +111,26 @@ function buildNavItems(
     { label: t('seller.nav.custom_orders', 'Custom Orders'), href: '/seller/custom-orders', icon: ClipboardList },
     { label: t('seller.nav.earnings', 'Earnings'), href: '/seller/earnings', icon: DollarSign },
     { label: t('seller.nav.payouts', 'Payouts'), href: '/seller/payouts', icon: Wallet },
+    { label: t('seller.nav.credits', 'AI Credits'), href: '/seller/credits', icon: Sparkles },
     { label: t('seller.nav.store_settings', 'Store Settings'), href: '/seller/store-settings', icon: Settings },
     { label: t('seller.nav.profile', 'Profile'), href: '/seller/profile', icon: User },
     { label: t('seller.nav.messages', 'Messages'), href: '/seller/messages', icon: MessageSquare },
   ];
 }
 
-const playfair = { fontFamily: '"Playfair Display", ui-serif, Georgia, serif' };
+// The first N items are the mobile primary tabs; the rest live behind "More".
+const MOBILE_PRIMARY_COUNT = 5;
+
 
 export default function SellerLayout({ children }: { children: React.ReactNode }) {
   const { t, i18n } = useTranslation();
   const pathname = usePathname();
   const router = useRouter();
-  const { isAuthenticated, user } = useAuth();
+  const { isAuthenticated, user, loading } = useAuth();
   const isRTL = i18n.language === 'ar' || i18n.language === 'ma';
   const sellerUnreadCount = useSellerUnreadCount();
   const creditBalance = useSellerCreditBalance();
+  const [moreOpen, setMoreOpen] = useState(false);
 
   // ── Funnel bypass — register / onboarding pages own their own chrome ──────
   if (isFunnelRoute(pathname)) {
@@ -132,13 +138,17 @@ export default function SellerLayout({ children }: { children: React.ReactNode }
   }
 
   // ── Auth guard ────────────────────────────────────────────────────────────
+  if (loading) return null;
   if (!isAuthenticated) {
     router.push(`/login?redirect=${pathname}`);
     return null;
   }
 
   // ── Seller role guard ─────────────────────────────────────────────────────
-  const isSeller = user?.role === 'seller' || (user as any)?.is_seller === true;
+  const isSeller =
+    user?.role === 'store_owner' ||
+    user?.role === 'seller' ||
+    (user as any)?.is_seller === true;
   if (!isSeller) {
     return (
       <div
@@ -149,10 +159,7 @@ export default function SellerLayout({ children }: { children: React.ReactNode }
           <div className="w-16 h-16 rounded-full bg-indigo-50 ring-2 ring-indigo-200 flex items-center justify-center mb-6">
             <Store className="w-8 h-8 text-indigo-700" aria-hidden="true" />
           </div>
-          <h1
-            className="text-xl font-bold text-gray-900 mb-3"
-            style={playfair}
-          >
+          <h1 className="text-xl font-bold text-gray-900 mb-3 font-heading">
             {t('seller.layout.not_seller_title', 'You are not a seller yet')}
           </h1>
           <p className="text-sm text-gray-500 mb-8">
@@ -175,6 +182,11 @@ export default function SellerLayout({ children }: { children: React.ReactNode }
 
   // ── Authenticated seller — render shell ───────────────────────────────────
   const navItems = buildNavItems(t);
+  const primaryNavItems = navItems.slice(0, MOBILE_PRIMARY_COUNT);
+  const overflowNavItems = navItems.slice(MOBILE_PRIMARY_COUNT);
+  const isOverflowActive = overflowNavItems.some((item) =>
+    pathname.startsWith(item.href)
+  );
 
   return (
     <div
@@ -189,7 +201,7 @@ export default function SellerLayout({ children }: { children: React.ReactNode }
             className="flex items-center gap-2 text-gray-900 hover:text-indigo-700 transition-colors"
           >
             <Store className="w-5 h-5 text-amber-500" aria-hidden="true" />
-            <span className="font-semibold text-sm" style={playfair}>
+            <span className="font-semibold text-sm font-heading">
               {t('seller.layout.hub_label', 'Seller Hub')}
             </span>
           </Link>
@@ -256,12 +268,12 @@ export default function SellerLayout({ children }: { children: React.ReactNode }
           })}
         </nav>
 
-        {/* ── Mobile tab bar ───────────────────────────────────────────────── */}
+        {/* ── Mobile tab bar — 5 primary tabs + a "More" sheet trigger ──────── */}
         <nav
           aria-label={t('seller.nav.mobile_aria_label', 'Seller navigation mobile')}
           className="md:hidden fixed bottom-0 inset-x-0 z-30 bg-white border-t border-gray-200 flex justify-around px-2 py-1"
         >
-          {navItems.slice(0, 5).map(({ label, href, icon: Icon }) => {
+          {primaryNavItems.map(({ label, href, icon: Icon }) => {
             const isActive =
               href === '/seller'
                 ? pathname === '/seller'
@@ -281,7 +293,77 @@ export default function SellerLayout({ children }: { children: React.ReactNode }
               </Link>
             );
           })}
+
+          {/* "More" — opens a bottom sheet with every remaining destination */}
+          {overflowNavItems.length > 0 && (
+            <button
+              type="button"
+              onClick={() => setMoreOpen(true)}
+              aria-label={t('seller.nav.more', 'More')}
+              aria-haspopup="dialog"
+              aria-expanded={moreOpen}
+              className={[
+                'flex flex-col items-center gap-0.5 px-2 py-1.5 rounded-lg text-xs transition-colors',
+                isOverflowActive ? 'text-indigo-700 font-semibold' : 'text-gray-500',
+              ].join(' ')}
+            >
+              <MoreHorizontal className="w-5 h-5" aria-hidden="true" />
+              <span className="truncate max-w-[52px]">{t('seller.nav.more', 'More')}</span>
+            </button>
+          )}
         </nav>
+
+        {/* ── Mobile "More" sheet ──────────────────────────────────────────── */}
+        <Dialog
+          open={moreOpen}
+          onClose={() => setMoreOpen(false)}
+          variant="sheet"
+          side="bottom"
+          labelledBy="seller-more-title"
+          className="md:hidden"
+        >
+          <div className="px-5 pt-5 pb-3 flex items-center justify-between border-b border-gray-100">
+            <h2
+              id="seller-more-title"
+              className="text-base font-bold text-gray-900 font-heading"
+            >
+              {t('seller.nav.more_title', 'More')}
+            </h2>
+            <span className="h-1 w-10 rounded-full bg-gray-200" aria-hidden="true" />
+          </div>
+          <ul className="px-3 py-3 pb-[max(1rem,env(safe-area-inset-bottom))]">
+            {overflowNavItems.map(({ label, href, icon: Icon }) => {
+              const isActive = pathname.startsWith(href);
+              const isMessages = href === '/seller/messages';
+              return (
+                <li key={href}>
+                  <Link
+                    href={href}
+                    aria-current={isActive ? 'page' : undefined}
+                    onClick={() => setMoreOpen(false)}
+                    className={[
+                      'flex items-center gap-3 rounded-xl px-3 py-3 text-sm font-medium transition-colors',
+                      isActive
+                        ? 'bg-indigo-700 text-white'
+                        : 'text-gray-700 hover:bg-amber-50',
+                    ].join(' ')}
+                  >
+                    <Icon className="w-5 h-5 shrink-0" aria-hidden="true" />
+                    <span className="flex-1">{label}</span>
+                    {isMessages && sellerUnreadCount > 0 && (
+                      <span
+                        aria-label={`${sellerUnreadCount} unread messages`}
+                        className="inline-flex items-center justify-center min-w-[1.25rem] h-5 px-1.5 rounded-full text-xs font-bold bg-amber-400 text-indigo-950 leading-none"
+                      >
+                        {formatBadge(sellerUnreadCount)}
+                      </span>
+                    )}
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
+        </Dialog>
 
         {/* ── Page content ─────────────────────────────────────────────────── */}
         <main className="flex-1 min-w-0 pb-20 md:pb-0">

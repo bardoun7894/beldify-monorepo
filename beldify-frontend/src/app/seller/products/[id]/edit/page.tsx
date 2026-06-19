@@ -55,8 +55,6 @@ import {
   ListingLocaleResult,
 } from '@/services/sellerAiService';
 
-const playfair = { fontFamily: '"Playfair Display", ui-serif, Georgia, serif' };
-
 const inputClass =
   'block w-full rounded-2xl bg-amber-50 ring-1 ring-amber-200 focus:ring-2 focus:ring-indigo-700/40 px-4 py-2.5 text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none transition-all duration-150';
 
@@ -182,18 +180,16 @@ export default function SellerEditProductPage() {
           existingImageUrl: (product as any).product_image_url ?? (product as any).image_url ?? null,
         });
         // Seed AI image generator with known product images
-        {
-          const imgs: { id: number; url: string }[] = [];
-          if (Array.isArray((product as any).images)) {
-            (product as any).images.forEach((img: any, idx: number) => {
-              if (img?.url) imgs.push({ id: img.id ?? idx + 1, url: img.url });
-            });
-          } else {
-            const singleUrl = (product as any).product_image_url ?? (product as any).image_url;
-            if (singleUrl) imgs.push({ id: Number(productId) || 1, url: singleUrl });
-          }
-          setAiExistingImages(imgs);
+        const imgs: { id: number; url: string }[] = [];
+        if (Array.isArray((product as any).images)) {
+          (product as any).images.forEach((img: any, idx: number) => {
+            if (img?.url) imgs.push({ id: img.id ?? idx + 1, url: img.url });
+          });
+        } else {
+          const singleUrl = (product as any).product_image_url ?? (product as any).image_url;
+          if (singleUrl) imgs.push({ id: Number(productId) || 1, url: singleUrl });
         }
+        setAiExistingImages(imgs);
         // FE-J1: seed vertical spec from the product's existing customization_options.
         const existingOpts = (product as any).customization_options;
         if (existingOpts && typeof existingOpts === 'object') {
@@ -440,7 +436,7 @@ export default function SellerEditProductPage() {
       <div className="min-h-screen bg-background" dir={isRTL ? 'rtl' : 'ltr'}>
         <div className="max-w-2xl mx-auto px-6 py-24 flex flex-col items-center text-center">
           <Package className="w-10 h-10 text-indigo-600 mb-6" aria-hidden="true" />
-          <h1 className="text-xl font-bold text-gray-900 mb-3" style={playfair}>
+          <h1 className="text-xl font-bold text-gray-900 mb-3 font-heading">
             {t('seller.product.login_title', 'Sign in to edit a product')}
           </h1>
           <Link
@@ -463,7 +459,7 @@ export default function SellerEditProductPage() {
           <div className="w-16 h-16 rounded-full bg-rose-50 ring-2 ring-rose-200 flex items-center justify-center mb-6">
             <XCircle className="w-8 h-8 text-rose-600" aria-hidden="true" />
           </div>
-          <h1 className="text-xl font-bold text-gray-900 mb-3" style={playfair}>
+          <h1 className="text-xl font-bold text-gray-900 mb-3 font-heading">
             {t('seller.product.suspended_title', 'Your store is suspended')}
           </h1>
           <p className="text-gray-500 text-sm">
@@ -490,7 +486,7 @@ export default function SellerEditProductPage() {
             <p className="text-xs uppercase tracking-[0.18em] text-amber-700 font-medium">
               {t('seller.product.eyebrow', 'Products')}
             </p>
-            <h1 className="text-xl font-bold text-gray-900" style={playfair}>
+            <h1 className="text-xl font-bold text-gray-900 font-heading">
               {t('seller.product.edit_title', 'Edit product')}
             </h1>
           </div>
@@ -828,11 +824,10 @@ export default function SellerEditProductPage() {
                   productId={productId}
                   existingImages={aiExistingImages}
                   onRefresh={() => {
-                    // Re-derive existingImages from current form state after a new image is added
-                    const url = form.imagePreview ?? form.existingImageUrl;
-                    if (url) {
-                      setAiExistingImages([{ id: Number(productId) || 1, url }]);
-                    }
+                    // AiImageGenerator manages its own internal image list and appends
+                    // the newly generated image on success — no parent rebuild needed.
+                    // This callback is kept for external side-effects (e.g. re-fetching
+                    // the product list) but must NOT clobber aiExistingImages.
                   }}
                 />
               )}

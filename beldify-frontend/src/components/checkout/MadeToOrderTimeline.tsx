@@ -37,7 +37,7 @@ export interface MadeToOrderTimelineProps {
 
 export default function MadeToOrderTimeline({ order }: MadeToOrderTimelineProps) {
   const { t, i18n } = useTranslation();
-  const isRTL = i18n.language === 'ar';
+  const isRTL = i18n.language === 'ar' || i18n.language === 'ma';
 
   const currentMeta = STATUS_META[order.status];
   const isCancelled = order.status === 'cancelled';
