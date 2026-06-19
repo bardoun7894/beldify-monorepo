@@ -20,6 +20,7 @@ import {
   Maximize2,
   XCircle,
   Truck,
+  BadgeCheck,
 } from 'lucide-react';
 import OfferCountdownChip from './OfferCountdownChip';
 
@@ -309,6 +310,26 @@ const ProductCard = memo(function ProductCard({
             {displayName}
           </h3>
         </Link>
+
+        {/* Seller identity row — rendered only when store_name is present */}
+        {product.store_name && (
+          <div className="flex items-center gap-1 min-w-0">
+            <span className="text-[10px] text-gray-500 truncate max-w-[7rem]">
+              {product.store_name}
+            </span>
+            {product.store_is_verified === true && (
+              <BadgeCheck
+                className="h-3 w-3 text-amber-500 shrink-0"
+                aria-label={t('product.seller_verified', 'Verified')}
+              />
+            )}
+            {typeof product.store_rating === 'number' && product.store_rating > 0 && (
+              <span className="ms-1 text-[10px] text-amber-600 font-semibold tabular-nums shrink-0">
+                {product.store_rating.toFixed(1)}★
+              </span>
+            )}
+          </div>
+        )}
 
         {/* Free-shipping badge — shown when price exceeds 500 MAD */}
         {parseFloat(String(displayPrice)) > 500 && (

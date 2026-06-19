@@ -617,7 +617,8 @@
     "tab_reviews": "Beoordelingen",
     "close_zoom": "Zoom sluiten",
     "free_shipping": "Gratis verzending",
-    "zoom_image": "Afbeelding vergroten"
+    "zoom_image": "Afbeelding vergroten",
+    "seller_verified": "Geverifieerd"
   },
   "stock": {
     "in_stock": "In voorraad ({{count}})",
@@ -1375,7 +1376,11 @@
       "need_help_body": "Stuur ons een bericht of bel ons en we helpen je eraan.",
       "whatsapp": "WhatsApp",
       "call": "Bel ons",
-      "cod_subtitle": "Betaal wanneer je het ontvangt — betaling bij ontvangst"
+      "cod_subtitle": "Betaal wanneer je het ontvangt — betaling bij ontvangst",
+      "cod_cap_info": "Betaling bij levering is beschikbaar tot 500 MAD. Boven dat bedrag betaalt u via bankoverschrijving.",
+      "cod_switched_toast": "Betaling gewijzigd naar bankoverschrijving (bestelling overschrijdt 500 MAD)",
+      "transfer_preorder_note": "Nadat u uw bestelling heeft geplaatst, verschijnen de bankgegevens (RIB) en kunt u uw bewijs uploaden.",
+      "transfer_amount_label": "Over te maken bedrag"
     },
     "order_summary": {
       "title": "Bestellingsoverzicht",

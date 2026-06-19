@@ -590,7 +590,8 @@
     "tab_reviews": "Reseñas",
     "close_zoom": "Cierra el zoom",
     "free_shipping": "Envío gratis",
-    "zoom_image": "Amplía la imagen"
+    "zoom_image": "Amplía la imagen",
+    "seller_verified": "Verificado"
   },
   "stock": {
     "in_stock": "En stock ({{count}})",
@@ -1360,7 +1361,11 @@
       "need_help_body": "Escríbenos o llámanos y te guiamos.",
       "whatsapp": "WhatsApp",
       "call": "Llámanos",
-      "cod_subtitle": "Paga cuando recibas el artículo — pago contra entrega"
+      "cod_subtitle": "Paga cuando recibas el artículo — pago contra entrega",
+      "cod_cap_info": "El pago contra reembolso está disponible hasta 500 MAD. Para pedidos superiores, pague por transferencia bancaria.",
+      "cod_switched_toast": "Pago cambiado a transferencia bancaria (pedido supera 500 MAD)",
+      "transfer_preorder_note": "Después de realizar su pedido, aparecerán los datos bancarios (RIB) y podrá subir su recibo.",
+      "transfer_amount_label": "Importe a transferir"
     },
     "order_summary": {
       "title": "Resumen del pedido",

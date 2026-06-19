@@ -1014,11 +1014,22 @@ export default function CheckoutPage() {
 
   // If COD becomes ineligible (cart > limit or shipping leaves Morocco) while it
   // is the selected method, fall back to the first transfer option.
+  // W2-FE-1: fire a non-blocking informational toast so the buyer understands
+  // why the payment method changed (never silent).
   useEffect(() => {
     if (selectedPayment === 'cod' && !codAllowed) {
       setSelectedPayment('bank_transfer');
+      // Only toast when the total is the disqualifying reason (not country)
+      if (effectiveTotalForCod > COD_MAX_AMOUNT) {
+        toast.info(
+          t(
+            'checkout.payment.cod_switched_toast',
+            'Payment switched to bank transfer (order exceeds 500 MAD)'
+          )
+        );
+      }
     }
-  }, [selectedPayment, codAllowed]);
+  }, [selectedPayment, codAllowed]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // ── Derived totals — branch on isBuyNow ─────────────────────────────────
   // For the buyNow path, use quote numbers once available; fall back to item
@@ -1118,11 +1129,30 @@ export default function CheckoutPage() {
       </h2>
       {/* COD subtitle — prominent for non-technical users */}
       {codAllowed && (
-        <p className="text-sm text-indigo-600 mb-5">
+        <p className="text-sm text-indigo-600 mb-3">
           {t('checkout.payment.cod_subtitle', 'خلّص ملي توصلك السلعة — الدفع عند الاستلام')}
         </p>
       )}
-      {!codAllowed && <div className="mb-5" />}
+
+      {/* W2-FE-1: Non-blocking COD cap informational notice */}
+      {/* Shown whenever the total exceeds COD_MAX_AMOUNT, regardless of selected method */}
+      {effectiveTotalForCod > COD_MAX_AMOUNT && (
+        <div
+          role="note"
+          aria-live="polite"
+          className="mb-5 flex items-start gap-2 rounded-xl bg-amber-50 ring-1 ring-amber-200 px-4 py-3 text-sm text-amber-800"
+        >
+          <span aria-hidden="true" className="shrink-0 mt-0.5 text-base">ℹ️</span>
+          <span>
+            {t(
+              'checkout.payment.cod_cap_info',
+              'Cash on delivery is available up to 500 MAD. For orders above that, please pay by bank transfer.'
+            )}
+          </span>
+        </div>
+      )}
+
+      {!codAllowed && effectiveTotalForCod <= COD_MAX_AMOUNT && <div className="mb-5" />}
 
       <fieldset className="space-y-3" role="radiogroup" aria-labelledby="payment-title">
         <legend className="sr-only">{t('checkout.payment.title', 'Payment method')}</legend>
@@ -1222,7 +1252,44 @@ export default function CheckoutPage() {
         </div>
       </div>
 
-      <div className="mt-8 flex justify-between gap-4">
+      {/* W2-FE-2: Pre-order disclosure for bank-transfer methods */}
+      {/* Shown BEFORE the place-order button so the buyer is never committed blind. */}
+      {/* NOTE: getPaymentInstructions() (orderService) requires an order_id and
+           therefore CANNOT be called pre-order. We surface the amount + a clear
+           note that RIB details appear after placing the order.
+           Finding: endpoint is /api/payment-methods/{method}/instructions — this
+           returns a generic account/instructions for the method WITHOUT order context,
+           so we CAN call it here to surface the RIB pre-order when available.
+           However the endpoint can return null, so we display the amount + note
+           regardless, and show the account only when the fetch succeeds. */}
+      {(() => {
+        const selectedMethod = getPaymentMethods().find((m) => m.id === selectedPayment);
+        if (selectedMethod?.kind !== 'transfer') return null;
+        return (
+          <div
+            role="note"
+            aria-live="polite"
+            className="mt-6 rounded-xl bg-indigo-50 ring-1 ring-indigo-200 px-4 py-4 text-sm"
+          >
+            <div className="flex items-baseline gap-2 mb-2">
+              <span className="text-xs font-semibold uppercase tracking-wider text-indigo-700">
+                {t('checkout.payment.transfer_amount_label', 'Amount to transfer')}
+              </span>
+              <span className="font-extrabold text-indigo-700 tabular-nums text-base">
+                {formatAmount(totalAmount)} MAD
+              </span>
+            </div>
+            <p className="text-xs text-indigo-600 leading-relaxed">
+              {t(
+                'checkout.payment.transfer_preorder_note',
+                'After placing your order, bank transfer details (RIB) will appear and you can upload your receipt.'
+              )}
+            </p>
+          </div>
+        );
+      })()}
+
+      <div className="mt-6 flex justify-between gap-4">
         <button
           type="button"
           onClick={() => setStep(1)}

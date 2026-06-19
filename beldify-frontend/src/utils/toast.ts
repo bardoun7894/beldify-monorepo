@@ -13,6 +13,10 @@ const toast = {
 
   loading: (message: string, options?: ToastOptions) => hotToast.loading(message, options),
 
+  /** Informational toast — neutral, uses ℹ icon. */
+  info: (message: string, options?: ToastOptions) =>
+    hotToast(message, Object.assign({ icon: 'ℹ️' }, options || {})),
+
   custom: (renderer: any, options?: any) => hotToast.custom(renderer, options),
   
   // Dismiss should always be allowed to clear any existing toasts

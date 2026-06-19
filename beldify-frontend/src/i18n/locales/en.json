@@ -617,7 +617,8 @@
     "tab_reviews": "Reviews",
     "close_zoom": "Close zoom",
     "free_shipping": "Free shipping",
-    "zoom_image": "Zoom image"
+    "zoom_image": "Zoom image",
+    "seller_verified": "Verified"
   },
   "stock": {
     "in_stock": "In stock ({{count}})",
@@ -1382,7 +1383,11 @@
       "need_help_body": "Message or call us and we'll guide you through it.",
       "whatsapp": "WhatsApp",
       "call": "Call us",
-      "cod_subtitle": "Pay when your order arrives — cash on delivery"
+      "cod_subtitle": "Pay when your order arrives — cash on delivery",
+      "cod_cap_info": "Cash on delivery is available up to 500 MAD. For orders above that, please pay by bank transfer.",
+      "cod_switched_toast": "Payment switched to bank transfer (order exceeds 500 MAD)",
+      "transfer_preorder_note": "After placing your order, bank transfer details (RIB) will appear and you can upload your receipt.",
+      "transfer_amount_label": "Amount to transfer"
     },
     "order_summary": {
       "title": "Order Summary",

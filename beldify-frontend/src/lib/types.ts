@@ -72,6 +72,14 @@ export interface Product {
    * countdown chip to render. See OfferCountdownChip.tsx for chip implementation.
    */
   ends_at?: string | null;
+  /**
+   * Seller identity fields — optional, added by backend in a parallel task.
+   * Render the seller row only when store_name is present so the card is
+   * safe before the backend ships these fields.
+   */
+  store_name?: string;
+  store_is_verified?: boolean;
+  store_rating?: number;
 }
 
 export interface BestSellersResponse {

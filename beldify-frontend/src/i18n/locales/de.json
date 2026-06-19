@@ -617,7 +617,8 @@
     "tab_reviews": "Bewertungen",
     "close_zoom": "Zoom schließen",
     "free_shipping": "Kostenloser Versand",
-    "zoom_image": "Bild vergrößern"
+    "zoom_image": "Bild vergrößern",
+    "seller_verified": "Verifiziert"
   },
   "stock": {
     "in_stock": "Auf Lager ({{count}})",
@@ -1375,7 +1376,11 @@
       "need_help_body": "Schreib uns eine Nachricht oder ruf uns an — wir helfen dir gerne.",
       "whatsapp": "WhatsApp",
       "call": "Ruf uns an",
-      "cod_subtitle": "Zahle bei Lieferung — Nachnahme"
+      "cod_subtitle": "Zahle bei Lieferung — Nachnahme",
+      "cod_cap_info": "Nachnahme ist bis zu 500 MAD verfügbar. Bei höheren Beträgen zahlen Sie per Banküberweisung.",
+      "cod_switched_toast": "Zahlung auf Banküberweisung umgestellt (Bestellung überschreitet 500 MAD)",
+      "transfer_preorder_note": "Nachdem Sie Ihre Bestellung aufgegeben haben, werden die Bankdaten (RIB) angezeigt und Sie können Ihren Beleg hochladen.",
+      "transfer_amount_label": "Zu überweisender Betrag"
     },
     "order_summary": {
       "title": "Bestellübersicht",

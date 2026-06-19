@@ -590,7 +590,8 @@
     "tab_reviews": "Avis",
     "close_zoom": "Fermer le zoom",
     "free_shipping": "Livraison gratuite",
-    "zoom_image": "Zoomer l'image"
+    "zoom_image": "Zoomer l'image",
+    "seller_verified": "Vérifié"
   },
   "stock": {
     "in_stock": "En stock ({{count}})",
@@ -1360,7 +1361,11 @@
       "need_help_body": "Écrivez-nous ou appelez-nous, nous vous guidons.",
       "whatsapp": "WhatsApp",
       "call": "Appelez-nous",
-      "cod_subtitle": "Payez à la livraison — paiement à la réception"
+      "cod_subtitle": "Payez à la livraison — paiement à la réception",
+      "cod_cap_info": "Le paiement à la livraison est disponible jusqu'à 500 MAD. Au-delà, veuillez payer par virement bancaire.",
+      "cod_switched_toast": "Paiement basculé vers le virement bancaire (commande supérieure à 500 MAD)",
+      "transfer_preorder_note": "Après avoir passé votre commande, les coordonnées bancaires (RIB) apparaîtront et vous pourrez télécharger votre reçu.",
+      "transfer_amount_label": "Montant à transférer"
     },
     "order_summary": {
       "title": "Récapitulatif de la commande",
