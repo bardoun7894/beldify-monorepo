@@ -776,21 +776,19 @@ export default function OrderDetailsPage() {
               className="md:hidden space-y-3"
             >
               {/* "Buy it again" — full-width on mobile for easy thumb reach.
-                  Second-person, calm copy. No "!", no urgency (hooked §1 ethics).
-                  AR: اشترِ مرة أخرى  /  EN: Buy it again
-                  FLAG: i18n key orders.actions.buy_again pending i18n audit */}
+                  Second-person, calm copy. No "!", no urgency (hooked §1 ethics). */}
               <button
                 type="button"
                 onClick={handleReorder}
                 disabled={reordering}
                 className="w-full px-4 py-3 border border-indigo-200 text-indigo-700 text-sm font-medium rounded-2xl hover:bg-indigo-50 transition-all duration-200 flex items-center justify-center gap-2 focus:ring-2 focus:ring-indigo-700/30 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed"
-                aria-label={(i18n.language === 'ar' || i18n.language === 'ma') ? 'اشترِ مرة أخرى' : 'Buy it again'}
+                aria-label={t('orders.actions.buy_again')}
               >
                 <RefreshCw
                   className={`w-4 h-4 ${reordering ? 'animate-spin' : ''}`}
                   strokeWidth={1.5}
                 />
-                {(i18n.language === 'ar' || i18n.language === 'ma') ? 'اشترِ مرة أخرى' : 'Buy it again'}
+                {t('orders.actions.buy_again')}
               </button>
               <div className="grid grid-cols-2 gap-3">
                 {!isCancelledOrder ? (
@@ -972,21 +970,19 @@ export default function OrderDetailsPage() {
               {/* Action buttons — desktop only (mobile shows its own in-flow section above) */}
               <div className="mt-5 space-y-2.5 hidden md:block">
                 {/* "Buy it again" — top of desktop actions, calm second-person copy.
-                    No "!", no urgency (hooked §1 ethics).
-                    AR: اشترِ مرة أخرى  /  EN: Buy it again
-                    FLAG: i18n key orders.actions.buy_again pending i18n audit */}
+                    No "!", no urgency (hooked §1 ethics). */}
                 <button
                   type="button"
                   onClick={handleReorder}
                   disabled={reordering}
                   className="w-full px-4 py-2.5 border border-indigo-200 text-indigo-700 text-sm font-medium rounded-2xl hover:bg-indigo-50 transition-all duration-200 flex items-center justify-center gap-2 focus:ring-2 focus:ring-indigo-700/30 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed"
-                  aria-label={(i18n.language === 'ar' || i18n.language === 'ma') ? 'اشترِ مرة أخرى' : 'Buy it again'}
+                  aria-label={t('orders.actions.buy_again')}
                 >
                   <RefreshCw
                     className={`w-4 h-4 flex-shrink-0 ${reordering ? 'animate-spin' : ''}`}
                     strokeWidth={1.5}
                   />
-                  {(i18n.language === 'ar' || i18n.language === 'ma') ? 'اشترِ مرة أخرى' : 'Buy it again'}
+                  {t('orders.actions.buy_again')}
                 </button>
                 {!isCancelledOrder && (
                   <Link

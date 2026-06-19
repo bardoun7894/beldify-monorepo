@@ -366,8 +366,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
               guestWishlist.map((item) =>
                 axios.post('/api/wishlist', {
                   product_id: item.product_id,
-                  notify_price_drop: false,
-                  notify_back_in_stock: false,
+                  // Forward stored notify flags so guest opt-ins survive login.
+                  // Hardcoding false was silently killing the back-in-stock and
+                  // price-drop trigger for guests who opted in pre-login.
+                  notify_price_drop: item.notify_price_drop ?? false,
+                  notify_back_in_stock: item.notify_back_in_stock ?? false,
+                  target_price: item.target_price ?? null,
                   notes: '',
                 })
               )

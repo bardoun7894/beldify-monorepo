@@ -36,6 +36,14 @@ export interface GuestWishlistItem {
   id: number;
   product_id: number;
   product: GuestWishlistProduct;
+  /**
+   * Notify flags — stored when a guest sets them via NotifyMeButton.
+   * Forwarded verbatim on merge so the trigger is not silently killed.
+   */
+  notify_back_in_stock?: boolean;
+  notify_price_drop?: boolean;
+  /** Target price for price-drop alerts (stored if guest sets one). */
+  target_price?: number | null;
 }
 
 /**

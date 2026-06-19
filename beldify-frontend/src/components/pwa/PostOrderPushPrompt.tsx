@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Bell, X, UserPlus } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 const DISMISSED_KEY = 'push-prompt-dismissed';
 const GUEST_DISMISSED_KEY = 'push-prompt-guest-dismissed';
@@ -36,6 +37,7 @@ export default function PostOrderPushPrompt({
   isLoading,
   onSubscribe,
 }: PostOrderPushPromptProps) {
+  const { t } = useTranslation();
   const [dismissed, setDismissed] = useState(false);
   const [guestDismissed, setGuestDismissed] = useState(false);
   const [initialised, setInitialised] = useState(false);
@@ -86,7 +88,7 @@ export default function PostOrderPushPrompt({
         data-testid="push-prompt-card"
         className="bg-white rounded-2xl shadow-atlas-sm ring-1 ring-indigo-100 p-5"
         role="complementary"
-        aria-label="تفعيل إشعارات الشحن"
+        aria-label={t('post_order_push.enable_aria')}
       >
         <div className="flex items-start gap-3">
           {/* Icon */}
@@ -97,11 +99,10 @@ export default function PostOrderPushPrompt({
           {/* Copy */}
           <div className="flex-1 min-w-0">
             <p className="text-sm font-semibold text-gray-900 mb-0.5">
-              {/* AR: تابع شحنتك عبر الإشعارات — ≤12 words, no "!" */}
-              تابع شحنتك عبر الإشعارات
+              {t('post_order_push.title')}
             </p>
             <p className="text-xs text-gray-500 leading-relaxed">
-              Get shipping updates — سنُخطرك عند تحديث حالة طلبك
+              {t('post_order_push.subtitle')}
             </p>
 
             {/* Subscribe CTA */}
@@ -109,10 +110,11 @@ export default function PostOrderPushPrompt({
               data-testid="push-prompt-cta"
               onClick={onSubscribe}
               disabled={isLoading}
+              aria-label={t('post_order_push.enable_aria')}
               className="mt-3 inline-flex items-center gap-1.5 text-xs font-semibold text-indigo-700 hover:text-indigo-900 transition-colors disabled:opacity-50"
             >
               <Bell className="w-3.5 h-3.5" aria-hidden="true" />
-              {isLoading ? 'جارٍ التفعيل…' : 'تفعيل الإشعارات'}
+              {isLoading ? t('post_order_push.enabling') : t('post_order_push.enable_cta')}
             </button>
           </div>
 
@@ -121,7 +123,7 @@ export default function PostOrderPushPrompt({
             data-testid="push-prompt-dismiss"
             onClick={handleDismiss}
             className="w-7 h-7 rounded-full flex items-center justify-center text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-colors flex-shrink-0"
-            aria-label="إغلاق"
+            aria-label={t('common.close', 'Close')}
           >
             <X className="w-3.5 h-3.5" aria-hidden="true" />
           </button>
@@ -138,7 +140,7 @@ export default function PostOrderPushPrompt({
       data-testid="guest-register-nudge"
       className="bg-amber-50 rounded-2xl ring-1 ring-amber-200 p-4"
       role="complementary"
-      aria-label="إنشاء حساب لمتابعة الطلب"
+      aria-label={t('post_order_push.guest_aria')}
     >
       <div className="flex items-center gap-3">
         <div className="w-8 h-8 rounded-full bg-amber-100 ring-1 ring-amber-200 flex items-center justify-center flex-shrink-0">
@@ -146,13 +148,12 @@ export default function PostOrderPushPrompt({
         </div>
 
         <p className="text-xs text-gray-600 leading-relaxed flex-1">
-          {/* Calm, no exclamation, no shame — just a helpful link */}
-          أنشئ حسابًا لمتابعة طلباتك{' '}
+          {t('post_order_push.guest_title')}{' '}
           <Link
             href="/register"
             className="font-semibold text-indigo-700 hover:underline"
           >
-            إنشاء حساب
+            {t('post_order_push.guest_cta')}
           </Link>
         </p>
 
@@ -161,7 +162,7 @@ export default function PostOrderPushPrompt({
           data-testid="guest-nudge-dismiss"
           onClick={handleGuestDismiss}
           className="w-7 h-7 rounded-full flex items-center justify-center text-gray-400 hover:text-gray-600 hover:bg-amber-100 transition-colors flex-shrink-0"
-          aria-label="إغلاق"
+          aria-label={t('common.close', 'Close')}
         >
           <X className="w-3.5 h-3.5" aria-hidden="true" />
         </button>

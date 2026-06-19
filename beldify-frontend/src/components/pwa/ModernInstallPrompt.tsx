@@ -50,14 +50,10 @@ export default function ModernInstallPrompt() {
     handleDismiss();
   };
 
-  // Auto-show disabled: render only when user has explicitly opted in via the
-  // `?pwa=install` query string. This guarantees nothing covers the hero on
-  // first paint or during scroll. The footer install button still calls
-  // promptInstall() which sets showInstallPrompt=true, but we additionally
-  // require the explicit opt-in here.
-  const explicitOptIn = typeof window !== 'undefined'
-    && new URLSearchParams(window.location.search).get('pwa') === 'install';
-  if (!showInstallPrompt || isInstalled || !explicitOptIn) {
+  // Render when the scoring engine decides the timing is right (showInstallPrompt=true)
+  // and the user is not already installed. The 24h dismiss guard and adaptive threshold
+  // live in EnhancedPWAContext. Scroll auto-show remains disabled (see EnhancedPWAContext).
+  if (!showInstallPrompt || isInstalled) {
     return null;
   }
 

@@ -514,20 +514,19 @@ export default function OrdersPage() {
                     </div>
                     <div className="flex items-center gap-2 flex-shrink-0">
                       {/* "Buy it again" — re-adds past order items to cart at current prices.
-                          Second-person, calm copy. No "!", no urgency, no shame.
-                          AR: اشترِ مرة أخرى  /  EN: Buy it again  (FLAG: pending i18n key orders.actions.buy_again) */}
+                          Second-person, calm copy. No "!", no urgency, no shame. */}
                       <button
                         type="button"
                         onClick={() => handleReorder(order.order_number, order.id)}
                         disabled={reorderingId === order.id}
                         className="inline-flex items-center gap-1.5 px-4 py-2.5 border border-indigo-200 text-indigo-700 text-sm font-medium rounded-2xl hover:bg-indigo-50 transition-all duration-200 flex-shrink-0 focus:ring-2 focus:ring-indigo-700/30 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed"
-                        aria-label={(i18n.language === 'ar' || i18n.language === 'ma') ? 'اشترِ مرة أخرى' : 'Buy it again'}
+                        aria-label={t('orders.actions.buy_again')}
                       >
                         <RefreshCw
                           className={`w-3.5 h-3.5 ${reorderingId === order.id ? 'animate-spin' : ''}`}
                           strokeWidth={2}
                         />
-                        {(i18n.language === 'ar' || i18n.language === 'ma') ? 'اشترِ مرة أخرى' : 'Buy it again'}
+                        {t('orders.actions.buy_again')}
                       </button>
                       <Link
                         href={`/orders/${order.order_number}`}
