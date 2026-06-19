@@ -62,7 +62,7 @@ export default function Pagination({
       <button
         onClick={handlePrevious}
         disabled={currentPage === 1}
-        className={`p-2 rounded-md ${
+        className={`p-2 rounded-md min-h-[44px] min-w-[44px] flex items-center justify-center ${
           currentPage === 1
             ? 'text-gray-400 cursor-not-allowed'
             : 'text-gray-700 hover:bg-gray-100'
@@ -93,7 +93,7 @@ export default function Pagination({
         <button
           key={page}
           onClick={() => onPageChange(page)}
-          className={`px-3 py-1 rounded-md ${
+          className={`px-3 py-1 rounded-md min-h-[44px] min-w-[44px] flex items-center justify-center ${
             page === currentPage
               ? 'bg-blue-600 text-white'
               : 'hover:bg-gray-100 text-gray-700'
@@ -125,7 +125,7 @@ export default function Pagination({
       <button
         onClick={handleNext}
         disabled={currentPage === totalPages}
-        className={`p-2 rounded-md ${
+        className={`p-2 rounded-md min-h-[44px] min-w-[44px] flex items-center justify-center ${
           currentPage === totalPages
             ? 'text-gray-400 cursor-not-allowed'
             : 'text-gray-700 hover:bg-gray-100'

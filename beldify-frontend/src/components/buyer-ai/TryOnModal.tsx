@@ -845,6 +845,14 @@ export function TryOnModal({
                 />
               </div>
 
+              {/* AI approximation disclaimer — provenance / safety copy */}
+              <p className="font-mono text-[10px] tracking-[0.15em] uppercase text-gray-400 text-center leading-relaxed px-1">
+                {t(
+                  'tryon.disclaimer',
+                  'AI-generated approximation — fit and cut may differ from the real product'
+                )}
+              </p>
+
               <div className="flex gap-3">
                 <button
                   type="button"

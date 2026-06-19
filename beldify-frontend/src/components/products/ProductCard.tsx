@@ -308,7 +308,7 @@ const ProductCard = memo(function ProductCard({
             <button
               onClick={handleAddToCart}
               disabled={isAddingToCart}
-              className={`relative shrink-0 p-2.5 rounded-xl bg-amber-500 text-amber-950 hover:bg-amber-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-500/50 active:scale-95 hover:scale-105 transition-all duration-200 overflow-hidden shadow-sm hover:shadow-md flex items-center justify-center min-w-[38px] min-h-[38px] ${isAddingToCart ? 'opacity-80 cursor-wait' : ''}`}
+              className={`relative shrink-0 p-2.5 rounded-xl bg-amber-500 text-amber-950 hover:bg-amber-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-500/50 active:scale-95 hover:scale-105 transition-all duration-200 overflow-hidden shadow-sm hover:shadow-md flex items-center justify-center min-w-[44px] min-h-[44px] ${isAddingToCart ? 'opacity-80 cursor-wait' : ''}`}
               aria-label={t('product.addToCart')}
             >
               {/* Success ripple slides up */}

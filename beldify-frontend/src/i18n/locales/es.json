@@ -742,6 +742,8 @@
   "products": {
     "title": "Productos",
     "results": "{{count}} producto",
+    "results_one": "{{count}} producto",
+    "results_other": "{{count}} productos",
     "no_results": "No se encontraron productos",
     "add_to_cart": "Agregar al carrito",
     "customize": "Personalizar",
@@ -970,7 +972,8 @@
       "cancel_order": "Cancelar pedido",
       "request_return": "Solicitar devolución",
       "return_request": "Solicitud de devolución",
-      "back_to_order": "Volver al pedido"
+      "back_to_order": "Volver al pedido",
+      "buy_again": "Volver a comprar"
     },
     "filter": {
       "all": "Todos los pedidos",
@@ -1351,6 +1354,7 @@
       },
       "cod_over_limit": "No disponible para más de 500 MAD",
       "cod_morocco_only": "Solo disponible en Marruecos",
+      "gateway_coming_soon": "Próximamente",
       "need_help_title": "¿No sabes cómo pagar?",
       "need_help_body": "Escríbenos o llámanos y te guiamos.",
       "whatsapp": "WhatsApp",
@@ -5301,7 +5305,8 @@
     "status_approved": "Aprobado",
     "status_rejected": "Rechazado",
     "status_pending": "Pendiente",
-    "refund_notice": "Tu crédito ha sido devuelto a tu cartera."
+    "refund_notice": "Tu crédito ha sido devuelto a tu cartera.",
+    "disclaimer": "Imagen aproximada generada por IA — la talla y el corte pueden diferir del producto real"
   },
   "payouts": {
     "eyebrow": "Panel de Vendedor",
@@ -5378,5 +5383,15 @@
     "no_bank_details": "Agrega tus datos bancarios para solicitar un pago.",
     "open_request_exists": "Ya tienes una solicitud abierta.",
     "below_min": "El saldo está por debajo del importe mínimo de pago."
+  },
+  "post_order_push": {
+    "title": "Sigue tu envío",
+    "subtitle": "Te notificaremos cuando cambie el estado de tu pedido",
+    "enable_cta": "Activar notificaciones",
+    "enabling": "Activando…",
+    "enable_aria": "Activar notificaciones de envío",
+    "guest_title": "Crea una cuenta para seguir tus pedidos",
+    "guest_cta": "Crear cuenta",
+    "guest_aria": "Crear una cuenta para seguir tus pedidos"
   }
 }

@@ -769,6 +769,8 @@
   "products": {
     "title": "Producten",
     "results": "{{count}} product",
+    "results_one": "{{count}} product",
+    "results_other": "{{count}} producten",
     "no_results": "Geen producten gevonden",
     "add_to_cart": "Toevoegen aan winkelwagen",
     "customize": "Aanpassen",
@@ -997,7 +999,8 @@
       "cancel_order": "Bestelling Annuleren",
       "request_return": "Retourverzoek Indienen",
       "return_request": "Retourverzoek",
-      "back_to_order": "Terug naar bestelling"
+      "back_to_order": "Terug naar bestelling",
+      "buy_again": "Opnieuw bestellen"
     },
     "filter": {
       "all": "Alle Bestellingen",
@@ -1366,6 +1369,7 @@
       },
       "cod_over_limit": "Niet beschikbaar boven 500 MAD",
       "cod_morocco_only": "Alleen beschikbaar in Marokko",
+      "gateway_coming_soon": "Binnenkort beschikbaar",
       "need_help_title": "Niet zeker hoe je moet betalen?",
       "need_help_body": "Stuur ons een bericht of bel ons en we helpen je eraan.",
       "whatsapp": "WhatsApp",
@@ -5256,7 +5260,8 @@
     "status_approved": "Goedgekeurd",
     "status_rejected": "Afgewezen",
     "status_pending": "In afwachting",
-    "refund_notice": "Je krediet is teruggestort in je portemonnee."
+    "refund_notice": "Je krediet is teruggestort in je portemonnee.",
+    "disclaimer": "AI-gegenereerde benadering — maat en snit kunnen afwijken van het echte product"
   },
   "payouts": {
     "eyebrow": "Verkoperspaneel",
@@ -5333,5 +5338,15 @@
     "no_bank_details": "Voeg je bankgegevens toe om een uitbetaling aan te vragen.",
     "open_request_exists": "Je hebt al een openstaande aanvraag.",
     "below_min": "Saldo is lager dan het minimale uitbetalingsbedrag."
+  },
+  "post_order_push": {
+    "title": "Volg je zending",
+    "subtitle": "We sturen je een melding bij elke update van je bestelling",
+    "enable_cta": "Meldingen inschakelen",
+    "enabling": "Inschakelen…",
+    "enable_aria": "Verzendmeldingen inschakelen",
+    "guest_title": "Maak een account aan om je bestellingen te volgen",
+    "guest_cta": "Account aanmaken",
+    "guest_aria": "Account aanmaken om bestellingen te volgen"
   }
 }

@@ -209,7 +209,8 @@ export default function ProductDetailsPage() {
       cancelled = true;
     };
   }, []);
-  // AI review summary — lazy-loaded when Reviews tab first becomes visible
+  // AI review summary — loaded either on product fetch (when reviews_count >= 3)
+  // or lazily when the Reviews tab first becomes active.
   const [aiReviewSummary, setAiReviewSummary] = useState<ReviewSummaryAI | null>(null);
   const aiReviewFetchedRef = React.useRef(false);
   const { addItem } = useCart();
@@ -1112,10 +1113,16 @@ export default function ProductDetailsPage() {
     router.push('/checkout?buyNow=1');
   };
 
-  // Lazy-fetch AI review summary when the Reviews tab first becomes visible.
-  // Spec: render ONLY on 200, never show skeleton-into-nothing (hide card on 204/null).
+  // Fetch AI review summary:
+  //   - eagerly on product load when reviews_count >= 3 (to surface compact gist in buy column)
+  //   - lazily on Reviews tab open otherwise
+  // Spec: render ONLY on 200, no skeleton flash (stays null on 204/error).
   useEffect(() => {
-    if (activeTab !== 'reviews' || aiReviewFetchedRef.current || !id || !product) return;
+    if (aiReviewFetchedRef.current || !id || !product) return;
+    // Eager path: enough reviews to generate a meaningful summary
+    const reviewCount = product.reviews_count ?? 0;
+    const isReviewsTab = activeTab === 'reviews';
+    if (!isReviewsTab && reviewCount < 3) return;
     aiReviewFetchedRef.current = true;
     const productId = Array.isArray(id) ? id[0] : id;
     getReviewSummary(productId, i18n?.language ?? 'ar')
@@ -1615,6 +1622,29 @@ export default function ProductDetailsPage() {
               <Sparkles className="h-3.5 w-3.5" aria-hidden />
               {t('product.be_first_review', 'New — be the first to review')}
             </a>
+          )}
+
+          {/* AI review gist — compact one-liner surfaced in buy column when summary is ready
+              and the product has >= 3 reviews. Clicking scrolls to the Reviews tab.
+              Spec: only render on 200 (aiReviewSummary non-null), clearly labelled as AI. */}
+          {aiReviewSummary && (product.reviews_count ?? 0) >= 3 && (
+            <button
+              type="button"
+              onClick={() => {
+                setActiveTab('reviews');
+                document.getElementById('product-tabs')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+              }}
+              className="w-full text-start flex items-start gap-2 rounded-xl bg-amber-50 ring-1 ring-amber-200 px-3.5 py-2.5 hover:ring-indigo-300 hover:bg-indigo-50 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30 group"
+              aria-label={t('buyerAi.reviewSummary.header', 'ملخص التقييمات')}
+            >
+              <Sparkles className="h-3.5 w-3.5 text-amber-500 shrink-0 mt-0.5" aria-hidden />
+              <span className="text-xs text-gray-700 leading-relaxed line-clamp-2 group-hover:text-indigo-800 transition-colors">
+                <span className="font-semibold text-amber-700 me-1.5">
+                  {t('buyerAi.reviewSummary.header', 'ملخص بالذكاء الاصطناعي')}
+                </span>
+                {aiReviewSummary.summary}
+              </span>
+            </button>
           )}
 
           {/* Seller card — clickable when the shop has a public page; always
