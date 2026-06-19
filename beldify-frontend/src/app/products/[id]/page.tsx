@@ -136,6 +136,8 @@ interface ProductDetails {
     products_count?: number;
     url_name?: string;
     website?: string;
+    /** Backend-supplied verification flag. Absent until backend adds it. */
+    is_verified?: boolean;
   };
 }
 
@@ -815,26 +817,9 @@ export default function ProductDetailsPage() {
 
   // Function to handle adding to cart
   const handleAddToCart = async () => {
-    // Check authentication first
-    if (!isAuthenticated || !user) {
-      toast.error(t('auth.login_required'));
-      // Store the intended action and product info
-      sessionStorage.setItem('redirectAction', 'addToCart');
-      sessionStorage.setItem('redirectProductId', product?.id?.toString() || '');
-      if (selectedVariant) {
-        sessionStorage.setItem('redirectVariant', JSON.stringify({
-          id: selectedVariant.id,
-          color: selectedColor,
-          size: selectedSize,
-          fabric: selectedFabric
-        }));
-      }
-      sessionStorage.setItem('redirectQuantity', quantity.toString());
-      // Preserve the current URL for redirect after login
-      const currentUrl = window.location.pathname + window.location.search;
-      router.push(`/login?redirect=${encodeURIComponent(currentUrl)}`);
-      return;
-    }
+    // W2-FE-3: Guests CAN add to cart — the cart service carries X-Guest-Token.
+    // The hard-redirect to /login has been removed to mirror handleBuyNow behaviour.
+    // (The old block was: if (!isAuthenticated || !user) → router.push('/login...'))
 
     // Early exit if button should be disabled
     if (product?.variants && product.variants.length > 0) {
@@ -1600,12 +1585,16 @@ export default function ProductDetailsPage() {
                   );
                 })}
               </span>
-              <a
-                href="#reviews"
+              <button
+                type="button"
+                onClick={() => {
+                  setActiveTab('reviews');
+                  document.getElementById('product-tabs')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }}
                 className="text-indigo-700 hover:underline underline-offset-2 text-sm font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30 rounded"
               >
                 ({product.reviews_count ?? 0} {t('product.reviews', 'reviews')})
-              </a>
+              </button>
             </div>
           ) : (
             <a
@@ -1624,7 +1613,7 @@ export default function ProductDetailsPage() {
             const shopName = product.shop?.name ?? t('shop.default_name');
             const subtitle = product.shop?.location
               ? `${product.shop.location} · ${t('pdp.artisanMade', 'artisan made')}`
-              : t('pdp.trustedArtisan', 'Verified artisan seller');
+              : t('pdp.trustedArtisan', 'Seller on Beldify');
             const inner = (
               <>
                 <div className="flex items-center gap-3 min-w-0">
@@ -1649,7 +1638,13 @@ export default function ProductDetailsPage() {
                       <span className="font-semibold text-gray-900 text-sm truncate">
                         {shopName}
                       </span>
-                      <BadgeCheck className="h-4 w-4 text-indigo-700 shrink-0" aria-label={t('shop.verified', 'Verified')} />
+                      {product.shop?.is_verified === true && (
+                        <BadgeCheck
+                          className="h-4 w-4 shrink-0"
+                          style={{ color: 'hsl(var(--primary))' }}
+                          aria-label={t('shop.verified', 'Verified by Beldify')}
+                        />
+                      )}
                     </div>
                     <p className="text-xs text-gray-500 truncate mt-0.5">{subtitle}</p>
                   </div>
@@ -2022,17 +2017,30 @@ export default function ProductDetailsPage() {
 
           {/* Trust strip — 3 micro-pills in a warm row */}
           <div className="grid grid-cols-3 gap-2 pt-1">
+            {/* SHIPS pill: show city if available, otherwise neutral copy — never assert a fake day count */}
             <div className="flex flex-col items-center gap-1.5 bg-amber-50 ring-1 ring-amber-100 rounded-2xl p-3 text-center">
               <Truck className="h-4 w-4 text-amber-600 shrink-0" aria-hidden />
               <span className="text-[11px] text-gray-600 leading-snug font-medium">
-                {t('trust.ships', 'Ships in 3 days')}
+                {product.shop?.location
+                  ? t('trust.ships_from', 'Ships from {{city}}', { city: product.shop.location })
+                  : t('trust.ships_neutral', 'Seller ships to you')}
               </span>
             </div>
+            {/* RETURNS pill: link to shop policy page if url_name exists; never assert "Free returns" */}
             <div className="flex flex-col items-center gap-1.5 bg-amber-50 ring-1 ring-amber-100 rounded-2xl p-3 text-center">
               <RotateCcw className="h-4 w-4 text-amber-600 shrink-0" aria-hidden />
-              <span className="text-[11px] text-gray-600 leading-snug font-medium">
-                {t('trust.returns', 'Free returns')}
-              </span>
+              {product.shop?.url_name ? (
+                <Link
+                  href={`/shops/${product.shop.url_name}`}
+                  className="text-[11px] text-indigo-700 leading-snug font-medium hover:underline underline-offset-1 focus:outline-none focus-visible:ring-1 focus-visible:ring-indigo-700/40 rounded"
+                >
+                  {t('trust.see_shop_policy', 'See shop policy')}
+                </Link>
+              ) : (
+                <span className="text-[11px] text-gray-600 leading-snug font-medium">
+                  {t('trust.returns_neutral', 'Seller return policy')}
+                </span>
+              )}
             </div>
             <div className="flex flex-col items-center gap-1.5 bg-amber-50 ring-1 ring-amber-100 rounded-2xl p-3 text-center">
               <ShieldCheck className="h-4 w-4 text-amber-600 shrink-0" aria-hidden />

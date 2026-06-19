@@ -254,14 +254,16 @@ describe('PDP Stitch chrome', () => {
     expect(shelves.length).toBeGreaterThanOrEqual(1);
   });
 
-  it('renders the trust micro-pills (Ships, Returns, Authentic)', async () => {
+  it('renders the trust micro-pills (Ships, Returns/Policy, Authentic)', async () => {
     const { default: ProductDetailsPage } = await import('../page');
     render(<ProductDetailsPage />);
-    // Translation fallbacks: t('trust.ships', 'Ships in 3 days'),
-    //   t('trust.returns', 'Free returns'), t('trust.authentic', 'Authentic')
-    const ships = await screen.findByText(/Ships in 3 days/i);
+    // Trust pills now use honest, non-committal copy (item 5 fix):
+    // - SHIPS: "Ships from <city>" or "Seller ships to you" (never "Ships in 3 days")
+    // - RETURNS: "See shop policy" link or "Seller return policy" (never "Free returns")
+    // - AUTHENTIC: unchanged
+    const ships = await screen.findByText(/Ships from|Seller ships to you/i);
     expect(ships).toBeInTheDocument();
-    const returns_ = await screen.findByText(/Free returns/i);
+    const returns_ = await screen.findByText(/See shop policy|Seller return policy/i);
     expect(returns_).toBeInTheDocument();
     const auth = await screen.findByText(/^Authentic$/i);
     expect(auth).toBeInTheDocument();
