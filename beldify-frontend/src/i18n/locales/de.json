@@ -4232,7 +4232,9 @@
       "empty": "Kategorien erscheinen hier, sobald der Katalog live ist.",
       "rail_label": "Kategorien durchstöbern",
       "products_count": "{{count}} Produkte",
-      "sub_chips_more": "+{{n}} mehr"
+      "sub_chips_more": "+{{n}} mehr",
+      "shop_all": "Alle {{name}} ansehen",
+      "sub_chips_label": "Unterkategorien"
     },
     "offers": {
       "editorial_title": "Zeitlose Eleganz",

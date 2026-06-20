@@ -4232,7 +4232,9 @@
       "empty": "Categorieën verschijnen hier zodra de catalogus live gaat.",
       "rail_label": "Categorieën bekijken",
       "products_count": "{{count}} producten",
-      "sub_chips_more": "+{{n}} meer"
+      "sub_chips_more": "+{{n}} meer",
+      "shop_all": "Alle {{name}} bekijken",
+      "sub_chips_label": "Subcategorieën"
     },
     "offers": {
       "editorial_title": "Traditionele Elegantie",

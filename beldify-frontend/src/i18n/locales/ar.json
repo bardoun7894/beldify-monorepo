@@ -4470,7 +4470,9 @@
       "empty": "ستظهر الفئات هنا بمجرد إطلاق الكتالوج.",
       "rail_label": "تصفح الفئات",
       "products_count": "{{count}} منتج",
-      "sub_chips_more": "+{{n}} أكثر"
+      "sub_chips_more": "+{{n}} أكثر",
+      "shop_all": "تسوّق كل {{name}}",
+      "sub_chips_label": "الفئات الفرعية"
     },
     "offers": {
       "editorial_title": "الأناقة التقليدية",

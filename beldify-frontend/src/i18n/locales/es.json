@@ -4035,7 +4035,9 @@
       "empty": "Las categorías aparecerán aquí una vez que el catálogo esté activo.",
       "rail_label": "Explorar categorías",
       "products_count": "{{count}} productos",
-      "sub_chips_more": "+{{n}} más"
+      "sub_chips_more": "+{{n}} más",
+      "shop_all": "Ver todo {{name}}",
+      "sub_chips_label": "Subcategorías"
     },
     "offers": {
       "editorial_title": "Elegancia Tradicional",

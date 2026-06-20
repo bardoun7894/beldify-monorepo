@@ -4013,7 +4013,9 @@
       "empty": "Les catégories apparaîtront ici une fois le catalogue en ligne.",
       "rail_label": "Parcourir les catégories",
       "products_count": "{{count}} produits",
-      "sub_chips_more": "+{{n}} autres"
+      "sub_chips_more": "+{{n}} autres",
+      "shop_all": "Voir tout {{name}}",
+      "sub_chips_label": "Sous-catégories"
     },
     "offers": {
       "editorial_title": "Élégance Traditionnelle",

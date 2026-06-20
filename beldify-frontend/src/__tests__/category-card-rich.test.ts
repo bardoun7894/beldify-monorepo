@@ -136,6 +136,54 @@ describe('CategoryCard component — rich tile', () => {
   });
 });
 
+// ─── Enriched two-zone tile (image hero + content footer) ────────────────────
+
+describe('CategoryCard component — enriched detail', () => {
+  let card: string;
+  try {
+    card = read('src/components/home/CategoryCard.tsx');
+  } catch {
+    card = '';
+  }
+
+  it('renders a persistent "Shop all {name}" CTA using the shop_all i18n key', () => {
+    expect(card).toContain('shop_all');
+  });
+
+  it('surfaces each subcategory image as an avatar (uses sub.image)', () => {
+    expect(card).toContain('sub.image');
+  });
+
+  it('renders per-subcategory item counts (uses sub.itemCount)', () => {
+    expect(card).toContain('sub.itemCount');
+  });
+
+  it('falls back to a letter avatar when a subcategory has no real image', () => {
+    // Helper guards against the shared backend placeholder svg
+    expect(card).toContain('placeholder');
+  });
+
+  it('is a flex-column tile so the footer CTA can pin to the bottom (mt-auto)', () => {
+    expect(card).toContain('flex-col');
+    expect(card).toContain('mt-auto');
+  });
+});
+
+// ─── i18n parity — shop_all across all 7 locales ─────────────────────────────
+
+describe('i18n parity — shop_all key present in all 7 locale files', () => {
+  const LOCALES = ['en', 'ar', 'ma', 'fr', 'es', 'de', 'nl'];
+
+  for (const locale of LOCALES) {
+    it(`${locale}.json has home.categories.shop_all with the {{name}} placeholder`, () => {
+      const json = readJson(`src/i18n/locales/${locale}.json`);
+      const val = json?.home?.categories?.shop_all;
+      expect(typeof val).toBe('string');
+      expect(val).toContain('{{name}}');
+    });
+  }
+});
+
 // ─── HomeContent.tsx integration ─────────────────────────────────────────────
 
 describe('HomeContent.tsx — imports and uses CategoryCard', () => {

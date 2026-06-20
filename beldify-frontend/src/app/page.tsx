@@ -37,23 +37,31 @@ type Category = {
   subcategories?: Category[];
 };
 
+// Returns the parent departments WITH their nested subcategories intact. The
+// homepage needs both shapes: the rich "Shop the souk" grid renders department
+// cards that preview their subcategories, while the sticky chips rail wants a
+// flat list of subcategory tap-targets. We keep the hierarchy here and derive
+// the flat list in Home() so a single API round-trip feeds both.
 async function getTopCategories(): Promise<Category[]> {
   try {
     const res = await fetch(`${API_URL}/api/categories/topCategories`, { next: { revalidate: 60 } });
     if (!res.ok) return [];
     const json = await res.json();
-    const items = json.categories || json.data || [];
-    // Flatten subcategories into a single list, cap at 8
-    const flat: Category[] = [];
-    for (const parent of items) {
-      const subs = parent.subCategories || parent.subcategories || [];
-      for (const s of subs) flat.push(s);
-    }
-    return flat.slice(0, 8);
+    return (json.categories || json.data || []) as Category[];
   } catch (e) {
     logger.error('Failed to load top categories:', e);
     return [];
   }
+}
+
+// Flatten a department list into its subcategories (cap at 8) for the chips rail.
+function flattenSubcategories(departments: Category[]): Category[] {
+  const flat: Category[] = [];
+  for (const parent of departments) {
+    const subs = parent.subCategories || parent.subcategories || [];
+    for (const s of subs) flat.push(s);
+  }
+  return flat.slice(0, 8);
 }
 
 // Open Souk — 3 most-recent OPEN community briefs for the home preview rail.
@@ -77,14 +85,26 @@ async function getOpenSoukPosts(): Promise<CommunityPost[]> {
 }
 
 export default async function Home() {
-  const [data, categories, openSoukPosts] = await Promise.all([
+  const [data, departments, openSoukPosts] = await Promise.all([
     getHomeData(),
     getTopCategories(),
     getOpenSoukPosts(),
   ]);
 
+  // Flat subcategory list for the sticky chips rail; full department hierarchy
+  // (parents + nested subs) for the rich "Shop the souk" grid cards.
+  const categories = flattenSubcategories(departments);
+
   // Extract hero config from payload; fall back to brand mode if missing
   const hero: HeroConfig = (data as { hero?: HeroConfig }).hero ?? { mode: 'brand', banners: [] };
 
-    return <HomeContent categories={categories} data={data as any} openSoukPosts={openSoukPosts} hero={hero} />;
+    return (
+      <HomeContent
+        categories={categories}
+        departments={departments}
+        data={data as any}
+        openSoukPosts={openSoukPosts}
+        hero={hero}
+      />
+    );
 }

@@ -4240,7 +4240,9 @@
       "empty": "Categories will appear here once the catalogue is live.",
       "rail_label": "Browse categories",
       "products_count": "{{count}} products",
-      "sub_chips_more": "+{{n}} more"
+      "sub_chips_more": "+{{n}} more",
+      "shop_all": "Shop all {{name}}",
+      "sub_chips_label": "Sub-categories"
     },
     "offers": {
       "editorial_title": "Traditional Elegance",

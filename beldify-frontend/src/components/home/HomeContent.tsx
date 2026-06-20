@@ -69,12 +69,15 @@ interface HomeData {
 
 interface HomeContentProps {
   categories: Category[];
+  /** Parent departments WITH nested subcategories — powers the rich grid cards.
+   *  Falls back to `categories` when not supplied (older callers / tests). */
+  departments?: Category[];
   data: HomeData;
   openSoukPosts?: CommunityPost[];
   hero?: HeroConfig;
 }
 
-export default function HomeContent({ categories, data, openSoukPosts = [], hero = { mode: 'brand', banners: [] } }: HomeContentProps) {
+export default function HomeContent({ categories, departments, data, openSoukPosts = [], hero = { mode: 'brand', banners: [] } }: HomeContentProps) {
   const { t, i18n } = useTranslation();
 
   // Arabic-script locales (Modern Standard + Darija) read category names from
@@ -84,6 +87,12 @@ export default function HomeContent({ categories, data, openSoukPosts = [], hero
   const isArabicScript = lang.startsWith('ar') || lang === 'ma';
   const catName = (c: Category) =>
     isArabicScript ? c.name_ar || c.name_en : c.name_en || c.name_ar;
+
+  // The rich "Shop the souk" grid renders department cards (parents + nested
+  // subcategory previews). The sticky chips rail and OccasionGrid keep using the
+  // flat `categories` list. Fall back to `categories` if departments weren't
+  // supplied so the grid never renders empty for older callers.
+  const gridCategories = departments && departments.length > 0 ? departments : categories;
 
   // Track which category grid tiles have a broken image so we can swap to the
   // neutral letter-tile fallback. Key = category id (number → string).
@@ -290,26 +299,34 @@ export default function HomeContent({ categories, data, openSoukPosts = [], hero
           </Link>
         </div>
 
-        {categories.length === 0 ? (
+        {gridCategories.length === 0 ? (
           <div className="py-16 text-center rounded-2xl bg-gray-50 ring-1 ring-gray-200">
             <Package className="h-10 w-10 text-amber-500 mx-auto mb-3" aria-hidden="true" />
             <p className="text-sm text-gray-600">{t('home.categories.empty', 'Categories will appear here once the catalogue is live.')}</p>
           </div>
         ) : (
           <>
-            {/* Mobile: 2-col grid; Tablet: 3-col; Desktop: editorial 4-col with a
-                wider featured lead tile (idx 0 spans 2 cols) so the rail reads as
-                brand-editorial, not a flat equal product grid.
-                Each tile is a rich CategoryCard: Playfair title + product count
-                + subcategory quick-chips (up to 3) + Atlas design tokens. */}
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 auto-rows-[1fr] gap-3 sm:gap-5">
-              {categories.map((c, idx) => {
-                const featured = idx === 0 && categories.length >= 4;
+            {/* Mobile: 2-col grid; Tablet: 3-col; Desktop column count tracks the
+                department count so the row never leaves a dangling empty column
+                (prod ships 3 departments → 3-up; 4+ → 4-up with an optional wide
+                featured lead tile). Each tile is a rich CategoryCard: Playfair
+                title + product count + subcategory avatar chips + Shop-all CTA. */}
+            <div
+              className={[
+                'grid grid-cols-2 sm:grid-cols-3 auto-rows-[1fr] gap-3 sm:gap-5',
+                gridCategories.length === 3 ? 'lg:grid-cols-3' : 'lg:grid-cols-4',
+              ].join(' ')}
+            >
+              {gridCategories.map((c, idx) => {
+                // Featured wide lead tile only when there are 5+ departments —
+                // with the common 4 (Men/Women/Children/Jewelry) a spanning tile
+                // would strand a lone card on row 2, so render a clean 4-up row.
+                const featured = idx === 0 && gridCategories.length >= 5;
                 const imgFailed = catImageError[c.id] || !c.image;
                 return (
                   <div
                     key={c.id}
-                    className={featured ? 'sm:col-span-2 lg:col-span-2' : ''}
+                    className={featured ? 'h-full sm:col-span-2 lg:col-span-2' : 'h-full'}
                   >
                     <CategoryCard
                       id={c.id}

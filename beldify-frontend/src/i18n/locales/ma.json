@@ -3969,7 +3969,9 @@
       "empty": "الأصناف غادي يبانوا هنا ملي يوجَد الكاتالوغ.",
       "rail_label": "شوف الفئات",
       "products_count": "{{count}} منتج",
-      "sub_chips_more": "+{{n}} زايد"
+      "sub_chips_more": "+{{n}} زايد",
+      "shop_all": "شوف گاع {{name}}",
+      "sub_chips_label": "الفئات الصغيرة"
     },
     "offers": {
       "editorial_title": "الأناقة المغربية",
