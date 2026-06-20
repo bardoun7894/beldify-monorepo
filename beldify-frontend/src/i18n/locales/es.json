@@ -1396,6 +1396,7 @@
       "state_required": "La región es obligatoria",
       "first_name_required": "El nombre es obligatorio y debe tener al menos 2 caracteres",
       "last_name_required": "El apellido es obligatorio y debe tener al menos 2 caracteres",
+      "full_name_required": "Por favor, introduce tu nombre completo (nombre y apellidos)",
       "phone_min_digits": "Por favor ingrese un número de teléfono válido con al menos 10 dígitos",
       "payment_method_invalid": "Por favor seleccione un método de pago válido"
     },

@@ -140,8 +140,10 @@ axiosInstance.interceptors.response.use(
       
       // Handle 401 Unauthorized errors
       if (error.response?.status === 401) {
-        // Redirect to login if needed
-        if (typeof window !== 'undefined') {
+        // Only redirect an expired auth session — guests browsing community
+        // content legitimately get 401 from auth-only endpoints; don't bounce them.
+        const hadToken = typeof window !== 'undefined' && !!localStorage.getItem('token');
+        if (hadToken && typeof window !== 'undefined') {
           // Check if we're not already on the login page to avoid redirect loops
           const currentPath = window.location.pathname;
           if (!currentPath.includes('/login')) {

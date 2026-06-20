@@ -116,3 +116,61 @@ describe('Checkout delivery form — field validation', () => {
     });
   });
 });
+
+/**
+ * Inline re-implementation of the full-name derivation from handlePaymentSubmit.
+ * The delivery form exposes a single "Full name" field bound to `firstName`.
+ * Prefill (authenticated / saved address) may set firstName + lastName separately;
+ * otherwise the full name is split on whitespace so the backend always gets a
+ * non-empty last_name. Regression guard for storefront-audit P0-A: guest checkout
+ * was blocked because lastName was validated but had no input field.
+ */
+function deriveName(firstNameField: string, lastNameField = ''): {
+  firstName: string;
+  lastName: string;
+  error: string;
+} {
+  const fullNameRaw = (firstNameField || '').trim();
+  let firstName = fullNameRaw;
+  let lastName = (lastNameField || '').trim();
+  if (!lastName) {
+    const parts = fullNameRaw.split(/\s+/).filter(Boolean);
+    firstName = parts[0] || '';
+    lastName = parts.length > 1 ? parts.slice(1).join(' ') : '';
+  }
+  const error =
+    !firstName || !lastName || (firstName + lastName).length < 3
+      ? 'checkout.validation.full_name_required'
+      : '';
+  return { firstName, lastName, error };
+}
+
+describe('Checkout — full name → first/last derivation (P0-A regression)', () => {
+  it('splits a single "Full name" entry into first + last and passes (the guest path that was blocked)', () => {
+    const r = deriveName('Ahmed Benali');
+    expect(r).toEqual({ firstName: 'Ahmed', lastName: 'Benali', error: '' });
+  });
+
+  it('rejects a one-word name with full_name_required (clear, actionable error for the field on screen)', () => {
+    expect(deriveName('Ahmed').error).toBe('checkout.validation.full_name_required');
+  });
+
+  it('rejects an empty name', () => {
+    expect(deriveName('').error).toBe('checkout.validation.full_name_required');
+  });
+
+  it('honours pre-filled firstName + lastName (authenticated / saved-address path) without re-splitting', () => {
+    const r = deriveName('Ahmed', 'Benali');
+    expect(r).toEqual({ firstName: 'Ahmed', lastName: 'Benali', error: '' });
+  });
+
+  it('keeps multi-token last names intact', () => {
+    const r = deriveName('Ahmed Ben Ali');
+    expect(r).toEqual({ firstName: 'Ahmed', lastName: 'Ben Ali', error: '' });
+  });
+
+  it('trims and collapses surrounding / interior whitespace', () => {
+    const r = deriveName('  Ahmed   Benali  ');
+    expect(r).toEqual({ firstName: 'Ahmed', lastName: 'Benali', error: '' });
+  });
+});

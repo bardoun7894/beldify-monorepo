@@ -1418,6 +1418,7 @@
       "state_required": "Region / State is required",
       "first_name_required": "First name is required and must be at least 2 characters",
       "last_name_required": "Last name is required and must be at least 2 characters",
+      "full_name_required": "Please enter your full name (first and last name)",
       "phone_min_digits": "Please enter a valid phone number with at least 10 digits",
       "payment_method_invalid": "Please select a valid payment method"
     },

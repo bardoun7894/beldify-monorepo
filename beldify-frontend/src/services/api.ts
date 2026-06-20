@@ -47,12 +47,16 @@ api.interceptors.response.use(
   (response) => response,
   async (error) => {
     if (error.response?.status === 401) {
-      // Clear token if it's invalid or expired
+      // Only force a re-login when an actual auth session existed and is now
+      // invalid. Guests (no token) legitimately get 401 from auth-only endpoints
+      // on public pages (e.g. cart/related-products) — never hijack them to /login.
+      const hadToken = typeof window !== 'undefined' && !!localStorage.getItem('token');
       localStorage.removeItem('token');
-      // Redirect to login if needed
-      if (typeof window !== 'undefined') {
+      if (hadToken && typeof window !== 'undefined') {
         const currentPath = window.location.pathname;
-        window.location.href = `/login?redirect=${encodeURIComponent(currentPath)}`;
+        if (currentPath !== '/login') {
+          window.location.href = `/login?redirect=${encodeURIComponent(currentPath)}`;
+        }
       }
     }
     return Promise.reject(error);

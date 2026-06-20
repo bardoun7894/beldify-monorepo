@@ -617,13 +617,21 @@ export default function CheckoutPage() {
         return;
       }
 
-      if (!shippingInfo.firstName || shippingInfo.firstName.trim().length < 2) {
-        toast.error(t('checkout.validation.first_name_required'));
-        return;
+      // The delivery form exposes a single "Full name" field (bound to firstName).
+      // Authenticated / saved-address prefill may populate firstName + lastName
+      // separately — honour that; otherwise split the full name on whitespace so the
+      // backend always receives a non-empty last_name. Fixes the guest-checkout block
+      // where lastName was validated but had no input field (storefront audit P0-A).
+      const fullNameRaw = (shippingInfo.firstName || '').trim();
+      let derivedFirstName = fullNameRaw;
+      let derivedLastName = (shippingInfo.lastName || '').trim();
+      if (!derivedLastName) {
+        const nameParts = fullNameRaw.split(/\s+/).filter(Boolean);
+        derivedFirstName = nameParts[0] || '';
+        derivedLastName = nameParts.length > 1 ? nameParts.slice(1).join(' ') : '';
       }
-
-      if (!shippingInfo.lastName || shippingInfo.lastName.trim().length < 2) {
-        toast.error(t('checkout.validation.last_name_required'));
+      if (!derivedFirstName || !derivedLastName || (derivedFirstName + derivedLastName).length < 3) {
+        toast.error(t('checkout.validation.full_name_required'));
         return;
       }
 
@@ -693,8 +701,8 @@ export default function CheckoutPage() {
 
       // ── Common shipping info shape ──────────────────────────────────────────
       const shippingPayload = {
-        first_name: (shippingInfo.firstName || '').trim(),
-        last_name: (shippingInfo.lastName || '').trim(),
+        first_name: derivedFirstName,
+        last_name: derivedLastName,
         email: (shippingInfo.email || '').trim().toLowerCase(),
         phone: (shippingInfo.phone?.replace(/\D/g, '') || '').trim(),
         address: (shippingInfo.address || '').trim(),

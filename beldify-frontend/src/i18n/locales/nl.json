@@ -1411,6 +1411,7 @@
       "state_required": "Regio / Staat is verplicht",
       "first_name_required": "Voornaam is verplicht en moet minimaal 2 tekens lang zijn",
       "last_name_required": "Achternaam is verplicht en moet minimaal 2 tekens lang zijn",
+      "full_name_required": "Voer uw volledige naam in (voor- en achternaam)",
       "phone_min_digits": "Voer alsjeblieft een geldig telefoonnummer in met minimaal 10 cijfers",
       "payment_method_invalid": "Selecteer alsjeblieft een geldige betaalmethode"
     },

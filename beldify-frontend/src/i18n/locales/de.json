@@ -1411,6 +1411,7 @@
       "state_required": "Bundesland / Provinz ist erforderlich",
       "first_name_required": "Vorname ist erforderlich und muss mindestens 2 Zeichen lang sein",
       "last_name_required": "Nachname ist erforderlich und muss mindestens 2 Zeichen lang sein",
+      "full_name_required": "Bitte geben Sie Ihren vollständigen Namen ein (Vor- und Nachname)",
       "phone_min_digits": "Gib bitte eine gültige Telefonnummer mit mindestens 10 Ziffern ein",
       "payment_method_invalid": "Bitte wähle eine gültige Zahlungsart"
     },
