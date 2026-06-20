@@ -1,7 +1,6 @@
 'use client';
 
 import { Toaster } from 'react-hot-toast';
-import { isDebuggingEnabled } from '@/utils/debugMode';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import LanguageSuggestionBanner from '@/components/common/LanguageSuggestionBanner';
@@ -61,19 +60,20 @@ export default function RootLayoutClient({ children }: RootLayoutClientProps) {
       {/* Navbar is position:sticky (occupies flow space) — no top padding needed */}
       <main className="flex-grow">{children}</main>
       <Footer />
-      {isDebuggingEnabled() && (
-        <Toaster
-          position={isRTL ? 'top-left' : 'top-right'}
-          containerStyle={{ direction: isRTL ? 'rtl' : 'ltr' }}
-          toastOptions={{
-            duration: 3000,
-            style: {
-              background: '#333',
-              color: '#fff',
-            },
-          }}
-        />
-      )}
+      {/* Toaster always rendered — buyer feedback must be visible in production.
+          Previously gated behind a debug flag, toasts were invisible for real
+          users. RTL-aware position is preserved. */}
+      <Toaster
+        position={isRTL ? 'top-left' : 'top-right'}
+        containerStyle={{ direction: isRTL ? 'rtl' : 'ltr' }}
+        toastOptions={{
+          duration: 3000,
+          style: {
+            background: '#333',
+            color: '#fff',
+          },
+        }}
+      />
     </div>
   );
 }

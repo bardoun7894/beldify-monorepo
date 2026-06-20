@@ -102,8 +102,8 @@ export function generateViewport() {
     themeColor: '#6366f1',
     width: 'device-width',
     initialScale: 1,
-    maximumScale: 1,
-    userScalable: false,
+    // maximumScale and userScalable intentionally omitted — WCAG 1.4.4 requires
+    // users to be able to resize text up to 200% without loss of content.
     viewportFit: 'cover',
   }
 }

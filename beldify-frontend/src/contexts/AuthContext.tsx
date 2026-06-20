@@ -530,6 +530,44 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         setUser(user);
         setIsAuthenticated(true);
         await checkAuth(false); // Re-check auth to ensure profile is fresh after registration
+
+        // Merge guest cart (if any) into the new account — mirrors what login() does.
+        // A guest who adds items then registers would otherwise lose their cart.
+        const guestToken = localStorage.getItem('guest_token');
+        if (guestToken) {
+          try {
+            await cartService.mergeGuestCart();
+            localStorage.removeItem('guest_token');
+            window.dispatchEvent(new Event('cart:refresh'));
+          } catch (mergeError) {
+            logger.error('Failed to merge guest cart on register:', mergeError);
+            // Non-fatal: registration succeeded, cart merge is best-effort.
+          }
+        }
+
+        // Merge guest wishlist — same logic as login()
+        const guestWishlist = getGuestWishlist();
+        if (guestWishlist.length > 0) {
+          try {
+            await Promise.allSettled(
+              guestWishlist.map((item) =>
+                axios.post('/api/wishlist', {
+                  product_id: item.product_id,
+                  notify_price_drop: item.notify_price_drop ?? false,
+                  notify_back_in_stock: item.notify_back_in_stock ?? false,
+                  target_price: item.target_price ?? null,
+                  notes: '',
+                })
+              )
+            );
+          } catch (wishlistMergeError) {
+            logger.error('Failed to merge guest wishlist on register:', wishlistMergeError);
+          } finally {
+            clearGuestWishlist();
+            window.dispatchEvent(new Event('wishlist:refresh'));
+          }
+        }
+
         toast.debug('Registration successful');
         // Success toast is shown by the caller (register page) to avoid a
         // double toast; auto-login state (token + user + isAuthenticated) is
@@ -828,10 +866,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   );
 }
 
-// List of routes that require authentication
+// List of routes that require authentication.
+// NOTE: '/checkout' is intentionally NOT listed here — guests must reach checkout
+// to complete COD / bank-transfer purchases via the guest cart (X-Guest-Token).
+// Removing it from this list was a P0 fix (WCAG / guest-checkout parity).
 const protectedRoutes = [
   '/profile',
-  '/checkout',
   '/orders',
   '/account',
   '/address',

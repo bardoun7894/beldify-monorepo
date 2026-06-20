@@ -817,6 +817,17 @@ export default function ProductDetailsPage() {
 
   // Function to handle adding to cart
   const handleAddToCart = async () => {
+    // CARTDBG: trace which branch handleAddToCart takes and the resolved IDs.
+    if (typeof window !== 'undefined') {
+      const hasVariants = (product?.variants?.length ?? 0) > 0;
+      const resolvedStockId = product?.stock?.id ?? product?.stock_id ?? product?.id;
+      console.warn(
+        `[CARTDBG] handleAddToCart entry | hasVariants=${hasVariants}` +
+        ` | selectedVariant=${selectedVariant?.id ?? 'none'}` +
+        ` | resolvedStockId=${resolvedStockId} | quantity=${quantity}`
+      );
+    }
+
     // Guests can add to cart and check out via the guest cart (X-Guest-Token) —
     // no login required. Do not gate add-to-cart behind authentication; the
     // downstream addItem/cart logic works identically for guests and members.
@@ -950,6 +961,17 @@ export default function ProductDetailsPage() {
 
   // Function to handle direct purchase
   const handlePurchaseNow = async () => {
+    // CARTDBG: trace handlePurchaseNow entry
+    if (typeof window !== 'undefined') {
+      const hasVariants = (product?.variants?.length ?? 0) > 0;
+      const resolvedStockId = product?.stock?.id ?? product?.stock_id ?? product?.id;
+      console.warn(
+        `[CARTDBG] handlePurchaseNow entry | hasVariants=${hasVariants}` +
+        ` | selectedVariant=${selectedVariant?.id ?? 'none'}` +
+        ` | resolvedStockId=${resolvedStockId} | quantity=${quantity}`
+      );
+    }
+
     // Guests can buy now via the guest cart + guest checkout (COD) — no login
     // required. Do not gate direct purchase behind authentication; the flow adds
     // to the guest cart and proceeds to /checkout, which supports guests.
@@ -1317,13 +1339,11 @@ export default function ProductDetailsPage() {
   })();
 
   // Wishlist toggle helper
+  // Guests are handled by WishlistContext's guest path (localStorage-backed,
+  // merged to server on login/register). Do NOT redirect guests to /login here —
+  // they must be able to wishlist without an account.
   const wishlisted = isInWishlist(Number(product.id));
   const handleWishlistToggle = async () => {
-    if (!isAuthenticated) {
-      toast.error(t('auth.login_required'));
-      router.push(`/login?redirect=${encodeURIComponent(window.location.pathname)}`);
-      return;
-    }
     if (wishlisted) {
       await removeFromWishlist(Number(product.id));
     } else {

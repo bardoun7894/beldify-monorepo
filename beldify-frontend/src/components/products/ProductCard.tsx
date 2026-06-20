@@ -8,6 +8,7 @@ import { useTranslation } from 'react-i18next';
 import { formatPrice } from '@/utils/formatters';
 import { getImageUrl, DEFAULT_PLACEHOLDER_IMAGE } from '@/utils/imageUtils';
 import { useDirection } from '@/hooks/useDirection';
+import { useCart } from '@/contexts/CartContext';
 import toast from '@/utils/toast';
 import {
   ShoppingCart,
@@ -48,7 +49,8 @@ const ProductCard = memo(function ProductCard({
 }: ProductCardProps) {
   const { t } = useTranslation();
   const { isRTL } = useDirection();
-  
+  const { addToCart } = useCart();
+
   const [isHovering, setIsHovering] = useState(false);
   const [isAddingToCart, setIsAddingToCart] = useState(false);
   const [isWishlisted, setIsWishlisted] = useState(isInWishlist);
@@ -95,27 +97,34 @@ const ProductCard = memo(function ProductCard({
   const altText = (product.name && product.name.trim() !== '') ? product.name : 'Product image'; // Ensure non-empty alt text
   
   // Handle add to cart with animation
-  const handleAddToCart = (e: React.MouseEvent) => {
+  // When no custom onAddToCart prop is provided, use the REAL CartContext.addToCart —
+  // a fake setTimeout was silently no-oping for guests (no API call was fired).
+  const handleAddToCart = async (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    
+
     if (stock_quantity <= 0) return;
-    
+
     setIsAddingToCart(true);
-    
-    // If there's a custom handler, use it
+
+    // If there's a custom handler, use it (parent manages the cart call)
     if (onAddToCart) {
       onAddToCart(product as Product);
       setTimeout(() => setIsAddingToCart(false), 1000);
     } else {
-      // Default behavior
-      setTimeout(() => {
+      // Default path: call the real CartContext.addToCart so the item reaches
+      // the backend cart (including guest carts keyed by X-Guest-Token).
+      try {
+        await addToCart(product as Product);
+        // Brief success state before resetting
+        setTimeout(() => setIsAddingToCart(false), 800);
+      } catch {
         setIsAddingToCart(false);
-        toast.success(t('product.addedToCart'), {
+        toast.error(t('cart.error_adding', 'Failed to add to cart'), {
           position: isRTL ? 'bottom-left' : 'bottom-right',
-          duration: 2000
+          duration: 2000,
         });
-      }, 600);
+      }
     }
   };
   

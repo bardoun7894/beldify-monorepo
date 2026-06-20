@@ -94,6 +94,21 @@ export default function Navbar() {
   const wishlistCount = wishlistItems?.length ?? 0;
   const { unreadCount } = useMessaging();
 
+  // Cart badge bump animation key — increments on cart:refresh event so
+  // AnimatePresence remounts the badge and plays the scale pulse.
+  const [cartBumpKey, setCartBumpKey] = useState(0);
+  // Respect prefers-reduced-motion for the animation
+  const prefersReducedMotion =
+    typeof window !== 'undefined' &&
+    window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const handler = () => setCartBumpKey((k) => k + 1);
+    window.addEventListener('cart:refresh', handler);
+    return () => window.removeEventListener('cart:refresh', handler);
+  }, []);
+
   // Prefetch category pages on load
   useEffect(() => {
     const controller = new AbortController();
@@ -427,7 +442,12 @@ export default function Navbar() {
             >
               <ShoppingBag className="h-5 w-5" aria-hidden="true" />
               {cartItemCount > 0 && (
-                <span className="absolute -top-1 -end-1 bg-indigo-700 text-white text-[10px] font-bold rounded-full h-4 min-w-[1rem] px-1 flex items-center justify-center leading-none">
+                <span
+                  key={`cart-badge-${cartBumpKey}`}
+                  className="absolute -top-1 -end-1 bg-indigo-700 text-white text-[10px] font-bold rounded-full h-4 min-w-[1rem] px-1 flex items-center justify-center leading-none cart-badge-bump"
+                  aria-live="polite"
+                  aria-atomic="true"
+                >
                   {cartItemCount}
                 </span>
               )}
@@ -559,7 +579,12 @@ export default function Navbar() {
             >
               <ShoppingBag className="h-5 w-5" aria-hidden="true" />
               {cartItemCount > 0 && (
-                <span className="absolute -top-1 -end-1 bg-indigo-700 text-white text-[10px] font-bold rounded-full h-4 min-w-[1rem] px-1 flex items-center justify-center leading-none">
+                <span
+                  key={`cart-badge-${cartBumpKey}`}
+                  className="absolute -top-1 -end-1 bg-indigo-700 text-white text-[10px] font-bold rounded-full h-4 min-w-[1rem] px-1 flex items-center justify-center leading-none cart-badge-bump"
+                  aria-live="polite"
+                  aria-atomic="true"
+                >
                   {cartItemCount}
                 </span>
               )}
