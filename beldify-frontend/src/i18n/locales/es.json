@@ -4532,7 +4532,10 @@
     "previewItem": "Caftán bordado a medida",
     "previewBudgetLabel": "Presupuesto",
     "previewDaysShort": "d",
-    "previewReplied": "{{n}} talleres respondieron"
+    "previewReplied": "{{n}} talleres respondieron",
+    "trustFree": "Gratis",
+    "trustNoCommitment": "Sin compromiso",
+    "trustCod": "Pago contra entrega"
   },
   "seller": {
     "register": {

@@ -3262,7 +3262,10 @@
     "previewItem": "Custom embroidered caftan",
     "previewBudgetLabel": "Budget",
     "previewDaysShort": "d",
-    "previewReplied": "{{n}} ateliers replied"
+    "previewReplied": "{{n}} ateliers replied",
+    "trustFree": "Free to post",
+    "trustNoCommitment": "No commitment",
+    "trustCod": "Cash on delivery"
   },
   "catalog": {
     "categories": {

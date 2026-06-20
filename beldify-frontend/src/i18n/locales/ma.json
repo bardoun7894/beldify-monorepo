@@ -4454,7 +4454,10 @@
     "previewItem": "قفطان مطرز على القياس",
     "previewBudgetLabel": "الميزانية",
     "previewDaysShort": "ي",
-    "previewReplied": "{{n}} ورشات جاوبو"
+    "previewReplied": "{{n}} ورشات جاوبو",
+    "trustFree": "بلاش",
+    "trustNoCommitment": "بلا التزام",
+    "trustCod": "الخلاص عند التوصيل"
   },
   "seller": {
     "register": {

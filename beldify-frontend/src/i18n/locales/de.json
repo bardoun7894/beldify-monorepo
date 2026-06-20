@@ -3254,7 +3254,10 @@
     "previewItem": "Maßgefertigter bestickter Kaftan",
     "previewBudgetLabel": "Budget",
     "previewDaysShort": "T",
-    "previewReplied": "{{n}} Werkstätten haben geantwortet"
+    "previewReplied": "{{n}} Werkstätten haben geantwortet",
+    "trustFree": "Kostenlos",
+    "trustNoCommitment": "Unverbindlich",
+    "trustCod": "Zahlung bei Lieferung"
   },
   "catalog": {
     "categories": {

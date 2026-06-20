@@ -3254,7 +3254,10 @@
     "previewItem": "Geborduurde kaftan op maat",
     "previewBudgetLabel": "Budget",
     "previewDaysShort": "d",
-    "previewReplied": "{{n}} ateliers reageerden"
+    "previewReplied": "{{n}} ateliers reageerden",
+    "trustFree": "Gratis plaatsen",
+    "trustNoCommitment": "Vrijblijvend",
+    "trustCod": "Betalen bij levering"
   },
   "catalog": {
     "categories": {

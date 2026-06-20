@@ -3288,7 +3288,10 @@
     "previewItem": "Caftan brodé sur-mesure",
     "previewBudgetLabel": "Budget",
     "previewDaysShort": "j",
-    "previewReplied": "{{n}} ateliers ont répondu"
+    "previewReplied": "{{n}} ateliers ont répondu",
+    "trustFree": "Gratuit",
+    "trustNoCommitment": "Sans engagement",
+    "trustCod": "Paiement à la livraison"
   },
   "brand": {
     "name": "Beldify",

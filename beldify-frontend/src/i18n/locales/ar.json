@@ -3472,7 +3472,10 @@
     "previewItem": "قفطان مطرز حسب المقاس",
     "previewBudgetLabel": "الميزانية",
     "previewDaysShort": "ي",
-    "previewReplied": "{{n}} ورشات ردّت"
+    "previewReplied": "{{n}} ورشات ردّت",
+    "trustFree": "مجاني",
+    "trustNoCommitment": "بدون التزام",
+    "trustCod": "الدفع عند التوصيل"
   },
   "brand": {
     "name": "بيلديفاي",

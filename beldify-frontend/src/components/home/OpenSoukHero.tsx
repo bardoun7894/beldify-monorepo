@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { useTranslation } from 'react-i18next';
 import { motion, useReducedMotion } from 'framer-motion';
-import { Sparkles, ArrowRight, BadgeCheck, Clock } from 'lucide-react';
+import { Sparkles, ArrowRight, BadgeCheck, Clock, Check } from 'lucide-react';
 
 /**
  * OpenSoukHero — homepage showcase for Beldify's reverse marketplace (the core
@@ -113,6 +113,20 @@ export default function OpenSoukHero() {
                 {t('openSouk.browseCta', 'Browse open requests')}
               </Link>
             </motion.div>
+
+            {/* Reassurance — factual platform properties that lower buyer hesitation */}
+            <motion.ul variants={item} className="mt-6 flex flex-wrap items-center gap-x-4 gap-y-2 text-[12px] font-medium text-indigo-100/80">
+              {[
+                t('openSouk.trustFree', 'Free to post'),
+                t('openSouk.trustNoCommitment', 'No commitment'),
+                t('openSouk.trustCod', 'Cash on delivery'),
+              ].map((label) => (
+                <li key={label} className="inline-flex items-center gap-1.5">
+                  <Check className="h-3.5 w-3.5 shrink-0 text-amber-300" aria-hidden />
+                  {label}
+                </li>
+              ))}
+            </motion.ul>
           </motion.div>
 
           {/* Live offers preview — the reverse auction, made visible */}
