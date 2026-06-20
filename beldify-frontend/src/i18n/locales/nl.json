@@ -3257,7 +3257,8 @@
     "previewReplied": "{{n}} ateliers reageerden",
     "trustFree": "Gratis plaatsen",
     "trustNoCommitment": "Vrijblijvend",
-    "trustCod": "Betalen bij levering"
+    "trustCod": "Betalen bij levering",
+    "previewBestOffer": "Beste aanbod"
   },
   "catalog": {
     "categories": {

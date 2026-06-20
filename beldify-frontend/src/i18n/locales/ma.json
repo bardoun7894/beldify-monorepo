@@ -4457,7 +4457,8 @@
     "previewReplied": "{{n}} ورشات جاوبو",
     "trustFree": "بلاش",
     "trustNoCommitment": "بلا التزام",
-    "trustCod": "الخلاص عند التوصيل"
+    "trustCod": "الخلاص عند التوصيل",
+    "previewBestOffer": "أحسن عرض"
   },
   "seller": {
     "register": {

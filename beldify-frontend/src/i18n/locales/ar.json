@@ -3475,7 +3475,8 @@
     "previewReplied": "{{n}} ورشات ردّت",
     "trustFree": "مجاني",
     "trustNoCommitment": "بدون التزام",
-    "trustCod": "الدفع عند التوصيل"
+    "trustCod": "الدفع عند التوصيل",
+    "previewBestOffer": "أفضل عرض"
   },
   "brand": {
     "name": "بيلديفاي",

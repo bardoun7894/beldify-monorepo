@@ -3265,7 +3265,8 @@
     "previewReplied": "{{n}} ateliers replied",
     "trustFree": "Free to post",
     "trustNoCommitment": "No commitment",
-    "trustCod": "Cash on delivery"
+    "trustCod": "Cash on delivery",
+    "previewBestOffer": "Best offer"
   },
   "catalog": {
     "categories": {

@@ -3257,7 +3257,8 @@
     "previewReplied": "{{n}} Werkstätten haben geantwortet",
     "trustFree": "Kostenlos",
     "trustNoCommitment": "Unverbindlich",
-    "trustCod": "Zahlung bei Lieferung"
+    "trustCod": "Zahlung bei Lieferung",
+    "previewBestOffer": "Bestes Angebot"
   },
   "catalog": {
     "categories": {

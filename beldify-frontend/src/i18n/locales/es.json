@@ -4535,7 +4535,8 @@
     "previewReplied": "{{n}} talleres respondieron",
     "trustFree": "Gratis",
     "trustNoCommitment": "Sin compromiso",
-    "trustCod": "Pago contra entrega"
+    "trustCod": "Pago contra entrega",
+    "previewBestOffer": "Mejor oferta"
   },
   "seller": {
     "register": {
