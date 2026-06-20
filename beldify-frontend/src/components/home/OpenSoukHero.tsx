@@ -174,13 +174,8 @@ export default function OpenSoukHero() {
                     </span>
                     <div className="min-w-0 flex-1">
                       <p className="flex items-center gap-1 text-[13px] font-semibold text-white">
-                        <span className="truncate">{o.name}</span>
+                        <span className="min-w-0 truncate">{o.name}</span>
                         <BadgeCheck className="h-3.5 w-3.5 shrink-0 text-amber-300" />
-                        {o.best && (
-                          <span className="shrink-0 whitespace-nowrap rounded-full bg-amber-300/20 px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wide text-amber-200 ring-1 ring-amber-300/30">
-                            {t('openSouk.previewBestOffer', 'Best offer')}
-                          </span>
-                        )}
                       </p>
                       <p className="mt-0.5 flex items-center gap-1.5 text-[11px] text-indigo-200">
                         <span className="flex items-center gap-1">
@@ -194,10 +189,17 @@ export default function OpenSoukHero() {
                         </span>
                       </p>
                     </div>
-                    <div className="flex shrink-0 items-center gap-1.5">
-                      <span className="text-sm font-bold text-white">{o.price}</span>
-                      <span className="text-[10px] text-indigo-300">MAD</span>
-                      <ArrowRight className="h-3.5 w-3.5 text-indigo-300 rtl:rotate-180" />
+                    <div className="flex shrink-0 flex-col items-end gap-1">
+                      {o.best && (
+                        <span className="whitespace-nowrap rounded-full bg-amber-300/20 px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wide text-amber-200 ring-1 ring-amber-300/30">
+                          {t('openSouk.previewBestOffer', 'Best offer')}
+                        </span>
+                      )}
+                      <div className="flex items-center gap-1.5">
+                        <span className="text-sm font-bold text-white">{o.price}</span>
+                        <span className="text-[10px] text-indigo-300">MAD</span>
+                        <ArrowRight className="h-3.5 w-3.5 text-indigo-300 rtl:rotate-180" />
+                      </div>
                     </div>
                   </motion.div>
                 ))}
