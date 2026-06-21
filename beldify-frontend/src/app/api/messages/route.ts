@@ -52,12 +52,8 @@ export async function GET(request: NextRequest) {
   } catch (error: any) {
     logger.error('Error fetching conversations:', error);
     
-    // Return appropriate error response
     return NextResponse.json(
-      {
-        error: 'Failed to fetch conversations',
-        details: error.response?.data || error.message,
-      },
+      { error: 'Failed to fetch conversations' },
       { status: error.response?.status || 500 }
     );
   }
@@ -176,14 +172,7 @@ export async function POST(request: NextRequest) {
     const errorMessage = error.response?.data?.message || error.response?.data?.error || error.message || 'Failed to send message';
 
     return NextResponse.json(
-      {
-        error: errorMessage,
-        details: error.response?.data,
-        debug: {
-          backendStatus: error.response?.status,
-          backendError: error.response?.data
-        }
-      },
+      { error: errorMessage },
       { status: error.response?.status || 500 }
     );
   }
@@ -223,7 +212,7 @@ export async function PUT(request: NextRequest) {
     
     return NextResponse.json(response.data);
   } catch (error: any) {
-    console.error('Error marking messages as read:', error.response?.data || error.message);
+    logger.error('Error marking messages as read:', error.response?.data || error.message);
     return NextResponse.json(
       { error: 'Failed to mark messages as read' },
       { status: error.response?.status || 500 }

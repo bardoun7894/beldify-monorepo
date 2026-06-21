@@ -43,13 +43,9 @@ export async function GET(
 
     return NextResponse.json(response.data);
   } catch (error: any) {
-    console.error('Error fetching messages:', error);
-
+    logger.error('Error fetching messages:', error);
     return NextResponse.json(
-      {
-        error: 'Failed to fetch messages',
-        details: error.response?.data || error.message,
-      },
+      { error: 'Failed to fetch messages' },
       { status: error.response?.status || 500 }
     );
   }
@@ -93,10 +89,7 @@ export async function POST(
     logger.error('Error sending message:', error);
 
     return NextResponse.json(
-      {
-        error: 'Failed to send message',
-        details: error.response?.data || error.message,
-      },
+      { error: 'Failed to send message' },
       { status: error.response?.status || 500 }
     );
   }

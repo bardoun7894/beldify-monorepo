@@ -47,9 +47,12 @@ export async function GET(request: NextRequest) {
         imageUrl = path;
       }
     }
-    // If it's a local path, use it directly
-    else if (path.startsWith('/')) {
+    // If it's a local path, use it directly (block protocol-relative //host redirects)
+    else if (path.startsWith('/') && !path.startsWith('//')) {
       return NextResponse.redirect(new URL(path, request.url));
+    }
+    else if (path.startsWith('//')) {
+      return NextResponse.json({ error: 'Invalid image path' }, { status: 400 });
     }
     // Otherwise, assume it's for Contabo storage
     else {

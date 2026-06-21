@@ -70,11 +70,10 @@ export async function GET() {
     // if (authorizationHeader) { ... }
 
     // This calls the MAIN backend API endpoint to get all categories
-    const response = await api.get<BackendApiResponse>('/api/categories/getAllCategories' /* Removed headers object */);
-     logger.log(response+"1 response");   
+    const response = await api.get<BackendApiResponse>('/api/categories/getAllCategories');
     if (!response.data || !Array.isArray(response.data.categories)) {
-       logger.error('Invalid or missing categories array from main backend:', response.data);
-       return NextResponse.json({ error: 'Invalid category data received from backend' }, { status: 500 });
+      logger.error('Invalid or missing categories array from main backend:', response.data);
+      return NextResponse.json({ error: 'Invalid category data received from backend' }, { status: 500 });
     }
 
     // Add the S3 base URL to the image paths
@@ -87,14 +86,13 @@ export async function GET() {
     logger.error('Error fetching or processing categories:', error);
     if (axios.isAxiosError(error)) {
         logger.error('Axios error details:', error.response?.data || error.message);
-        // Forward the status code from the backend error if available
         return NextResponse.json(
-            { error: 'Failed to fetch categories from backend', details: error.response?.data || error.message },
+            { error: 'Failed to fetch categories' },
             { status: error.response?.status || 500 }
         );
     }
     return NextResponse.json(
-        { error: 'Internal server error while fetching categories', details: error instanceof Error ? error.message : 'Unknown error' },
+        { error: 'Internal server error while fetching categories' },
         { status: 500 }
     );
   }

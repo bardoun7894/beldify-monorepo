@@ -68,10 +68,7 @@ export async function POST(request: NextRequest) {
     
     // Handle non-axios errors
     return NextResponse.json(
-      { 
-        message: 'Internal server error during registration',
-        error: error.message || 'Unknown error'
-      },
+      { message: 'Internal server error during registration' },
       { status: 500 }
     );
   }
