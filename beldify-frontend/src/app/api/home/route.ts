@@ -389,7 +389,6 @@ export async function GET() {
     return NextResponse.json(
       {
         error: 'Failed to fetch home data',
-        details: error instanceof Error ? error.message : 'Unknown error',
         mockData: true,
         bestSellers: [],
         ...mockHomeData

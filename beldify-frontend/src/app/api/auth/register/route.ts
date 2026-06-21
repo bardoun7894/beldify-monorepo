@@ -58,10 +58,7 @@ export async function POST(request: NextRequest) {
     if (axios.isAxiosError(error)) {
       // Forward the error response from the backend
       const status = error.response?.status || 500;
-      const errorData = error.response?.data || { 
-        message: 'Registration failed',
-        error: error.message 
-      };
+      const errorData = error.response?.data || { message: 'Registration failed' };
       
       return NextResponse.json(errorData, { status });
     }
