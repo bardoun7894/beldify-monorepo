@@ -25,22 +25,16 @@ export async function GET(
       {
         headers: {
           'Accept': 'application/json',
-          'Authorization': authorization || '',
+          ...(authorization && { Authorization: authorization }),
         },
       }
     );
-    
-    // Return the response data
+
     return NextResponse.json(response.data);
   } catch (error: any) {
     logger.error('Error fetching shop details:', error);
-    
-    // Return appropriate error response
     return NextResponse.json(
-      {
-        error: 'Failed to fetch shop details',
-        details: error.response?.data || error.message,
-      },
+      { error: 'Failed to fetch shop details' },
       { status: error.response?.status || 500 }
     );
   }

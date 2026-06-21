@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import axios from 'axios';
+import logger from '@/utils/consoleLogger';
 
 /**
  * GET handler for fetching banners from the Laravel backend
@@ -26,14 +27,9 @@ export async function GET(request: NextRequest) {
     // Return the response data
     return NextResponse.json(response.data);
   } catch (error: any) {
-    console.error('Error fetching banners:', error);
-    
-    // Return appropriate error response
+    logger.error('Error fetching banners:', error);
     return NextResponse.json(
-      { 
-        status: 'error', 
-        message: error.message || 'Failed to fetch banner data' 
-      },
+      { status: 'error', message: 'Failed to fetch banner data' },
       { status: error.response?.status || 500 }
     );
   }

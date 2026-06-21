@@ -84,15 +84,13 @@ export async function GET() {
   } catch (error) {
     logger.error('Error fetching top categories:', error);
     if (axios.isAxiosError(error)) {
-        logger.error('Axios error details:', error.response?.data || error.message);
-        // Forward the status code from the backend error if available
         return NextResponse.json(
-            { error: 'Failed to fetch top categories from backend', details: error.response?.data || error.message },
+            { error: 'Failed to fetch top categories from backend' },
             { status: error.response?.status || 500 }
         );
     }
     return NextResponse.json(
-        { error: 'Internal server error while fetching top categories', details: error instanceof Error ? error.message : 'Unknown error' },
+        { error: 'Internal server error while fetching top categories' },
         { status: 500 }
     );
   }

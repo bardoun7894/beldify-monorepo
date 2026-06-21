@@ -44,7 +44,6 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({
       message: 'Failed to fetch user posts',
-      error: error.message,
       status: 'error'
     }, {
       status: 500
