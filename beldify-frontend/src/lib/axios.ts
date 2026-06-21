@@ -16,10 +16,12 @@ const instance = axios.create({
 // Add a request interceptor
 instance.interceptors.request.use(
   async (config) => {
-    // Get token from localStorage
-    const token = localStorage.getItem('token');
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
+    // Get token from localStorage (client-side only)
+    if (typeof window !== 'undefined') {
+      const token = localStorage.getItem('token');
+      if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+      }
     }
 
     return config;

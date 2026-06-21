@@ -66,8 +66,7 @@ export function setCSRFCookie(response: NextResponse): string {
  */
 export function validateCSRFFromRequest(request: NextRequest): boolean {
   // Get token from header or body
-  const headerToken = request.headers.get('X-CSRF-Token') || 
-                     request.headers.get('X-Requested-With');
+  const headerToken = request.headers.get('X-CSRF-Token');
   
   // Get token from cookie
   const cookieToken = request.cookies.get(CSRF_COOKIE_NAME)?.value;

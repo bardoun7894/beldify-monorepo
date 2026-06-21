@@ -32,8 +32,18 @@ export async function GET(request: NextRequest) {
           'eu2.contabostorage.com/c7737d32901c47be91e8263ad074fd38:beldify1storage'
         );
       }
-      // Any other full URL
+      // Any other full URL — only allow known storage hostnames to prevent SSRF
       else {
+        const ALLOWED_HOSTS = ['eu2.contabostorage.com'];
+        let pathHost: string;
+        try {
+          pathHost = new URL(path).hostname;
+        } catch {
+          return NextResponse.json({ error: 'Invalid image URL' }, { status: 400 });
+        }
+        if (!ALLOWED_HOSTS.includes(pathHost)) {
+          return NextResponse.json({ error: 'Image host not allowed' }, { status: 400 });
+        }
         imageUrl = path;
       }
     }
