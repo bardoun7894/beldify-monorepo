@@ -34,6 +34,8 @@ export default defineConfig({
       ['src/components/buyer-ai/__tests__/**', 'jsdom'],
       // seller component tests
       ['src/components/seller/__tests__/**', 'jsdom'],
+      // order-confirmation component tests
+      ['src/app/order-confirmation/__tests__/**', 'jsdom'],
     ],
   },
 });

@@ -9,7 +9,7 @@ import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import logger from '@/utils/consoleLogger';
 import { useCart } from '@/contexts/CartContext';
-import { Mail, Lock, Eye, EyeOff } from 'lucide-react';
+import { AtSign, Lock, Eye, EyeOff } from 'lucide-react';
 import AuthBrandPanel from '@/components/auth/AuthBrandPanel';
 
 export default function LoginPage() {
@@ -20,10 +20,10 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const [fieldErrors, setFieldErrors] = useState<{ email?: string; password?: string }>({});
+  const [fieldErrors, setFieldErrors] = useState<{ identifier?: string; password?: string }>({});
   const googleButtonRef = useRef<HTMLDivElement>(null);
   const [formData, setFormData] = useState({
-    email: '',
+    identifier: '',
     password: '',
     remember: false,
   });
@@ -120,11 +120,9 @@ export default function LoginPage() {
   };
 
   const validateForm = (): boolean => {
-    const errors: { email?: string; password?: string } = {};
-    if (!formData.email) {
-      errors.email = t('auth.email_required', 'Email is required');
-    } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(formData.email)) {
-      errors.email = t('auth.invalid_email', 'Please enter a valid email address');
+    const errors: { identifier?: string; password?: string } = {};
+    if (!formData.identifier.trim()) {
+      errors.identifier = t('auth.identifier_required', 'Phone or email is required');
     }
     if (!formData.password) {
       errors.password = t('auth.password_required', 'Password is required');
@@ -141,7 +139,7 @@ export default function LoginPage() {
     setLoading(true);
 
     try {
-      const result = await login(formData.email, formData.password);
+      const result = await login(formData.identifier, formData.password);
 
       if (!result.success) {
         toast.error(result.message || t('auth.login_error'));
@@ -431,37 +429,36 @@ export default function LoginPage() {
 
           {/* Login Form */}
           <form className="space-y-5" onSubmit={handleSubmit} noValidate>
-            {/* Email */}
+            {/* Phone or email — unified identifier field */}
             <div>
               <label
-                htmlFor="email"
+                htmlFor="identifier"
                 className="block text-sm font-medium text-gray-700 mb-1.5"
               >
-                {t('auth.email', 'Email address')}
+                {t('auth.identifier', 'Phone or email')}
               </label>
-              {/* dir=ltr on the wrapper makes the whole field (icon + padding) one
-                  LTR island so start-3/ps-9 resolve to the same physical side. */}
+              {/* dir=ltr so icon and padding stay on the same physical side */}
               <div className="relative" dir="ltr">
                 <span className="absolute start-3 inset-y-0 flex items-center pointer-events-none text-gray-400">
-                  <Mail className="h-4 w-4" aria-hidden />
+                  <AtSign className="h-4 w-4" aria-hidden />
                 </span>
                 <input
-                  id="email"
-                  name="email"
-                  type="email"
-                  autoComplete="email"
+                  id="identifier"
+                  name="identifier"
+                  type="text"
+                  autoComplete="username"
                   required
-                  value={formData.email}
+                  value={formData.identifier}
                   onChange={handleChange}
-                  aria-invalid={!!fieldErrors.email}
-                  aria-describedby={fieldErrors.email ? 'email-error' : undefined}
-                  className={fieldErrors.email ? inputError : inputDefault}
-                  placeholder={t('auth.email_placeholder', 'example@mail.com')}
+                  aria-invalid={!!fieldErrors.identifier}
+                  aria-describedby={fieldErrors.identifier ? 'identifier-error' : undefined}
+                  className={fieldErrors.identifier ? inputError : inputDefault}
+                  placeholder={t('auth.identifier_placeholder', '+212 6 12 34 56 78 or email')}
                 />
               </div>
-              {fieldErrors.email && (
-                <p id="email-error" className="mt-1.5 text-xs text-rose-700" role="alert">
-                  {fieldErrors.email}
+              {fieldErrors.identifier && (
+                <p id="identifier-error" className="mt-1.5 text-xs text-rose-700" role="alert">
+                  {fieldErrors.identifier}
                 </p>
               )}
             </div>

@@ -11,25 +11,30 @@ import { getGuestWishlist, clearGuestWishlist } from '@/utils/guestWishlist';
 
 // Define interface for registration data
 interface RegisterUserData {
+  // Phone-first required fields
+  full_name_en: string;
+  phone: string;
+  password: string;
+  password_confirmation: string;
+  // Optional
+  email?: string;
+  // Legacy fields still accepted for backward-compat (Google auth, old paths)
   full_name?: string | null;
-  full_name_en?: string | null;
   full_name_ar?: string | null;
   first_name?: string | null;
   last_name?: string | null;
   username?: string | null;
-  email: string;
-  password: string;
-  password_confirmation: string;
   contact_number?: string | null;
-  // Add other potential fields from your form if known
-  [key: string]: any; // Allow flexibility for other fields
+  // Allow extra fields from callers
+  [key: string]: any;
 }
 
 interface AuthContextType {
   user: User | null;
   loading: boolean;
   isAuthenticated: boolean;
-  login: (email: string, password: string) => Promise<{ success: boolean; message?: string }>;
+  /** identifier can be phone OR email */
+  login: (identifier: string, password: string, remember?: boolean) => Promise<{ success: boolean; message?: string }>;
   register: (userData: RegisterUserData) => Promise<{ success: boolean; message?: string; errors?: any }>;
   googleAuth: (credential: string, isRegistration?: boolean) => Promise<{ success: boolean; message?: string; errors?: any }>;
   logout: () => Promise<void>;
@@ -243,10 +248,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
-  const login = async (email: string, password: string, remember = false): Promise<AuthResponse> => {
+  const login = async (identifier: string, password: string, remember = false): Promise<AuthResponse> => {
     setLoading(true);
     try {
-      toast.debug(`Attempting login for email: ${email}`);
+      toast.debug(`Attempting login for identifier: ${identifier}`);
       logger.log('Attempting login...');
 
       // Get CSRF token from our custom endpoint
@@ -262,9 +267,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         // Continue with login attempt even if CSRF fetch fails
       }
 
-      // Then make the login request with the CSRF token
+      // Post identifier (phone or email) as both `identifier` (new contract)
+      // and `email` (backward-compat for older backend paths).
       const response = await axios.post('/api/auth/login',
-        { email, password },
+        { identifier, email: identifier, password },
         {
           withCredentials: true,
           headers: {
@@ -417,7 +423,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const register = async (userData: RegisterUserData): Promise<AuthResponse> => {
     setLoading(true);
     try {
-      toast.debug(`Attempting registration for email: ${userData.email}`);
+      toast.debug(`Attempting registration for phone: ${userData.phone || userData.email || ''}`);
       // Get CSRF token from our custom endpoint
       let csrfToken = '';
       try {
@@ -431,57 +437,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         // Continue with registration attempt even if CSRF fetch fails
       }
 
-      // Prepare the registration data with name fields
-      const { full_name, full_name_en, full_name_ar, first_name, last_name, username, ...otherData } = userData;
-      
-      // Process name data for consistency
-      let finalFullNameEn = '';
-      let finalFirstName = '';
-      let finalLastName = '';
-      let finalUsername = '';
-      
-      // Handle username
-      if (username) {
-        finalUsername = username;
-      }
-      
-      // Handle first and last name
-      if (first_name || last_name) {
-        finalFirstName = first_name || '';
-        finalLastName = last_name || '';
-        finalFullNameEn = `${finalFirstName} ${finalLastName}`.trim();
-      }
-      // If no first/last name but full_name is provided, split it
-      else if (full_name || full_name_en) {
-        const nameToUse = full_name || full_name_en || '';
-        const nameParts = nameToUse.trim().split(' ');
-        finalFirstName = nameParts[0] || '';
-        finalLastName = nameParts.length > 1 ? nameParts.slice(1).join(' ') : '';
-        finalFullNameEn = nameToUse;
-      }
-      
-      // If username is not provided, generate one from last name or first name
-      if (!finalUsername) {
-        const nameBase = finalLastName || finalFirstName;
-        if (nameBase) {
-          const randomSuffix = Math.floor(1000 + Math.random() * 9000); // 4-digit number
-          finalUsername = `${nameBase.toLowerCase().replace(/\s+/g, '')}${randomSuffix}`;
-        } else {
-          // Last resort: random username
-          const randomSuffix = Math.floor(10000 + Math.random() * 90000); // 5-digit number
-          finalUsername = `user${randomSuffix}`;
-        }
-      }
-      
-      // Let TypeScript infer the type of dataPayload
-      const dataPayload = {
-        ...otherData,
-        username: finalUsername,
-        first_name: finalFirstName,
-        last_name: finalLastName,
-        full_name_en: finalFullNameEn,
-        full_name_ar: full_name_ar || '',
-      };
+      // Phone-first payload: forward userData as-is. Username is generated
+      // server-side now. Legacy fields (first_name, last_name, username) are
+      // still accepted for backward-compat with Google auth paths.
+      const dataPayload = { ...userData };
 
       // Make registration request with the CSRF token
       const response = await axios.post(

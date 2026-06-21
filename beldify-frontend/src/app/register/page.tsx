@@ -9,7 +9,7 @@ import toast from '@/utils/toast';
 import Image from 'next/image';
 import logger from '@/utils/consoleLogger';
 import { useSearchParams } from 'next/navigation';
-import { Mail, Lock, User, Phone, Eye, EyeOff } from 'lucide-react';
+import { Mail, Lock, User, Phone, Eye, EyeOff, ChevronDown, ChevronUp } from 'lucide-react';
 import AuthBrandPanel from '@/components/auth/AuthBrandPanel';
 
 export default function RegisterPage() {
@@ -29,27 +29,22 @@ export default function RegisterPage() {
   }, [locale, i18n]);
 
   const [formData, setFormData] = useState({
-    first_name: '',
-    last_name: '',
-    email: '',
+    full_name_en: '',
+    phone: '',
     password: '',
-    password_confirmation: '',
-    contact_number: '',
-    username: '', // Hidden field, will be generated dynamically
+    email: '',
   });
+  const [showEmail, setShowEmail] = useState(false);
   const [error, setError] = useState('');
   const [fieldErrors, setFieldErrors] = useState<{
-    first_name?: string;
-    last_name?: string;
-    email?: string;
-    contact_number?: string;
+    full_name_en?: string;
+    phone?: string;
     password?: string;
-    password_confirmation?: string;
+    email?: string;
   }>({});
   const [loading, setLoading] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const googleButtonRef = useRef<HTMLDivElement>(null);
 
   // Lightweight password strength: count satisfied rules (length, mixed case, digit/symbol).
@@ -70,30 +65,26 @@ export default function RegisterPage() {
 
   const validateForm = (): boolean => {
     const errors: typeof fieldErrors = {};
-    if (!formData.first_name.trim()) {
-      errors.first_name = t('auth.first_name_required', 'First name is required');
+
+    if (!formData.full_name_en.trim()) {
+      errors.full_name_en = t('auth.full_name_required', 'Full name is required');
     }
-    if (!formData.last_name.trim()) {
-      errors.last_name = t('auth.last_name_required', 'Last name is required');
-    }
-    if (!formData.email) {
-      errors.email = t('auth.email_required', 'Email is required');
-    } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(formData.email)) {
-      errors.email = t('auth.invalid_email', 'Please enter a valid email address');
-    }
-    if (!formData.contact_number.trim()) {
-      errors.contact_number = t('auth.contact_required', 'Contact number is required');
+    if (!formData.phone.trim()) {
+      errors.phone = t('auth.phone_required', 'Phone number is required');
+    } else if (formData.phone.trim().replace(/\s/g, '').length < 8) {
+      errors.phone = t('auth.phone_too_short', 'Please enter a valid phone number');
     }
     if (!formData.password) {
       errors.password = t('auth.password_required', 'Password is required');
     } else if (formData.password.length < 8) {
       errors.password = t('auth.password_too_short', 'Use at least 8 characters');
     }
-    if (!formData.password_confirmation) {
-      errors.password_confirmation = t('auth.confirm_required', 'Please confirm your password');
-    } else if (formData.password !== formData.password_confirmation) {
-      errors.password_confirmation = t('auth.passwords_no_match', 'Passwords do not match');
+    if (showEmail && formData.email) {
+      if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(formData.email)) {
+        errors.email = t('auth.invalid_email', 'Please enter a valid email address');
+      }
     }
+
     setFieldErrors(errors);
     return Object.keys(errors).length === 0;
   };
@@ -105,19 +96,18 @@ export default function RegisterPage() {
     setError('');
     setLoading(true);
     try {
-      // Prepare data for backend
-      const submitData = {
-        ...formData,
-        full_name_en: `${formData.first_name} ${formData.last_name}`.trim(),
-        first_name: formData.first_name,
-        last_name: formData.last_name,
+      // Build payload: email is omitted entirely when blank
+      const payload: Record<string, string> = {
+        full_name_en: formData.full_name_en.trim(),
+        phone: formData.phone.trim(),
+        password: formData.password,
+        password_confirmation: formData.password,
       };
+      if (showEmail && formData.email.trim()) {
+        payload.email = formData.email.trim();
+      }
 
-      // Use the AuthContext register() so the new account is signed in
-      // immediately (it stores the token + sets user/isAuthenticated) and a
-      // success toast is shown. Redirecting raw axios skipped that, which
-      // bounced the user to /login.
-      const result = await register(submitData);
+      const result = await register(payload);
 
       if (result?.success) {
         toast.success(t('auth.registration_successful', 'Account created — welcome to Beldify!'));
@@ -129,7 +119,6 @@ export default function RegisterPage() {
         toast.error(msg);
       }
     } catch (err: any) {
-      // AuthContext.register throws { message, errors } on validation failure.
       const firstFieldError =
         err?.errors && typeof err.errors === 'object'
           ? (Object.values(err.errors)[0] as any)?.[0]
@@ -148,41 +137,21 @@ export default function RegisterPage() {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-
-    setFormData((prevData) => {
-      const updatedData = { ...prevData, [name]: value };
-
-      // Generate username automatically when last_name changes
-      if (name === 'last_name' && value) {
-        // Generate username from last name + random numbers
-        const randomSuffix = Math.floor(1000 + Math.random() * 9000); // 4-digit number
-        const generatedUsername = `${value.toLowerCase()}${randomSuffix}`;
-
-        updatedData.username = generatedUsername;
-      }
-
-      return updatedData;
-    });
-
-    // Clear field error on change (mirrors login's pattern)
+    setFormData((prev) => ({ ...prev, [name]: value }));
+    // Clear field error on change
     if (name in fieldErrors) {
       setFieldErrors((prev) => ({ ...prev, [name]: undefined }));
     }
   };
 
-  // Mount-only effect: loads the Google Identity script once. initializeGoogleButton and t
-  // are referenced inside but must not trigger a re-load on language or function identity changes.
+  // Mount-only effect: loads the Google Identity script once.
   /* eslint-disable react-hooks/exhaustive-deps */
   useEffect(() => {
     if (!process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID) return;
 
-    // Capture the button container ref at effect registration time so the cleanup
-    // closure uses the value that was current when the effect ran, not at teardown.
     const buttonContainer = googleButtonRef.current;
 
-    // Skip if the script is already loaded
     if (document.querySelector('script#google-identity-script')) {
-      // If script exists, just initialize the button
       if (typeof window !== 'undefined' && window.google?.accounts) {
         setTimeout(initializeGoogleButton, 100);
       }
@@ -203,14 +172,10 @@ export default function RegisterPage() {
     document.head.appendChild(script);
 
     return () => {
-      // Cleanup function to safely handle component unmounting
       try {
-        // First, cancel any active Google Sign-In prompts
         if (window.google?.accounts) {
           window.google.accounts.id.cancel();
         }
-
-        // Use the ref value captured at effect registration time (above).
         if (buttonContainer) {
           while (buttonContainer.firstChild) {
             buttonContainer.removeChild(buttonContainer.firstChild);
@@ -227,7 +192,6 @@ export default function RegisterPage() {
     if (!window.google || !googleButtonRef.current) return;
 
     try {
-      // First, ensure the button container is empty to prevent duplicate buttons
       if (googleButtonRef.current) {
         while (googleButtonRef.current.firstChild) {
           googleButtonRef.current.removeChild(googleButtonRef.current.firstChild);
@@ -241,14 +205,12 @@ export default function RegisterPage() {
         cancel_on_tap_outside: true,
       });
 
-      // Create a container div for the button to isolate it from React's DOM management
-      const buttonContainer = document.createElement('div');
+      const btnContainer = document.createElement('div');
       if (googleButtonRef.current) {
-        googleButtonRef.current.appendChild(buttonContainer);
+        googleButtonRef.current.appendChild(btnContainer);
       }
 
-      // Render the button in the container
-      window.google.accounts.id.renderButton(buttonContainer, {
+      window.google.accounts.id.renderButton(btnContainer, {
         type: 'standard',
         size: 'large',
         text: 'signup_with',
@@ -304,7 +266,6 @@ export default function RegisterPage() {
   const inputDefault = `${inputBase} border-gray-200 focus:border-indigo-700 focus:ring-indigo-700/20`;
   const inputError = `${inputBase} border-rose-300 focus:border-rose-500 focus:ring-rose-500/20`;
 
-  // Variant with extra trailing padding for the show/hide toggle button.
   const inputWithToggleBase =
     'w-full ps-9 pe-10 py-3 border rounded-2xl text-gray-900 placeholder-gray-400 text-sm transition-colors duration-200 focus:outline-none focus:ring-2';
   const inputWithToggleDefault = `${inputWithToggleBase} border-gray-200 focus:border-indigo-700 focus:ring-indigo-700/20`;
@@ -312,7 +273,7 @@ export default function RegisterPage() {
 
   return (
     <div className="min-h-screen flex">
-      {/* Brand panel — inherits dir from <html> via useDirection hook */}
+      {/* Brand panel */}
       <AuthBrandPanel
         heading={t('auth.join_circle', 'Join the Beldify circle.')}
         subtext={t(
@@ -357,44 +318,44 @@ export default function RegisterPage() {
 
           {/* Google Sign-Up — only rendered when client_id is configured */}
           {process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID && (
-          <div className="mb-5">
-            <div
-              className="w-full flex flex-col gap-2 items-center"
-              aria-label={t('auth.sign_up_with_google', 'Sign up with Google')}
-            >
+            <div className="mb-5">
               <div
-                ref={googleButtonRef}
-                className="w-full flex justify-center min-h-[44px]"
-              />
+                className="w-full flex flex-col gap-2 items-center"
+                aria-label={t('auth.sign_up_with_google', 'Sign up with Google')}
+              >
+                <div
+                  ref={googleButtonRef}
+                  className="w-full flex justify-center min-h-[44px]"
+                />
 
-              {googleLoading && (
-                <div className="text-sm text-gray-500 mt-1 flex items-center gap-2">
-                  <svg
-                    className="animate-spin h-4 w-4 text-indigo-600"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    aria-hidden="true"
-                  >
-                    <circle
-                      className="opacity-25"
-                      cx="12"
-                      cy="12"
-                      r="10"
-                      stroke="currentColor"
-                      strokeWidth="4"
-                    />
-                    <path
-                      className="opacity-75"
-                      fill="currentColor"
-                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                    />
-                  </svg>
-                  {t('auth.loading_google', 'Loading Google Sign-In...')}
-                </div>
-              )}
+                {googleLoading && (
+                  <div className="text-sm text-gray-500 mt-1 flex items-center gap-2">
+                    <svg
+                      className="animate-spin h-4 w-4 text-indigo-600"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      aria-hidden="true"
+                    >
+                      <circle
+                        className="opacity-25"
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        stroke="currentColor"
+                        strokeWidth="4"
+                      />
+                      <path
+                        className="opacity-75"
+                        fill="currentColor"
+                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                      />
+                    </svg>
+                    {t('auth.loading_google', 'Loading Google Sign-In...')}
+                  </div>
+                )}
+              </div>
             </div>
-          </div>
           )}
 
           {/* Divider */}
@@ -404,7 +365,7 @@ export default function RegisterPage() {
             </div>
             <div className="relative flex justify-center text-xs">
               <span className="px-3 bg-white text-gray-500 uppercase tracking-[0.14em]">
-                {t('auth.or_continue_with', 'Or continue with email')}
+                {t('auth.or_continue_with', 'Or continue with phone')}
               </span>
             </div>
           </div>
@@ -421,139 +382,74 @@ export default function RegisterPage() {
 
           {/* Registration form */}
           <form className="space-y-5" onSubmit={handleSubmit} noValidate>
-            {/* Name row — kept side-by-side; names may be Arabic so NO dir=ltr */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {/* First name */}
-              <div>
-                <label
-                  htmlFor="first_name"
-                  className="block text-sm font-medium text-gray-700 mb-1.5"
-                >
-                  {t('auth.first_name', 'First Name')}
-                </label>
-                <div className="relative">
-                  <span className="absolute start-3 inset-y-0 flex items-center pointer-events-none text-gray-400">
-                    <User className="h-4 w-4" aria-hidden />
-                  </span>
-                  <input
-                    id="first_name"
-                    name="first_name"
-                    type="text"
-                    required
-                    value={formData.first_name}
-                    onChange={handleChange}
-                    aria-invalid={!!fieldErrors.first_name}
-                    aria-describedby={fieldErrors.first_name ? 'first_name-error' : undefined}
-                    className={fieldErrors.first_name ? inputError : inputDefault}
-                    placeholder={t('auth.first_name_placeholder', 'First Name')}
-                  />
-                </div>
-                {fieldErrors.first_name && (
-                  <p id="first_name-error" className="mt-1.5 text-xs text-rose-700" role="alert">
-                    {fieldErrors.first_name}
-                  </p>
-                )}
-              </div>
 
-              {/* Last name */}
-              <div>
-                <label
-                  htmlFor="last_name"
-                  className="block text-sm font-medium text-gray-700 mb-1.5"
-                >
-                  {t('auth.last_name', 'Last Name')}
-                </label>
-                <div className="relative">
-                  <span className="absolute start-3 inset-y-0 flex items-center pointer-events-none text-gray-400">
-                    <User className="h-4 w-4" aria-hidden />
-                  </span>
-                  <input
-                    id="last_name"
-                    name="last_name"
-                    type="text"
-                    required
-                    value={formData.last_name}
-                    onChange={handleChange}
-                    aria-invalid={!!fieldErrors.last_name}
-                    aria-describedby={fieldErrors.last_name ? 'last_name-error' : undefined}
-                    className={fieldErrors.last_name ? inputError : inputDefault}
-                    placeholder={t('auth.last_name_placeholder', 'Last Name')}
-                  />
-                </div>
-                {fieldErrors.last_name && (
-                  <p id="last_name-error" className="mt-1.5 text-xs text-rose-700" role="alert">
-                    {fieldErrors.last_name}
-                  </p>
-                )}
-              </div>
-            </div>
-
-            {/* Email — full width, LTR island (icon span + input padding) */}
+            {/* Full name — no dir=ltr, names may be Arabic */}
             <div>
               <label
-                htmlFor="email"
+                htmlFor="full_name_en"
                 className="block text-sm font-medium text-gray-700 mb-1.5"
               >
-                {t('auth.email', 'Email address')}
+                {t('auth.full_name', 'Full name')}
               </label>
-              <div className="relative" dir="ltr">
+              <div className="relative">
                 <span className="absolute start-3 inset-y-0 flex items-center pointer-events-none text-gray-400">
-                  <Mail className="h-4 w-4" aria-hidden />
+                  <User className="h-4 w-4" aria-hidden />
                 </span>
                 <input
-                  id="email"
-                  name="email"
-                  type="email"
-                  autoComplete="email"
+                  id="full_name_en"
+                  name="full_name_en"
+                  type="text"
+                  autoComplete="name"
                   required
-                  value={formData.email}
+                  value={formData.full_name_en}
                   onChange={handleChange}
-                  aria-invalid={!!fieldErrors.email}
-                  aria-describedby={fieldErrors.email ? 'email-error' : undefined}
-                  className={fieldErrors.email ? inputError : inputDefault}
-                  placeholder={t('auth.email_placeholder')}
+                  aria-invalid={!!fieldErrors.full_name_en}
+                  aria-describedby={fieldErrors.full_name_en ? 'full_name_en-error' : undefined}
+                  className={fieldErrors.full_name_en ? inputError : inputDefault}
+                  placeholder={t('auth.full_name_placeholder', 'e.g. Amina Tazi')}
                 />
               </div>
-              {fieldErrors.email && (
-                <p id="email-error" className="mt-1.5 text-xs text-rose-700" role="alert">
-                  {fieldErrors.email}
+              {fieldErrors.full_name_en && (
+                <p id="full_name_en-error" className="mt-1.5 text-xs text-rose-700" role="alert">
+                  {fieldErrors.full_name_en}
                 </p>
               )}
             </div>
 
-            {/* Contact number — full width, LTR island */}
+            {/* Phone — LTR island */}
             <div>
               <label
-                htmlFor="contact_number"
+                htmlFor="phone"
                 className="block text-sm font-medium text-gray-700 mb-1.5"
               >
-                {t('auth.contact_number', 'Contact Number')}
+                {t('auth.phone', 'Phone number')}
               </label>
               <div className="relative" dir="ltr">
                 <span className="absolute start-3 inset-y-0 flex items-center pointer-events-none text-gray-400">
                   <Phone className="h-4 w-4" aria-hidden />
                 </span>
                 <input
-                  id="contact_number"
-                  name="contact_number"
+                  id="phone"
+                  name="phone"
                   type="tel"
+                  autoComplete="tel"
                   required
-                  value={formData.contact_number}
+                  value={formData.phone}
                   onChange={handleChange}
-                  aria-invalid={!!fieldErrors.contact_number}
-                  aria-describedby={fieldErrors.contact_number ? 'contact_number-error' : undefined}
-                  className={fieldErrors.contact_number ? inputError : inputDefault}
+                  aria-invalid={!!fieldErrors.phone}
+                  aria-describedby={fieldErrors.phone ? 'phone-error' : undefined}
+                  className={fieldErrors.phone ? inputError : inputDefault}
                   placeholder="+212 6 12 34 56 78"
                 />
               </div>
-              {fieldErrors.contact_number && (
-                <p id="contact_number-error" className="mt-1.5 text-xs text-rose-700" role="alert">
-                  {fieldErrors.contact_number}
+              {fieldErrors.phone && (
+                <p id="phone-error" className="mt-1.5 text-xs text-rose-700" role="alert">
+                  {fieldErrors.phone}
                 </p>
               )}
             </div>
 
-            {/* Password — full width, stacked above confirm (not side-by-side) */}
+            {/* Password — with show/hide and strength meter */}
             <div>
               <label
                 htmlFor="password"
@@ -605,44 +501,60 @@ export default function RegisterPage() {
               )}
             </div>
 
-            {/* Confirm password — full width */}
+            {/* Optional email disclosure */}
             <div>
-              <label
-                htmlFor="password_confirmation"
-                className="block text-sm font-medium text-gray-700 mb-1.5"
+              <button
+                type="button"
+                onClick={() => {
+                  setShowEmail((v) => !v);
+                  // Clear email error when collapsing
+                  if (showEmail) {
+                    setFormData((prev) => ({ ...prev, email: '' }));
+                    setFieldErrors((prev) => ({ ...prev, email: undefined }));
+                  }
+                }}
+                className="flex items-center gap-1.5 text-sm text-indigo-700 hover:text-indigo-800 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30 rounded"
+                aria-expanded={showEmail}
+                aria-controls="email-disclosure"
               >
-                {t('auth.password_confirmation', 'Confirm Password')}
-              </label>
-              <div className="relative" dir="ltr">
-                <span className="absolute start-3 inset-y-0 flex items-center pointer-events-none text-gray-400">
-                  <Lock className="h-4 w-4" aria-hidden />
-                </span>
-                <input
-                  id="password_confirmation"
-                  name="password_confirmation"
-                  type={showConfirmPassword ? 'text' : 'password'}
-                  autoComplete="new-password"
-                  required
-                  value={formData.password_confirmation}
-                  onChange={handleChange}
-                  aria-invalid={!!fieldErrors.password_confirmation}
-                  aria-describedby={fieldErrors.password_confirmation ? 'password_confirmation-error' : undefined}
-                  className={fieldErrors.password_confirmation ? inputWithToggleError : inputWithToggleDefault}
-                  placeholder="••••••••"
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowConfirmPassword((v) => !v)}
-                  className="absolute end-3 inset-y-0 flex items-center text-gray-400 hover:text-indigo-700 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30 rounded"
-                  aria-label={showConfirmPassword ? t('auth.hide_password', 'Hide password') : t('auth.show_password', 'Show password')}
-                >
-                  {showConfirmPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-                </button>
-              </div>
-              {fieldErrors.password_confirmation && (
-                <p id="password_confirmation-error" className="mt-1.5 text-xs text-rose-700" role="alert">
-                  {fieldErrors.password_confirmation}
-                </p>
+                {showEmail
+                  ? <ChevronUp className="h-3.5 w-3.5" aria-hidden />
+                  : <ChevronDown className="h-3.5 w-3.5" aria-hidden />
+                }
+                {t('auth.add_email_toggle', 'Add email (optional)')}
+              </button>
+
+              {showEmail && (
+                <div id="email-disclosure" className="mt-3">
+                  <label
+                    htmlFor="email"
+                    className="block text-sm font-medium text-gray-700 mb-1.5"
+                  >
+                    {t('auth.email', 'Email address')}
+                  </label>
+                  <div className="relative" dir="ltr">
+                    <span className="absolute start-3 inset-y-0 flex items-center pointer-events-none text-gray-400">
+                      <Mail className="h-4 w-4" aria-hidden />
+                    </span>
+                    <input
+                      id="email"
+                      name="email"
+                      type="email"
+                      autoComplete="email"
+                      value={formData.email}
+                      onChange={handleChange}
+                      aria-invalid={!!fieldErrors.email}
+                      aria-describedby={fieldErrors.email ? 'email-error' : undefined}
+                      className={fieldErrors.email ? inputError : inputDefault}
+                      placeholder={t('auth.email_placeholder', 'example@mail.com')}
+                    />
+                  </div>
+                  {fieldErrors.email && (
+                    <p id="email-error" className="mt-1.5 text-xs text-rose-700" role="alert">
+                      {fieldErrors.email}
+                    </p>
+                  )}
+                </div>
               )}
             </div>
 

@@ -47,7 +47,7 @@ export async function POST(request: NextRequest) {
       timeout: 30000, // 30 second timeout
     });
     
-    logger.log('Registration successful:', { email: sanitizedData.email });
+    logger.log('Registration successful:', { phone: (sanitizedData as any).phone, email: (sanitizedData as any).email });
     
     // Return the response from the backend
     return NextResponse.json(response.data, { status: response.status });

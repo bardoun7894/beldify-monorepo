@@ -26,6 +26,7 @@ import PaymentProofUpload from '@/components/checkout/PaymentProofUpload';
 import { useAuth } from '@/contexts/AuthContext';
 import { useWebPush } from '@/hooks/useWebPush';
 import PostOrderPushPrompt from '@/components/pwa/PostOrderPushPrompt';
+import OneTapAccountCard, { LastOrderStash } from './OneTapAccountCard';
 
 const playfair = { fontFamily: '"Playfair Display", ui-serif, Georgia, serif' };
 
@@ -68,10 +69,25 @@ export default function OrderConfirmationPage() {
   const orderId = searchParams ? searchParams.get('orderId') : null;
   const [order, setOrder] = useState<Order | null>(null);
   const [loading, setLoading] = useState(true);
+  const [lastOrderStash, setLastOrderStash] = useState<LastOrderStash | null>(null);
   const { triggerOnOrderComplete } = usePWATriggers();
   const isRTL = i18n.language === 'ar' || i18n.language === 'ma';
   const { isAuthenticated } = useAuth();
   const { isSubscribed, isLoading: pushLoading, subscribe } = useWebPush();
+
+  // Read the stash once on mount (client-only). Used by the one-tap account card.
+  useEffect(() => {
+    try {
+      const raw = typeof window !== 'undefined'
+        ? sessionStorage.getItem('beldify_last_order')
+        : null;
+      if (raw) {
+        setLastOrderStash(JSON.parse(raw));
+      }
+    } catch {
+      // Malformed stash — ignore
+    }
+  }, []);
 
   const formatAmount = (amount: number) =>
     new Intl.NumberFormat(i18n.language, {
@@ -510,6 +526,12 @@ export default function OrderConfirmationPage() {
             isSubscribed={isSubscribed}
             isLoading={pushLoading}
             onSubscribe={subscribe}
+          />
+
+          {/* ── One-tap account card for guests ──────────────────────────── */}
+          <OneTapAccountCard
+            isAuthenticated={isAuthenticated}
+            lastOrderStash={lastOrderStash}
           />
 
           {/* ── Actions ──────────────────────────────────────────────────── */}
