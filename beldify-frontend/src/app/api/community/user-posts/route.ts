@@ -15,7 +15,7 @@ export async function GET(request: NextRequest) {
       }, { status: 400 });
     }
 
-    const authToken = await getAuthToken();
+    const authToken = await getAuthToken(request);
 
     const queryParams = new URLSearchParams();
     queryParams.append('user_id', userId);
@@ -44,7 +44,6 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({
       message: 'Failed to fetch user posts',
-      error: error.message,
       status: 'error'
     }, {
       status: 500

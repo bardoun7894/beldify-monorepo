@@ -7,19 +7,29 @@ import { NextRequest, NextResponse } from 'next/server';
 import logger from './consoleLogger';
 
 /**
- * Get authentication token from localStorage (client-side) or cookie (server-side)
+ * Get authentication token from request cookies/headers (server-side) or localStorage (client-side).
+ * Pass the NextRequest when calling from an API route so the token is read from
+ * the incoming request rather than from localStorage (which is unavailable server-side).
  */
-export const getAuthToken = async (): Promise<string | null> => {
+export const getAuthToken = async (request?: NextRequest): Promise<string | null> => {
   try {
-    // Client-side: get from localStorage
-    // The AuthContext stores the token under the key 'token'
-    if (typeof window !== 'undefined') {
-      const token = localStorage.getItem('token');
-      return token;
+    // Server-side with request: read from cookies then Authorization header
+    if (request) {
+      const fromCookie =
+        request.cookies.get('token')?.value ||
+        request.cookies.get('auth_token')?.value;
+      if (fromCookie) return fromCookie;
+      const authHeader = request.headers.get('Authorization');
+      if (authHeader?.startsWith('Bearer ')) return authHeader.slice(7);
+      return null;
     }
-    
-    // In server-side context
-    // This is a placeholder - you would implement cookie-based auth here
+
+    // Client-side: read from localStorage
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem('token');
+    }
+
+    // Server-side without request: cannot determine token
     return null;
   } catch (error) {
     logger.error('Error getting auth token:', error);

@@ -22,7 +22,7 @@ export async function GET(request: NextRequest) {
     if (color) queryParams.append('color', color);
     if (style) queryParams.append('style', style);
 
-    const authToken = await getAuthToken();
+    const authToken = await getAuthToken(request);
     const response = await fetch(`${API_URL}/api/v1/community/posts?${queryParams.toString()}`, {
       method: 'GET',
       headers: {
@@ -51,7 +51,7 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
-    const authToken = await getAuthToken();
+    const authToken = await getAuthToken(request);
     if (!authToken) {
       return NextResponse.json(
         { error: 'Authentication required' },

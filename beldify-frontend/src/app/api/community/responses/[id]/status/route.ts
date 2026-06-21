@@ -17,7 +17,7 @@ export async function PUT(
 ) {
   try {
     const responseId = params.id;
-    const authToken = await getAuthToken();
+    const authToken = await getAuthToken(request);
 
     if (!authToken) {
       return NextResponse.json(

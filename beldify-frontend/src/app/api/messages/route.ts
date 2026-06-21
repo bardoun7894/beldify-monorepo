@@ -11,11 +11,12 @@ const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL!;
  */
 export async function GET(request: NextRequest) {
   try {
-    const cookieStore = cookies();
-    let token = (await cookieStore).get('auth_token')?.value;
-    
+    const cookieStore = await cookies();
+    let token =
+      cookieStore.get('token')?.value ||
+      cookieStore.get('auth_token')?.value;
+
     if (!token) {
-      // Try to get from Authorization header
       const authHeader = request.headers.get('authorization');
       if (authHeader && authHeader.startsWith('Bearer ')) {
         token = authHeader.substring(7);

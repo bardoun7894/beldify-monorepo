@@ -9,7 +9,7 @@ export async function GET(
 ) {
   try {
     const id = params.id;
-    const authToken = await getAuthToken();
+    const authToken = await getAuthToken(request);
 
     const response = await fetch(`${API_URL}/api/v1/community/posts/${id}`, {
       method: 'GET',
@@ -43,7 +43,7 @@ export async function PUT(
 ) {
   try {
     const id = params.id;
-    const authToken = await getAuthToken();
+    const authToken = await getAuthToken(request);
     
     if (!authToken) {
       return NextResponse.json(
@@ -87,7 +87,7 @@ export async function DELETE(
 ) {
   try {
     const id = params.id;
-    const authToken = await getAuthToken();
+    const authToken = await getAuthToken(request);
     
     if (!authToken) {
       return NextResponse.json(

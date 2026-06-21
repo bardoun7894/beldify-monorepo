@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import logger from '@/utils/consoleLogger';
 
 export async function POST(req: NextRequest) {
   try {
@@ -28,11 +29,11 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ success: true });
     } else {
       const errorData = await response.text();
-      console.error('Laravel API error:', errorData);
+      logger.error('Laravel API error:', errorData);
       return NextResponse.json({ error: 'Failed to update FCM token' }, { status: 400 });
     }
   } catch (error) {
-    console.error('FCM token API error:', error);
+    logger.error('FCM token API error:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 } 

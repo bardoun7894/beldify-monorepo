@@ -10,7 +10,7 @@ export async function POST(
   try {
     const postId = params.id;
     const responseId = params.responseId;
-    const authToken = await getAuthToken();
+    const authToken = await getAuthToken(request);
     
     if (!authToken) {
       return NextResponse.json(

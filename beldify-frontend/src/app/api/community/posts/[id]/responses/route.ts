@@ -9,7 +9,7 @@ export async function GET(
 ) {
   try {
     const postId = params.id;
-    const authToken = await getAuthToken();
+    const authToken = await getAuthToken(request);
 
     const response = await fetch(`${API_URL}/api/v1/community/posts/${postId}/responses`, {
       method: 'GET',
@@ -43,7 +43,7 @@ export async function POST(
 ) {
   try {
     const postId = params.id;
-    const authToken = await getAuthToken();
+    const authToken = await getAuthToken(request);
     
     if (!authToken) {
       return NextResponse.json(

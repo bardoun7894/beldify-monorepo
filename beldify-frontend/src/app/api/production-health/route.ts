@@ -9,7 +9,7 @@ export const viewport = {
 export async function GET() {
   try {
     // Check if we can connect to the backend API
-    const backendUrl = process.env.NEXT_PUBLIC_API_URL || 'http://18.100.117.252';
+    const backendUrl = process.env.NEXT_PUBLIC_API_URL || '';
     const backendHealth = await fetch(`${backendUrl}/api/health`, {
       headers: {
         Accept: 'application/json',
@@ -43,7 +43,6 @@ export async function GET() {
       uptime: process.uptime(),
       memory: process.memoryUsage(),
       version: process.env.npm_package_version || 'unknown',
-      backendUrl,
       isProduction: !isDevelopment,
       hasRedis: !!process.env.REDIS_URL,
     });
