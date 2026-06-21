@@ -37,9 +37,8 @@ instance.interceptors.response.use(
   async (error: AxiosError) => {
     // Handle 401 Unauthorized errors
     if (error.response?.status === 401) {
-      // Clear token and redirect to login
-      localStorage.removeItem('token');
       if (typeof window !== 'undefined') {
+        localStorage.removeItem('token');
         window.location.href = '/login';
       }
     }

@@ -6,25 +6,22 @@ import { promisify } from 'util';
 
 const execAsync = promisify(exec);
 
-// API key validation
-const API_KEY = process.env.MCP_API_KEY || 'beldify_mcp_secure_key_2024';
-
-// Validate API key
+// Validate API key — fails closed if MCP_API_KEY is not configured
 function validateApiKey(request: NextRequest): boolean {
+  const configured = process.env.MCP_API_KEY;
+  if (!configured) return false;
   const apiKey = request.headers.get('x-api-key');
-  return apiKey === API_KEY;
+  return apiKey === configured;
 }
 
 // Safe path resolution
 function getSafePath(relativePath: string): string {
   const basePath = process.cwd();
   const resolvedPath = path.resolve(basePath, relativePath);
-
-  // Ensure the path is within the project directory
-  if (!resolvedPath.startsWith(basePath)) {
+  const relative = path.relative(basePath, resolvedPath);
+  if (relative.startsWith('..') || path.isAbsolute(relative)) {
     throw new Error('Access denied: Path outside project directory');
   }
-
   return resolvedPath;
 }
 
