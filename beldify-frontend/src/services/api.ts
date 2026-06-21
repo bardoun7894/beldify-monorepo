@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { isDebuggingEnabled } from '@/utils/debugMode';
 import logger from '@/utils/consoleLogger';
+import { StockResponse } from '@/services/api/types';
 
 const API_URL = `${process.env.NEXT_PUBLIC_API_URL}/api`;
 
@@ -31,7 +32,7 @@ api.interceptors.request.use(request => {
 // Add request interceptor for auth token
 api.interceptors.request.use(
   async (config) => {
-    const token = localStorage.getItem('token');
+    const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
     if (token) {
       config.headers['Authorization'] = `Bearer ${token}`;
     }
@@ -47,10 +48,8 @@ api.interceptors.response.use(
   (response) => response,
   async (error) => {
     if (error.response?.status === 401) {
-      // Clear token if it's invalid or expired
-      localStorage.removeItem('token');
-      // Redirect to login if needed
       if (typeof window !== 'undefined') {
+        localStorage.removeItem('token');
         const currentPath = window.location.pathname;
         window.location.href = `/login?redirect=${encodeURIComponent(currentPath)}`;
       }
@@ -130,10 +129,6 @@ export const productService = {
   },
 };
 
-interface StockResponse {
-  available_quantity: number;
-  status: string;
-}
 
 export const cartService = {
   async getCartRelatedProducts(productId?: string, limit: number = 8) {

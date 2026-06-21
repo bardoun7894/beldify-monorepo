@@ -301,10 +301,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
         // Also set token as a cookie for API routes to access
         if (typeof document !== 'undefined') {
-          // Set token cookie with secure settings
           const expires = new Date();
           expires.setDate(expires.getDate() + 7); // 7 days expiry
-          const cookieOptions = `expires=${expires.toUTCString()}; path=/; samesite=strict`;
+          const isSecure = location.protocol === 'https:';
+          const cookieOptions = `expires=${expires.toUTCString()}; path=/; samesite=strict${isSecure ? '; secure' : ''}`;
           document.cookie = `token=${token}; ${cookieOptions}`;
           document.cookie = `auth_token=${token}; ${cookieOptions}`; // Fallback cookie name
           logger.log('Token set in both localStorage and cookies');
@@ -475,7 +475,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           if (typeof document !== 'undefined') {
             const expires = new Date();
             expires.setDate(expires.getDate() + 7);
-            const cookieOptions = `expires=${expires.toUTCString()}; path=/; samesite=strict`;
+            const isSecure = location.protocol === 'https:';
+            const cookieOptions = `expires=${expires.toUTCString()}; path=/; samesite=strict${isSecure ? '; secure' : ''}`;
             document.cookie = `token=${token}; ${cookieOptions}`;
             document.cookie = `auth_token=${token}; ${cookieOptions}`;
             logger.log('Fallback: Cookies set directly for registration');
