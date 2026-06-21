@@ -1,10 +1,7 @@
 import { NextResponse } from 'next/server';
 import { fetchBestSellers, fetchMensProducts, fetchWomensProducts, fetchChildrensProducts, fetchMegaOffers } from '@/lib/api';
-import axios from 'axios';
 import { getImageUrl } from '@/utils/imageUtils';
 import logger from '@/utils/consoleLogger';
-// API URL
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL!;
 
 // Helper function to transform product data
 const transformProductData = (products: any[]) => {
@@ -388,13 +385,10 @@ export async function GET() {
     // Return a more detailed error response
     return NextResponse.json(
       {
-        error: 'Failed to fetch home data',
-        details: error instanceof Error ? error.message : 'Unknown error',
-        mockData: true,
         bestSellers: [],
         ...mockHomeData
       },
-      { status: 200 } // Return 200 with mock data instead of 500
+      { status: 200 }
     );
   }
 }
