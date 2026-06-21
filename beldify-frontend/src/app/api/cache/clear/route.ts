@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { clearAllCache } from '../../cache';
 import { strictRateLimit } from '@/middleware/rateLimit';
 import { withCSRFProtection } from '@/utils/csrf';
+import logger from '@/utils/consoleLogger';
 
 export async function GET() {
   return NextResponse.json({
@@ -27,28 +28,28 @@ export async function POST(request: NextRequest) {
                     request.ip || 'unknown';
     
     // Log the attempt
-    console.log(`Cache clear attempt from IP: ${clientIp}`);
-    
+    logger.log(`Cache clear attempt from IP: ${clientIp}`);
+
     if (!expectedToken) {
-      console.error('CACHE_CLEAR_TOKEN environment variable is not set');
+      logger.error('CACHE_CLEAR_TOKEN environment variable is not set');
       return NextResponse.json(
         { error: 'Server configuration error' },
         { status: 500 }
       );
     }
-    
+
     if (!authHeader || authHeader !== `Bearer ${expectedToken}`) {
-      console.warn(`Unauthorized cache clear attempt from IP: ${clientIp}`);
+      logger.warn(`Unauthorized cache clear attempt from IP: ${clientIp}`);
       return NextResponse.json(
         { error: 'Unauthorized' },
         { status: 401 }
       );
     }
-    
+
     // Additional security: Check if request is from allowed IPs (optional)
     const allowedIPs = process.env.CACHE_CLEAR_ALLOWED_IPS?.split(',') || [];
     if (allowedIPs.length > 0 && !allowedIPs.includes(clientIp)) {
-      console.warn(`Cache clear attempt from disallowed IP: ${clientIp}`);
+      logger.warn(`Cache clear attempt from disallowed IP: ${clientIp}`);
       return NextResponse.json(
         { error: 'IP not allowed' },
         { status: 403 }
@@ -78,11 +79,10 @@ export async function POST(request: NextRequest) {
     });
     
   } catch (error) {
-    console.error('Cache clear error:', error);
+    logger.error('Cache clear error:', error);
     return NextResponse.json(
-      { 
+      {
         error: 'Internal server error',
-        details: error instanceof Error ? error.message : 'Unknown error',
         timestamp: new Date().toISOString()
       },
       { status: 500 }

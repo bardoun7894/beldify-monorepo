@@ -1,10 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
 import fs from 'fs/promises';
 import path from 'path';
-import { exec } from 'child_process';
+import { exec, execFile } from 'child_process';
 import { promisify } from 'util';
+import logger from '@/utils/consoleLogger';
 
 const execAsync = promisify(exec);
+const execFileAsync = promisify(execFile);
 
 // Validate API key — fails closed if MCP_API_KEY is not configured
 function validateApiKey(request: NextRequest): boolean {
@@ -78,13 +80,17 @@ const mcpTools = {
       throw new Error(`Command not allowed: ${params.command}`);
     }
 
-    const args = params.args?.join(' ') || '';
-    const { stdout, stderr } = await execAsync(`npm run ${params.command} ${args}`);
+    // Sanitize args to prevent shell injection — only alphanumeric, hyphens, dots, equals, underscores, slashes
+    const safeArgs = (params.args || [])
+      .map(a => String(a))
+      .filter(a => /^[a-zA-Z0-9_.=/-]+$/.test(a));
+
+    const { stdout, stderr } = await execFileAsync('npm', ['run', params.command, ...safeArgs]);
 
     return {
       stdout,
       stderr,
-      command: `npm run ${params.command} ${args}`
+      command: `npm run ${params.command} ${safeArgs.join(' ')}`
     };
   },
 
@@ -194,12 +200,12 @@ export async function POST(request: NextRequest) {
     }, { headers: corsHeaders });
 
   } catch (error: any) {
-    console.error('Frontend MCP Error:', error);
+    logger.error('Frontend MCP Error:', error);
 
     return NextResponse.json(
       {
         error: error.message || 'Internal server error',
-        tool: request.body ? JSON.parse(await request.text()).tool : 'unknown'
+        tool: 'unknown'
       },
       { status: 500, headers: corsHeaders }
     );

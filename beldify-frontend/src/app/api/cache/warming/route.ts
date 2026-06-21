@@ -1,12 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
+import logger from '@/utils/consoleLogger';
 
 // Security check for warming management access
 function isAuthorized(request: NextRequest): boolean {
   const authHeader = request.headers.get('authorization');
   const token = process.env.CACHE_CLEAR_TOKEN;
-  
+
   if (!token) {
-    console.warn('⚠️ No CACHE_CLEAR_TOKEN configured for warming management');
+    logger.warn('No CACHE_CLEAR_TOKEN configured for warming management');
     return false;
   }
   
@@ -45,9 +46,9 @@ export async function GET(request: NextRequest) {
     });
     
   } catch (error) {
-    console.error('Cache warming status error:', error);
+    logger.error('Cache warming status error:', error);
     return NextResponse.json(
-      { 
+      {
         error: 'Failed to get warming service status',
         timestamp: new Date().toISOString()
       },
@@ -104,11 +105,10 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(result);
     
   } catch (error) {
-    console.error('Cache warming control error:', error);
+    logger.error('Cache warming control error:', error);
     return NextResponse.json(
-      { 
+      {
         error: 'Failed to control warming service',
-        details: error instanceof Error ? error.message : 'Unknown error',
         timestamp: new Date().toISOString()
       },
       { status: 500 }
@@ -147,9 +147,9 @@ export async function PUT(request: NextRequest) {
     );
     
   } catch (error) {
-    console.error('Cache warming config error:', error);
+    logger.error('Cache warming config error:', error);
     return NextResponse.json(
-      { 
+      {
         error: 'Failed to update task configuration',
         timestamp: new Date().toISOString()
       },
@@ -179,9 +179,9 @@ export async function DELETE(request: NextRequest) {
     );
     
   } catch (error) {
-    console.error('Cache warming reset error:', error);
+    logger.error('Cache warming reset error:', error);
     return NextResponse.json(
-      { 
+      {
         error: 'Failed to reset warming statistics',
         timestamp: new Date().toISOString()
       },
