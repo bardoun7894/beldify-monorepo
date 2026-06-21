@@ -223,7 +223,7 @@ export async function PUT(request: NextRequest) {
     
     return NextResponse.json(response.data);
   } catch (error: any) {
-    console.error('Error marking messages as read:', error.response?.data || error.message);
+    logger.error('Error marking messages as read:', error.response?.data || error.message);
     return NextResponse.json(
       { error: 'Failed to mark messages as read' },
       { status: error.response?.status || 500 }

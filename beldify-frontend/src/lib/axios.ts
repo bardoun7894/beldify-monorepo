@@ -16,8 +16,8 @@ const instance = axios.create({
 // Add a request interceptor
 instance.interceptors.request.use(
   async (config) => {
-    // Get token from localStorage
-    const token = localStorage.getItem('token');
+    // Guard against SSR — localStorage is not available server-side
+    const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }

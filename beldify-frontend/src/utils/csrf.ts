@@ -65,9 +65,9 @@ export function setCSRFCookie(response: NextResponse): string {
  * Validates CSRF token from request
  */
 export function validateCSRFFromRequest(request: NextRequest): boolean {
-  // Get token from header or body
-  const headerToken = request.headers.get('X-CSRF-Token') || 
-                     request.headers.get('X-Requested-With');
+  // Get CSRF token from request header (case-insensitive fetch handles both casings)
+  const headerToken = request.headers.get('X-CSRF-Token') ||
+                     request.headers.get('X-CSRF-TOKEN');
   
   // Get token from cookie
   const cookieToken = request.cookies.get(CSRF_COOKIE_NAME)?.value;

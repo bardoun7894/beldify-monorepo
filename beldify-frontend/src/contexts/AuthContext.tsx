@@ -240,7 +240,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const login = async (email: string, password: string, remember = false): Promise<AuthResponse> => {
     setLoading(true);
     try {
-      toast.debug(`Attempting login for email: ${email}`);
       logger.log('Attempting login...');
 
       // Get CSRF token from our custom endpoint
@@ -304,7 +303,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           // Set token cookie with secure settings
           const expires = new Date();
           expires.setDate(expires.getDate() + 7); // 7 days expiry
-          const cookieOptions = `expires=${expires.toUTCString()}; path=/; samesite=strict`;
+          const secure = process.env.NODE_ENV === 'production' ? '; secure' : '';
+          const cookieOptions = `expires=${expires.toUTCString()}; path=/; samesite=strict${secure}`;
           document.cookie = `token=${token}; ${cookieOptions}`;
           document.cookie = `auth_token=${token}; ${cookieOptions}`; // Fallback cookie name
           logger.log('Token set in both localStorage and cookies');
@@ -379,7 +379,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const register = async (userData: RegisterUserData): Promise<AuthResponse> => {
     setLoading(true);
     try {
-      toast.debug(`Attempting registration for email: ${userData.email}`);
+      logger.log('Attempting registration...');
       // Get CSRF token from our custom endpoint
       let csrfToken = '';
       try {
@@ -475,7 +475,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           if (typeof document !== 'undefined') {
             const expires = new Date();
             expires.setDate(expires.getDate() + 7);
-            const cookieOptions = `expires=${expires.toUTCString()}; path=/; samesite=strict`;
+            const secure = process.env.NODE_ENV === 'production' ? '; secure' : '';
+            const cookieOptions = `expires=${expires.toUTCString()}; path=/; samesite=strict${secure}`;
             document.cookie = `token=${token}; ${cookieOptions}`;
             document.cookie = `auth_token=${token}; ${cookieOptions}`;
             logger.log('Fallback: Cookies set directly for registration');

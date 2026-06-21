@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server';
 import { fetchBestSellers, fetchMensProducts, fetchWomensProducts, fetchChildrensProducts, fetchMegaOffers } from '@/lib/api';
-import axios from 'axios';
 import { getImageUrl } from '@/utils/imageUtils';
 import logger from '@/utils/consoleLogger';
 // API URL
