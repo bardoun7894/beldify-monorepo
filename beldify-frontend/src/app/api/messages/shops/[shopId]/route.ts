@@ -14,8 +14,11 @@ export async function GET(
   { params }: { params: { shopId: string } }
 ) {
   try {
-    const cookieStore = cookies();
-    const token = (await cookieStore).get('token')?.value;
+    const cookieStore = await cookies();
+    const token =
+      cookieStore.get('token')?.value ||
+      cookieStore.get('auth_token')?.value ||
+      request.headers.get('Authorization')?.replace('Bearer ', '');
 
     if (!token) {
       return NextResponse.json(
@@ -59,8 +62,11 @@ export async function POST(
   { params }: { params: { shopId: string } }
 ) {
   try {
-    const cookieStore = cookies();
-    const token = (await cookieStore).get('token')?.value;
+    const cookieStore = await cookies();
+    const token =
+      cookieStore.get('token')?.value ||
+      cookieStore.get('auth_token')?.value ||
+      request.headers.get('Authorization')?.replace('Bearer ', '');
 
     if (!token) {
       return NextResponse.json(

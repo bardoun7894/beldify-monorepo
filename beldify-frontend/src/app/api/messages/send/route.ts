@@ -3,9 +3,10 @@ import logger from '@/utils/consoleLogger';
 
 export async function POST(req: NextRequest) {
   try {
-    // Get the auth token from the request headers
-    const authHeader = req.headers.get('authorization');
-    const token = authHeader?.replace('Bearer ', '');
+    const token =
+      req.cookies.get('token')?.value ||
+      req.cookies.get('auth_token')?.value ||
+      req.headers.get('authorization')?.replace('Bearer ', '');
 
     if (!token) {
       return NextResponse.json(
