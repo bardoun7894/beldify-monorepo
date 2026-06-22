@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
 import { orderService, Order, OrderItem } from '@/services/orderService';
 import toast from '@/utils/toast';
-import { syncUrlLocale } from '@/i18n/config';
+import { syncUrlLocale, intlLocale } from '@/i18n/config';
 import { OrdersLoadingScreen } from '@/components/ui/LoadingManager';
 import ModernOrderFilters from '@/components/orders/ModernOrderFilters';
 import ModernSearchBar from '@/components/orders/ModernSearchBar';
@@ -43,7 +43,7 @@ export default function OrdersPage() {
   // Format number based on locale
   const formatNumber = (num: number | string | null | undefined): string => {
     if (num === null || num === undefined || isNaN(Number(num))) return '0.00';
-    return new Intl.NumberFormat(i18n.language, {
+    return new Intl.NumberFormat(intlLocale(i18n.language), {
       style: 'decimal',
       minimumFractionDigits: 2,
       maximumFractionDigits: 2,
@@ -59,15 +59,14 @@ export default function OrdersPage() {
       const diffTime = Math.abs(now.getTime() - d.getTime());
       const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
+      const locale = intlLocale(i18n.language);
       // If less than 7 days, show relative time
       if (diffDays < 7) {
-        return new Intl.RelativeTimeFormat(i18n.language, { numeric: 'auto' }).format(-diffDays, 'day');
+        return new Intl.RelativeTimeFormat(locale, { numeric: 'auto' }).format(-diffDays, 'day');
       }
 
       // Otherwise show formatted date
-      const lang = i18n.language || 'en';
-      const isDarijaOrArabic = lang === 'ar' || lang === 'ma';
-      return new Intl.DateTimeFormat(isDarijaOrArabic ? 'ar-MA' : 'en-US', {
+      return new Intl.DateTimeFormat(locale, {
         year: 'numeric',
         month: 'short',
         day: 'numeric',

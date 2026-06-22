@@ -4,7 +4,8 @@ import React, { useState, useEffect, useCallback, useRef } from 'react';
 import Link from 'next/link';
 import { useParams, useSearchParams, useRouter } from 'next/navigation';
 import { MessageSquare, ChevronLeft, Send, Loader2 } from 'lucide-react';
-import { useTranslation } from '@/i18n/client';
+import { useTranslation } from 'react-i18next';
+import { intlLocale } from '@/i18n/config';
 import { useAuth } from '@/contexts/AuthContext';
 import * as messagingService from '@/services/messagingService';
 import { Message } from '@/types/community';
@@ -18,7 +19,7 @@ import logger from '@/utils/consoleLogger';
  * messagingService.sendMessage(); both are keyed by the shop id.
  */
 export default function ConversationPage() {
-  const { t } = useTranslation('common');
+  const { t, i18n } = useTranslation('common');
   const { user, isAuthenticated } = useAuth();
   const router = useRouter();
   const params = useParams();
@@ -93,7 +94,7 @@ export default function ConversationPage() {
     try {
       const d = new Date(dateString);
       if (isNaN(d.getTime())) return '';
-      return d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      return d.toLocaleTimeString(intlLocale(i18n.language), { hour: '2-digit', minute: '2-digit' });
     } catch {
       return '';
     }

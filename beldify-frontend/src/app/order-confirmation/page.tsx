@@ -9,6 +9,7 @@ import { useTranslation } from 'react-i18next';
 import toast from '@/utils/toast';
 import logger from '@/utils/consoleLogger';
 import { usePWATriggers } from '@/hooks/usePWATriggers';
+import { intlLocale } from '@/i18n/config';
 
 const playfair = { fontFamily: '"Playfair Display", ui-serif, Georgia, serif' };
 
@@ -22,7 +23,7 @@ export default function OrderConfirmationPage() {
   const isRTL = i18n.language === 'ar' || i18n.language === 'ma';
 
   const formatAmount = (amount: number) =>
-    new Intl.NumberFormat(i18n.language, {
+    new Intl.NumberFormat(intlLocale(i18n.language), {
       style: 'decimal',
       minimumFractionDigits: 2,
       maximumFractionDigits: 2,

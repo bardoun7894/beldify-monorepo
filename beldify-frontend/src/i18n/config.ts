@@ -25,6 +25,22 @@ const maLocale = ma as LocaleType;
 
 export const RTL_LANGUAGES = ['ar', 'ma'];
 
+// Maps i18n language codes (incl. non-BCP47 'ma' for Darija) to valid BCP47 tags
+// for use with Intl.* constructors. 'ma' is not a valid BCP47 tag and causes
+// silent degradation or RangeError in some browsers.
+const INTL_LOCALE_MAP: Record<string, string> = {
+  en: 'en-US',
+  fr: 'fr-FR',
+  ar: 'ar-MA',
+  ma: 'ar-MA',
+  es: 'es-ES',
+};
+
+export function intlLocale(lang?: string | null): string {
+  if (!lang) return 'en-US';
+  return INTL_LOCALE_MAP[lang] || INTL_LOCALE_MAP[lang.split('-')[0]] || 'en-US';
+}
+
 // Create a custom i18n instance
 const createI18n = () => {
   const i18nInstance = i18n.createInstance();

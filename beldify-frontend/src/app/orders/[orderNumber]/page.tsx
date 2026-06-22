@@ -10,7 +10,7 @@ import { useTranslation } from 'react-i18next';
 import { OrdersLoadingScreen } from '@/components/ui/LoadingManager';
 import PlaceholderImage from '@/components/PlaceholderImage';
 import { useParams, useSearchParams } from 'next/navigation';
-import { syncUrlLocale } from '@/i18n/config';
+import { syncUrlLocale, intlLocale } from '@/i18n/config';
 import {
   ShoppingBag,
   Truck,
@@ -38,9 +38,7 @@ export default function OrderDetailsPage() {
   const formatDate = (date: string | null | undefined) => {
     if (!date) return '';
     try {
-      const lang = i18n.language || 'en';
-      const isDarijaOrArabic = lang === 'ar' || lang === 'ma' || lang.startsWith('ar') || lang.startsWith('ma');
-      return new Intl.DateTimeFormat(isDarijaOrArabic ? 'ar-MA' : 'en-US', {
+      return new Intl.DateTimeFormat(intlLocale(i18n.language), {
         year: 'numeric',
         month: 'long',
         day: 'numeric',
@@ -76,7 +74,7 @@ export default function OrderDetailsPage() {
   // Format amount based on locale
   const formatAmount = (amount: number | string) => {
     if (!amount || isNaN(Number(amount))) return '0.00';
-    return new Intl.NumberFormat(i18n.language, {
+    return new Intl.NumberFormat(intlLocale(i18n.language), {
       style: 'currency',
       currency: 'MAD',
       minimumFractionDigits: 2,
