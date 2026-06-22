@@ -36,16 +36,13 @@ export default function PostCard({ post, isUserPost = false }: PostCardProps) {
       const min = typeof price.min === 'string' ? parseFloat(price.min) : price.min;
       const max = typeof price.max === 'string' ? parseFloat(price.max) : price.max;
       if (isNaN(min) || isNaN(max)) return '';
-      return `${min} – ${max} MAD`;
+      return `${min} – ${max} ${t('product.currency')}`;
     }
 
     const numPrice = typeof price === 'string' ? parseFloat(price) : price;
     if (isNaN(numPrice)) return '';
 
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD',
-    }).format(numPrice);
+    return `${numPrice.toFixed(2)} ${t('product.currency')}`;
   };
 
   const getImageSrc = (image: string | { url: string; alt?: string } | any): string => {
