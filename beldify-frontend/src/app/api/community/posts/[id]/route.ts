@@ -63,9 +63,8 @@ export async function PUT(
     });
 
     if (!response.ok) {
-      const errorData = await response.json();
       return NextResponse.json(
-        { error: errorData.message || `Failed to update community post with id ${id}` },
+        { error: `Failed to update community post` },
         { status: response.status }
       );
     }

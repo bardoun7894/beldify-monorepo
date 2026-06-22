@@ -410,24 +410,19 @@ export default function CheckoutPage() {
       }
 
       if (!shippingInfo.firstName || shippingInfo.firstName.trim().length < 2) {
-        toast.error('First name is required and must be at least 2 characters');
-        return;
-      }
-
-      if (!shippingInfo.lastName || shippingInfo.lastName.trim().length < 2) {
-        toast.error('Last name is required and must be at least 2 characters');
+        toast.error(t('checkout.errors.full_name_required', 'Full name is required (at least 2 characters)'));
         return;
       }
 
       const phoneDigits = shippingInfo.phone.replace(/\D/g, '');
       if (phoneDigits.length < 10) {
-        toast.error('Please enter a valid phone number with at least 10 digits');
+        toast.error(t('checkout.errors.invalid_phone', 'Please enter a valid phone number'));
         return;
       }
 
       const availablePaymentMethods = ['credit_card', 'paypal', 'cash_on_delivery'];
       if (!availablePaymentMethods.includes(normalizedPaymentMethod)) {
-        toast.error('Please select a valid payment method');
+        toast.error(t('checkout.errors.invalid_payment_method', 'Please select a valid payment method'));
         return;
       }
 
@@ -472,6 +467,12 @@ export default function CheckoutPage() {
       };
       if (countryMap[normalizedCountry]) normalizedCountry = countryMap[normalizedCountry];
 
+      const fullNameParts = (shippingInfo.firstName || '').trim().split(/\s+/);
+      const derivedFirstName = fullNameParts[0] || (shippingInfo.firstName || '').trim();
+      const derivedLastName = fullNameParts.length > 1
+        ? fullNameParts.slice(1).join(' ')
+        : (shippingInfo.lastName || '').trim() || derivedFirstName;
+
       const orderData = {
         items: cartState.items.map((item) => ({
           product_id: item.product.id,
@@ -482,8 +483,8 @@ export default function CheckoutPage() {
           store_id: item.store?.id || 0,
         })),
         shipping_info: {
-          first_name: (shippingInfo.firstName || '').trim(),
-          last_name: (shippingInfo.lastName || '').trim(),
+          first_name: derivedFirstName,
+          last_name: derivedLastName,
           email: (shippingInfo.email || '').trim().toLowerCase(),
           phone: (shippingInfo.phone?.replace(/\D/g, '') || '').trim(),
           address: (shippingInfo.address || '').trim(),

@@ -28,9 +28,8 @@ export async function POST(
     });
 
     if (!response.ok) {
-      const errorData = await response.json();
       return NextResponse.json(
-        { error: errorData.message || `Failed to accept response ${responseId}` },
+        { error: `Failed to accept response` },
         { status: response.status }
       );
     }

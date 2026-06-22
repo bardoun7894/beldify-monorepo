@@ -63,9 +63,8 @@ export async function POST(
     });
 
     if (!response.ok) {
-      const errorData = await response.json();
       return NextResponse.json(
-        { error: errorData.message || `Failed to create response for post ${postId}` },
+        { error: `Failed to create response` },
         { status: response.status }
       );
     }

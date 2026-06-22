@@ -61,9 +61,8 @@ export async function PUT(
     );
 
     if (!response.ok) {
-      const errorData = await response.json();
       return NextResponse.json(
-        { error: errorData.message || `Failed to update status for response ${responseId}` },
+        { error: `Failed to update response status` },
         { status: response.status }
       );
     }
