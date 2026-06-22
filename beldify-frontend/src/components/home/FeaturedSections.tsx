@@ -81,6 +81,7 @@ export default function FeaturedSections() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    let ignore = false;
     const fetchData = async () => {
       try {
         const [bestSellersData, newArrivalsData, specialOffersData] =
@@ -89,6 +90,8 @@ export default function FeaturedSections() {
             fetchNewArrivals(),
             fetchSpecialOffers(),
           ]);
+
+        if (ignore) return;
 
         // Set default empty arrays for tailors and sellers since the API functions are commented out
         setRecommendedTailors([]);
@@ -134,14 +137,18 @@ export default function FeaturedSections() {
           }
         ]);
       } catch (err) {
+        if (ignore) return;
         setError(t('featuredSections.loadError', 'Failed to load featured sections. Please try again later.'));
         logger.error('Error fetching featured sections:', err);
       } finally {
-        setLoading(false);
+        if (!ignore) setLoading(false);
       }
     };
 
     fetchData();
+    return () => {
+      ignore = true;
+    };
   }, [t]);
 
   const sections: Section[] = [

@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { fetchCategories } from '@/lib/api';
 import SubcategoriesGrid from '@/components/home/SubcategoriesGrid';
 import { Category } from '@/types/category';
+import logger from '@/utils/consoleLogger';
 
 const TopCategoriesSection: React.FC = () => {
   const [categories, setCategories] = useState<Category[]>([]);
@@ -13,32 +14,38 @@ const TopCategoriesSection: React.FC = () => {
   const { t } = useTranslation();
 
   useEffect(() => {
+    let ignore = false;
     const loadCategories = async () => {
       try {
         setLoading(true);
         const data = await fetchCategories();
+        if (ignore) return;
         setCategories(data);
-        
+
         // Extract all subcategories from main categories
-        const allSubcategories = data.flatMap(category => 
+        const allSubcategories = data.flatMap(category =>
           category.sub_categories || []
         );
-        
+
         // Get unique subcategories (in case there are duplicates)
         const uniqueSubcategories = allSubcategories.filter((subcat, index, self) =>
           index === self.findIndex((s) => s.id === subcat.id)
         );
-        
+
         // Get top subcategories (limit to 16 for better UI)
         setSubcategories(uniqueSubcategories.slice(0, 16));
       } catch (error) {
-        console.error('Failed to load categories:', error);
+        if (ignore) return;
+        logger.error('Failed to load categories:', error);
       } finally {
-        setLoading(false);
+        if (!ignore) setLoading(false);
       }
     };
 
     loadCategories();
+    return () => {
+      ignore = true;
+    };
   }, []);
 
   return (
