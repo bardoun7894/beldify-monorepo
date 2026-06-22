@@ -182,7 +182,9 @@ export default function OrderDetailsPage() {
               </svg>
             </div>
             <h2 className="text-xl font-semibold text-gray-900 mb-2">{t('orders.error.title')}</h2>
-            <p className="text-gray-600 mb-6">{error}</p>
+            <p className="text-gray-600 mb-6">
+              {error === 'not_found' ? t('orders.not_found.message') : t('orders.error.description')}
+            </p>
             <Link
               href="/orders"
               className="inline-flex items-center px-6 py-3 text-sm font-medium rounded-2xl text-white bg-indigo-700 hover:bg-indigo-800 transition hover:-translate-y-0.5 hover:shadow-md"

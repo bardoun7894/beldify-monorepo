@@ -1070,6 +1070,13 @@
     "list": {
       "eyebrow": "Marketplace",
       "headline": "Hand-picked ateliers."
+    },
+    "follow": {
+      "login_required": "Please log in to follow this shop",
+      "auth_error": "Authentication error. Please log in again",
+      "success": "Shop followed successfully",
+      "unfollow_success": "Shop unfollowed successfully",
+      "action_failed": "An error occurred. Please try again"
     }
   },
   "sort": {

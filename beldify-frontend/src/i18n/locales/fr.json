@@ -958,6 +958,13 @@
     "list": {
       "eyebrow": "Marketplace",
       "headline": "Ateliers sélectionnés."
+    },
+    "follow": {
+      "login_required": "Veuillez vous connecter pour suivre cette boutique",
+      "auth_error": "Erreur d'authentification. Veuillez vous reconnecter",
+      "success": "Boutique suivie avec succès",
+      "unfollow_success": "Abonnement à la boutique annulé",
+      "action_failed": "Une erreur est survenue. Veuillez réessayer"
     }
   },
   "footer": {

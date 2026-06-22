@@ -988,6 +988,13 @@
     "list": {
       "eyebrow": "السوق",
       "headline": "أتيليهات مختارة."
+    },
+    "follow": {
+      "login_required": "دخل للحساب باش تتبع هاد لحانوت",
+      "auth_error": "غلطة فالدخول. دخل للحساب من جديد",
+      "success": "تبعتي لحانوت بنجاح",
+      "unfollow_success": "وقفتي على تتبع لحانوت",
+      "action_failed": "وقع مشكل. عاود جرب"
     }
   },
   "product_categories": {
