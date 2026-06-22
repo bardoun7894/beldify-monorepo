@@ -122,7 +122,15 @@
     "preferences_updated": "Preferencias guardadas con éxito",
     "update_profile_failed": "Error al actualizar el perfil. Inténtalo de nuevo.",
     "update_password_failed": "Error al actualizar la contraseña. Inténtalo de nuevo.",
-    "update_preferences_failed": "Error al guardar las preferencias. Inténtalo de nuevo."
+    "update_preferences_failed": "Error al guardar las preferencias. Inténtalo de nuevo.",
+    "oauth_coming_soon": "¡Próximamente!"
+  },
+  "support": {
+    "need_help": "¿Necesitas ayuda?",
+    "live_chat": "Chat en vivo",
+    "call_us": "Llámanos",
+    "email_us": "Email",
+    "live_chat_coming_soon": "¡Chat en vivo próximamente!"
   },
   "navigation": {
     "home": "Inicio",
@@ -1717,7 +1725,9 @@
     "categories": {
       "eyebrow": "Explorar",
       "headline": "El zoco, sala por sala.",
-      "error_description": "No pudimos cargar las categorías. Por favor, inténtalo de nuevo."
+      "error_description": "No pudimos cargar las categorías. Por favor, inténtalo de nuevo.",
+      "loading": "Cargando categorías…",
+      "description": "Explora caftanes, djellabas y sastrería a medida — organizados por tradición, género y artesanía."
     },
     "products": {
       "eyebrow": "Mercado",

@@ -126,7 +126,7 @@ export default function LoginForm() {
               type="button"
               className="w-full inline-flex justify-center items-center gap-2 py-2.5 px-4 border border-amber-200 rounded-2xl bg-white text-sm font-medium text-gray-600 hover:bg-amber-50 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-amber-500/30"
               aria-label={t('auth.sign_in_with_google', 'Sign in with Google')}
-              onClick={() => toast.success('Google login coming soon!')}
+              onClick={() => toast.success(t('auth.oauth_coming_soon', 'Coming soon!'))}
             >
               <svg className="w-4 h-4" viewBox="0 0 24 24" aria-hidden="true">
                 <path
@@ -140,7 +140,7 @@ export default function LoginForm() {
               type="button"
               className="w-full inline-flex justify-center items-center gap-2 py-2.5 px-4 border border-amber-200 rounded-2xl bg-white text-sm font-medium text-gray-600 hover:bg-amber-50 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-amber-500/30"
               aria-label={t('auth.sign_in_with_apple', 'Sign in with Apple')}
-              onClick={() => toast.success('Apple login coming soon!')}
+              onClick={() => toast.success(t('auth.oauth_coming_soon', 'Coming soon!'))}
             >
               <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                 <path d="M12 2C6.477 2 2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.879V14.89h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.989C18.343 21.129 22 16.99 22 12c0-5.523-4.477-10-10-10z" />

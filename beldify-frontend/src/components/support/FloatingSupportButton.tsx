@@ -1,30 +1,33 @@
 'use client';
 
 import { useState } from 'react';
-import { 
-  ChatBubbleLeftRightIcon, 
-  XMarkIcon, 
-  PhoneIcon, 
-  EnvelopeIcon 
+import { useTranslation } from 'react-i18next';
+import {
+  ChatBubbleLeftRightIcon,
+  XMarkIcon,
+  PhoneIcon,
+  EnvelopeIcon
 } from '@heroicons/react/24/outline';
+import toast from '@/utils/toast';
 
 export default function FloatingSupportButton() {
   const [isOpen, setIsOpen] = useState(false);
+  const { t } = useTranslation();
 
   const supportOptions = [
     {
       icon: ChatBubbleLeftRightIcon,
-      label: 'Live Chat',
-      action: () => alert('Live chat will be implemented soon!')
+      label: t('support.live_chat', 'Live Chat'),
+      action: () => toast.success(t('support.live_chat_coming_soon', 'Live chat coming soon!'))
     },
     {
       icon: PhoneIcon,
-      label: 'Call Us',
+      label: t('support.call_us', 'Call Us'),
       action: () => window.open('tel:+212XXXXXXXX')
     },
     {
       icon: EnvelopeIcon,
-      label: 'Email',
+      label: t('support.email_us', 'Email'),
       action: () => window.open('mailto:support@beldify.com')
     }
   ];
@@ -36,7 +39,7 @@ export default function FloatingSupportButton() {
         <div className="mb-4">
           <div className="bg-white rounded-lg shadow-xl border border-gray-200 overflow-hidden">
             <div className="bg-indigo-600 px-4 py-2">
-              <h3 className="text-white font-medium text-sm">Need Help?</h3>
+              <h3 className="text-white font-medium text-sm">{t('support.need_help', 'Need Help?')}</h3>
             </div>
             <div className="p-2">
               {supportOptions.map((option, index) => (
@@ -57,6 +60,7 @@ export default function FloatingSupportButton() {
       {/* Main Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
+        aria-label={t('support.need_help', 'Need Help?')}
         className={`w-14 h-14 rounded-full shadow-lg transition-all duration-300 flex items-center justify-center ${
           isOpen ? 'bg-red-500 hover:bg-red-600' : 'bg-indigo-600 hover:bg-indigo-700'
         }`}
@@ -69,4 +73,4 @@ export default function FloatingSupportButton() {
       </button>
     </div>
   );
-} 
+}

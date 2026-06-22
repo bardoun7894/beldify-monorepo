@@ -138,7 +138,15 @@
     "preferences_updated": "تفضيلاتك تسجلاو بنجاح",
     "update_profile_failed": "ما تحيناشي البروفيل. عاود حاول.",
     "update_password_failed": "ما تحيناشي كلمة المرور. عاود حاول.",
-    "update_preferences_failed": "ما تسجلاوشي التفضيلات. عاود حاول."
+    "update_preferences_failed": "ما تسجلاوشي التفضيلات. عاود حاول.",
+    "oauth_coming_soon": "قريباً!"
+  },
+  "support": {
+    "need_help": "واش محتاج مساعدة؟",
+    "live_chat": "الدردشة المباشرة",
+    "call_us": "تصل بينا",
+    "email_us": "الإيميل",
+    "live_chat_coming_soon": "الدردشة جاية قريباً!"
   },
   "navigation": {
     "home": "الرئيسية",
@@ -1705,7 +1713,9 @@
     "categories": {
       "eyebrow": "شوف",
       "headline": "السوق، بيت بيت.",
-      "error_description": "ما قدرناش نحملو الأصناف. عاود حاول."
+      "error_description": "ما قدرناش نحملو الأصناف. عاود حاول.",
+      "loading": "كنحملو لأصناف…",
+      "description": "كشوف القفاطين، الجلابيات، والخياطة المصممة — مرتبة حسب التقليد والجنس والحرفة."
     },
     "products": {
       "eyebrow": "السوق",

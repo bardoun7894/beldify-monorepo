@@ -242,7 +242,7 @@ export default function FeaturedSections() {
                       </Link>
                     </h3>
                     <div className="mt-1 flex items-center justify-between">
-                      <p className="text-sm text-gray-500">${product.price}</p>
+                      <p className="text-sm text-gray-500">{product.price} {t('product.currency')}</p>
                       {'isNew' in product && product.isNew && (
                         <span className="inline-flex items-center rounded-full bg-atlas-secondary/[0.15] px-2.5 py-0.5 text-xs font-medium text-[hsl(var(--on-secondary))] ring-1 ring-atlas-secondary/[0.3]">
                           {t('featuredSections.newBadge', 'New')}
