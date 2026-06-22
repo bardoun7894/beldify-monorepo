@@ -1008,7 +1008,7 @@ export default function ProductDetailsPage() {
           setSelectedVariant(defaultVariant);
         }
       } catch (error) {
-        setError('Failed to load product');
+        setError(null);
           logger.error('Error fetching product:', error);
       } finally {
         setLoading(false);

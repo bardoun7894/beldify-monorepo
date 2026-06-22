@@ -206,7 +206,7 @@ export default function CartPage() {
           <div className="lg:col-span-2 space-y-4">
             {state.items.map((item) => {
               const productName =
-                i18n.language === 'ar' ? item.product.name_ar : item.product.name;
+                isRTL ? item.product.name_ar : item.product.name;
               const lineTotal = (item.unit_price * item.quantity).toFixed(2);
               const hasDiscount =
                 item.product.price &&
