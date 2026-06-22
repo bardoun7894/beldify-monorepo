@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   ChatBubbleLeftRightIcon,
@@ -16,8 +16,29 @@ const SUPPORT_EMAIL_HREF = 'mailto:support@beldify.com';
 export default function FloatingSupportButton() {
   const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   const close = () => setIsOpen(false);
+
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') close();
+    };
+    const handlePointerDown = (e: PointerEvent) => {
+      if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
+        close();
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    document.addEventListener('pointerdown', handlePointerDown);
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+      document.removeEventListener('pointerdown', handlePointerDown);
+    };
+  }, [isOpen]);
 
   const supportOptions = [
     {
@@ -47,7 +68,7 @@ export default function FloatingSupportButton() {
   ];
 
   return (
-    <div className="fixed bottom-6 right-6 rtl:right-auto rtl:left-6 z-50">
+    <div ref={containerRef} className="fixed bottom-6 right-6 rtl:right-auto rtl:left-6 z-50">
       {/* Support Options */}
       {isOpen && (
         <div id="floating-support-panel" role="menu" className="mb-4">
