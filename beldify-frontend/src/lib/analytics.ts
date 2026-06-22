@@ -193,10 +193,14 @@ function postToBackend(event: AnalyticsEvent): void {
   fetch(`${apiUrl}/api/analytics/track`, {
     method: 'POST',
     headers,
+    // Contract MUST match the backend AnalyticsTrackController validation:
+    // `event_type` (in AnalyticsEvent::VALID_EVENT_TYPES) is required; the full
+    // typed event goes in `payload`; url/referrer are accepted for attribution.
     body: JSON.stringify({
-      event: event.event,
+      event_type: event.event,
       payload: event,
-      timestamp: Date.now(),
+      url: win?.location.href ?? null,
+      referrer: win?.document.referrer || null,
     }),
   }).catch(() => {
     // Swallow all errors — this is non-critical telemetry

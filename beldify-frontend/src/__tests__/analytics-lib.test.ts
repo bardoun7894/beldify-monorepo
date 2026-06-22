@@ -14,6 +14,7 @@
 // @vitest-environment jsdom
 
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
+import type { AnalyticsEvent } from '@/lib/analytics';
 
 // ── helpers ──────────────────────────────────────────────────────────────────
 
@@ -177,6 +178,47 @@ describe('analytics.track()', () => {
     await expect(
       track({ event: 'page_view', page_path: '/error-path' })
     ).resolves.not.toThrow();
+  });
+
+  // ── CONTRACT: FE body MUST satisfy the backend AnalyticsTrackController ──────
+  // Mirror of App\Models\AnalyticsEvent::VALID_EVENT_TYPES. If the backend enum
+  // changes, this list must change too — that is the whole point of the test:
+  // it fails loudly the moment the FE↔BE contract drifts (the bug that shipped
+  // the first time: FE sent `event` + names not in the enum → 422 on every call).
+  const BACKEND_VALID_EVENT_TYPES = [
+    'page_view', 'view_item', 'product_view', 'product_click', 'category_view',
+    'search', 'add_to_cart', 'remove_from_cart', 'begin_checkout', 'purchase',
+    'app_open', 'app_close', 'banner_click', 'shop_view',
+  ];
+
+  it('sends event_type (not event) within the backend enum, for every FE event', async () => {
+    const { track } = await import('@/lib/analytics');
+
+    const samples: AnalyticsEvent[] = [
+      { event: 'page_view', page_path: '/p' },
+      { event: 'view_item', currency: 'MAD', value: 10, items: [] },
+      { event: 'add_to_cart', currency: 'MAD', value: 10, items: [] },
+      { event: 'begin_checkout', currency: 'MAD', value: 10, items: [] },
+      { event: 'purchase', transaction_id: 'O1', currency: 'MAD', value: 10, items: [] },
+    ];
+
+    for (const ev of samples) {
+      fetchSpy.mockClear();
+      await track(ev);
+      await new Promise((r) => setTimeout(r, 0));
+
+      const call = fetchSpy.mock.calls.find(
+        (c: unknown[]) => typeof c[0] === 'string' && c[0].includes('/api/analytics/track')
+      );
+      expect(call, `no backend POST for ${ev.event}`).toBeTruthy();
+
+      const body = JSON.parse((call![1] as { body: string }).body);
+      // Field name must be event_type, NOT event
+      expect(body).toHaveProperty('event_type');
+      expect(body.event_type).toBe(ev.event);
+      // And it must be a value the backend will accept
+      expect(BACKEND_VALID_EVENT_TYPES).toContain(body.event_type);
+    }
   });
 
   // ── (d) SSR safety — no throw when window is undefined ────────────────────
