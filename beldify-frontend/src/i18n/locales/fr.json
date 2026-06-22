@@ -125,7 +125,9 @@
     "saving": "Enregistrement…",
     "show_less": "Afficher moins",
     "show_more": "Afficher plus",
-    "need_help": "Besoin d'aide ?"
+    "need_help": "Besoin d'aide ?",
+    "call_us": "Appelez-nous",
+    "email": "E-mail"
   },
   "validation": {
     "required": "Ce champ est obligatoire",

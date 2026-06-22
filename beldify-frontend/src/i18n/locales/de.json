@@ -125,7 +125,9 @@
     "saving": "Wird gespeichert …",
     "show_less": "Weniger anzeigen",
     "show_more": "Mehr anzeigen",
-    "need_help": "Brauchst du Hilfe?"
+    "need_help": "Brauchst du Hilfe?",
+    "call_us": "Rufen Sie uns an",
+    "email": "E-Mail"
   },
   "validation": {
     "required": "Dieses Feld ist erforderlich",

@@ -125,7 +125,9 @@
     "saving": "Opslaan…",
     "show_less": "Minder weergeven",
     "show_more": "Meer weergeven",
-    "need_help": "Hulp nodig?"
+    "need_help": "Hulp nodig?",
+    "call_us": "Bel ons",
+    "email": "E-mail"
   },
   "validation": {
     "required": "Dit veld is verplicht",

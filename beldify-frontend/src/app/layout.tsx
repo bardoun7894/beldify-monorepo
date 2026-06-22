@@ -5,16 +5,11 @@ import ClientProvider from '@/providers/ClientProvider';
 import MobileBottomNav from '@/components/layout/MobileBottomNav';
 import FloatingSupportButton from '@/components/support/FloatingSupportButton';
 import PWAProviderWrapper from '@/providers/PWAProviderWrapper';
-import dynamic from 'next/dynamic';
 import AnalyticsScripts from '@/components/analytics/AnalyticsScripts';
 import RouteAnalytics from '@/components/analytics/RouteAnalytics';
 
-// Lazy-load AssistantWidget so the launcher doesn't bloat the root bundle.
-// No ssr:false here — layout.tsx is a Server Component so ssr:false is forbidden.
-// AssistantWidget is 'use client' so it won't SSR its interactive parts anyway.
-const AssistantWidget = dynamic(
-  () => import('@/components/assistant/AssistantWidget').then((m) => ({ default: m.AssistantWidget }))
-);
+// The AI shopping assistant now lives inside FloatingSupportButton's menu —
+// a single unified launcher replaces the previous two separate floating widgets.
 
 const poppins = Poppins({
   subsets: ['latin'],
@@ -138,7 +133,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <div id="main-content" className="min-h-screen pb-16 md:pb-0">{children}</div>
           <PWAProviderWrapper />
           <FloatingSupportButton />
-          <AssistantWidget />
           <MobileBottomNav />
         </ClientProvider>
         <AnalyticsScripts />

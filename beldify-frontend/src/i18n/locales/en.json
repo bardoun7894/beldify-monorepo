@@ -125,7 +125,9 @@
     "saving": "Saving…",
     "show_less": "Show less",
     "show_more": "Show more",
-    "need_help": "Need Help?"
+    "need_help": "Need Help?",
+    "call_us": "Call us",
+    "email": "Email"
   },
   "validation": {
     "required": "This field is required",
