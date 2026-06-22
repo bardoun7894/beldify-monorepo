@@ -71,7 +71,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json(
         {
           status: 'error',
-          error: error.error || error.message || 'Failed to send message'
+          error: 'Failed to send message'
         },
         { status: response.status }
       );

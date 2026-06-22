@@ -149,11 +149,8 @@ export async function POST(request: NextRequest) {
   } catch (error: any) {
     logger.error('Error sending message:', {
       message: error.message,
-      response: error.response?.data,
       status: error.response?.status,
-      config: error.config?.url,
-      headers: error.config?.headers,
-      data: error.config?.data
+      url: error.config?.url,
     });
 
     // Log the full axios error for debugging

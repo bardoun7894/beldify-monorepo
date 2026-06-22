@@ -412,7 +412,7 @@ export default function OrdersPage() {
                     ))}
                     {order.items && order.items.length > 3 && (
                       <p className="text-sm text-gray-500 text-center py-2">
-                        +{order.items.length - 3} more items
+                        +{order.items.length - 3} {t('orders.moreItems', 'more items')}
                       </p>
                     )}
                   </div>
