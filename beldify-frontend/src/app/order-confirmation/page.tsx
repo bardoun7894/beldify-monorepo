@@ -184,7 +184,7 @@ export default function OrderConfirmationPage() {
                       </p>
                     </div>
                     <p className="text-gray-900 font-medium tabular-nums whitespace-nowrap">
-                      {formatAmount(item.unit_price * item.quantity)} MAD
+                      {formatAmount(item.unit_price * item.quantity)} {t('product.currency')}
                     </p>
                   </div>
                 ))}
@@ -195,7 +195,7 @@ export default function OrderConfirmationPage() {
                       {t('order_confirmation.summary.subtotal', 'Subtotal')}
                     </span>
                     <span className="text-gray-900 tabular-nums">
-                      {formatAmount(itemsSubtotal)} MAD
+                      {formatAmount(itemsSubtotal)} {t('product.currency')}
                     </span>
                   </div>
                   <div className="flex justify-between text-sm">
@@ -203,7 +203,7 @@ export default function OrderConfirmationPage() {
                       {t('order_confirmation.summary.shipping', 'Shipping')}
                     </span>
                     <span className="text-gray-900 tabular-nums">
-                      {formatAmount(order.shipping_amount ?? 0)} MAD
+                      {formatAmount(order.shipping_amount ?? 0)} {t('product.currency')}
                     </span>
                   </div>
                   <div className="flex justify-between text-sm">
@@ -211,7 +211,7 @@ export default function OrderConfirmationPage() {
                       {t('order_confirmation.summary.tax', 'Tax')}
                     </span>
                     <span className="text-gray-900 tabular-nums">
-                      {formatAmount(order.tax_amount ?? 0)} MAD
+                      {formatAmount(order.tax_amount ?? 0)} {t('product.currency')}
                     </span>
                   </div>
                   <div className="flex justify-between font-semibold mt-4 pt-4 border-t border-amber-100">
@@ -219,7 +219,7 @@ export default function OrderConfirmationPage() {
                       {t('order_confirmation.summary.total', 'Total')}
                     </span>
                     <span className="text-indigo-700 tabular-nums">
-                      {formatAmount(order.total_amount)} MAD
+                      {formatAmount(order.total_amount)} {t('product.currency')}
                     </span>
                   </div>
                 </div>

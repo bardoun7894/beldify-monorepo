@@ -776,14 +776,14 @@ export default function CheckoutPage() {
       price:
         subtotal >= 500
           ? t('checkout.shipping.methods.standard.free', 'Free')
-          : '30 MAD',
+          : `30 ${t('product.currency')}`,
     },
     {
       key: 'express',
       icon: <Zap className="w-5 h-5 text-indigo-700" />,
       name: t('checkout.shipping.methods.express.name', 'Express Delivery'),
       eta: t('checkout.shipping.methods.express.eta', '1–2 business days'),
-      price: '70 MAD',
+      price: `70 ${t('product.currency')}`,
     },
     {
       key: 'pickup',
@@ -1165,7 +1165,7 @@ export default function CheckoutPage() {
                 </p>
               </div>
               <span className="text-sm font-semibold text-indigo-700 flex-shrink-0">
-                {(item.unit_price * item.quantity).toFixed(2)} MAD
+                {(item.unit_price * item.quantity).toFixed(2)} {t('product.currency')}
               </span>
             </li>
           );
@@ -1175,13 +1175,13 @@ export default function CheckoutPage() {
       <div className="border-t border-amber-200 pt-4 space-y-2 text-sm">
         <div className="flex justify-between">
           <span className="text-gray-600">{t('checkout.summary.subtotal', 'Subtotal')}</span>
-          <span className="text-gray-900 font-medium">{subtotal.toFixed(2)} MAD</span>
+          <span className="text-gray-900 font-medium">{subtotal.toFixed(2)} {t('product.currency')}</span>
         </div>
         <div className="flex justify-between">
           <span className="text-gray-600">{t('checkout.summary.shipping', 'Shipping')}</span>
           <span className="text-gray-900 font-medium">
             {shippingAmount > 0
-              ? `${shippingAmount.toFixed(2)} MAD`
+              ? `${shippingAmount.toFixed(2)} ${t('product.currency')}`
               : subtotal >= 500
               ? t('cart.summary.free', 'Free')
               : '—'}
@@ -1190,14 +1190,14 @@ export default function CheckoutPage() {
         {taxAmount > 0 && (
           <div className="flex justify-between">
             <span className="text-gray-600">{t('checkout.summary.tax', 'Tax')}</span>
-            <span className="text-gray-900 font-medium">{taxAmount.toFixed(2)} MAD</span>
+            <span className="text-gray-900 font-medium">{taxAmount.toFixed(2)} {t('product.currency')}</span>
           </div>
         )}
         {discountAmount > 0 && (
           <div className="flex justify-between">
             <span className="text-gray-600">{t('checkout.summary.discount', 'Discount')}</span>
             {/* expect: discount "good news" uses amber-600 (green not in palette per DESIGN.md §2) */}
-            <span className="text-amber-600 font-medium">-{discountAmount.toFixed(2)} MAD</span>
+            <span className="text-amber-600 font-medium">-{discountAmount.toFixed(2)} {t('product.currency')}</span>
           </div>
         )}
       </div>
@@ -1211,7 +1211,7 @@ export default function CheckoutPage() {
           className="text-2xl font-bold text-indigo-700"
           style={playfair}
         >
-          {totalAmount.toFixed(2)} MAD
+          {totalAmount.toFixed(2)} {t('product.currency')}
         </span>
       </div>
 
