@@ -9,6 +9,7 @@ import { Label } from '@/components/ui/label';
 import { CreateReviewRequest } from '@/types/review';
 import { CameraIcon, XCircleIcon } from '@heroicons/react/24/outline';
 import { cn } from '@/utils/classNames';
+import logger from '@/utils/consoleLogger';
 
 interface ReviewFormProps {
   productId: string;
@@ -135,7 +136,7 @@ export const ReviewForm: React.FC<ReviewFormProps> = ({
       imagePreviews.forEach(url => URL.revokeObjectURL(url));
       setImagePreviews([]);
     } catch (err) {
-      console.error('Review submission error:', err);
+      logger.error('Review submission error:', err);
       setError(t('reviews.form.submit_error'));
     } finally {
       setIsSubmitting(false);

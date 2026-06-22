@@ -1,14 +1,15 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Review, ReviewSummary as ReviewSummaryType, ReviewsResponse, CreateReviewRequest } from '@/types/review';
 import ReviewSummary from './ReviewSummary';
 import ReviewCard from './ReviewCard';
-import { ReviewForm } from './ReviewForm'; 
+import { ReviewForm } from './ReviewForm';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { mockReviewService } from '@/services/mockReviewService'; // Using mock service
 import { PlusCircleIcon, AdjustmentsHorizontalIcon, StarIcon } from '@heroicons/react/24/outline';
 import { cn } from '@/utils/classNames';
+import logger from '@/utils/consoleLogger';
 
 interface ReviewsSectionProps {
   productId: string;
@@ -34,7 +35,12 @@ const ReviewsSection: React.FC<ReviewsSectionProps> = ({ productId, productName 
     rating: null, // e.g., 5 for 5 stars, null for all
   });
 
+  // Bumped on unmount or when productId/filters change so in-flight responses
+  // from a previous product/filter combination don't overwrite the current state.
+  const fetchTokenRef = useRef(0);
+
   const fetchReviewsAndSummary = useCallback(async (page: number, filters: Record<string, any>) => {
+    const token = ++fetchTokenRef.current;
     setIsLoading(true);
     setError(null);
     try {
@@ -44,13 +50,15 @@ const ReviewsSection: React.FC<ReviewsSectionProps> = ({ productId, productName 
         ITEMS_PER_PAGE,
         filters
       );
+      if (token !== fetchTokenRef.current) return;
       setReviews(prevReviews => page === 1 ? response.reviews : [...prevReviews, ...response.reviews]);
       setSummary(response.summary);
       setTotalPages(response.pagination.totalPages);
       setTotalReviews(response.pagination.totalItems);
       setCurrentPage(response.pagination.currentPage);
     } catch (err) {
-      console.error('Failed to fetch reviews:', err);
+      if (token !== fetchTokenRef.current) return;
+      logger.error('Failed to fetch reviews:', err);
       setError(t('reviews.fetch_error'));
       // Keep existing data on error if not first load
       if (page === 1) {
@@ -58,12 +66,18 @@ const ReviewsSection: React.FC<ReviewsSectionProps> = ({ productId, productName 
         setSummary(null);
       }
     } finally {
-      setIsLoading(false);
+      if (token === fetchTokenRef.current) {
+        setIsLoading(false);
+      }
     }
   }, [productId, t]);
 
   useEffect(() => {
     fetchReviewsAndSummary(1, activeFilters); // Fetch on initial load and when filters change
+    return () => {
+      // Invalidate any in-flight fetch so its setState calls are dropped.
+      fetchTokenRef.current++;
+    };
   }, [fetchReviewsAndSummary, activeFilters]);
 
   const handleLoadMore = () => {
@@ -107,7 +121,7 @@ const ReviewsSection: React.FC<ReviewsSectionProps> = ({ productId, productName 
       );
       // Optionally update summary if likes/dislikes are part of it
     } catch (err) {
-      console.error('Failed to update reaction:', err);
+      logger.error('Failed to update reaction:', err);
       // Handle error, maybe show a toast
     }
   };

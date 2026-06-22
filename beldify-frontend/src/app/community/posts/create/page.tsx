@@ -25,6 +25,7 @@ import { categoryService } from '@/services/categoryService';
 import { Category } from '@/types/category';
 import { useDirection } from '@/hooks/useDirection';
 import { motion } from 'framer-motion';
+import logger from '@/utils/consoleLogger';
 
 export default function CreatePostPage() {
   const { t } = useTranslation();
@@ -93,7 +94,7 @@ export default function CreatePostPage() {
         const categoriesData = await categoryService.getAllCategories();
         setCategories(categoriesData);
       } catch (error) {
-        console.error('Error fetching categories:', error);
+        logger.error('Error fetching categories:', error);
         setError(t('community.error_loading_categories') || 'Error loading categories');
       } finally {
         setLoadingCategories(false);
@@ -103,20 +104,20 @@ export default function CreatePostPage() {
     fetchCategories();
   }, [t]);
 
+  const productIdParam = searchParams.get('productId');
+  const productNameParam = searchParams.get('productName');
+  const productImageParam = searchParams.get('productImage');
+
   // Pre-fill form with product data if provided via search params
   useEffect(() => {
-    const productId = searchParams.get('productId');
-    const productName = searchParams.get('productName');
-    const productImage = searchParams.get('productImage');
-    
-    if (productId && productName) {
+    if (productIdParam && productNameParam) {
       setFormData(prev => ({
         ...prev,
-        title: `Custom ${productName} - Similar Design Requested`,
-        description: `I'm looking for a custom product similar to the ${productName} (Product ID: ${productId}). ${productImage ? 'Please see the reference image for the style I prefer.' : 'I can provide more details about the design I have in mind.'}\n\nPlease let me know if you can create something similar with custom modifications.`
+        title: `Custom ${productNameParam} - Similar Design Requested`,
+        description: `I'm looking for a custom product similar to the ${productNameParam} (Product ID: ${productIdParam}). ${productImageParam ? 'Please see the reference image for the style I prefer.' : 'I can provide more details about the design I have in mind.'}\n\nPlease let me know if you can create something similar with custom modifications.`
       }));
     }
-  }, [searchParams]);
+  }, [productIdParam, productNameParam, productImageParam]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
