@@ -24,31 +24,37 @@ const PopularCategoriesSection: React.FC<PopularCategoriesSectionProps> = ({
   const [error, setError] = useState<string | null>(null);
   const [mounted, setMounted] = useState(false);
   const searchParams = useSearchParams();
+  const localeParam = searchParams?.get('locale') ?? null;
   const { t, i18n } = useTranslation();
 
   useEffect(() => {
-    const locale = searchParams?.get('locale');
-    if (locale) {
-      i18n.changeLanguage(locale);
+    if (localeParam) {
+      i18n.changeLanguage(localeParam);
     }
-  }, [searchParams, i18n]);
+  }, [localeParam, i18n]);
 
-  const loadCategories = useCallback(async () => {
+  const loadCategories = useCallback(async (signal?: { ignore: boolean }) => {
     try {
       setLoading(true);
       const data = await fetchCategories();
+      if (signal?.ignore) return;
       setCategories(data);
       setError(null);
     } catch (err) {
+      if (signal?.ignore) return;
       setError(t('common.error'));
     } finally {
-      setLoading(false);
+      if (!signal?.ignore) setLoading(false);
     }
   }, [t]);
 
   useEffect(() => {
     setMounted(true);
-    loadCategories();
+    const signal = { ignore: false };
+    loadCategories(signal);
+    return () => {
+      signal.ignore = true;
+    };
   }, [loadCategories]);
 
   const popularSubcategories = useMemo(() => {

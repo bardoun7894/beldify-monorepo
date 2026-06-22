@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { getUnreadCount } from '@/services/messagingService';
 import logger from '@/utils/consoleLogger';
 
@@ -21,36 +21,45 @@ export const UnreadBadge: React.FC<UnreadBadgeProps> = ({
   onNewMessages
 }) => {
   const [unreadCount, setUnreadCount] = useState<number>(0);
-  const [lastCheck, setLastCheck] = useState<number>(Date.now());
+
+  // Refs so the polling effect doesn't tear down/rebuild on every fetch
+  // (previously: setLastCheck in effect → dep change → cleanup interval → re-run → fetch
+  // immediately → repeat — endpoint was hit at roundtrip speed, not pollInterval).
+  const lastCheckRef = useRef<number>(Date.now());
+  const unreadCountRef = useRef<number>(0);
+  const onNewMessagesRef = useRef(onNewMessages);
 
   useEffect(() => {
-    // Function to fetch unread count
+    unreadCountRef.current = unreadCount;
+  }, [unreadCount]);
+
+  useEffect(() => {
+    onNewMessagesRef.current = onNewMessages;
+  }, [onNewMessages]);
+
+  useEffect(() => {
     const fetchUnreadCount = async () => {
       try {
-        const result = await getUnreadCount(lastCheck);
+        const result = await getUnreadCount(lastCheckRef.current);
 
-        if (result.count !== unreadCount) {
+        if (result.count !== unreadCountRef.current) {
           setUnreadCount(result.count);
 
-          // Notify parent component about new messages
-          if (onNewMessages && result.hasNew) {
-            onNewMessages(result.count);
+          if (onNewMessagesRef.current && result.hasNew) {
+            onNewMessagesRef.current(result.count);
           }
         }
 
-        setLastCheck(result.currentTimestamp || Date.now());
+        lastCheckRef.current = result.currentTimestamp || Date.now();
       } catch (error) {
         logger.error('Failed to fetch unread count:', error);
       }
     };
 
-    // Initial fetch
     fetchUnreadCount();
 
-    // Set up polling
     const interval = setInterval(fetchUnreadCount, pollInterval);
 
-    // Also fetch when window regains focus
     const handleFocus = () => {
       fetchUnreadCount();
     };
@@ -61,7 +70,7 @@ export const UnreadBadge: React.FC<UnreadBadgeProps> = ({
       clearInterval(interval);
       window.removeEventListener('focus', handleFocus);
     };
-  }, [lastCheck, unreadCount, pollInterval, onNewMessages]);
+  }, [pollInterval]);
 
   // Don't show badge if count is 0 and showZero is false
   if (!showZero && unreadCount === 0) {

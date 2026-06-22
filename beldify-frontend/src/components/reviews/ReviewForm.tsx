@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent, FormEvent, useEffect } from 'react';
+import React, { useState, ChangeEvent, FormEvent, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StarIcon } from '@heroicons/react/24/solid';
 import { StarIcon as StarIconOutline } from '@heroicons/react/24/outline';
@@ -38,12 +38,19 @@ export const ReviewForm: React.FC<ReviewFormProps> = ({
   const [error, setError] = useState<string | null>(null);
   const [formError, setFormError] = useState<string | null>(null);
 
+  // Track live blob URLs in a ref so the unmount cleanup uses the latest set,
+  // not a stale closure. Previously the effect ran on every imagePreviews change
+  // and revoked URLs still rendered in <img>, blanking earlier previews.
+  const imagePreviewsRef = useRef<string[]>([]);
   useEffect(() => {
-    // Clean up object URLs on unmount
-    return () => {
-      imagePreviews.forEach(url => URL.revokeObjectURL(url));
-    };
+    imagePreviewsRef.current = imagePreviews;
   }, [imagePreviews]);
+
+  useEffect(() => {
+    return () => {
+      imagePreviewsRef.current.forEach(url => URL.revokeObjectURL(url));
+    };
+  }, []);
 
   const handleRatingChange = (newRating: number) => {
     setRating(newRating);
