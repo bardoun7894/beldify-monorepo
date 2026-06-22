@@ -1551,6 +1551,12 @@
     "payment": "Pago seguro",
     "return": "Devoluciones gratuitas"
   },
+  "trust": {
+    "ships": "Envío en 3 días",
+    "returns": "Devoluciones gratis 14 días",
+    "authentic": "Autenticidad garantizada",
+    "cod": "Pago contra entrega"
+  },
   "hero": {
     "welcomeBadge": "🌙 ¡Eid Mubarak Said en nuestro mercado!",
     "titleLine1": "Descubre la elegancia del Eid",

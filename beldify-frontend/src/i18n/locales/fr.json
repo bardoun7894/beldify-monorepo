@@ -2112,5 +2112,11 @@
     "retry": "Réessayer",
     "back": "Retour",
     "footnote": "Dès votre retour en ligne, toutes les fonctionnalités seront à nouveau disponibles."
+  },
+  "trust": {
+    "ships": "Expédié sous 3 jours",
+    "returns": "Retours gratuits sous 14 jours",
+    "authentic": "Authenticité garantie",
+    "cod": "Paiement à la livraison"
   }
 }

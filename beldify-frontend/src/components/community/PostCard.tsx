@@ -12,6 +12,7 @@ import {
   Sparkles
 } from 'lucide-react';
 import type { CommunityPost } from '@/types/community';
+import { intlLocale } from '@/i18n/config';
 
 interface PostCardProps {
   post: CommunityPost & {
@@ -21,17 +22,9 @@ interface PostCardProps {
   isUserPost?: boolean;
 }
 
-const POST_LOCALE_MAP: Record<string, string> = {
-  en: 'en-US',
-  fr: 'fr-FR',
-  ar: 'ar-MA',
-  ma: 'ar-MA',
-  es: 'es-ES',
-};
-
 export default function PostCard({ post, isUserPost = false }: PostCardProps) {
   const { t, i18n } = useTranslation();
-  const dateLocale = POST_LOCALE_MAP[i18n.language] || 'en-US';
+  const dateLocale = intlLocale(i18n.language);
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);

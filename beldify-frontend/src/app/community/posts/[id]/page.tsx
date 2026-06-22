@@ -28,6 +28,7 @@ import {
 } from '@/services/communityService';
 import { CommunityPost, CommunityResponse, CommunityImage } from '@/types/community';
 import { S3_CONFIG, API_BASE_URL } from '@/config/constants';
+import { intlLocale } from '@/i18n/config';
 import LoadingSpinner from '@/components/common/LoadingSpinner';
 import ResponseCard from '@/components/community/ResponseCard';
 import ResponseForm from '@/components/community/ResponseForm';
@@ -149,14 +150,7 @@ export default function PostDetailPage() {
     if (!dateString) return '';
     try {
       const date = new Date(dateString);
-      const localeMap: Record<string, string> = {
-        en: 'en-US',
-        fr: 'fr-FR',
-        ar: 'ar-MA',
-        ma: 'ar-MA',
-        es: 'es-ES',
-      };
-      const locale = localeMap[i18n.language] || 'fr-MA';
+      const locale = intlLocale(i18n.language);
       return date.toLocaleDateString(locale) + ' ' + date.toLocaleTimeString(locale);
     } catch (error) {
       console.error('Error formatting date:', error);

@@ -23,6 +23,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { useDirection } from '@/hooks/useDirection';
 import LoadingSpinner from '@/components/common/LoadingSpinner';
 import logger from '@/utils/consoleLogger';
+import { intlLocale } from '@/i18n/config';
 
 interface ProductOffer {
   id: string | number;
@@ -40,14 +41,6 @@ interface ResponseCardProps {
   isSubmitting?: boolean;
 }
 
-const RESPONSE_LOCALE_MAP: Record<string, string> = {
-  en: 'en-US',
-  fr: 'fr-FR',
-  ar: 'ar-MA',
-  ma: 'ar-MA',
-  es: 'es-ES',
-};
-
 export default function ResponseCard({ response, isPostOwner, onAccept, onReject, postId, isSubmitting = false }: ResponseCardProps) {
   const { user } = useAuth();
   const params = useParams();
@@ -56,7 +49,7 @@ export default function ResponseCard({ response, isPostOwner, onAccept, onReject
   const { isRTL } = useDirection();
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [showImages, setShowImages] = useState(false);
-  const dateLocale = RESPONSE_LOCALE_MAP[i18n.language] || 'en-US';
+  const dateLocale = intlLocale(i18n.language);
 
   const getImageUrl = (imagePath: string | null) => {
     if (!imagePath) return '/images/placeholder.jpg';

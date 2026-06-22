@@ -5,6 +5,7 @@ import { User } from '@/types/auth';
 import Image from 'next/image';
 import { useTranslation } from 'react-i18next';
 import { FiEdit2, FiMail, FiCalendar, FiUserCheck } from 'react-icons/fi';
+import { intlLocale } from '@/i18n/config';
 
 interface ProfileHeaderProps {
   user: User;
@@ -18,14 +19,7 @@ export default function ProfileHeader({ user }: ProfileHeaderProps) {
     return name.charAt(0).toUpperCase();
   };
 
-  const dateLocaleMap: Record<string, string> = {
-    en: 'en-US',
-    fr: 'fr-FR',
-    ar: 'ar-MA',
-    ma: 'ar-MA',
-    es: 'es-ES',
-  };
-  const dateLocale = dateLocaleMap[i18n.language] || 'fr-MA';
+  const dateLocale = intlLocale(i18n.language);
 
   const joinDate = user?.created_at
     ? new Date(user.created_at).toLocaleDateString(dateLocale, {

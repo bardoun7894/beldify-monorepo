@@ -1761,6 +1761,12 @@
     "payment": "Secure Payment",
     "return": "Free Returns"
   },
+  "trust": {
+    "ships": "Ships in 3 days",
+    "returns": "Free returns 14 days",
+    "authentic": "Authenticity guaranteed",
+    "cod": "Cash on Delivery"
+  },
   "support": {
     "live_chat": "Live Chat",
     "live_chat_coming_soon": "Live chat is coming soon.",

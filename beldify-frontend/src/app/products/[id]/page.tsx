@@ -27,6 +27,7 @@ import {
   Plus,
   Minus,
   ChevronDown,
+  Wallet,
 } from 'lucide-react';
 import { useCart } from '@/contexts/CartContext';
 import { useAuth } from '@/contexts/AuthContext';
@@ -1537,6 +1538,10 @@ export default function ProductDetailsPage() {
 
           {/* Trust micro-pills */}
           <div className="flex flex-wrap gap-2 pt-1">
+            <span className="bg-white ring-1 ring-amber-200 rounded-full px-2.5 py-1 text-xs text-gray-600 inline-flex items-center gap-1.5">
+              <Wallet className="h-3.5 w-3.5 text-amber-600" aria-hidden />
+              {t('trust.cod', 'Cash on Delivery')}
+            </span>
             <span className="bg-white ring-1 ring-amber-200 rounded-full px-2.5 py-1 text-xs text-gray-600 inline-flex items-center gap-1.5">
               <Truck className="h-3.5 w-3.5 text-amber-600" aria-hidden />
               {t('trust.ships', 'Ships in 3 days')}
