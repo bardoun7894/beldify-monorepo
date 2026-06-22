@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useParams } from 'next/navigation';
 import axios from 'axios';
 import Image from 'next/image';
@@ -53,37 +53,46 @@ export default function CategoryDetailPage() {
   const [sortBy, setSortBy] = useState<string>('newest');
   const [isMobileFiltersOpen, setIsMobileFiltersOpen] = useState(false);
 
-  useEffect(() => {
-    const fetchCategoryData = async () => {
-      try {
-        setLoading(true);
-        setError(null);
+  // Token-based race guard shared between the filter/slug effect and the retry
+  // button below (replaces window.location.reload, which wipes app state).
+  const fetchTokenRef = useRef(0);
 
-        const params = new URLSearchParams();
-        if (filters.minPrice) params.append('minPrice', filters.minPrice.toString());
-        if (filters.maxPrice) params.append('maxPrice', filters.maxPrice.toString());
-        if (filters.customizable !== undefined)
-          params.append('customizable', filters.customizable.toString());
-        if (filters.inStock !== undefined) params.append('inStock', filters.inStock.toString());
-        if (filters.colors.length > 0) params.append('colors', filters.colors.join(','));
-        if (filters.sizes.length > 0) params.append('sizes', filters.sizes.join(','));
-        if (filters.fabrics.length > 0) params.append('fabrics', filters.fabrics.join(','));
-        params.append('sort', sortBy || 'newest');
+  const fetchCategoryData = useCallback(async () => {
+    if (!slug) return;
+    const token = ++fetchTokenRef.current;
+    try {
+      setLoading(true);
+      setError(null);
 
-        const response = await axios.get(`/api/categories/${slug}?${params.toString()}`);
-        setCategoryData(response.data);
-      } catch (err: unknown) {
-        logger.error('Error fetching category data:', err);
-        setError(t('category.loadingError'));
-      } finally {
-        setLoading(false);
-      }
-    };
+      const params = new URLSearchParams();
+      if (filters.minPrice) params.append('minPrice', filters.minPrice.toString());
+      if (filters.maxPrice) params.append('maxPrice', filters.maxPrice.toString());
+      if (filters.customizable !== undefined)
+        params.append('customizable', filters.customizable.toString());
+      if (filters.inStock !== undefined) params.append('inStock', filters.inStock.toString());
+      if (filters.colors.length > 0) params.append('colors', filters.colors.join(','));
+      if (filters.sizes.length > 0) params.append('sizes', filters.sizes.join(','));
+      if (filters.fabrics.length > 0) params.append('fabrics', filters.fabrics.join(','));
+      params.append('sort', sortBy || 'newest');
 
-    if (slug) {
-      fetchCategoryData();
+      const response = await axios.get(`/api/categories/${slug}?${params.toString()}`);
+      if (fetchTokenRef.current !== token) return;
+      setCategoryData(response.data);
+    } catch (err: unknown) {
+      if (fetchTokenRef.current !== token) return;
+      logger.error('Error fetching category data:', err);
+      setError(t('category.loadingError'));
+    } finally {
+      if (fetchTokenRef.current === token) setLoading(false);
     }
   }, [slug, filters, sortBy, t]);
+
+  useEffect(() => {
+    fetchCategoryData();
+    return () => {
+      fetchTokenRef.current++;
+    };
+  }, [fetchCategoryData]);
 
   const handleFilters = (newFilters: Partial<ProductFiltersState>) => {
     setFilters((prev) => ({ ...prev, ...newFilters }));
@@ -99,7 +108,7 @@ export default function CategoryDetailPage() {
         <div className="text-center">
           <p className="text-red-500 mb-4">{error}</p>
           <button
-            onClick={() => window.location.reload()}
+            onClick={() => fetchCategoryData()}
             className="px-6 py-2.5 bg-indigo-700 text-white rounded-full text-sm font-semibold hover:bg-indigo-800 transition-colors"
           >
             {t('common.try_again')}
@@ -331,7 +340,7 @@ export default function CategoryDetailPage() {
                     >
                       <p className="text-gray-500">{t('products.no_results')}</p>
                       <button
-                        onClick={() => window.location.reload()}
+                        onClick={() => fetchCategoryData()}
                         className="mt-4 px-5 py-2 bg-indigo-50 text-indigo-700 rounded-full text-sm font-medium hover:bg-indigo-100 transition-colors"
                       >
                         <ArrowPathIcon className="h-4 w-4 inline mr-2" />

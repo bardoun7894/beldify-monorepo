@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { categoryService } from '@/services/categoryService';
 import { Category } from '@/types/category';
@@ -26,28 +26,37 @@ export default function CategoriesPage() {
     { label: t('genders.children'), value: 'Children' },
   ];
 
-  useEffect(() => {
-    const fetchFilteredCategories = async () => {
-      try {
-        setLoading(true);
-        setError(null);
-        const fetchedCategories = await categoryService.getAllCategories(selectedGender);
-        if (!Array.isArray(fetchedCategories)) {
-          throw new Error('Invalid categories data received');
-        }
-        setCategories(fetchedCategories);
-        setError(null);
-      } catch (err: any) {
-        logger.error('Error fetching categories:', err);
-        setError(t('errors.failed_to_fetch_categories', 'Failed to load categories.'));
-        setCategories([]);
-      } finally {
-        setLoading(false);
-      }
-    };
+  // Token-based race guard shared between the gender-filter effect and the
+  // retry button below (replaces window.location.reload, which wipes app state).
+  const fetchTokenRef = useRef(0);
 
-    fetchFilteredCategories();
+  const fetchFilteredCategories = useCallback(async () => {
+    const token = ++fetchTokenRef.current;
+    try {
+      setLoading(true);
+      setError(null);
+      const fetchedCategories = await categoryService.getAllCategories(selectedGender);
+      if (fetchTokenRef.current !== token) return;
+      if (!Array.isArray(fetchedCategories)) {
+        throw new Error('Invalid categories data received');
+      }
+      setCategories(fetchedCategories);
+    } catch (err: any) {
+      if (fetchTokenRef.current !== token) return;
+      logger.error('Error fetching categories:', err);
+      setError(t('errors.failed_to_fetch_categories', 'Failed to load categories.'));
+      setCategories([]);
+    } finally {
+      if (fetchTokenRef.current === token) setLoading(false);
+    }
   }, [t, selectedGender]);
+
+  useEffect(() => {
+    fetchFilteredCategories();
+    return () => {
+      fetchTokenRef.current++;
+    };
+  }, [fetchFilteredCategories]);
 
   if (loading) {
     return (
@@ -69,7 +78,7 @@ export default function CategoriesPage() {
             {t('catalog.categories.error_description', "We couldn't load the categories. Please try again.")}
           </p>
           <button
-            onClick={() => window.location.reload()}
+            onClick={() => fetchFilteredCategories()}
             className="inline-flex items-center gap-2 rounded-full bg-indigo-700 px-6 py-2.5 text-sm font-semibold text-white hover:bg-indigo-800 transition-colors"
           >
             {t('common.try_again', 'Try Again')}
