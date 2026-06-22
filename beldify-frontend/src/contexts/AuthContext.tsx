@@ -371,7 +371,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       toast.debug(`Login error: ${error.message}`);
       logger.error('Login failed:', error.response || error);
       const message = error.response?.data?.message || 'Login failed';
-      toast.error(message);
+      toast.error(t('auth.login_error'));
       return { success: false, message };
     } finally {
       setLoading(false);
@@ -756,7 +756,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     } catch (error: any) {
       logger.error('Google auth failed:', error.response || error);
       const message = error.response?.data?.message || 'Google authentication failed';
-      toast.error(message);
+      toast.error(t('auth.google_login_failed'));
       return { success: false, message };
     }
   };

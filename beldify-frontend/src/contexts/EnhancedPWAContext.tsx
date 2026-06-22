@@ -3,6 +3,7 @@
 import { createContext, useContext, useState, useEffect, ReactNode, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import toast from '@/utils/toast';
+import logger from '@/utils/consoleLogger';
 
 interface BeforeInstallPromptEvent extends Event {
   prompt: () => Promise<void>;
@@ -221,7 +222,7 @@ export function EnhancedPWAProvider({ children }: { children: ReactNode }) {
       };
       saveEngagement(newEngagement);
     } catch (error) {
-      console.warn('EnhancedPWA: Failed to initialize engagement tracking:', error);
+      logger.warn('EnhancedPWA: Failed to initialize engagement tracking:', error);
     }
 
     // Handle beforeinstallprompt
@@ -235,7 +236,7 @@ export function EnhancedPWAProvider({ children }: { children: ReactNode }) {
         // action) handled elsewhere — never on first paint, so it can't cover the
         // hero. Users can install via the footer button or browser menu any time.
       } catch (error) {
-        console.warn('EnhancedPWA: Error handling install prompt:', error);
+        logger.warn('EnhancedPWA: Error handling install prompt:', error);
       }
     };
 
@@ -312,7 +313,7 @@ export function EnhancedPWAProvider({ children }: { children: ReactNode }) {
         }
       }
     } catch (error) {
-      console.warn('EnhancedPWA: Failed to check reminder status:', error);
+      logger.warn('EnhancedPWA: Failed to check reminder status:', error);
     }
 
     window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
@@ -349,7 +350,7 @@ export function EnhancedPWAProvider({ children }: { children: ReactNode }) {
           hasWishlist: wishlist ? JSON.parse(wishlist).length > 0 : false
         });
       } catch (error) {
-        console.error('Error checking cart/wishlist:', error);
+        logger.error('Error checking cart/wishlist:', error);
       }
     };
 
@@ -440,7 +441,7 @@ export function EnhancedPWAProvider({ children }: { children: ReactNode }) {
           return true;
         }
       } catch (error) {
-        console.error('Installation failed:', error);
+        logger.error('Installation failed:', error);
       }
     }
     return false;
