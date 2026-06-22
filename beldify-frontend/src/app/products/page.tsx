@@ -68,7 +68,7 @@ function ProductGridSkeleton() {
 }
 
 export default function ProductsPage() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [filters, setFilters] = useState<ProductFiltersState>({
     colors: [],
     sizes: [],
@@ -98,11 +98,11 @@ export default function ProductsPage() {
     if (debouncedFilters.sizes.length > 0) params.append('sizes', debouncedFilters.sizes.join(','));
     if (debouncedFilters.fabrics.length > 0) params.append('fabrics', debouncedFilters.fabrics.join(','));
     if (searchTerm) params.append('q', searchTerm);
-    params.append('locale', 'en');
+    params.append('locale', i18n.language || 'en');
     params.append('sort', debouncedSortBy || 'newest');
 
     return `${API_BASE_URL}/api/products/all?${params.toString()}`;
-  }, [debouncedFilters, debouncedSortBy, searchParams]);
+  }, [debouncedFilters, debouncedSortBy, searchParams, i18n.language]);
 
   // Use SWR for data fetching with caching and deduplication
   const { data, error, isLoading, mutate } = useSWR(
@@ -242,7 +242,7 @@ export default function ProductsPage() {
             {t('catalog.products.headline', 'The Beldify catalog.')}
           </h1>
           <p className="mt-4 text-indigo-100 max-w-lg text-base sm:text-lg">
-            Caftans, djellabas, and hand-tailored pieces — sourced directly from verified ateliers across Morocco.
+            {t('catalog.products.subhead', 'Caftans, djellabas, and hand-tailored pieces — sourced directly from verified ateliers across Morocco.')}
           </p>
         </div>
       </section>

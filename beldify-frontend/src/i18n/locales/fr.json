@@ -1511,6 +1511,7 @@
     }
   },
   "pwa": {
+    "install_success": "Application installée avec succès ! Retrouvez-la sur votre écran d'accueil.",
     "banner": {
       "title": "Installez l'application Beldify pour une meilleure expérience",
       "ios_instruction": "Appuyez sur Partager → Ajouter à l'écran d'accueil dans Safari",
@@ -1684,7 +1685,8 @@
     },
     "products": {
       "eyebrow": "Marché",
-      "headline": "Le catalogue Beldify."
+      "headline": "Le catalogue Beldify.",
+      "subhead": "Caftans, djellabas et pièces taillées à la main — directement issues d'ateliers vérifiés à travers le Maroc."
     },
     "pdp": {
       "breadcrumb_label": "Fil d'Ariane",

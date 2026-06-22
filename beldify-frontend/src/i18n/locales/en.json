@@ -2011,6 +2011,7 @@
     "please_fix_errors": "Please fix the following errors:"
   },
   "pwa": {
+    "install_success": "App installed successfully! Find it on your home screen.",
     "banner": {
       "title": "Install Beldify App for a better experience",
       "ios_instruction": "Tap Share → Add to Home Screen in Safari",
@@ -2122,7 +2123,8 @@
     },
     "products": {
       "eyebrow": "Marketplace",
-      "headline": "The Beldify catalog."
+      "headline": "The Beldify catalog.",
+      "subhead": "Caftans, djellabas, and hand-tailored pieces — sourced directly from verified ateliers across Morocco."
     },
     "pdp": {
       "breadcrumb_label": "Breadcrumb",

@@ -1664,6 +1664,7 @@
     }
   },
   "pwa": {
+    "install_success": "¡Aplicación instalada con éxito! Encuéntrala en tu pantalla de inicio.",
     "banner": {
       "title": "Instala la aplicación Beldify para una mejor experiencia",
       "ios_instruction": "Toca Compartir → Añadir a la pantalla de inicio en Safari",
@@ -1756,7 +1757,8 @@
     },
     "products": {
       "eyebrow": "Mercado",
-      "headline": "El catálogo Beldify."
+      "headline": "El catálogo Beldify.",
+      "subhead": "Caftanes, chilabas y piezas cosidas a mano — directamente desde talleres verificados en todo Marruecos."
     },
     "pdp": {
       "breadcrumb_label": "Ruta de navegación",

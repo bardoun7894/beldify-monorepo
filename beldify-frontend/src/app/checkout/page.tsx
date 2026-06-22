@@ -1144,7 +1144,7 @@ export default function CheckoutPage() {
       <ul className="space-y-3 mb-5">
         {cartState.items.map((item) => {
           const productName =
-            i18n.language === 'ar' ? item.product.name_ar : item.product.name;
+            isRTL ? item.product.name_ar : item.product.name;
           return (
             <li key={item.id} className="flex items-center gap-3">
               <div className="relative w-12 h-12 flex-shrink-0 rounded-lg ring-1 ring-amber-200 overflow-hidden bg-amber-50">

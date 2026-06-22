@@ -13,6 +13,7 @@ import logger from '@/utils/consoleLogger';
 
 export default function CategoriesPage() {
   const { t, i18n } = useTranslation();
+  const isRTL = i18n.language === 'ar' || i18n.language === 'ma';
   const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -148,7 +149,7 @@ export default function CategoriesPage() {
                   {subcategory.image ? (
                     <Image
                       src={subcategory.image}
-                      alt={i18n.language === 'ar' ? subcategory.name_ar : subcategory.name_en || `Category ${subcategory.id}`}
+                      alt={isRTL ? subcategory.name_ar : subcategory.name_en || `Category ${subcategory.id}`}
                       fill
                       sizes="(min-width:1024px) 25vw, (min-width:640px) 33vw, 50vw"
                       className="object-cover transition duration-500 group-hover:scale-105"
@@ -170,7 +171,7 @@ export default function CategoriesPage() {
                       className="text-white text-lg sm:text-xl font-semibold leading-tight drop-shadow-sm"
                       style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
                     >
-                      {i18n.language === 'ar' ? subcategory.name_ar : subcategory.name_en}
+                      {isRTL ? subcategory.name_ar : subcategory.name_en}
                     </h3>
                   </div>
                 </Link>
