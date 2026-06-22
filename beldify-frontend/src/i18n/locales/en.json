@@ -123,7 +123,17 @@
     "sign_in_with_google": "Sign in with Google",
     "sign_in_with_apple": "Sign in with Apple",
     "provider_google": "Google",
-    "provider_apple": "Apple"
+    "provider_apple": "Apple",
+    "login_success": "Signed in successfully",
+    "logout_success": "Successfully logged out",
+    "logout_error": "Failed to log out. Please try again.",
+    "google_login_success": "Google sign-in successful!",
+    "google_registration_success": "Account created with Google!",
+    "google_login_existing": "Signed in with existing account",
+    "registration_successful": "Registration successful!",
+    "registration_failed": "Registration failed. Please try again.",
+    "google_unavailable": "Google Sign-In is currently unavailable",
+    "google_init_failed": "Failed to initialize Google Sign-Up"
   },
   "navigation": {
     "home": "Home",
@@ -2141,7 +2151,13 @@
     "save": "Save",
     "saved": "Saved",
     "items_count_one": "{{count}} item",
-    "items_count_other": "{{count}} items"
+    "items_count_other": "{{count}} items",
+    "error_loading": "Failed to load wishlist",
+    "login_required_add": "Please login to add items to your wishlist",
+    "login_required_manage": "Please login to manage your wishlist",
+    "already_in_wishlist": "Item already in wishlist",
+    "error_add": "Failed to add item to wishlist",
+    "error_remove": "Failed to remove item from wishlist"
   },
   "account": {
     "wishlist": {
@@ -2494,5 +2510,13 @@
   },
   "journal": {
     "from_the_journal": "From the journal"
+  },
+  "tailoring": {
+    "booking": {
+      "success": "Booking confirmed!",
+      "error": "Booking failed. Please try again.",
+      "time_slots_error": "Failed to load available time slots",
+      "load_error": "Failed to load tailor information"
+    }
   }
 }

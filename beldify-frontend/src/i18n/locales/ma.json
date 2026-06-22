@@ -120,7 +120,17 @@
     "sign_in_with_google": "دخل بـ Google",
     "sign_in_with_apple": "دخل بـ Apple",
     "provider_google": "Google",
-    "provider_apple": "Apple"
+    "provider_apple": "Apple",
+    "login_success": "دخلتي بنجاح",
+    "logout_success": "خرجتي بنجاح",
+    "logout_error": "ما خرجتيش. عاود حاول.",
+    "google_login_success": "دخلتي ب Google بنجاح!",
+    "google_registration_success": "تسجلتي ب Google!",
+    "google_login_existing": "دخلتي بحسابك الموجود",
+    "registration_successful": "تسجلتي بنجاح!",
+    "registration_failed": "ما تسجلتيش. عاود حاول.",
+    "google_unavailable": "دخول Google ماشي متاح دابا",
+    "google_init_failed": "ما تهياش Google. عاود حاول."
   },
   "navigation": {
     "home": "الرئيسية",
@@ -1722,7 +1732,13 @@
     "save": "حفظ",
     "saved": "مستحفظ",
     "items_count_one": "حاجة واحدة",
-    "items_count_other": "{{count}} حوايج"
+    "items_count_other": "{{count}} حوايج",
+    "error_loading": "ما تحملتيش المفضلة",
+    "login_required_add": "دخل لتضيف للمفضلة",
+    "login_required_manage": "دخل لتدير المفضلة",
+    "already_in_wishlist": "الشي هاد موجود في المفضلة",
+    "error_add": "ما تضافتيش للمفضلة",
+    "error_remove": "ما تمسحتيش من المفضلة"
   },
   "account": {
     "wishlist": {
@@ -2075,5 +2091,13 @@
   },
   "journal": {
     "from_the_journal": "من المجلة"
+  },
+  "tailoring": {
+    "booking": {
+      "success": "الحجز تأكد!",
+      "error": "الحجز ما وصلش. عاود حاول.",
+      "time_slots_error": "ما تحملوش الأوقات المتاحة",
+      "load_error": "ما تحملتيش معلومات الخياط"
+    }
   }
 }

@@ -94,7 +94,17 @@
     "sign_in_with_google": "Se connecter avec Google",
     "sign_in_with_apple": "Se connecter avec Apple",
     "provider_google": "Google",
-    "provider_apple": "Apple"
+    "provider_apple": "Apple",
+    "login_success": "Connexion réussie",
+    "logout_success": "Déconnexion réussie",
+    "logout_error": "Échec de la déconnexion. Veuillez réessayer.",
+    "google_login_success": "Connexion Google réussie !",
+    "google_registration_success": "Compte créé avec Google !",
+    "google_login_existing": "Connecté avec un compte existant",
+    "registration_successful": "Inscription réussie !",
+    "registration_failed": "L'inscription a échoué. Veuillez réessayer.",
+    "google_unavailable": "La connexion Google est actuellement indisponible",
+    "google_init_failed": "Échec de l'initialisation de l'inscription Google"
   },
   "navigation": {
     "home": "Accueil",
@@ -1720,7 +1730,13 @@
     "save": "Sauvegarder",
     "saved": "Sauvegardé",
     "items_count_one": "{{count}} article",
-    "items_count_other": "{{count}} articles"
+    "items_count_other": "{{count}} articles",
+    "error_loading": "Échec du chargement de la liste de souhaits",
+    "login_required_add": "Veuillez vous connecter pour ajouter des articles",
+    "login_required_manage": "Veuillez vous connecter pour gérer votre liste de souhaits",
+    "already_in_wishlist": "Article déjà dans la liste de souhaits",
+    "error_add": "Échec de l'ajout à la liste de souhaits",
+    "error_remove": "Échec de la suppression de la liste de souhaits"
   },
   "account": {
     "wishlist": {
@@ -2073,5 +2089,13 @@
   },
   "journal": {
     "from_the_journal": "Du journal"
+  },
+  "tailoring": {
+    "booking": {
+      "success": "Réservation confirmée !",
+      "error": "La réservation a échoué. Veuillez réessayer.",
+      "time_slots_error": "Échec du chargement des créneaux disponibles",
+      "load_error": "Échec du chargement des informations du tailleur"
+    }
   }
 }

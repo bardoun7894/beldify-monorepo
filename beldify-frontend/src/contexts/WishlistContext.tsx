@@ -1,6 +1,7 @@
 'use client';
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useAuth } from './AuthContext';
 import axios from '@/lib/axios';
 import toast from '@/utils/toast';
@@ -43,6 +44,7 @@ function getImagePath(imageUrl: string): string {
 const WishlistContext = createContext<WishlistContextType | undefined>(undefined);
 
 export function WishlistProvider({ children }: { children: React.ReactNode }) {
+  const { t } = useTranslation();
   const [wishlistItems, setWishlistItems] = useState<WishlistItem[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const { isAuthenticated } = useAuth();
@@ -62,7 +64,7 @@ export function WishlistProvider({ children }: { children: React.ReactNode }) {
       }
     } catch (error) {
       logger.error('Error fetching wishlist:', error);
-      toast.error('Failed to fetch wishlist items');
+      toast.error(t('wishlist.error_loading', 'Failed to load wishlist'));
     } finally {
       setIsLoading(false);
     }
@@ -78,7 +80,7 @@ export function WishlistProvider({ children }: { children: React.ReactNode }) {
 
   const addToWishlist = async (productId: number) => {
     if (!isAuthenticated) {
-      toast.error('Please login to add items to your wishlist');
+      toast.error(t('wishlist.login_required_add', 'Please login to add items to your wishlist'));
       return;
     }
 
@@ -98,9 +100,9 @@ export function WishlistProvider({ children }: { children: React.ReactNode }) {
     } catch (error: any) {
       logger.error('Error adding to wishlist:', error);
       if (error.response?.status === 400) {
-        toast.error(error.response.data.message || 'Item already in wishlist');
+        toast.error(t('wishlist.already_in_wishlist', 'Item already in wishlist'));
       } else {
-        toast.error('Failed to add item to wishlist');
+        toast.error(t('wishlist.error_add', 'Failed to add item to wishlist'));
       }
       throw error;
     } finally {
@@ -110,7 +112,7 @@ export function WishlistProvider({ children }: { children: React.ReactNode }) {
 
   const removeFromWishlist = async (productId: number) => {
     if (!isAuthenticated) {
-      toast.error('Please login to manage your wishlist');
+      toast.error(t('wishlist.login_required_manage', 'Please login to manage your wishlist'));
       return;
     }
 
@@ -122,7 +124,7 @@ export function WishlistProvider({ children }: { children: React.ReactNode }) {
       }
     } catch (error: any) {
       logger.error('Error removing from wishlist:', error);
-      toast.error(error.response?.data?.message || 'Failed to remove item from wishlist');
+      toast.error(t('wishlist.error_remove', 'Failed to remove item from wishlist'));
       throw error;
     } finally {
       setIsLoading(false);

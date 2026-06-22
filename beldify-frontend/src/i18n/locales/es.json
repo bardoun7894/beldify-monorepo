@@ -104,7 +104,17 @@
     "sign_in_with_google": "Iniciar sesión con Google",
     "sign_in_with_apple": "Iniciar sesión con Apple",
     "provider_google": "Google",
-    "provider_apple": "Apple"
+    "provider_apple": "Apple",
+    "login_success": "Sesión iniciada con éxito",
+    "logout_success": "Sesión cerrada con éxito",
+    "logout_error": "Error al cerrar sesión. Inténtalo de nuevo.",
+    "google_login_success": "¡Inicio de sesión con Google exitoso!",
+    "google_registration_success": "¡Cuenta creada con Google!",
+    "google_login_existing": "Sesión iniciada con cuenta existente",
+    "registration_successful": "¡Registro exitoso!",
+    "registration_failed": "El registro falló. Inténtalo de nuevo.",
+    "google_unavailable": "El inicio de sesión con Google no está disponible",
+    "google_init_failed": "Error al inicializar Google Sign-Up"
   },
   "navigation": {
     "home": "Inicio",
@@ -1742,7 +1752,13 @@
     "add_to_cart": "Añadir al carrito",
     "remove": "Eliminar de la lista",
     "items_count_one": "{{count}} artículo",
-    "items_count_other": "{{count}} artículos"
+    "items_count_other": "{{count}} artículos",
+    "error_loading": "Error al cargar la lista de deseos",
+    "login_required_add": "Por favor inicia sesión para agregar artículos",
+    "login_required_manage": "Por favor inicia sesión para gestionar tu lista de deseos",
+    "already_in_wishlist": "El artículo ya está en la lista de deseos",
+    "error_add": "Error al agregar a la lista de deseos",
+    "error_remove": "Error al eliminar de la lista de deseos"
   },
   "account": {
     "wishlist": {
@@ -2070,6 +2086,14 @@
         "messageRequired": "El mensaje es obligatorio",
         "messageTooLong": "El mensaje debe tener menos de 500 caracteres"
       }
+    }
+  },
+  "tailoring": {
+    "booking": {
+      "success": "¡Reserva confirmada!",
+      "error": "La reserva falló. Inténtalo de nuevo.",
+      "time_slots_error": "Error al cargar los horarios disponibles",
+      "load_error": "Error al cargar información del sastre"
     }
   },
   "offline": {

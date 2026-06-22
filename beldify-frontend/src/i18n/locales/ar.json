@@ -111,7 +111,17 @@
     "sign_in_with_google": "تسجيل الدخول عبر Google",
     "sign_in_with_apple": "تسجيل الدخول عبر Apple",
     "provider_google": "Google",
-    "provider_apple": "Apple"
+    "provider_apple": "Apple",
+    "login_success": "تم تسجيل الدخول بنجاح",
+    "logout_success": "تم تسجيل الخروج بنجاح",
+    "logout_error": "فشل تسجيل الخروج. يرجى المحاولة مرة أخرى.",
+    "google_login_success": "تم تسجيل الدخول عبر Google بنجاح!",
+    "google_registration_success": "تم إنشاء الحساب عبر Google!",
+    "google_login_existing": "تم تسجيل الدخول بحساب موجود",
+    "registration_successful": "تم التسجيل بنجاح!",
+    "registration_failed": "فشل التسجيل. يرجى المحاولة مرة أخرى.",
+    "google_unavailable": "تسجيل الدخول عبر Google غير متاح حالياً",
+    "google_init_failed": "فشل تهيئة التسجيل عبر Google"
   },
   "navigation": {
     "home": "الرئيسية",
@@ -2036,7 +2046,13 @@
     "save": "حفظ",
     "saved": "تم الحفظ",
     "items_count_one": "منتج واحد",
-    "items_count_other": "{{count}} منتجات"
+    "items_count_other": "{{count}} منتجات",
+    "error_loading": "فشل تحميل المفضلة",
+    "login_required_add": "يرجى تسجيل الدخول لإضافة عناصر إلى المفضلة",
+    "login_required_manage": "يرجى تسجيل الدخول لإدارة المفضلة",
+    "already_in_wishlist": "العنصر موجود بالفعل في المفضلة",
+    "error_add": "فشلت إضافة العنصر إلى المفضلة",
+    "error_remove": "فشلت إزالة العنصر من المفضلة"
   },
   "account": {
     "wishlist": {
@@ -2389,5 +2405,13 @@
   },
   "journal": {
     "from_the_journal": "من المجلة"
+  },
+  "tailoring": {
+    "booking": {
+      "success": "تم تأكيد الحجز!",
+      "error": "فشل الحجز. يرجى المحاولة مرة أخرى.",
+      "time_slots_error": "فشل تحميل المواعيد المتاحة",
+      "load_error": "فشل تحميل معلومات الخياط"
+    }
   }
 }

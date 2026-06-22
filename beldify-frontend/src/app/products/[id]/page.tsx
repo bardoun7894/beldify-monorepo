@@ -1164,7 +1164,36 @@ export default function ProductDetailsPage() {
     ? availableSizes.map(s => s.name)
     : ['S', 'M', 'L', 'XL'];
 
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    name: product.name,
+    description: product.description,
+    image: product.main_image ? [getImageUrl(product.main_image)] : [],
+    sku: product.id,
+    brand: product.shop?.name ? { '@type': 'Brand', name: product.shop.name } : undefined,
+    offers: {
+      '@type': 'Offer',
+      priceCurrency: 'MAD',
+      price: displayPrice,
+      availability: (product.stock ?? 0) > 0 ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock',
+      seller: product.shop?.name ? { '@type': 'Organization', name: product.shop.name } : undefined,
+    },
+    ...(product.rating && product.reviews_count ? {
+      aggregateRating: {
+        '@type': 'AggregateRating',
+        ratingValue: product.rating,
+        reviewCount: product.reviews_count,
+      },
+    } : {}),
+  };
+
   return (
+    <>
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+    />
     <div className="bg-amber-50 min-h-screen pb-16">
     <main className="max-w-7xl mx-auto" role="main">
       {/* ── 1. Breadcrumb strip ── */}
@@ -1711,5 +1740,6 @@ export default function ProductDetailsPage() {
       </div>
     </main>
     </div>
+    </>
   );
 }
