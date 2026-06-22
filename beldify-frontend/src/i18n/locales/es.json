@@ -5449,5 +5449,25 @@
     "attributes_label": "Atributos sugeridos",
     "apply_attribute_aria": "Aplicar {{key}}: {{value}}",
     "flags_label": "Advertencias"
+  },
+  "opensoukAi": {
+    "draft_cta": "Redactar con IA",
+    "draft_generating": "Redactando…",
+    "draft_prelude": "¿Necesitas un comienzo?",
+    "draft_region_label": "Borrador IA",
+    "draft_unavailable": "La redacción con IA no está disponible actualmente.",
+    "draft_error": "No se pudo generar un borrador. Inténtalo de nuevo.",
+    "draft_error_suspended": "La redacción con IA no está disponible para tu cuenta.",
+    "rank_cta": "Clasificar con IA",
+    "rank_loading": "Clasificando…",
+    "rank_title": "Clasificación IA de propuestas",
+    "rank_region_label": "Clasificación IA",
+    "rank_hint": "Haz clic en \"Clasificar con IA\" para ver qué propuestas encajan mejor con tu solicitud.",
+    "rank_summary_label": "Resumen IA",
+    "rank_error": "No se pudieron clasificar las propuestas. Inténtalo de nuevo.",
+    "rank_error_forbidden": "No tienes acceso para clasificar estas propuestas.",
+    "view_proposal": "Ver propuesta",
+    "view_proposal_aria": "Ver propuesta #{{id}}",
+    "rank_unavailable": "La clasificación con IA no está disponible actualmente."
   }
 }

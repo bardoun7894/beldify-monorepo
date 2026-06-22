@@ -5443,5 +5443,25 @@
     "attributes_label": "الخصائص المقترحة",
     "apply_attribute_aria": "طبق {{key}}: {{value}}",
     "flags_label": "تحذيرات"
+  },
+  "opensoukAi": {
+    "draft_cta": "صياغة بالذكاء الاصطناعي",
+    "draft_generating": "كيكتب…",
+    "draft_prelude": "محتاج بداية؟",
+    "draft_region_label": "مسودة الذكاء الاصطناعي",
+    "draft_unavailable": "الكتابة بالذكاء الاصطناعي ماشية حاليًا.",
+    "draft_error": "ما قدرش ينشئ مسودة. عاود حاول.",
+    "draft_error_suspended": "الكتابة بالذكاء الاصطناعي ماشيتش لحسابك.",
+    "rank_cta": "ترتيب بالذكاء الاصطناعي",
+    "rank_loading": "كيرتّب…",
+    "rank_title": "ترتيب العروض بالذكاء الاصطناعي",
+    "rank_region_label": "ترتيب الذكاء الاصطناعي",
+    "rank_hint": "اضغط \"ترتيب بالذكاء الاصطناعي\" باش تشوف أحسن العروض لطلبك.",
+    "rank_summary_label": "ملخص الذكاء الاصطناعي",
+    "rank_error": "ما قدرش يرتّب العروض. عاود حاول.",
+    "rank_error_forbidden": "ما عندكش الصلاحية باش ترتّب هاد العروض.",
+    "view_proposal": "شوف العرض",
+    "view_proposal_aria": "شوف العرض #{{id}}",
+    "rank_unavailable": "ترتيب الذكاء الاصطناعي ماشي متاح دابا."
   }
 }

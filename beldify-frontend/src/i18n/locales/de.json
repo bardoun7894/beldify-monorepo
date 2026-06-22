@@ -5404,5 +5404,25 @@
     "attributes_label": "Vorgeschlagene Attribute",
     "apply_attribute_aria": "Anwenden {{key}}: {{value}}",
     "flags_label": "Warnungen"
+  },
+  "opensoukAi": {
+    "draft_cta": "Entwurf mit KI",
+    "draft_generating": "Entwurf wird erstellt…",
+    "draft_prelude": "Brauchen Sie einen Vorsprung?",
+    "draft_region_label": "KI-Entwurf",
+    "draft_unavailable": "KI-Entwurf ist derzeit nicht verfügbar.",
+    "draft_error": "Entwurf konnte nicht erstellt werden. Bitte erneut versuchen.",
+    "draft_error_suspended": "KI-Entwurf ist für Ihr Konto nicht verfügbar.",
+    "rank_cta": "Mit KI ranken",
+    "rank_loading": "Wird eingestuft…",
+    "rank_title": "KI-Bewerbungsranking",
+    "rank_region_label": "KI-Ranking",
+    "rank_hint": "Klicken Sie auf \"Mit KI ranken\", um zu sehen, welche Angebote am besten zu Ihrem Brief passen.",
+    "rank_summary_label": "KI-Zusammenfassung",
+    "rank_error": "Angebote konnten nicht eingestuft werden. Bitte erneut versuchen.",
+    "rank_error_forbidden": "Sie haben keinen Zugang zur Einstufung dieser Angebote.",
+    "view_proposal": "Angebot ansehen",
+    "view_proposal_aria": "Angebot ansehen #{{id}}",
+    "rank_unavailable": "KI-Ranking ist derzeit nicht verfügbar."
   }
 }

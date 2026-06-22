@@ -7,14 +7,17 @@ import { ImageIcon, X, Wallet, Clock, Send, AlertCircle } from 'lucide-react';
 import { CommunityResponseFormData } from '@/types/community';
 import { useDirection } from '@/hooks/useDirection';
 import LoadingSpinner from '@/components/common/LoadingSpinner';
+import { ProposalAiDraft, ProposalAiDraftData } from './ProposalAiDraft';
 
 interface ResponseFormProps {
   onSubmit: (data: FormData) => Promise<void>;
   onCancel: () => void;
   isLoading: boolean;
+  /** When provided, shows the "Draft with AI" button for the given post */
+  postId?: number;
 }
 
-export default function ResponseForm({ onSubmit, onCancel, isLoading }: ResponseFormProps) {
+export default function ResponseForm({ onSubmit, onCancel, isLoading, postId }: ResponseFormProps) {
   const { t } = useTranslation();
   const { isRTL } = useDirection();
 
@@ -30,6 +33,16 @@ export default function ResponseForm({ onSubmit, onCancel, isLoading }: Response
 
   const [previewImages, setPreviewImages] = useState<string[]>([]);
   const [error, setError] = useState<string | null>(null);
+
+  /** Apply AI-drafted values to the form fields — seller edits before submitting */
+  const handleApplyAiDraft = (draft: ProposalAiDraftData) => {
+    setFormData(prev => ({
+      ...prev,
+      description: draft.pitch,
+      price: draft.suggested_price_range.min,
+      delivery_days: draft.suggested_delivery_days,
+    }));
+  };
 
   const msgMax = 1000;
   const msgLen = formData.description.length;
@@ -118,9 +131,13 @@ export default function ResponseForm({ onSubmit, onCancel, isLoading }: Response
       });
 
       await onSubmit(dataToSubmit);
-    } catch (err: any) {
+    } catch (err) {
       console.error('Error submitting response:', err);
-      setError(err.message || t('community.error_submitting_response', 'Failed to submit proposal'));
+      setError(
+        err instanceof Error
+          ? err.message
+          : t('community.error_submitting_response', 'Failed to submit proposal')
+      );
     }
   };
 
@@ -165,6 +182,20 @@ export default function ResponseForm({ onSubmit, onCancel, isLoading }: Response
         )}
 
         <form onSubmit={handleSubmit} className="space-y-5">
+          {/* ── AI draft assist — shown only when postId is provided ── */}
+          {postId != null && (
+            <div className="flex items-center gap-3">
+              <span className="text-xs text-gray-400">
+                {t('opensoukAi.draft_prelude', 'Need a head start?')}
+              </span>
+              <ProposalAiDraft
+                postId={postId}
+                onApplyDraft={handleApplyAiDraft}
+                isRTL={isRTL}
+              />
+            </div>
+          )}
+
           {/* ── Bid panel: price + delivery in a highlighted card ── */}
           <div className="bg-gray-50 rounded-2xl ring-1 ring-gray-200 p-4">
             <p className="text-xs font-semibold text-amber-900 uppercase tracking-wide mb-3">

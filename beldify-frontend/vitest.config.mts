@@ -38,6 +38,8 @@ export default defineConfig({
       ['src/app/order-confirmation/__tests__/**', 'jsdom'],
       // assistant widget tests
       ['src/components/assistant/__tests__/**', 'jsdom'],
+      // community component tests (ProposalAiDraft, ProposalAiRanking)
+      ['src/components/community/__tests__/**', 'jsdom'],
     ],
   },
 });
