@@ -1,10 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
 import fs from 'fs/promises';
 import path from 'path';
-import { exec } from 'child_process';
+import { execFile } from 'child_process';
 import { promisify } from 'util';
+import logger from '@/utils/consoleLogger';
 
-const execAsync = promisify(exec);
+const execFileAsync = promisify(execFile);
 
 // API key validation
 const API_KEY = process.env.MCP_API_KEY || 'beldify_mcp_secure_key_2024';
@@ -81,13 +82,13 @@ const mcpTools = {
       throw new Error(`Command not allowed: ${params.command}`);
     }
 
-    const args = params.args?.join(' ') || '';
-    const { stdout, stderr } = await execAsync(`npm run ${params.command} ${args}`);
+    const safeArgs = (params.args || []).filter((a: string) => /^[a-zA-Z0-9_.=\-/]+$/.test(a));
+    const { stdout, stderr } = await execFileAsync('npm', ['run', params.command, ...safeArgs]);
 
     return {
       stdout,
       stderr,
-      command: `npm run ${params.command} ${args}`
+      command: `npm run ${params.command} ${safeArgs.join(' ')}`
     };
   },
 
@@ -197,12 +198,12 @@ export async function POST(request: NextRequest) {
     }, { headers: corsHeaders });
 
   } catch (error: any) {
-    console.error('Frontend MCP Error:', error);
+    logger.error('Frontend MCP Error:', error);
 
     return NextResponse.json(
       {
-        error: error.message || 'Internal server error',
-        tool: request.body ? JSON.parse(await request.text()).tool : 'unknown'
+        error: 'Internal server error',
+        tool: 'unknown'
       },
       { status: 500, headers: corsHeaders }
     );

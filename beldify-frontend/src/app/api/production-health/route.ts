@@ -9,7 +9,13 @@ export const viewport = {
 export async function GET() {
   try {
     // Check if we can connect to the backend API
-    const backendUrl = process.env.NEXT_PUBLIC_API_URL || 'http://18.100.117.252';
+    const backendUrl = process.env.NEXT_PUBLIC_API_URL;
+    if (!backendUrl) {
+      return NextResponse.json(
+        { status: 'unhealthy', timestamp: new Date().toISOString(), error: 'Backend URL not configured' },
+        { status: 503 }
+      );
+    }
     const backendHealth = await fetch(`${backendUrl}/api/health`, {
       headers: {
         Accept: 'application/json',
@@ -26,11 +32,8 @@ export async function GET() {
           next: { revalidate: 0 }, // Always fresh
         });
         redisStatus = await redisCheck.json();
-      } catch (redisError) {
-        redisStatus = { 
-          connected: false, 
-          error: redisError instanceof Error ? redisError.message : 'Unknown Redis error' 
-        };
+      } catch {
+        redisStatus = { connected: false };
       }
     }
 
@@ -43,7 +46,6 @@ export async function GET() {
       uptime: process.uptime(),
       memory: process.memoryUsage(),
       version: process.env.npm_package_version || 'unknown',
-      backendUrl,
       isProduction: !isDevelopment,
       hasRedis: !!process.env.REDIS_URL,
     });
@@ -52,7 +54,7 @@ export async function GET() {
       {
         status: 'unhealthy',
         timestamp: new Date().toISOString(),
-        error: error instanceof Error ? error.message : 'Unknown error',
+        error: 'Service unavailable',
         environment: process.env.NODE_ENV,
         isProduction: !isDevelopment,
       },

@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import logger from '@/utils/consoleLogger';
 
 // Security check for metrics access
 function isAuthorized(request: NextRequest): boolean {
@@ -6,7 +7,7 @@ function isAuthorized(request: NextRequest): boolean {
   const token = process.env.CACHE_METRICS_TOKEN || process.env.CACHE_CLEAR_TOKEN;
   
   if (!token) {
-    console.warn('⚠️ No CACHE_METRICS_TOKEN or CACHE_CLEAR_TOKEN configured');
+    logger.warn('No CACHE_METRICS_TOKEN or CACHE_CLEAR_TOKEN configured');
     return false;
   }
   
@@ -90,7 +91,7 @@ export async function GET(request: NextRequest) {
     });
     
   } catch (error) {
-    console.error('Cache metrics error:', error);
+    logger.error('Cache metrics error:', error);
     return NextResponse.json(
       { 
         error: 'Failed to retrieve cache metrics',

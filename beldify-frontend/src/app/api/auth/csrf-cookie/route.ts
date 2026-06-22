@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import crypto from 'crypto';
+import logger from '@/utils/consoleLogger';
 
 /**
  * Generates a CSRF token and sets it as a cookie
@@ -53,7 +54,7 @@ export async function GET(request: NextRequest) {
     applyCorsHeaders(response, resolveOrigin(request));
     return response;
   } catch (error: any) {
-    console.error('Error generating CSRF token:', error);
+    logger.error('Error generating CSRF token:', error);
     return NextResponse.json(
       { status: 'error', message: 'Failed to generate CSRF token' },
       { status: 500 },
