@@ -13,6 +13,7 @@
     "select_option": "ختار شي وحدة",
     "actions": {
       "save_changes": "سجل تعديلات",
+      "saving": "كيحفظ...",
       "tryAgain": "عاود جرب",
       "search": "قلب",
       "clearFilters": "مسح لفيلتراج",

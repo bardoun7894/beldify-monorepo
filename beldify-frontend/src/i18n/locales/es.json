@@ -12,6 +12,7 @@
     "select_option": "Seleccione una opción",
     "actions": {
       "save_changes": "Guardar cambios",
+      "saving": "Guardando...",
       "tryAgain": "Intentar de nuevo",
       "search": "Buscar",
       "clearFilters": "Limpiar filtros",

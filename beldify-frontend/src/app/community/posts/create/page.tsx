@@ -18,6 +18,7 @@ import {
 } from 'lucide-react';
 import { createCommunityPost } from '@/services/communityService';
 import { useAuth } from '@/contexts/AuthContext';
+import logger from '@/utils/consoleLogger';
 import { CommunityPostFormData } from '@/types/community';
 import LoadingSpinner from '@/components/common/LoadingSpinner';
 import Link from 'next/link';
@@ -93,7 +94,7 @@ export default function CreatePostPage() {
         const categoriesData = await categoryService.getAllCategories();
         setCategories(categoriesData);
       } catch (error) {
-        console.error('Error fetching categories:', error);
+        logger.error('Error fetching categories:', error);
         setError(t('community.error_loading_categories') || 'Error loading categories');
       } finally {
         setLoadingCategories(false);
@@ -355,7 +356,7 @@ export default function CreatePostPage() {
       router.push('/community');
       
     } catch (err: any) {
-      console.error('Error creating post:', err);
+      logger.error('Error creating post:', err);
       
       // Handle validation errors from server
       if (err.response?.data?.errors) {

@@ -158,7 +158,7 @@ export default function MessagesPage() {
         locale: isRTL ? ar : enUS
       });
     } catch (error) {
-      console.warn('Invalid date string:', dateString, error);
+      logger.warn('Invalid date string:', dateString, error);
       return '';
     }
   };

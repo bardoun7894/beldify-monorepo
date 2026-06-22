@@ -28,6 +28,7 @@
     "items": "items",
     "actions": {
       "save_changes": "Save changes",
+      "saving": "Saving...",
       "tryAgain": "Try again",
       "search": "Search",
       "clearFilters": "Clear Filters",

@@ -18,6 +18,7 @@ import {
 } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { getAuthToken } from '@/utils/authUtils';
+import logger from '@/utils/consoleLogger';
 import { useDirection } from '@/hooks/useDirection';
 import { 
   fetchCommunityPost, 
@@ -98,14 +99,14 @@ export default function PostDetailPage() {
             );
             
             if (!responsesResponse.ok) {
-              console.warn('Failed to fetch responses, continuing without them');
+              logger.warn('Failed to fetch responses, continuing without them');
               setResponses([]);
             } else {
               const responsesResult = await responsesResponse.json();
               setResponses(responsesResult.data || []);
             }
           } catch (responseError) {
-            console.error('Error fetching responses:', responseError);
+            logger.error('Error fetching responses:', responseError);
             // Don't fail the whole page if responses fail to load
             setResponses([]);
           }
@@ -113,7 +114,7 @@ export default function PostDetailPage() {
           throw new Error('Invalid post data format');
         }
       } catch (err) {
-        console.error('Error in fetchData:', err);
+        logger.error('Error in fetchData:', err);
         setError(t('community.error_fetching_post') || 'Failed to load post details');
       } finally {
         setIsLoading(false);
@@ -150,7 +151,7 @@ export default function PostDetailPage() {
       const date = new Date(dateString);
       return date.toLocaleDateString() + ' ' + date.toLocaleTimeString();
     } catch (error) {
-      console.error('Error formatting date:', error);
+      logger.error('Error formatting date:', error);
       return dateString;
     }
   };
@@ -172,7 +173,7 @@ export default function PostDetailPage() {
       const updatedResponsesData = await fetchPostResponses(postId);
       setResponses(updatedResponsesData || []);
     } catch (err) {
-      console.error('Error accepting response:', err);
+      logger.error('Error accepting response:', err);
       alert(t('community.error_accepting_response'));
     } finally {
       setIsSubmitting(false);
@@ -195,7 +196,7 @@ export default function PostDetailPage() {
       const updatedResponsesData = await fetchPostResponses(postId);
       setResponses(updatedResponsesData || []);
     } catch (err) {
-      console.error('Error rejecting response:', err);
+      logger.error('Error rejecting response:', err);
       alert(t('community.error_rejecting_response'));
     } finally {
       setIsSubmitting(false);
@@ -221,7 +222,7 @@ export default function PostDetailPage() {
       // Hide the response form after successful submission
       setShowResponseForm(false);
     } catch (err) {
-      console.error('Error submitting response:', err);
+      logger.error('Error submitting response:', err);
       setError(t('community.error_submitting_response'));
     } finally {
       setIsSubmitting(false);

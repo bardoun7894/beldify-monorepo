@@ -6,34 +6,20 @@ type ToastOptions = Parameters<typeof hotToast>[1];
 
 // Create a wrapper for toast that respects debugging settings
 const toast = {
-  // Standard toasts are only shown when debugging is enabled
   success: (message: string, options?: ToastOptions) => {
-    if (isDebuggingEnabled()) {
-      return hotToast.success(message, options);
-    }
-    return null;
+    return hotToast.success(message, options);
   },
-  
+
   error: (message: string, options?: ToastOptions) => {
-    if (isDebuggingEnabled()) {
-      return hotToast.error(message, options);
-    }
-    return null;
+    return hotToast.error(message, options);
   },
-  
+
   loading: (message: string, options?: ToastOptions) => {
-    if (isDebuggingEnabled()) {
-      return hotToast.loading(message, options);
-    }
-    return null;
+    return hotToast.loading(message, options);
   },
-  
-  // Custom toasts should also respect debug mode
+
   custom: (renderer: any, options?: any) => {
-    if (isDebuggingEnabled()) {
-      return hotToast.custom(renderer, options);
-    }
-    return null;
+    return hotToast.custom(renderer, options);
   },
   
   // Dismiss should always be allowed to clear any existing toasts

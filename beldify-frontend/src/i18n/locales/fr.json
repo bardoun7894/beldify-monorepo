@@ -11,7 +11,8 @@
     "currency": "MAD",
     "select_option": "Sélectionner une option",
     "actions": {
-      "save_changes": "Enregistrer les modifications"
+      "save_changes": "Enregistrer les modifications",
+      "saving": "Enregistrement..."
     },
     "notifications": {
       "changes_saved": "Modifications enregistrées avec succès",

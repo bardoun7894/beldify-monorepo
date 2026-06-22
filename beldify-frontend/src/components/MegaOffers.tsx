@@ -8,6 +8,7 @@ import { useTranslation } from 'react-i18next';
 import { ArrowRight, Star, Tag } from 'lucide-react';
 import '@/i18n/config';
 import { useTheme } from '@/providers/ThemeProvider';
+import logger from '@/utils/consoleLogger';
 
 // Mega Offer Collection type based on API response
 interface MegaOfferCollection {
@@ -414,7 +415,7 @@ const MegaOffers: React.FC<MegaOffersProps> = ({ megaOffers }) => {
           setOffers(TEST_MEGA_OFFERS);
         }
       } catch (err) {
-        console.error('Error fetching mega offers:', err);
+        logger.error('Error fetching mega offers:', err);
         setError(t('megaOffers.loadError', 'Failed to load mega offers'));
         setOffers(TEST_MEGA_OFFERS);
       } finally {
