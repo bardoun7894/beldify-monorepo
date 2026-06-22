@@ -11,11 +11,13 @@ const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL!;
  */
 export async function GET(request: NextRequest) {
   try {
-    const cookieStore = cookies();
-    let token = (await cookieStore).get('auth_token')?.value;
-    
+    const cookieStore = await cookies();
+    let token =
+      cookieStore.get('token')?.value ||
+      cookieStore.get('auth_token')?.value ||
+      null;
+
     if (!token) {
-      // Try to get from Authorization header
       const authHeader = request.headers.get('authorization');
       if (authHeader && authHeader.startsWith('Bearer ')) {
         token = authHeader.substring(7);
@@ -51,13 +53,8 @@ export async function GET(request: NextRequest) {
     return NextResponse.json(response.data);
   } catch (error: any) {
     logger.error('Error fetching conversations:', error);
-    
-    // Return appropriate error response
     return NextResponse.json(
-      {
-        error: 'Failed to fetch conversations',
-        details: error.response?.data || error.message,
-      },
+      { error: 'Failed to fetch conversations' },
       { status: error.response?.status || 500 }
     );
   }
@@ -173,17 +170,8 @@ export async function POST(request: NextRequest) {
       logger.error('Request setup error:', error.message);
     }
 
-    const errorMessage = error.response?.data?.message || error.response?.data?.error || error.message || 'Failed to send message';
-
     return NextResponse.json(
-      {
-        error: errorMessage,
-        details: error.response?.data,
-        debug: {
-          backendStatus: error.response?.status,
-          backendError: error.response?.data
-        }
-      },
+      { error: 'Failed to send message' },
       { status: error.response?.status || 500 }
     );
   }
@@ -223,7 +211,7 @@ export async function PUT(request: NextRequest) {
     
     return NextResponse.json(response.data);
   } catch (error: any) {
-    console.error('Error marking messages as read:', error.response?.data || error.message);
+    logger.error('Error marking messages as read:', error);
     return NextResponse.json(
       { error: 'Failed to mark messages as read' },
       { status: error.response?.status || 500 }

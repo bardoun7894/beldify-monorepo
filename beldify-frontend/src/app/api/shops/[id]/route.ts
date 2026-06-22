@@ -23,7 +23,7 @@ export async function GET(
       {
         headers: {
           'Accept': 'application/json',
-          'Authorization': authorization || '',
+          ...(authorization && { Authorization: authorization }),
         },
       }
     );
@@ -35,10 +35,7 @@ export async function GET(
     
     // Return appropriate error response
     return NextResponse.json(
-      {
-        error: 'Failed to fetch shop details',
-        details: error.response?.data || error.message,
-      },
+      { error: 'Failed to fetch shop details' },
       { status: error.response?.status || 500 }
     );
   }
