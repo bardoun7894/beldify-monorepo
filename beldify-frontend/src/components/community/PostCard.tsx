@@ -22,11 +22,12 @@ interface PostCardProps {
 }
 
 export default function PostCard({ post, isUserPost = false }: PostCardProps) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
-    return date.toLocaleDateString();
+    const localeMap: Record<string, string> = { en: 'en-US', fr: 'fr-FR', ar: 'ar-MA', ma: 'ar-MA', es: 'es-ES' };
+    return date.toLocaleDateString(localeMap[i18n.language] || 'fr-MA');
   };
 
   const formatPrice = (price: any) => {

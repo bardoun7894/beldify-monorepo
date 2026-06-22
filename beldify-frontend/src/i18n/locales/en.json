@@ -970,6 +970,7 @@
     "default_user_name": "User",
     "title": "Profile",
     "member_since": "Member since ",
+    "joined_on": "Joined on {{date}}",
     "no_email": "No email specified",
     "personal_info": "Personal Information",
     "fields": {

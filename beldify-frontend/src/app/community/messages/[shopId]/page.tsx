@@ -8,6 +8,7 @@ import { useTranslation } from '@/i18n/client';
 import { useAuth } from '@/contexts/AuthContext';
 import * as messagingService from '@/services/messagingService';
 import { Message } from '@/types/community';
+import i18nInstance from '@/i18n/config';
 import logger from '@/utils/consoleLogger';
 
 /**
@@ -93,7 +94,8 @@ export default function ConversationPage() {
     try {
       const d = new Date(dateString);
       if (isNaN(d.getTime())) return '';
-      return d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      const localeMap: Record<string, string> = { en: 'en-US', fr: 'fr-FR', ar: 'ar-MA', ma: 'ar-MA', es: 'es-ES' };
+      return d.toLocaleTimeString(localeMap[i18nInstance.language] || 'fr-MA', { hour: '2-digit', minute: '2-digit' });
     } catch {
       return '';
     }

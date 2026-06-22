@@ -44,7 +44,7 @@ export default function ResponseCard({ response, isPostOwner, onAccept, onReject
   const { user } = useAuth();
   const params = useParams();
   const currentPostId = postId || params?.id;
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { isRTL } = useDirection();
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [showImages, setShowImages] = useState(false);
@@ -57,7 +57,9 @@ export default function ResponseCard({ response, isPostOwner, onAccept, onReject
 
   const formatDate = (dateString: string) => {
     try {
-      return new Date(dateString).toLocaleDateString() + ' ' + new Date(dateString).toLocaleTimeString();
+      const localeMap: Record<string, string> = { en: 'en-US', fr: 'fr-FR', ar: 'ar-MA', ma: 'ar-MA', es: 'es-ES' };
+      const bcp47 = localeMap[i18n.language] || 'fr-MA';
+      return new Date(dateString).toLocaleDateString(bcp47) + ' ' + new Date(dateString).toLocaleTimeString(bcp47);
     } catch (error) {
       logger.error('Error formatting date:', error);
       return dateString;

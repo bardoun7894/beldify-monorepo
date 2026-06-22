@@ -66,8 +66,8 @@ export default function OrdersPage() {
 
       // Otherwise show formatted date
       const lang = i18n.language || 'en';
-      const isDarijaOrArabic = lang === 'ar' || lang === 'ma';
-      return new Intl.DateTimeFormat(isDarijaOrArabic ? 'ar-MA' : 'en-US', {
+      const localeMap: Record<string, string> = { en: 'en-US', fr: 'fr-FR', ar: 'ar-MA', ma: 'ar-MA', es: 'es-ES' };
+      return new Intl.DateTimeFormat(localeMap[lang] || 'fr-MA', {
         year: 'numeric',
         month: 'short',
         day: 'numeric',

@@ -29,12 +29,13 @@ import {
 } from '@/services/communityService';
 import { CommunityPost, CommunityResponse, CommunityImage } from '@/types/community';
 import { S3_CONFIG, API_BASE_URL } from '@/config/constants';
+import toast from '@/utils/toast';
 import LoadingSpinner from '@/components/common/LoadingSpinner';
 import ResponseCard from '@/components/community/ResponseCard';
 import ResponseForm from '@/components/community/ResponseForm';
 
 export default function PostDetailPage() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const params = useParams();
   const router = useRouter();
   const { isAuthenticated, user } = useAuth();
@@ -149,7 +150,9 @@ export default function PostDetailPage() {
     if (!dateString) return '';
     try {
       const date = new Date(dateString);
-      return date.toLocaleDateString() + ' ' + date.toLocaleTimeString();
+      const localeMap: Record<string, string> = { en: 'en-US', fr: 'fr-FR', ar: 'ar-MA', ma: 'ar-MA', es: 'es-ES' };
+      const bcp47 = localeMap[i18n.language] || 'fr-MA';
+      return date.toLocaleDateString(bcp47) + ' ' + date.toLocaleTimeString(bcp47);
     } catch (error) {
       logger.error('Error formatting date:', error);
       return dateString;
@@ -159,14 +162,14 @@ export default function PostDetailPage() {
   const handleAcceptResponse = async (responseId: number) => {
     const postUserId = post?.userId || post?.user?.id;
     if (!post || postUserId !== Number(user?.id)) {
-      alert(t('community.not_authorized'));
+      toast.error(t('community.not_authorized'));
       return;
     }
 
     try {
       setIsSubmitting(true);
       // Backend endpoint: POST /api/v1/community/posts/{post}/responses/{response}/accept
-      await updateResponseStatus(postId, responseId.toString(), 'accepted'); 
+      await updateResponseStatus(postId, responseId.toString(), 'accepted');
       // Re-fetch post and responses data using the new service methods
       const updatedPostData = await fetchCommunityPost(postId);
       setPost(updatedPostData);
@@ -174,7 +177,7 @@ export default function PostDetailPage() {
       setResponses(updatedResponsesData || []);
     } catch (err) {
       logger.error('Error accepting response:', err);
-      alert(t('community.error_accepting_response'));
+      toast.error(t('community.error_accepting_response'));
     } finally {
       setIsSubmitting(false);
     }
@@ -183,7 +186,7 @@ export default function PostDetailPage() {
   const handleRejectResponse = async (responseId: number) => {
     const postUserId = post?.userId || post?.user?.id;
     if (!post || postUserId !== Number(user?.id)) {
-      alert(t('community.not_authorized'));
+      toast.error(t('community.not_authorized'));
       return;
     }
 
@@ -197,7 +200,7 @@ export default function PostDetailPage() {
       setResponses(updatedResponsesData || []);
     } catch (err) {
       logger.error('Error rejecting response:', err);
-      alert(t('community.error_rejecting_response'));
+      toast.error(t('community.error_rejecting_response'));
     } finally {
       setIsSubmitting(false);
     }
