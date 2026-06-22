@@ -48,6 +48,7 @@ interface CartContextType {
   state: CartState | null;
   loading: boolean;
   isInitialLoading: boolean;
+  cartItemCount: number;
   addItem: (id: number, quantity: number, type?: 'stock' | 'variant') => Promise<void>;
   updateQuantity: (itemId: number, quantity: number) => Promise<void>;
   removeFromCart: (itemId: number) => Promise<void>;
@@ -416,10 +417,16 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     fetchCart();
   }, []);
 
+  // Derived total quantity across all cart line items — Navbar / MobileBottomNav
+  // badges read this. Sum of `quantity` (not items.length) so adding 2 of one
+  // product shows "2" rather than "1".
+  const cartItemCount = state?.items?.reduce((sum, item) => sum + (item.quantity || 0), 0) || 0;
+
   const value = {
     state,
     loading,
     isInitialLoading,
+    cartItemCount,
     addItem,
     updateQuantity,
     removeFromCart,

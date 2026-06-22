@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useSearchParams } from 'next/navigation';
@@ -111,33 +111,35 @@ export default function OrdersPage() {
     return <Icon className="w-4 h-4" strokeWidth={1.5} />;
   };
 
-  // Fetch orders
-  useEffect(() => {
-    let ignore = false;
+  // Token-based race guard shared between the initial-fetch effect and the
+  // Try-Again retry button (replaces window.location.reload, which wipes app state).
+  const fetchTokenRef = useRef(0);
 
-    const fetchOrders = async () => {
-      try {
-        syncUrlLocale(i18n.language);
-        setLoading(true);
-        const data = await orderService.getOrders();
-        if (ignore) return;
-        setOrders(data || []);
-        logger.log('Orders loaded:', data.length);
-      } catch (error: any) {
-        if (ignore) return;
-        logger.error('Error loading orders:', error);
-        setError(t('orders.error.loading'));
-      } finally {
-        if (!ignore) setLoading(false);
-      }
-    };
-
-    fetchOrders();
-
-    return () => {
-      ignore = true;
-    };
+  const fetchOrders = useCallback(async () => {
+    const token = ++fetchTokenRef.current;
+    try {
+      syncUrlLocale(i18n.language);
+      setError(null);
+      setLoading(true);
+      const data = await orderService.getOrders();
+      if (fetchTokenRef.current !== token) return;
+      setOrders(data || []);
+      logger.log('Orders loaded:', data.length);
+    } catch (error: any) {
+      if (fetchTokenRef.current !== token) return;
+      logger.error('Error loading orders:', error);
+      setError(t('orders.error.loading'));
+    } finally {
+      if (fetchTokenRef.current === token) setLoading(false);
+    }
   }, [i18n.language, t]);
+
+  useEffect(() => {
+    fetchOrders();
+    return () => {
+      fetchTokenRef.current++;
+    };
+  }, [fetchOrders]);
 
   // Filter and search logic
   const filteredOrders = useMemo(() => {
@@ -208,8 +210,9 @@ export default function OrdersPage() {
           <h2 className="text-2xl font-bold text-gray-900 mb-3">{t('orders.error.title')}</h2>
           <p className="text-gray-600 mb-8">{error}</p>
           <button
-            onClick={() => window.location.reload()}
-            className="w-full px-6 py-3 bg-indigo-700 text-white rounded-2xl hover:bg-indigo-800 transition hover:-translate-y-0.5 hover:shadow-md font-medium"
+            onClick={() => fetchOrders()}
+            disabled={loading}
+            className="w-full px-6 py-3 bg-indigo-700 text-white rounded-2xl hover:bg-indigo-800 transition hover:-translate-y-0.5 hover:shadow-md font-medium disabled:opacity-60 disabled:cursor-not-allowed"
           >
             {t('orders.actions.try_again')}
           </button>
