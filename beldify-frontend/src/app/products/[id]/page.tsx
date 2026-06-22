@@ -215,6 +215,11 @@ export default function ProductDetailsPage() {
   // or lazily when the Reviews tab first becomes active.
   const [aiReviewSummary, setAiReviewSummary] = useState<ReviewSummaryAI | null>(null);
   const aiReviewFetchedRef = React.useRef(false);
+  // Race-guard refs for PDP fetches — rapid PDP→PDP nav can otherwise let a
+  // stale getProduct/getRelatedProducts response overwrite the new product's
+  // state. Each fetch captures its token and discards results if it changes.
+  const productFetchTokenRef = React.useRef(0);
+  const relatedFetchTokenRef = React.useRef(0);
   const { addItem } = useCart();
   const { user, isAuthenticated } = useAuth();
   const { isInWishlist, addToWishlist, removeFromWishlist } = useWishlist();
@@ -1178,15 +1183,20 @@ export default function ProductDetailsPage() {
   }, [activeTab, id, product]);
 
   useEffect(() => {
+    const myToken = ++productFetchTokenRef.current;
     const fetchProduct = async () => {
       try {
         setLoading(true);
-        // Convert id to string if it's an array
         const productId = Array.isArray(id) ? id[0] : id;
         const response = await productService.getProduct(productId as string);
+        if (productFetchTokenRef.current !== myToken) return;
         setProduct(response.product);
+        // Clear any prior error so retries after a transient failure don't
+        // leave stale copy alongside the freshly-loaded product.
+        setError(null);
+        // Reset the AI-summary fetch latch so the new product can load its own.
+        aiReviewFetchedRef.current = false;
 
-        // Set default selections if available
         const defaultVariant = response.product.variants?.find((v: any) => v.is_default);
         if (defaultVariant) {
           setSelectedColor(defaultVariant.color || null);
@@ -1195,10 +1205,11 @@ export default function ProductDetailsPage() {
           setSelectedVariant(defaultVariant);
         }
       } catch (error) {
+        if (productFetchTokenRef.current !== myToken) return;
         setError(t('errors.product_load_failed'));
-          logger.error('Error fetching product:', error);
+        logger.error('Error fetching product:', error);
       } finally {
-        setLoading(false);
+        if (productFetchTokenRef.current === myToken) setLoading(false);
       }
     };
 
@@ -1213,10 +1224,17 @@ export default function ProductDetailsPage() {
   // This guarantees the two shelves always show different items.
   useEffect(() => {
     if (!id) return;
+    const myToken = ++relatedFetchTokenRef.current;
     const productId = Array.isArray(id) ? id[0] : id;
     productService.getRelatedProducts(productId, 8)
-      .then((data) => setAllRelatedProducts(data.products || []))
-      .catch(() => setAllRelatedProducts([]));
+      .then((data) => {
+        if (relatedFetchTokenRef.current !== myToken) return;
+        setAllRelatedProducts(data.products || []);
+      })
+      .catch(() => {
+        if (relatedFetchTokenRef.current !== myToken) return;
+        setAllRelatedProducts([]);
+      });
   }, [id]);
 
   // Track recently-viewed products in localStorage for the home-page shelf
