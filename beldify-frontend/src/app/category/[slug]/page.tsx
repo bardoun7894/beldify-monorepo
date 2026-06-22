@@ -133,6 +133,53 @@ export default function CategoryPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
+      {/* BreadcrumbList + ItemList JSON-LD for category PLP (PM backlog P1 SEO).
+          Relative URLs avoid SSR/CSR hydration mismatch around window.origin.
+          Mirrors the pattern used on PDP at products/[id]/page.tsx. */}
+      {categoryData?.category && (
+        <script
+          type="application/ld+json"
+          // eslint-disable-next-line react/no-danger
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@graph': [
+                {
+                  '@type': 'BreadcrumbList',
+                  itemListElement: [
+                    {
+                      '@type': 'ListItem',
+                      position: 1,
+                      name: t('navigation.home', 'Home'),
+                      item: '/',
+                    },
+                    {
+                      '@type': 'ListItem',
+                      position: 2,
+                      name: categoryName,
+                    },
+                  ],
+                },
+                ...(categoryData.products && categoryData.products.length > 0
+                  ? [
+                      {
+                        '@type': 'ItemList',
+                        name: categoryName,
+                        numberOfItems: categoryData.products.length,
+                        itemListElement: categoryData.products.map((p, idx) => ({
+                          '@type': 'ListItem',
+                          position: idx + 1,
+                          url: `/products/${p.id}`,
+                          name: p.name,
+                        })),
+                      },
+                    ]
+                  : []),
+              ],
+            }),
+          }}
+        />
+      )}
       {/* Editorial hero band — replaces the former white card header (delta 2.6 + 2.1 instance 1) */}
       {/* expect: indigo-700 editorial band with Playfair H1 opens the page */}
       <div className="bg-indigo-700 text-white py-12 px-6">

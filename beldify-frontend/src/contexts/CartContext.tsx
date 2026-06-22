@@ -413,9 +413,14 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     await addItem(product.id, 1);
   };
 
+  // Refetch on auth changes so a fresh login/logout reconciles the cart with
+  // the server side instead of silently keeping the cached (possibly empty)
+  // pre-login snapshot until the next full page reload. Mirrors
+  // WishlistContext's `[isAuthenticated]` pattern.
   useEffect(() => {
     fetchCart();
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isAuthenticated]);
 
   // Derived total quantity across all cart line items — Navbar / MobileBottomNav
   // badges read this. Sum of `quantity` (not items.length) so adding 2 of one
