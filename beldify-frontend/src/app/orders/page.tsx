@@ -56,8 +56,8 @@ export default function OrdersPage() {
     try {
       const d = new Date(date);
       const now = new Date();
-      const diffTime = Math.abs(now.getTime() - d.getTime());
-      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+      const diffTime = Math.max(0, now.getTime() - d.getTime());
+      const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
 
       const locale = intlLocale(i18n.language);
       // If less than 7 days, show relative time
