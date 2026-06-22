@@ -1,7 +1,7 @@
 'use client';
 
 import { useTranslation } from 'react-i18next';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { Star, MapPin, Calendar, Clock, MessageCircle, BadgeCheck } from 'lucide-react';
@@ -35,36 +35,48 @@ export default function TailorProfilePage({ params }: { params: { id: string } }
   const [timeSlots, setTimeSlots] = useState<TimeSlot[]>([]);
   const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
   const [bookingLoading, setBookingLoading] = useState(false);
+  const tailorFetchTokenRef = useRef(0);
+  const slotsFetchTokenRef = useRef(0);
+
+  const loadTailorData = useCallback(async () => {
+    const token = ++tailorFetchTokenRef.current;
+    try {
+      const response = await tailorService.getTailor(params.id);
+      if (token !== tailorFetchTokenRef.current) return;
+      setTailor(response.data);
+    } catch (error: any) {
+      if (token !== tailorFetchTokenRef.current) return;
+      toast.error(t('tailoring.errors.load_tailor_failed', 'Failed to load tailor data'));
+    } finally {
+      if (token === tailorFetchTokenRef.current) setLoading(false);
+    }
+  }, [params.id, t]);
+
+  const loadTimeSlots = useCallback(async () => {
+    if (!selectedDate) return;
+    const token = ++slotsFetchTokenRef.current;
+    try {
+      const response = await tailorService.getTimeSlots(params.id, selectedDate);
+      if (token !== slotsFetchTokenRef.current) return;
+      setTimeSlots(response.data);
+    } catch (error: any) {
+      if (token !== slotsFetchTokenRef.current) return;
+      toast.error(t('tailoring.errors.load_slots_failed', 'Failed to load time slots'));
+    }
+  }, [params.id, selectedDate, t]);
 
   useEffect(() => {
     loadTailorData();
   }, [loadTailorData]);
 
   useEffect(() => {
+    if (!selectedDate) {
+      setTimeSlots([]);
+      setSelectedTimeSlot(null);
+      return;
+    }
     loadTimeSlots();
-  }, [loadTimeSlots]);
-
-  const loadTailorData = async () => {
-    try {
-      const response = await tailorService.getTailor(params.id);
-      setTailor(response.data);
-    } catch (error: any) {
-      toast.error(t('tailoring.errors.load_tailor_failed', 'Failed to load tailor data'));
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const loadTimeSlots = async () => {
-    if (!selectedDate) return;
-
-    try {
-      const response = await tailorService.getTimeSlots(params.id, selectedDate);
-      setTimeSlots(response.data);
-    } catch (error: any) {
-      toast.error(t('tailoring.errors.load_slots_failed', 'Failed to load time slots'));
-    }
-  };
+  }, [selectedDate, loadTimeSlots]);
 
   const handleBooking = async () => {
     if (!selectedService || !selectedDate || !selectedTimeSlot) return;

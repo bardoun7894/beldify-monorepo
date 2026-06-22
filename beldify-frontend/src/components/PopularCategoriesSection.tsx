@@ -107,7 +107,7 @@ const PopularCategoriesSection: React.FC<PopularCategoriesSectionProps> = ({
             <div className="bg-rose-50 border border-rose-200 rounded-2xl p-8">
               <p className="text-rose-700 text-sm mb-4">{error}</p>
               <button
-                onClick={loadCategories}
+                onClick={() => loadCategories()}
                 className="px-6 py-2 bg-rose-700 text-white text-sm rounded-full hover:bg-rose-800 transition-colors"
               >
                 {t('common.try_again')}
