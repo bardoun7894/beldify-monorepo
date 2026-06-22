@@ -52,10 +52,9 @@ export async function GET(
   } catch (error: any) {
     logger.error('Error in category API route:', error);
     
-    // Handle specific error responses
     const status = error.response?.status || 500;
-    const errorMessage = error.response?.data?.message || error.message || 'Failed to fetch category data';
-    
+    const errorMessage = error.response?.data?.message || 'Failed to fetch category data';
+
     return NextResponse.json(
       { error: errorMessage },
       { status: status }

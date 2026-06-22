@@ -1,12 +1,17 @@
 import { NextRequest, NextResponse } from 'next/server';
 import axios from 'axios';
+import logger from '@/utils/consoleLogger';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL!;
 
 export async function GET(request: NextRequest, { params }: { params: Promise<{ shopId: string }> }) {
   const { shopId } = await params;
   try {
-    const token = request.cookies.get('token')?.value;
+    const token =
+      request.cookies.get('token')?.value ||
+      request.cookies.get('auth_token')?.value ||
+      request.headers.get('authorization')?.replace('Bearer ', '') ||
+      null;
 
     if (!token) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -36,7 +41,7 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
 
     return NextResponse.json(response.data);
   } catch (error: any) {
-    console.error('Error fetching conversation:', error.response?.data || error.message);
+    logger.error('Error fetching conversation:', error);
     return NextResponse.json(
       { error: 'Failed to fetch conversation' },
       { status: error.response?.status || 500 }
@@ -47,7 +52,11 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
 export async function PUT(request: NextRequest, { params }: { params: Promise<{ shopId: string }> }) {
   await params; // consume the promise
   try {
-    const token = request.cookies.get('token')?.value;
+    const token =
+      request.cookies.get('token')?.value ||
+      request.cookies.get('auth_token')?.value ||
+      request.headers.get('authorization')?.replace('Bearer ', '') ||
+      null;
 
     if (!token) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -74,7 +83,7 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
 
     return NextResponse.json(response.data);
   } catch (error: any) {
-    console.error('Error marking conversation as read:', error.response?.data || error.message);
+    logger.error('Error marking conversation as read:', error);
     return NextResponse.json(
       { error: 'Failed to mark conversation as read' },
       { status: error.response?.status || 500 }

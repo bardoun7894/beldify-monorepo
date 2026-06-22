@@ -27,13 +27,10 @@ export async function GET(
         },
       }
     );
-    
-    // Return the response data
+
     return NextResponse.json(response.data);
   } catch (error: any) {
     logger.error('Error fetching shop details:', error);
-    
-    // Return appropriate error response
     return NextResponse.json(
       { error: 'Failed to fetch shop details' },
       { status: error.response?.status || 500 }
