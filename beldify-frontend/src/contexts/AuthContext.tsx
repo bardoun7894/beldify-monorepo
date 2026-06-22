@@ -756,7 +756,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       return { success: false, message: 'Authentication failed' };
     } catch (error: any) {
       logger.error('Google auth failed:', error.response || error);
-      const message = error.response?.data?.message || error.message || 'Google authentication failed';
+      const message = error.response?.data?.message || 'Google authentication failed';
       toast.error(message);
       return { success: false, message };
     }

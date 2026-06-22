@@ -84,13 +84,6 @@ export async function POST(request: NextRequest) {
 
     const formData = await request.formData();
 
-    // Log the form data being sent
-    logger.log('Sending message with data:', {
-      shop_id: formData.get('shop_id'),
-      content: formData.get('content'),
-      post_id: formData.get('post_id')
-    });
-
     // Validate required fields
     if (!formData.get('shop_id')) {
       logger.error('Missing required field: shop_id');
@@ -112,14 +105,12 @@ export async function POST(request: NextRequest) {
           const utf8Content = new TextDecoder().decode(
             new Uint8Array([...decodedContent].map(char => char.charCodeAt(0)))
           );
-          logger.log(`Adding decoded UTF-8 content: ${utf8Content.substring(0, 50)}...`);
           axiosFormData.append(key, utf8Content);
         } catch (error) {
           logger.error('Error decoding base64 content:', error);
           axiosFormData.append(key, value); // fallback to original
         }
       } else if (key !== 'content_encoding') {
-        logger.log(`Adding to FormData: ${key} = ${value}`);
         axiosFormData.append(key, value);
       }
     });
@@ -134,8 +125,6 @@ export async function POST(request: NextRequest) {
       maxContentLength: Infinity
     });
 
-    logger.log('Message sent successfully:', response.data);
-
     // Ensure we return the correct format
     if (response.data && response.data.status === 'success') {
       return NextResponse.json(response.data);
@@ -148,25 +137,9 @@ export async function POST(request: NextRequest) {
     });
   } catch (error: any) {
     logger.error('Error sending message:', {
-      message: error.message,
       status: error.response?.status,
       url: error.config?.url,
     });
-
-    // Log the full axios error for debugging
-    if (error.response) {
-      logger.error('Backend response error:', {
-        status: error.response.status,
-        statusText: error.response.statusText,
-        data: error.response.data,
-        headers: error.response.headers
-      });
-    } else if (error.request) {
-      logger.error('No response received:', error.request);
-    } else {
-      logger.error('Request setup error:', error.message);
-    }
-
     return NextResponse.json(
       { error: 'Failed to send message' },
       { status: error.response?.status || 500 }

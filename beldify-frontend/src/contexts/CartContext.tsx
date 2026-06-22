@@ -280,10 +280,8 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         } else {
           toast.error(errorMessage);
         }
-      } else if (error.message) {
-        toast.error(error.message);
       } else {
-        toast.error('Failed to add item to cart. Please try again.');
+        toast.error(t('cart.error_adding'));
       }
     } finally {
       setLoading(false);
@@ -359,10 +357,8 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         } else {
           toast.error(errorMessage);
         }
-      } else if (error.message) {
-        toast.error(error.message);
       } else {
-        toast.error('Failed to update cart. Please try again.');
+        toast.error(t('cart.error_updating'));
       }
     } finally {
       setLoading(false);

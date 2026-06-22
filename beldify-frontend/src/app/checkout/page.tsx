@@ -547,7 +547,7 @@ export default function CheckoutPage() {
           }
         });
       } else {
-        toast.error(error.message || t('checkout.errors.processing_failed'));
+        toast.error(t('checkout.errors.processing_failed'));
       }
     } finally {
       setIsProcessing(false);

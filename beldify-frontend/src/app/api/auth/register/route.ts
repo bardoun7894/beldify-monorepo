@@ -56,11 +56,14 @@ export async function POST(request: NextRequest) {
     logger.error('Registration error:', error);
     
     if (axios.isAxiosError(error)) {
-      // Forward the error response from the backend
       const status = error.response?.status || 500;
-      const errorData = error.response?.data || { message: 'Registration failed' };
-      
-      return NextResponse.json(errorData, { status });
+      // Forward 4xx responses so the registration form can display field-level validation errors.
+      // For 5xx (backend fault), return a generic message to avoid leaking internal details.
+      if (status >= 400 && status < 500) {
+        const errorData = error.response?.data || { message: 'Registration failed' };
+        return NextResponse.json(errorData, { status });
+      }
+      return NextResponse.json({ message: 'Registration failed. Please try again.' }, { status });
     }
     
     // Handle non-axios errors

@@ -41,7 +41,6 @@ export async function GET(request: NextRequest) {
       {
         success: false,
         error: 'Token test failed',
-        message: error instanceof Error ? error.message : 'Unknown error',
       },
       { status: 500 },
     );
