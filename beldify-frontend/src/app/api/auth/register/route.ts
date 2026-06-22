@@ -58,20 +58,14 @@ export async function POST(request: NextRequest) {
     if (axios.isAxiosError(error)) {
       // Forward the error response from the backend
       const status = error.response?.status || 500;
-      const errorData = error.response?.data || { 
-        message: 'Registration failed',
-        error: error.message 
-      };
+      const errorData = error.response?.data || { message: 'Registration failed' };
       
       return NextResponse.json(errorData, { status });
     }
     
     // Handle non-axios errors
     return NextResponse.json(
-      { 
-        message: 'Internal server error during registration',
-        error: error.message || 'Unknown error'
-      },
+      { message: 'Internal server error during registration' },
       { status: 500 }
     );
   }

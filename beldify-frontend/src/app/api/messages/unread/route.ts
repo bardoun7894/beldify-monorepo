@@ -1,11 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server';
 import axios from 'axios';
+import logger from '@/utils/consoleLogger';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL!;
 
 export async function GET(request: NextRequest) {
   try {
-    const token = request.cookies.get('token')?.value;
+    const token =
+      request.cookies.get('token')?.value ||
+      request.cookies.get('auth_token')?.value ||
+      request.headers.get('authorization')?.replace('Bearer ', '') ||
+      null;
 
     if (!token) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -32,7 +37,7 @@ export async function GET(request: NextRequest) {
     
     return NextResponse.json(response.data);
   } catch (error: any) {
-    console.error('Error fetching unread count:', error.response?.data || error.message);
+    logger.error('Error fetching unread count:', error);
     return NextResponse.json(
       { error: 'Failed to fetch unread count' },
       { status: error.response?.status || 500 }

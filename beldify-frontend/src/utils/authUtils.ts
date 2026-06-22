@@ -7,20 +7,25 @@ import { NextRequest, NextResponse } from 'next/server';
 import logger from './consoleLogger';
 
 /**
- * Get authentication token from localStorage (client-side) or cookie (server-side)
+ * Get authentication token from localStorage (client-side) or cookies (server-side).
+ * Server-side path reads the `token` cookie first (primary), then `auth_token` as fallback —
+ * matching the cookie names set by AuthContext and /api/auth/set-cookie respectively.
  */
 export const getAuthToken = async (): Promise<string | null> => {
   try {
     // Client-side: get from localStorage
-    // The AuthContext stores the token under the key 'token'
     if (typeof window !== 'undefined') {
-      const token = localStorage.getItem('token');
-      return token;
+      return localStorage.getItem('token');
     }
-    
-    // In server-side context
-    // This is a placeholder - you would implement cookie-based auth here
-    return null;
+
+    // Server-side: read from request cookies via next/headers
+    const { cookies } = await import('next/headers');
+    const cookieStore = await cookies();
+    return (
+      cookieStore.get('token')?.value ||
+      cookieStore.get('auth_token')?.value ||
+      null
+    );
   } catch (error) {
     logger.error('Error getting auth token:', error);
     return null;

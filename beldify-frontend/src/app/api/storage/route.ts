@@ -37,6 +37,11 @@ export async function GET(request: NextRequest) {
         imageUrl = path;
       }
     }
+    // Block protocol-relative paths (//host/…) — startsWith('/') matches them
+    // but new URL('//evil.com/x', base) resolves to https://evil.com/x (open redirect).
+    else if (path.startsWith('//')) {
+      return NextResponse.json({ error: 'Invalid path' }, { status: 400 });
+    }
     // If it's a local path, use it directly
     else if (path.startsWith('/')) {
       return NextResponse.redirect(new URL(path, request.url));
