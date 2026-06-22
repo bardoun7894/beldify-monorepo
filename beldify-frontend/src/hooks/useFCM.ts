@@ -1,5 +1,6 @@
 import { useEffect, useState, useCallback } from 'react';
 import { messaging, messagingDisabledReason } from '../lib/firebase';
+import logger from '@/utils/consoleLogger';
 
 interface FCMNotification {
   title?: string;
@@ -47,17 +48,17 @@ const useFCM = () => {
 
     // Runtime capability checks (belt-and-suspenders alongside firebase.ts)
     if (!('serviceWorker' in navigator)) {
-      console.warn('FCM: Service Worker not supported in this browser');
+      logger.warn('FCM: Service Worker not supported in this browser');
       setState((prev) => ({ ...prev, error: 'Service Worker not supported' }));
       return;
     }
     if (!('PushManager' in window)) {
-      console.warn('FCM: Push API not supported in this browser');
+      logger.warn('FCM: Push API not supported in this browser');
       setState((prev) => ({ ...prev, error: 'Push API not supported' }));
       return;
     }
     if (!('Notification' in window)) {
-      console.warn('FCM: Notification API not available');
+      logger.warn('FCM: Notification API not available');
       setState((prev) => ({ ...prev, error: 'Notification API not available' }));
       return;
     }
@@ -73,7 +74,7 @@ const useFCM = () => {
           vapidKey === 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'
         );
         if (!vapidKey || isPlaceholder) {
-          console.warn('FCM: VAPID key not configured – FCM features disabled');
+          logger.warn('FCM: VAPID key not configured – FCM features disabled');
           setState((prev) => ({ ...prev, error: 'FCM not configured' }));
           return;
         }
@@ -81,7 +82,7 @@ const useFCM = () => {
         // Request notification permission
         const permission = await Notification.requestPermission();
         if (permission !== 'granted') {
-          console.warn('FCM: Notification permission denied');
+          logger.warn('FCM: Notification permission denied');
           setState((prev) => ({ ...prev, error: 'Notification permission denied' }));
           return;
         }
@@ -89,10 +90,10 @@ const useFCM = () => {
         // Dynamic import so getToken is only loaded when actually needed
         const { getToken } = await import('firebase/messaging');
 
-        console.log('FCM: Registering service worker...');
+        logger.log('FCM: Registering service worker...');
         const registration = await navigator.serviceWorker.register('/firebase-messaging-sw.js');
         await navigator.serviceWorker.ready;
-        console.log('FCM: Service worker registered');
+        logger.log('FCM: Service worker registered');
 
         const currentToken = await getToken(messaging!, {
           vapidKey,
@@ -100,7 +101,7 @@ const useFCM = () => {
         });
 
         if (currentToken) {
-          console.log('FCM: Token obtained');
+          logger.log('FCM: Token obtained');
           setState((prev) => ({ ...prev, token: currentToken, error: null }));
 
           // Send token to backend (non-blocking)
@@ -119,20 +120,20 @@ const useFCM = () => {
                 },
                 body: JSON.stringify({ fcm_token: currentToken }),
               });
-              console.log('FCM: Token sent to backend');
+              logger.log('FCM: Token sent to backend');
             }
           } catch (backendError) {
-            console.warn('FCM: Failed to send token to backend:', backendError);
+            logger.warn('FCM: Failed to send token to backend:', backendError);
           }
         } else {
-          console.warn('FCM: No registration token available');
+          logger.warn('FCM: No registration token available');
           setState((prev) => ({
             ...prev,
             error: 'No FCM registration token available.',
           }));
         }
       } catch (error: any) {
-        console.warn('FCM: Error retrieving token:', error);
+        logger.warn('FCM: Error retrieving token:', error);
 
         let message = 'Unknown FCM error';
         if (error.code === 'messaging/failed-service-worker-registration') {
@@ -163,7 +164,7 @@ const useFCM = () => {
     import('firebase/messaging')
       .then(({ onMessage }) => {
         unsubscribe = onMessage(messaging!, (payload) => {
-          console.log('FCM: Foreground message received:', payload);
+          logger.log('FCM: Foreground message received:', payload);
           setState((prev) => ({
             ...prev,
             notification: {
@@ -175,7 +176,7 @@ const useFCM = () => {
         });
       })
       .catch((err) => {
-        console.warn('FCM: Failed to set up message listener:', err);
+        logger.warn('FCM: Failed to set up message listener:', err);
       });
 
     return () => {

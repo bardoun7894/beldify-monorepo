@@ -116,7 +116,13 @@
     "google_unavailable": "El inicio de sesión con Google no está disponible",
     "google_init_failed": "Error al inicializar Google Sign-Up",
     "login_error": "Error al iniciar sesión. Inténtalo de nuevo.",
-    "google_login_failed": "Error al iniciar sesión con Google. Inténtalo de nuevo."
+    "google_login_failed": "Error al iniciar sesión con Google. Inténtalo de nuevo.",
+    "profile_updated": "Perfil actualizado con éxito",
+    "password_updated": "Contraseña actualizada con éxito",
+    "preferences_updated": "Preferencias guardadas con éxito",
+    "update_profile_failed": "Error al actualizar el perfil. Inténtalo de nuevo.",
+    "update_password_failed": "Error al actualizar la contraseña. Inténtalo de nuevo.",
+    "update_preferences_failed": "Error al guardar las preferencias. Inténtalo de nuevo."
   },
   "navigation": {
     "home": "Inicio",

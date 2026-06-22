@@ -135,7 +135,13 @@
     "google_unavailable": "Google Sign-In is currently unavailable",
     "google_init_failed": "Failed to initialize Google Sign-Up",
     "login_error": "Sign-in failed. Please try again.",
-    "google_login_failed": "Google sign-in failed. Please try again."
+    "google_login_failed": "Google sign-in failed. Please try again.",
+    "profile_updated": "Profile updated successfully",
+    "password_updated": "Password updated successfully",
+    "preferences_updated": "Preferences saved successfully",
+    "update_profile_failed": "Failed to update profile. Please try again.",
+    "update_password_failed": "Failed to update password. Please try again.",
+    "update_preferences_failed": "Failed to save preferences. Please try again."
   },
   "navigation": {
     "home": "Home",

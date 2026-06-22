@@ -123,7 +123,13 @@
     "google_unavailable": "تسجيل الدخول عبر Google غير متاح حالياً",
     "google_init_failed": "فشل تهيئة التسجيل عبر Google",
     "login_error": "فشل تسجيل الدخول. يرجى المحاولة مرة أخرى.",
-    "google_login_failed": "فشل تسجيل الدخول عبر Google. يرجى المحاولة مرة أخرى."
+    "google_login_failed": "فشل تسجيل الدخول عبر Google. يرجى المحاولة مرة أخرى.",
+    "profile_updated": "تم تحديث الملف الشخصي بنجاح",
+    "password_updated": "تم تحديث كلمة المرور بنجاح",
+    "preferences_updated": "تم حفظ التفضيلات بنجاح",
+    "update_profile_failed": "فشل تحديث الملف الشخصي. يرجى المحاولة مرة أخرى.",
+    "update_password_failed": "فشل تحديث كلمة المرور. يرجى المحاولة مرة أخرى.",
+    "update_preferences_failed": "فشل حفظ التفضيلات. يرجى المحاولة مرة أخرى."
   },
   "navigation": {
     "home": "الرئيسية",

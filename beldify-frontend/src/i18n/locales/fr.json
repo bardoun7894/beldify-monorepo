@@ -106,7 +106,13 @@
     "google_unavailable": "La connexion Google est actuellement indisponible",
     "google_init_failed": "Échec de l'initialisation de l'inscription Google",
     "login_error": "La connexion a échoué. Veuillez réessayer.",
-    "google_login_failed": "La connexion Google a échoué. Veuillez réessayer."
+    "google_login_failed": "La connexion Google a échoué. Veuillez réessayer.",
+    "profile_updated": "Profil mis à jour avec succès",
+    "password_updated": "Mot de passe mis à jour avec succès",
+    "preferences_updated": "Préférences enregistrées avec succès",
+    "update_profile_failed": "Échec de la mise à jour du profil. Veuillez réessayer.",
+    "update_password_failed": "Échec de la mise à jour du mot de passe. Veuillez réessayer.",
+    "update_preferences_failed": "Échec de l'enregistrement des préférences. Veuillez réessayer."
   },
   "navigation": {
     "home": "Accueil",

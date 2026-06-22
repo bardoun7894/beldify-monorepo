@@ -158,7 +158,7 @@ export default function ShopPage() {
     setIsFollowing(!prev);
     try {
       const res = prev ? await shopService.unfollowShop(shop.id) : await shopService.followShop(shop.id);
-      if (res?.error) { setIsFollowing(prev); toast.error(res.error || t('shops.follow.action_failed')); return; }
+      if (res?.error) { setIsFollowing(prev); toast.error(t('shops.follow.action_failed')); return; }
       if (res?.isAuthenticated === false) {
         setIsFollowing(prev);
         toast.error(t('shops.follow.auth_error'), { duration: 3000, id: 'auth-error' });

@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { XMarkIcon, ArrowDownTrayIcon } from '@heroicons/react/24/outline';
 import Image from 'next/image';
 import { useTranslation } from 'react-i18next';
+import logger from '@/utils/consoleLogger';
 
 interface BeforeInstallPromptEvent extends Event {
   prompt: () => Promise<void>;
@@ -84,7 +85,7 @@ export default function InstallBanner() {
         setDeferredPrompt(null);
         setShowBanner(false);
       } catch (error) {
-        console.error('Installation failed:', error);
+        logger.error('Installation failed:', error);
       }
     } else if (isIOS) {
       // For iOS, just hide the banner and let user follow instructions

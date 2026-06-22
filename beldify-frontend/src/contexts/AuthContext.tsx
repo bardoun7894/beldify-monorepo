@@ -489,7 +489,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         setIsAuthenticated(true);
         await checkAuth(false); // Re-check auth to ensure profile is fresh after registration
         toast.debug('Registration successful');
-        toast.success(response.data.message);
+        toast.success(t('auth.registration_successful'));
         return { success: true, data: null, message: response.data.message };
       }
 
@@ -540,16 +540,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
       if (response.data.status === 'success') {
         setUser(response.data.user);
-        toast.success(response.data.message);
+        toast.success(t('auth.profile_updated'));
         return { success: true };
       }
 
       return { success: false, message: response.data.message };
     } catch (error: any) {
       logger.error('Profile update failed:', error);
-      const message = error.response?.data?.message || 'Failed to update profile';
-      toast.error(message);
-      return { success: false, message };
+      toast.error(t('auth.update_profile_failed'));
+      return { success: false, message: t('auth.update_profile_failed') };
     }
   };
 
@@ -558,16 +557,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       const response = await axios.post('/api/user/password', data);
 
       if (response.data.status === 'success') {
-        toast.success(response.data.message);
+        toast.success(t('auth.password_updated'));
         return { success: true };
       }
 
       return { success: false, message: response.data.message };
     } catch (error: any) {
       logger.error('Password update failed:', error);
-      const message = error.response?.data?.message || 'Failed to update password';
-      toast.error(message);
-      return { success: false, message };
+      toast.error(t('auth.update_password_failed'));
+      return { success: false, message: t('auth.update_password_failed') };
     }
   };
 
@@ -577,16 +575,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
       if (response.data.status === 'success') {
         setUser(response.data.user);
-        toast.success(response.data.message);
+        toast.success(t('auth.preferences_updated'));
         return { success: true };
       }
 
       return { success: false, message: response.data.message };
     } catch (error: any) {
       logger.error('Preferences update failed:', error);
-      const message = error.response?.data?.message || 'Failed to update preferences';
-      toast.error(message);
-      return { success: false, message };
+      toast.error(t('auth.update_preferences_failed'));
+      return { success: false, message: t('auth.update_preferences_failed') };
     }
   };
 

@@ -132,7 +132,13 @@
     "google_unavailable": "دخول Google ماشي متاح دابا",
     "google_init_failed": "ما تهياش Google. عاود حاول.",
     "login_error": "ما دخلتيش. عاود حاول.",
-    "google_login_failed": "ما دخلتيش بـ Google. عاود حاول."
+    "google_login_failed": "ما دخلتيش بـ Google. عاود حاول.",
+    "profile_updated": "تحيناتي ديال البروفيل تحيات بنجاح",
+    "password_updated": "تحيناتي ديال كلمة المرور تحيات بنجاح",
+    "preferences_updated": "تفضيلاتك تسجلاو بنجاح",
+    "update_profile_failed": "ما تحيناشي البروفيل. عاود حاول.",
+    "update_password_failed": "ما تحيناشي كلمة المرور. عاود حاول.",
+    "update_preferences_failed": "ما تسجلاوشي التفضيلات. عاود حاول."
   },
   "navigation": {
     "home": "الرئيسية",
