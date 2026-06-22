@@ -4,9 +4,11 @@ import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSearchParams } from 'next/navigation';
 import '@/i18n/config';
+import toast from '@/utils/toast';
 
 const Newsletter: React.FC = () => {
   const [email, setEmail] = useState('');
+  const [submitting, setSubmitting] = useState(false);
   const [mounted, setMounted] = useState(false);
   const { t, i18n } = useTranslation();
   const searchParams = useSearchParams();
@@ -22,14 +24,22 @@ const Newsletter: React.FC = () => {
     setMounted(true);
   }, []);
 
-  // Prevent hydration issues
   if (!mounted) {
     return null;
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setEmail('');
+    if (!email || submitting) return;
+    setSubmitting(true);
+    try {
+      toast.success(t('newsletter.success', 'Thank you! You\'ll hear from us soon.'));
+      setEmail('');
+    } catch {
+      toast.error(t('newsletter.error', 'Something went wrong. Please try again.'));
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -59,17 +69,24 @@ const Newsletter: React.FC = () => {
           {/* Newsletter Form */}
           <form className="max-w-md mx-auto" onSubmit={handleSubmit}>
             <div className="flex flex-col sm:flex-row gap-3">
+              <label htmlFor="newsletter-email" className="sr-only">
+                {t('newsletter.label', 'Email address')}
+              </label>
               <input
+                id="newsletter-email"
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder={t('newsletter.placeholder')}
+                autoComplete="email"
                 className="flex-1 rounded-xl px-4 py-3 border border-outline/30 focus:ring-2 focus:ring-[hsl(var(--primary))] focus:border-transparent transition-all duration-200 text-foreground bg-card"
                 required
+                disabled={submitting}
               />
               <button
                 type="submit"
-                className="bg-[hsl(var(--primary))] hover:bg-primary-container text-white px-6 py-3 rounded-xl font-semibold transition-all duration-[220ms] ease-[cubic-bezier(0.33,1,0.68,1)] shadow-atlas-sm hover:shadow-atlas-md hover:-translate-y-0.5"
+                disabled={submitting}
+                className="bg-[hsl(var(--primary))] hover:bg-primary-container text-white px-6 py-3 rounded-xl font-semibold transition-all duration-[220ms] ease-[cubic-bezier(0.33,1,0.68,1)] shadow-atlas-sm hover:shadow-atlas-md hover:-translate-y-0.5 disabled:opacity-60 disabled:cursor-not-allowed"
               >
                 {t('newsletter.button')}
               </button>

@@ -383,7 +383,11 @@
     "added_successfully": "Producto agregado al carrito",
     "removed_successfully": "Producto eliminado del carrito",
     "updated_successfully": "Carrito actualizado exitosamente",
-    "cleared_successfully": "Carrito vaciado exitosamente"
+    "cleared_successfully": "Carrito vaciado exitosamente",
+    "stock": {
+      "low": "Solo quedan {{remaining}}",
+      "max": "Cantidad máxima alcanzada"
+    }
   },
   "products": {
     "title": "Productos",
@@ -1760,7 +1764,14 @@
     "loadError": "Error al cargar las ofertas"
   },
   "newsletter": {
-    "eyebrow": "Mantente informado"
+    "eyebrow": "Mantente informado",
+    "title": "Mantente informado",
+    "subtitle": "Suscríbete a nuestro boletín para ofertas exclusivas, novedades e inspiración de moda marroquí tradicional.",
+    "placeholder": "Ingresa tu correo electrónico",
+    "button": "Suscribirse",
+    "label": "Correo electrónico",
+    "success": "¡Gracias! Te contactaremos pronto.",
+    "error": "Algo salió mal. Por favor inténtalo de nuevo."
   },
   "heroSlider": {
     "loadError": "Error al cargar los banners",

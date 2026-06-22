@@ -23,7 +23,7 @@ export default function FloatingSupportButton() {
     {
       icon: PhoneIcon,
       label: t('support.call_us', 'Call Us'),
-      action: () => window.open('tel:+212XXXXXXXX')
+      action: () => window.open('tel:+212708150351')
     },
     {
       icon: EnvelopeIcon,
@@ -33,7 +33,7 @@ export default function FloatingSupportButton() {
   ];
 
   return (
-    <div className="fixed bottom-6 right-6 z-50">
+    <div className="fixed bottom-6 right-6 rtl:right-auto rtl:left-6 z-50">
       {/* Support Options */}
       {isOpen && (
         <div className="mb-4">

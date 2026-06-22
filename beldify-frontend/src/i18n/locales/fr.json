@@ -335,7 +335,11 @@
     "added_successfully": "Produit ajouté au panier",
     "removed_successfully": "Produit retiré du panier",
     "updated_successfully": "Panier mis à jour avec succès",
-    "cleared_successfully": "Panier vidé avec succès"
+    "cleared_successfully": "Panier vidé avec succès",
+    "stock": {
+      "low": "Seulement {{remaining}} restant(s)",
+      "max": "Quantité maximale atteinte"
+    }
   },
   "products": {
     "title": "Produits",
@@ -1766,7 +1770,14 @@
     "loadError": "Impossible de charger les offres"
   },
   "newsletter": {
-    "eyebrow": "Restez informé"
+    "eyebrow": "Restez informé",
+    "title": "Restez informé",
+    "subtitle": "Abonnez-vous à notre newsletter pour des offres exclusives, des nouveautés et l'inspiration de la mode marocaine traditionnelle.",
+    "placeholder": "Entrez votre e-mail",
+    "button": "S'abonner",
+    "label": "Adresse e-mail",
+    "success": "Merci ! Vous aurez bientôt de nos nouvelles.",
+    "error": "Une erreur s'est produite. Veuillez réessayer."
   },
   "heroSlider": {
     "loadError": "Erreur de chargement des bannières",

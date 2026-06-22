@@ -264,8 +264,8 @@ export default function CartPage() {
                         {/* Price block + remove */}
                         <div className="flex flex-col items-end gap-1 flex-shrink-0">
                           {hasDiscount && (
-                            <span className="text-xs text-indigo-300 line-through">
-                              {item.product.price.toFixed(2)} {t('product.currency')}
+                            <span className="text-xs text-gray-400 line-through">
+                              {(item.product.price * item.quantity).toFixed(2)} {t('product.currency')}
                             </span>
                           )}
                           <span className="text-base font-semibold text-indigo-900">

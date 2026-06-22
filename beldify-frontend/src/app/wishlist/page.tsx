@@ -176,11 +176,11 @@ export default function WishlistPage() {
                 <div className="flex items-center justify-between mt-3">
                   <div className="flex items-baseline gap-1.5">
                     <span className="text-base font-semibold text-indigo-700">
-                      {Number(item.product.price).toFixed(2)} {t('common.currency', 'MAD')}
+                      {Number(item.product.is_on_sale && item.product.sale_price ? item.product.sale_price : item.product.price).toFixed(2)} {t('common.currency', 'MAD')}
                     </span>
                     {item.product.sale_price && item.product.is_on_sale && (
                       <span className="text-xs text-gray-400 line-through">
-                        {Number(item.product.sale_price).toFixed(2)}
+                        {Number(item.product.price).toFixed(2)}
                       </span>
                     )}
                   </div>

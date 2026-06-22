@@ -447,7 +447,9 @@
       "level": "Stock Level",
       "warning": "Only {{count}} left in stock",
       "max_reached": "Maximum stock reached",
-      "available": "{{count}} available"
+      "available": "{{count}} available",
+      "low": "Only {{remaining}} left",
+      "max": "Max quantity reached"
     },
     "notifications": {
       "removed": "Product removed from cart",
@@ -1609,7 +1611,10 @@
     "subtitle": "Subscribe to our newsletter for exclusive offers, new arrivals, and traditional Moroccan fashion inspiration.",
     "placeholder": "Enter your email",
     "button": "Subscribe",
-    "eyebrow": "Stay in the loop"
+    "eyebrow": "Stay in the loop",
+    "label": "Email address",
+    "success": "Thank you! You'll hear from us soon.",
+    "error": "Something went wrong. Please try again."
   },
   "footer": {
     "description": "Discover the finest Moroccan fashion and handicrafts. Beldify connects you with authentic Moroccan artisans and designers.",

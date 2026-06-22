@@ -609,7 +609,7 @@ const TailorDetailsPage = ({ params }: TailorDetailsPageProps) => {
       </div>
 
       {/* Mobile floating actions */}
-      <div className="lg:hidden fixed bottom-6 right-6 z-50 flex flex-col gap-3">
+      <div className="lg:hidden fixed bottom-6 right-6 rtl:right-auto rtl:left-6 z-50 flex flex-col gap-3">
         <a
           href={`tel:${tailor.phone}`}
           className="p-3.5 bg-indigo-700 text-white rounded-full shadow-lg hover:bg-indigo-800 transition-colors"
