@@ -1141,6 +1141,14 @@
       "success": "Shop followed successfully",
       "unfollow_success": "Shop unfollowed successfully",
       "action_failed": "An error occurred. Please try again"
+    },
+    "not_found": "Shop not found",
+    "error_message": "Failed to load shop. Please try again.",
+    "try_again": "Please try again later",
+    "browse": "Browse ateliers",
+    "shop": {
+      "follow": "Follow Atelier",
+      "following": "Following"
     }
   },
   "sort": {

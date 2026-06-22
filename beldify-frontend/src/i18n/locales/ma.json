@@ -1059,6 +1059,14 @@
       "success": "تبعتي لحانوت بنجاح",
       "unfollow_success": "وقفتي على تتبع لحانوت",
       "action_failed": "وقع مشكل. عاود جرب"
+    },
+    "not_found": "ما لقيناش هاد لحانوت",
+    "error_message": "ما قدرناش نحملو لحانوت. عاود جرب.",
+    "try_again": "عاود جرب من بعد",
+    "browse": "شوف الأتيليهات",
+    "shop": {
+      "follow": "تبع الأتيليه",
+      "following": "كتتبع"
     }
   },
   "product_categories": {

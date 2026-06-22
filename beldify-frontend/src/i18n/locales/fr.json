@@ -1029,6 +1029,14 @@
       "success": "Boutique suivie avec succès",
       "unfollow_success": "Abonnement à la boutique annulé",
       "action_failed": "Une erreur est survenue. Veuillez réessayer"
+    },
+    "not_found": "Boutique introuvable",
+    "error_message": "Impossible de charger la boutique. Veuillez réessayer.",
+    "try_again": "Veuillez réessayer plus tard",
+    "browse": "Parcourir les ateliers",
+    "shop": {
+      "follow": "Suivre l'atelier",
+      "following": "Abonné"
     }
   },
   "footer": {
