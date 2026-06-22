@@ -135,6 +135,7 @@
     "registration_success": "Registration successful! Welcome to Beldify.",
     "registration_failed": "Registration failed. Please check your details and try again.",
     "action_failed_retry": "Failed to complete action. Please try again.",
+    "oauth_coming_soon": "Sign-in with this provider is coming soon.",
     "logout_success": "You have been signed out.",
     "google_register_success": "Account created with Google.",
     "google_login_existing_account": "Signed in with your existing account.",
@@ -1735,6 +1736,15 @@
     "payment": "Secure Payment",
     "return": "Free Returns"
   },
+  "support": {
+    "live_chat": "Live Chat",
+    "live_chat_coming_soon": "Live chat is coming soon.",
+    "call_us": "Call Us",
+    "email": "Email",
+    "need_help": "Need Help?",
+    "open_support": "Open support menu",
+    "close_support": "Close support menu"
+  },
   "hero": {
     "eyebrow": "Authentic Moroccan craftsmanship",
     "headline": "Worn for centuries.",
@@ -2119,6 +2129,8 @@
     "categories": {
       "eyebrow": "Browse",
       "headline": "The souk, room by room.",
+      "loading": "Loading categories…",
+      "description": "Explore caftans, djellabas, and bespoke tailoring — organised by tradition, gender, and craft.",
       "error_description": "We couldn't load the categories. Please try again."
     },
     "products": {

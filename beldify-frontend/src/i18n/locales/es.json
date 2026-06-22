@@ -116,6 +116,7 @@
     "registration_success": "¡Registro exitoso! Bienvenido a Beldify.",
     "registration_failed": "El registro falló. Por favor revisa tus datos e inténtalo de nuevo.",
     "action_failed_retry": "No se pudo completar la acción. Por favor intenta de nuevo.",
+    "oauth_coming_soon": "El inicio de sesión con este proveedor estará disponible pronto.",
     "logout_success": "Has cerrado sesión.",
     "google_register_success": "Cuenta creada con Google.",
     "google_login_existing_account": "Sesión iniciada con tu cuenta existente.",
@@ -1753,6 +1754,8 @@
     "categories": {
       "eyebrow": "Explorar",
       "headline": "El zoco, sala por sala.",
+      "loading": "Cargando categorías…",
+      "description": "Descubre caftanes, chilabas y sastrería a medida — organizados por tradición, género y oficio.",
       "error_description": "No pudimos cargar las categorías. Por favor, inténtalo de nuevo."
     },
     "products": {
@@ -1780,6 +1783,15 @@
   },
   "newsletter": {
     "eyebrow": "Mantente informado"
+  },
+  "support": {
+    "live_chat": "Chat en vivo",
+    "live_chat_coming_soon": "El chat en vivo llegará pronto.",
+    "call_us": "Llámanos",
+    "email": "Correo electrónico",
+    "need_help": "¿Necesitas ayuda?",
+    "open_support": "Abrir menú de soporte",
+    "close_support": "Cerrar menú de soporte"
   },
   "heroSlider": {
     "loadError": "Error al cargar los banners",

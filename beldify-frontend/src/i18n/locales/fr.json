@@ -106,6 +106,7 @@
     "registration_success": "Inscription réussie ! Bienvenue chez Beldify.",
     "registration_failed": "L'inscription a échoué. Veuillez vérifier vos informations et réessayer.",
     "action_failed_retry": "L'action n'a pas pu être terminée. Veuillez réessayer.",
+    "oauth_coming_soon": "La connexion via ce fournisseur arrive bientôt.",
     "logout_success": "Vous êtes déconnecté(e).",
     "google_register_success": "Compte créé avec Google.",
     "google_login_existing_account": "Connexion avec votre compte existant.",
@@ -1681,6 +1682,8 @@
     "categories": {
       "eyebrow": "Parcourir",
       "headline": "Le souk, pièce par pièce.",
+      "loading": "Chargement des catégories…",
+      "description": "Découvrez caftans, djellabas et tailleur sur mesure — organisés par tradition, genre et savoir-faire.",
       "error_description": "Nous n'avons pas pu charger les catégories. Veuillez réessayer."
     },
     "products": {
@@ -1708,6 +1711,15 @@
   },
   "newsletter": {
     "eyebrow": "Restez informé"
+  },
+  "support": {
+    "live_chat": "Chat en direct",
+    "live_chat_coming_soon": "Le chat en direct arrive bientôt.",
+    "call_us": "Appelez-nous",
+    "email": "E-mail",
+    "need_help": "Besoin d'aide ?",
+    "open_support": "Ouvrir le menu d'assistance",
+    "close_support": "Fermer le menu d'assistance"
   },
   "heroSlider": {
     "loadError": "Erreur de chargement des bannières",

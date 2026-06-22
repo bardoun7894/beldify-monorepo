@@ -54,7 +54,7 @@ export default function CategoriesPage() {
       <div className="min-h-screen bg-amber-50/40 flex items-center justify-center">
         <div className="flex flex-col items-center gap-4">
           <Loading size="lg" />
-          <p className="text-gray-500 animate-pulse text-sm">Loading categories…</p>
+          <p className="text-gray-500 animate-pulse text-sm">{t('catalog.categories.loading', 'Loading categories…')}</p>
         </div>
       </div>
     );
@@ -98,7 +98,10 @@ export default function CategoriesPage() {
             {t('catalog.categories.headline', 'The souk, room by room.')}
           </h1>
           <p className="mt-4 text-indigo-100 max-w-lg text-base sm:text-lg">
-            Explore caftans, djellabas, and bespoke tailoring — organised by tradition, gender, and craft.
+            {t(
+              'catalog.categories.description',
+              'Explore caftans, djellabas, and bespoke tailoring — organised by tradition, gender, and craft.'
+            )}
           </p>
         </div>
       </section>
@@ -162,7 +165,7 @@ export default function CategoriesPage() {
 
                   {typeof subcategory.itemCount === 'number' && subcategory.itemCount > 0 && (
                     <span className="absolute top-3 right-3 rounded-full bg-white/95 px-2.5 py-1 text-[11px] font-semibold text-gray-900 shadow-sm">
-                      {subcategory.itemCount} items
+                      {subcategory.itemCount} {t('category.items', 'items')}
                     </span>
                   )}
 

@@ -133,6 +133,7 @@
     "registration_success": "تسجلتي بنجاح! مرحبا بيك ف بلديفاي.",
     "registration_failed": "ما نجحش التسجيل. شوف لمعلومات وعاود جرب.",
     "action_failed_retry": "ما نجحناش نكملو لعملية. عاود جرب.",
+    "oauth_coming_soon": "تسجيل الدخول بهاد لمزود غادي يتاح قريب.",
     "logout_success": "خرجتي من الحساب.",
     "google_register_success": "تخلق الحساب ب Google.",
     "google_login_existing_account": "دخلتي بحساب اللي عندك من قبل.",
@@ -1698,6 +1699,8 @@
     "categories": {
       "eyebrow": "شوف",
       "headline": "السوق، بيت بيت.",
+      "loading": "كاتسالا الأصناف…",
+      "description": "شوف القفاطن، الجلاليب، والخياطة على الطلب — مرتّبين حسب التقليد والنوع والصنعة.",
       "error_description": "ما قدرناش نحملو الأصناف. عاود حاول."
     },
     "products": {
@@ -1712,6 +1715,15 @@
     "product": {
       "out_of_stock": "خلص المخزون"
     }
+  },
+  "support": {
+    "live_chat": "شات مباشر",
+    "live_chat_coming_soon": "الشات المباشر غادي يجي قريب.",
+    "call_us": "عيّط لينا",
+    "email": "إيمايل",
+    "need_help": "محتاج المساعدة؟",
+    "open_support": "حلّ قائمة الدعم",
+    "close_support": "سدّ قائمة الدعم"
   },
   "heroSlider": {
     "loadError": "خطأ فتحميل البانرات",
