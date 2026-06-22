@@ -48,6 +48,7 @@ import { isJewelryProduct, hasRingSizes } from './verticalDetection';
 import { TryOnButton } from '@/components/buyer-ai/TryOnButton';
 import { TryOnModal } from '@/components/buyer-ai/TryOnModal';
 import { fetchTryonConfig, type TryonConfig } from '@/services/tryonService';
+import { track } from '@/lib/analytics';
 
 interface ProductImage {
   id: string;
@@ -910,6 +911,21 @@ export default function ProductDetailsPage() {
         }
         toast.dismiss(loadingToast);
         toast.success(t('success.addedToCart'), { icon: '🛒', duration: 3000 });
+        // Analytics: add_to_cart (variant-less path)
+        track({
+          event: 'add_to_cart',
+          currency: 'MAD',
+          value: (product.price || 0) * quantity,
+          items: [
+            {
+              item_id: String(stockId),
+              item_name: product.name,
+              item_category: product.category || '',
+              price: product.price || 0,
+              quantity,
+            },
+          ],
+        });
         setQuantity(1);
         return;
       }
@@ -948,6 +964,23 @@ export default function ProductDetailsPage() {
       toast.success(t('success.addedToCart'), {
         icon: '🛒',
         duration: 3000,
+      });
+
+      // Analytics: add_to_cart (variant path)
+      track({
+        event: 'add_to_cart',
+        currency: 'MAD',
+        value: (selectedVariant.price || product?.price || 0) * quantity,
+        items: [
+          {
+            item_id: String(selectedVariant.id),
+            item_name: product?.name ?? '',
+            item_category: product?.category || '',
+            item_variant: [selectedColor?.name, selectedSize?.name].filter(Boolean).join(' / '),
+            price: selectedVariant.price || product?.price || 0,
+            quantity,
+          },
+        ],
       });
 
       // Reset quantity to 1 after successful addition
@@ -1033,7 +1066,26 @@ export default function ProductDetailsPage() {
         
         // Set flags for checkout flow
         sessionStorage.setItem('purchaseNow', 'true');
-        
+
+        // Analytics: add_to_cart (buy-now path)
+        const analyticsPrice = selectedVariant
+          ? (selectedVariant.price || product.price || 0)
+          : (product.price || 0);
+        track({
+          event: 'add_to_cart',
+          currency: 'MAD',
+          value: analyticsPrice * quantity,
+          items: [
+            {
+              item_id: String(selectedVariant?.id ?? product.id),
+              item_name: product.name,
+              item_category: product.category || '',
+              price: analyticsPrice,
+              quantity,
+            },
+          ],
+        });
+
         // Navigate to checkout
         router.push('/checkout');
       }
@@ -1176,6 +1228,25 @@ export default function ProductDetailsPage() {
       image: product.main_image || '',
       price: product.price,
       viewedAt: Date.now(),
+    });
+  }, [product]);
+
+  // Analytics: fire view_item once the product data is available
+  useEffect(() => {
+    if (!product) return;
+    track({
+      event: 'view_item',
+      currency: 'MAD',
+      value: product.price || 0,
+      items: [
+        {
+          item_id: String(product.id),
+          item_name: product.name,
+          item_category: product.category || '',
+          price: product.price || 0,
+          quantity: 1,
+        },
+      ],
     });
   }, [product]);
 

@@ -6,6 +6,8 @@ import MobileBottomNav from '@/components/layout/MobileBottomNav';
 import FloatingSupportButton from '@/components/support/FloatingSupportButton';
 import PWAProviderWrapper from '@/providers/PWAProviderWrapper';
 import dynamic from 'next/dynamic';
+import AnalyticsScripts from '@/components/analytics/AnalyticsScripts';
+import RouteAnalytics from '@/components/analytics/RouteAnalytics';
 
 // Lazy-load AssistantWidget so the launcher doesn't bloat the root bundle.
 // No ssr:false here — layout.tsx is a Server Component so ssr:false is forbidden.
@@ -132,12 +134,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           Skip to main content
         </a>
         <ClientProvider>
+          <RouteAnalytics />
           <div id="main-content" className="min-h-screen pb-16 md:pb-0">{children}</div>
           <PWAProviderWrapper />
           <FloatingSupportButton />
           <AssistantWidget />
           <MobileBottomNav />
         </ClientProvider>
+        <AnalyticsScripts />
       </body>
     </html>
   );
