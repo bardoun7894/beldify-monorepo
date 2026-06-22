@@ -66,6 +66,14 @@ export interface Product {
    * countdown chip to render. See OfferCountdownChip.tsx for chip implementation.
    */
   ends_at?: string | null;
+  /**
+   * Seller identity fields — additive from /products/all (P1-B).
+   * All optional: absent on legacy payloads, present when backend emits seller data.
+   */
+  store_name?: string;
+  store_slug?: string;
+  store_rating?: number;
+  store_is_verified?: boolean;
 }
 
 export interface BestSellersResponse {

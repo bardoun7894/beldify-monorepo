@@ -631,7 +631,7 @@ export default function CheckoutPage() {
         derivedLastName = nameParts.length > 1 ? nameParts.slice(1).join(' ') : '';
       }
       if (!derivedFirstName || !derivedLastName || (derivedFirstName + derivedLastName).length < 3) {
-        toast.error(t('checkout.validation.full_name_required'));
+        toast.error(t('checkout.validation.full_name_required', 'Please enter your full name (first and last name).'));
         return;
       }
 
@@ -954,20 +954,33 @@ export default function CheckoutPage() {
     setTouchedFields({});
   };
 
-  // ── Fetch quote whenever buyNow item or delivery country changes ──────────
-  // This drives authoritative totals and COD eligibility for the guest path.
+  // ── Fetch quote for BOTH buy-now and cart paths ───────────────────────────
+  // Buy-now: single item from URL params.
+  // Cart path: mapped from cartState.items using the same stock_id+quantity
+  //   shape that the place-order handler uses (item.stock_id, item.quantity).
+  // Coupon included when cartState.coupon_code is set (null for buy-now).
+  // Re-runs whenever items, country, or coupon change.
   useEffect(() => {
-    if (!isBuyNow || !buyNowItem) return;
+    // Buy-now guard: needs buyNowItem
+    if (isBuyNow && !buyNowItem) return;
+    // Cart guard: needs at least one item
+    if (!isBuyNow && !cartState?.items?.length) return;
 
     let cancelled = false;
     const fetchQuote = async () => {
       setQuoteLoading(true);
       setQuoteError(null);
       try {
+        const quoteItems = isBuyNow
+          ? [{ stock_id: buyNowItem!.stock_id, quantity: buyNowItem!.quantity }]
+          : cartState!.items.map((item) => ({
+              stock_id: item.stock_id,
+              quantity: item.quantity,
+            }));
         const result = await orderService.getCheckoutQuote({
-          items: [{ stock_id: buyNowItem.stock_id, quantity: buyNowItem.quantity }],
+          items: quoteItems,
           country: shippingInfo.country || 'MA',
-          coupon_code: null,
+          coupon_code: isBuyNow ? null : (cartState?.coupon_code ?? null),
         });
         if (!cancelled) setQuote(result);
       } catch {
@@ -984,7 +997,7 @@ export default function CheckoutPage() {
     return () => {
       cancelled = true;
     };
-  }, [isBuyNow, buyNowItem, shippingInfo.country]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [isBuyNow, buyNowItem, shippingInfo.country, cartState?.items, cartState?.coupon_code]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // ── Task 2: Load saved addresses for authenticated users ──────────────────
   useEffect(() => {
@@ -1031,25 +1044,27 @@ export default function CheckoutPage() {
     }
   }, [selectedPayment, codAllowed]);
 
-  // ── Derived totals — branch on isBuyNow ─────────────────────────────────
-  // For the buyNow path, use quote numbers once available; fall back to item
-  // math only while the quote is still loading (avoids a flash of wrong total).
+  // ── Derived totals — prefer server quote when available (both paths) ────────
+  // Buy-now: quote is always fetched; fall back to item math while loading.
+  // Cart path: quote is fetched on mount; fall back to cartState totals while
+  //   the quote is still loading (avoids a flash of stale local total).
+  // Both paths: once quote arrives it is authoritative (FR-017 server-quoting).
   const buyNowSubtotalDerived = buyNowItem ? buyNowItem.unit_price * buyNowItem.quantity : 0;
   const subtotal = isBuyNow
     ? (quote ? quote.subtotal : buyNowSubtotalDerived)
-    : (cartState?.subtotal ?? 0);
+    : (quote ? quote.subtotal : (cartState?.subtotal ?? 0));
   const shippingAmount = isBuyNow
     ? (quote ? quote.shipping_amount : 0)
-    : (cartState?.shipping_amount ?? 0);
+    : (quote ? quote.shipping_amount : (cartState?.shipping_amount ?? 0));
   const taxAmount = isBuyNow
     ? (quote ? quote.tax_amount : 0)
-    : (cartState?.tax_amount ?? 0);
+    : (quote ? quote.tax_amount : (cartState?.tax_amount ?? 0));
   const discountAmount = isBuyNow
     ? (quote ? quote.discount_amount : 0)
-    : (cartState?.discount_amount ?? 0);
+    : (quote ? quote.discount_amount : (cartState?.discount_amount ?? 0));
   const totalAmount = isBuyNow
     ? (quote ? quote.total_amount : buyNowSubtotalDerived)
-    : (cartState?.total_amount ?? 0);
+    : (quote ? quote.total_amount : (cartState?.total_amount ?? 0));
 
   // ── Task 1: Load dynamic shipping methods ────────────────────────────────
   // Fetch whenever subtotal changes. On failure, dynamicShippingMethods stays []
@@ -1843,8 +1858,8 @@ export default function CheckoutPage() {
         )}
       </ul>
 
-      {/* Quote loading / error state (buyNow only) */}
-      {isBuyNow && quoteLoading && (
+      {/* Quote loading / error state (both buy-now and cart paths) */}
+      {quoteLoading && (
         <div className="flex items-center gap-2 text-xs text-indigo-600 py-2">
           <svg className="animate-spin h-3.5 w-3.5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" aria-hidden="true">
             <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
@@ -1853,7 +1868,7 @@ export default function CheckoutPage() {
           {t('checkout.quote.loading', 'Calculating total…')}
         </div>
       )}
-      {isBuyNow && quoteError && !quoteLoading && (
+      {quoteError && !quoteLoading && (
         <p className="text-xs text-rose-600 py-2" role="alert">{quoteError}</p>
       )}
 

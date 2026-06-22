@@ -24,6 +24,7 @@ A Hooked-model (Trigger → Action → Variable Reward → Investment) audit of 
 - **Open Souk** identified as the strongest existing loop (post brief → ateliers bid → return to accept → commission → review) — lean into it as the native habit engine.
 
 ## See also
+- [[sources/hooked-2026-06-19-marketplace-loop-delta]] — the 10-day-later delta re-audit
 - [[concepts/beldify-retention-loop-closure]]
 - [[concepts/open-souk-feature]]
 - [[concepts/multi-seller-ecommerce]]

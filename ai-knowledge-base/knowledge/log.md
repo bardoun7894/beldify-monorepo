@@ -184,3 +184,21 @@ Append-only log of compile and ingest operations.
 - Source page: [[sources/gemini-2026-05-31-seller-dual-mode-reference-apply]]
 - Concepts updated: [[concepts/dual-mode-seller-dashboard]]
 - Contradictions: none
+
+## [2026-06-19T21:56:26+0100] ingest | raw/hooked/2026-06-19-marketplace-loop-delta.md
+- Source: raw/hooked/2026-06-19-marketplace-loop-delta.md
+- Source page: [[sources/hooked-2026-06-19-marketplace-loop-delta]]
+- Concepts created: none
+- Concepts updated: [[concepts/beldify-retention-loop-closure]] (delta status 2026-06-19)
+- Entities created: none
+- Entities updated: none
+- Reciprocal link added: [[sources/hooked-2026-06-09-opensouk-marketplace-loop]] → delta
+- Contradictions with existing articles: none (delta supersedes status, not facts)
+
+## [2026-06-19T21:58:09+0100] ingest | raw/marketplace-frontend-ai-review/2026-06-19-full-frontend-ai-review.md
+- Source: raw/marketplace-frontend-ai-review/2026-06-19-full-frontend-ai-review.md
+- Source page: [[sources/marketplace-frontend-ai-review-2026-06-19]]
+- Concepts created: [[concepts/marketplace-frontend-ai-review]], [[concepts/beldify-buyer-ai-ux]]
+- Concepts updated: [[concepts/marketplace-completeness-roadmap]] (returns flow exists — stale "missing" line corrected), [[concepts/beldify-dormant-features-activation]] (500-MAD free-shipping threshold exists — stale claim corrected)
+- Entities updated: [[entities/beldify]]
+- Contradictions with existing articles: corrected 2 stale facts — (1) "returns/refunds Missing" in marketplace-completeness-roadmap is wrong (full returns flow ships end-to-end); (2) "no free-shipping rule" implied by dormant-features is wrong (real 500-MAD threshold exists in shippingService + checkout + tests)

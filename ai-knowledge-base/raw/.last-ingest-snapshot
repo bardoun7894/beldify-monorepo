@@ -12,6 +12,7 @@
 ./2026-06-11-prod-console-errors-fix.md 6112
 ./2026-06-13-feature-009-seller-payouts.md 2653
 ./backend-claude.md 5310
+./beldify-growth-strategist/2026-06-21-full-growth-audit.md 18901
 ./CLAUDE.md 3598
 ./ecommerce-gap-analysis-2026-06-03.md 4383
 ./gemini/2026-05-31-seller-dual-mode-reference-apply.md 12198
@@ -20,6 +21,11 @@
 ./gemini/2026-06-05-pdp-design-review.md 1896
 ./gemini/2026-06-13-hero-banner-redesign.md 4174
 ./hooked/2026-06-09-opensouk-marketplace-loop.md 22657
+./hooked/2026-06-19-marketplace-loop-delta.md 12096
+./marketplace-frontend-ai-review/2026-06-19-full-frontend-ai-review.md 49529
+./marketplace-ux-audit/2026-06-19-buyer-journey-full-audit.md 29433
+./marketplace-ux-audit/2026-06-19-guest-checkout-fix-handoff.md 11202
+./nextjs-storefront-audit/2026-06-20-web-storefront-full-review.md 27884
 ./panel/2026-05-21-admin-css-js-conflicts.md 12500
 ./panel/2026-05-30-product-mgmt-backend.md 6407
 ./panel/r1-claude.md 3945

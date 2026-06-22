@@ -95,3 +95,7 @@
 | [[sources/panel-2026-05-30-product-mgmt-backend]] | Panel: variant split-brain, stale stock cache, description drift | source | 2026-06-03 |
 | [[sources/panel-2026-05-21-admin-css-js-conflicts]] | Panel: finish Atlas (not Filament), commissions-first + CI rules | source | 2026-06-03 |
 | [[sources/gemini-2026-05-31-seller-dual-mode-reference-apply]] | Plan: Simple/Advanced seller dashboard reference apply | source | 2026-06-03 |
+| [[sources/hooked-2026-06-19-marketplace-loop-delta]] | Delta Hooked audit — loop half-closed, 4 P0/P1 fixes shipped (19e13cb) | source | 2026-06-19 |
+| [[sources/marketplace-frontend-ai-review-2026-06-19]] | 36-agent code-grounded review of the Beldify storefront + AI suite (8 P0s, 4 refuted) | source | 2026-06-19 |
+| [[concepts/marketplace-frontend-ai-review]] | The 2026-06-19 storefront+AI review, 8 P0s, and the shipped fixes (PRs #7/#8/#11) | concept | 2026-06-19 |
+| [[concepts/beldify-buyer-ai-ux]] | Buyer AI suite is real + ethical but under-reached; fix placement/discoverability not models | concept | 2026-06-19 |

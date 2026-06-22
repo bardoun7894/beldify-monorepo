@@ -2,9 +2,9 @@
 name: Beldify Retention Loop Closure (Hooked Model)
 description: Closing the marketplace return loop ethically — re-aimed web push, contextual opt-ins, follow-a-shop, and reorder shipped 2026-06-09; the loop stays inert until VAPID keys, a queue worker, and the hourly cron run in prod
 type: concept
-sources: [raw/hooked/2026-06-09-opensouk-marketplace-loop.md, raw/2026-06-10-admin-audit-sellers-jewelry-deploy.md]
+sources: [raw/hooked/2026-06-09-opensouk-marketplace-loop.md, raw/2026-06-10-admin-audit-sellers-jewelry-deploy.md, raw/hooked/2026-06-19-marketplace-loop-delta.md]
 created: 2026-06-10
-updated: 2026-06-10
+updated: 2026-06-19
 ---
 
 # Beldify Retention Loop Closure (Hooked Model)
@@ -35,8 +35,31 @@ All packets passed the ethics check; ESLint 0 errors; scoped Vitest + PHPUnit gr
 ## Known debt
 i18n keys are hardcoded AR+EN in the new components (no `notify_me.*`/`shop.follow.*`/`orders.reorder.*` locale keys yet); `CartController.php:729` hardcodes `0.15` tax ignoring `config('cart.tax_rate')` and reorder mirrors it for cart-total parity; `vitest.config.mts` (ESM) wins precedence over `.ts` — CI pickup unconfirmed. Open Souk (post brief → ateliers bid → return to accept) is the strongest existing loop and the model to lean into — see [[concepts/open-souk-feature]].
 
+## Delta status (2026-06-19 re-audit)
+A delta audit ten days later found the loop **half-closed but leaking at the activation seams**
+([[sources/hooked-2026-06-19-marketplace-loop-delta]]). Of the 06-09 packets, six survive and work,
+but four defects had crept in or were never closed, all fixed this pass (commit `19e13cb`, branch
+`feat/hooked-2026-06-19-loop-delta`):
+- **P0 regression** — the PWA install modal was switched off again behind a dev-only `?pwa=install`
+  query gate; the scoring engine ran but never surfaced the modal. Gate + `explicitOptIn` guard
+  removed; 24h-dismiss / adaptive-threshold / isInstalled / scroll-disabled guards kept.
+- **P1 silent bug** — the guest→auth wishlist merge in `AuthContext` hardcoded `notify_*: false`,
+  killing the back-in-stock / price-drop trigger for guests who opted in pre-login; now forwards the
+  stored flags + `target_price` (and `guestWishlist.ts` persists them).
+- **i18n correctness** — `PostOrderPushPrompt` rendered Arabic-only to all locales, and the reorder
+  label used `i18n.language` ternaries; both moved to `t()` keys (`post_order_push.*`,
+  `orders.actions.buy_again`) across all 7 locales.
+
+**Still the weakest layer (deferred to a follow-up full-stack packet):** a followed-shops *feed* and
+a recently-viewed shelf — both are investment actions that currently dead-end with no return loop —
+plus the dormant MegaOffer countdown chip ([[concepts/beldify-dormant-features-activation]]). A
+cross-session `git add -A` collision swept this run's locale keys into another session's commit
+(`4c3b2af`) with no loss — see [[concepts/beldify-dormant-features-activation]] and the
+parallel-tree hazard guidance.
+
 ## See also
 - [[sources/hooked-2026-06-09-opensouk-marketplace-loop]]
+- [[sources/hooked-2026-06-19-marketplace-loop-delta]]
 - [[sources/2026-06-10-admin-audit-sellers-jewelry-deploy]]
 - [[concepts/open-souk-feature]]
 - [[concepts/serwist-service-worker-pitfalls]]

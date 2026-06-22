@@ -25,3 +25,5 @@ Multi-seller e-commerce platform with support for tailoring services and communi
 - [[entities/nextjs]]
 - [[entities/laravel]]
 - [[concepts/monorepo]]
+- [[concepts/marketplace-frontend-ai-review]]
+- [[concepts/beldify-buyer-ai-ux]]

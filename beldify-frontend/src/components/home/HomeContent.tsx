@@ -53,6 +53,7 @@ interface RecommendedTailor {
   profile_image: string;
   speciality?: string;
   experience_years?: number;
+  is_verified?: boolean;
 }
 
 interface HomeData {
@@ -105,11 +106,13 @@ export default function HomeContent({ categories, departments, data, openSoukPos
   // Backend shape confirmed: RecommendedController returns { id, name, rating,
   // profile_image, speciality, experience_years }. The live data replaces this
   // when /api/recommended-tailors responds successfully.
+  // verified:false — these are editorial placeholders, not vetted sellers, so they
+  // never claim verification (storefront audit P1-C).
   const staticAteliers = [
-    { name: 'Maison Tetouan', city: 'Tetouan', img: 'https://pro.beldify.com/storage/categories/category_7_jabador.png', specialty: 'Tarz-tetouani', rating: 4.9 },
-    { name: 'Dar Fes Atelier', city: 'Fez', img: '/images/hero-atelier.jpg', specialty: 'Brocade & gold thread', rating: 4.8 },
-    { name: 'Casablanca Couture', city: 'Casablanca', img: 'https://pro.beldify.com/storage/categories/category_14_wedding-dresses.png', specialty: 'Wedding & bespoke', rating: 4.7 },
-    { name: 'Dar Marrakech', city: 'Marrakech', img: 'https://pro.beldify.com/storage/categories/category_4_caftan.png', specialty: 'Caftan & takchita', rating: 4.8 },
+    { name: 'Maison Tetouan', city: 'Tetouan', img: 'https://pro.beldify.com/storage/categories/category_7_jabador.png', specialty: 'Tarz-tetouani', rating: 4.9, verified: false },
+    { name: 'Dar Fes Atelier', city: 'Fez', img: '/images/hero-atelier.jpg', specialty: 'Brocade & gold thread', rating: 4.8, verified: false },
+    { name: 'Casablanca Couture', city: 'Casablanca', img: 'https://pro.beldify.com/storage/categories/category_14_wedding-dresses.png', specialty: 'Wedding & bespoke', rating: 4.7, verified: false },
+    { name: 'Dar Marrakech', city: 'Marrakech', img: 'https://pro.beldify.com/storage/categories/category_4_caftan.png', specialty: 'Caftan & takchita', rating: 4.8, verified: false },
   ];
 
   // Map live recommended-tailors to atelier card shape. profile_image is the
@@ -121,6 +124,7 @@ export default function HomeContent({ categories, departments, data, openSoukPos
     img: tailor.profile_image || '/images/placeholder-product.svg',
     specialty: tailor.speciality || '',
     rating: tailor.rating,
+    verified: Boolean(tailor.is_verified),
   }));
 
   const ateliers = liveAteliers.length > 0 ? liveAteliers : staticAteliers;
@@ -695,11 +699,15 @@ export default function HomeContent({ categories, departments, data, openSoukPos
                   sizes="(min-width:1024px) 25vw, 50vw"
                   className="object-cover transition duration-500 group-hover:scale-105"
                 />
-                {/* Verified badge */}
-                <span className="absolute top-3 end-3 inline-flex items-center gap-1 rounded-full bg-white px-2.5 py-1 text-[11px] font-semibold text-indigo-700 shadow-sm">
-                  <BadgeCheck className="h-3.5 w-3.5 text-amber-500" strokeWidth={2.2} aria-hidden="true" />
-                  {t('shop.verified', 'Verified')}
-                </span>
+                {/* Verified badge — shown only for ateliers the backend marks verified.
+                    RecommendedController does not emit is_verified yet, so this is hidden
+                    rather than stamped on every card unconditionally (storefront audit P1-C). */}
+                {a.verified && (
+                  <span className="absolute top-3 end-3 inline-flex items-center gap-1 rounded-full bg-white px-2.5 py-1 text-[11px] font-semibold text-indigo-700 shadow-sm">
+                    <BadgeCheck className="h-3.5 w-3.5 text-amber-500" strokeWidth={2.2} aria-hidden="true" />
+                    {t('shop.verified', 'Verified')}
+                  </span>
+                )}
               </div>
               <div className="p-4">
                 <h3

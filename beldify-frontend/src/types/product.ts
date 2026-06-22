@@ -41,6 +41,14 @@ export interface Product {
   store_id?: number;
   tailor_id?: number;
   styles?: TailoringStyle[];
+  /**
+   * Seller identity fields — additive from /products/all (P1-B).
+   * All optional: absent on legacy payloads, present when backend emits seller data.
+   */
+  store_name?: string;
+  store_slug?: string;
+  store_rating?: number;
+  store_is_verified?: boolean;
   created_at: string;
   updated_at: string;
 }

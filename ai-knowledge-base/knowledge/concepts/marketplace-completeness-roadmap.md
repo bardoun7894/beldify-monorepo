@@ -2,9 +2,9 @@
 name: Marketplace Completeness Audit & Roadmap
 description: Where Beldify stands against full-marketplace feature checklists and what to build next — synthesis of the 2026-06-03 gap analysis, the 2026-06-10 38-section audit, and the resulting priority roadmap
 type: concept
-sources: [raw/ecommerce-gap-analysis-2026-06-03.md, raw/2026-06-10-completeness-audit.md, raw/2026-06-10-backlog-make-later.md, raw/2026-06-10-frontend-completeness-audit.md, raw/2026-06-10-admin-audit-sellers-jewelry-deploy.md]
+sources: [raw/ecommerce-gap-analysis-2026-06-03.md, raw/2026-06-10-completeness-audit.md, raw/2026-06-10-backlog-make-later.md, raw/2026-06-10-frontend-completeness-audit.md, raw/2026-06-10-admin-audit-sellers-jewelry-deploy.md, raw/marketplace-frontend-ai-review/2026-06-19-full-frontend-ai-review.md]
 created: 2026-06-10
-updated: 2026-06-10
+updated: 2026-06-19
 ---
 
 # Marketplace Completeness Audit & Roadmap
@@ -31,7 +31,12 @@ Items 1–5 and 8–10 were explicitly deferred from the overnight session as to
 ## Third audit — frontend surface sweep (2026-06-10 evening)
 A third, frontend-only audit ([[sources/2026-06-10-frontend-completeness-audit]]) swept every storefront surface with three parallel read-only auditors and produced a 38-item P0–P2 worklist — and, unusually, closed all of it the same evening. Notable closures against this roadmap: the seller store-settings "fake save" listed as partial above was found already fixed; guest-cart merge, a seller-scoped messaging surface (`/seller/messages`), and order-review submission shipped end-to-end (BE + FE) in the 21:20 addendum; `/mega-offers` pages that home linked to but never existed were built. The headline P0 was systemic: every user-facing toast was gated behind a debug flag that is hard-false in production, so real users got zero feedback on cart/checkout/wishlist actions. The quality gate moved from tsc 252 errors / 158 failing tests to tsc 0 / 1895-of-1895 / lint 0. The same evening's admin audit ([[sources/2026-06-10-admin-audit-sellers-jewelry-deploy]]) closed the accounting R10 item and added the first-ever prod DB backups; the git-tracked backend `.env` security item remains open, and catalog thinness (14 empty leaf categories) is now a recorded gap.
 
+## Correction — returns flow now exists (2026-06-19)
+The "Missing: returns/refunds" line above is **stale**. The 2026-06-19 frontend+AI review found a **complete buyer returns flow already shipped end-to-end** — a returns page, a `returnService`, a Laravel `OrderActionsController::storeReturnRequest` that enforces the 14-day-from-delivery window, and an admin console — and a returns trust pill is surfaced on the PDP before purchase. Roadmap item 3 ("Returns + refunds console") is therefore largely **done**, not pending; what remains is copy consistency (who pays return shipping) rather than the flow itself. See [[concepts/marketplace-frontend-ai-review]].
+
 ## See also
+- [[sources/marketplace-frontend-ai-review-2026-06-19]]
+- [[concepts/marketplace-frontend-ai-review]]
 - [[sources/ecommerce-gap-analysis-2026-06-03]]
 - [[sources/2026-06-10-completeness-audit]]
 - [[sources/2026-06-10-backlog-make-later]]
