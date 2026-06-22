@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { bannerService, Banner } from '../services/api/bannerService';
+import logger from '@/utils/consoleLogger';
 
 interface SlideData {
   id: number;
@@ -32,20 +33,28 @@ export default function HeroSlider() {
 
   // Fetch banners from API
   useEffect(() => {
+    let ignore = false;
+
     const fetchBanners = async () => {
       try {
-        setLoading(true);
+        if (!ignore) setLoading(true);
         const data = await bannerService.getHeroBanners();
+        if (ignore) return;
         setBanners(data);
       } catch (err) {
-        console.error('Error fetching banners:', err);
+        if (ignore) return;
+        logger.error('Error fetching banners:', err);
         setError(t('heroSlider.loadError', 'Error loading banner data'));
       } finally {
-        setLoading(false);
+        if (!ignore) setLoading(false);
       }
     };
 
     fetchBanners();
+
+    return () => {
+      ignore = true;
+    };
   }, [i18n.language, t]);
 
   // Map API data to slide format or use fallback slides

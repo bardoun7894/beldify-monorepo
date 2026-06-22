@@ -22,9 +22,11 @@ const TraditionalWearSection: React.FC<TraditionalWearSectionProps> = ({
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
-  const fetchProducts = async () => {
-    setLoading(true);
-    setError(null);
+  const fetchProducts = async (signal?: { ignore: boolean }) => {
+    if (!signal?.ignore) {
+      setLoading(true);
+      setError(null);
+    }
 
     try {
       let response;
@@ -43,20 +45,28 @@ const TraditionalWearSection: React.FC<TraditionalWearSectionProps> = ({
           throw new Error('Invalid category');
       }
 
+      if (signal?.ignore) return;
+
       if (response.error) {
         throw new Error(response.error);
       }
 
       setProducts(response.data);
     } catch (err) {
+      if (signal?.ignore) return;
       setError(t('errors.failedToFetchProducts', 'Failed to load products. Please try again.'));
     } finally {
-      setLoading(false);
+      if (!signal?.ignore) setLoading(false);
     }
   };
 
   useEffect(() => {
-    fetchProducts();
+    const signal = { ignore: false };
+    fetchProducts(signal);
+    return () => {
+      signal.ignore = true;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [category, currentLanguage]);
 
   // Generate section title if not provided

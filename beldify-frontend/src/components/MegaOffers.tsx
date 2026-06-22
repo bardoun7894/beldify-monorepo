@@ -8,6 +8,7 @@ import { useTranslation } from 'react-i18next';
 import { ArrowRight, Star, Tag } from 'lucide-react';
 import '@/i18n/config';
 import { useTheme } from '@/providers/ThemeProvider';
+import logger from '@/utils/consoleLogger';
 
 // Mega Offer Collection type based on API response
 interface MegaOfferCollection {
@@ -390,15 +391,19 @@ const MegaOffers: React.FC<MegaOffersProps> = ({ megaOffers }) => {
   }, []);
 
   useEffect(() => {
+    let ignore = false;
+
     const fetchMegaOffers = async () => {
       if (megaOffers && megaOffers.length > 0) {
-        setOffers(megaOffers);
-        setLoading(false);
+        if (!ignore) {
+          setOffers(megaOffers);
+          setLoading(false);
+        }
         return;
       }
 
       try {
-        setLoading(true);
+        if (!ignore) setLoading(true);
         const locale = searchParams?.get('locale') || i18n.language || 'en';
         const response = await fetch(`/api/products/mega-offers?locale=${locale}`);
 
@@ -407,6 +412,7 @@ const MegaOffers: React.FC<MegaOffersProps> = ({ megaOffers }) => {
         }
 
         const data = await response.json();
+        if (ignore) return;
 
         if (data.success && data.data) {
           setOffers(data.data);
@@ -414,15 +420,20 @@ const MegaOffers: React.FC<MegaOffersProps> = ({ megaOffers }) => {
           setOffers(TEST_MEGA_OFFERS);
         }
       } catch (err) {
-        console.error('Error fetching mega offers:', err);
+        if (ignore) return;
+        logger.error('Error fetching mega offers:', err);
         setError(t('megaOffers.loadError', 'Failed to load mega offers'));
         setOffers(TEST_MEGA_OFFERS);
       } finally {
-        setLoading(false);
+        if (!ignore) setLoading(false);
       }
     };
 
     fetchMegaOffers();
+
+    return () => {
+      ignore = true;
+    };
   }, [megaOffers, searchParams, i18n.language, t]);
 
   if (!mounted) {
