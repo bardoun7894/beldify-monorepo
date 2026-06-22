@@ -40,7 +40,7 @@ export default function OrderDetailsPage() {
     try {
       const lang = i18n.language || 'en';
       const localeMap: Record<string, string> = { en: 'en-US', fr: 'fr-FR', ar: 'ar-MA', ma: 'ar-MA', es: 'es-ES' };
-      return new Intl.DateTimeFormat(localeMap[lang] || 'fr-MA', {
+      return new Intl.DateTimeFormat(localeMap[lang] || 'fr-FR', {
         year: 'numeric',
         month: 'long',
         day: 'numeric',
@@ -75,7 +75,7 @@ export default function OrderDetailsPage() {
 
   // Format amount based on locale
   const amtLocaleMap: Record<string, string> = { en: 'en-US', fr: 'fr-FR', ar: 'ar-MA', ma: 'ar-MA', es: 'es-ES' };
-  const amtBcp47 = amtLocaleMap[i18n.language] || 'fr-MA';
+  const amtBcp47 = amtLocaleMap[i18n.language] || 'fr-FR';
   const formatAmount = (amount: number | string) => {
     if (!amount || isNaN(Number(amount))) return '0.00';
     return new Intl.NumberFormat(amtBcp47, {

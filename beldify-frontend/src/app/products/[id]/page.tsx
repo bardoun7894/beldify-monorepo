@@ -1545,7 +1545,7 @@ export default function ProductDetailsPage() {
                 <Plus className="h-3.5 w-3.5 text-gray-700" />
               </button>
             </div>
-            {selectedVariant && (
+            {selectedVariant ? (
               <span className={`text-xs ${selectedVariant.quantity > 0 && selectedVariant.quantity <= 10 ? 'text-amber-700 font-semibold' : 'text-gray-500'}`}>
                 {selectedVariant.quantity <= 0
                   ? t('stock.out_of_stock', 'Out of stock')
@@ -1553,7 +1553,21 @@ export default function ProductDetailsPage() {
                     ? t('stock.low_stock', 'Only {{count}} left!', { count: selectedVariant.quantity })
                     : `${selectedVariant.quantity} ${t('stock.available', 'available')}`}
               </span>
-            )}
+            ) : !product?.variants?.length && product && (product.stock ?? product.quantity) !== undefined && (product.stock ?? product.quantity) !== null ? (
+              (() => {
+                const qty = Number(product.stock ?? product.quantity);
+                if (isNaN(qty)) return null;
+                return (
+                  <span className={`text-xs ${qty > 0 && qty <= 10 ? 'text-amber-700 font-semibold' : 'text-gray-500'}`}>
+                    {qty <= 0
+                      ? t('stock.out_of_stock', 'Out of stock')
+                      : qty <= 10
+                        ? t('stock.low_stock', 'Only {{count}} left!', { count: qty })
+                        : `${qty} ${t('stock.available', 'available')}`}
+                  </span>
+                );
+              })()
+            ) : null}
           </div>
 
           {/* Primary CTA: Add to bag */}

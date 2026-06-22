@@ -959,7 +959,8 @@
       "roles": {
         "user": "User",
         "admin": "System Admin",
-        "manager": "Manager"
+        "manager": "Manager",
+        "vip": "VIP Member"
       }
     },
     "tabs": {
@@ -972,6 +973,12 @@
     "member_since": "Member since ",
     "joined_on": "Joined on {{date}}",
     "no_email": "No email specified",
+    "roles": {
+      "user": "User",
+      "admin": "System Admin",
+      "manager": "Manager",
+      "vip": "VIP Member"
+    },
     "personal_info": "Personal Information",
     "fields": {
       "full_name": "Full Name",

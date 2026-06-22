@@ -41,7 +41,7 @@ export default function OrdersPage() {
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('list');
 
   const numLocaleMap: Record<string, string> = { en: 'en-US', fr: 'fr-FR', ar: 'ar-MA', ma: 'ar-MA', es: 'es-ES' };
-  const bcp47 = numLocaleMap[i18n.language] || 'fr-MA';
+  const bcp47 = numLocaleMap[i18n.language] || 'fr-FR';
 
   // Format number based on locale
   const formatNumber = (num: number | string | null | undefined): string => {
@@ -70,7 +70,7 @@ export default function OrdersPage() {
       // Otherwise show formatted date
       const lang = i18n.language || 'en';
       const localeMap: Record<string, string> = { en: 'en-US', fr: 'fr-FR', ar: 'ar-MA', ma: 'ar-MA', es: 'es-ES' };
-      return new Intl.DateTimeFormat(localeMap[lang] || 'fr-MA', {
+      return new Intl.DateTimeFormat(localeMap[lang] || 'fr-FR', {
         year: 'numeric',
         month: 'short',
         day: 'numeric',

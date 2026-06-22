@@ -17,8 +17,7 @@ export const formatPrice = (price: string | number) => {
     'es': 'es-ES'
   };
   
-  // Use the appropriate locale or fallback to fr-MA
-  const locale = localeMap[currentLang] || 'fr-MA';
+  const locale = localeMap[currentLang] || 'fr-FR';
   
   // Always use the ISO currency code 'MAD' for Moroccan Dirham
   const currencyCode = 'MAD';
@@ -31,8 +30,17 @@ export const formatPrice = (price: string | number) => {
   }).format(numericPrice);
 };
 
+const dateLocaleMap: Record<string, string> = {
+  en: 'en-US',
+  fr: 'fr-FR',
+  ar: 'ar-MA',
+  ma: 'ar-MA',
+  es: 'es-ES',
+};
+
 export const formatDate = (date: Date) => {
-  return new Intl.DateTimeFormat('fr-MA', {
+  const locale = dateLocaleMap[i18n.language || 'fr'] || 'fr-FR';
+  return new Intl.DateTimeFormat(locale, {
     year: 'numeric',
     month: '2-digit',
     day: '2-digit',

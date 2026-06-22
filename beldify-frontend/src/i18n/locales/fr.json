@@ -833,7 +833,8 @@
       "roles": {
         "user": "Utilisateur",
         "admin": "Administrateur système",
-        "manager": "Gestionnaire"
+        "manager": "Gestionnaire",
+        "vip": "Membre VIP"
       }
     },
     "tabs": {
@@ -846,6 +847,12 @@
     "member_since": "Membre depuis ",
     "joined_on": "Inscrit le {{date}}",
     "no_email": "Aucun email spécifié",
+    "roles": {
+      "user": "Utilisateur",
+      "admin": "Administrateur système",
+      "manager": "Gestionnaire",
+      "vip": "Membre VIP"
+    },
     "personal_info": "Informations personnelles",
     "fields": {
       "full_name": "Nom complet",

@@ -876,7 +876,8 @@
       "roles": {
         "user": "مستخدم",
         "admin": "مدير",
-        "manager": "مسير"
+        "manager": "مسير",
+        "vip": "عضو مميز"
       }
     },
     "tabs": {
@@ -889,6 +890,12 @@
     "member_since": "عضو من ",
     "joined_on": "دخل من {{date}}",
     "no_email": "ما كاينش إيمايل",
+    "roles": {
+      "user": "مستخدم",
+      "admin": "مدير",
+      "manager": "مسير",
+      "vip": "عضو مميز"
+    },
     "personal_info": "معلومات شخصية",
     "fields": {
       "full_name": "سميتك كاملة",
