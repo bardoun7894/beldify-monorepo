@@ -897,8 +897,7 @@ export default function ProductDetailsPage() {
       setQuantity(1);
     } catch (error) {
       logger.error('Error adding to cart:', error);
-      const errorMessage = error instanceof Error ? error.message : t('cart.error_adding');
-      toast.error(errorMessage);
+      toast.error(t('cart.error_adding'));
     }
   };
 
@@ -984,8 +983,7 @@ export default function ProductDetailsPage() {
     } catch (error) {
       // Error is caught, toast is shown by addItem or here, redirect is prevented
       logger.error('Error processing purchase:', error);
-      const errorMessage = error instanceof Error ? error.message : t('cart.error_adding');
-      toast.error(errorMessage);
+      toast.error(t('cart.error_adding'));
     } finally {
       setIsPurchaseLoading(false);
     }

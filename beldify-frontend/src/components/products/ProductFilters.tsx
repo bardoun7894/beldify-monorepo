@@ -124,9 +124,10 @@ export default function ProductFilters({
     }
 
     if (filters.minPrice !== undefined && filters.maxPrice !== undefined) {
+      const currency = t('product.currency');
       badges.push({
         id: 'price-range',
-        label: `$${filters.minPrice} - $${filters.maxPrice}`,
+        label: `${filters.minPrice} - ${filters.maxPrice} ${currency}`,
         type: 'price',
       });
     }

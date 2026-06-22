@@ -149,9 +149,10 @@ export default function ProductsPage() {
     }
 
     if (filters.minPrice !== undefined && filters.maxPrice !== undefined) {
+      const currency = t('product.currency');
       chips.push({
         id: 'price-range',
-        label: `$${filters.minPrice} - $${filters.maxPrice}`,
+        label: `${filters.minPrice} - ${filters.maxPrice} ${currency}`,
         type: 'price'
       });
     }
