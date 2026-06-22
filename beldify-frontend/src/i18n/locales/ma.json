@@ -119,7 +119,15 @@
     "sign_in_with_google": "دخل بـ Google",
     "sign_in_with_apple": "دخل بـ Apple",
     "provider_google": "Google",
-    "provider_apple": "Apple"
+    "provider_apple": "Apple",
+    "login_error": "ما تقدش تدخل. عافاك تأكد من المعلومات ديالك وعاود حاول.",
+    "login_success": "مرحبا بيك من جديد!",
+    "google_login_success": "دخلتي بـ Google بنجاح",
+    "google_login_failed": "ما تقدش تدخل بـ Google. عافاك عاود حاول.",
+    "google_signin_unavailable": "دخول Google ماشي متاح دابا",
+    "google_init_failed": "ما تنجمناش نهيئو دخول Google",
+    "google_no_credential": "Google ما رجعش الإذن. عافاك عاود حاول.",
+    "register_with_google_failed": "ما تقدش تسجل بـ Google. عافاك عاود حاول."
   },
   "navigation": {
     "home": "الرئيسية",

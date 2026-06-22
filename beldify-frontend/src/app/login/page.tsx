@@ -151,7 +151,7 @@ export default function LoginPage() {
       }
     } catch (error: any) {
       logger.error('Login error:', error);
-      toast.error(error.response?.data?.message || t('auth.login_error'));
+      toast.error(t('auth.login_error'));
     } finally {
       setLoading(false);
     }
@@ -176,7 +176,7 @@ export default function LoginPage() {
     script.onload = initializeGoogleButton;
     script.onerror = () => {
       logger.error('Failed to load Google Identity script');
-      toast.error('Google Sign-In is currently unavailable');
+      toast.error(t('auth.google_signin_unavailable'));
     };
 
     document.head.appendChild(script);
@@ -239,7 +239,7 @@ export default function LoginPage() {
       logger.log('Google button initialized successfully');
     } catch (error) {
       logger.error('Error initializing Google button:', error);
-      toast.error('Failed to initialize Google Sign-In');
+      toast.error(t('auth.google_init_failed'));
     }
   };
 
@@ -248,13 +248,13 @@ export default function LoginPage() {
 
     try {
       if (!response.credential) {
-        throw new Error('No credential received from Google');
+        throw new Error('NO_GOOGLE_CREDENTIAL');
       }
 
       const authResult = await googleAuth(response.credential, false); // false indicates this is login, not registration
 
       if (authResult.success) {
-        toast.success('Google login successful!');
+        toast.success(t('auth.google_login_success'));
 
         // First, try to handle stored actions (add to cart or purchase now)
         const handledStoredAction = await handleStoredAction();
@@ -275,12 +275,14 @@ export default function LoginPage() {
           }
         }
       } else {
-        toast.error(authResult.message || 'Login with Google failed');
+        toast.error(t('auth.google_login_failed'));
       }
     } catch (err: any) {
       logger.error('Google auth error:', err);
-      const errorMsg = err.message || 'Login with Google failed';
-      toast.error(errorMsg);
+      const key = err?.message === 'NO_GOOGLE_CREDENTIAL'
+        ? 'auth.google_no_credential'
+        : 'auth.google_login_failed';
+      toast.error(t(key));
     } finally {
       setGoogleLoading(false);
     }

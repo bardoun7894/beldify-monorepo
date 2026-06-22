@@ -49,7 +49,7 @@ export default function TailorProfilePage({ params }: { params: { id: string } }
       const response = await tailorService.getTailor(params.id);
       setTailor(response.data);
     } catch (error: any) {
-      toast.error(error.message || 'Failed to load tailor data');
+      toast.error(t('tailoring.errors.load_tailor_failed', 'Failed to load tailor data'));
     } finally {
       setLoading(false);
     }
@@ -62,7 +62,7 @@ export default function TailorProfilePage({ params }: { params: { id: string } }
       const response = await tailorService.getTimeSlots(params.id, selectedDate);
       setTimeSlots(response.data);
     } catch (error: any) {
-      toast.error(error.message || 'Failed to load time slots');
+      toast.error(t('tailoring.errors.load_slots_failed', 'Failed to load time slots'));
     }
   };
 
@@ -85,7 +85,7 @@ export default function TailorProfilePage({ params }: { params: { id: string } }
       setSelectedDate(null);
       setSelectedTimeSlot(null);
     } catch (error: any) {
-      toast.error(error.message || t('tailoring.booking.error'));
+      toast.error(t('tailoring.booking.error', 'Failed to confirm booking. Please try again.'));
     } finally {
       setBookingLoading(false);
     }

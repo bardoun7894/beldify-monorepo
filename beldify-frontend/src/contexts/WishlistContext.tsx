@@ -98,7 +98,7 @@ export function WishlistProvider({ children }: { children: React.ReactNode }) {
     } catch (error: any) {
       logger.error('Error adding to wishlist:', error);
       if (error.response?.status === 400) {
-        toast.error(error.response.data.message || 'Item already in wishlist');
+        toast.error('Item already in wishlist');
       } else {
         toast.error('Failed to add item to wishlist');
       }
@@ -122,7 +122,7 @@ export function WishlistProvider({ children }: { children: React.ReactNode }) {
       }
     } catch (error: any) {
       logger.error('Error removing from wishlist:', error);
-      toast.error(error.response?.data?.message || 'Failed to remove item from wishlist');
+      toast.error('Failed to remove item from wishlist');
       throw error;
     } finally {
       setIsLoading(false);

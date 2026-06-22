@@ -93,7 +93,15 @@
     "sign_in_with_google": "Se connecter avec Google",
     "sign_in_with_apple": "Se connecter avec Apple",
     "provider_google": "Google",
-    "provider_apple": "Apple"
+    "provider_apple": "Apple",
+    "login_error": "Connexion échouée. Veuillez vérifier vos identifiants et réessayer.",
+    "login_success": "Bon retour !",
+    "google_login_success": "Connexion avec Google réussie",
+    "google_login_failed": "Connexion avec Google échouée. Veuillez réessayer.",
+    "google_signin_unavailable": "La connexion avec Google n'est pas disponible pour le moment",
+    "google_init_failed": "Échec de l'initialisation de la connexion Google",
+    "google_no_credential": "Google n'a pas renvoyé d'identifiant. Veuillez réessayer.",
+    "register_with_google_failed": "L'inscription avec Google a échoué. Veuillez réessayer."
   },
   "navigation": {
     "home": "Accueil",

@@ -122,7 +122,15 @@
     "sign_in_with_google": "Sign in with Google",
     "sign_in_with_apple": "Sign in with Apple",
     "provider_google": "Google",
-    "provider_apple": "Apple"
+    "provider_apple": "Apple",
+    "login_error": "Login failed. Please check your credentials and try again.",
+    "login_success": "Welcome back!",
+    "google_login_success": "Signed in with Google successfully",
+    "google_login_failed": "Sign in with Google failed. Please try again.",
+    "google_signin_unavailable": "Google Sign-In is currently unavailable",
+    "google_init_failed": "Failed to initialize Google Sign-In",
+    "google_no_credential": "Google did not return a credential. Please try again.",
+    "register_with_google_failed": "Registration with Google failed. Please try again."
   },
   "navigation": {
     "home": "Home",

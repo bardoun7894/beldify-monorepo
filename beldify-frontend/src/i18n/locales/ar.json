@@ -110,7 +110,15 @@
     "sign_in_with_google": "تسجيل الدخول عبر Google",
     "sign_in_with_apple": "تسجيل الدخول عبر Apple",
     "provider_google": "Google",
-    "provider_apple": "Apple"
+    "provider_apple": "Apple",
+    "login_error": "تعذّر تسجيل الدخول. يرجى التحقق من بياناتك والمحاولة مرة أخرى.",
+    "login_success": "مرحباً بعودتك!",
+    "google_login_success": "تم تسجيل الدخول عبر Google بنجاح",
+    "google_login_failed": "تعذّر تسجيل الدخول عبر Google. يرجى المحاولة مرة أخرى.",
+    "google_signin_unavailable": "تسجيل الدخول عبر Google غير متاح حالياً",
+    "google_init_failed": "تعذّر تهيئة تسجيل الدخول عبر Google",
+    "google_no_credential": "لم تُرجع Google بيانات اعتماد. يرجى المحاولة مرة أخرى.",
+    "register_with_google_failed": "تعذّر التسجيل عبر Google. يرجى المحاولة مرة أخرى."
   },
   "navigation": {
     "home": "الرئيسية",

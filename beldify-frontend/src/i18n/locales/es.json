@@ -103,7 +103,15 @@
     "sign_in_with_google": "Iniciar sesión con Google",
     "sign_in_with_apple": "Iniciar sesión con Apple",
     "provider_google": "Google",
-    "provider_apple": "Apple"
+    "provider_apple": "Apple",
+    "login_error": "Error al iniciar sesión. Verifica tus credenciales e inténtalo de nuevo.",
+    "login_success": "¡Bienvenido de nuevo!",
+    "google_login_success": "Inicio de sesión con Google correcto",
+    "google_login_failed": "El inicio de sesión con Google falló. Inténtalo de nuevo.",
+    "google_signin_unavailable": "El inicio de sesión con Google no está disponible en este momento",
+    "google_init_failed": "Error al inicializar el inicio de sesión con Google",
+    "google_no_credential": "Google no devolvió una credencial. Inténtalo de nuevo.",
+    "register_with_google_failed": "El registro con Google falló. Inténtalo de nuevo."
   },
   "navigation": {
     "home": "Inicio",

@@ -178,7 +178,7 @@ export default function RegisterPage() {
       logger.log('Google button initialized successfully');
     } catch (error) {
       logger.error('Error initializing Google button:', error);
-      toast.error('Failed to initialize Google Sign-Up');
+      toast.error(t('auth.google_init_failed'));
     }
   };
 
@@ -188,23 +188,27 @@ export default function RegisterPage() {
 
     try {
       if (!response.credential) {
-        throw new Error('No credential received from Google');
+        throw new Error('NO_GOOGLE_CREDENTIAL');
       }
 
       const authResult = await googleAuth(response.credential, true);
 
       if (authResult.success) {
-        toast.success('Google registration successful!');
+        toast.success(t('auth.google_login_success'));
         router.push('/profile');
       } else {
-        setError(authResult.message || 'Registration failed');
-        toast.error(authResult.message || 'Registration with Google failed');
+        const msg = t('auth.register_with_google_failed');
+        setError(msg);
+        toast.error(msg);
       }
     } catch (err: any) {
       logger.error('Google auth error:', err);
-      const errorMsg = err.message || 'Registration with Google failed';
-      setError(errorMsg);
-      toast.error(errorMsg);
+      const key = err?.message === 'NO_GOOGLE_CREDENTIAL'
+        ? 'auth.google_no_credential'
+        : 'auth.register_with_google_failed';
+      const msg = t(key);
+      setError(msg);
+      toast.error(msg);
     } finally {
       setGoogleLoading(false);
     }
