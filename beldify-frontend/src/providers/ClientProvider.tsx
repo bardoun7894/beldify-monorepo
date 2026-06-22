@@ -1,6 +1,7 @@
 'use client';
 
 import { ReactNode, ErrorInfo, Component } from 'react';
+import logger from '@/utils/consoleLogger';
 import dynamic from 'next/dynamic';
 import { AuthProvider } from '@/contexts/AuthContext';
 import { CartProvider } from '@/contexts/CartContext';
@@ -155,7 +156,7 @@ class SilentErrorBoundary extends Component<
   }
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-    console.warn(`[${this.props.name}] Non-critical provider error (app continues):`, error.message);
+    logger.warn(`[${this.props.name}] Non-critical provider error (app continues):`, error.message);
   }
 
   render() {

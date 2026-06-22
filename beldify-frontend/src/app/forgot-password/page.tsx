@@ -6,6 +6,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { authService } from '@/services/api/authService';
 import toast from '@/utils/toast';
+import logger from '@/utils/consoleLogger';
 import { Mail, ArrowLeft } from 'lucide-react';
 
 export default function ForgotPasswordPage() {
@@ -34,7 +35,7 @@ export default function ForgotPasswordPage() {
         toast.error(response.message || t('auth.reset_failed', 'Failed to send reset link'));
       }
     } catch (error) {
-      console.error('Forgot password error:', error);
+      logger.error('Forgot password error:', error);
       toast.error(t('auth.reset_failed', 'Failed to send reset link'));
     } finally {
       setIsLoading(false);

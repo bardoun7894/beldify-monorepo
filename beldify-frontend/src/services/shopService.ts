@@ -78,7 +78,7 @@ export const shopService = {
       logger.error('Error fetching shops:', error);
       return {
         data: null,
-        error: (error.response?.data?.message || error.message || 'Error fetching shops') as ApiError,
+        error: { message: error.response?.data?.message || error.message || 'Error fetching shops' },
       };
     }
   },
@@ -95,7 +95,7 @@ export const shopService = {
       logger.error('Error fetching shop:', error);
       return {
         data: null,
-        error: (error.response?.data?.message || error.message || 'Error fetching shop') as ApiError,
+        error: { message: error.response?.data?.message || error.message || 'Error fetching shop' },
       };
     }
   },
@@ -122,7 +122,7 @@ export const shopService = {
       logger.error('Error fetching shop products:', error);
       return {
         data: null,
-        error: (error.response?.data?.message || error.message || 'Error fetching shop products') as ApiError,
+        error: { message: error.response?.data?.message || error.message || 'Error fetching shop products' },
       };
     }
   },

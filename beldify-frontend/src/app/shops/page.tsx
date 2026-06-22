@@ -56,7 +56,7 @@ export default function ShopsPage() {
     });
 
     if (result.error) {
-      setError(result.error.message);
+      setError(t('errors.general', 'An error occurred'));
     } else {
       setShops(result.data.shops);
       setPagination(result.data.pagination);
@@ -105,7 +105,7 @@ export default function ShopsPage() {
   if (error) {
     return (
       <div className="text-center py-12">
-        <h2 className="text-lg font-medium text-gray-900">{t('shops.error.title')}</h2>
+        <h2 className="text-lg font-medium text-gray-900">{t('shops.error.title', t('errors.general', 'An error occurred'))}</h2>
         <p className="mt-2 text-sm text-gray-500">{error}</p>
         <Button onClick={fetchShops} className="mt-4">
           {t('common.actions.tryAgain')}

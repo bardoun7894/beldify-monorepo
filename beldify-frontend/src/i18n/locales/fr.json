@@ -195,6 +195,7 @@
     "no_image": "Aucune image disponible",
     "price_format": "{{price}} MAD",
     "addedToCart": "Ajouté au panier",
+    "addingToCart": "Ajout en cours...",
     "addToCart": "Ajouter au panier",
     "description": "Description du produit",
     "quantity": "Quantité",
