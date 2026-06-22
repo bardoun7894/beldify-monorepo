@@ -21,6 +21,7 @@ import {
   Truck,
 } from 'lucide-react';
 import OfferCountdownChip from './OfferCountdownChip';
+import SellerStrip from './SellerStrip';
 
 // Dynamic import for ProductQuickView to reduce initial bundle size
 const ProductQuickView = lazy(() => import('./ProductQuickView'));
@@ -292,6 +293,14 @@ const ProductCard = memo(function ProductCard({
             {displayName}
           </h3>
         </Link>
+
+        {/* Seller identity strip — shown when product has store metadata */}
+        <SellerStrip
+          store_name={product.store_name}
+          store_slug={product.store_slug}
+          store_rating={product.store_rating}
+          store_is_verified={product.store_is_verified}
+        />
 
         {/* Free-shipping badge — shown when price exceeds 500 MAD */}
         {parseFloat(String(displayPrice)) > 500 && (

@@ -912,7 +912,7 @@ export default function HomeContent({ categories, departments, data, openSoukPos
               )}
             </h2>
           </div>
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-5">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-0 sm:divide-x divide-gray-200">
             {([
               { labelKey: 'home.trust.free_delivery', labelFallback: 'Free delivery +500 MAD', subKey: 'home.trust.delivery_sub', subFallback: 'In major cities in 48 hours', Icon: Truck },
               { labelKey: 'home.trust.returns', labelFallback: '14-day returns', subKey: 'home.trust.returns_sub', subFallback: 'No fees, no hassle', Icon: RotateCcw },
@@ -990,7 +990,7 @@ function OccasionTile({ href, image, label, desc, cta, index, isArabicScript }: 
           alt=""
           fill
           sizes="(min-width:1024px) 25vw, (min-width:640px) 33vw, 50vw"
-          className="object-cover transition duration-700 ease-out group-hover:scale-105"
+          className="object-cover transition duration-700 ease-out group-hover:scale-110"
           onError={() => setImgError(true)}
         />
       ) : (
@@ -1019,7 +1019,7 @@ function OccasionTile({ href, image, label, desc, cta, index, isArabicScript }: 
       </span>
 
       {/* Content block: title + tagline + persistent CTA */}
-      <div className="absolute inset-x-0 bottom-0 p-4 sm:p-5">
+      <div className="absolute start-4 end-4 bottom-4 sm:bottom-5">
         <h3
           dir={isArabicScript ? 'rtl' : 'ltr'}
           className={`text-lg sm:text-xl font-semibold leading-tight text-white ${isArabicScript ? 'font-arabic' : ''}`}
@@ -1052,7 +1052,7 @@ function OccasionTile({ href, image, label, desc, cta, index, isArabicScript }: 
             />
           </span>
           <ArrowRight
-            className="h-3.5 w-3.5 rtl:rotate-180 transition-transform duration-300 group-hover:translate-x-0.5 rtl:group-hover:-translate-x-0.5"
+            className="h-3.5 w-3.5 rtl:rotate-180 -translate-x-1 rtl:translate-x-1 group-hover:translate-x-0 transition-transform duration-300"
             aria-hidden="true"
           />
         </span>

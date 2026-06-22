@@ -74,8 +74,11 @@ describe('PDP hybrid-stock — P0 bug fixes', () => {
 
   describe('handleAddToCart — variant-less branch', () => {
     it('calls addItem with type "stock" for variant-less products', () => {
-      // Must have a branch: addItem(Number(product.stock.id), quantity, 'stock')
-      expect(pageSrc).toMatch(/addItem\(\s*Number\(product\.stock\.id\)[^)]*'stock'\s*\)/);
+      // Must have a branch that resolves stock id from product.stock?.id and
+      // calls addItem(..., 'stock') for variant-less products.
+      // The implementation uses an intermediate stockId variable for clarity.
+      expect(pageSrc).toMatch(/product\.stock\?\.id/);
+      expect(pageSrc).toMatch(/addItem\(\s*stockId\s*,\s*quantity\s*,\s*'stock'\s*\)/);
     });
 
     it('has the variant-less branch BEFORE the !selectedVariant guard', () => {
