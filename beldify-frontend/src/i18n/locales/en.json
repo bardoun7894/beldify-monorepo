@@ -855,10 +855,19 @@
       "invalid_zip": "Please enter a valid ZIP code",
       "country_required": "Please select your country",
       "auth_required": "Please log in to continue with your order",
-      "shipping_info_required": "Shipping information is required to proceed"
+      "shipping_info_required": "Shipping information is required to proceed",
+      "item_out_of_stock": "Item unavailable: {{name}} is out of stock or the requested quantity is not available.",
+      "limited_stock": "Only {{count}} item available for {{name}}. Please update your cart.",
+      "stock_check_failed": "An error occurred while checking stock availability.",
+      "cart_items_unavailable": "One or more items are no longer available in the requested quantity. Please review your cart and try again."
     },
     "success": {
-      "order_placed": "Order placed successfully! Thank you for your purchase."
+      "order_placed": "Order placed successfully! Thank you for your purchase.",
+      "order_redirecting": "Order placed! Redirecting to your orders..."
+    },
+    "cod": {
+      "pay_on_delivery": "Pay on delivery — no upfront payment",
+      "delivery_estimate": "Delivered in 3–5 business days. Pay the courier when you receive your order."
     }
   },
   "profile": {

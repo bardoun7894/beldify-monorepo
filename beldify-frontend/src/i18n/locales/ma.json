@@ -773,10 +773,19 @@
       "invalid_zip": "دخل كود بوسطال صحيح",
       "country_required": "ختار بلادك",
       "auth_required": "خاصك تدخل لكونط ديالك باش تكمل",
-      "shipping_info_required": "خاص معلومات ليفريزون باش تكمل"
+      "shipping_info_required": "خاص معلومات ليفريزون باش تكمل",
+      "item_out_of_stock": "{{name}} ما كاينش: خلاص أو لكمية لمطلوبة ما متوفراش.",
+      "limited_stock": "كاين غير {{count}} من {{name}}. حدث لقفة ديالك.",
+      "stock_check_failed": "وقع مشكل ملي كنا كنشوفو لستوك.",
+      "cart_items_unavailable": "شي منتوجات في لقفة ديالك ما بقاوش. راجع لقفة ديالك وعاود جرب."
     },
     "success": {
-      "order_placed": "تسجلات لكوموند ديالك بنجاح!"
+      "order_placed": "تسجلات لكوموند ديالك بنجاح!",
+      "order_redirecting": "تسجلات لكوموند! كنحولوك لطلباتك..."
+    },
+    "cod": {
+      "pay_on_delivery": "لخلاص عند لاستلام — بلا خلاص مسبق",
+      "delivery_estimate": "توصلك خلال 3-5 أيام عمل. خلص للسايق منين توصلك لكوموند."
     }
   },
   "profile": {

@@ -728,10 +728,19 @@
       "invalid_zip": "Veuillez saisir un code postal valide",
       "country_required": "Veuillez sélectionner votre pays",
       "auth_required": "Veuillez vous connecter pour continuer votre commande",
-      "shipping_info_required": "Les informations de livraison sont requises pour continuer"
+      "shipping_info_required": "Les informations de livraison sont requises pour continuer",
+      "item_out_of_stock": "Article indisponible : {{name}} est en rupture de stock ou la quantité demandée n'est pas disponible.",
+      "limited_stock": "Seulement {{count}} article disponible pour {{name}}. Veuillez mettre à jour votre panier.",
+      "stock_check_failed": "Une erreur est survenue lors de la vérification du stock.",
+      "cart_items_unavailable": "Un ou plusieurs articles de votre panier ne sont plus disponibles en quantité souhaitée. Veuillez vérifier votre panier et réessayer."
     },
     "success": {
-      "order_placed": "Commande passée avec succès ! Merci pour votre achat."
+      "order_placed": "Commande passée avec succès ! Merci pour votre achat.",
+      "order_redirecting": "Commande passée ! Redirection vers vos commandes..."
+    },
+    "cod": {
+      "pay_on_delivery": "Paiement à la livraison — aucun paiement initial",
+      "delivery_estimate": "Livré en 3 à 5 jours ouvrables. Payez le livreur à la réception de votre commande."
     }
   },
   "profile": {

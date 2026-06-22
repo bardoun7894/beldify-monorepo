@@ -361,15 +361,13 @@ export default function CheckoutPage() {
             stockAvailable.available_quantity === 0
           ) {
             throw new Error(
-              `Item Unavailable: This item is currently out of stock or the requested quantity exceeds our available stock. (${item.product.name})`
+              t('checkout.errors.item_out_of_stock', 'Item unavailable: {{name}} is out of stock or the requested quantity is not available.', { name: item.product.name })
             );
           }
 
           if (stockAvailable.available_quantity < item.quantity) {
             throw new Error(
-              `Only ${stockAvailable.available_quantity} item${
-                stockAvailable.available_quantity !== 1 ? 's' : ''
-              } available for ${item.product.name}. Please update your cart.`
+              t('checkout.errors.limited_stock', 'Only {{count}} item available for {{name}}. Please update your cart.', { count: stockAvailable.available_quantity, name: item.product.name })
             );
           }
 
@@ -386,7 +384,7 @@ export default function CheckoutPage() {
             quantity: item.quantity,
           });
           toast.error(
-            error.message || 'An error occurred while checking stock availability.'
+            error.message || t('checkout.errors.stock_check_failed', 'An error occurred while checking stock availability.')
           );
           return;
         }
@@ -525,7 +523,7 @@ export default function CheckoutPage() {
             `/order-confirmation?orderId=${encodeURIComponent(String(orderNumber))}`
           );
         } else {
-          toast.success('Order placed. Redirecting to your orders...');
+          toast.success(t('checkout.success.order_redirecting', 'Order placed! Redirecting to your orders...'));
           router.push('/orders');
         }
       } else {
@@ -534,7 +532,7 @@ export default function CheckoutPage() {
           response.message?.includes('out of stock')
         ) {
           throw new Error(
-            'One or more items in your cart are no longer available in the requested quantity. Please review your cart and try again.'
+            t('checkout.errors.cart_items_unavailable', 'One or more items are no longer available in the requested quantity. Please review your cart and try again.')
           );
         }
         throw new Error(response.message || 'Order creation failed');
@@ -1229,6 +1227,17 @@ export default function CheckoutPage() {
             </>
           )}
         </button>
+      )}
+
+      {/* COD reassurance banner */}
+      {selectedPayment === 'cod' && step === 2 && (
+        <div className="flex items-start gap-2.5 p-3 bg-amber-50 ring-1 ring-amber-200 rounded-xl text-xs text-amber-900 mb-4">
+          <Truck className="w-4 h-4 text-amber-600 flex-shrink-0 mt-0.5" />
+          <div>
+            <p className="font-semibold">{t('checkout.cod.pay_on_delivery', 'Pay on delivery — no upfront payment')}</p>
+            <p className="mt-0.5 text-amber-700">{t('checkout.cod.delivery_estimate', 'Delivered in 3–5 business days. Pay the courier when you receive your order.')}</p>
+          </div>
+        </div>
       )}
 
       {/* Trust micro-pills */}
