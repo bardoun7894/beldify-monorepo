@@ -25,13 +25,13 @@ const PopularCategoriesSection: React.FC<PopularCategoriesSectionProps> = ({
   const [mounted, setMounted] = useState(false);
   const searchParams = useSearchParams();
   const { t, i18n } = useTranslation();
+  const localeParam = searchParams?.get('locale') ?? null;
 
   useEffect(() => {
-    const locale = searchParams?.get('locale');
-    if (locale) {
-      i18n.changeLanguage(locale);
+    if (localeParam) {
+      i18n.changeLanguage(localeParam);
     }
-  }, [searchParams, i18n]);
+  }, [localeParam, i18n]);
 
   const loadCategories = useCallback(async () => {
     try {

@@ -28,33 +28,32 @@ const RelatedProducts: React.FC<RelatedProductsProps> = ({
   const [loading, setLoading] = useState(true);
   
   useEffect(() => {
+    let ignore = false;
+
     const fetchRelatedProducts = async () => {
       setLoading(true);
       try {
         let data;
         if (isCartPage) {
-          // Use cart related products endpoint
           data = await cartService.getCartRelatedProducts(productId, limit);
         } else if (productId) {
-          // Use product related products endpoint
           data = await productService.getRelatedProducts(productId, limit);
         } else {
-          // No product ID and not cart page
-          setProducts([]);
-          setLoading(false);
+          if (!ignore) { setProducts([]); setLoading(false); }
           return;
         }
-        
-        setProducts(data.products || []);
+
+        if (!ignore) setProducts(data.products || []);
       } catch (error) {
         logger.error('Error fetching related products:', error);
-        setProducts([]);
+        if (!ignore) setProducts([]);
       } finally {
-        setLoading(false);
+        if (!ignore) setLoading(false);
       }
     };
 
     fetchRelatedProducts();
+    return () => { ignore = true; };
   }, [productId, isCartPage, limit]);
 
   if (loading) {

@@ -224,7 +224,7 @@ const ProductCard = memo(function ProductCard({
           </div>
 
           {/* Quick Action Buttons */}
-          <div className="absolute top-3 right-3 z-10 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-x-2 group-hover:translate-x-0">
+          <div className="absolute top-3 right-3 rtl:right-auto rtl:left-3 z-10 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-x-2 rtl:-translate-x-2 group-hover:translate-x-0">
             <button
               onClick={handleWishlistToggle}
               className={`btn-action ${isWishlisted ? 'btn-action-active' : 'btn-action-default'}`}

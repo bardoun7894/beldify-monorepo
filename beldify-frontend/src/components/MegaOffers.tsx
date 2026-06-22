@@ -378,13 +378,13 @@ const MegaOffers: React.FC<MegaOffersProps> = ({ megaOffers }) => {
   const [offers, setOffers] = useState<MegaOfferCollection[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const localeParam = searchParams?.get('locale') ?? null;
 
   useEffect(() => {
-    const locale = searchParams?.get('locale');
-    if (locale) {
-      i18n.changeLanguage(locale);
+    if (localeParam) {
+      i18n.changeLanguage(localeParam);
     }
-  }, [searchParams, i18n]);
+  }, [localeParam, i18n]);
 
   useEffect(() => {
     setMounted(true);
@@ -400,7 +400,7 @@ const MegaOffers: React.FC<MegaOffersProps> = ({ megaOffers }) => {
 
       try {
         setLoading(true);
-        const locale = searchParams?.get('locale') || i18n.language || 'en';
+        const locale = localeParam || i18n.language || 'en';
         const response = await fetch(`/api/products/mega-offers?locale=${locale}`);
 
         if (!response.ok) {
@@ -424,7 +424,7 @@ const MegaOffers: React.FC<MegaOffersProps> = ({ megaOffers }) => {
     };
 
     fetchMegaOffers();
-  }, [megaOffers, searchParams, i18n.language, t]);
+  }, [megaOffers, localeParam, i18n.language, t]);
 
   if (!mounted) {
     return null;

@@ -12,13 +12,13 @@ const Newsletter: React.FC = () => {
   const [mounted, setMounted] = useState(false);
   const { t, i18n } = useTranslation();
   const searchParams = useSearchParams();
+  const localeParam = searchParams?.get('locale') ?? null;
 
   useEffect(() => {
-    const locale = searchParams?.get('locale');
-    if (locale) {
-      i18n.changeLanguage(locale);
+    if (localeParam) {
+      i18n.changeLanguage(localeParam);
     }
-  }, [searchParams, i18n]);
+  }, [localeParam, i18n]);
 
   useEffect(() => {
     setMounted(true);

@@ -541,16 +541,16 @@ export default function Navbar() {
             <div className="fixed inset-0 bg-black/30 backdrop-blur-sm" aria-hidden="true" />
           </Transition.Child>
 
-          {/* Panel — slides from right */}
-          <div className="fixed inset-0 flex justify-end">
+          {/* Panel — slides from right in LTR, from left in RTL */}
+          <div className="fixed inset-0 flex justify-end rtl:justify-start">
             <Transition.Child
               as={Fragment}
               enter="transition ease-in-out duration-300 transform"
-              enterFrom="translate-x-full"
+              enterFrom="translate-x-full rtl:-translate-x-full"
               enterTo="translate-x-0"
               leave="transition ease-in-out duration-300 transform"
               leaveFrom="translate-x-0"
-              leaveTo="translate-x-full"
+              leaveTo="translate-x-full rtl:-translate-x-full"
             >
               <Dialog.Panel className="relative flex w-full max-w-xs flex-col overflow-y-auto bg-amber-50 pb-12 shadow-xl">
                 {/* Panel header */}

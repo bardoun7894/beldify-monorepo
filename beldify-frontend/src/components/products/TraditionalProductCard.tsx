@@ -213,7 +213,7 @@ export default function TraditionalProductCard({
           </div>
 
           {/* Quick Action Buttons */}
-          <div className="absolute top-3 right-3 z-10 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-x-2 group-hover:translate-x-0">
+          <div className="absolute top-3 right-3 rtl:right-auto rtl:left-3 z-10 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-x-2 rtl:-translate-x-2 group-hover:translate-x-0">
             <button 
               onClick={handleWishlistToggle}
               className={`p-2 ${isWishlisted ? 'bg-red-500/90 text-white' : 'bg-white/80 text-gray-700'} backdrop-blur-md shadow-lg hover:shadow-xl rounded-xl active:scale-95 hover:scale-110 transition-all duration-300 border border-white/20`}
