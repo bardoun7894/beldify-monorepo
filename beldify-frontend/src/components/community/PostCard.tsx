@@ -21,12 +21,21 @@ interface PostCardProps {
   isUserPost?: boolean;
 }
 
+const POST_LOCALE_MAP: Record<string, string> = {
+  en: 'en-US',
+  fr: 'fr-FR',
+  ar: 'ar-MA',
+  ma: 'ar-MA',
+  es: 'es-ES',
+};
+
 export default function PostCard({ post, isUserPost = false }: PostCardProps) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const dateLocale = POST_LOCALE_MAP[i18n.language] || 'en-US';
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
-    return date.toLocaleDateString();
+    return date.toLocaleDateString(dateLocale);
   };
 
   const formatPrice = (price: any) => {

@@ -161,7 +161,12 @@
     }
   },
   "nav": {
-    "announcement": "Envío gratis en todo Marruecos en pedidos superiores a 500 MAD — Devoluciones gratis en 14 días"
+    "announcement": "Envío gratis en todo Marruecos en pedidos superiores a 500 MAD — Devoluciones gratis en 14 días",
+    "home": "Inicio",
+    "cart": "Carrito",
+    "search": "Buscar",
+    "search_placeholder": "Buscar caftanes, chilabas, sastres…",
+    "browse": "Explorar"
   },
   "category": {
     "popularCategories": "Categorías populares",
@@ -772,6 +777,22 @@
         "country": "País",
         "use_location": "Usar mi ubicación",
         "detecting_location": "Detectando tu ubicación..."
+      },
+      "methods": {
+        "standard": {
+          "name": "Envío estándar",
+          "eta": "3–5 días hábiles",
+          "free": "Gratis"
+        },
+        "express": {
+          "name": "Envío exprés",
+          "eta": "1–2 días hábiles"
+        },
+        "pickup": {
+          "name": "Recogida — Tetuán",
+          "eta": "Listo el siguiente día hábil",
+          "free": "Gratis"
+        }
       }
     },
     "payment": {

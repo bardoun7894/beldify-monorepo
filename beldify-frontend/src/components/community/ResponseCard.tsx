@@ -40,14 +40,23 @@ interface ResponseCardProps {
   isSubmitting?: boolean;
 }
 
+const RESPONSE_LOCALE_MAP: Record<string, string> = {
+  en: 'en-US',
+  fr: 'fr-FR',
+  ar: 'ar-MA',
+  ma: 'ar-MA',
+  es: 'es-ES',
+};
+
 export default function ResponseCard({ response, isPostOwner, onAccept, onReject, postId, isSubmitting = false }: ResponseCardProps) {
   const { user } = useAuth();
   const params = useParams();
   const currentPostId = postId || params?.id;
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { isRTL } = useDirection();
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [showImages, setShowImages] = useState(false);
+  const dateLocale = RESPONSE_LOCALE_MAP[i18n.language] || 'en-US';
 
   const getImageUrl = (imagePath: string | null) => {
     if (!imagePath) return '/images/placeholder.jpg';
@@ -57,7 +66,8 @@ export default function ResponseCard({ response, isPostOwner, onAccept, onReject
 
   const formatDate = (dateString: string) => {
     try {
-      return new Date(dateString).toLocaleDateString() + ' ' + new Date(dateString).toLocaleTimeString();
+      const d = new Date(dateString);
+      return d.toLocaleDateString(dateLocale) + ' ' + d.toLocaleTimeString(dateLocale);
     } catch (error) {
       logger.error('Error formatting date:', error);
       return dateString;

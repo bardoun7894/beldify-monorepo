@@ -151,7 +151,12 @@
     }
   },
   "nav": {
-    "announcement": "Livraison gratuite partout au Maroc pour les commandes de plus de 500 MAD — Retours gratuits sous 14 jours"
+    "announcement": "Livraison gratuite partout au Maroc pour les commandes de plus de 500 MAD — Retours gratuits sous 14 jours",
+    "home": "Accueil",
+    "cart": "Panier",
+    "search": "Rechercher",
+    "search_placeholder": "Rechercher caftans, djellabas, tailleurs…",
+    "browse": "Parcourir"
   },
   "category": {
     "popularCategories": "Catégories populaires",
@@ -711,6 +716,22 @@
         "country": "Pays",
         "use_location": "Utiliser ma position",
         "detecting_location": "Détection de votre position..."
+      },
+      "methods": {
+        "standard": {
+          "name": "Livraison standard",
+          "eta": "3–5 jours ouvrables",
+          "free": "Gratuit"
+        },
+        "express": {
+          "name": "Livraison express",
+          "eta": "1–2 jours ouvrables"
+        },
+        "pickup": {
+          "name": "Retrait — Tétouan",
+          "eta": "Prêt le prochain jour ouvrable",
+          "free": "Gratuit"
+        }
       }
     },
     "payment": {

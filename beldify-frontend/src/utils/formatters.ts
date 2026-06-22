@@ -32,7 +32,16 @@ export const formatPrice = (price: string | number) => {
 };
 
 export const formatDate = (date: Date) => {
-  return new Intl.DateTimeFormat('fr-MA', {
+  const currentLang = i18n.language || 'ma';
+  const localeMap: Record<string, string> = {
+    'en': 'en-US',
+    'fr': 'fr-FR',
+    'ar': 'ar-MA',
+    'ma': 'ar-MA',
+    'es': 'es-ES'
+  };
+  const locale = localeMap[currentLang] || 'fr-MA';
+  return new Intl.DateTimeFormat(locale, {
     year: 'numeric',
     month: '2-digit',
     day: '2-digit',

@@ -182,7 +182,12 @@
     }
   },
   "nav": {
-    "announcement": "Free shipping across Morocco on orders over 500 MAD — Free returns within 14 days"
+    "announcement": "Free shipping across Morocco on orders over 500 MAD — Free returns within 14 days",
+    "home": "Home",
+    "cart": "Cart",
+    "search": "Search",
+    "search_placeholder": "Search caftans, djellabas, tailors…",
+    "browse": "Browse"
   },
   "category": {
     "popularCategories": "Popular Categories",
@@ -838,6 +843,22 @@
         "country": "Country",
         "use_location": "Use My Location",
         "detecting_location": "Detecting your location..."
+      },
+      "methods": {
+        "standard": {
+          "name": "Standard Delivery",
+          "eta": "3–5 business days",
+          "free": "Free"
+        },
+        "express": {
+          "name": "Express Delivery",
+          "eta": "1–2 business days"
+        },
+        "pickup": {
+          "name": "Pickup — Tetouan",
+          "eta": "Ready next business day",
+          "free": "Free"
+        }
       }
     },
     "payment": {
