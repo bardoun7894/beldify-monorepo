@@ -121,7 +121,9 @@
     "registration_successful": "تم التسجيل بنجاح!",
     "registration_failed": "فشل التسجيل. يرجى المحاولة مرة أخرى.",
     "google_unavailable": "تسجيل الدخول عبر Google غير متاح حالياً",
-    "google_init_failed": "فشل تهيئة التسجيل عبر Google"
+    "google_init_failed": "فشل تهيئة التسجيل عبر Google",
+    "login_error": "فشل تسجيل الدخول. يرجى المحاولة مرة أخرى.",
+    "google_login_failed": "فشل تسجيل الدخول عبر Google. يرجى المحاولة مرة أخرى."
   },
   "navigation": {
     "home": "الرئيسية",

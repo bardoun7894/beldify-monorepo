@@ -114,7 +114,9 @@
     "registration_successful": "¡Registro exitoso!",
     "registration_failed": "El registro falló. Inténtalo de nuevo.",
     "google_unavailable": "El inicio de sesión con Google no está disponible",
-    "google_init_failed": "Error al inicializar Google Sign-Up"
+    "google_init_failed": "Error al inicializar Google Sign-Up",
+    "login_error": "Error al iniciar sesión. Inténtalo de nuevo.",
+    "google_login_failed": "Error al iniciar sesión con Google. Inténtalo de nuevo."
   },
   "navigation": {
     "home": "Inicio",

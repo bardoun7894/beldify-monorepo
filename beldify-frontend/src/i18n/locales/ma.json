@@ -130,7 +130,9 @@
     "registration_successful": "تسجلتي بنجاح!",
     "registration_failed": "ما تسجلتيش. عاود حاول.",
     "google_unavailable": "دخول Google ماشي متاح دابا",
-    "google_init_failed": "ما تهياش Google. عاود حاول."
+    "google_init_failed": "ما تهياش Google. عاود حاول.",
+    "login_error": "ما دخلتيش. عاود حاول.",
+    "google_login_failed": "ما دخلتيش بـ Google. عاود حاول."
   },
   "navigation": {
     "home": "الرئيسية",

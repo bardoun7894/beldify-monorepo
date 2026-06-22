@@ -121,7 +121,7 @@ export default function LoginPage() {
       const result = await login(formData.email, formData.password);
 
       if (!result.success) {
-        toast.error(result.message || t('auth.login_error'));
+        toast.error(t('auth.login_error'));
         return;
       }
 
@@ -151,7 +151,7 @@ export default function LoginPage() {
       }
     } catch (error: any) {
       logger.error('Login error:', error);
-      toast.error(error.response?.data?.message || t('auth.login_error'));
+      toast.error(t('auth.login_error'));
     } finally {
       setLoading(false);
     }
@@ -275,12 +275,11 @@ export default function LoginPage() {
           }
         }
       } else {
-        toast.error(authResult.message || 'Login with Google failed');
+        toast.error(t('auth.google_login_failed'));
       }
     } catch (err: any) {
       logger.error('Google auth error:', err);
-      const errorMsg = err.message || 'Login with Google failed';
-      toast.error(errorMsg);
+      toast.error(t('auth.google_login_failed'));
     } finally {
       setGoogleLoading(false);
     }

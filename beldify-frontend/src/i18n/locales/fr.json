@@ -104,7 +104,9 @@
     "registration_successful": "Inscription réussie !",
     "registration_failed": "L'inscription a échoué. Veuillez réessayer.",
     "google_unavailable": "La connexion Google est actuellement indisponible",
-    "google_init_failed": "Échec de l'initialisation de l'inscription Google"
+    "google_init_failed": "Échec de l'initialisation de l'inscription Google",
+    "login_error": "La connexion a échoué. Veuillez réessayer.",
+    "google_login_failed": "La connexion Google a échoué. Veuillez réessayer."
   },
   "navigation": {
     "home": "Accueil",

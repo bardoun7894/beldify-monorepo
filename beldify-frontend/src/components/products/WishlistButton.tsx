@@ -55,9 +55,7 @@ export default function WishlistButton({
       onSuccess?.();
     } catch (error: any) {
         logger.error('Error toggling wishlist:', error);
-      // Extract error message from response or use default
-      const errorMessage = error.response?.data?.message || t('errors.something_went_wrong');
-      toast.error(errorMessage);
+      toast.error(t('errors.something_went_wrong'));
     } finally {
       setIsLoading(false);
     }

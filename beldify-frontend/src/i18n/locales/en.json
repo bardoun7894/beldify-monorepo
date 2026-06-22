@@ -133,7 +133,9 @@
     "registration_successful": "Registration successful!",
     "registration_failed": "Registration failed. Please try again.",
     "google_unavailable": "Google Sign-In is currently unavailable",
-    "google_init_failed": "Failed to initialize Google Sign-Up"
+    "google_init_failed": "Failed to initialize Google Sign-Up",
+    "login_error": "Sign-in failed. Please try again.",
+    "google_login_failed": "Google sign-in failed. Please try again."
   },
   "navigation": {
     "home": "Home",
