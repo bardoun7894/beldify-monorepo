@@ -68,7 +68,7 @@ function ProductGridSkeleton() {
 }
 
 export default function ProductsPage() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [filters, setFilters] = useState<ProductFiltersState>({
     colors: [],
     sizes: [],
@@ -98,7 +98,8 @@ export default function ProductsPage() {
     if (debouncedFilters.sizes.length > 0) params.append('sizes', debouncedFilters.sizes.join(','));
     if (debouncedFilters.fabrics.length > 0) params.append('fabrics', debouncedFilters.fabrics.join(','));
     if (searchTerm) params.append('q', searchTerm);
-    params.append('locale', 'en');
+    const apiLocale = i18n.language === 'ma' ? 'ar' : (i18n.language || 'en');
+    params.append('locale', apiLocale);
     params.append('sort', debouncedSortBy || 'newest');
 
     return `${API_BASE_URL}/api/products/all?${params.toString()}`;
@@ -151,7 +152,7 @@ export default function ProductsPage() {
     if (filters.minPrice !== undefined && filters.maxPrice !== undefined) {
       chips.push({
         id: 'price-range',
-        label: `$${filters.minPrice} - $${filters.maxPrice}`,
+        label: `${filters.minPrice} - ${filters.maxPrice} MAD`,
         type: 'price'
       });
     }
@@ -242,7 +243,7 @@ export default function ProductsPage() {
             {t('catalog.products.headline', 'The Beldify catalog.')}
           </h1>
           <p className="mt-4 text-indigo-100 max-w-lg text-base sm:text-lg">
-            Caftans, djellabas, and hand-tailored pieces — sourced directly from verified ateliers across Morocco.
+            {t('catalog.products.subheadline', 'Caftans, djellabas, and hand-tailored pieces — sourced directly from verified ateliers across Morocco.')}
           </p>
         </div>
       </section>

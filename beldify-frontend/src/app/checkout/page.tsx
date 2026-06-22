@@ -1193,6 +1193,17 @@ export default function CheckoutPage() {
         </span>
       </div>
 
+      {/* COD reassurance banner — shown before the Place Order CTA so buyers see it before confirming */}
+      {selectedPayment === 'cod' && step === 2 && (
+        <div className="flex items-start gap-2.5 p-3 bg-amber-50 ring-1 ring-amber-200 rounded-xl text-xs text-amber-900 mb-4">
+          <Truck className="w-4 h-4 text-amber-600 flex-shrink-0 mt-0.5" />
+          <div>
+            <p className="font-semibold">{t('checkout.cod.pay_on_delivery', 'Pay on delivery — no upfront payment')}</p>
+            <p className="mt-0.5 text-amber-700">{t('checkout.cod.delivery_estimate', 'Delivered in 3–5 business days. Pay the courier when you receive your order.')}</p>
+          </div>
+        </div>
+      )}
+
       {/* CTA */}
       {step === 1 ? (
         <button
@@ -1225,17 +1236,6 @@ export default function CheckoutPage() {
             </>
           )}
         </button>
-      )}
-
-      {/* COD reassurance banner */}
-      {selectedPayment === 'cod' && step === 2 && (
-        <div className="flex items-start gap-2.5 p-3 bg-amber-50 ring-1 ring-amber-200 rounded-xl text-xs text-amber-900 mb-4">
-          <Truck className="w-4 h-4 text-amber-600 flex-shrink-0 mt-0.5" />
-          <div>
-            <p className="font-semibold">{t('checkout.cod.pay_on_delivery', 'Pay on delivery — no upfront payment')}</p>
-            <p className="mt-0.5 text-amber-700">{t('checkout.cod.delivery_estimate', 'Delivered in 3–5 business days. Pay the courier when you receive your order.')}</p>
-          </div>
-        </div>
       )}
 
       {/* Trust micro-pills */}
