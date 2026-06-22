@@ -21,6 +21,7 @@ import { useTranslation } from 'react-i18next';
 import toast from '@/utils/toast';
 import logger from '@/utils/consoleLogger';
 import { usePWATriggers } from '@/hooks/usePWATriggers';
+import { track } from '@/lib/analytics';
 import { getImageUrl } from '@/utils/imageUtils';
 import PaymentProofUpload from '@/components/checkout/PaymentProofUpload';
 import { useAuth } from '@/contexts/AuthContext';
@@ -118,6 +119,21 @@ export default function OrderConfirmationPage() {
           if (stash.order_number === orderId) {
             setOrder(stash);
             triggerOnOrderComplete();
+            // Analytics: purchase — fired once on order confirmation
+            track({
+              event: 'purchase',
+              transaction_id: stash.order_number ?? orderId ?? '',
+              value: stash.total_amount ?? 0,
+              currency: 'MAD',
+              tax: stash.tax_amount ?? 0,
+              shipping: stash.shipping_amount ?? 0,
+              items: (stash.items ?? []).map((item) => ({
+                item_id: String(item.product?.id ?? item.id ?? ''),
+                item_name: item.product_name ?? item.product?.name ?? '',
+                price: item.unit_price ?? 0,
+                quantity: item.quantity,
+              })),
+            });
             setLoading(false);
             return;
           }
@@ -131,6 +147,21 @@ export default function OrderConfirmationPage() {
         const orderDetails = await orderService.getOrderDetails(orderId);
         setOrder(orderDetails);
         triggerOnOrderComplete();
+        // Analytics: purchase — authenticated path
+        track({
+          event: 'purchase',
+          transaction_id: orderDetails.order_number ?? orderId ?? '',
+          value: orderDetails.total_amount ?? 0,
+          currency: 'MAD',
+          tax: orderDetails.tax_amount ?? 0,
+          shipping: orderDetails.shipping_amount ?? 0,
+          items: (orderDetails.items ?? []).map((item) => ({
+            item_id: String(item.product?.id ?? item.id ?? ''),
+            item_name: item.product_name ?? item.product?.name ?? '',
+            price: item.unit_price ?? 0,
+            quantity: item.quantity,
+          })),
+        });
       } catch (error) {
         logger.error('Error fetching order:', error);
         toast.error(t('order_confirmation.error.fetch_failed', 'Failed to load order details'));

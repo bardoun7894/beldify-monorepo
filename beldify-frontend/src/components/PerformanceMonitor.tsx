@@ -91,21 +91,38 @@ export function usePerformanceMonitor() {
   }, []);
 }
 
-// Analytics function (implement with your preferred service)
+// Analytics function — forwards Core Web Vitals to GTM dataLayer and gtag.
+// Integrated with the analytics event layer: pushes directly to window.dataLayer
+// (always available once AnalyticsScripts mounts) and forwards via gtag if loaded.
 function sendMetricsToAnalytics(metrics: PerformanceMetrics) {
-  // Example implementation:
-  // gtag('event', 'web_vitals', {
-  //   custom_map: {
-  //     metric_fcp: 'first_contentful_paint',
-  //     metric_lcp: 'largest_contentful_paint',
-  //     metric_fid: 'first_input_delay',
-  //     metric_cls: 'cumulative_layout_shift',
-  //   },
-  //   metric_fcp: metrics.FCP,
-  //   metric_lcp: metrics.LCP,
-  //   metric_fid: metrics.FID,
-  //   metric_cls: metrics.CLS,
-  // });
+  if (typeof window === 'undefined') return;
+
+  const win = window as Window & {
+    dataLayer?: Record<string, unknown>[];
+    gtag?: (...args: unknown[]) => void;
+  };
+
+  // Push to GTM dataLayer (picked up by any GTM tag that listens for 'web_vitals')
+  win.dataLayer = win.dataLayer || [];
+  win.dataLayer.push({
+    event: 'web_vitals',
+    metric_fcp: metrics.FCP,
+    metric_lcp: metrics.LCP,
+    metric_fid: metrics.FID,
+    metric_cls: metrics.CLS,
+    metric_ttfb: metrics.TTFB,
+  });
+
+  // Also forward via gtag when GA4 is directly loaded (no GTM)
+  if (typeof win.gtag === 'function') {
+    win.gtag('event', 'web_vitals', {
+      metric_fcp: metrics.FCP,
+      metric_lcp: metrics.LCP,
+      metric_fid: metrics.FID,
+      metric_cls: metrics.CLS,
+      metric_ttfb: metrics.TTFB,
+    });
+  }
 }
 
 // Component to wrap pages for automatic monitoring

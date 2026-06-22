@@ -5,6 +5,8 @@ import ClientProvider from '@/providers/ClientProvider';
 import MobileBottomNav from '@/components/layout/MobileBottomNav';
 import FloatingSupportButton from '@/components/support/FloatingSupportButton';
 import PWAProviderWrapper from '@/providers/PWAProviderWrapper';
+import AnalyticsScripts from '@/components/analytics/AnalyticsScripts';
+import RouteAnalytics from '@/components/analytics/RouteAnalytics';
 
 const poppins = Poppins({
   subsets: ['latin'],
@@ -124,11 +126,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           Skip to main content
         </a>
         <ClientProvider>
+          <RouteAnalytics />
           <div id="main-content" className="min-h-screen pb-16 md:pb-0">{children}</div>
           <PWAProviderWrapper />
           <FloatingSupportButton />
           <MobileBottomNav />
         </ClientProvider>
+        <AnalyticsScripts />
       </body>
     </html>
   );

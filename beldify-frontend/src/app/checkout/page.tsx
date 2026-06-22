@@ -37,6 +37,7 @@ import {
   ChevronRight,
 } from 'lucide-react';
 import { CheckoutProgressBar } from '@/components/checkout/CheckoutProgressBar';
+import { track } from '@/lib/analytics';
 
 // ── Playfair inline style token ───────────────────────────────────────────────
 const playfair = { fontFamily: '"Playfair Display", ui-serif, Georgia, serif' };
@@ -250,9 +251,32 @@ export default function CheckoutPage() {
   // Collapsible optional fields (apartment, postal code)
   const [showExtraFields, setShowExtraFields] = useState(false);
 
-  // Trigger PWA prompt on checkout page
+  // Trigger PWA prompt on checkout page + fire begin_checkout analytics event
   useEffect(() => {
     triggerOnCheckout();
+
+    // Analytics: begin_checkout — fires once on mount.
+    // Short delay lets the buyNow useEffect settle first.
+    const timer = setTimeout(() => {
+      const cartItems = cartState?.items ?? [];
+      const totalValue = cartState?.total_amount ?? 0;
+
+      if (cartItems.length > 0) {
+        track({
+          event: 'begin_checkout',
+          currency: 'MAD',
+          value: totalValue,
+          items: cartItems.map((item) => ({
+            item_id: String(item.stock_id ?? item.product?.id ?? ''),
+            item_name: item.product?.name ?? '',
+            price: item.unit_price ?? 0,
+            quantity: item.quantity,
+          })),
+        });
+      }
+    }, 300);
+
+    return () => clearTimeout(timer);
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Pre-fill from authenticated profile
