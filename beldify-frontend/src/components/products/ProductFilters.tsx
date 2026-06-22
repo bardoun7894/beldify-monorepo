@@ -126,7 +126,7 @@ export default function ProductFilters({
     if (filters.minPrice !== undefined && filters.maxPrice !== undefined) {
       badges.push({
         id: 'price-range',
-        label: `$${filters.minPrice} - $${filters.maxPrice}`,
+        label: `${filters.minPrice} - ${filters.maxPrice} MAD`,
         type: 'price',
       });
     }
@@ -255,7 +255,9 @@ export default function ProductFilters({
                 onChange={() => toggleFilter('fabrics', fabric)}
                 className="w-5 h-5 rounded text-indigo-700 border-amber-200 focus:ring-indigo-700/20"
               />
-              <span className="ml-3 text-sm text-gray-600 group-hover:text-gray-900">{fabric}</span>
+              <span className="ml-3 text-sm text-gray-600 group-hover:text-gray-900">
+                {t(`filters.fabric_${fabric.toLowerCase()}`, fabric)}
+              </span>
             </label>
           ))}
         </div>

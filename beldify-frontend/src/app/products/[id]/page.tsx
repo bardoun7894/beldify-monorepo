@@ -1164,28 +1164,51 @@ export default function ProductDetailsPage() {
     ? availableSizes.map(s => s.name)
     : ['S', 'M', 'L', 'XL'];
 
+  const SITE_URL = 'https://beldify.com';
+
+  const breadcrumbItems = [
+    { name: t('navigation.home', 'Home'), url: SITE_URL },
+    ...(displayCategory
+      ? [{ name: displayCategory, url: `${SITE_URL}/products?category=${encodeURIComponent(product.category || '')}` }]
+      : []),
+    { name: displayName, url: `${SITE_URL}/products/${product.id}` },
+  ];
+
   const jsonLd = {
     '@context': 'https://schema.org',
-    '@type': 'Product',
-    name: product.name,
-    description: product.description,
-    image: product.main_image ? [getImageUrl(product.main_image)] : [],
-    sku: product.id,
-    brand: product.shop?.name ? { '@type': 'Brand', name: product.shop.name } : undefined,
-    offers: {
-      '@type': 'Offer',
-      priceCurrency: 'MAD',
-      price: displayPrice,
-      availability: (product.stock ?? 0) > 0 ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock',
-      seller: product.shop?.name ? { '@type': 'Organization', name: product.shop.name } : undefined,
-    },
-    ...(product.rating && product.reviews_count ? {
-      aggregateRating: {
-        '@type': 'AggregateRating',
-        ratingValue: product.rating,
-        reviewCount: product.reviews_count,
+    '@graph': [
+      {
+        '@type': 'Product',
+        name: product.name,
+        description: product.description,
+        image: product.main_image ? [getImageUrl(product.main_image)] : [],
+        sku: product.id,
+        brand: product.shop?.name ? { '@type': 'Brand', name: product.shop.name } : undefined,
+        offers: {
+          '@type': 'Offer',
+          priceCurrency: 'MAD',
+          price: displayPrice,
+          availability: (product.stock ?? 0) > 0 ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock',
+          seller: product.shop?.name ? { '@type': 'Organization', name: product.shop.name } : undefined,
+        },
+        ...(product.rating && product.reviews_count ? {
+          aggregateRating: {
+            '@type': 'AggregateRating',
+            ratingValue: product.rating,
+            reviewCount: product.reviews_count,
+          },
+        } : {}),
       },
-    } : {}),
+      {
+        '@type': 'BreadcrumbList',
+        itemListElement: breadcrumbItems.map((item, index) => ({
+          '@type': 'ListItem',
+          position: index + 1,
+          name: item.name,
+          item: item.url,
+        })),
+      },
+    ],
   };
 
   return (
