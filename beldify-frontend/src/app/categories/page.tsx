@@ -18,6 +18,7 @@ export default function CategoriesPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [selectedGender, setSelectedGender] = useState<string>('All');
+  const [retryKey, setRetryKey] = useState(0);
 
   const genderFilters = [
     { label: t('common.all'), value: 'All' },
@@ -52,7 +53,7 @@ export default function CategoriesPage() {
 
     fetchFilteredCategories();
     return () => { ignore = true; };
-  }, [t, selectedGender]);
+  }, [t, selectedGender, retryKey]);
 
   if (loading) {
     return (
@@ -74,7 +75,7 @@ export default function CategoriesPage() {
             {t('catalog.categories.error_description', "We couldn't load the categories. Please try again.")}
           </p>
           <button
-            onClick={() => window.location.reload()}
+            onClick={() => setRetryKey(k => k + 1)}
             className="inline-flex items-center gap-2 rounded-full bg-indigo-700 px-6 py-2.5 text-sm font-semibold text-white hover:bg-indigo-800 transition-colors"
           >
             {t('common.try_again', 'Try Again')}

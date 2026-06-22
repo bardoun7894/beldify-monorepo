@@ -6,6 +6,27 @@ import toast from '@/utils/toast';
 import { FiUser, FiMapPin, FiTruck } from 'react-icons/fi';
 import { useTranslation } from 'react-i18next';
 import logger from '@/utils/consoleLogger';
+
+const COUNTRIES = [
+  { code: 'MA', name: 'Morocco' },
+  { code: 'SA', name: 'Saudi Arabia' },
+  { code: 'AE', name: 'United Arab Emirates' },
+  { code: 'QA', name: 'Qatar' },
+  { code: 'KW', name: 'Kuwait' },
+  { code: 'BH', name: 'Bahrain' },
+  { code: 'OM', name: 'Oman' },
+  { code: 'FR', name: 'France' },
+  { code: 'BE', name: 'Belgium' },
+  { code: 'NL', name: 'Netherlands' },
+  { code: 'ES', name: 'Spain' },
+  { code: 'DE', name: 'Germany' },
+  { code: 'IT', name: 'Italy' },
+  { code: 'GB', name: 'United Kingdom' },
+  { code: 'CA', name: 'Canada' },
+  { code: 'US', name: 'United States' },
+  { code: 'OTHER', name: 'Other' },
+];
+
 export default function GeneralSettings() {
   const { t } = useTranslation(['profile', 'common']);
   const { user, updateProfile } = useAuth();
@@ -206,7 +227,9 @@ export default function GeneralSettings() {
               className="mt-2 block w-full rounded-lg border border-gray-200 px-4 py-2 focus:border-amber-500 focus:ring-amber-500 text-sm"
             >
               <option value="">{t('fields.select_country', { ns: 'profile' })}</option>
-              {/* Add country options here */}
+              {COUNTRIES.map((c) => (
+                <option key={c.code} value={c.code}>{c.name}</option>
+              ))}
             </select>
           </div>
         </div>

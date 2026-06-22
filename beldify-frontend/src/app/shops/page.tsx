@@ -45,28 +45,35 @@ export default function ShopsPage() {
     ['name_asc', 'name_desc', 'products_count', 'latest'].includes(currentSort) ? (currentSort as SortOption) : 'latest'
   );
 
-  const fetchShops = async () => {
+  const fetchShops = async (ignore?: { current: boolean }) => {
     setLoading(true);
-    const result = await shopService.getShops({
-      page: currentPage,
-      search: currentSearch,
-      type: currentType,
-      sort: validSort,
-      per_page: 12,
-    });
-
-    if (result.error) {
-      setError(t('errors.general', 'An error occurred'));
-    } else {
-      setShops(result.data.shops);
-      setPagination(result.data.pagination);
-      setError(null);
+    try {
+      const result = await shopService.getShops({
+        page: currentPage,
+        search: currentSearch,
+        type: currentType,
+        sort: validSort,
+        per_page: 12,
+      });
+      if (ignore?.current) return;
+      if (result.error) {
+        setError(t('errors.general', 'An error occurred'));
+      } else {
+        setShops(result.data.shops);
+        setPagination(result.data.pagination);
+        setError(null);
+      }
+    } catch {
+      if (!ignore?.current) setError(t('errors.general', 'An error occurred'));
+    } finally {
+      if (!ignore?.current) setLoading(false);
     }
-    setLoading(false);
   };
 
   useEffect(() => {
-    fetchShops();
+    const ignore = { current: false };
+    fetchShops(ignore);
+    return () => { ignore.current = true; };
   }, [currentPage, currentSearch, currentType, currentSort, validSort]);
 
   const handlePageChange = (page: number) => {
@@ -107,7 +114,7 @@ export default function ShopsPage() {
       <div className="text-center py-12">
         <h2 className="text-lg font-medium text-gray-900">{t('shops.error.title', t('errors.general', 'An error occurred'))}</h2>
         <p className="mt-2 text-sm text-gray-500">{error}</p>
-        <Button onClick={fetchShops} className="mt-4">
+        <Button onClick={() => fetchShops()} className="mt-4">
           {t('common.actions.tryAgain')}
         </Button>
       </div>

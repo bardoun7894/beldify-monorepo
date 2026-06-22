@@ -52,6 +52,7 @@ export default function CategoryDetailPage() {
   });
   const [sortBy, setSortBy] = useState<string>('newest');
   const [isMobileFiltersOpen, setIsMobileFiltersOpen] = useState(false);
+  const [retryKey, setRetryKey] = useState(0);
 
   useEffect(() => {
     if (!slug) return;
@@ -84,7 +85,7 @@ export default function CategoryDetailPage() {
 
     fetchCategoryData();
     return () => { ignore = true; };
-  }, [slug, filters, sortBy, t]);
+  }, [slug, filters, sortBy, t, retryKey]);
 
   const handleFilters = (newFilters: Partial<ProductFiltersState>) => {
     setFilters((prev) => ({ ...prev, ...newFilters }));
@@ -100,7 +101,7 @@ export default function CategoryDetailPage() {
         <div className="text-center">
           <p className="text-red-500 mb-4">{error}</p>
           <button
-            onClick={() => window.location.reload()}
+            onClick={() => setRetryKey(k => k + 1)}
             className="px-6 py-2.5 bg-indigo-700 text-white rounded-full text-sm font-semibold hover:bg-indigo-800 transition-colors"
           >
             {t('common.try_again')}
@@ -332,7 +333,7 @@ export default function CategoryDetailPage() {
                     >
                       <p className="text-gray-500">{t('products.no_results')}</p>
                       <button
-                        onClick={() => window.location.reload()}
+                        onClick={() => setRetryKey(k => k + 1)}
                         className="mt-4 px-5 py-2 bg-indigo-50 text-indigo-700 rounded-full text-sm font-medium hover:bg-indigo-100 transition-colors"
                       >
                         <ArrowPathIcon className="h-4 w-4 inline mr-2" />

@@ -39,6 +39,7 @@ export default function OrdersPage() {
   const [statusFilter, setStatusFilter] = useState<'all' | 'pending' | 'processing' | 'shipped' | 'delivered' | 'cancelled'>('all');
   const [query, setQuery] = useState('');
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('list');
+  const [retryKey, setRetryKey] = useState(0);
 
   const numLocaleMap: Record<string, string> = { en: 'en-US', fr: 'fr-FR', ar: 'ar-MA', ma: 'ar-MA', es: 'es-ES' };
   const bcp47 = numLocaleMap[i18n.language] || 'fr-FR';
@@ -132,7 +133,7 @@ export default function OrdersPage() {
     };
 
     fetchOrders();
-  }, [i18n.language, t]);
+  }, [i18n.language, t, retryKey]);
 
   // Filter and search logic
   const filteredOrders = useMemo(() => {
@@ -203,7 +204,7 @@ export default function OrdersPage() {
           <h2 className="text-2xl font-bold text-gray-900 mb-3">{t('orders.error.title')}</h2>
           <p className="text-gray-600 mb-8">{error}</p>
           <button
-            onClick={() => window.location.reload()}
+            onClick={() => setRetryKey(k => k + 1)}
             className="w-full px-6 py-3 bg-indigo-700 text-white rounded-2xl hover:bg-indigo-800 transition hover:-translate-y-0.5 hover:shadow-md font-medium"
           >
             {t('orders.actions.try_again')}
