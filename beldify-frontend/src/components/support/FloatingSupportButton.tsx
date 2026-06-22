@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   ChatBubbleLeftRightIcon,
@@ -13,6 +13,21 @@ import toast from '@/utils/toast';
 export default function FloatingSupportButton() {
   const [isOpen, setIsOpen] = useState(false);
   const { t } = useTranslation();
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!isOpen) return;
+    const handleKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setIsOpen(false); };
+    const handleClick = (e: MouseEvent) => {
+      if (containerRef.current && !containerRef.current.contains(e.target as Node)) setIsOpen(false);
+    };
+    document.addEventListener('keydown', handleKey);
+    document.addEventListener('pointerdown', handleClick);
+    return () => {
+      document.removeEventListener('keydown', handleKey);
+      document.removeEventListener('pointerdown', handleClick);
+    };
+  }, [isOpen]);
 
   const supportOptions = [
     {
@@ -33,7 +48,7 @@ export default function FloatingSupportButton() {
   ];
 
   return (
-    <div className="fixed bottom-6 right-6 rtl:right-auto rtl:left-6 z-50">
+    <div ref={containerRef} className="fixed bottom-6 right-6 rtl:right-auto rtl:left-6 z-50">
       {/* Support Options */}
       {isOpen && (
         <div className="mb-4">
@@ -46,7 +61,7 @@ export default function FloatingSupportButton() {
                 <button
                   key={index}
                   onClick={option.action}
-                  className="w-full flex items-center space-x-2 p-2 rounded hover:bg-gray-50 transition-colors"
+                  className="w-full flex items-center gap-2 p-2 rounded hover:bg-gray-50 transition-colors"
                 >
                   <option.icon className="w-4 h-4 text-indigo-600" />
                   <span className="text-sm text-gray-700">{option.label}</span>

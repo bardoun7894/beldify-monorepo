@@ -22,7 +22,7 @@ export default function OrderConfirmationPage() {
   const isRTL = i18n.language === 'ar' || i18n.language === 'ma';
 
   const localeMap: Record<string, string> = { en: 'en-US', fr: 'fr-FR', ar: 'ar-MA', ma: 'ar-MA', es: 'es-ES' };
-  const bcp47 = localeMap[i18n.language] || 'fr-MA';
+  const bcp47 = localeMap[i18n.language] || 'fr-FR';
   const formatAmount = (amount: number) =>
     new Intl.NumberFormat(bcp47, {
       style: 'decimal',

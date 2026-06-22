@@ -95,7 +95,7 @@ export default function ConversationPage() {
       const d = new Date(dateString);
       if (isNaN(d.getTime())) return '';
       const localeMap: Record<string, string> = { en: 'en-US', fr: 'fr-FR', ar: 'ar-MA', ma: 'ar-MA', es: 'es-ES' };
-      return d.toLocaleTimeString(localeMap[i18nInstance.language] || 'fr-MA', { hour: '2-digit', minute: '2-digit' });
+      return d.toLocaleTimeString(localeMap[i18nInstance.language] || 'fr-FR', { hour: '2-digit', minute: '2-digit' });
     } catch {
       return '';
     }

@@ -151,7 +151,7 @@ export default function PostDetailPage() {
     try {
       const date = new Date(dateString);
       const localeMap: Record<string, string> = { en: 'en-US', fr: 'fr-FR', ar: 'ar-MA', ma: 'ar-MA', es: 'es-ES' };
-      const bcp47 = localeMap[i18n.language] || 'fr-MA';
+      const bcp47 = localeMap[i18n.language] || 'fr-FR';
       return date.toLocaleDateString(bcp47) + ' ' + date.toLocaleTimeString(bcp47);
     } catch (error) {
       logger.error('Error formatting date:', error);

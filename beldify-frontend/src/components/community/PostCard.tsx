@@ -27,7 +27,7 @@ export default function PostCard({ post, isUserPost = false }: PostCardProps) {
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     const localeMap: Record<string, string> = { en: 'en-US', fr: 'fr-FR', ar: 'ar-MA', ma: 'ar-MA', es: 'es-ES' };
-    return date.toLocaleDateString(localeMap[i18n.language] || 'fr-MA');
+    return date.toLocaleDateString(localeMap[i18n.language] || 'fr-FR');
   };
 
   const formatPrice = (price: any) => {

@@ -359,16 +359,16 @@ export default function ProductFilters({
 
         <div className="fixed inset-0 z-50 overflow-hidden">
           <div className="absolute inset-0 overflow-hidden">
-            <div className="pointer-events-none fixed inset-y-0 right-0 flex max-w-full pl-10">
+            <div className="pointer-events-none fixed inset-y-0 right-0 rtl:right-auto rtl:left-0 flex max-w-full pl-10 rtl:pl-0 rtl:pr-10">
               <Transition
                 show={isMobileOpen || false}
                 as={Fragment}
                 enter="transform transition ease-in-out duration-500"
-                enterFrom="translate-x-full"
+                enterFrom="translate-x-full rtl:-translate-x-full"
                 enterTo="translate-x-0"
                 leave="transform transition ease-in-out duration-500"
                 leaveFrom="translate-x-0"
-                leaveTo="translate-x-full"
+                leaveTo="translate-x-full rtl:-translate-x-full"
               >
                 <Dialog.Panel className="pointer-events-auto w-screen max-w-md">
                   <div className="flex h-full flex-col overflow-y-scroll bg-white shadow-xl">
