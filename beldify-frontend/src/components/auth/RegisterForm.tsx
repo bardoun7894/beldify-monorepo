@@ -46,7 +46,7 @@ export default function RegisterForm() {
         const messages = Object.values(err.errors).flat();
         setError((messages[0] as string) || t('auth.registration_failed', 'Registration failed'));
       } else {
-        setError(err.message || t('auth.registration_failed', 'Registration failed'));
+        setError(t('auth.registration_failed', 'Registration failed'));
       }
     } finally {
       setIsLoading(false);

@@ -762,6 +762,15 @@
       "delivery_estimate": "Livré en 3 à 5 jours ouvrables. Payez le livreur à la réception de votre commande.",
       "fee_label": "Paiement à la livraison",
       "fee_free": "Gratuit"
+    },
+    "summary": {
+      "kicker": "Récapitulatif",
+      "qty": "Qté",
+      "subtotal": "Sous-total",
+      "shipping": "Livraison",
+      "tax": "TVA",
+      "discount": "Remise",
+      "total": "Total"
     }
   },
   "profile": {

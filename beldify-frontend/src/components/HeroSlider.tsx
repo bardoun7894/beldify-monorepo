@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { bannerService, Banner } from '../services/api/bannerService';
+import logger from '@/utils/consoleLogger';
 
 interface SlideData {
   id: number;
@@ -38,7 +39,7 @@ export default function HeroSlider() {
         const data = await bannerService.getHeroBanners();
         setBanners(data);
       } catch (err) {
-        console.error('Error fetching banners:', err);
+        logger.error('Error fetching banners:', err);
         setError(t('heroSlider.loadError', 'Error loading banner data'));
       } finally {
         setLoading(false);

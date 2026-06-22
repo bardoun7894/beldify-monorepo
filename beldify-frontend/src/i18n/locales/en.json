@@ -888,6 +888,15 @@
       "delivery_estimate": "Delivered in 3–5 business days. Pay the courier when you receive your order.",
       "fee_label": "Cash on delivery",
       "fee_free": "Free"
+    },
+    "summary": {
+      "kicker": "Order Summary",
+      "qty": "Qty",
+      "subtotal": "Subtotal",
+      "shipping": "Shipping",
+      "tax": "Tax",
+      "discount": "Discount",
+      "total": "Total"
     }
   },
   "profile": {
