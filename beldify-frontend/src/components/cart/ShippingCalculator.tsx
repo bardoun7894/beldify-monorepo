@@ -44,6 +44,7 @@ export default function ShippingCalculator({ subtotal, onCalculate }: ShippingCa
     return (
       <button
         onClick={() => setShowCalculator(true)}
+        aria-label={t('cart.shipping.calculate')}
         className="flex items-center gap-2 text-sm text-indigo-600 hover:text-indigo-800 font-medium transition-colors"
       >
         <Truck className="h-4 w-4" strokeWidth={1.5} />
@@ -72,7 +73,7 @@ export default function ShippingCalculator({ subtotal, onCalculate }: ShippingCa
         <option value="">{t('cart.shipping.select_city')}</option>
         {CITIES.map((city) => (
           <option key={city.name} value={city.name}>
-            {city.name} - {subtotal >= 500 ? t('cart.shipping.free', 'Free') : `${city.rate} MAD`}
+            {city.name} - {subtotal >= 500 ? t('cart.shipping.free', 'Free') : `${city.rate} ${t('product.currency')}`}
           </option>
         ))}
       </select>
@@ -87,7 +88,7 @@ export default function ShippingCalculator({ subtotal, onCalculate }: ShippingCa
           ) : (
             <div className="flex items-center justify-between">
               <span className="text-indigo-500">{t('cart.shipping.cost')}:</span>
-              <span className="font-medium text-indigo-950">{shipping} MAD</span>
+              <span className="font-medium text-indigo-950">{shipping} {t('product.currency')}</span>
             </div>
           )}
         </div>

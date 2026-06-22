@@ -842,6 +842,30 @@
         "country": "Country",
         "use_location": "Use My Location",
         "detecting_location": "Detecting your location..."
+      },
+      "errors": {
+        "location_not_supported": "Your browser doesn't support location detection. Please enter your address manually.",
+        "address_failed": "Could not detect your address. Please enter it manually.",
+        "location_failed": "Failed to detect your location. Please try again or enter your address manually."
+      },
+      "success": {
+        "location_detected": "Location detected successfully!"
+      },
+      "methods": {
+        "standard": {
+          "name": "Standard Delivery",
+          "eta": "3–5 business days",
+          "free": "Free"
+        },
+        "express": {
+          "name": "Express Delivery",
+          "eta": "1–2 business days"
+        },
+        "pickup": {
+          "name": "Pickup — Tetouan",
+          "eta": "Ready next business day",
+          "free": "Free"
+        }
       }
     },
     "payment": {

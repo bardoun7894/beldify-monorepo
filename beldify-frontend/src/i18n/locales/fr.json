@@ -716,6 +716,30 @@
         "country": "Pays",
         "use_location": "Utiliser ma position",
         "detecting_location": "Détection de votre position..."
+      },
+      "errors": {
+        "location_not_supported": "Votre navigateur ne supporte pas la géolocalisation. Veuillez saisir votre adresse manuellement.",
+        "address_failed": "Impossible de détecter votre adresse. Veuillez la saisir manuellement.",
+        "location_failed": "Échec de la géolocalisation. Veuillez réessayer ou saisir votre adresse manuellement."
+      },
+      "success": {
+        "location_detected": "Localisation détectée avec succès !"
+      },
+      "methods": {
+        "standard": {
+          "name": "Livraison standard",
+          "eta": "3–5 jours ouvrés",
+          "free": "Gratuit"
+        },
+        "express": {
+          "name": "Livraison express",
+          "eta": "1–2 jours ouvrés"
+        },
+        "pickup": {
+          "name": "Retrait — Tétouan",
+          "eta": "Prêt le prochain jour ouvré",
+          "free": "Gratuit"
+        }
       }
     },
     "payment": {
