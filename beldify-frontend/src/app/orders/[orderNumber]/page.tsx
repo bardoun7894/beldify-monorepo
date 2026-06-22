@@ -31,7 +31,7 @@ export default function OrderDetailsPage() {
   const { t, i18n } = useTranslation();
   const params = useParams();
   const searchParams = useSearchParams();
-  const isRTL = i18n.language === 'ar';
+  const isRTL = i18n.language === 'ar' || i18n.language === 'ma';
   const orderNumber = params?.orderNumber as string;
 
   // Format date based on locale

@@ -19,7 +19,7 @@ interface BreadcrumbsProps {
 export default function Breadcrumbs({ items, className }: BreadcrumbsProps) {
   const { t } = useTranslation();
   const { i18n } = useTranslation();
-  const isRTL = i18n.language === 'ar';
+  const isRTL = i18n.language === 'ar' || i18n.language === 'ma';
 
   return (
     <nav

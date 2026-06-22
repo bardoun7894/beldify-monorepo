@@ -107,7 +107,7 @@ export default function CheckoutPage() {
   const { state: cartState, clearCart } = useCart();
   const { t, i18n } = useTranslation();
   const { user, isAuthenticated } = useAuth();
-  const isRTL = i18n.language === 'ar';
+  const isRTL = i18n.language === 'ar' || i18n.language === 'ma';
   const { triggerOnCheckout } = usePWATriggers();
 
   const [step, setStep] = useState(1);
@@ -539,11 +539,17 @@ export default function CheckoutPage() {
       logger.error('Order processing error:', error);
       if (error.response?.status === 422) {
         const validationErrs = error.response.data.errors;
-        Object.entries(validationErrs || {}).forEach(([field, messages]: [string, any]) => {
-          if (Array.isArray(messages) && messages.length > 0) {
-            toast.error(`${field}: ${messages[0]}`);
+        const msgs: string[] = [];
+        Object.values(validationErrs || {}).forEach((messages: any) => {
+          if (Array.isArray(messages) && messages.length > 0 && msgs.length < 3) {
+            msgs.push(messages[0]);
           }
         });
+        if (msgs.length > 0) {
+          msgs.forEach(msg => toast.error(msg));
+        } else {
+          toast.error(t('checkout.errors.processing_failed'));
+        }
       } else {
         toast.error(t('checkout.errors.processing_failed'));
       }

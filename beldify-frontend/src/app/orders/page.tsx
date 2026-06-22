@@ -35,7 +35,7 @@ export default function OrdersPage() {
   const [error, setError] = useState<string | null>(null);
   const { t, i18n } = useTranslation();
   const searchParams = useSearchParams();
-  const isRTL = i18n.language === 'ar';
+  const isRTL = i18n.language === 'ar' || i18n.language === 'ma';
   const [statusFilter, setStatusFilter] = useState<'all' | 'pending' | 'processing' | 'shipped' | 'delivered' | 'cancelled'>('all');
   const [query, setQuery] = useState('');
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('list');

@@ -16,7 +16,7 @@ import logger from '@/utils/consoleLogger';
 export default function WishlistPage() {
   const { t, i18n } = useTranslation();
   const searchParams = useSearchParams();
-  const locale = searchParams?.get('locale') || 'en';
+  const locale = searchParams?.get('locale') || i18n.language || 'en';
   const isRTL = i18n.language === 'ar' || i18n.language === 'ma';
   const { wishlistItems, isLoading, removeFromWishlist } = useWishlist();
   const [imageError, setImageError] = useState<{ [key: number]: boolean }>({});
