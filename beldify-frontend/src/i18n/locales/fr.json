@@ -204,7 +204,24 @@
     "request_custom_product": "Demander un Produit Personnalisé",
     "custom_product_description": "Vous ne trouvez pas ce que vous cherchez ? Créez une demande personnalisée et connectez-vous avec des vendeurs qui peuvent le fabriquer pour vous.",
     "custom_request_message": "Bonjour ! Je suis intéressé par une version personnalisée de ce produit. Pourriez-vous m'aider avec une conception personnalisée ?",
-    "url": "URL du Produit"
+    "url": "URL du Produit",
+    "view": "vue",
+    "details": "Détails du produit",
+    "tabs": "Onglets produit",
+    "related": "Vous pourriez aussi aimer",
+    "bestseller": "BEST-SELLER",
+    "new": "NOUVEAU",
+    "custom_size": "Taille personnalisée disponible",
+    "sizing_info": "Veuillez consulter notre guide des tailles pour des mesures précises. La taille personnalisée est toujours disponible.",
+    "custom_sizing": "Demander une taille personnalisée",
+    "select_color": "Sélectionner",
+    "tab_description": "Description",
+    "tab_specs": "Spécifications",
+    "tab_sizing": "Tailles",
+    "tab_reviews": "Avis",
+    "you_might_also_like": "Vous pourriez aussi aimer",
+    "read_journal": "Lire l'article du journal",
+    "description_secondary": "Fabriquée par des artisans qualifiés en utilisant des méthodes traditionnelles transmises de génération en génération, cette pièce représente le meilleur de l'artisanat marocain."
   },
   "stock": {
     "in_stock": "En stock ({{count}})",
@@ -1678,6 +1695,9 @@
     "continue_shopping": "Continuer vos achats",
     "add_to_cart": "Ajouter au panier",
     "remove": "Retirer de la liste",
+    "add": "Ajouter aux favoris",
+    "save": "Sauvegarder",
+    "saved": "Sauvegardé",
     "items_count_one": "{{count}} article",
     "items_count_other": "{{count}} articles"
   },
@@ -2015,5 +2035,22 @@
     "retry": "Réessayer",
     "back": "Retour",
     "footnote": "Dès votre retour en ligne, toutes les fonctionnalités seront à nouveau disponibles."
+  },
+  "bespoke": {
+    "eyebrow": "Sur mesure",
+    "headline": "Vous voulez un article à votre mesure ?",
+    "body": "Fournissez vos mesures et un artisan Atelier créera cette pièce spécialement pour vous.",
+    "cta": "Commencer une commande sur mesure"
+  },
+  "trust": {
+    "ships": "Expédié en 3 jours",
+    "returns": "Retours gratuits 14 jours",
+    "authentic": "Authenticité garantie"
+  },
+  "pdp": {
+    "artisanMade": "fait artisanal"
+  },
+  "journal": {
+    "from_the_journal": "Du journal"
   }
 }

@@ -335,7 +335,24 @@
     "request_custom_product": "Request Custom Product",
     "custom_product_description": "Can't find what you're looking for? Create a custom request and connect with sellers who can make it for you.",
     "custom_request_message": "Hi! I'm interested in a custom version of this product. Could you help me with a personalized design?",
-    "url": "Product URL"
+    "url": "Product URL",
+    "view": "view",
+    "details": "Product details",
+    "tabs": "Product tabs",
+    "related": "You might also like",
+    "bestseller": "BESTSELLER",
+    "new": "NEW",
+    "custom_size": "Custom size available",
+    "sizing_info": "Please refer to our size guide for accurate measurements. Custom sizing is always available.",
+    "custom_sizing": "Request custom sizing",
+    "select_color": "Select",
+    "tab_description": "Description",
+    "tab_specs": "Specifications",
+    "tab_sizing": "Sizing",
+    "tab_reviews": "Reviews",
+    "you_might_also_like": "You might also like",
+    "read_journal": "Read the journal entry",
+    "description_secondary": "Crafted by skilled artisans using traditional methods passed down through generations, this piece represents the finest in Moroccan craftsmanship."
   },
   "stock": {
     "in_stock": "In stock ({{count}})",
@@ -2099,6 +2116,9 @@
     "continue_shopping": "Continue Shopping",
     "add_to_cart": "Add to Cart",
     "remove": "Remove from Wishlist",
+    "add": "Add to wishlist",
+    "save": "Save",
+    "saved": "Saved",
     "items_count_one": "{{count}} item",
     "items_count_other": "{{count}} items"
   },
@@ -2436,5 +2456,22 @@
     "retry": "Try Again",
     "back": "Go Back",
     "footnote": "Once you're back online, all features will be available again."
+  },
+  "bespoke": {
+    "eyebrow": "Bespoke",
+    "headline": "Want it tailored to you?",
+    "body": "Provide your measurements and an Atelier artisan will craft this piece specifically for you.",
+    "cta": "Start a tailoring order"
+  },
+  "trust": {
+    "ships": "Ships in 3 days",
+    "returns": "Free returns 14 days",
+    "authentic": "Authenticity guaranteed"
+  },
+  "pdp": {
+    "artisanMade": "artisan made"
+  },
+  "journal": {
+    "from_the_journal": "From the journal"
   }
 }

@@ -148,7 +148,7 @@ function APIErrorFallback({ error, retry }: { error: Error; retry: () => void })
             {t('errors.api.title', 'Failed to load data')}
           </h3>
           <p className="text-sm text-rose-700 mt-1">
-            {error.message || t('errors.api.fallback', 'An unexpected error occurred while fetching data.')}
+            {t('errors.api.fallback', 'An unexpected error occurred while fetching data.')}
           </p>
           <button
             onClick={retry}

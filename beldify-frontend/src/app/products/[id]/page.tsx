@@ -1698,7 +1698,12 @@ export default function ProductDetailsPage() {
             )}
           >
             <ShoppingBag className="h-4 w-4" aria-hidden />
-            {t('cart.add_to_bag', 'Add to bag')}
+            {(() => {
+              if (!product?.variants || product.variants.length === 0) return t('cart.add_to_bag', 'Add to bag');
+              if (!selectedVariant) return t('product.select_options', 'Select options');
+              if (isOutOfStock(selectedVariant)) return t('stock.out_of_stock', 'Out of stock');
+              return t('cart.add_to_bag', 'Add to bag');
+            })()}
           </button>
         </div>
       </div>
