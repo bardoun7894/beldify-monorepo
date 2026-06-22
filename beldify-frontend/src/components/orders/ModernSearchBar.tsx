@@ -158,7 +158,7 @@ export default function ModernSearchBar({
                   <button
                     key={suggestion}
                     onClick={() => setQuery(suggestion)}
-                    className="w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 rounded-xl transition-colors"
+                    className="w-full text-start px-3 py-2 text-sm text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 rounded-xl transition-colors"
                   >
                     {suggestion}
                   </button>

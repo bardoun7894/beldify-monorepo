@@ -356,7 +356,7 @@ export default function CreatePostPage() {
       router.push('/community');
       
     } catch (err: any) {
-      console.error('Error creating post:', err);
+      logger.error('Error creating post:', err);
       
       // Handle validation errors from server
       if (err.response?.data?.errors) {

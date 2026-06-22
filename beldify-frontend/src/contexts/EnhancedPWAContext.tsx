@@ -58,6 +58,20 @@ interface UserEngagement {
   cartAbandoned: boolean;
 }
 
+// Build a fresh "session start" fallback whenever the saved engagement record
+// is missing/corrupt — kept as a function so each call gets current timestamps.
+const buildDefaultEngagement = (): UserEngagement => ({
+  pageViews: 0,
+  timeSpent: 0,
+  cartValue: 0,
+  hasWishlist: false,
+  lastVisit: Date.now(),
+  installDismissed: 0,
+  sessionStart: Date.now(),
+  productsViewed: 0,
+  cartAbandoned: false,
+});
+
 export function EnhancedPWAProvider({ children }: { children: ReactNode }) {
   const { t } = useTranslation();
   const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null);
@@ -67,17 +81,7 @@ export function EnhancedPWAProvider({ children }: { children: ReactNode }) {
   const [isIOS, setIsIOS] = useState(false);
   const [showInstallPrompt, setShowInstallPrompt] = useState(false);
   const [showReminderBanner, setShowReminderBanner] = useState(false);
-  const [engagement, setEngagement] = useState<UserEngagement>({
-    pageViews: 0,
-    timeSpent: 0,
-    cartValue: 0,
-    hasWishlist: false,
-    lastVisit: Date.now(),
-    installDismissed: 0,
-    sessionStart: Date.now(),
-    productsViewed: 0,
-    cartAbandoned: false
-  });
+  const [engagement, setEngagement] = useState<UserEngagement>(() => buildDefaultEngagement());
 
   // Advanced install detection
   const checkIfInstalled = useCallback(() => {
@@ -104,18 +108,20 @@ export function EnhancedPWAProvider({ children }: { children: ReactNode }) {
            window.matchMedia('(display-mode: minimal-ui)').matches;
   }, []);
 
-  // Load and save engagement data
-  const loadEngagement = useCallback(() => {
+  // Load and save engagement data.
+  // Note: kept referentially stable (no `engagement` dep) so consumers (esp. the
+  // 5s cart/wishlist polling interval below) don't tear down on every save.
+  const loadEngagement = useCallback((): UserEngagement => {
     const saved = localStorage.getItem('pwa-engagement');
     if (saved) {
       try {
         return JSON.parse(saved) as UserEngagement;
       } catch {
-        return engagement;
+        return buildDefaultEngagement();
       }
     }
-    return engagement;
-  }, [engagement]);
+    return buildDefaultEngagement();
+  }, []);
 
   const saveEngagement = useCallback((data: UserEngagement) => {
     localStorage.setItem('pwa-engagement', JSON.stringify(data));

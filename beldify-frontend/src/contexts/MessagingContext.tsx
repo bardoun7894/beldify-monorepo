@@ -43,28 +43,22 @@ export const MessagingProvider: React.FC<{ children: React.ReactNode }> = ({ chi
   const lastCheckedRef = useRef<number>(0);
   const isRefreshingRef = useRef<boolean>(false);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
-
-  // Debounce function to prevent multiple rapid calls
-  const debounce = (func: (...args: any[]) => void, wait: number) => {
-    return (...args: any[]) => {
-      if (timeoutRef.current) {
-        clearTimeout(timeoutRef.current);
-      }
-      timeoutRef.current = setTimeout(() => {
-        func(...args);
-      }, wait);
-    };
-  };
+  // Track latest count in a ref so refreshUnreadCount stays referentially stable
+  // (referencing unreadCount in deps would tear down the 30s polling interval on every change).
+  const unreadCountRef = useRef<number>(0);
+  useEffect(() => {
+    unreadCountRef.current = unreadCount;
+  }, [unreadCount]);
 
   const refreshUnreadCount = useCallback(async () => {
     // Don't proceed if not authenticated, already refreshing, or checked recently (within 5 seconds)
     if (!isAuthenticated || !user || isRefreshingRef.current) {
       return;
     }
-    
+
     const now = Date.now();
     const timeSinceLastCheck = now - lastCheckedRef.current;
-    
+
     // Prevent checking more than once every 5 seconds
     if (timeSinceLastCheck < 5000 && lastCheckedRef.current !== 0) {
       if (process.env.NODE_ENV === 'development') {
@@ -76,12 +70,12 @@ export const MessagingProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     try {
       isRefreshingRef.current = true;
       setIsLoading(true);
-      
+
       // Pass the last checked timestamp to the API for optimization
       const result = await getUnreadCount(lastCheckedRef.current);
-      
-      // Only update state if the count has changed
-      if (result.count !== unreadCount) {
+
+      // Only update state if the count has changed (compare against ref to avoid stale-closure dep).
+      if (result.count !== unreadCountRef.current) {
         setUnreadCount(result.count);
         if (process.env.NODE_ENV === 'development') {
           logger.log('Updated unread message count:', result.count);
@@ -89,7 +83,7 @@ export const MessagingProvider: React.FC<{ children: React.ReactNode }> = ({ chi
       } else if (process.env.NODE_ENV === 'development') {
         logger.log('Unread count unchanged:', result.count);
       }
-      
+
       // Update the last checked timestamp
       lastCheckedRef.current = now;
     } catch (error) {
@@ -98,10 +92,18 @@ export const MessagingProvider: React.FC<{ children: React.ReactNode }> = ({ chi
       setIsLoading(false);
       isRefreshingRef.current = false;
     }
-  }, [isAuthenticated, user, unreadCount]);
+  }, [isAuthenticated, user]);
 
-  // Create a debounced version of refreshUnreadCount
-  const debouncedRefresh = useCallback(debounce(refreshUnreadCount, 300), [refreshUnreadCount]);
+  // Debounced wrapper — useRef + useCallback so the debounced fn shares the same
+  // pending-timeout slot across renders and stays referentially stable.
+  const debouncedRefresh = useCallback(() => {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+    }
+    timeoutRef.current = setTimeout(() => {
+      refreshUnreadCount();
+    }, 300);
+  }, [refreshUnreadCount]);
 
   // Initial fetch when user is authenticated
   useEffect(() => {

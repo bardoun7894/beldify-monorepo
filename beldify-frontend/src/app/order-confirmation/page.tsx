@@ -30,27 +30,35 @@ export default function OrderConfirmationPage() {
     }).format(amount);
 
   useEffect(() => {
+    let ignore = false;
+
     const fetchOrder = async () => {
       if (!orderId) {
         logger.log('No order ID found');
-        setLoading(false);
+        if (!ignore) setLoading(false);
         return;
       }
 
       try {
         const orderDetails = await orderService.getOrderDetails(orderId);
+        if (ignore) return;
         setOrder(orderDetails);
         // Trigger PWA install prompt after successful order
         triggerOnOrderComplete();
       } catch (error) {
+        if (ignore) return;
         logger.error('Error fetching order:', error);
         toast.error(t('order_confirmation.error.fetch_failed', 'Failed to load order details'));
       } finally {
-        setLoading(false);
+        if (!ignore) setLoading(false);
       }
     };
 
     fetchOrder();
+
+    return () => {
+      ignore = true;
+    };
   }, [orderId]);
 
   if (loading) {
