@@ -3,10 +3,15 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSearchParams } from 'next/navigation';
+import toast from '@/utils/toast';
+import logger from '@/utils/consoleLogger';
 import '@/i18n/config';
+
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 const Newsletter: React.FC = () => {
   const [email, setEmail] = useState('');
+  const [submitting, setSubmitting] = useState(false);
   const [mounted, setMounted] = useState(false);
   const { t, i18n } = useTranslation();
   const searchParams = useSearchParams();
@@ -29,8 +34,18 @@ const Newsletter: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Subscribing email:', email);
+    const trimmed = email.trim();
+    if (!EMAIL_REGEX.test(trimmed)) {
+      toast.error(t('newsletter.invalid_email', 'Please enter a valid email address.'));
+      return;
+    }
+    setSubmitting(true);
+    logger.log('Newsletter subscribe (pending backend wire-up):', trimmed);
+    toast.success(
+      t('newsletter.coming_soon', "Thanks! We'll be in touch when the newsletter launches.")
+    );
     setEmail('');
+    setSubmitting(false);
   };
 
   return (
@@ -58,19 +73,29 @@ const Newsletter: React.FC = () => {
           </div>
 
           {/* Newsletter Form */}
-          <form className="max-w-md mx-auto" onSubmit={handleSubmit}>
+          <form className="max-w-md mx-auto" onSubmit={handleSubmit} noValidate>
             <div className="flex flex-col sm:flex-row gap-3">
+              <label htmlFor="newsletter-email" className="sr-only">
+                {t('newsletter.placeholder')}
+              </label>
               <input
+                id="newsletter-email"
+                name="email"
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder={t('newsletter.placeholder')}
-                className="flex-1 rounded-xl px-4 py-3 border border-outline/30 focus:ring-2 focus:ring-[hsl(var(--primary))] focus:border-transparent transition-all duration-200 text-foreground bg-card"
+                autoComplete="email"
+                inputMode="email"
+                disabled={submitting}
+                aria-label={t('newsletter.placeholder')}
+                className="flex-1 rounded-xl px-4 py-3 border border-outline/30 focus:ring-2 focus:ring-[hsl(var(--primary))] focus:border-transparent transition-all duration-200 text-foreground bg-card disabled:opacity-60"
                 required
               />
               <button
                 type="submit"
-                className="bg-[hsl(var(--primary))] hover:bg-primary-container text-white px-6 py-3 rounded-xl font-semibold transition-all duration-[220ms] ease-[cubic-bezier(0.33,1,0.68,1)] shadow-atlas-sm hover:shadow-atlas-md hover:-translate-y-0.5"
+                disabled={submitting}
+                className="bg-[hsl(var(--primary))] hover:bg-primary-container text-white px-6 py-3 rounded-xl font-semibold transition-all duration-[220ms] ease-[cubic-bezier(0.33,1,0.68,1)] shadow-atlas-sm hover:shadow-atlas-md hover:-translate-y-0.5 disabled:opacity-60 disabled:cursor-not-allowed"
               >
                 {t('newsletter.button')}
               </button>

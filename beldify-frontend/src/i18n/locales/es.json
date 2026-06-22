@@ -1817,7 +1817,13 @@
     "loadError": "Error al cargar las ofertas"
   },
   "newsletter": {
-    "eyebrow": "Mantente informado"
+    "title": "Mantente al día",
+    "subtitle": "Suscríbete a nuestro boletín para recibir ofertas exclusivas, novedades e inspiración de moda tradicional marroquí.",
+    "placeholder": "Introduce tu correo electrónico",
+    "button": "Suscribirse",
+    "eyebrow": "Mantente informado",
+    "invalid_email": "Por favor, introduce una dirección de correo electrónico válida.",
+    "coming_soon": "¡Gracias! Te avisaremos cuando se lance el boletín."
   },
   "support": {
     "live_chat": "Chat en vivo",

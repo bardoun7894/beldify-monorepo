@@ -1580,7 +1580,9 @@
     "subtitle": "Subscribe to our newsletter for exclusive offers, new arrivals, and traditional Moroccan fashion inspiration.",
     "placeholder": "Enter your email",
     "button": "Subscribe",
-    "eyebrow": "Stay in the loop"
+    "eyebrow": "Stay in the loop",
+    "invalid_email": "Please enter a valid email address.",
+    "coming_soon": "Thanks! We'll be in touch when the newsletter launches."
   },
   "footer": {
     "description": "Discover the finest Moroccan fashion and handicrafts. Beldify connects you with authentic Moroccan artisans and designers.",
