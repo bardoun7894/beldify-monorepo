@@ -6,6 +6,7 @@ import { Product } from '@/lib/types';
 import ProductCard from '@/components/products/ProductCard';
 import { productService, cartService } from '@/services/api';
 import { cn } from '@/utils/classNames';
+import logger from '@/utils/consoleLogger';
 
 interface RelatedProductsProps {
   productId?: string;
@@ -27,6 +28,7 @@ const RelatedProducts: React.FC<RelatedProductsProps> = ({
   const [loading, setLoading] = useState(true);
   
   useEffect(() => {
+    let ignore = false;
     const fetchRelatedProducts = async () => {
       setLoading(true);
       try {
@@ -39,21 +41,26 @@ const RelatedProducts: React.FC<RelatedProductsProps> = ({
           data = await productService.getRelatedProducts(productId, limit);
         } else {
           // No product ID and not cart page
-          setProducts([]);
-          setLoading(false);
+          if (!ignore) {
+            setProducts([]);
+            setLoading(false);
+          }
           return;
         }
-        
-        setProducts(data.products || []);
+
+        if (!ignore) setProducts(data?.products || []);
       } catch (error) {
-        console.error('Error fetching related products:', error);
-        setProducts([]);
+        logger.error('Error fetching related products:', error);
+        if (!ignore) setProducts([]);
       } finally {
-        setLoading(false);
+        if (!ignore) setLoading(false);
       }
     };
 
     fetchRelatedProducts();
+    return () => {
+      ignore = true;
+    };
   }, [productId, isCartPage, limit]);
 
   if (loading) {

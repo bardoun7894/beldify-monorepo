@@ -107,7 +107,7 @@ const LanguageSwitcher = () => {
             </Menu.Button>
           </div>
 
-          <Menu.Items className="absolute right-0 mt-2 w-56 origin-top-right rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none z-[100]">
+          <Menu.Items className="absolute right-0 rtl:right-auto rtl:left-0 mt-2 w-56 origin-top-right rtl:origin-top-left rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none z-[100]">
             <div className="py-1">
               {Object.entries(LANGUAGE_CONFIG).map(([code, config]) => (
                 <Menu.Item key={code}>

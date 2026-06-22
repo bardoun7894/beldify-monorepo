@@ -62,7 +62,7 @@ export default function ProductSort({ value, onChange }: ProductSortProps) {
         leaveFrom="transform opacity-100 scale-100"
         leaveTo="transform opacity-0 scale-95"
       >
-        <Menu.Items className="absolute right-0 z-50 mt-2 w-56 origin-top-right rounded-2xl bg-white shadow-lg ring-1 ring-amber-200 focus:outline-none">
+        <Menu.Items className="absolute right-0 rtl:right-auto rtl:left-0 z-50 mt-2 w-56 origin-top-right rtl:origin-top-left rounded-2xl bg-white shadow-lg ring-1 ring-amber-200 focus:outline-none">
           <div className="py-1">
             {sortOptions.map((option) => {
               const OptionIcon = option.icon;
