@@ -900,6 +900,7 @@
     "default_user_name": "المستخدم",
     "title": "الملف الشخصي",
     "member_since": "عضو منذ ",
+    "joined_on": "انضم في {{date}}",
     "no_email": "لم يتم تحديد البريد الإلكتروني",
     "personal_info": "المعلومات الشخصية",
     "fields": {

@@ -807,6 +807,7 @@
     "default_user_name": "Utilisateur",
     "title": "Profil",
     "member_since": "Membre depuis ",
+    "joined_on": "Inscrit le {{date}}",
     "no_email": "Aucun email spécifié",
     "personal_info": "Informations personnelles",
     "fields": {

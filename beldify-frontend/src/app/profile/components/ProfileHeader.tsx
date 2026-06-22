@@ -11,19 +11,27 @@ interface ProfileHeaderProps {
 }
 
 export default function ProfileHeader({ user }: ProfileHeaderProps) {
-  const { t } = useTranslation(['profile', 'common']);
+  const { t, i18n } = useTranslation(['profile', 'common']);
 
   const getInitial = (name: string | undefined | null) => {
     if (!name) return 'U';
     return name.charAt(0).toUpperCase();
   };
 
-  // Format join date
-  const joinDate = user?.created_at 
-    ? new Date(user.created_at).toLocaleDateString('en-US', { 
-        year: 'numeric', 
+  const dateLocaleMap: Record<string, string> = {
+    en: 'en-US',
+    fr: 'fr-FR',
+    ar: 'ar-MA',
+    ma: 'ar-MA',
+    es: 'es-ES',
+  };
+  const dateLocale = dateLocaleMap[i18n.language] || 'fr-MA';
+
+  const joinDate = user?.created_at
+    ? new Date(user.created_at).toLocaleDateString(dateLocale, {
+        year: 'numeric',
         month: 'long',
-        day: 'numeric' 
+        day: 'numeric',
       })
     : null;
 
@@ -119,13 +127,13 @@ export default function ProfileHeader({ user }: ProfileHeaderProps) {
             </div>
             
             {joinDate && (
-              <motion.p 
+              <motion.p
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.4 }}
                 className="text-indigo-100 text-sm mt-3 opacity-90"
               >
-                Joined on {joinDate}
+                {t('joined_on', { date: joinDate, defaultValue: `Joined on ${joinDate}` })}
               </motion.p>
             )}
           </motion.div>

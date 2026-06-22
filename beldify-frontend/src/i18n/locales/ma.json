@@ -852,6 +852,7 @@
     "default_user_name": "لمستخدم",
     "title": "لبروفيل",
     "member_since": "عضو من ",
+    "joined_on": "دخل ل بلديفاي ف {{date}}",
     "no_email": "ما كاينش إيمايل",
     "personal_info": "معلومات شخصية",
     "fields": {

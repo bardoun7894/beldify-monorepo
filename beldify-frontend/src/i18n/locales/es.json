@@ -868,6 +868,7 @@
     "default_user_name": "Usuario",
     "title": "Perfil",
     "member_since": "Miembro desde ",
+    "joined_on": "Se unió el {{date}}",
     "no_email": "Sin correo electrónico especificado",
     "personal_info": "Información personal",
     "fields": {
