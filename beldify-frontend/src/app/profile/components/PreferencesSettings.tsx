@@ -214,7 +214,7 @@ export default function PreferencesSettings() {
             disabled={loading}
             className="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-amber-600 hover:bg-amber-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500 disabled:opacity-50"
           >
-            {loading ? t('common:loading') : t('common:actions.save_changes')}
+            {loading ? t('loading', { ns: 'common' }) : t('actions.save_changes', { ns: 'common' })}
           </button>
         </div>
       </div>

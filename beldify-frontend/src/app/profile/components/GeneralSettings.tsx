@@ -219,7 +219,7 @@ export default function GeneralSettings() {
           disabled={loading}
           className="px-4 py-2 bg-amber-500 text-white rounded-lg text-sm font-medium hover:bg-amber-600 transition-colors disabled:opacity-50"
         >
-          {loading ? t('common:actions.saving') : t('common:actions.save_changes')}
+          {loading ? t('actions.saving', { ns: 'common' }) : t('actions.save_changes', { ns: 'common' })}
         </button>
       </div>
     </form>
