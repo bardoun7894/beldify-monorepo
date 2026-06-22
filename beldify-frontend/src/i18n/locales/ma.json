@@ -337,7 +337,7 @@
   },
   "stock": {
     "in_stock": "كاين فالستوك",
-    "low_stock": "ستوك قليل",
+    "low_stock": "غير بقا غير {{count}}!",
     "out_of_stock": "ما بقاش فالستوك",
     "unavailable_short": "ماكاينش",
     "exceeded": "فايت لعدد لي كاين",

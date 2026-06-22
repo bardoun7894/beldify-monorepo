@@ -706,7 +706,7 @@ export default function Navbar() {
                           onClick={() => setMobileMenuOpen(false)}
                           className="flex items-center justify-between py-2 px-3 text-sm text-gray-700 hover:text-indigo-700 hover:bg-amber-100/60 rounded-lg transition"
                         >
-                          <span>{(i18n.language === 'ar' || i18n.language === 'ma') ? category.name_ar : category.name_en}</span>
+                          <span>{isRTL ? category.name_ar : category.name_en}</span>
                           {category.itemCount > 0 && (
                             <span className="text-xs text-gray-400">({category.itemCount})</span>
                           )}

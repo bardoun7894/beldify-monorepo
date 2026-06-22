@@ -46,6 +46,7 @@ export default function CategoryDropdown({ categories, isMobile = false }: Categ
   const [activeCategory, setActiveCategory] = useState<number | null>(null);
   const [isHoveringDropdown, setIsHoveringDropdown] = useState(false);
   const [mobileActiveCategory, setMobileActiveCategory] = useState<number | null>(null); // State for mobile accordion
+  const isRTL = i18n.language === 'ar' || i18n.language === 'ma';
 
   const handleMouseEnterDropdown = () => {
     if (isMobile) return; // Don't handle hover on mobile
@@ -90,12 +91,12 @@ export default function CategoryDropdown({ categories, isMobile = false }: Categ
               <span className="flex items-center gap-3">
                  <Image
                     src={category.image}
-                    alt={(i18n.language === 'ar' || i18n.language === 'ma') ? category.name_ar : category.name_en}
+                    alt={isRTL ? category.name_ar : category.name_en}
                     width={24} // Keep smaller for mobile list
                     height={24}
                     className="rounded object-cover flex-shrink-0"
                   />
-                 {(i18n.language === 'ar' || i18n.language === 'ma') ? category.name_ar : category.name_en}
+                 {isRTL ? category.name_ar : category.name_en}
               </span>
               <svg
                 className={`w-5 h-5 text-gray-400 transition-transform ${
@@ -124,7 +125,7 @@ export default function CategoryDropdown({ categories, isMobile = false }: Categ
                            className="block rounded-md py-1 px-2 text-sm text-gray-700 hover:bg-amber-50"
                            // Consider adding onClick to close the main mobile menu here if needed
                          >
-                           {(i18n.language === 'ar' || i18n.language === 'ma') ? subcat.name_ar : subcat.name_en}
+                           {isRTL ? subcat.name_ar : subcat.name_en}
                          </Link>
                        </li>
                      ))}
@@ -135,7 +136,7 @@ export default function CategoryDropdown({ categories, isMobile = false }: Categ
                            href={`/categories/${category.slug}`}
                            className="block rounded-md py-1 px-2 text-sm font-medium text-indigo-700 hover:bg-indigo-50"
                          >
-                           {t('common.viewAll')} {(i18n.language === 'ar' || i18n.language === 'ma') ? category.name_ar : category.name_en}
+                           {t('common.viewAll')} {isRTL ? category.name_ar : category.name_en}
                          </Link>
                      </li>
                   </ul>
@@ -155,14 +156,14 @@ export default function CategoryDropdown({ categories, isMobile = false }: Categ
                             <div className="aspect-square w-full bg-gray-100 rounded-md overflow-hidden mb-1 shadow-sm">
                               <Image
                                 src={product.image}
-                                alt={(i18n.language === 'ar' || i18n.language === 'ma') ? (product.name_ar || product.name_en) : product.name_en}
+                                alt={isRTL ? (product.name_ar || product.name_en) : product.name_en}
                                 width={80}
                                 height={80}
                                 className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300"
                               />
                             </div>
                             <span className="text-xs font-medium text-gray-700 group-hover:text-amber-700 transition-colors truncate block">
-                              {(i18n.language === 'ar' || i18n.language === 'ma') ? (product.name_ar || product.name_en) : product.name_en}
+                              {isRTL ? (product.name_ar || product.name_en) : product.name_en}
                             </span>
                           </Link>
                         ))}
@@ -226,13 +227,13 @@ export default function CategoryDropdown({ categories, isMobile = false }: Categ
                   >
                     <Image
                       src={category.image}
-                      alt={(i18n.language === 'ar' || i18n.language === 'ma') ? category.name_ar : category.name_en}
+                      alt={isRTL ? category.name_ar : category.name_en}
                       width={32} // Increased size from 24
                       height={32} // Increased size from 24
                       className="rounded object-cover flex-shrink-0"
                     />
                     <span className="truncate flex-1"> {/* Added flex-1 to allow truncation */}
-                      {(i18n.language === 'ar' || i18n.language === 'ma') ? category.name_ar : category.name_en}
+                      {isRTL ? category.name_ar : category.name_en}
                     </span>
                   </button>
                 </li>
@@ -268,7 +269,7 @@ export default function CategoryDropdown({ categories, isMobile = false }: Categ
                               href={`/category/${subcat.slug}`} // Assuming subcategories link to /category/slug
                               className="block p-2 rounded-md hover:bg-amber-50 transition-colors text-sm text-gray-700 hover:text-indigo-700"
                             >
-                              {(i18n.language === 'ar' || i18n.language === 'ma') ? subcat.name_ar : subcat.name_en}
+                              {isRTL ? subcat.name_ar : subcat.name_en}
                             </Link>
                           </li>
                         ))}
@@ -291,14 +292,14 @@ export default function CategoryDropdown({ categories, isMobile = false }: Categ
                             <div className="aspect-square w-full bg-gray-100 rounded-md overflow-hidden mb-1.5 shadow-sm">
                               <Image
                                 src={product.image}
-                                alt={(i18n.language === 'ar' || i18n.language === 'ma') ? (product.name_ar || product.name_en || 'Product image') : (product.name_en || 'Product image')}
+                                alt={isRTL ? (product.name_ar || product.name_en || 'Product image') : (product.name_en || 'Product image')}
                                 width={100}
                                 height={100}
                                 className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300"
                               />
                             </div>
                             <span className="text-xs font-medium text-gray-700 group-hover:text-amber-700 transition-colors truncate block">
-                              {(i18n.language === 'ar' || i18n.language === 'ma') ? (product.name_ar || product.name_en) : product.name_en}
+                              {isRTL ? (product.name_ar || product.name_en) : product.name_en}
                             </span>
                           </Link>
                         ))}

@@ -359,8 +359,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       toast.success(t('cart.coupon.applied', { code }));
     } catch (error: any) {
       logger.error('Error applying coupon:', error);
-      const message = error?.response?.data?.message;
-      toast.error(typeof message === 'string' ? message : t('cart.coupon.invalid'));
+      toast.error(t('cart.coupon.invalid'));
     } finally {
       setLoading(false);
     }
@@ -374,8 +373,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       toast.success(t('cart.coupon.removed'));
     } catch (error: any) {
       logger.error('Error removing coupon:', error);
-      const message = error?.response?.data?.message;
-      toast.error(typeof message === 'string' ? message : t('common.error'));
+      toast.error(t('common.error'));
     } finally {
       setLoading(false);
     }
