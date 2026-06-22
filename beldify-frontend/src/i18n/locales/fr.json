@@ -5423,5 +5423,21 @@
     "retry": "Réessayer",
     "chars_left": "caractères restants",
     "over_limit": "{{count}} caractères en trop"
+  },
+  "listingAi": {
+    "cta": "Analyser avec l'IA",
+    "analyzing": "Analyse en cours...",
+    "results_title": "Analyse IA",
+    "unavailable": "L'analyse IA n'est pas disponible pour le moment.",
+    "error": "L'analyse a échoué. Veuillez réessayer.",
+    "quality_label": "Score de qualité",
+    "quality_aria": "Qualité de l'annonce {{score}} sur 100",
+    "tips_label": "Conseils",
+    "category_label": "Catégorie suggérée",
+    "apply_category": "Appliquer {{name}}",
+    "apply_category_aria": "Appliquer la catégorie {{name}}",
+    "attributes_label": "Attributs suggérés",
+    "apply_attribute_aria": "Appliquer {{key}} : {{value}}",
+    "flags_label": "Avertissements"
   }
 }

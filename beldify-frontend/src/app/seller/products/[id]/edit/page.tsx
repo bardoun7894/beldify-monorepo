@@ -46,6 +46,7 @@ import {
 import { cn } from '@/lib/utils';
 import { AiGenerateButton } from '@/components/seller/AiGenerateButton';
 import { AiImageGenerator } from '@/components/seller/AiImageGenerator';
+import { ListingAiAssistant } from '@/components/seller/ListingAiAssistant';
 import { InsufficientCreditsModal } from '@/components/seller/InsufficientCreditsModal';
 import { getSellerCredits, FeatureCosts } from '@/services/sellerCreditService';
 import {
@@ -553,6 +554,20 @@ export default function SellerEditProductPage() {
                     />
                   </div>
                 </div>
+
+                {/* Listing Intelligence Assistant — additive only, no effect on save path */}
+                <ListingAiAssistant
+                  title={form.product_name_en}
+                  description={form.description}
+                  category_id={form.category_id ? Number(form.category_id) : undefined}
+                  isRTL={isRTL}
+                  onApplyCategory={(id, _name) => {
+                    setForm((prev) => ({ ...prev, category_id: String(id) }));
+                  }}
+                  onApplyAttribute={(key, value) => {
+                    setVerticalSpec((prev) => ({ ...prev, [key]: value }));
+                  }}
+                />
 
                 {/* AI Review step */}
                 {aiReview && (

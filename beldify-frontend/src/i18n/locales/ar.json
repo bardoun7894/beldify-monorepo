@@ -5448,5 +5448,21 @@
     "retry": "إعادة المحاولة",
     "chars_left": "حرف متبقٍّ",
     "over_limit": "تجاوزت الحد بـ {{count}} حرف"
+  },
+  "listingAi": {
+    "cta": "تحليل بالذكاء الاصطناعي",
+    "analyzing": "جارٍ التحليل...",
+    "results_title": "تحليل الذكاء الاصطناعي",
+    "unavailable": "تحليل الذكاء الاصطناعي غير متاح حالياً.",
+    "error": "فشل التحليل. يرجى المحاولة مرة أخرى.",
+    "quality_label": "درجة الجودة",
+    "quality_aria": "جودة القائمة {{score}} من 100",
+    "tips_label": "نصائح",
+    "category_label": "الفئة المقترحة",
+    "apply_category": "تطبيق {{name}}",
+    "apply_category_aria": "تطبيق الفئة {{name}}",
+    "attributes_label": "الخصائص المقترحة",
+    "apply_attribute_aria": "تطبيق {{key}}: {{value}}",
+    "flags_label": "تحذيرات"
   }
 }

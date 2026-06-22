@@ -5388,5 +5388,21 @@
     "retry": "Opnieuw proberen",
     "chars_left": "tekens over",
     "over_limit": "{{count}} tekens te veel"
+  },
+  "listingAi": {
+    "cta": "Analyseren met AI",
+    "analyzing": "Analyseren...",
+    "results_title": "AI-analyse",
+    "unavailable": "AI-analyse is momenteel niet beschikbaar.",
+    "error": "Analyse mislukt. Probeer het opnieuw.",
+    "quality_label": "Kwaliteitsscore",
+    "quality_aria": "Kwaliteit van advertentie {{score}} van 100",
+    "tips_label": "Tips",
+    "category_label": "Voorgestelde categorie",
+    "apply_category": "Toepassen {{name}}",
+    "apply_category_aria": "Categorie toepassen {{name}}",
+    "attributes_label": "Voorgestelde kenmerken",
+    "apply_attribute_aria": "Toepassen {{key}}: {{value}}",
+    "flags_label": "Waarschuwingen"
   }
 }

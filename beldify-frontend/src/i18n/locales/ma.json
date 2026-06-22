@@ -5427,5 +5427,21 @@
     "retry": "عاود المحاولة",
     "chars_left": "حرف باقيين",
     "over_limit": "تجاوزت الحد بـ {{count}} حرف"
+  },
+  "listingAi": {
+    "cta": "حلل بالذكاء الاصطناعي",
+    "analyzing": "كيتحلل...",
+    "results_title": "تحليل الذكاء الاصطناعي",
+    "unavailable": "التحليل بالذكاء الاصطناعي ماشي متاح دابا.",
+    "error": "فشل التحليل. عاود المحاولة.",
+    "quality_label": "درجة الجودة",
+    "quality_aria": "جودة المنتج {{score}} من 100",
+    "tips_label": "نصائح",
+    "category_label": "الصنف المقترح",
+    "apply_category": "طبق {{name}}",
+    "apply_category_aria": "طبق الصنف {{name}}",
+    "attributes_label": "الخصائص المقترحة",
+    "apply_attribute_aria": "طبق {{key}}: {{value}}",
+    "flags_label": "تحذيرات"
   }
 }

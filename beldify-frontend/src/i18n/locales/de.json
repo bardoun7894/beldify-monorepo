@@ -5388,5 +5388,21 @@
     "retry": "Erneut versuchen",
     "chars_left": "Zeichen übrig",
     "over_limit": "{{count}} Zeichen zu viel"
+  },
+  "listingAi": {
+    "cta": "Mit KI analysieren",
+    "analyzing": "Wird analysiert...",
+    "results_title": "KI-Analyse",
+    "unavailable": "KI-Analyse ist derzeit nicht verfügbar.",
+    "error": "Analyse fehlgeschlagen. Bitte versuche es erneut.",
+    "quality_label": "Qualitätspunktzahl",
+    "quality_aria": "Qualität der Anzeige {{score}} von 100",
+    "tips_label": "Tipps",
+    "category_label": "Vorgeschlagene Kategorie",
+    "apply_category": "Anwenden {{name}}",
+    "apply_category_aria": "Kategorie anwenden {{name}}",
+    "attributes_label": "Vorgeschlagene Attribute",
+    "apply_attribute_aria": "Anwenden {{key}}: {{value}}",
+    "flags_label": "Warnungen"
   }
 }
