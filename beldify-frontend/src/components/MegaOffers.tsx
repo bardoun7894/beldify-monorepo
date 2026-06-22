@@ -391,10 +391,10 @@ const MegaOffers: React.FC<MegaOffersProps> = ({ megaOffers }) => {
   }, []);
 
   useEffect(() => {
+    let ignore = false;
     const fetchMegaOffers = async () => {
       if (megaOffers && megaOffers.length > 0) {
-        setOffers(megaOffers);
-        setLoading(false);
+        if (!ignore) { setOffers(megaOffers); setLoading(false); }
         return;
       }
 
@@ -409,21 +409,26 @@ const MegaOffers: React.FC<MegaOffersProps> = ({ megaOffers }) => {
 
         const data = await response.json();
 
-        if (data.success && data.data) {
-          setOffers(data.data);
-        } else {
-          setOffers(TEST_MEGA_OFFERS);
+        if (!ignore) {
+          if (data.success && data.data) {
+            setOffers(data.data);
+          } else {
+            setOffers(TEST_MEGA_OFFERS);
+          }
         }
       } catch (err) {
         logger.error('Error fetching mega offers:', err);
-        setError(t('megaOffers.loadError', 'Failed to load mega offers'));
-        setOffers(TEST_MEGA_OFFERS);
+        if (!ignore) {
+          setError(t('megaOffers.loadError', 'Failed to load mega offers'));
+          setOffers(TEST_MEGA_OFFERS);
+        }
       } finally {
-        setLoading(false);
+        if (!ignore) setLoading(false);
       }
     };
 
     fetchMegaOffers();
+    return () => { ignore = true; };
   }, [megaOffers, localeParam, i18n.language, t]);
 
   if (!mounted) {

@@ -23,43 +23,38 @@ const TraditionalWearSection: React.FC<TraditionalWearSectionProps> = ({
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
-  const fetchProducts = async () => {
-    setLoading(true);
-    setError(null);
-
-    try {
-      let response;
-
-      switch (category) {
-        case 'men':
-          response = await traditionalWearService.getMensTraditionalWear(currentLanguage);
-          break;
-        case 'women':
-          response = await traditionalWearService.getWomensTraditionalWear(currentLanguage);
-          break;
-        case 'children':
-          response = await traditionalWearService.getChildrensTraditionalWear(currentLanguage);
-          break;
-        default:
-          throw new Error('Invalid category');
-      }
-
-      if (response.error) {
-        throw new Error(response.error);
-      }
-
-      setProducts(response.data);
-    } catch (err) {
-      logger.error('Failed to fetch traditional wear products:', err);
-      setError(t('errors.general', 'An error occurred'));
-    } finally {
-      setLoading(false);
-    }
-  };
-
   useEffect(() => {
+    let ignore = false;
+    const fetchProducts = async () => {
+      setLoading(true);
+      setError(null);
+      try {
+        let response;
+        switch (category) {
+          case 'men':
+            response = await traditionalWearService.getMensTraditionalWear(currentLanguage);
+            break;
+          case 'women':
+            response = await traditionalWearService.getWomensTraditionalWear(currentLanguage);
+            break;
+          case 'children':
+            response = await traditionalWearService.getChildrensTraditionalWear(currentLanguage);
+            break;
+          default:
+            throw new Error('Invalid category');
+        }
+        if (response.error) throw new Error(response.error);
+        if (!ignore) setProducts(response.data);
+      } catch (err) {
+        logger.error('Failed to fetch traditional wear products:', err);
+        if (!ignore) setError(t('errors.general', 'An error occurred'));
+      } finally {
+        if (!ignore) setLoading(false);
+      }
+    };
     fetchProducts();
-  }, [category, currentLanguage]);
+    return () => { ignore = true; };
+  }, [category, currentLanguage, t]);
 
   // Generate section title if not provided
   const sectionTitle = title || (

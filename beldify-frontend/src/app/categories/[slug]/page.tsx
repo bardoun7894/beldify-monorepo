@@ -54,6 +54,8 @@ export default function CategoryDetailPage() {
   const [isMobileFiltersOpen, setIsMobileFiltersOpen] = useState(false);
 
   useEffect(() => {
+    if (!slug) return;
+    let ignore = false;
     const fetchCategoryData = async () => {
       try {
         setLoading(true);
@@ -71,19 +73,18 @@ export default function CategoryDetailPage() {
         params.append('sort', sortBy || 'newest');
 
         const response = await axios.get(`/api/categories/${slug}?${params.toString()}`);
-        setCategoryData(response.data);
+        if (!ignore) setCategoryData(response.data);
       } catch (err: any) {
         logger.error('Error fetching category data:', err);
-        setError(t('errors.general', 'An error occurred'));
+        if (!ignore) setError(t('errors.general', 'An error occurred'));
       } finally {
-        setLoading(false);
+        if (!ignore) setLoading(false);
       }
     };
 
-    if (slug) {
-      fetchCategoryData();
-    }
-  }, [slug, filters, sortBy]);
+    fetchCategoryData();
+    return () => { ignore = true; };
+  }, [slug, filters, sortBy, t]);
 
   const handleFilters = (newFilters: Partial<ProductFiltersState>) => {
     setFilters((prev) => ({ ...prev, ...newFilters }));

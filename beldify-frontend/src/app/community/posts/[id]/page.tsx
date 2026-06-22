@@ -65,7 +65,8 @@ export default function PostDetailPage() {
 
   useEffect(() => {
     if (!postId) return;
-    
+    let ignore = false;
+
     const fetchData = async () => {
       setIsLoading(true);
       setError(null);
@@ -75,54 +76,54 @@ export default function PostDetailPage() {
           'Content-Type': 'application/json',
           ...(authToken ? { 'Authorization': `Bearer ${authToken}` } : {})
         }
-        
+
         const postResponse = await fetch(`${API_BASE_URL}/api/v1/community/posts/${postId}`, {
           headers,
           credentials: 'include',
         });
-        
+
         if (!postResponse.ok) {
           const errorData = await postResponse.json().catch(() => ({}));
           throw new Error(errorData.message || 'Failed to fetch post');
         }
-        
+
         const postResult = await postResponse.json();
-        
+
         // The API returns data in a 'data' property
         if (postResult.data) {
-          setPost(postResult.data);
-          
+          if (!ignore) setPost(postResult.data);
+
           try {
             // Then fetch the responses
             const responsesResponse = await fetch(
               `${API_BASE_URL}/api/v1/community/posts/${postId}/responses`,
               { headers, credentials: 'include' }
             );
-            
+
             if (!responsesResponse.ok) {
               logger.warn('Failed to fetch responses, continuing without them');
-              setResponses([]);
+              if (!ignore) setResponses([]);
             } else {
               const responsesResult = await responsesResponse.json();
-              setResponses(responsesResult.data || []);
+              if (!ignore) setResponses(responsesResult.data || []);
             }
           } catch (responseError) {
             logger.error('Error fetching responses:', responseError);
-            // Don't fail the whole page if responses fail to load
-            setResponses([]);
+            if (!ignore) setResponses([]);
           }
         } else {
           throw new Error('Invalid post data format');
         }
       } catch (err) {
         logger.error('Error in fetchData:', err);
-        setError(t('community.error_fetching_post') || 'Failed to load post details');
+        if (!ignore) setError(t('community.error_fetching_post') || 'Failed to load post details');
       } finally {
-        setIsLoading(false);
+        if (!ignore) setIsLoading(false);
       }
     };
 
     fetchData();
+    return () => { ignore = true; };
   }, [postId, t, authToken]);
 
   const getImageUrl = (imagePath: string | null) => {

@@ -104,20 +104,20 @@ export default function CreatePostPage() {
     fetchCategories();
   }, [t]);
 
+  const prefillProductId = searchParams.get('productId');
+  const prefillProductName = searchParams.get('productName');
+  const prefillProductImage = searchParams.get('productImage');
+
   // Pre-fill form with product data if provided via search params
   useEffect(() => {
-    const productId = searchParams.get('productId');
-    const productName = searchParams.get('productName');
-    const productImage = searchParams.get('productImage');
-    
-    if (productId && productName) {
+    if (prefillProductId && prefillProductName) {
       setFormData(prev => ({
         ...prev,
-        title: `Custom ${productName} - Similar Design Requested`,
-        description: `I'm looking for a custom product similar to the ${productName} (Product ID: ${productId}). ${productImage ? 'Please see the reference image for the style I prefer.' : 'I can provide more details about the design I have in mind.'}\n\nPlease let me know if you can create something similar with custom modifications.`
+        title: `Custom ${prefillProductName} - Similar Design Requested`,
+        description: `I'm looking for a custom product similar to the ${prefillProductName} (Product ID: ${prefillProductId}). ${prefillProductImage ? 'Please see the reference image for the style I prefer.' : 'I can provide more details about the design I have in mind.'}\n\nPlease let me know if you can create something similar with custom modifications.`
       }));
     }
-  }, [searchParams]);
+  }, [prefillProductId, prefillProductName, prefillProductImage]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;

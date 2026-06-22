@@ -45,6 +45,7 @@ export default function CommunityPage() {
 
   // Fetch posts on mount and when filters change
   useEffect(() => {
+    let ignore = false;
     const fetchPosts = async () => {
       setLoading(true);
       try {
@@ -54,16 +55,19 @@ export default function CommunityPage() {
         if (searchQuery) apiFilters.search = searchQuery;
 
         const response = await fetchCommunityPosts(apiFilters, currentPage, 12);
-        setPosts(response.data);
-        setTotalPages(response.meta.last_page || 1);
+        if (!ignore) {
+          setPosts(response.data);
+          setTotalPages(response.meta.last_page || 1);
+        }
       } catch (err) {
         logger.error('Error fetching posts:', err);
       } finally {
-        setLoading(false);
+        if (!ignore) setLoading(false);
       }
     };
 
     fetchPosts();
+    return () => { ignore = true; };
   }, [currentPage, selectedCategory, selectedStatus, searchQuery]);
 
   // Fetch user's own posts when user is authenticated

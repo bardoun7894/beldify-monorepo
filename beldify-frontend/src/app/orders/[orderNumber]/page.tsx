@@ -86,13 +86,14 @@ export default function OrderDetailsPage() {
     }).format(Number(amount));
   };
 
+  const localeParam = searchParams?.get('locale') ?? null;
+
   useEffect(() => {
-    const locale = searchParams?.get('locale');
-    if (locale) {
-      i18n.changeLanguage(locale);
+    if (localeParam) {
+      i18n.changeLanguage(localeParam);
     }
     syncUrlLocale();
-  }, [searchParams, i18n]);
+  }, [localeParam, i18n]);
 
   useEffect(() => {
     const fetchOrder = async () => {

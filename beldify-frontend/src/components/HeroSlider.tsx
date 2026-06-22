@@ -33,20 +33,22 @@ export default function HeroSlider() {
 
   // Fetch banners from API
   useEffect(() => {
+    let ignore = false;
     const fetchBanners = async () => {
       try {
         setLoading(true);
         const data = await bannerService.getHeroBanners();
-        setBanners(data);
+        if (!ignore) setBanners(data);
       } catch (err) {
         logger.error('Error fetching banners:', err);
-        setError(t('heroSlider.loadError', 'Error loading banner data'));
+        if (!ignore) setError(t('heroSlider.loadError', 'Error loading banner data'));
       } finally {
-        setLoading(false);
+        if (!ignore) setLoading(false);
       }
     };
 
     fetchBanners();
+    return () => { ignore = true; };
   }, [i18n.language, t]);
 
   // Map API data to slide format or use fallback slides

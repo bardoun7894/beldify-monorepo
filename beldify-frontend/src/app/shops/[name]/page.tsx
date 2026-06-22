@@ -180,6 +180,7 @@ export default function ShopPage() {
 
   useEffect(() => {
     if (!params?.name) return;
+    let ignore = false;
     const fetchShop = async () => {
       try {
         setIsLoading(true);
@@ -187,6 +188,7 @@ export default function ShopPage() {
         const storeName = decodeURIComponent(params.name as string);
         logger.log('Fetching shop with name:', storeName);
         const response = await shopService.getShopByName(storeName);
+        if (ignore) return;
         if (response.error) { setError(t('errors.general', 'An error occurred')); return; }
         if (response.data?.store) {
           const shopData: Shop = {
@@ -237,6 +239,7 @@ export default function ShopPage() {
       }
     };
     fetchShop();
+    return () => { ignore = true; };
   }, [params?.name, t]);
 
   // ── derived data ───────────────────────────────────────────────────────────

@@ -27,11 +27,13 @@ export default function CategoriesPage() {
   ];
 
   useEffect(() => {
+    let ignore = false;
     const fetchFilteredCategories = async () => {
       try {
         setLoading(true);
         setError(null);
         const fetchedCategories = await categoryService.getAllCategories(selectedGender);
+        if (ignore) return;
         if (!Array.isArray(fetchedCategories)) {
           throw new Error('Invalid categories data received');
         }
@@ -39,14 +41,17 @@ export default function CategoriesPage() {
         setError(null);
       } catch (err: any) {
         logger.error('Error fetching categories:', err);
-        setError(t('errors.failed_to_fetch_categories', 'Failed to load categories.'));
-        setCategories([]);
+        if (!ignore) {
+          setError(t('errors.failed_to_fetch_categories', 'Failed to load categories.'));
+          setCategories([]);
+        }
       } finally {
-        setLoading(false);
+        if (!ignore) setLoading(false);
       }
     };
 
     fetchFilteredCategories();
+    return () => { ignore = true; };
   }, [t, selectedGender]);
 
   if (loading) {
