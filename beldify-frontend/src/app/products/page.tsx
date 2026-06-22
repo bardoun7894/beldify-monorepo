@@ -212,7 +212,7 @@ export default function ProductsPage() {
   if (error) {
     return (
       <div className="text-center py-12">
-        <p className="text-rose-700">{error.message || 'Failed to fetch products'}</p>
+        <p className="text-rose-700">{t('products.error.fetch')}</p>
         <button
           onClick={handleRetry}
           className="mt-4 px-4 py-2 bg-amber-500 text-amber-950 font-semibold rounded-full hover:bg-amber-400 transition-colors"

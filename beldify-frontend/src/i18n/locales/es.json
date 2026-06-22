@@ -111,7 +111,10 @@
     "google_signin_unavailable": "El inicio de sesión con Google no está disponible en este momento",
     "google_init_failed": "Error al inicializar el inicio de sesión con Google",
     "google_no_credential": "Google no devolvió una credencial. Inténtalo de nuevo.",
-    "register_with_google_failed": "El registro con Google falló. Inténtalo de nuevo."
+    "register_with_google_failed": "El registro con Google falló. Inténtalo de nuevo.",
+    "registration_success": "¡Registro exitoso! Bienvenido a Beldify.",
+    "registration_failed": "El registro falló. Por favor revisa tus datos e inténtalo de nuevo.",
+    "action_failed_retry": "No se pudo completar la acción. Por favor intenta de nuevo."
   },
   "navigation": {
     "home": "Inicio",
@@ -796,7 +799,11 @@
       "required": "Este campo es obligatorio",
       "invalid_email": "Por favor ingresa un correo válido",
       "invalid_phone": "Por favor ingresa un número de teléfono válido",
-      "location_error": "No se pudo detectar tu ubicación. Por favor intenta de nuevo o ingresa la dirección manualmente"
+      "location_error": "No se pudo detectar tu ubicación. Por favor intenta de nuevo o ingresa la dirección manualmente",
+      "first_name_min": "El nombre es obligatorio y debe tener al menos 2 caracteres",
+      "last_name_min": "El apellido es obligatorio y debe tener al menos 2 caracteres",
+      "phone_min_digits": "Por favor ingresa un número de teléfono válido de al menos 10 dígitos",
+      "payment_method_invalid": "Por favor selecciona un método de pago válido"
     },
     "errors": {
       "shipping_info_incomplete": "Por favor completa toda la información de envío requerida",
@@ -810,10 +817,12 @@
       "invalid_zip": "Por favor ingresa un código postal válido",
       "country_required": "Por favor selecciona tu país",
       "auth_required": "Necesitas iniciar sesión para continuar",
-      "shipping_info_required": "Se requiere información de envío para continuar"
+      "shipping_info_required": "Se requiere información de envío para continuar",
+      "validation_failed": "Por favor revisa los campos resaltados e intenta de nuevo"
     },
     "success": {
-      "order_placed": "¡Tu pedido ha sido realizado exitosamente!"
+      "order_placed": "¡Tu pedido ha sido realizado exitosamente!",
+      "order_placed_redirect": "Pedido realizado. Redirigiendo a tus pedidos..."
     }
   },
   "profile": {
@@ -987,6 +996,14 @@
     "list": {
       "eyebrow": "Mercado",
       "headline": "Talleres seleccionados."
+    },
+    "toasts": {
+      "login_required": "Por favor inicia sesión para seguir esta tienda",
+      "action_failed": "La acción falló. Por favor intenta de nuevo.",
+      "auth_error": "Error de autenticación. Por favor inicia sesión de nuevo.",
+      "generic_error": "Algo salió mal. Por favor intenta de nuevo.",
+      "followed_success": "Ahora sigues esta tienda",
+      "unfollowed_success": "Has dejado de seguir esta tienda"
     }
   },
   "footer": {

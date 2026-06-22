@@ -130,7 +130,10 @@
     "google_signin_unavailable": "Google Sign-In is currently unavailable",
     "google_init_failed": "Failed to initialize Google Sign-In",
     "google_no_credential": "Google did not return a credential. Please try again.",
-    "register_with_google_failed": "Registration with Google failed. Please try again."
+    "register_with_google_failed": "Registration with Google failed. Please try again.",
+    "registration_success": "Registration successful! Welcome to Beldify.",
+    "registration_failed": "Registration failed. Please check your details and try again.",
+    "action_failed_retry": "Failed to complete action. Please try again."
   },
   "navigation": {
     "home": "Home",
@@ -862,7 +865,11 @@
       "required": "This field is required",
       "invalid_email": "Please enter a valid email",
       "invalid_phone": "Please enter a valid phone number",
-      "location_error": "Failed to detect your location. Please try again or enter address manually"
+      "location_error": "Failed to detect your location. Please try again or enter address manually",
+      "first_name_min": "First name is required and must be at least 2 characters",
+      "last_name_min": "Last name is required and must be at least 2 characters",
+      "phone_min_digits": "Please enter a valid phone number with at least 10 digits",
+      "payment_method_invalid": "Please select a valid payment method"
     },
     "errors": {
       "shipping_info_incomplete": "Please fill in all required shipping information",
@@ -876,10 +883,12 @@
       "invalid_zip": "Please enter a valid ZIP code",
       "country_required": "Please select your country",
       "auth_required": "Please log in to continue with your order",
-      "shipping_info_required": "Shipping information is required to proceed"
+      "shipping_info_required": "Shipping information is required to proceed",
+      "validation_failed": "Please review the highlighted fields and try again"
     },
     "success": {
-      "order_placed": "Order placed successfully! Thank you for your purchase."
+      "order_placed": "Order placed successfully! Thank you for your purchase.",
+      "order_placed_redirect": "Order placed. Redirecting to your orders..."
     }
   },
   "profile": {
@@ -1053,6 +1062,14 @@
     "list": {
       "eyebrow": "Marketplace",
       "headline": "Hand-picked ateliers."
+    },
+    "toasts": {
+      "login_required": "Please log in to follow this shop",
+      "action_failed": "Action failed. Please try again.",
+      "auth_error": "Authentication error. Please log in again.",
+      "generic_error": "Something went wrong. Please try again.",
+      "followed_success": "You are now following this shop",
+      "unfollowed_success": "You have unfollowed this shop"
     }
   },
   "sort": {

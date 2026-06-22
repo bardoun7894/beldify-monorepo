@@ -92,7 +92,7 @@ export default function LoginPage() {
       }
     } catch (error) {
       logger.error('Error handling stored action:', error);
-      toast.error('Failed to complete action. Please try again.');
+      toast.error(t('auth.action_failed_retry'));
 
       // Clear stored data on error
       sessionStorage.removeItem('redirectAction');

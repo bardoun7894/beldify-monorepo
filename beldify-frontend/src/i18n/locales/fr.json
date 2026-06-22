@@ -101,7 +101,10 @@
     "google_signin_unavailable": "La connexion avec Google n'est pas disponible pour le moment",
     "google_init_failed": "Échec de l'initialisation de la connexion Google",
     "google_no_credential": "Google n'a pas renvoyé d'identifiant. Veuillez réessayer.",
-    "register_with_google_failed": "L'inscription avec Google a échoué. Veuillez réessayer."
+    "register_with_google_failed": "L'inscription avec Google a échoué. Veuillez réessayer.",
+    "registration_success": "Inscription réussie ! Bienvenue chez Beldify.",
+    "registration_failed": "L'inscription a échoué. Veuillez vérifier vos informations et réessayer.",
+    "action_failed_retry": "L'action n'a pas pu être terminée. Veuillez réessayer."
   },
   "navigation": {
     "home": "Accueil",
@@ -735,7 +738,11 @@
       "required": "Ce champ est obligatoire",
       "invalid_email": "Veuillez saisir un email valide",
       "invalid_phone": "Veuillez saisir un numéro de téléphone valide",
-      "location_error": "Impossible de détecter votre position. Veuillez réessayer ou saisir l'adresse manuellement"
+      "location_error": "Impossible de détecter votre position. Veuillez réessayer ou saisir l'adresse manuellement",
+      "first_name_min": "Le prénom est requis et doit comporter au moins 2 caractères",
+      "last_name_min": "Le nom est requis et doit comporter au moins 2 caractères",
+      "phone_min_digits": "Veuillez saisir un numéro de téléphone valide d'au moins 10 chiffres",
+      "payment_method_invalid": "Veuillez sélectionner un mode de paiement valide"
     },
     "errors": {
       "shipping_info_incomplete": "Veuillez remplir toutes les informations de livraison requises",
@@ -749,10 +756,12 @@
       "invalid_zip": "Veuillez saisir un code postal valide",
       "country_required": "Veuillez sélectionner votre pays",
       "auth_required": "Veuillez vous connecter pour continuer votre commande",
-      "shipping_info_required": "Les informations de livraison sont requises pour continuer"
+      "shipping_info_required": "Les informations de livraison sont requises pour continuer",
+      "validation_failed": "Veuillez vérifier les champs en surbrillance et réessayer"
     },
     "success": {
-      "order_placed": "Commande passée avec succès ! Merci pour votre achat."
+      "order_placed": "Commande passée avec succès ! Merci pour votre achat.",
+      "order_placed_redirect": "Commande passée. Redirection vers vos commandes..."
     }
   },
   "profile": {
@@ -940,6 +949,14 @@
     "list": {
       "eyebrow": "Marketplace",
       "headline": "Ateliers sélectionnés."
+    },
+    "toasts": {
+      "login_required": "Veuillez vous connecter pour suivre cette boutique",
+      "action_failed": "L'action a échoué. Veuillez réessayer.",
+      "auth_error": "Erreur d'authentification. Veuillez vous reconnecter.",
+      "generic_error": "Une erreur est survenue. Veuillez réessayer.",
+      "followed_success": "Vous suivez maintenant cette boutique",
+      "unfollowed_success": "Vous ne suivez plus cette boutique"
     }
   },
   "footer": {

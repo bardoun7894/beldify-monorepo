@@ -148,7 +148,7 @@ export default function ShopPage() {
     if (!shop?.id || isFollowActionLoading) return;
     const isAuth = await verifyAuthentication();
     if (!isAuth) {
-      toast.error('Please login to follow this shop', { duration: 3000, position: 'bottom-center', id: 'auth-login-required' });
+      toast.error(t('shops.toasts.login_required'), { duration: 3000, position: 'bottom-center', id: 'auth-login-required' });
       const currentPath = window.location.pathname;
       setTimeout(() => router.push(`/login?redirect=${encodeURIComponent(currentPath)}`), 1500);
       return;
@@ -158,21 +158,24 @@ export default function ShopPage() {
     setIsFollowing(!prev);
     try {
       const res = prev ? await shopService.unfollowShop(shop.id) : await shopService.followShop(shop.id);
-      if (res?.error) { setIsFollowing(prev); toast.error(res.error || 'Action failed'); return; }
+      if (res?.error) { setIsFollowing(prev); toast.error(t('shops.toasts.action_failed')); return; }
       if (res?.isAuthenticated === false) {
         setIsFollowing(prev);
-        toast.error('Authentication error. Please login again', { duration: 3000, id: 'auth-error' });
+        toast.error(t('shops.toasts.auth_error'), { duration: 3000, id: 'auth-error' });
         setTimeout(() => router.push(`/login?redirect=${encodeURIComponent(window.location.pathname)}`), 1500);
         return;
       }
-      toast.success(`Successfully ${prev ? 'unfollowed' : 'followed'} shop`, { duration: 2000, id: 'follow-success' });
+      toast.success(
+        prev ? t('shops.toasts.unfollowed_success') : t('shops.toasts.followed_success'),
+        { duration: 2000, id: 'follow-success' }
+      );
       setTimeout(async () => {
         try {
           const ver = await shopService.checkFollowing(shop.id);
           if (ver.data?.isFollowing !== undefined) setIsFollowing(ver.data.isFollowing);
         } catch { /* silent */ }
       }, 1000);
-    } catch { setIsFollowing(isFollowing); toast.error('An error occurred'); }
+    } catch { setIsFollowing(isFollowing); toast.error(t('shops.toasts.generic_error')); }
     finally { setIsFollowActionLoading(false); }
   };
 

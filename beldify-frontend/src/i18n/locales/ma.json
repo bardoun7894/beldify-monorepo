@@ -127,7 +127,10 @@
     "google_signin_unavailable": "دخول Google ماشي متاح دابا",
     "google_init_failed": "ما تنجمناش نهيئو دخول Google",
     "google_no_credential": "Google ما رجعش الإذن. عافاك عاود حاول.",
-    "register_with_google_failed": "ما تقدش تسجل بـ Google. عافاك عاود حاول."
+    "register_with_google_failed": "ما تقدش تسجل بـ Google. عافاك عاود حاول.",
+    "registration_success": "تسجلتي بنجاح! مرحبا بيك ف بلديفاي.",
+    "registration_failed": "ما نجحش التسجيل. شوف لمعلومات وعاود جرب.",
+    "action_failed_retry": "ما نجحناش نكملو لعملية. عاود جرب."
   },
   "navigation": {
     "home": "الرئيسية",
@@ -780,7 +783,11 @@
       "required": "خاصك تعمر هاد لخانة",
       "invalid_email": "دخل إيمايل صحيح",
       "invalid_phone": "دخل نمرة تيليفون صحيحة",
-      "location_error": "ما نجحش تحديد موقعك. عاود جرب ولا دخل لعنوان بيديك"
+      "location_error": "ما نجحش تحديد موقعك. عاود جرب ولا دخل لعنوان بيديك",
+      "first_name_min": "سميتك لولى مطلوبة وخاص تكون على الأقل 2 ديال لحروف",
+      "last_name_min": "سمية لعائلة مطلوبة وخاص تكون على الأقل 2 ديال لحروف",
+      "phone_min_digits": "دخل نمرة تيليفون صحيحة على الأقل 10 ديال لأرقام",
+      "payment_method_invalid": "ختار طريقة خلاص صحيحة"
     },
     "errors": {
       "shipping_info_incomplete": "عمر كاع معلومات ليفريزون لمطلوبة",
@@ -794,10 +801,12 @@
       "invalid_zip": "دخل كود بوسطال صحيح",
       "country_required": "ختار بلادك",
       "auth_required": "خاصك تدخل لكونط ديالك باش تكمل",
-      "shipping_info_required": "خاص معلومات ليفريزون باش تكمل"
+      "shipping_info_required": "خاص معلومات ليفريزون باش تكمل",
+      "validation_failed": "شوف لخانات لمحددة وعاود جرب"
     },
     "success": {
-      "order_placed": "تسجلات لكوموند ديالك بنجاح!"
+      "order_placed": "تسجلات لكوموند ديالك بنجاح!",
+      "order_placed_redirect": "تسجلات لكوموند. كنحولك لطلباتك..."
     }
   },
   "profile": {
@@ -972,6 +981,14 @@
     "list": {
       "eyebrow": "السوق",
       "headline": "أتيليهات مختارة."
+    },
+    "toasts": {
+      "login_required": "دخل لحسابك باش تتبع هاد لحانوت",
+      "action_failed": "ما تمش لعملية. عاود جرب.",
+      "auth_error": "خطأ ف لمصادقة. دخل من جديد.",
+      "generic_error": "وقع شي مشكل. عاود جرب.",
+      "followed_success": "دابا كاتتبع هاد لحانوت",
+      "unfollowed_success": "حيدتي لمتابعة من هاد لحانوت"
     }
   },
   "product_categories": {

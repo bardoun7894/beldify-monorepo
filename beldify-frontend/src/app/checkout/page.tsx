@@ -410,24 +410,24 @@ export default function CheckoutPage() {
       }
 
       if (!shippingInfo.firstName || shippingInfo.firstName.trim().length < 2) {
-        toast.error('First name is required and must be at least 2 characters');
+        toast.error(t('checkout.validation.first_name_min'));
         return;
       }
 
       if (!shippingInfo.lastName || shippingInfo.lastName.trim().length < 2) {
-        toast.error('Last name is required and must be at least 2 characters');
+        toast.error(t('checkout.validation.last_name_min'));
         return;
       }
 
       const phoneDigits = shippingInfo.phone.replace(/\D/g, '');
       if (phoneDigits.length < 10) {
-        toast.error('Please enter a valid phone number with at least 10 digits');
+        toast.error(t('checkout.validation.phone_min_digits'));
         return;
       }
 
       const availablePaymentMethods = ['credit_card', 'paypal', 'cash_on_delivery'];
       if (!availablePaymentMethods.includes(normalizedPaymentMethod)) {
-        toast.error('Please select a valid payment method');
+        toast.error(t('checkout.validation.payment_method_invalid'));
         return;
       }
 
@@ -524,7 +524,7 @@ export default function CheckoutPage() {
             `/order-confirmation?orderId=${encodeURIComponent(String(orderNumber))}`
           );
         } else {
-          toast.success('Order placed. Redirecting to your orders...');
+          toast.success(t('checkout.success.order_placed_redirect'));
           router.push('/orders');
         }
       } else {
@@ -542,11 +542,16 @@ export default function CheckoutPage() {
       logger.error('Order processing error:', error);
       if (error.response?.status === 422) {
         const validationErrs = error.response.data.errors;
-        Object.entries(validationErrs || {}).forEach(([field, messages]: [string, any]) => {
-          if (Array.isArray(messages) && messages.length > 0) {
-            toast.error(`${field}: ${messages[0]}`);
+        let shown = 0;
+        Object.entries(validationErrs || {}).forEach(([, messages]: [string, any]) => {
+          if (Array.isArray(messages) && messages.length > 0 && shown < 3) {
+            toast.error(messages[0]);
+            shown++;
           }
         });
+        if (shown === 0) {
+          toast.error(t('checkout.errors.processing_failed'));
+        }
       } else {
         toast.error(t('checkout.errors.processing_failed'));
       }

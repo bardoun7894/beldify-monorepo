@@ -64,14 +64,15 @@ export default function RegisterPage() {
       });
 
       if (response.data.status) {
-        toast.success('Registration successful!');
+        toast.success(t('auth.registration_success'));
         // Redirect to dashboard or home page
         router.push('/profile');
       }
     } catch (err: any) {
-      const errorMsg = err.response?.data?.message || 'Registration failed';
-      setError(errorMsg);
-      toast.error(errorMsg);
+      const fallback = t('auth.registration_failed');
+      setError(fallback);
+      toast.error(fallback);
+      logger.error('Registration error:', err);
     } finally {
       setLoading(false);
     }
@@ -115,7 +116,7 @@ export default function RegisterPage() {
     script.onload = initializeGoogleButton;
     script.onerror = () => {
       logger.error('Failed to load Google Identity script');
-      toast.error('Google Sign-In is currently unavailable');
+      toast.error(t('auth.google_signin_unavailable'));
     };
 
     document.head.appendChild(script);
