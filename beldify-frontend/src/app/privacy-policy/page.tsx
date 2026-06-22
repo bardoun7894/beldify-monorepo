@@ -22,7 +22,8 @@ export default function PrivacyPolicyPage() {
   const { t, i18n } = useTranslation();
 
   const lastUpdated = new Date('2025-05-18');
-  const formattedDate = new Intl.DateTimeFormat(i18n.language, {
+  const ppLocaleMap: Record<string, string> = { en: 'en-US', fr: 'fr-FR', ar: 'ar-MA', ma: 'ar-MA', es: 'es-ES' };
+  const formattedDate = new Intl.DateTimeFormat(ppLocaleMap[i18n.language] || 'fr-MA', {
     year: 'numeric',
     month: 'long',
     day: 'numeric',

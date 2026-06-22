@@ -2568,6 +2568,13 @@
     }
   },
   "nav": {
-    "announcement": "Free shipping across Morocco on orders over 500 MAD — Free returns within 14 days"
+    "announcement": "Free shipping across Morocco on orders over 500 MAD — Free returns within 14 days",
+    "search_placeholder": "Search caftans, djellabas, tailors…",
+    "browse": "Browse",
+    "fashion": "Fashion",
+    "home_decor": "Home & Decor",
+    "jewelry": "Jewelry",
+    "tailoring": "Tailoring",
+    "journal": "Journal"
   }
 }

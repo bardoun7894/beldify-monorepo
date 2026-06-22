@@ -2147,6 +2147,13 @@
     }
   },
   "nav": {
-    "announcement": "Livraison gratuite au Maroc dès 500 MAD — Retours gratuits sous 14 jours"
+    "announcement": "Livraison gratuite au Maroc dès 500 MAD — Retours gratuits sous 14 jours",
+    "search_placeholder": "Rechercher caftans, djellabas, tailleurs…",
+    "browse": "Parcourir",
+    "fashion": "Mode",
+    "home_decor": "Maison & Décoration",
+    "jewelry": "Bijoux",
+    "tailoring": "Couture",
+    "journal": "Journal"
   }
 }

@@ -74,9 +74,11 @@ export default function OrderDetailsPage() {
   };
 
   // Format amount based on locale
+  const amtLocaleMap: Record<string, string> = { en: 'en-US', fr: 'fr-FR', ar: 'ar-MA', ma: 'ar-MA', es: 'es-ES' };
+  const amtBcp47 = amtLocaleMap[i18n.language] || 'fr-MA';
   const formatAmount = (amount: number | string) => {
     if (!amount || isNaN(Number(amount))) return '0.00';
-    return new Intl.NumberFormat(i18n.language, {
+    return new Intl.NumberFormat(amtBcp47, {
       style: 'currency',
       currency: 'MAD',
       minimumFractionDigits: 2,

@@ -21,8 +21,10 @@ export default function OrderConfirmationPage() {
   const { triggerOnOrderComplete } = usePWATriggers();
   const isRTL = i18n.language === 'ar' || i18n.language === 'ma';
 
+  const localeMap: Record<string, string> = { en: 'en-US', fr: 'fr-FR', ar: 'ar-MA', ma: 'ar-MA', es: 'es-ES' };
+  const bcp47 = localeMap[i18n.language] || 'fr-MA';
   const formatAmount = (amount: number) =>
-    new Intl.NumberFormat(i18n.language, {
+    new Intl.NumberFormat(bcp47, {
       style: 'decimal',
       minimumFractionDigits: 2,
       maximumFractionDigits: 2,

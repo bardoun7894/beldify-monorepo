@@ -40,10 +40,13 @@ export default function OrdersPage() {
   const [query, setQuery] = useState('');
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('list');
 
+  const numLocaleMap: Record<string, string> = { en: 'en-US', fr: 'fr-FR', ar: 'ar-MA', ma: 'ar-MA', es: 'es-ES' };
+  const bcp47 = numLocaleMap[i18n.language] || 'fr-MA';
+
   // Format number based on locale
   const formatNumber = (num: number | string | null | undefined): string => {
     if (num === null || num === undefined || isNaN(Number(num))) return '0.00';
-    return new Intl.NumberFormat(i18n.language, {
+    return new Intl.NumberFormat(bcp47, {
       style: 'decimal',
       minimumFractionDigits: 2,
       maximumFractionDigits: 2,
@@ -61,7 +64,7 @@ export default function OrdersPage() {
 
       // If less than 7 days, show relative time
       if (diffDays < 7) {
-        return new Intl.RelativeTimeFormat(i18n.language, { numeric: 'auto' }).format(-diffDays, 'day');
+        return new Intl.RelativeTimeFormat(bcp47, { numeric: 'auto' }).format(-diffDays, 'day');
       }
 
       // Otherwise show formatted date

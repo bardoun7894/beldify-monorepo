@@ -2129,6 +2129,13 @@
     "footnote": "Cuando vuelvas a estar en línea, todas las funciones estarán disponibles de nuevo."
   },
   "nav": {
-    "announcement": "Envío gratis en Marruecos en pedidos superiores a 500 MAD — Devoluciones gratuitas en 14 días"
+    "announcement": "Envío gratis en Marruecos en pedidos superiores a 500 MAD — Devoluciones gratuitas en 14 días",
+    "search_placeholder": "Buscar caftanes, djellabas, sastres…",
+    "browse": "Explorar",
+    "fashion": "Moda",
+    "home_decor": "Hogar y Decoración",
+    "jewelry": "Joyería",
+    "tailoring": "Sastrería",
+    "journal": "Revista"
   }
 }
