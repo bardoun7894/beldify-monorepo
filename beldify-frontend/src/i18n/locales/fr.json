@@ -144,7 +144,8 @@
     "viewAll": "Voir tout",
     "items": "article",
     "noCategories": "Aucune catégorie trouvée",
-    "topCategories": "Meilleures catégories"
+    "topCategories": "Meilleures catégories",
+    "loadingError": "Échec du chargement de la catégorie. Veuillez réessayer."
   },
   "bestSellers": {
     "title": "Meilleures ventes",
@@ -764,6 +765,15 @@
     "success": {
       "order_placed": "Commande passée avec succès ! Merci pour votre achat.",
       "order_placed_redirect": "Commande passée. Redirection vers vos commandes..."
+    },
+    "stock": {
+      "item_unavailable": "« {{name}} » est en rupture de stock. Veuillez le retirer de votre panier.",
+      "insufficient": "Seulement {{available}} de « {{name}} » disponible(s). Veuillez ajuster la quantité.",
+      "check_failed": "Impossible de vérifier le stock pour le moment. Veuillez réessayer."
+    },
+    "cod_trust": {
+      "title": "Payez en MAD à la livraison",
+      "subtitle": "Aucune carte requise · Livraison en 2-5 jours ouvrés · Retours gratuits sous 14 jours"
     }
   },
   "profile": {

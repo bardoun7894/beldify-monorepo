@@ -114,11 +114,7 @@ export default function PostDetailPage() {
         }
       } catch (err) {
         console.error('Error in fetchData:', err);
-        setError(
-          err instanceof Error 
-            ? err.message 
-            : t('community.error_fetching_post') || 'Failed to load post details'
-        );
+        setError(t('community.error_fetching_post'));
       } finally {
         setIsLoading(false);
       }

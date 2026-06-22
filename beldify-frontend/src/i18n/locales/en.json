@@ -181,7 +181,8 @@
     "exploreAllCategories": "Explore All Categories",
     "discoverMore": "Discover thousands of products across all categories",
     "comingSoon": "Coming Soon",
-    "featured": "Featured"
+    "featured": "Featured",
+    "loadingError": "Failed to load category. Please try again."
   },
   "bestSellers": {
     "title": "Best Sellers",
@@ -891,6 +892,15 @@
     "success": {
       "order_placed": "Order placed successfully! Thank you for your purchase.",
       "order_placed_redirect": "Order placed. Redirecting to your orders..."
+    },
+    "stock": {
+      "item_unavailable": "\"{{name}}\" is out of stock. Please remove it from your cart.",
+      "insufficient": "Only {{available}} of \"{{name}}\" available. Please update your quantity.",
+      "check_failed": "We couldn't verify stock right now. Please try again."
+    },
+    "cod_trust": {
+      "title": "Pay in MAD on delivery",
+      "subtitle": "No card needed · Delivery in 2–5 business days · Free returns within 14 days"
     }
   },
   "profile": {

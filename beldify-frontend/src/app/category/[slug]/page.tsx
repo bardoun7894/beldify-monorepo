@@ -76,22 +76,9 @@ export default function CategoryPage() {
 
         const response = await axios.get(`/api/categories/${slug}?${params.toString()}`);
         setCategoryData(response.data);
-      } catch (err: any) {
+      } catch (err: unknown) {
         logger.error('Error fetching category data:', err);
-        let errorMessage = 'Failed to load category';
-        if (err.response) {
-          // Handle different error response formats
-          if (err.response.data?.error) {
-            errorMessage = err.response.data.error;
-          } else if (err.response.data?.message) {
-            errorMessage = err.response.data.message;
-          } else if (typeof err.response.data === 'string') {
-            errorMessage = err.response.data;
-          }
-        } else if (err.message) {
-          errorMessage = err.message;
-        }
-        setError(errorMessage);
+        setError(t('category.loadingError'));
       } finally {
         setLoading(false);
       }
@@ -100,7 +87,7 @@ export default function CategoryPage() {
     if (slug) {
       fetchCategoryData();
     }
-  }, [slug, filters, sortBy]);
+  }, [slug, filters, sortBy, t]);
 
   const handleFilters = (newFilters: Partial<ProductFilters>) => {
     setFilters((prev) => ({ ...prev, ...newFilters }));

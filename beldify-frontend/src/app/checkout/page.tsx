@@ -360,17 +360,20 @@ export default function CheckoutPage() {
             !stockAvailable.available_quantity ||
             stockAvailable.available_quantity === 0
           ) {
-            throw new Error(
-              `Item Unavailable: This item is currently out of stock or the requested quantity exceeds our available stock. (${item.product.name})`
+            toast.error(
+              t('checkout.stock.item_unavailable', { name: item.product.name })
             );
+            return;
           }
 
           if (stockAvailable.available_quantity < item.quantity) {
-            throw new Error(
-              `Only ${stockAvailable.available_quantity} item${
-                stockAvailable.available_quantity !== 1 ? 's' : ''
-              } available for ${item.product.name}. Please update your cart.`
+            toast.error(
+              t('checkout.stock.insufficient', {
+                available: stockAvailable.available_quantity,
+                name: item.product.name,
+              })
             );
+            return;
           }
 
           if (stockAvailable.status === 'low_stock') {
@@ -378,16 +381,14 @@ export default function CheckoutPage() {
               `Low stock warning: ${stockAvailable.available_quantity} items remaining for ${item.product.name}`
             );
           }
-        } catch (error: any) {
+        } catch (error) {
           logger.error('Stock validation error:', {
             error,
             item: item.product.name,
             stockId: item.stock_id,
             quantity: item.quantity,
           });
-          toast.error(
-            error.message || 'An error occurred while checking stock availability.'
-          );
+          toast.error(t('checkout.stock.check_failed'));
           return;
         }
       }
@@ -696,6 +697,19 @@ export default function CheckoutPage() {
             )}
           </div>
         ))}
+        {selectedPayment === 'cod' && (
+          <div
+            className="rounded-xl border border-emerald-200 bg-emerald-50/70 p-4 text-sm"
+            role="note"
+          >
+            <p className="font-medium text-emerald-900">
+              {t('checkout.cod_trust.title')}
+            </p>
+            <p className="mt-1 text-emerald-800/90">
+              {t('checkout.cod_trust.subtitle')}
+            </p>
+          </div>
+        )}
       </fieldset>
 
       <div className="mt-8 flex justify-between gap-4">

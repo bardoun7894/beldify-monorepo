@@ -154,7 +154,8 @@
     "viewAll": "Ver todo",
     "items": "artículo",
     "noCategories": "No se encontraron categorías",
-    "topCategories": "Categorías principales"
+    "topCategories": "Categorías principales",
+    "loadingError": "Error al cargar la categoría. Inténtalo de nuevo."
   },
   "bestSellers": {
     "title": "Más vendidos",
@@ -825,6 +826,15 @@
     "success": {
       "order_placed": "¡Tu pedido ha sido realizado exitosamente!",
       "order_placed_redirect": "Pedido realizado. Redirigiendo a tus pedidos..."
+    },
+    "stock": {
+      "item_unavailable": "«{{name}}» está agotado. Por favor, retíralo de tu carrito.",
+      "insufficient": "Solo hay {{available}} de «{{name}}» disponibles. Ajusta la cantidad.",
+      "check_failed": "No pudimos verificar el stock ahora. Inténtalo de nuevo."
+    },
+    "cod_trust": {
+      "title": "Paga en MAD al recibir",
+      "subtitle": "Sin tarjeta · Entrega en 2-5 días hábiles · Devoluciones gratis dentro de 14 días"
     }
   },
   "profile": {
