@@ -41,7 +41,7 @@ export default function PWAReminderBanner() {
 
   return (
     <div
-      className={`fixed bottom-4 left-4 right-4 sm:left-auto sm:right-4 sm:w-80 md:w-96 z-40 transition-all duration-300 ${
+      className={`fixed bottom-4 left-4 right-4 sm:left-auto sm:right-4 rtl:sm:right-auto rtl:sm:left-4 sm:w-80 md:w-96 z-40 transition-all duration-300 ${
         isAnimating ? 'translate-y-0 opacity-100' : 'translate-y-full opacity-0'
       }`}
     >
@@ -53,7 +53,7 @@ export default function PWAReminderBanner() {
           {/* Close button */}
           <button
             onClick={handleDismiss}
-            className="absolute right-2 top-2 rounded-full bg-gray-100 p-1 hover:bg-gray-200 transition-colors"
+            className="absolute right-2 rtl:right-auto rtl:left-2 top-2 rounded-full bg-gray-100 p-1 hover:bg-gray-200 transition-colors"
           >
             <XMarkIcon className="h-3 w-3 sm:h-4 sm:w-4 text-gray-600" />
           </button>

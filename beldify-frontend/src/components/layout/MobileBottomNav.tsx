@@ -34,7 +34,7 @@ export default function MobileBottomNav({ onSearchClick }: MobileBottomNavProps)
     },
     {
       name: t('nav.search', 'Search'),
-      href: '#',
+      href: '/products',
       icon: Search,
       iconSolid: Search,
       onClick: onSearchClick,
