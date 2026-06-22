@@ -50,13 +50,12 @@ export async function GET(
     // Return the data from the backend
     return NextResponse.json(response.data);
   } catch (error: any) {
-    logger.error('Error in category API route:', error);
-    
+    logger.error('Error in category API route:', error?.response?.data || error?.message || error);
+
     const status = error.response?.status || 500;
-    const errorMessage = error.response?.data?.message || 'Failed to fetch category data';
 
     return NextResponse.json(
-      { error: errorMessage },
+      { error: 'Failed to fetch category data' },
       { status: status }
     );
   }

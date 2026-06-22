@@ -759,7 +759,9 @@
     },
     "cod": {
       "pay_on_delivery": "Paiement à la livraison — aucun paiement initial",
-      "delivery_estimate": "Livré en 3 à 5 jours ouvrables. Payez le livreur à la réception de votre commande."
+      "delivery_estimate": "Livré en 3 à 5 jours ouvrables. Payez le livreur à la réception de votre commande.",
+      "fee_label": "Paiement à la livraison",
+      "fee_free": "Gratuit"
     }
   },
   "profile": {

@@ -6,6 +6,7 @@ import { traditionalWearService } from '@/services/traditionalWearService';
 import ProductCard from '../products/ProductCard';
 import LoadingSpinner from '@/components/common/LoadingSpinner';
 import ErrorMessage from '@/components/common/ErrorMessage';
+import logger from '@/utils/consoleLogger';
 
 interface TraditionalWearSectionProps {
   category: 'men' | 'women' | 'children';
@@ -49,7 +50,8 @@ const TraditionalWearSection: React.FC<TraditionalWearSectionProps> = ({
 
       setProducts(response.data);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to fetch products');
+      logger.error('Failed to fetch traditional wear products:', err);
+      setError(t('errors.general', 'An error occurred'));
     } finally {
       setLoading(false);
     }

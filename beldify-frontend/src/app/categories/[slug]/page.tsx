@@ -74,19 +74,7 @@ export default function CategoryDetailPage() {
         setCategoryData(response.data);
       } catch (err: any) {
         logger.error('Error fetching category data:', err);
-        let errorMessage = 'Failed to load category';
-        if (err.response) {
-          if (err.response.data?.error) {
-            errorMessage = err.response.data.error;
-          } else if (err.response.data?.message) {
-            errorMessage = err.response.data.message;
-          } else if (typeof err.response.data === 'string') {
-            errorMessage = err.response.data;
-          }
-        } else if (err.message) {
-          errorMessage = err.message;
-        }
-        setError(errorMessage);
+        setError(t('errors.general', 'An error occurred'));
       } finally {
         setLoading(false);
       }

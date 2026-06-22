@@ -1165,6 +1165,12 @@ export default function CheckoutPage() {
               : '—'}
           </span>
         </div>
+        {selectedPayment === 'cod' && (
+          <div className="flex justify-between">
+            <span className="text-gray-600">{t('checkout.cod.fee_label', 'Cash on delivery')}</span>
+            <span className="text-amber-600 font-medium">{t('checkout.cod.fee_free', 'Free')}</span>
+          </div>
+        )}
         {taxAmount > 0 && (
           <div className="flex justify-between">
             <span className="text-gray-600">{t('checkout.summary.tax', 'Tax')}</span>

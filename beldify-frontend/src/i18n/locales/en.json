@@ -885,7 +885,9 @@
     },
     "cod": {
       "pay_on_delivery": "Pay on delivery — no upfront payment",
-      "delivery_estimate": "Delivered in 3–5 business days. Pay the courier when you receive your order."
+      "delivery_estimate": "Delivered in 3–5 business days. Pay the courier when you receive your order.",
+      "fee_label": "Cash on delivery",
+      "fee_free": "Free"
     }
   },
   "profile": {

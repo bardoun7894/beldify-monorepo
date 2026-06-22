@@ -6,6 +6,7 @@ import { ImageIcon, X, Wallet, Sparkles } from 'lucide-react';
 import { CommunityResponseFormData } from '@/types/community';
 import { useDirection } from '@/hooks/useDirection';
 import LoadingSpinner from '@/components/common/LoadingSpinner';
+import logger from '@/utils/consoleLogger';
 
 interface ResponseFormProps {
   onSubmit: (data: FormData) => Promise<void>;
@@ -100,8 +101,8 @@ export default function ResponseForm({ onSubmit, onCancel, isLoading }: Response
 
       await onSubmit(dataToSubmit);
     } catch (err: any) {
-      console.error('Error submitting response:', err);
-      setError(err.message || t('community.error_submitting_response'));
+      logger.error('Error submitting response:', err);
+      setError(t('community.error_submitting_response', 'Error submitting response'));
     }
   };
 
