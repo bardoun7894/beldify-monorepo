@@ -5,8 +5,8 @@ import { Heart, ShoppingCart, Trash2 } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useWishlist } from '@/contexts/WishlistContext';
+import { useCart } from '@/contexts/CartContext';
 import { useSearchParams } from 'next/navigation';
-import axios from '@/lib/axios';
 import toast from '@/utils/toast';
 import { useState } from 'react';
 import { handleImageError, getImageUrl } from '@/utils/imageUtils';
@@ -19,20 +19,18 @@ export default function WishlistPage() {
   const locale = searchParams?.get('locale') || 'en';
   const isRTL = i18n.language === 'ar' || i18n.language === 'ma';
   const { wishlistItems, isLoading, removeFromWishlist } = useWishlist();
+  const { addItem } = useCart();
   const [imageError, setImageError] = useState<{ [key: number]: boolean }>({});
 
   const handleAddToCart = async (e: React.MouseEvent, productId: number) => {
     e.preventDefault();
     e.stopPropagation();
     try {
-      // TODO: Wishlist add-to-cart needs stock_id or variant_id from product data
-      const response = await axios.post('/api/cart/items', {
-        stock_id: productId, // This should be the actual stock_id, not product_id
-        quantity: 1,
-      });
-      if (response.data.success) {
-        toast.success(t('cart.added_success', 'Added to cart'));
-      }
+      // Routes through CartContext so the user gets centralized stock-validation,
+      // out-of-stock / insufficient-stock toasts, and cart-cache invalidation.
+      // Variant selection isn't possible from the wishlist surface — products
+      // with variants will surface a backend validation toast prompting selection.
+      await addItem(productId, 1);
     } catch (err: any) {
       logger.error('Error adding to cart:', err);
       toast.error(t('errors.something_went_wrong', 'Something went wrong'));
@@ -175,12 +173,18 @@ export default function WishlistPage() {
 
                 <div className="flex items-center justify-between mt-3">
                   <div className="flex items-baseline gap-1.5">
-                    <span className="text-base font-semibold text-indigo-700">
-                      {Number(item.product.price).toFixed(2)} {t('common.currency', 'MAD')}
-                    </span>
-                    {item.product.sale_price && item.product.is_on_sale && (
-                      <span className="text-xs text-gray-400 line-through">
-                        {Number(item.product.sale_price).toFixed(2)}
+                    {item.product.is_on_sale && item.product.sale_price ? (
+                      <>
+                        <span className="text-base font-semibold text-indigo-700">
+                          {Number(item.product.sale_price).toFixed(2)} {t('common.currency', 'MAD')}
+                        </span>
+                        <span className="text-xs text-gray-400 line-through">
+                          {Number(item.product.price).toFixed(2)}
+                        </span>
+                      </>
+                    ) : (
+                      <span className="text-base font-semibold text-indigo-700">
+                        {Number(item.product.price).toFixed(2)} {t('common.currency', 'MAD')}
                       </span>
                     )}
                   </div>

@@ -364,6 +364,10 @@
       "decrease": "Disminuir cantidad",
       "max_limit": "La cantidad máxima disponible es {{max}}"
     },
+    "stock": {
+      "low": "Solo {{remaining}} disponible(s)",
+      "max": "Cantidad máxima alcanzada"
+    },
     "notifications": {
       "removed": "Producto eliminado del carrito",
       "updated": "Cantidad actualizada",

@@ -382,6 +382,10 @@
       "decrease": "نقص لعدد",
       "max_limit": "أكثر عدد ممكن هو {{max}}"
     },
+    "stock": {
+      "low": "بقا غير {{remaining}}",
+      "max": "وصلتي للحد الأقصى"
+    },
     "notifications": {
       "removed": "تحيد لمنتوج من لقفة",
       "updated": "تبدل لعدد",

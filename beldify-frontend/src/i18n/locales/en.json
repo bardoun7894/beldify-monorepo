@@ -434,7 +434,9 @@
       "level": "Stock Level",
       "warning": "Only {{count}} left in stock",
       "max_reached": "Maximum stock reached",
-      "available": "{{count}} available"
+      "available": "{{count}} available",
+      "low": "Only {{remaining}} left",
+      "max": "Max quantity reached"
     },
     "notifications": {
       "removed": "Product removed from cart",
