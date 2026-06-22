@@ -35,7 +35,7 @@ export default function WishlistPage() {
       }
     } catch (err: any) {
       logger.error('Error adding to cart:', err);
-      toast.error(err.response?.data?.message || t('errors.something_went_wrong', 'Something went wrong'));
+      toast.error(t('errors.something_went_wrong', 'Something went wrong'));
     }
   };
 

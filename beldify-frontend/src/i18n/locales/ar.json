@@ -31,6 +31,7 @@
     "items": "عناصر",
     "actions": {
       "save_changes": "حفظ التغييرات",
+      "saving": "جارٍ الحفظ...",
       "tryAgain": "حاول مرة أخرى",
       "search": "بحث",
       "clearFilters": "مسح التصفية",
@@ -404,7 +405,8 @@
       "product_not_found": "المنتج غير موجود",
       "cart_item_not_found": "العنصر غير موجود في السلة",
       "item_not_found": "العنصر غير موجود في السلة",
-      "low_stock_warning": "متبقي {{count}} فقط في المخزون"
+      "low_stock_warning": "متبقي {{count}} فقط في المخزون",
+      "adding_to_cart": "جارٍ الإضافة إلى السلة..."
     },
     "confirmation": {
       "remove": {

@@ -50,7 +50,7 @@ interface CategoryResponse {
 
 export default function CategoryContent({ slug }: CategoryContentProps) {
   const { t, i18n } = useTranslation();
-  const isRTL = i18n.language === 'ar';
+  const isRTL = i18n.language === 'ar' || i18n.language === 'ma';
   const router = useRouter();
   const [sortBy, setSortBy] = useState('featured');
   const [showFilters, setShowFilters] = useState(false);

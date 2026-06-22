@@ -13,6 +13,7 @@
     "select_option": "ختار شي وحدة",
     "actions": {
       "save_changes": "سجل تعديلات",
+      "saving": "كنسجل...",
       "tryAgain": "عاود جرب",
       "search": "قلب",
       "clearFilters": "مسح لفيلتراج",
@@ -377,7 +378,8 @@
       "product_not_found": "لمنتوج ماكاينش",
       "cart_item_not_found": "هاد لحاجة ماكايناش فلقفة",
       "item_not_found": "هاد لحاجة ماكايناش فلقفة",
-      "low_stock_warning": "بقا غير {{count}} فلستوك"
+      "low_stock_warning": "بقا غير {{count}} فلستوك",
+      "adding_to_cart": "كنزيدو فلپانيي..."
     },
     "confirmation": {
       "remove": {

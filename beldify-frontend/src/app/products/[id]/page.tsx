@@ -873,7 +873,7 @@ export default function ProductDetailsPage() {
       }
 
       // Show loading toast
-      const loadingToast = toast.loading('Adding to cart...');
+      const loadingToast = toast.loading(t('cart.toasts.adding_to_cart', 'Adding to cart...'));
 
       try {
         // Add item to cart with variant ID as string

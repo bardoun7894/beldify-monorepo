@@ -19,7 +19,7 @@ export default function OrderConfirmationPage() {
   const [order, setOrder] = useState<Order | null>(null);
   const [loading, setLoading] = useState(true);
   const { triggerOnOrderComplete } = usePWATriggers();
-  const isRTL = i18n.language === 'ar';
+  const isRTL = i18n.language === 'ar' || i18n.language === 'ma';
 
   const formatAmount = (amount: number) =>
     new Intl.NumberFormat(i18n.language, {

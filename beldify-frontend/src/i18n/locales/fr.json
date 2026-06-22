@@ -11,7 +11,8 @@
     "currency": "MAD",
     "select_option": "Sélectionner une option",
     "actions": {
-      "save_changes": "Enregistrer les modifications"
+      "save_changes": "Enregistrer les modifications",
+      "saving": "Enregistrement..."
     },
     "notifications": {
       "changes_saved": "Modifications enregistrées avec succès",
@@ -293,7 +294,8 @@
       "product_not_found": "Produit introuvable",
       "cart_item_not_found": "Article du panier introuvable",
       "item_not_found": "Article introuvable dans le panier",
-      "low_stock_warning": "Seulement {{count}} en stock"
+      "low_stock_warning": "Seulement {{count}} en stock",
+      "adding_to_cart": "Ajout au panier..."
     },
     "confirmation": {
       "remove": {

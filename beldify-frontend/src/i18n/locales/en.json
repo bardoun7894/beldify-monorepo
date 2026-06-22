@@ -28,6 +28,7 @@
     "items": "items",
     "actions": {
       "save_changes": "Save changes",
+      "saving": "Saving...",
       "tryAgain": "Try again",
       "search": "Search",
       "clearFilters": "Clear Filters",
@@ -431,7 +432,8 @@
       "product_not_found": "Product not found",
       "cart_item_not_found": "Cart item not found",
       "item_not_found": "Item not found in cart",
-      "low_stock_warning": "Only {{count}} items left in stock"
+      "low_stock_warning": "Only {{count}} items left in stock",
+      "adding_to_cart": "Adding to cart..."
     },
     "confirmation": {
       "remove": {

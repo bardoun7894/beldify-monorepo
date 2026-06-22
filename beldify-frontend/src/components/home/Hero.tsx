@@ -71,7 +71,7 @@ const deals = [
 
 export default function Hero() {
   const { t, i18n } = useTranslation();
-  const isRTL = i18n.language === 'ar';
+  const isRTL = i18n.language === 'ar' || i18n.language === 'ma';
 
   return (
     <div className="bg-amber-50/40 py-6">

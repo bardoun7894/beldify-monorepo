@@ -12,6 +12,7 @@
     "select_option": "Seleccione una opción",
     "actions": {
       "save_changes": "Guardar cambios",
+      "saving": "Guardando...",
       "tryAgain": "Intentar de nuevo",
       "search": "Buscar",
       "clearFilters": "Limpiar filtros",
@@ -359,7 +360,8 @@
       "product_not_found": "Producto no encontrado",
       "cart_item_not_found": "Artículo del carrito no encontrado",
       "item_not_found": "Artículo no encontrado en el carrito",
-      "low_stock_warning": "Solo quedan {{count}} en stock"
+      "low_stock_warning": "Solo quedan {{count}} en stock",
+      "adding_to_cart": "Añadiendo al carrito..."
     },
     "confirmation": {
       "remove": {

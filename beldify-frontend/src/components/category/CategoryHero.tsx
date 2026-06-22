@@ -37,7 +37,7 @@ export default function CategoryHero({
   featuredProducts = [],
 }: CategoryHeroProps) {
   const { t, i18n } = useTranslation();
-  const isRTL = i18n.language === 'ar';
+  const isRTL = i18n.language === 'ar' || i18n.language === 'ma';
 
   return (
     <div className="bg-gray-100">

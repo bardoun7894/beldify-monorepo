@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
-import { toast } from 'react-hot-toast';
+import toast from '@/utils/toast';
 import { FiUser, FiMapPin, FiTruck } from 'react-icons/fi';
 import { useTranslation } from 'react-i18next';
 import logger from '@/utils/consoleLogger';
@@ -219,7 +219,7 @@ export default function GeneralSettings() {
           disabled={loading}
           className="px-4 py-2 bg-amber-500 text-white rounded-lg text-sm font-medium hover:bg-amber-600 transition-colors disabled:opacity-50"
         >
-          {loading ? t('common:saving') : t('common:save_changes')}
+          {loading ? t('actions.saving', { ns: 'common' }) : t('actions.save_changes', { ns: 'common' })}
         </button>
       </div>
     </form>

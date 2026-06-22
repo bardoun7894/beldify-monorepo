@@ -29,7 +29,7 @@ export default function CategoryHeader({
   onSort,
 }: CategoryHeaderProps) {
   const { t, i18n } = useTranslation();
-  const isRTL = i18n.language === 'ar';
+  const isRTL = i18n.language === 'ar' || i18n.language === 'ma';
   const [showAllSubcategories, setShowAllSubcategories] = useState(false);
 
   // Show only 6 subcategories initially, show all when "View More" is clicked
