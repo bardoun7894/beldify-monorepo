@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { getRecentMessages } from '@/services/messagingService';
@@ -56,93 +56,87 @@ export default function MessagesPage() {
   const { t } = useTranslation();
   const { isRTL } = useDirection();
 
-  useEffect(() => {
-    const fetchConversations = async () => {
-      setIsLoading(true);
-      try {
-        const messages = await getRecentMessages() as ExtendedMessage[];
-        
-        // Debug log to see what we're getting from the API
-        if (process.env.NODE_ENV === 'development') {
-          logger.log('Messages received:', messages);
-          logger.log('Messages count:', messages.length);
-          if (messages.length > 0) {
-            logger.log('Sample message structure:', JSON.stringify(messages[0], null, 2));
-          } else {
-            logger.log('No messages received from API');
-          }
-        }
-        
-        // Group messages by shop/sender
-        const conversationMap = new Map<string, ExtendedMessage>();
-        
-        messages.forEach(message => {
-          // Try to extract shop ID from various possible properties
-          // For the new API format, we use the message ID as the key if shop ID is not available
-          const shopId = message.shop_id || message.shopId || 
-                        (message.shop && message.shop.id) || 
-                        message.receiver_id || 
-                        message.id; // Use message ID as fallback
-          
-          if (!shopId) {
-            logger.warn('Message missing both shop ID and message ID:', message);
-            return;
-          }
-          
-          const key = String(shopId);
-          
-          // Debug which shop/conversation IDs we're processing
-          if (process.env.NODE_ENV === 'development') {
-            logger.log(`Processing message for conversation ID: ${key}`);
-          }
-          
-          // Only keep the most recent message for each conversation
-          const messageDate = new Date(message.createdAt || message.created_at || 
-                                      (message.last_message && message.last_message.created_at) || 
-                                      message.updated_at || Date.now());
-          const existingMessage = conversationMap.get(key);
-          const existingDate = conversationMap.has(key) && existingMessage ? 
-            new Date(existingMessage.createdAt || 
-                    existingMessage.created_at || 
-                    (existingMessage.last_message && existingMessage.last_message.created_at) || 
-                    existingMessage.updated_at || 
-                    0) : new Date(0);
-          
-          if (!conversationMap.has(key) || messageDate > existingDate) {
-            conversationMap.set(key, message);
-          }
-        }); 
-        
-        // Convert map to array and sort by date (newest first)
-        const sortedConversations = Array.from(conversationMap.values())
-          .sort((a, b) => {
-            const dateA = new Date(a.createdAt || a.created_at || a.updated_at || 0);
-            const dateB = new Date(b.createdAt || b.created_at || b.updated_at || 0);
-            return dateB.getTime() - dateA.getTime();
-          });
-        
-        if (process.env.NODE_ENV === 'development') {
-          logger.log('Sorted conversations:', sortedConversations.length);
-        }
-        
-        setConversations(sortedConversations);
-        
-        // Refresh the unread count after loading conversations
-        refreshUnreadCount();
-      } catch (error) {
-        logger.error('Error fetching conversations:', error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
+  const fetchTokenRef = useRef(0);
 
+  const fetchConversations = useCallback(async () => {
+    const token = ++fetchTokenRef.current;
+    setIsLoading(true);
+    try {
+      const messages = await getRecentMessages() as ExtendedMessage[];
+      if (token !== fetchTokenRef.current) return;
+
+      if (process.env.NODE_ENV === 'development') {
+        logger.log('Messages received:', messages);
+        logger.log('Messages count:', messages.length);
+        if (messages.length > 0) {
+          logger.log('Sample message structure:', JSON.stringify(messages[0], null, 2));
+        } else {
+          logger.log('No messages received from API');
+        }
+      }
+
+      const conversationMap = new Map<string, ExtendedMessage>();
+
+      messages.forEach(message => {
+        const shopId = message.shop_id || message.shopId ||
+                      (message.shop && message.shop.id) ||
+                      message.receiver_id ||
+                      message.id;
+
+        if (!shopId) {
+          logger.warn('Message missing both shop ID and message ID:', message);
+          return;
+        }
+
+        const key = String(shopId);
+
+        if (process.env.NODE_ENV === 'development') {
+          logger.log(`Processing message for conversation ID: ${key}`);
+        }
+
+        const messageDate = new Date(message.createdAt || message.created_at ||
+                                    (message.last_message && message.last_message.created_at) ||
+                                    message.updated_at || Date.now());
+        const existingMessage = conversationMap.get(key);
+        const existingDate = conversationMap.has(key) && existingMessage ?
+          new Date(existingMessage.createdAt ||
+                  existingMessage.created_at ||
+                  (existingMessage.last_message && existingMessage.last_message.created_at) ||
+                  existingMessage.updated_at ||
+                  0) : new Date(0);
+
+        if (!conversationMap.has(key) || messageDate > existingDate) {
+          conversationMap.set(key, message);
+        }
+      });
+
+      const sortedConversations = Array.from(conversationMap.values())
+        .sort((a, b) => {
+          const dateA = new Date(a.createdAt || a.created_at || a.updated_at || 0);
+          const dateB = new Date(b.createdAt || b.created_at || b.updated_at || 0);
+          return dateB.getTime() - dateA.getTime();
+        });
+
+      if (process.env.NODE_ENV === 'development') {
+        logger.log('Sorted conversations:', sortedConversations.length);
+      }
+
+      setConversations(sortedConversations);
+      refreshUnreadCount();
+    } catch (error) {
+      logger.error('Error fetching conversations:', error);
+    } finally {
+      if (token === fetchTokenRef.current) setIsLoading(false);
+    }
+  }, [refreshUnreadCount]);
+
+  useEffect(() => {
     if (isAuthenticated) {
       fetchConversations();
     } else {
-      // Redirect to login if not authenticated
       router.push('/login?redirect=/community/messages');
     }
-  }, [isAuthenticated, router, refreshUnreadCount]);
+  }, [isAuthenticated, router, fetchConversations]);
 
   const formatMessageDate = (dateString?: string) => {
     if (!dateString) return '';
@@ -276,7 +270,7 @@ export default function MessagesPage() {
                   </div>
                 </div>
                 <button
-                  onClick={() => window.location.reload()}
+                  onClick={fetchConversations}
                   className="inline-flex items-center gap-2 px-4 py-2.5 min-h-[44px] text-sm font-medium text-gray-700 ring-1 ring-amber-200 rounded-full hover:ring-amber-300 hover:bg-amber-50 transition-all duration-200"
                 >
                   <RefreshCw size={14} />

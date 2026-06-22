@@ -72,6 +72,7 @@ export default function CommunityPage() {
 
   // Fetch user's own posts when user is authenticated
   useEffect(() => {
+    let ignore = false;
     const fetchUserPosts = async () => {
       if (!isAuthenticated || !user) {
         logger.log('User not authenticated or user object missing');
@@ -126,7 +127,7 @@ export default function CommunityPage() {
         });
 
         logger.log('Filtered posts:', filteredPosts.length);
-        setUserPosts(filteredPosts);
+        if (!ignore) setUserPosts(filteredPosts);
 
         try {
           const token = localStorage.getItem('token');
@@ -144,7 +145,7 @@ export default function CommunityPage() {
             if (data.data && data.data.length > 0) {
               const existingPostIds = new Set(filteredPosts.map((p: CommunityPost) => p.id));
               const newPosts = data.data.filter((p: CommunityPost) => !existingPostIds.has(p.id));
-              if (newPosts.length > 0) {
+              if (newPosts.length > 0 && !ignore) {
                 setUserPosts([...filteredPosts, ...newPosts]);
                 logger.log('Added additional posts from API:', newPosts.length);
               }
@@ -158,11 +159,12 @@ export default function CommunityPage() {
       } catch (err) {
         logger.error('Error fetching user posts:', err);
       } finally {
-        setLoadingUserPosts(false);
+        if (!ignore) setLoadingUserPosts(false);
       }
     };
 
     fetchUserPosts();
+    return () => { ignore = true; };
   }, [isAuthenticated, user]);
 
   const handlePageChange = (page: number) => {

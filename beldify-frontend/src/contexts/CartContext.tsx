@@ -48,6 +48,7 @@ interface CartContextType {
   state: CartState | null;
   loading: boolean;
   isInitialLoading: boolean;
+  cartItemCount: number;
   addItem: (id: number, quantity: number, type?: 'stock' | 'variant') => Promise<void>;
   updateQuantity: (itemId: number, quantity: number) => Promise<void>;
   removeFromCart: (itemId: number) => Promise<void>;
@@ -402,10 +403,13 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     fetchCart();
   }, []);
 
+  const cartItemCount = state?.items?.reduce((sum, item) => sum + item.quantity, 0) ?? 0;
+
   const value = {
     state,
     loading,
     isInitialLoading,
+    cartItemCount,
     addItem,
     updateQuantity,
     removeFromCart,
