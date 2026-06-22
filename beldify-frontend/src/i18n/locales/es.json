@@ -115,7 +115,17 @@
     "register_with_google_failed": "El registro con Google falló. Inténtalo de nuevo.",
     "registration_success": "¡Registro exitoso! Bienvenido a Beldify.",
     "registration_failed": "El registro falló. Por favor revisa tus datos e inténtalo de nuevo.",
-    "action_failed_retry": "No se pudo completar la acción. Por favor intenta de nuevo."
+    "action_failed_retry": "No se pudo completar la acción. Por favor intenta de nuevo.",
+    "logout_success": "Has cerrado sesión.",
+    "google_register_success": "Cuenta creada con Google.",
+    "google_login_existing_account": "Sesión iniciada con tu cuenta existente.",
+    "google_email_already_exists": "Ya existe una cuenta con este correo. Por favor inicia sesión.",
+    "profile_updated": "Perfil actualizado.",
+    "profile_update_failed": "No se pudo actualizar el perfil. Inténtalo de nuevo.",
+    "password_updated": "Contraseña actualizada.",
+    "password_update_failed": "No se pudo actualizar la contraseña. Inténtalo de nuevo.",
+    "preferences_updated": "Preferencias guardadas.",
+    "preferences_update_failed": "No se pudieron guardar las preferencias. Inténtalo de nuevo."
   },
   "navigation": {
     "home": "Inicio",
@@ -1791,7 +1801,15 @@
     "add_to_cart": "Añadir al carrito",
     "remove": "Eliminar de la lista",
     "items_count_one": "{{count}} artículo",
-    "items_count_other": "{{count}} artículos"
+    "items_count_other": "{{count}} artículos",
+    "toasts": {
+      "fetch_failed": "No se pudo cargar tu lista. Inténtalo de nuevo.",
+      "login_required_add": "Inicia sesión para añadir artículos a tu lista.",
+      "login_required_manage": "Inicia sesión para gestionar tu lista.",
+      "already_in_wishlist": "Este artículo ya está en tu lista.",
+      "add_failed": "No se pudo añadir el artículo. Inténtalo de nuevo.",
+      "remove_failed": "No se pudo eliminar el artículo. Inténtalo de nuevo."
+    }
   },
   "account": {
     "wishlist": {

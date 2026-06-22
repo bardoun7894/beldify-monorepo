@@ -121,7 +121,7 @@ export default function LoginPage() {
       const result = await login(formData.email, formData.password);
 
       if (!result.success) {
-        toast.error(result.message || t('auth.login_error'));
+        toast.error(t('auth.login_error'));
         return;
       }
 

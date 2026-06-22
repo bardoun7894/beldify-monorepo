@@ -134,7 +134,17 @@
     "register_with_google_failed": "Registration with Google failed. Please try again.",
     "registration_success": "Registration successful! Welcome to Beldify.",
     "registration_failed": "Registration failed. Please check your details and try again.",
-    "action_failed_retry": "Failed to complete action. Please try again."
+    "action_failed_retry": "Failed to complete action. Please try again.",
+    "logout_success": "You have been signed out.",
+    "google_register_success": "Account created with Google.",
+    "google_login_existing_account": "Signed in with your existing account.",
+    "google_email_already_exists": "An account with this email already exists. Please sign in instead.",
+    "profile_updated": "Profile updated.",
+    "profile_update_failed": "Could not update your profile. Please try again.",
+    "password_updated": "Password updated.",
+    "password_update_failed": "Could not update your password. Please try again.",
+    "preferences_updated": "Preferences saved.",
+    "preferences_update_failed": "Could not save your preferences. Please try again."
   },
   "navigation": {
     "home": "Home",
@@ -2141,7 +2151,15 @@
     "add_to_cart": "Add to Cart",
     "remove": "Remove from Wishlist",
     "items_count_one": "{{count}} item",
-    "items_count_other": "{{count}} items"
+    "items_count_other": "{{count}} items",
+    "toasts": {
+      "fetch_failed": "Could not load your wishlist. Please try again.",
+      "login_required_add": "Please sign in to add items to your wishlist.",
+      "login_required_manage": "Please sign in to manage your wishlist.",
+      "already_in_wishlist": "This item is already in your wishlist.",
+      "add_failed": "Could not add the item to your wishlist. Please try again.",
+      "remove_failed": "Could not remove the item from your wishlist. Please try again."
+    }
   },
   "account": {
     "wishlist": {

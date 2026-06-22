@@ -105,7 +105,17 @@
     "register_with_google_failed": "L'inscription avec Google a échoué. Veuillez réessayer.",
     "registration_success": "Inscription réussie ! Bienvenue chez Beldify.",
     "registration_failed": "L'inscription a échoué. Veuillez vérifier vos informations et réessayer.",
-    "action_failed_retry": "L'action n'a pas pu être terminée. Veuillez réessayer."
+    "action_failed_retry": "L'action n'a pas pu être terminée. Veuillez réessayer.",
+    "logout_success": "Vous êtes déconnecté(e).",
+    "google_register_success": "Compte créé avec Google.",
+    "google_login_existing_account": "Connexion avec votre compte existant.",
+    "google_email_already_exists": "Un compte avec cet e-mail existe déjà. Veuillez vous connecter.",
+    "profile_updated": "Profil mis à jour.",
+    "profile_update_failed": "Impossible de mettre à jour le profil. Veuillez réessayer.",
+    "password_updated": "Mot de passe mis à jour.",
+    "password_update_failed": "Impossible de mettre à jour le mot de passe. Veuillez réessayer.",
+    "preferences_updated": "Préférences enregistrées.",
+    "preferences_update_failed": "Impossible d'enregistrer les préférences. Veuillez réessayer."
   },
   "navigation": {
     "home": "Accueil",
@@ -1719,7 +1729,15 @@
     "add_to_cart": "Ajouter au panier",
     "remove": "Retirer de la liste",
     "items_count_one": "{{count}} article",
-    "items_count_other": "{{count}} articles"
+    "items_count_other": "{{count}} articles",
+    "toasts": {
+      "fetch_failed": "Impossible de charger votre liste. Veuillez réessayer.",
+      "login_required_add": "Veuillez vous connecter pour ajouter des articles à votre liste.",
+      "login_required_manage": "Veuillez vous connecter pour gérer votre liste.",
+      "already_in_wishlist": "Cet article est déjà dans votre liste.",
+      "add_failed": "Impossible d'ajouter l'article. Veuillez réessayer.",
+      "remove_failed": "Impossible de retirer l'article. Veuillez réessayer."
+    }
   },
   "account": {
     "wishlist": {

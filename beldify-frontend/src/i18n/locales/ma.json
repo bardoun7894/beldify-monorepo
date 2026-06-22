@@ -132,7 +132,17 @@
     "register_with_google_failed": "ما تقدش تسجل بـ Google. عافاك عاود حاول.",
     "registration_success": "تسجلتي بنجاح! مرحبا بيك ف بلديفاي.",
     "registration_failed": "ما نجحش التسجيل. شوف لمعلومات وعاود جرب.",
-    "action_failed_retry": "ما نجحناش نكملو لعملية. عاود جرب."
+    "action_failed_retry": "ما نجحناش نكملو لعملية. عاود جرب.",
+    "logout_success": "خرجتي من الحساب.",
+    "google_register_success": "تخلق الحساب ب Google.",
+    "google_login_existing_account": "دخلتي بحساب اللي عندك من قبل.",
+    "google_email_already_exists": "كاين حساب بهاد لإيميل. عافاك دخل بداك الحساب.",
+    "profile_updated": "تبدل البروفيل.",
+    "profile_update_failed": "ما تقدش تبدل البروفيل. عاود حاول.",
+    "password_updated": "تبدل لكلمة السر.",
+    "password_update_failed": "ما تقدش تبدل كلمة السر. عاود حاول.",
+    "preferences_updated": "تسجلو لخيارات.",
+    "preferences_update_failed": "ما تقدش تسجل لخيارات. عاود حاول."
   },
   "navigation": {
     "home": "الرئيسية",
@@ -1723,7 +1733,15 @@
     "add_to_cart": "زيد للقفة",
     "remove": "حيّد من ولاعتك",
     "items_count_one": "حاجة واحدة",
-    "items_count_other": "{{count}} حوايج"
+    "items_count_other": "{{count}} حوايج",
+    "toasts": {
+      "fetch_failed": "ما تقدش تحمل ولاعتك. عاود حاول.",
+      "login_required_add": "عافاك دخل باش تزيد لولاعتك.",
+      "login_required_manage": "عافاك دخل باش تدير ولاعتك.",
+      "already_in_wishlist": "هاد الحاجة راها ف ولاعتك.",
+      "add_failed": "ما تقدش تزيد الحاجة. عاود حاول.",
+      "remove_failed": "ما تقدش تحيّد الحاجة. عاود حاول."
+    }
   },
   "account": {
     "wishlist": {

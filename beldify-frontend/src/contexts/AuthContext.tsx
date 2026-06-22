@@ -2,6 +2,7 @@
 
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
+import { useTranslation } from 'react-i18next';
 import axios from '@/lib/axios';
 import toast from '@/utils/toast';
 import logger from '@/utils/consoleLogger';
@@ -56,6 +57,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
+  const { t } = useTranslation();
 
   // Initialize axios with stored token
   useEffect(() => {
@@ -347,7 +349,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         }
 
         toast.debug('Login response received successfully');
-        toast.success('Successfully logged in');
+        toast.success(t('auth.login_success'));
 
         return { success: true, data: user, message: 'Login successful' };
       }
@@ -368,9 +370,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       // Log the error details in debug mode only
       toast.debug(`Login error: ${error.message}`);
       logger.error('Login failed:', error.response || error);
-      const message = error.response?.data?.message || 'Login failed';
-      toast.error(message);
-      return { success: false, message };
+      toast.error(t('auth.login_error'));
+      return { success: false, message: t('auth.login_error') };
     } finally {
       setLoading(false);
     }
@@ -487,7 +488,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         setIsAuthenticated(true);
         await checkAuth(false); // Re-check auth to ensure profile is fresh after registration
         toast.debug('Registration successful');
-        toast.success(response.data.message);
+        toast.success(t('auth.registration_success'));
         return { success: true, data: null, message: response.data.message };
       }
 
@@ -526,7 +527,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       logger.error('Logout failed:', error);
     } finally {
       await handleAuthError(); // Ensure local state is cleared
-      toast.success('Successfully logged out');
+      toast.success(t('auth.logout_success'));
       // No need to call checkAuth() here as handleAuthError already sets user to null and isAuthenticated to false.
       // The next navigation or app interaction will rely on this cleared state.
     }
@@ -538,14 +539,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
       if (response.data.status === 'success') {
         setUser(response.data.user);
-        toast.success(response.data.message);
+        toast.success(t('auth.profile_updated'));
         return { success: true };
       }
 
       return { success: false, message: response.data.message };
     } catch (error: any) {
       logger.error('Profile update failed:', error);
-      const message = error.response?.data?.message || 'Failed to update profile';
+      const message = t('auth.profile_update_failed');
       toast.error(message);
       return { success: false, message };
     }
@@ -556,14 +557,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       const response = await axios.post('/api/user/password', data);
 
       if (response.data.status === 'success') {
-        toast.success(response.data.message);
+        toast.success(t('auth.password_updated'));
         return { success: true };
       }
 
       return { success: false, message: response.data.message };
     } catch (error: any) {
       logger.error('Password update failed:', error);
-      const message = error.response?.data?.message || 'Failed to update password';
+      const message = t('auth.password_update_failed');
       toast.error(message);
       return { success: false, message };
     }
@@ -575,14 +576,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
       if (response.data.status === 'success') {
         setUser(response.data.user);
-        toast.success(response.data.message);
+        toast.success(t('auth.preferences_updated'));
         return { success: true };
       }
 
       return { success: false, message: response.data.message };
     } catch (error: any) {
       logger.error('Preferences update failed:', error);
-      const message = error.response?.data?.message || 'Failed to update preferences';
+      const message = t('auth.preferences_update_failed');
       toast.error(message);
       return { success: false, message };
     }
@@ -678,7 +679,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
           setUser(user);
           setIsAuthenticated(true);
-          toast.success('Google authentication successful!');
+          toast.success(t('auth.google_login_success'));
           await checkAuth(false);
           return { success: true };
         }
@@ -714,7 +715,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
             setUser(user);
             setIsAuthenticated(true);
-            toast.success('Google registration successful!');
+            toast.success(t('auth.google_register_success'));
             await checkAuth(false);
             return { success: true };
           } else {
@@ -736,7 +737,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
                 axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
                 setUser(user);
                 setIsAuthenticated(true);
-                toast.success('Logged in with existing account');
+                toast.success(t('auth.google_login_existing_account'));
                 await checkAuth(false);
                 return { success: true };
               }
@@ -746,17 +747,17 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
             return {
               success: false,
-              message: 'An account with this email already exists. Please log in instead.'
+              message: t('auth.google_email_already_exists')
             };
           }
           throw registerError;
         }
       }
 
-      return { success: false, message: 'Authentication failed' };
+      return { success: false, message: t('auth.google_login_failed') };
     } catch (error: any) {
       logger.error('Google auth failed:', error.response || error);
-      const message = error.response?.data?.message || error.message || 'Google authentication failed';
+      const message = t('auth.google_login_failed');
       toast.error(message);
       return { success: false, message };
     }
