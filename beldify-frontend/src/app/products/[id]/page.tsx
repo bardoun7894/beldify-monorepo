@@ -1494,10 +1494,12 @@ export default function ProductDetailsPage() {
               </button>
             </div>
             {selectedVariant && (
-              <span className="text-xs text-gray-500">
-                {selectedVariant.quantity > 0
-                  ? `${selectedVariant.quantity} ${t('stock.available', 'available')}`
-                  : t('stock.out_of_stock', 'Out of stock')}
+              <span className={`text-xs ${selectedVariant.quantity > 0 && selectedVariant.quantity <= 10 ? 'text-amber-700 font-semibold' : 'text-gray-500'}`}>
+                {selectedVariant.quantity <= 0
+                  ? t('stock.out_of_stock', 'Out of stock')
+                  : selectedVariant.quantity <= 10
+                    ? t('stock.low_stock', 'Only {{count}} left!', { count: selectedVariant.quantity })
+                    : `${selectedVariant.quantity} ${t('stock.available', 'available')}`}
               </span>
             )}
           </div>

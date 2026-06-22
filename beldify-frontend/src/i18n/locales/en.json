@@ -356,6 +356,7 @@
   },
   "stock": {
     "in_stock": "In stock ({{count}})",
+    "low_stock": "Only {{count}} left!",
     "out_of_stock": "Out of stock",
     "unavailable_short": "N/A",
     "exceeded": "Exceeded available quantity",

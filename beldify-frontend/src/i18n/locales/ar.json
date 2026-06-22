@@ -312,6 +312,7 @@
   },
   "stock": {
     "in_stock": "متوفر في المخزون ({{count}})",
+    "low_stock": "{{count}} فقط متبقية!",
     "out_of_stock": "نفذ من المخزون",
     "unavailable_short": "غ/م",
     "exceeded": "تجاوزت الكمية المتوفرة",

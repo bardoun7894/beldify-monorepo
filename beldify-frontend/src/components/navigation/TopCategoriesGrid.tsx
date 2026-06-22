@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next';
 import { Category } from '@/types/category';
 import { fetchCategories } from '@/lib/api';
 import { ChevronRight } from 'lucide-react';
+import logger from '@/utils/consoleLogger';
 
 interface TopCategoriesGridProps {
   maxCategories?: number;
@@ -29,7 +30,7 @@ const TopCategoriesGrid: React.FC<TopCategoriesGridProps> = ({
           setCategories(data.slice(0, maxCategories));
         }
       } catch (error) {
-        console.error('Failed to load categories:', error);
+        logger.error('Failed to load categories:', error);
       } finally {
         setLoading(false);
       }

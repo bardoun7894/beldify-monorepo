@@ -6,6 +6,7 @@ import { Product } from '@/lib/types';
 import ProductCard from '@/components/products/ProductCard';
 import { productService, cartService } from '@/services/api';
 import { cn } from '@/utils/classNames';
+import logger from '@/utils/consoleLogger';
 
 interface RelatedProductsProps {
   productId?: string;
@@ -46,7 +47,7 @@ const RelatedProducts: React.FC<RelatedProductsProps> = ({
         
         setProducts(data.products || []);
       } catch (error) {
-        console.error('Error fetching related products:', error);
+        logger.error('Error fetching related products:', error);
         setProducts([]);
       } finally {
         setLoading(false);

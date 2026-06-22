@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { fetchCategories } from '@/lib/api';
 import SubcategoriesGrid from '@/components/home/SubcategoriesGrid';
 import { Category } from '@/types/category';
+import logger from '@/utils/consoleLogger';
 
 const TopCategoriesSection: React.FC = () => {
   const [categories, setCategories] = useState<Category[]>([]);
@@ -32,7 +33,7 @@ const TopCategoriesSection: React.FC = () => {
         // Get top subcategories (limit to 16 for better UI)
         setSubcategories(uniqueSubcategories.slice(0, 16));
       } catch (error) {
-        console.error('Failed to load categories:', error);
+        logger.error('Failed to load categories:', error);
       } finally {
         setLoading(false);
       }
