@@ -15,18 +15,13 @@ export default function FloatingSupportButton() {
 
   const supportOptions = [
     {
-      icon: ChatBubbleLeftRightIcon,
-      label: 'Live Chat',
-      action: () => alert('Live chat will be implemented soon!')
-    },
-    {
       icon: PhoneIcon,
-      label: 'Call Us',
-      action: () => window.open('tel:+212XXXXXXXX')
+      label: t('support.call_us', 'اتصل بنا'),
+      action: () => window.open('tel:+212522XXXXXX')
     },
     {
       icon: EnvelopeIcon,
-      label: 'Email',
+      label: t('support.email_us', 'راسلنا'),
       action: () => window.open('mailto:support@beldify.com')
     }
   ];

@@ -113,6 +113,7 @@ export default function CategoriesPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [selectedGender, setSelectedGender] = useState<string>('All');
+  const [retryKey, setRetryKey] = useState(0);
 
   const isRTL = i18n.language === 'ar' || i18n.language === 'ma';
 
@@ -144,7 +145,8 @@ export default function CategoriesPage() {
     };
 
     fetchFilteredCategories();
-  }, [t, selectedGender]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedGender, retryKey]);
 
   if (loading) {
     return (
@@ -168,7 +170,7 @@ export default function CategoriesPage() {
             {t('catalog.categories.error_description', "تعذّر تحميل التصنيفات. يرجى المحاولة مجدداً.")}
           </p>
           <button
-            onClick={() => window.location.reload()}
+            onClick={() => setRetryKey(k => k + 1)}
             className="inline-flex items-center gap-2 rounded-full bg-indigo-700 px-7 py-3 text-sm font-semibold text-white hover:bg-indigo-800 transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-700/30 focus:ring-offset-2"
             aria-label={t('common.try_again', 'حاول مجدداً')}
           >

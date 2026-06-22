@@ -48,6 +48,7 @@ export default function OrdersPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [reorderingId, setReorderingId] = useState<string | null>(null);
+  const [retryKey, setRetryKey] = useState(0);
   const { t, i18n } = useTranslation();
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -163,7 +164,8 @@ export default function OrdersPage() {
     };
 
     fetchOrders();
-  }, [i18n.language, t]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [i18n.language, retryKey]);
 
   // Filter and search logic
   const filteredOrders = useMemo(() => {
@@ -232,7 +234,7 @@ export default function OrdersPage() {
           </h2>
           <p className="text-gray-600 mb-8">{error}</p>
           <button
-            onClick={() => window.location.reload()}
+            onClick={() => setRetryKey(k => k + 1)}
             className="w-full px-6 py-3 bg-indigo-700 text-white rounded-2xl hover:bg-indigo-800 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-atlas-md font-medium focus:ring-2 focus:ring-indigo-700/30 focus:outline-none"
           >
             {t('orders.actions.try_again')}
