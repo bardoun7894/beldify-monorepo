@@ -203,13 +203,13 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       // Input validation
       if (isNaN(validId) || validId <= 0) {
         logger.log(`Invalid product ID: ${validId}`);
-        toast.error('Invalid product ID');
+        toast.error(t('cart.toasts.invalid_product', 'Invalid product'));
         return;
       }
-      
+
       if (isNaN(validQuantity) || validQuantity < 1) {
         logger.log(`Invalid quantity: ${validQuantity}`);
-        toast.error('Quantity must be at least 1');
+        toast.error(t('cart.toasts.invalid_quantity', 'Quantity must be at least 1'));
         return;
       }
 
@@ -219,13 +219,13 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       } catch (error: any) {
         // Handle specific stock-related errors
         if (error.response?.data?.type === 'out_of_stock') {
-          toast.error('This product is currently out of stock');
+          toast.error(t('cart.toasts.out_of_stock', 'This product is currently out of stock'));
           return;
         } else if (error.response?.data?.type === 'insufficient_stock') {
-          toast.error(error.response.data.message || 'Not enough stock available');
+          toast.error(t('cart.toasts.insufficient_stock', 'Not enough stock available'));
           return;
         } else if (error.response?.data?.type === 'stock_check_failed') {
-          toast.error('Unable to verify product availability. Please try again.');
+          toast.error(t('cart.toasts.stock_check_failed', 'Unable to verify product availability. Please try again.'));
           return;
         }
         // Re-throw other errors to be caught by the outer catch block
@@ -243,9 +243,9 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
         if (totalQuantity > existingItem.product.stock_quantity) {
           if (remainingStock <= 0) {
-            toast.error('This item is out of stock');
+            toast.error(t('cart.toasts.out_of_stock', 'This product is currently out of stock'));
           } else {
-            toast.error(`Cannot add ${validQuantity} items. Only ${remainingStock} more available in stock`);
+            toast.error(t('cart.toasts.exceeds_stock', { count: remainingStock, defaultValue: 'Only {{count}} more available in stock' }));
           }
           return;
         }
@@ -261,27 +261,20 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       if (response.status === 'success') {
         await invalidateCartCache();
         logger.log('Item added to cart successfully');
-        toast.success('Item added to cart');
+        toast.success(t('cart.added_successfully'));
       } else {
         logger.log(`Error adding item to cart: ${response.message}`);
-        toast.error(response.message || 'Failed to add item to cart');
+        toast.error(t('cart.error_adding'));
       }
     } catch (error: any) {
       logger.error('Error adding item to cart:', error);
-      if (error.response?.status === 400) {
-        toast.error(error.response.data.message || 'Invalid request');
-      } else if (error.response?.status === 404) {
-        toast.error('Product not found');
-      } else if (error.response?.status === 422) {
-        // Handle 422 Unprocessable Entity (validation errors)
-        const errorMessage = error.response.data.message || 'Validation error';
-        if (error.response.data.errors?.quantity?.[0]?.includes('greater than available')) {
-          toast.error('The requested quantity exceeds available stock');
-        } else {
-          toast.error(errorMessage);
-        }
+      if (error.response?.status === 404) {
+        toast.error(t('cart.toasts.product_not_found', 'Product not found'));
+      } else if (error.response?.status === 422 &&
+                 error.response.data.errors?.quantity?.[0]?.includes('greater than available')) {
+        toast.error(t('cart.toasts.exceeds_available_stock', 'The requested quantity exceeds available stock'));
       } else {
-        toast.error('Failed to add item to cart. Please try again.');
+        toast.error(t('cart.error_adding'));
       }
     } finally {
       setLoading(false);
@@ -295,21 +288,21 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       // Input validation
       if (isNaN(quantity) || quantity < 1) {
         logger.log(`Invalid quantity: ${quantity}`);
-        toast.error('Quantity must be at least 1');
+        toast.error(t('cart.toasts.invalid_quantity', 'Quantity must be at least 1'));
         return;
       }
 
       const currentItem = state?.items?.find(item => item.id === itemId);
       if (!currentItem) {
         logger.error(`Item with ID ${itemId} not found in cart`);
-        toast.error('Item not found in cart');
+        toast.error(t('cart.toasts.item_not_found', 'Item not found in cart'));
         return;
       }
 
       // Check stock availability
       try {
         await validateStock(
-          currentItem.stock_id, 
+          currentItem.stock_id,
           quantity,
           currentItem.variant_id,
           currentItem.variant_id ? 'variant' : 'stock'
@@ -317,13 +310,13 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       } catch (error: any) {
         // Handle specific stock-related errors
         if (error.response?.data?.type === 'out_of_stock') {
-          toast.error('This product is currently out of stock');
+          toast.error(t('cart.toasts.out_of_stock', 'This product is currently out of stock'));
           return;
         } else if (error.response?.data?.type === 'insufficient_stock') {
-          toast.error(error.response.data.message || 'Not enough stock available');
+          toast.error(t('cart.toasts.insufficient_stock', 'Not enough stock available'));
           return;
         } else if (error.response?.data?.type === 'stock_check_failed') {
-          toast.error('Unable to verify product availability. Please try again.');
+          toast.error(t('cart.toasts.stock_check_failed', 'Unable to verify product availability. Please try again.'));
           return;
         }
         // Re-throw other errors to be caught by the outer catch block
@@ -334,31 +327,24 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
       if (response.status === 'success') {
         await invalidateCartCache();
-        toast.success('Cart updated');
-        
+        toast.success(t('cart.updated_successfully'));
+
         // Show low stock warning if applicable
         if (response.data?.stock_status === 'low_stock' && response.data.available_quantity) {
-          toast.error(`Only ${response.data.available_quantity} items left in stock`);
+          toast.error(t('cart.toasts.low_stock_warning', { count: response.data.available_quantity, defaultValue: 'Only {{count}} items left in stock' }));
         }
       } else {
-        toast.error(response.message || 'Failed to update cart');
+        toast.error(t('cart.error_updating'));
       }
     } catch (error: any) {
       logger.error('Error updating quantity:', error);
-      if (error.response?.status === 400) {
-        toast.error(error.response.data.message || 'Invalid request');
-      } else if (error.response?.status === 404) {
-        toast.error('Cart item not found');
-      } else if (error.response?.status === 422) {
-        // Handle 422 Unprocessable Entity (validation errors)
-        const errorMessage = error.response.data.message || 'Validation error';
-        if (error.response.data.errors?.quantity?.[0]?.includes('greater than available')) {
-          toast.error('The requested quantity exceeds available stock');
-        } else {
-          toast.error(errorMessage);
-        }
+      if (error.response?.status === 404) {
+        toast.error(t('cart.toasts.cart_item_not_found', 'Cart item not found'));
+      } else if (error.response?.status === 422 &&
+                 error.response.data.errors?.quantity?.[0]?.includes('greater than available')) {
+        toast.error(t('cart.toasts.exceeds_available_stock', 'The requested quantity exceeds available stock'));
       } else {
-        toast.error('Failed to update cart. Please try again.');
+        toast.error(t('cart.error_updating'));
       }
     } finally {
       setLoading(false);
@@ -370,10 +356,10 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       setLoading(true);
       await cartService.removeItem(itemId);
       await invalidateCartCache();
-      toast.success('Item removed from cart');
+      toast.success(t('cart.removed_successfully'));
     } catch (error: any) {
       logger.error('Error removing item:', error);
-      toast.error('Failed to remove item');
+      toast.error(t('cart.error_removing'));
     } finally {
       setLoading(false);
     }
@@ -415,10 +401,10 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       await cartService.clearCart();
       await clearCache('cart');
       setState(defaultState);
-      toast.success('Cart cleared');
+      toast.success(t('cart.cleared_successfully'));
     } catch (error: any) {
       logger.error('Error clearing cart:', error);
-      toast.error('Failed to clear cart');
+      toast.error(t('cart.error_clearing'));
     } finally {
       setLoading(false);
     }

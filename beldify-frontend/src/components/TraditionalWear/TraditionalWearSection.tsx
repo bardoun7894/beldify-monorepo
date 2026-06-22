@@ -49,7 +49,7 @@ const TraditionalWearSection: React.FC<TraditionalWearSectionProps> = ({
 
       setProducts(response.data);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to fetch products');
+      setError(t('errors.failedToFetchProducts', 'Failed to load products. Please try again.'));
     } finally {
       setLoading(false);
     }

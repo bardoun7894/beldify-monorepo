@@ -9,6 +9,7 @@ import CategoryHeader from './CategoryHeader';
 import ProductGrid from '@/components/products/ProductGrid';
 import LoadingSpinner from '@/components/common/LoadingSpinner';
 import ErrorMessage from '@/components/common/ErrorMessage';
+import logger from '@/utils/consoleLogger';
 interface CategoryContentProps {
   slug: string;
 }
@@ -67,11 +68,11 @@ export default function CategoryContent({ slug }: CategoryContentProps) {
         if (response.data.success) {
           setCategoryData(response.data);
         } else {
-          setError(response.data.message || 'Failed to load category');
+          setError(t('errors.failedToLoadCategory', 'Failed to load category'));
         }
       } catch (err) {
-        setError('An error occurred while loading the category');
-        console.error('Error fetching category:', err);
+        setError(t('errors.failedToLoadCategory', 'Failed to load category'));
+        logger.error('Error fetching category:', err);
       } finally {
         setLoading(false);
       }

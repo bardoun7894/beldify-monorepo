@@ -187,7 +187,7 @@ export default function ShopPage() {
         const storeName = decodeURIComponent(params.name as string);
         logger.log('Fetching shop with name:', storeName);
         const response = await shopService.getShopByName(storeName);
-        if (response.error) { setError(response.error.message); return; }
+        if (response.error) { setError(t('shops.error.description', 'Unable to load this shop right now. Please try again.')); return; }
         if (response.data?.store) {
           const shopData: Shop = {
             ...response.data.store,

@@ -123,7 +123,7 @@ export default function OrdersPage() {
         logger.log('Orders loaded:', data.length);
       } catch (error: any) {
         logger.error('Error loading orders:', error);
-        setError(error?.message || t('orders.error.loading'));
+        setError(t('orders.error.loading'));
       } finally {
         setLoading(false);
       }

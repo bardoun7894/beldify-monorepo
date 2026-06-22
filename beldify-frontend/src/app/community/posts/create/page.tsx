@@ -375,7 +375,7 @@ export default function CreatePostPage() {
           firstErrorField.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
       } else {
-        setError(err.message || t('community.error_creating_post'));
+        setError(t('community.error_creating_post'));
       }
     } finally {
       setIsLoading(false);

@@ -345,6 +345,19 @@
       "updated": "Cantidad actualizada",
       "error": "Ocurrió un error. Por favor intenta de nuevo"
     },
+    "toasts": {
+      "invalid_product": "Producto inválido",
+      "invalid_quantity": "La cantidad debe ser al menos 1",
+      "out_of_stock": "Este producto está actualmente agotado",
+      "insufficient_stock": "Stock insuficiente",
+      "stock_check_failed": "No se pudo verificar la disponibilidad. Inténtalo de nuevo.",
+      "exceeds_stock": "Solo {{count}} más disponibles en stock",
+      "exceeds_available_stock": "La cantidad solicitada supera el stock disponible",
+      "product_not_found": "Producto no encontrado",
+      "cart_item_not_found": "Artículo del carrito no encontrado",
+      "item_not_found": "Artículo no encontrado en el carrito",
+      "low_stock_warning": "Solo quedan {{count}} en stock"
+    },
     "confirmation": {
       "remove": {
         "title": "Eliminar producto",

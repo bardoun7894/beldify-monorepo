@@ -417,6 +417,19 @@
       "updated": "Quantity updated",
       "error": "An error occurred. Please try again"
     },
+    "toasts": {
+      "invalid_product": "Invalid product",
+      "invalid_quantity": "Quantity must be at least 1",
+      "out_of_stock": "This product is currently out of stock",
+      "insufficient_stock": "Not enough stock available",
+      "stock_check_failed": "Unable to verify product availability. Please try again.",
+      "exceeds_stock": "Only {{count}} more available in stock",
+      "exceeds_available_stock": "The requested quantity exceeds available stock",
+      "product_not_found": "Product not found",
+      "cart_item_not_found": "Cart item not found",
+      "item_not_found": "Item not found in cart",
+      "low_stock_warning": "Only {{count}} items left in stock"
+    },
     "confirmation": {
       "remove": {
         "title": "Remove Product",

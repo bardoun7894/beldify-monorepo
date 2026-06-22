@@ -363,6 +363,19 @@
       "updated": "تبدل لعدد",
       "error": "وقع مشكل. عاود جرب"
     },
+    "toasts": {
+      "invalid_product": "لمنتوج ماشي صحيح",
+      "invalid_quantity": "خاص يكون عدد على الأقل 1",
+      "out_of_stock": "هاد لمنتوج ماكاينش دابا",
+      "insufficient_stock": "ماكاينش بزاف فلستوك",
+      "stock_check_failed": "ماقدرناش نتأكدو من توفر لمنتوج. عاود جرب.",
+      "exceeds_stock": "بقا غير {{count}} فلستوك",
+      "exceeds_available_stock": "لعدد لي طلبتي زايد على لي كاين",
+      "product_not_found": "لمنتوج ماكاينش",
+      "cart_item_not_found": "هاد لحاجة ماكايناش فلقفة",
+      "item_not_found": "هاد لحاجة ماكايناش فلقفة",
+      "low_stock_warning": "بقا غير {{count}} فلستوك"
+    },
     "confirmation": {
       "remove": {
         "title": "حيد لمنتوج",
