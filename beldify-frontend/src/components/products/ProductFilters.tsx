@@ -126,7 +126,7 @@ export default function ProductFilters({
     if (filters.minPrice !== undefined && filters.maxPrice !== undefined) {
       badges.push({
         id: 'price-range',
-        label: `${filters.minPrice} - ${filters.maxPrice} MAD`,
+        label: `${filters.minPrice} - ${filters.maxPrice} ${t('product.currency')}`,
         type: 'price',
       });
     }

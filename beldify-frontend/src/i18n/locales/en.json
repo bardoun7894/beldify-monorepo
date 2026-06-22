@@ -2565,5 +2565,8 @@
       "time_slots_error": "Failed to load available time slots",
       "load_error": "Failed to load tailor information"
     }
+  },
+  "nav": {
+    "announcement": "Free shipping across Morocco on orders over 500 MAD — Free returns within 14 days"
   }
 }

@@ -265,11 +265,11 @@ export default function CartPage() {
                         <div className="flex flex-col items-end gap-1 flex-shrink-0">
                           {hasDiscount && (
                             <span className="text-xs text-indigo-300 line-through">
-                              {item.product.price.toFixed(2)} MAD
+                              {item.product.price.toFixed(2)} {t('product.currency')}
                             </span>
                           )}
                           <span className="text-base font-semibold text-indigo-900">
-                            {lineTotal} MAD
+                            {lineTotal} {t('product.currency')}
                           </span>
                           <button
                             onClick={() => removeFromCart(item.id)}
@@ -364,7 +364,7 @@ export default function CartPage() {
                     {t('cart.summary.subtotal', 'Subtotal')}
                   </span>
                   <span className="text-indigo-950 font-medium">
-                    {subtotal.toFixed(2)} MAD
+                    {subtotal.toFixed(2)} {t('product.currency')}
                   </span>
                 </div>
 
@@ -374,7 +374,7 @@ export default function CartPage() {
                   </span>
                   {shippingAmount > 0 ? (
                     <span className="text-indigo-950 font-medium">
-                      {shippingAmount.toFixed(2)} MAD
+                      {shippingAmount.toFixed(2)} {t('product.currency')}
                     </span>
                   ) : subtotal >= 500 ? (
                     <span className="text-[#855300] font-medium">
@@ -391,7 +391,7 @@ export default function CartPage() {
                       {t('cart.summary.tax', 'Tax')}
                     </span>
                     <span className="text-indigo-950 font-medium">
-                      {taxAmount.toFixed(2)} MAD
+                      {taxAmount.toFixed(2)} {t('product.currency')}
                     </span>
                   </div>
                 )}
@@ -402,7 +402,7 @@ export default function CartPage() {
                       {t('cart.summary.discount', 'Discount')}
                     </span>
                     <span className="text-[#855300] font-medium">
-                      -{discountAmount.toFixed(2)} MAD
+                      -{discountAmount.toFixed(2)} {t('product.currency')}
                     </span>
                   </div>
                 )}
@@ -419,7 +419,7 @@ export default function CartPage() {
                   className="text-[1.375rem] font-bold text-indigo-950 leading-tight"
                   style={playfair}
                 >
-                  {totalAmount.toFixed(2)} MAD
+                  {totalAmount.toFixed(2)} {t('product.currency')}
                 </span>
               </div>
 

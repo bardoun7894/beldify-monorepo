@@ -152,7 +152,7 @@ export default function ProductsPage() {
     if (filters.minPrice !== undefined && filters.maxPrice !== undefined) {
       chips.push({
         id: 'price-range',
-        label: `${filters.minPrice} - ${filters.maxPrice} MAD`,
+        label: `${filters.minPrice} - ${filters.maxPrice} ${t('product.currency')}`,
         type: 'price'
       });
     }

@@ -370,7 +370,7 @@ export default function OrdersPage() {
                     <div className="text-right">
                       <p className="text-xs text-gray-500 mb-1">{t('orders.summary.total', 'Total')}</p>
                       <p className="text-2xl font-bold text-indigo-700">
-                        {formatNumber(order.total_amount)} MAD
+                        {formatNumber(order.total_amount)} {t('product.currency')}
                       </p>
                     </div>
                   </div>
@@ -404,7 +404,7 @@ export default function OrdersPage() {
                               {t('orders.items.qty', 'Qty')}: <span className="font-semibold text-gray-700">{item.quantity}</span>
                             </span>
                             <span className="text-sm font-semibold text-indigo-700">
-                              {formatNumber(item.unit_price)} MAD
+                              {formatNumber(item.unit_price)} {t('product.currency')}
                             </span>
                           </div>
                         </div>
