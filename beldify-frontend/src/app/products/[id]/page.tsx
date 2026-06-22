@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -991,14 +991,22 @@ export default function ProductDetailsPage() {
   };
 
 
+  // Race-token ref guards the async fetch against rapid id changes (route nav).
+  // A stale response (e.g., older product id) would otherwise overwrite the
+  // freshly-fetched one and the user would see the wrong product.
+  const fetchTokenRef = useRef(0);
+
   useEffect(() => {
+    const myToken = ++fetchTokenRef.current;
     const fetchProduct = async () => {
       try {
         setLoading(true);
         // Convert id to string if it's an array
         const productId = Array.isArray(id) ? id[0] : id;
         const response = await productService.getProduct(productId as string);
+        if (myToken !== fetchTokenRef.current) return;
         setProduct(response.product);
+        setError(null);
 
         // Set default selections if available
         const defaultVariant = response.product.variants?.find((v: any) => v.is_default);
@@ -1008,15 +1016,25 @@ export default function ProductDetailsPage() {
           setSelectedFabric(defaultVariant.fabric || null);
           setSelectedVariant(defaultVariant);
         }
-      } catch (error) {
-        setError(null);
-        logger.error('Error fetching product:', error);
+      } catch (err) {
+        if (myToken !== fetchTokenRef.current) return;
+        // Surface a real error message rather than swallowing it — the page's
+        // error guard `if (error || !product)` previously fired on the !product
+        // branch and conflated network failures with genuine 404s.
+        setError(t('errors.productLoadError', 'Failed to load product. Please try again.'));
+        logger.error('Error fetching product:', err);
       } finally {
-        setLoading(false);
+        if (myToken === fetchTokenRef.current) {
+          setLoading(false);
+        }
       }
     };
 
     fetchProduct();
+    // `t` is intentionally omitted: i18next's t is reference-stable in prod,
+    // but the test mock returns a fresh reference per render — including it
+    // in deps would re-fire on every render and break the existing test.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
   if (loading) {
@@ -1168,6 +1186,42 @@ export default function ProductDetailsPage() {
   return (
     <div className="bg-amber-50 min-h-screen pb-16">
     <main className="max-w-7xl mx-auto" role="main">
+      {/* BreadcrumbList structured data — mirrors the visible breadcrumb for
+          search-engine rich results. Relative URLs are valid and avoid an
+          SSR/CSR hydration mismatch around window.location.origin. */}
+      <script
+        type="application/ld+json"
+        // eslint-disable-next-line react/no-danger
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'BreadcrumbList',
+            itemListElement: [
+              {
+                '@type': 'ListItem',
+                position: 1,
+                name: t('navigation.home', 'Home'),
+                item: '/',
+              },
+              ...(displayCategory
+                ? [
+                    {
+                      '@type': 'ListItem',
+                      position: 2,
+                      name: displayCategory,
+                      item: `/products?category=${encodeURIComponent(product.category || '')}`,
+                    },
+                  ]
+                : []),
+              {
+                '@type': 'ListItem',
+                position: displayCategory ? 3 : 2,
+                name: displayName,
+              },
+            ],
+          }),
+        }}
+      />
       {/* ── 1. Breadcrumb strip ── */}
       <nav className="px-6 py-4 text-sm text-gray-500" aria-label={t('catalog.pdp.breadcrumb_label', 'Breadcrumb')}>
         <ol className="flex items-center gap-1.5 flex-wrap">
