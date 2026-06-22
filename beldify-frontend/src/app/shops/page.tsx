@@ -28,24 +28,31 @@ export default function ShopsPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const [shops, setShops] = useState<Shop[]>([]);
-  const [pagination, setPagination] = useState<PaginationData | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [showFilters, setShowFilters] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
-  const searchInputRef = useRef<HTMLInputElement>(null);
-
   // Get current filter values from URL
   const currentPage = Number(searchParams?.get('page')) || 1;
   const currentSearch = searchParams?.get('search') || '';
   const currentType = searchParams?.get('type') || '';
   const currentSort = searchParams?.get('sort') || 'latest';
+
+  const [shops, setShops] = useState<Shop[]>([]);
+  const [pagination, setPagination] = useState<PaginationData | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [showFilters, setShowFilters] = useState(false);
+  const [searchQuery, setSearchQuery] = useState(currentSearch);
+  const searchInputRef = useRef<HTMLInputElement>(null);
   const [validSort, setValidSort] = useState<SortOption>(
     ['name_asc', 'name_desc', 'products_count', 'latest'].includes(currentSort) ? (currentSort as SortOption) : 'latest'
   );
 
-  const fetchShops = async () => {
+  // Keep the local search input in sync with the URL when the user navigates
+  // via browser back/forward — without this, the visible query and the active
+  // filter desync after history navigation.
+  useEffect(() => {
+    setSearchQuery(currentSearch);
+  }, [currentSearch]);
+
+  const fetchShops = async (signal?: { ignore: boolean }) => {
     setLoading(true);
     const result = await shopService.getShops({
       page: currentPage,
@@ -54,6 +61,8 @@ export default function ShopsPage() {
       sort: validSort,
       per_page: 12,
     });
+
+    if (signal?.ignore) return;
 
     if (result.error) {
       setError(t('shops.error.description', 'Unable to load shops right now. Please try again.'));
@@ -66,7 +75,11 @@ export default function ShopsPage() {
   };
 
   useEffect(() => {
-    fetchShops();
+    const signal = { ignore: false };
+    fetchShops(signal);
+    return () => {
+      signal.ignore = true;
+    };
   }, [currentPage, currentSearch, currentType, currentSort, validSort]);
 
   const handlePageChange = (page: number) => {

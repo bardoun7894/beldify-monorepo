@@ -113,22 +113,30 @@ export default function OrdersPage() {
 
   // Fetch orders
   useEffect(() => {
+    let ignore = false;
+
     const fetchOrders = async () => {
       try {
         syncUrlLocale(i18n.language);
         setLoading(true);
         const data = await orderService.getOrders();
+        if (ignore) return;
         setOrders(data || []);
         logger.log('Orders loaded:', data.length);
       } catch (error: any) {
+        if (ignore) return;
         logger.error('Error loading orders:', error);
         setError(t('orders.error.loading'));
       } finally {
-        setLoading(false);
+        if (!ignore) setLoading(false);
       }
     };
 
     fetchOrders();
+
+    return () => {
+      ignore = true;
+    };
   }, [i18n.language, t]);
 
   // Filter and search logic

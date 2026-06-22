@@ -82,22 +82,27 @@ export default function OrderDetailsPage() {
     }).format(Number(amount));
   };
 
-  useEffect(() => {
-    const locale = searchParams?.get('locale');
-    if (locale) {
-      i18n.changeLanguage(locale);
-    }
-    syncUrlLocale();
-  }, [searchParams, i18n]);
+  const localeParam = searchParams?.get('locale') ?? null;
 
   useEffect(() => {
+    if (localeParam) {
+      i18n.changeLanguage(localeParam);
+    }
+    syncUrlLocale();
+  }, [localeParam, i18n]);
+
+  useEffect(() => {
+    let ignore = false;
+
     const fetchOrder = async () => {
       try {
         setLoading(true);
         setError(null);
         const response = await orderService.getOrderDetails(orderNumber);
+        if (ignore) return;
         setOrder(response);
       } catch (error: any) {
+        if (ignore) return;
         logger.error('Error fetching order:', error);
         if (error.message === 'order_not_found') {
           setError('not_found');
@@ -105,11 +110,15 @@ export default function OrderDetailsPage() {
           setError('error');
         }
       } finally {
-        setLoading(false);
+        if (!ignore) setLoading(false);
       }
     };
 
     fetchOrder();
+
+    return () => {
+      ignore = true;
+    };
   }, [orderNumber]);
 
   const getStatusIcon = (status: string, size: string = 'w-6 h-6') => {
