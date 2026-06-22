@@ -55,6 +55,9 @@ export default function OrdersPage() {
   const shouldReduceMotion = useReducedMotion();
   const [statusFilter, setStatusFilter] = useState<'all' | 'pending' | 'processing' | 'shipped' | 'delivered' | 'cancelled'>('all');
   const [query, setQuery] = useState('');
+  // Retry counter — bumping triggers the fetch effect again without wiping
+  // app contexts (cart, auth, i18n) the way window.location.reload() would.
+  const [retryKey, setRetryKey] = useState(0);
 
   // Handle "Buy it again" — re-adds past order items to cart at current prices
   const handleReorder = async (orderNumber: string, orderId: string) => {
@@ -163,7 +166,8 @@ export default function OrdersPage() {
     };
 
     fetchOrders();
-  }, [i18n.language, t]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- t is a fresh ref in tests; omitted to avoid render loops
+  }, [i18n.language, retryKey]);
 
   // Filter and search logic
   const filteredOrders = useMemo(() => {
@@ -232,7 +236,7 @@ export default function OrdersPage() {
           </h2>
           <p className="text-gray-600 mb-8">{error}</p>
           <button
-            onClick={() => window.location.reload()}
+            onClick={() => { setError(null); setRetryKey((k) => k + 1); }}
             className="w-full px-6 py-3 bg-indigo-700 text-white rounded-2xl hover:bg-indigo-800 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-atlas-md font-medium focus:ring-2 focus:ring-indigo-700/30 focus:outline-none"
           >
             {t('orders.actions.try_again')}

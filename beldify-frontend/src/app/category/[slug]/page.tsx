@@ -54,6 +54,9 @@ export default function CategoryPage() {
   });
   const [sortBy, setSortBy] = useState<string>('newest');
   const [isMobileFiltersOpen, setIsMobileFiltersOpen] = useState(false);
+  // Retry counter — bumping triggers the fetch effect again without wiping
+  // app contexts (cart, auth, i18n) the way window.location.reload() would.
+  const [retryKey, setRetryKey] = useState(0);
 
   useEffect(() => {
     const fetchCategoryData = async () => {
@@ -89,7 +92,8 @@ export default function CategoryPage() {
     if (slug) {
       fetchCategoryData();
     }
-  }, [slug, filters, sortBy, t]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- t is a fresh ref in tests; omitted to avoid render loops
+  }, [slug, filters, sortBy, retryKey]);
 
   const handleFilters = (newFilters: Partial<ProductFilters>) => {
     setFilters((prev) => ({ ...prev, ...newFilters }));
@@ -106,7 +110,7 @@ export default function CategoryPage() {
         <div className="bg-white rounded-2xl border border-gray-200 shadow-atlas-sm p-10 max-w-md w-full text-center">
           <p className="text-rose-700 mb-4 font-medium">{error}</p>
           <button
-            onClick={() => window.location.reload()}
+            onClick={() => { setError(null); setRetryKey((k) => k + 1); }}
             className="inline-flex items-center gap-2 rounded-full bg-indigo-700 px-6 py-2.5 text-sm font-semibold text-white hover:bg-indigo-800 transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-700/30"
           >
             {t('common.try_again', 'حاول مجدداً')}
@@ -320,7 +324,7 @@ export default function CategoryPage() {
                         {t('products.no_results', 'لا توجد منتجات متاحة حالياً.')}
                       </p>
                       <button
-                        onClick={() => window.location.reload()}
+                        onClick={() => setRetryKey((k) => k + 1)}
                         className="inline-flex items-center gap-2 px-5 py-2 bg-indigo-50 text-indigo-700 rounded-full text-sm font-medium hover:bg-indigo-100 transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-700/30"
                       >
                         <RefreshCw className="h-4 w-4" aria-hidden />

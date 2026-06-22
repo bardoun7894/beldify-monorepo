@@ -1469,6 +1469,30 @@ export default function ProductDetailsPage() {
     },
   };
 
+  // BreadcrumbList JSON-LD — drives rich-results breadcrumb on Google PDP cards.
+  // Mirrors the visible breadcrumb nav below (Home › Category › Product).
+  const breadcrumbItems: Array<{ '@type': 'ListItem'; position: number; name: string; item?: string }> = [
+    { '@type': 'ListItem', position: 1, name: t('navigation.home', 'Home'), item: `${siteUrl}/` },
+  ];
+  if (displayCategory) {
+    breadcrumbItems.push({
+      '@type': 'ListItem',
+      position: 2,
+      name: String(displayCategory),
+      item: `${siteUrl}/products?category=${encodeURIComponent(product.category || '')}`,
+    });
+  }
+  breadcrumbItems.push({
+    '@type': 'ListItem',
+    position: breadcrumbItems.length + 1,
+    name: displayName,
+  });
+  const breadcrumbJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: breadcrumbItems,
+  };
+
   // pb-28 on mobile = ~112px clearance for the PdpBuyBar (two rows + safe-area)
   return (
     <div className="bg-canvas min-h-screen pb-28 md:pb-16">
@@ -1476,6 +1500,11 @@ export default function ProductDetailsPage() {
     <script
       type="application/ld+json"
       dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd) }}
+    />
+    {/* BreadcrumbList structured data — Google rich-results breadcrumbs */}
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
     />
     <main className="max-w-7xl mx-auto" role="main">
       {/* ── 1. Breadcrumb strip ── */}
