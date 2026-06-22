@@ -77,6 +77,7 @@ export default function ProductsPage() {
   const [sortBy, setSortBy] = useState<string>('newest');
   const [isMobileFiltersOpen, setIsMobileFiltersOpen] = useState(false);
   const searchParams = useSearchParams();
+  const searchTerm = searchParams?.get('q') ?? null;
 
   // Debounce filter changes to reduce API calls
   const debouncedFilters = useDebounce(filters, 300);
@@ -84,7 +85,6 @@ export default function ProductsPage() {
 
   // Build query parameters
   const buildQueryString = useCallback(() => {
-    const searchTerm = searchParams?.get('q');
     const params = new URLSearchParams();
 
     if (debouncedFilters.category) params.append('category', debouncedFilters.category);
@@ -103,7 +103,7 @@ export default function ProductsPage() {
     params.append('sort', debouncedSortBy || 'newest');
 
     return `${API_BASE_URL}/api/products/all?${params.toString()}`;
-  }, [debouncedFilters, debouncedSortBy, searchParams]);
+  }, [debouncedFilters, debouncedSortBy, searchTerm, i18n.language]);
 
   // Use SWR for data fetching with caching and deduplication
   const { data, error, isLoading, mutate } = useSWR(

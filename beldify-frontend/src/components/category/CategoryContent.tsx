@@ -59,28 +59,32 @@ export default function CategoryContent({ slug }: CategoryContentProps) {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    if (!slug) return;
+    let ignore = false;
+
     const fetchCategoryData = async () => {
       try {
         setLoading(true);
         setError(null);
 
         const response = await productService.getProducts({ category: slug });
+        if (ignore) return;
         if (response.data.success) {
           setCategoryData(response.data);
         } else {
           setError(t('errors.general', 'An error occurred'));
         }
       } catch (err) {
+        if (ignore) return;
         setError(t('errors.general', 'An error occurred'));
         logger.error('Error fetching category:', err);
       } finally {
-        setLoading(false);
+        if (!ignore) setLoading(false);
       }
     };
 
-    if (slug) {
-      fetchCategoryData();
-    }
+    fetchCategoryData();
+    return () => { ignore = true; };
   }, [slug]);
 
   const handleSort = (value: string) => {
@@ -162,7 +166,7 @@ export default function CategoryContent({ slug }: CategoryContentProps) {
       {/* Mobile Filter Sheet */}
       {showFilters && (
         <div className="fixed inset-0 bg-black bg-opacity-50 z-50 lg:hidden">
-          <div className="absolute inset-y-0 right-0 w-full max-w-md bg-white">
+          <div className="absolute inset-y-0 right-0 rtl:right-auto rtl:left-0 w-full max-w-md bg-white">
             <div className="p-4">
               <div className="flex items-center justify-between mb-4">
                 <h2 className="text-lg font-medium text-gray-900">{t('category.filters')}</h2>
