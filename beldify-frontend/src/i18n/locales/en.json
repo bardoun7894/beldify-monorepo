@@ -5426,5 +5426,23 @@
     "guest_title": "Create an account to follow your orders",
     "guest_cta": "Create account",
     "guest_aria": "Create an account to track your orders"
+  },
+  "assistant": {
+    "launcher_aria": "Open shopping assistant",
+    "launcher_label": "Shop with AI",
+    "panel_title": "Shopping Assistant",
+    "close": "Close assistant",
+    "messages_label": "Conversation",
+    "input_placeholder": "Ask about any product, style, or price…",
+    "input_aria": "Message to assistant",
+    "send": "Send",
+    "thinking": "Assistant is thinking…",
+    "welcome_title": "Welcome!",
+    "welcome_message": "Ask me about caftans, djellabas, jewellery — in Darija, Arabic, French or English.",
+    "view_product": "View",
+    "error": "Something went wrong. Please try again.",
+    "retry": "Retry",
+    "chars_left": "chars left",
+    "over_limit": "{{count}} over limit"
   }
 }

@@ -36,6 +36,8 @@ export default defineConfig({
       ['src/components/seller/__tests__/**', 'jsdom'],
       // order-confirmation component tests
       ['src/app/order-confirmation/__tests__/**', 'jsdom'],
+      // assistant widget tests
+      ['src/components/assistant/__tests__/**', 'jsdom'],
     ],
   },
 });

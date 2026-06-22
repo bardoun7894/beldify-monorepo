@@ -5370,5 +5370,23 @@
     "guest_title": "Maak een account aan om je bestellingen te volgen",
     "guest_cta": "Account aanmaken",
     "guest_aria": "Account aanmaken om bestellingen te volgen"
+  },
+  "assistant": {
+    "launcher_aria": "Winkelassistent openen",
+    "launcher_label": "Winkelen met AI",
+    "panel_title": "Winkelassistent",
+    "close": "Assistent sluiten",
+    "messages_label": "Gesprek",
+    "input_placeholder": "Vraag over een product, stijl of prijs…",
+    "input_aria": "Bericht aan assistent",
+    "send": "Versturen",
+    "thinking": "Assistent denkt na…",
+    "welcome_title": "Welkom!",
+    "welcome_message": "Stel me vragen over caftans, djellabas, sieraden — in Darija, Arabisch, Frans of Engels.",
+    "view_product": "Bekijken",
+    "error": "Er is iets misgegaan. Probeer het opnieuw.",
+    "retry": "Opnieuw proberen",
+    "chars_left": "tekens over",
+    "over_limit": "{{count}} tekens te veel"
   }
 }

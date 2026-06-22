@@ -5405,5 +5405,23 @@
     "guest_title": "Créez un compte pour suivre vos commandes",
     "guest_cta": "Créer un compte",
     "guest_aria": "Créer un compte pour suivre vos commandes"
+  },
+  "assistant": {
+    "launcher_aria": "Ouvrir l'assistant shopping",
+    "launcher_label": "Acheter avec l'IA",
+    "panel_title": "Assistant Shopping",
+    "close": "Fermer l'assistant",
+    "messages_label": "Conversation",
+    "input_placeholder": "Posez une question sur un produit, style ou prix…",
+    "input_aria": "Message à l'assistant",
+    "send": "Envoyer",
+    "thinking": "L'assistant réfléchit…",
+    "welcome_title": "Bienvenue !",
+    "welcome_message": "Posez-moi des questions sur les caftans, djellabas, bijoux — en darija, arabe, français ou anglais.",
+    "view_product": "Voir",
+    "error": "Une erreur est survenue. Veuillez réessayer.",
+    "retry": "Réessayer",
+    "chars_left": "caractères restants",
+    "over_limit": "{{count}} caractères en trop"
   }
 }
