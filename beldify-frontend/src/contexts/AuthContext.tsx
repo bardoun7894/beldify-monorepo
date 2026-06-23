@@ -436,7 +436,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       // Log the error details in debug mode only
       toast.debug(`Login error: ${error.message}`);
       logger.error('Login failed:', error.response || error);
-      const message = error.response?.data?.message || 'Login failed';
+      const message = error.response?.data?.message || t('auth.login_error');
       toast.error(message);
       return { success: false, message };
     } finally {

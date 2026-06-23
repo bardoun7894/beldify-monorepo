@@ -11,7 +11,6 @@ import {
   getGuestWishlist,
   addGuestWishlistItem,
   removeGuestWishlistItem,
-  clearGuestWishlist,
 } from '@/utils/guestWishlist';
 
 interface WishlistItem {
@@ -49,11 +48,6 @@ interface WishlistContextType {
   removeFromWishlist: (productId: number) => Promise<void>;
   refreshWishlist: () => Promise<void>;
   isLoading: boolean;
-}
-
-// getImagePath function to get the image path
-function getImagePath(imageUrl: string): string {
-  return imageUrl;
 }
 
 const WishlistContext = createContext<WishlistContextType | undefined>(undefined);
