@@ -132,7 +132,7 @@ export const ReviewForm: React.FC<ReviewFormProps> = ({
         <Label htmlFor="rating" className="block text-sm font-medium text-gray-700 mb-2">
           {t('reviews.form.your_rating')} <span className="text-red-500">*</span>
         </Label>
-        <div className="flex items-center space-x-2">
+        <div className="flex items-center gap-2">
           {[1, 2, 3, 4, 5].map((star) => (
             <button
               key={star}

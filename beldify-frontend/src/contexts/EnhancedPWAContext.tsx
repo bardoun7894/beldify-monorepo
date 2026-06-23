@@ -286,6 +286,7 @@ export function EnhancedPWAProvider({ children }: { children: ReactNode }) {
     };
 
     // Enhanced reminder logic for installed users
+    let reminderId: ReturnType<typeof setTimeout> | undefined;
     try {
       if (isInstalled && !isPWAMode) {
         const lastReminder = localStorage.getItem('pwa-last-reminder');
@@ -304,8 +305,8 @@ export function EnhancedPWAProvider({ children }: { children: ReactNode }) {
           const eng = loadEngagement();
           const isEngaged = eng.timeSpent > 120000 || eng.pageViews >= 3;
           const delay = isEngaged ? 15000 : 5000; // Longer delay if user is engaged
-          
-          setTimeout(() => {
+
+          reminderId = setTimeout(() => {
             // Only show if user is still active and hasn't switched tabs
             if (document.visibilityState === 'visible' && !document.hidden) {
               setShowReminderBanner(true);
@@ -320,9 +321,10 @@ export function EnhancedPWAProvider({ children }: { children: ReactNode }) {
     window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
     window.addEventListener('appinstalled', handleAppInstalled);
     document.addEventListener('visibilitychange', handleVisibilityChange);
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
 
     return () => {
+      clearTimeout(reminderId);
       window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
       window.removeEventListener('appinstalled', handleAppInstalled);
       document.removeEventListener('visibilitychange', handleVisibilityChange);

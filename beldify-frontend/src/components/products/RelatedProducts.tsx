@@ -117,7 +117,7 @@ const RelatedProducts: React.FC<RelatedProductsProps> = ({
     // Original skeleton preserved for cart and other fetch-mode consumers
     return (
       <div className={cn('mt-8 px-4', className)}>
-        <div className="flex items-center space-x-2 mb-6">
+        <div className="flex items-center gap-2 mb-6">
           <div className="h-6 w-40 bg-gray-200 animate-pulse rounded" />
         </div>
         <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
