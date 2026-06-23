@@ -286,26 +286,27 @@ export function EnhancedPWAProvider({ children }: { children: ReactNode }) {
     };
 
     // Enhanced reminder logic for installed users
+    let reminderTimeoutId: ReturnType<typeof setTimeout> | null = null;
     try {
       if (isInstalled && !isPWAMode) {
         const lastReminder = localStorage.getItem('pwa-last-reminder');
         const reminderCount = parseInt(localStorage.getItem('pwa-reminder-count') || '0');
         const isReduced = localStorage.getItem('pwa-reminder-reduced') === 'true';
-        
-        const daysSinceReminder = lastReminder ? 
+
+        const daysSinceReminder = lastReminder ?
           (Date.now() - parseInt(lastReminder)) / (1000 * 60 * 60 * 24) : 100;
-        
+
         // Progressive reminder intervals: 7, 14, 30 days (or 14, 30, 90 if reduced)
         const intervals = isReduced ? [14, 30, 90] : [7, 14, 30];
         const currentInterval = intervals[Math.min(reminderCount, intervals.length - 1)];
-        
+
         if (daysSinceReminder > currentInterval) {
           // Smart timing based on user activity
           const eng = loadEngagement();
           const isEngaged = eng.timeSpent > 120000 || eng.pageViews >= 3;
           const delay = isEngaged ? 15000 : 5000; // Longer delay if user is engaged
-          
-          setTimeout(() => {
+
+          reminderTimeoutId = setTimeout(() => {
             // Only show if user is still active and hasn't switched tabs
             if (document.visibilityState === 'visible' && !document.hidden) {
               setShowReminderBanner(true);
@@ -320,13 +321,16 @@ export function EnhancedPWAProvider({ children }: { children: ReactNode }) {
     window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
     window.addEventListener('appinstalled', handleAppInstalled);
     document.addEventListener('visibilitychange', handleVisibilityChange);
-    window.addEventListener('scroll', handleScroll);
+    // Passive: this listener never preventDefault()s; declaring passive lets the
+    // browser keep scroll on the compositor thread on mobile (smoother scroll).
+    window.addEventListener('scroll', handleScroll, { passive: true });
 
     return () => {
       window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
       window.removeEventListener('appinstalled', handleAppInstalled);
       document.removeEventListener('visibilitychange', handleVisibilityChange);
       window.removeEventListener('scroll', handleScroll);
+      if (reminderTimeoutId !== null) clearTimeout(reminderTimeoutId);
     };
   }, []);
   /* eslint-enable react-hooks/exhaustive-deps */

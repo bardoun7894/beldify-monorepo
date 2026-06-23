@@ -103,6 +103,9 @@ export default function NotifyMeButton({
       } else {
         toast.success(t('notify_me.notified', 'You will be notified'));
       }
+    } catch {
+      // WishlistContext already shows its own toast on failure (and re-throws).
+      // Swallow here so the rejection doesn't bubble to window.onunhandledrejection.
     } finally {
       setIsBusy(false);
     }
