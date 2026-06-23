@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useTranslation } from 'react-i18next';
@@ -129,6 +129,10 @@ export default function ShopPage() {
   const [error, setError] = useState<string | null>(null);
   const [visibleCount, setVisibleCount] = useState(8);
   const [otherShops, setOtherShops] = useState<{ name: string; subtitle: string }[]>([]);
+  const followVerifyTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // cleanup on unmount
+  useEffect(() => () => { if (followVerifyTimerRef.current) clearTimeout(followVerifyTimerRef.current); }, []);
 
   // ── follow helpers (preserved from original) ──────────────────────────────
 
@@ -168,7 +172,8 @@ export default function ShopPage() {
         return;
       }
       toast.success(t('shop.toast.followSuccess', 'Successfully {{action}} shop', { action: prev ? 'unfollowed' : 'followed' }), { duration: 2000, id: 'follow-success' });
-      setTimeout(async () => {
+      if (followVerifyTimerRef.current) clearTimeout(followVerifyTimerRef.current);
+      followVerifyTimerRef.current = setTimeout(async () => {
         try {
           const ver = await shopService.checkFollowing(shop.id);
           if (ver.data?.isFollowing !== undefined) setIsFollowing(ver.data.isFollowing);

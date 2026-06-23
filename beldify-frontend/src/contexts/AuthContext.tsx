@@ -324,9 +324,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
         // Store token with timestamp for expiration tracking
         const now = new Date().getTime();
-        localStorage.setItem('token', token);
-        localStorage.setItem('token_timestamp', now.toString());
-        localStorage.setItem('cached_token', token);
+        try {
+          localStorage.setItem('token', token);
+          localStorage.setItem('token_timestamp', now.toString());
+          localStorage.setItem('cached_token', token);
+        } catch {
+          // Safari ITP private mode throws SecurityError; cookies below are the fallback
+          logger.warn('localStorage unavailable; token stored in cookie only');
+        }
 
         // Also set token as a cookie for API routes to access
         if (typeof document !== 'undefined') {
@@ -482,8 +487,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         const authPayload = response.data.data ?? response.data;
         const token = authPayload.token ?? authPayload.access_token ?? response.data.token;
         const user = authPayload.user ?? response.data.user;
-        localStorage.setItem('token', token);
-        localStorage.setItem('token_timestamp', new Date().getTime().toString());
+        try {
+          localStorage.setItem('token', token);
+          localStorage.setItem('token_timestamp', new Date().getTime().toString());
+        } catch {
+          logger.warn('localStorage unavailable; token stored in cookie only');
+        }
 
         // Set authentication cookies for server-side access
         try {
@@ -724,8 +733,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         if (loginResponse.data.status === 'success') {
           // User exists, log them in
           const { token, user } = loginResponse.data;
-          localStorage.setItem('token', token);
-          localStorage.setItem('token_timestamp', new Date().getTime().toString());
+          try {
+            localStorage.setItem('token', token);
+            localStorage.setItem('token_timestamp', new Date().getTime().toString());
+          } catch {
+            logger.warn('localStorage unavailable; token stored in cookie only');
+          }
 
           // Set authentication cookies for server-side access
           try {
@@ -770,7 +783,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
           if (registerResponse.data.status === 'success') {
             const { token, user } = registerResponse.data.data || registerResponse.data;
-            localStorage.setItem('token', token);
+            try { localStorage.setItem('token', token); } catch { logger.warn('localStorage unavailable'); }
             axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
             setUser(user);
             setIsAuthenticated(true);
@@ -792,7 +805,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
               if (finalLoginResponse.data.status === 'success') {
                 const { token, user } = finalLoginResponse.data;
-                localStorage.setItem('token', token);
+                try { localStorage.setItem('token', token); } catch { logger.warn('localStorage unavailable'); }
                 axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
                 setUser(user);
                 setIsAuthenticated(true);

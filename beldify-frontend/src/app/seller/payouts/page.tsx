@@ -20,7 +20,7 @@
  *     Skeletons while loading + empty state.
  */
 
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '@/hooks/useAuth';
 import {
@@ -614,6 +614,8 @@ export default function SellerPayoutsPage() {
 
   // Request success state
   const [requestSuccess, setRequestSuccess] = useState(false);
+  const refreshTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  useEffect(() => () => { if (refreshTimerRef.current) clearTimeout(refreshTimerRef.current); }, []);
 
   const fetchPayouts = useCallback(async () => {
     if (!isAuthenticated) return;
@@ -642,10 +644,8 @@ export default function SellerPayoutsPage() {
 
   const handleRequestSuccess = () => {
     setRequestSuccess(true);
-    // Refresh after a short delay so history updates
-    setTimeout(() => {
-      fetchPayouts();
-    }, 1500);
+    if (refreshTimerRef.current) clearTimeout(refreshTimerRef.current);
+    refreshTimerRef.current = setTimeout(() => { fetchPayouts(); }, 1500);
   };
 
   // ── Determine request form gate ──────────────────────────────────────────────

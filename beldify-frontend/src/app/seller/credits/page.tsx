@@ -192,7 +192,11 @@ function PurchaseForm({
   const [copied, setCopied] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const copiedTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  useEffect(() => () => { if (copiedTimerRef.current) clearTimeout(copiedTimerRef.current); }, []);
+  const refreshTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  useEffect(() => () => {
+    if (copiedTimerRef.current) clearTimeout(copiedTimerRef.current);
+    if (refreshTimerRef.current) clearTimeout(refreshTimerRef.current);
+  }, []);
 
   const handleCopyRIB = () => {
     if (bankDetails) {
@@ -504,10 +508,8 @@ export default function SellerCreditsPage() {
 
   const handlePurchaseSuccess = () => {
     setPurchaseStep('success');
-    // Refresh data after a short delay so the new purchase shows up
-    setTimeout(() => {
-      fetchAll();
-    }, 1500);
+    if (refreshTimerRef.current) clearTimeout(refreshTimerRef.current);
+    refreshTimerRef.current = setTimeout(() => { fetchAll(); }, 1500);
   };
 
   return (
