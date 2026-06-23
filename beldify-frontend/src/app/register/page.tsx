@@ -150,12 +150,13 @@ export default function RegisterPage() {
     if (!process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID) return;
 
     const buttonContainer = googleButtonRef.current;
+    let initTid: ReturnType<typeof setTimeout> | null = null;
 
     if (document.querySelector('script#google-identity-script')) {
       if (typeof window !== 'undefined' && window.google?.accounts) {
-        setTimeout(initializeGoogleButton, 100);
+        initTid = setTimeout(initializeGoogleButton, 100);
       }
-      return;
+      return () => { if (initTid) clearTimeout(initTid); };
     }
 
     const script = document.createElement('script');

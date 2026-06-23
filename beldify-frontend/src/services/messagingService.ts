@@ -14,6 +14,12 @@ const getCsrfToken = (): string | null => {
   return null;
 };
 
+// Safe localStorage read — Safari ITP private-mode throws SecurityError on access
+const getToken = (): string | null => {
+  if (typeof window === 'undefined') return null;
+  try { return localStorage.getItem('token'); } catch { return null; }
+};
+
 // Helper function to get authentication headers
 const getAuthHeaders = () => {
   let token: string | null = null;
@@ -100,7 +106,7 @@ export const getConversation = async (
   otherUser: any;
 }> => {
   try {
-    const authToken = localStorage.getItem('token');
+    const authToken = getToken();
 
     if (!authToken) {
       throw new Error('Authentication required to view conversations');
@@ -155,8 +161,8 @@ export const sendMessage = async (
     }
     
     // Get token from localStorage and auth_token cookie as fallback
-    let token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
-    
+    let token = getToken();
+
     // If no token in localStorage, try to get from cookies
     if (!token && typeof document !== 'undefined') {
       const authCookie = document.cookie
@@ -164,10 +170,10 @@ export const sendMessage = async (
         .find(row => row.startsWith('auth_token='));
       token = authCookie ? decodeURIComponent(authCookie.split('=')[1]) : null;
     }
-    
+
     if (!token) {
       logger.error('No authentication token found:', {
-        hasLocalStorage: !!localStorage.getItem('token'),
+        hasLocalStorage: !!getToken(),
         hasCookie: typeof document !== 'undefined' && document.cookie.includes('auth_token='),
       });
       throw new Error('Authentication required to send messages');
@@ -294,7 +300,7 @@ export interface SellerMarkReadResult {
 export const getSellerConversations = async (): Promise<SellerConversationsResult> => {
   const empty: SellerConversationsResult = { conversations: [], total_unread: 0 };
   try {
-    const authToken = localStorage.getItem('token');
+    const authToken = getToken();
     if (!authToken) {
       logger.warn('getSellerConversations: no token');
       return empty;
@@ -322,7 +328,7 @@ export const getSellerThread = async (
   buyerId: string,
   page: number = 1
 ): Promise<SellerThreadResult> => {
-  const authToken = localStorage.getItem('token');
+  const authToken = getToken();
   if (!authToken) {
     throw new Error('Authentication required to view seller thread');
   }
@@ -350,7 +356,7 @@ export const sendSellerMessage = async (
   buyerId: string,
   content: string
 ): Promise<SellerMessageItem> => {
-  const authToken = localStorage.getItem('token');
+  const authToken = getToken();
   if (!authToken) {
     throw new Error('Authentication required to send seller message');
   }
@@ -372,7 +378,7 @@ export const sendSellerMessage = async (
  */
 export const markSellerThreadRead = async (buyerId: string): Promise<SellerMarkReadResult> => {
   try {
-    const authToken = localStorage.getItem('token');
+    const authToken = getToken();
     if (!authToken) {
       logger.warn('markSellerThreadRead: no token');
       return { count: 0 };
@@ -397,7 +403,7 @@ export const markSellerThreadRead = async (buyerId: string): Promise<SellerMarkR
  */
 export const getSellerUnreadCount = async (): Promise<number> => {
   try {
-    const authToken = localStorage.getItem('token');
+    const authToken = getToken();
 
     if (!authToken) {
       logger.warn('No authentication token found for seller unread count');
@@ -426,8 +432,8 @@ export const getUnreadCount = async (lastCheckedTimestamp?: number): Promise<{
   currentTimestamp?: number;
 }> => {
   try {
-    const authToken = localStorage.getItem('token');
-    
+    const authToken = getToken();
+
     if (!authToken) {
       logger.warn('No authentication token found for unread count');
       return {
@@ -477,8 +483,8 @@ export const getUnreadCount = async (lastCheckedTimestamp?: number): Promise<{
  */
 export const markMessagesAsRead = async (shopId?: string, messageId?: string): Promise<{ count: number }> => {
   try {
-    const authToken = localStorage.getItem('token');
-    
+    const authToken = getToken();
+
     if (!authToken) {
       logger.warn('No authentication token found for marking messages as read');
       return { count: 0 };
@@ -518,8 +524,8 @@ export const checkNewMessages = async (shopId: string, lastMessageId?: string): 
   messages?: any[];
 }> => {
   try {
-    const authToken = localStorage.getItem('token');
-    
+    const authToken = getToken();
+
     if (!authToken) {
       logger.warn('No authentication token found for checking new messages');
       return {

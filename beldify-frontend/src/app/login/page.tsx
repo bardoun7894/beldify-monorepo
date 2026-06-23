@@ -198,14 +198,15 @@ export default function LoginPage() {
     // Capture the button container ref at effect registration time so the cleanup
     // closure uses the value that was current when the effect ran, not at teardown.
     const buttonContainer = googleButtonRef.current;
+    let initTid: ReturnType<typeof setTimeout> | null = null;
 
     // Skip if the script is already loaded
     if (document.querySelector('script#google-identity-script')) {
       // If script exists, just initialize the button
       if (window.google?.accounts) {
-        setTimeout(initializeGoogleButton, 100);
+        initTid = setTimeout(initializeGoogleButton, 100);
       }
-      return;
+      return () => { if (initTid) clearTimeout(initTid); };
     }
 
     const script = document.createElement('script');

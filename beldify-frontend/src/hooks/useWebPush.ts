@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback, useRef } from 'react';
+import logger from '@/utils/consoleLogger';
 import {
   subscribeToPush,
   unsubscribeFromPush,
@@ -144,7 +145,7 @@ export function useWebPush(): UseWebPushResult {
         }
       } catch (err) {
         if (!cancelled) {
-          console.warn('[useWebPush] init error:', err);
+          logger.warn('[useWebPush] init error:', err);
         }
       }
     };
@@ -202,7 +203,7 @@ export function useWebPush(): UseWebPushResult {
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : String(err);
       setError(msg);
-      console.error('[useWebPush] subscribe error:', err);
+      logger.error('[useWebPush] subscribe error:', err);
       return false;
     } finally {
       setIsLoading(false);
@@ -232,7 +233,7 @@ export function useWebPush(): UseWebPushResult {
         const authToken = getAuthToken();
         if (authToken) {
           await deleteSubscription(endpoint, authToken).catch((err) =>
-            console.warn('[useWebPush] backend unsubscribe failed (non-fatal):', err)
+            logger.warn('[useWebPush] backend unsubscribe failed (non-fatal):', err)
           );
         }
       }
@@ -242,7 +243,7 @@ export function useWebPush(): UseWebPushResult {
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : String(err);
       setError(msg);
-      console.error('[useWebPush] unsubscribe error:', err);
+      logger.error('[useWebPush] unsubscribe error:', err);
       return false;
     } finally {
       setIsLoading(false);
