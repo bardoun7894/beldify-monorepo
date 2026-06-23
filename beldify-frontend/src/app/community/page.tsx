@@ -134,6 +134,7 @@ export default function CommunityPage() {
 
   // Debounce ref for search
   const searchTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  useEffect(() => () => { if (searchTimer.current) clearTimeout(searchTimer.current); }, []);
 
   // Count active filters for badge
   const activeFilterCount =

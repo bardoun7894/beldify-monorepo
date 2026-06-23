@@ -77,6 +77,7 @@ export default function SecuritySettings() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (loading) return;
     if (formData.newPassword !== formData.confirmPassword) {
       toast.error(t('security.password_mismatch'));
       return;

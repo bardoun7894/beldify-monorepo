@@ -44,7 +44,7 @@ export default function CustomOrderTimeline({ order, onAdvanced }: CustomOrderTi
 
   const handleAdvance = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!selectedNext) return;
+    if (advancing || !selectedNext) return;
     setAdvanceError(null);
 
     try {

@@ -90,7 +90,7 @@ export default function SellerOrderDetailPage() {
 
   const handleUpdateStatus = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!order) return;
+    if (updating || !order) return;
     // Read current value directly from form DOM — avoids stale closure on selectedStatus state
     const formEl = e.currentTarget;
     const selectEl = formEl.querySelector('select') as HTMLSelectElement | null;

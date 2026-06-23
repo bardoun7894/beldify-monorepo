@@ -93,6 +93,7 @@ function RequestReturnSection() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (isSubmitting) return;
     setSubmitError('');
     if (!selectedOrderNumber) {
       setSubmitError(t('returns.request.order_required', 'Please select an order.'));

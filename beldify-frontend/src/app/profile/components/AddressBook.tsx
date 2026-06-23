@@ -594,6 +594,7 @@ export default function AddressBook() {
   };
 
   const handleSave = async (data: AddressFormData) => {
+    if (isSaving) return;
     setIsSaving(true);
 
     // Optimistic update
@@ -632,7 +633,7 @@ export default function AddressBook() {
   };
 
   const handleDeleteConfirm = async () => {
-    if (deleteId === null) return;
+    if (isDeleting || deleteId === null) return;
     setIsDeleting(true);
 
     // Optimistic removal

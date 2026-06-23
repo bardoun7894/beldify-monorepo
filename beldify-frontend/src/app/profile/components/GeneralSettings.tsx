@@ -77,6 +77,7 @@ export default function GeneralSettings() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (loading) return;
     setLoading(true);
     try {
       await updateProfile(formData);

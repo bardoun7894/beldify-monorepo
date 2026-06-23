@@ -126,6 +126,7 @@ export default function PreferencesSettings() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (loading) return;
     setLoading(true);
     try {
       await updatePreferences(preferences);
