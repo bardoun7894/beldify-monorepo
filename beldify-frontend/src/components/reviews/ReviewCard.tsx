@@ -7,6 +7,7 @@ import { formatDate } from '@/utils/formatters';
 import { getImageUrl } from '@/utils/imageUtils';
 import { reviewService } from '@/services/api';
 import { cn } from '@/utils/classNames';
+import logger from '@/utils/consoleLogger';
 
 interface ReviewCardProps {
   review: Review;
@@ -73,7 +74,7 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ review, onReactionUpdate }) => 
       setUserReaction(userReaction);
       setLikes(likes);
       setDislikes(dislikes);
-      console.error('Failed to update reaction:', error);
+      logger.error('Failed to update reaction:', error);
     } finally {
       setIsSubmitting(false);
     }

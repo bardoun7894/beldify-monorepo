@@ -175,17 +175,21 @@ export function EnhancedPWAProvider({ children }: { children: ReactNode }) {
     
     // Enhanced penalty system with progressive backoff
     if (eng.installDismissed > 0) {
-      const dismissCount = parseInt(localStorage.getItem('pwa-dismiss-count') || '0');
+      let rawDismissCount = '0';
+      try { rawDismissCount = localStorage.getItem('pwa-dismiss-count') || '0'; } catch { /* storage blocked */ }
+      const dismissCount = parseInt(rawDismissCount);
       const hoursSinceDismissed = (Date.now() - eng.installDismissed) / (1000 * 60 * 60);
-      
+
       if (hoursSinceDismissed < 24) score -= 100; // Don't show for 24 hours
       else if (hoursSinceDismissed < 72) score -= 50; // Reduce significantly for 3 days
       else if (dismissCount >= 3) score -= 30; // Permanent penalty for frequent dismissers
       else score -= 15; // Minor penalty after cooling off
     }
-    
+
     // Dynamic threshold based on user history
-    const dismissCount = parseInt(localStorage.getItem('pwa-dismiss-count') || '0');
+    let rawGlobalDismissCount = '0';
+    try { rawGlobalDismissCount = localStorage.getItem('pwa-dismiss-count') || '0'; } catch { /* storage blocked */ }
+    const dismissCount = parseInt(rawGlobalDismissCount);
     const baseThreshold = 50;
     const adaptiveThreshold = baseThreshold + (dismissCount * 10); // Increase threshold for dismissers
     

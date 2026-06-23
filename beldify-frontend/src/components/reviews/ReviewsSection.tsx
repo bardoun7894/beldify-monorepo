@@ -10,6 +10,7 @@ import { reviewService } from '@/services/api'; // Real backend reviews
 import toast from '@/utils/toast';
 import { PlusCircleIcon, AdjustmentsHorizontalIcon, StarIcon } from '@heroicons/react/24/outline';
 import { cn } from '@/utils/classNames';
+import logger from '@/utils/consoleLogger';
 
 interface ReviewsSectionProps {
   productId: string;
@@ -51,7 +52,7 @@ const ReviewsSection: React.FC<ReviewsSectionProps> = ({ productId, productName 
       setTotalReviews(response.pagination.totalItems);
       setCurrentPage(response.pagination.currentPage);
     } catch (err) {
-      console.error('Failed to fetch reviews:', err);
+      logger.error('Failed to fetch reviews:', err);
       setError(t('reviews.fetch_error'));
       // Keep existing data on error if not first load
       if (page === 1) {
@@ -110,7 +111,7 @@ const ReviewsSection: React.FC<ReviewsSectionProps> = ({ productId, productName 
       );
       // Optionally update summary if likes/dislikes are part of it
     } catch (err) {
-      console.error('Failed to update reaction:', err);
+      logger.error('Failed to update reaction:', err);
       // Handle error, maybe show a toast
     }
   };

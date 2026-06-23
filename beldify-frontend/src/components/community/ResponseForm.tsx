@@ -8,6 +8,7 @@ import { CommunityResponseFormData } from '@/types/community';
 import { useDirection } from '@/hooks/useDirection';
 import LoadingSpinner from '@/components/common/LoadingSpinner';
 import { ProposalAiDraft, ProposalAiDraftData } from './ProposalAiDraft';
+import logger from '@/utils/consoleLogger';
 
 interface ResponseFormProps {
   onSubmit: (data: FormData) => Promise<void>;
@@ -132,7 +133,7 @@ export default function ResponseForm({ onSubmit, onCancel, isLoading, postId }: 
 
       await onSubmit(dataToSubmit);
     } catch (err) {
-      console.error('Error submitting response:', err);
+      logger.error('Error submitting response:', err);
       setError(
         err instanceof Error
           ? err.message

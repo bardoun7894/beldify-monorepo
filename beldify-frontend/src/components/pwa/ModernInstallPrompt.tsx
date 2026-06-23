@@ -46,7 +46,7 @@ export default function ModernInstallPrompt() {
   };
 
   const handleRemindLater = () => {
-    localStorage.setItem('pwa-remind-later', Date.now().toString());
+    try { localStorage.setItem('pwa-remind-later', Date.now().toString()); } catch { /* storage blocked */ }
     handleDismiss();
   };
 
