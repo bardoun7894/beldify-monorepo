@@ -322,8 +322,7 @@ export default function LoginPage() {
       }
     } catch (err: any) {
       logger.error('Google auth error:', err);
-      const errorMsg = err.message || 'Login with Google failed';
-      toast.error(errorMsg);
+      toast.error(t('auth.google_login_failed'));
     } finally {
       setGoogleLoading(false);
     }

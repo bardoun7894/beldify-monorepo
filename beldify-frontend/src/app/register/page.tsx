@@ -238,7 +238,7 @@ export default function RegisterPage() {
       const authResult = await googleAuth(response.credential, true);
 
       if (authResult.success) {
-        toast.success('Google registration successful!');
+        toast.success(t('auth.google_register_success'));
         router.push('/profile');
       } else {
         setError(authResult.message || t('auth.registration_failed'));
@@ -246,9 +246,9 @@ export default function RegisterPage() {
       }
     } catch (err: any) {
       logger.error('Google auth error:', err);
-      const errorMsg = err.message || t('auth.google_registration_failed');
-      setError(errorMsg);
-      toast.error(errorMsg);
+      const fallback = t('auth.google_registration_failed');
+      setError(err?.message || fallback);
+      toast.error(fallback);
     } finally {
       setGoogleLoading(false);
     }

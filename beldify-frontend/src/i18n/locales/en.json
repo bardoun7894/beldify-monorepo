@@ -3085,6 +3085,7 @@
     "your_bid": "Your Bid"
   },
   "pwa": {
+    "installed_success": "App installed successfully! Find it on your home screen.",
     "banner": {
       "title": "Install Beldify App for a better experience",
       "ios_instruction": "Tap Share → Add to Home Screen in Safari",

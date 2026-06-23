@@ -296,6 +296,7 @@
     "google_unavailable": "Google Sign-In is momenteel niet beschikbaar",
     "google_init_failed": "Fout bij het initialiseren van Google Sign-In",
     "google_login_success": "Google-inloggen succesvol!",
+    "google_register_success": "Registratie met Google succesvol!",
     "google_login_failed": "Inloggen met Google mislukt",
     "reset_link_invalid": "Ongeldige reset-link",
     "reset_link_invalid_desc": "Deze wachtwoord reset-link bevat geen vereiste informatie. Vraag alsjeblieft een nieuwe aan.",
@@ -3059,6 +3060,7 @@
     "your_bid": "Jouw bod"
   },
   "pwa": {
+    "installed_success": "App succesvol geïnstalleerd! Je vindt hem op je startscherm.",
     "banner": {
       "title": "Installeer Beldify App voor een beter ervaring",
       "ios_instruction": "Tik Delen → Toevoegen aan Home Screen in Safari",

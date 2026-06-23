@@ -296,6 +296,7 @@
     "google_unavailable": "Google-Anmeldung ist derzeit nicht verfügbar",
     "google_init_failed": "Fehler beim Initialisieren der Google-Anmeldung",
     "google_login_success": "Google-Anmeldung erfolgreich!",
+    "google_register_success": "Google-Registrierung erfolgreich!",
     "google_login_failed": "Anmeldung mit Google fehlgeschlagen",
     "reset_link_invalid": "Ungültiger Zurücksetzen-Link",
     "reset_link_invalid_desc": "Diesem Passwort-Zurücksetzen-Link fehlen erforderliche Informationen. Bitte fordere einen neuen an.",
@@ -3059,6 +3060,7 @@
     "your_bid": "Dein Angebot"
   },
   "pwa": {
+    "installed_success": "App erfolgreich installiert! Du findest sie auf deinem Startbildschirm.",
     "banner": {
       "title": "Installiere die Beldify App für ein besseres Erlebnis",
       "ios_instruction": "Tippe auf Teilen → Zum Home-Bildschirm hinzufügen in Safari",

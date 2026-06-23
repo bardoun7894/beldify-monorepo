@@ -295,6 +295,7 @@
     "google_unavailable": "El inicio de sesión con Google no está disponible actualmente",
     "google_init_failed": "Error al inicializar el inicio de sesión con Google",
     "google_login_success": "¡Inicio de sesión con Google exitoso!",
+    "google_register_success": "¡Registro con Google exitoso!",
     "google_login_failed": "Error al iniciar sesión con Google",
     "username": "Nombre de usuario",
     "reset_link_invalid": "Enlace de restablecimiento no válido",
@@ -3206,6 +3207,7 @@
     "your_bid": "Tu Oferta"
   },
   "pwa": {
+    "installed_success": "¡Aplicación instalada con éxito! La encontrarás en tu pantalla de inicio.",
     "banner": {
       "title": "Instala la aplicación Beldify para una mejor experiencia",
       "ios_instruction": "Toca Compartir → Añadir a la pantalla de inicio en Safari",
