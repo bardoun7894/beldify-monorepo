@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, memo, Suspense, lazy } from 'react';
+import React, { useState, useRef, useEffect, memo, Suspense, lazy } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Product } from '@/lib/types';
@@ -56,6 +56,13 @@ const ProductCard = memo(function ProductCard({
   const [isAddingToCart, setIsAddingToCart] = useState(false);
   const [isWishlisted, setIsWishlisted] = useState(isInWishlist);
   const [showQuickView, setShowQuickView] = useState(false);
+  const cartTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (cartTimerRef.current) clearTimeout(cartTimerRef.current);
+    };
+  }, []);
 
   const {
     id,
@@ -108,17 +115,19 @@ const ProductCard = memo(function ProductCard({
 
     setIsAddingToCart(true);
 
+    if (cartTimerRef.current) clearTimeout(cartTimerRef.current);
+
     // If there's a custom handler, use it (parent manages the cart call)
     if (onAddToCart) {
       onAddToCart(product as Product);
-      setTimeout(() => setIsAddingToCart(false), 1000);
+      cartTimerRef.current = setTimeout(() => setIsAddingToCart(false), 1000);
     } else {
       // Default path: call the real CartContext.addToCart so the item reaches
       // the backend cart (including guest carts keyed by X-Guest-Token).
       try {
         await addToCart(product as Product);
         // Brief success state before resetting
-        setTimeout(() => setIsAddingToCart(false), 800);
+        cartTimerRef.current = setTimeout(() => setIsAddingToCart(false), 800);
       } catch {
         setIsAddingToCart(false);
         toast.error(t('cart.error_adding', 'Failed to add to cart'), {

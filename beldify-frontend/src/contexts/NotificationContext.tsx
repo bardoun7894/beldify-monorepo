@@ -82,10 +82,10 @@ export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({ 
       const result = await getUnreadCount();
 
       // unread_count matches the backend /api/v1/notifications/unread-count response
+      // Functional setState so this callback doesn't depend on `unreadCount` — otherwise
+      // the captured `unreadCount` goes stale after optimistic markAsRead decrement.
       const incoming = result.unread_count ?? 0;
-      if (incoming !== unreadCount) {
-        setUnreadCount(incoming);
-      }
+      setUnreadCount((prev) => (incoming !== prev ? incoming : prev));
 
       lastCheckedRef.current = now;
     } catch (error) {
@@ -93,7 +93,7 @@ export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({ 
     } finally {
       isRefreshingRef.current = false;
     }
-  }, [isAuthenticated, user, unreadCount]);
+  }, [isAuthenticated, user]);
 
   // ── Fetch notification list ────────────────────────────────────────────────
 

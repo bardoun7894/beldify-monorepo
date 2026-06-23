@@ -1,6 +1,6 @@
 'use client';
 
-import { Fragment, useState } from 'react';
+import { Fragment, useState, useRef, useEffect } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { XMarkIcon, HeartIcon, ShoppingCartIcon, StarIcon, CheckIcon, CheckCircleIcon, XCircleIcon } from '@heroicons/react/24/outline';
 import { HeartIcon as HeartFilledIcon, StarIcon as StarFilledIcon } from '@heroicons/react/24/solid';
@@ -39,6 +39,13 @@ export default function ProductQuickView({
   const [isAddingToCart, setIsAddingToCart] = useState(false);
   const [isWishlisted, setIsWishlisted] = useState(isInWishlist);
   const [quantity, setQuantity] = useState(1);
+  const cartTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (cartTimerRef.current) clearTimeout(cartTimerRef.current);
+    };
+  }, []);
 
   if (!product) return null;
 
@@ -84,6 +91,8 @@ export default function ProductQuickView({
     : DEFAULT_PLACEHOLDER_IMAGE;
 
   const handleAddToCart = () => {
+    if (cartTimerRef.current) clearTimeout(cartTimerRef.current);
+
     // If a parent override is provided, delegate and let it handle toasts.
     if (onAddToCart) {
       setIsAddingToCart(true);
@@ -98,7 +107,7 @@ export default function ProductQuickView({
           toast.error(t('error.general'));
         })
         .finally(() => {
-          setTimeout(() => setIsAddingToCart(false), 1000);
+          cartTimerRef.current = setTimeout(() => setIsAddingToCart(false), 1000);
         });
       return;
     }
@@ -131,7 +140,7 @@ export default function ProductQuickView({
         });
       })
       .finally(() => {
-        setTimeout(() => setIsAddingToCart(false), 1000);
+        cartTimerRef.current = setTimeout(() => setIsAddingToCart(false), 1000);
       });
   };
 
