@@ -105,9 +105,7 @@ export default function OrderDetailsPage() {
       }
       const skippedNote =
         result.items_skipped > 0
-          ? (i18n.language === 'ar' || i18n.language === 'ma')
-            ? ` (${result.items_skipped} منتج غير متوفر)`
-            : ` (${result.items_skipped} item${result.items_skipped > 1 ? 's' : ''} out of stock)`
+          ? ` ${t('orders.reorder.items_skipped', '({{count}} items out of stock)', { count: result.items_skipped })}`
           : '';
       toast.success(t('orders.reorder.added', 'Added to your cart') + skippedNote);
       router.push('/cart');
@@ -131,12 +129,10 @@ export default function OrderDetailsPage() {
       setCancelReason('');
       // Bust the cache entry so the orders list also picks up the new status
       orderService.resetCache(`order:${orderNumber}`);
-      toast.success(
-        (i18n.language === 'ar' || i18n.language === 'ma') ? 'تم إلغاء الطلب' : 'Order cancelled'
-      );
+      toast.success(t('orders.cancel.success', 'Order cancelled'));
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : '';
-      toast.error(msg || ((i18n.language === 'ar' || i18n.language === 'ma') ? 'تعذّر الإلغاء' : 'Could not cancel this order'));
+      toast.error(msg || t('orders.cancel.error', 'Could not cancel this order'));
     } finally {
       setCancelling(false);
     }
@@ -147,9 +143,7 @@ export default function OrderDetailsPage() {
     e.preventDefault();
     if (submittingReturn) return;
     if (!returnReason) {
-      setReturnError(
-        (i18n.language === 'ar' || i18n.language === 'ma') ? 'يرجى اختيار سبب' : 'Please select a reason'
-      );
+      setReturnError(t('orders.return.error_no_reason', 'Please select a reason'));
       return;
     }
     setSubmittingReturn(true);
@@ -163,14 +157,10 @@ export default function OrderDetailsPage() {
       setShowReturnModal(false);
       setReturnReason('');
       setReturnDetails('');
-      toast.success(
-        (i18n.language === 'ar' || i18n.language === 'ma') ? 'تم إرسال طلب الإرجاع' : 'Return request submitted'
-      );
+      toast.success(t('orders.return.submitted', 'Return request submitted'));
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : '';
-      setReturnError(
-        msg || ((i18n.language === 'ar' || i18n.language === 'ma') ? 'تعذّر إرسال الطلب' : 'Could not submit return request')
-      );
+      setReturnError(msg || t('orders.return.error_generic', 'Could not submit return request'));
     } finally {
       setSubmittingReturn(false);
     }
