@@ -127,7 +127,7 @@ export default function ProductQuickView({
         });
       })
       .catch(() => {
-        toast.error(t('product.addToCartError', 'Could not add to cart. Please try again.'), {
+        toast.error(t('cart.error_adding'), {
           position: isRTL ? 'bottom-left' : 'bottom-right',
           duration: 3000,
         });
