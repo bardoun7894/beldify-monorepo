@@ -427,8 +427,21 @@ export default function ProductsPage() {
     );
   }
 
+  const breadcrumbJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Beldify', item: 'https://beldify.com' },
+      { '@type': 'ListItem', position: 2, name: 'Produits', item: 'https://beldify.com/products' },
+    ],
+  };
+
   return (
     <div className="min-h-screen bg-canvas pb-24 md:pb-16">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
       <OpenSoukRequestModal
         isOpen={openSouk.isOpen}
         onClose={openSouk.close}
