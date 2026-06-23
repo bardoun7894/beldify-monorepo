@@ -107,6 +107,10 @@ export default function SellerNewProductPage() {
   }>({ open: false });
 
   const imageInputRef = useRef<HTMLInputElement>(null);
+  const blobPreviewRef = useRef<string | null>(null);
+
+  // Revoke any remaining blob URL on unmount
+  useEffect(() => () => { if (blobPreviewRef.current) URL.revokeObjectURL(blobPreviewRef.current); }, []);
 
   // Fetch categories on mount
   useEffect(() => {
@@ -163,11 +167,14 @@ export default function SellerNewProductPage() {
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0] ?? null;
     if (!file) return;
+    if (blobPreviewRef.current) URL.revokeObjectURL(blobPreviewRef.current);
     const preview = URL.createObjectURL(file);
+    blobPreviewRef.current = preview;
     setForm((prev) => ({ ...prev, product_image: file, imagePreview: preview }));
   };
 
   const clearImage = () => {
+    if (blobPreviewRef.current) { URL.revokeObjectURL(blobPreviewRef.current); blobPreviewRef.current = null; }
     setForm((prev) => ({ ...prev, product_image: null, imagePreview: null }));
     if (imageInputRef.current) imageInputRef.current.value = '';
   };
@@ -246,6 +253,7 @@ export default function SellerNewProductPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (submitting) return;
     setError(null);
 
     if (!form.product_name_en.trim()) {

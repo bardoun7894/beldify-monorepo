@@ -250,6 +250,9 @@ export default function CreatePostPage() {
 
   const [requiredSkills, setRequiredSkills] = useState<string[]>([]);
   const [previewImages, setPreviewImages] = useState<string[]>([]);
+  const previewImagesRef = useRef<string[]>([]);
+  useEffect(() => { previewImagesRef.current = previewImages; }, [previewImages]);
+  useEffect(() => () => { previewImagesRef.current.forEach(url => URL.revokeObjectURL(url)); }, []);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [categories, setCategories] = useState<Category[]>([]);

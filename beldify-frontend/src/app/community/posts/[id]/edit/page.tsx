@@ -187,6 +187,9 @@ export default function EditPostPage() {
   const [existingImageUrls, setExistingImageUrls] = useState<string[]>([]);
   const [newImages, setNewImages] = useState<File[]>([]);
   const [newImagePreviews, setNewImagePreviews] = useState<string[]>([]);
+  const newImagePreviewsRef = useRef<string[]>([]);
+  useEffect(() => { newImagePreviewsRef.current = newImagePreviews; }, [newImagePreviews]);
+  useEffect(() => () => { newImagePreviewsRef.current.forEach(url => URL.revokeObjectURL(url)); }, []);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [isDragActive, setIsDragActive] = useState(false);
 

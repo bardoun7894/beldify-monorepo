@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
 import { ImageIcon, X, Wallet, Clock, Send, AlertCircle } from 'lucide-react';
@@ -33,6 +33,9 @@ export default function ResponseForm({ onSubmit, onCancel, isLoading, postId }: 
   });
 
   const [previewImages, setPreviewImages] = useState<string[]>([]);
+  const previewImagesRef = useRef<string[]>([]);
+  useEffect(() => { previewImagesRef.current = previewImages; }, [previewImages]);
+  useEffect(() => () => { previewImagesRef.current.forEach(url => URL.revokeObjectURL(url)); }, []);
   const [error, setError] = useState<string | null>(null);
 
   /** Apply AI-drafted values to the form fields — seller edits before submitting */

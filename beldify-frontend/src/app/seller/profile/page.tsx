@@ -73,8 +73,14 @@ export default function SellerProfilePage() {
   const logoInputRef = useRef<HTMLInputElement>(null);
   const bannerInputRef = useRef<HTMLInputElement>(null);
   const navTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const logoBlobRef = useRef<string | null>(null);
+  const bannerBlobRef = useRef<string | null>(null);
 
   useEffect(() => () => { if (navTimerRef.current) clearTimeout(navTimerRef.current); }, []);
+  useEffect(() => () => {
+    if (logoBlobRef.current) URL.revokeObjectURL(logoBlobRef.current);
+    if (bannerBlobRef.current) URL.revokeObjectURL(bannerBlobRef.current);
+  }, []);
 
   // Fetch profile on mount
   useEffect(() => {
@@ -123,7 +129,10 @@ export default function SellerProfilePage() {
   const handleFileChange = (field: 'logo' | 'banner') => (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0] ?? null;
     if (!file) return;
+    const blobRef = field === 'logo' ? logoBlobRef : bannerBlobRef;
+    if (blobRef.current) URL.revokeObjectURL(blobRef.current);
     const previewUrl = URL.createObjectURL(file);
+    blobRef.current = previewUrl;
     setForm((prev) => ({
       ...prev,
       [field]: file,
