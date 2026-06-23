@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { XMarkIcon, DevicePhoneMobileIcon, SparklesIcon } from '@heroicons/react/24/outline';
 import { useEnhancedPWA } from '@/contexts/EnhancedPWAContext';
 import { useTranslation } from 'react-i18next';
@@ -10,15 +10,21 @@ export default function PWAReminderBanner() {
   const { isInstalled, isPWAMode, showReminderBanner, dismissReminder } = useEnhancedPWA();
   const [isVisible, setIsVisible] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
+  const showTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
-    // Only show if app is installed but user is not in PWA mode
     if (isInstalled && !isPWAMode && showReminderBanner) {
-      setTimeout(() => {
+      showTimerRef.current = setTimeout(() => {
         setIsVisible(true);
         setIsAnimating(true);
       }, 500);
     }
+    return () => {
+      if (showTimerRef.current !== null) {
+        clearTimeout(showTimerRef.current);
+        showTimerRef.current = null;
+      }
+    };
   }, [isInstalled, isPWAMode, showReminderBanner]);
 
   const handleDismiss = () => {

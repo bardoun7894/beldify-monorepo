@@ -9,11 +9,21 @@ const InitialLoadingScreen = () => {
   const [showLoader, setShowLoader] = useState(false);
 
   useEffect(() => {
-    const hasShown = sessionStorage.getItem(SESSION_STORAGE_KEY);
+    let hasShown = false;
+    try {
+      hasShown = sessionStorage.getItem(SESSION_STORAGE_KEY) === 'true';
+    } catch {
+      /* sessionStorage unavailable (private-mode / sandboxed iframe) */
+    }
     if (!hasShown) {
       setShowLoader(true);
-      sessionStorage.setItem(SESSION_STORAGE_KEY, 'true');
-      setTimeout(() => setShowLoader(false), 3000);
+      try {
+        sessionStorage.setItem(SESSION_STORAGE_KEY, 'true');
+      } catch {
+        /* ignore */
+      }
+      const id = setTimeout(() => setShowLoader(false), 3000);
+      return () => clearTimeout(id);
     }
   }, []);
 

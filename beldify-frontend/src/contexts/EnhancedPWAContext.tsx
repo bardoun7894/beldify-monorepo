@@ -104,19 +104,23 @@ export function EnhancedPWAProvider({ children }: { children: ReactNode }) {
 
   // Load and save engagement data
   const loadEngagement = useCallback(() => {
-    const saved = localStorage.getItem('pwa-engagement');
-    if (saved) {
-      try {
+    try {
+      const saved = localStorage.getItem('pwa-engagement');
+      if (saved) {
         return JSON.parse(saved) as UserEngagement;
-      } catch {
-        return engagement;
       }
+    } catch {
+      /* localStorage unavailable (private-mode / Safari ITP) */
     }
     return engagement;
   }, [engagement]);
 
   const saveEngagement = useCallback((data: UserEngagement) => {
-    localStorage.setItem('pwa-engagement', JSON.stringify(data));
+    try {
+      localStorage.setItem('pwa-engagement', JSON.stringify(data));
+    } catch {
+      /* localStorage unavailable */
+    }
     setEngagement(data);
   }, []);
 
@@ -370,64 +374,65 @@ export function EnhancedPWAProvider({ children }: { children: ReactNode }) {
 
   const dismissInstallPrompt = () => {
     setShowInstallPrompt(false);
-    const now = Date.now();
-    const count = parseInt(localStorage.getItem('pwa-dismiss-count') || '0') + 1;
-    
-    // Update engagement data
-    const eng = loadEngagement();
-    saveEngagement({ ...eng, installDismissed: now });
-    
-    // Track dismissal patterns for smarter future prompts
-    localStorage.setItem('pwa-dismiss-count', count.toString());
-    localStorage.setItem('pwa-last-dismiss', now.toString());
-    
-    const dismissals = JSON.parse(localStorage.getItem('pwa-prompt-dismissals') || '[]');
-    dismissals.push({ 
-      timestamp: now, 
-      count, 
-      reason: 'user_dismiss',
-      engagementScore: calculateOptimalTiming().score,
-      pageViews: eng.pageViews,
-      timeSpent: eng.timeSpent,
-      cartValue: eng.cartValue
-    });
-    
-    // Keep only last 10 dismissals for performance
-    if (dismissals.length > 10) {
-      dismissals.splice(0, dismissals.length - 10);
+    try {
+      const now = Date.now();
+      const count = parseInt(localStorage.getItem('pwa-dismiss-count') || '0') + 1;
+
+      const eng = loadEngagement();
+      saveEngagement({ ...eng, installDismissed: now });
+
+      localStorage.setItem('pwa-dismiss-count', count.toString());
+      localStorage.setItem('pwa-last-dismiss', now.toString());
+
+      const dismissals = JSON.parse(localStorage.getItem('pwa-prompt-dismissals') || '[]');
+      dismissals.push({
+        timestamp: now,
+        count,
+        reason: 'user_dismiss',
+        engagementScore: calculateOptimalTiming().score,
+        pageViews: eng.pageViews,
+        timeSpent: eng.timeSpent,
+        cartValue: eng.cartValue
+      });
+
+      if (dismissals.length > 10) {
+        dismissals.splice(0, dismissals.length - 10);
+      }
+
+      localStorage.setItem('pwa-prompt-dismissals', JSON.stringify(dismissals));
+    } catch {
+      /* localStorage unavailable */
     }
-    
-    localStorage.setItem('pwa-prompt-dismissals', JSON.stringify(dismissals));
   };
 
   const dismissReminder = () => {
     setShowReminderBanner(false);
-    const now = Date.now();
-    const count = parseInt(localStorage.getItem('pwa-reminder-count') || '0') + 1;
-    
-    // Store dismissal data with progressive intervals
-    localStorage.setItem('pwa-last-reminder', now.toString());
-    localStorage.setItem('pwa-reminder-count', count.toString());
-    
-    // Track reminder dismissal patterns
-    const dismissals = JSON.parse(localStorage.getItem('pwa-reminder-dismissals') || '[]');
-    dismissals.push({ 
-      timestamp: now, 
-      count,
-      userAgent: navigator.userAgent,
-      isPWAMode: isPWAMode
-    });
-    
-    // Keep only last 10 dismissals
-    if (dismissals.length > 10) {
-      dismissals.splice(0, dismissals.length - 10);
-    }
-    
-    localStorage.setItem('pwa-reminder-dismissals', JSON.stringify(dismissals));
-    
-    // If user dismisses reminder frequently, reduce future frequency
-    if (count >= 3) {
-      localStorage.setItem('pwa-reminder-reduced', 'true');
+    try {
+      const now = Date.now();
+      const count = parseInt(localStorage.getItem('pwa-reminder-count') || '0') + 1;
+
+      localStorage.setItem('pwa-last-reminder', now.toString());
+      localStorage.setItem('pwa-reminder-count', count.toString());
+
+      const dismissals = JSON.parse(localStorage.getItem('pwa-reminder-dismissals') || '[]');
+      dismissals.push({
+        timestamp: now,
+        count,
+        userAgent: navigator.userAgent,
+        isPWAMode: isPWAMode
+      });
+
+      if (dismissals.length > 10) {
+        dismissals.splice(0, dismissals.length - 10);
+      }
+
+      localStorage.setItem('pwa-reminder-dismissals', JSON.stringify(dismissals));
+
+      if (count >= 3) {
+        localStorage.setItem('pwa-reminder-reduced', 'true');
+      }
+    } catch {
+      /* localStorage unavailable */
     }
   };
 

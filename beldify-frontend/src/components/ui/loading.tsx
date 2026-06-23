@@ -56,11 +56,20 @@ export function LoadingOverlay({ showOnlyOnce = false }) {
 
   React.useEffect(() => {
     if (showOnlyOnce) {
-      const hasShown = sessionStorage.getItem('hasShownInitialLoader');
+      let hasShown = false;
+      try {
+        hasShown = sessionStorage.getItem('hasShownInitialLoader') === 'true';
+      } catch {
+        /* sessionStorage unavailable (private-mode / sandboxed iframe) */
+      }
       if (hasShown) {
         setShowLoader(false);
       } else {
-        sessionStorage.setItem('hasShownInitialLoader', 'true');
+        try {
+          sessionStorage.setItem('hasShownInitialLoader', 'true');
+        } catch {
+          /* ignore */
+        }
         const timer = setTimeout(() => setShowLoader(false), 3000);
         return () => clearTimeout(timer);
       }
