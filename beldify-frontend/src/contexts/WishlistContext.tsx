@@ -201,7 +201,7 @@ export function WishlistProvider({ children }: { children: React.ReactNode }) {
       await refreshWishlist();
     } catch (error: any) {
       logger.error('Error updating wishlist notifications:', error);
-      toast.error(error.response?.data?.message || 'Failed to update wishlist notifications');
+      toast.error(error.response?.data?.message || t('wishlist.failed_to_update_notifications'));
       throw error;
     } finally {
       setIsLoading(false);
@@ -225,7 +225,7 @@ export function WishlistProvider({ children }: { children: React.ReactNode }) {
       }
     } catch (error: any) {
       logger.error('Error removing from wishlist:', error);
-      toast.error(error.response?.data?.message || 'Failed to remove item from wishlist');
+      toast.error(error.response?.data?.message || t('wishlist.failed_to_remove'));
       throw error;
     } finally {
       setIsLoading(false);

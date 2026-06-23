@@ -3320,7 +3320,14 @@
     "added_success": "Saved to your wishlist",
     "removed": "Removed from wishlist",
     "save": "Save",
-    "saved": "Saved"
+    "saved": "Saved",
+    "failed_to_fetch": "Failed to load wishlist",
+    "product_not_found": "Product not found",
+    "failed_to_add": "Failed to add to wishlist",
+    "already_in_wishlist": "Item already in wishlist",
+    "login_required": "Please log in to manage your wishlist",
+    "failed_to_update_notifications": "Failed to update wishlist notifications",
+    "failed_to_remove": "Failed to remove item from wishlist"
   },
   "account": {
     "wishlist": {

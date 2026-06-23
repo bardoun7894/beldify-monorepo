@@ -3506,7 +3506,14 @@
     "added_success": "Guardado en tu lista de deseos",
     "removed": "Eliminado de favoritos",
     "save": "Guardar",
-    "saved": "Guardado"
+    "saved": "Guardado",
+    "failed_to_fetch": "No se pudo cargar la lista de deseos",
+    "product_not_found": "Producto no encontrado",
+    "failed_to_add": "No se pudo añadir a la lista de deseos",
+    "already_in_wishlist": "El artículo ya está en la lista de deseos",
+    "login_required": "Por favor inicia sesión para gestionar tu lista de deseos",
+    "failed_to_update_notifications": "No se pudieron actualizar las notificaciones",
+    "failed_to_remove": "No se pudo eliminar el artículo de la lista de deseos"
   },
   "account": {
     "wishlist": {

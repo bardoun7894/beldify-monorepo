@@ -3312,7 +3312,14 @@
     "added_success": "Opgeslagen op je wenslijst",
     "removed": "Verwijderd van wenslijst",
     "save": "Opslaan",
-    "saved": "Opgeslagen"
+    "saved": "Opgeslagen",
+    "failed_to_fetch": "Kan wenslijst niet laden",
+    "product_not_found": "Product niet gevonden",
+    "failed_to_add": "Kan niet aan wenslijst toevoegen",
+    "already_in_wishlist": "Artikel al in wenslijst",
+    "login_required": "Log in om je wenslijst te beheren",
+    "failed_to_update_notifications": "Kan meldingen niet bijwerken",
+    "failed_to_remove": "Kan artikel niet van wenslijst verwijderen"
   },
   "account": {
     "wishlist": {

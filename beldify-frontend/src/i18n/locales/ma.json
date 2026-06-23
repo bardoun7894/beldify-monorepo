@@ -3339,7 +3339,14 @@
     "added_success": "تحفظ فالمفضلة ديالك",
     "removed": "تمحا من المفضلة",
     "save": "حفظ",
-    "saved": "محفوظ"
+    "saved": "محفوظ",
+    "failed_to_fetch": "ما قدرناش نحملو المفضلة",
+    "product_not_found": "المنتوج ما لقيناهوش",
+    "failed_to_add": "وقع مشكل فإضافة المنتوج للمفضلة",
+    "already_in_wishlist": "المنتوج موجود فالمفضلة",
+    "login_required": "خصك تدخل للحساب باش تدير فالمفضلة",
+    "failed_to_update_notifications": "ما قدرناش نحدثو الإشعارات",
+    "failed_to_remove": "وقع مشكل فحذف المنتوج من المفضلة"
   },
   "account": {
     "wishlist": {

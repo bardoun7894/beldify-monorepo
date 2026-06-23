@@ -2,6 +2,7 @@
 
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
+import { useTranslation } from 'react-i18next';
 import axios from '@/lib/axios';
 import toast from '@/utils/toast';
 import logger from '@/utils/consoleLogger';
@@ -62,6 +63,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
+  const { t } = useTranslation();
 
   // Initialize axios with stored token
   useEffect(() => {
@@ -413,7 +415,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         }
 
         toast.debug('Login response received successfully');
-        toast.success('Successfully logged in');
+        toast.success(t('auth.login_success'));
 
         return { success: true, data: user, message: 'Login successful' };
       }
@@ -595,7 +597,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       logger.error('Logout failed:', error);
     } finally {
       await handleAuthError(); // Ensure local state is cleared
-      toast.success('Successfully logged out');
+      toast.success(t('auth.logout_success'));
       // No need to call checkAuth() here as handleAuthError already sets user to null and isAuthenticated to false.
       // The next navigation or app interaction will rely on this cleared state.
     }
@@ -751,7 +753,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
           setUser(user);
           setIsAuthenticated(true);
-          toast.success('Google authentication successful!');
+          toast.success(t('auth.google_login_success'));
           await checkAuth(false);
           return { success: true };
         }
@@ -787,7 +789,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
             setUser(user);
             setIsAuthenticated(true);
-            toast.success('Google registration successful!');
+            toast.success(t('auth.google_login_success'));
             await checkAuth(false);
             return { success: true };
           } else {
@@ -809,7 +811,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
                 axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
                 setUser(user);
                 setIsAuthenticated(true);
-                toast.success('Logged in with existing account');
+                toast.success(t('auth.login_success'));
                 await checkAuth(false);
                 return { success: true };
               }

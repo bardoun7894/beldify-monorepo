@@ -3467,7 +3467,14 @@
     "added_success": "Enregistré dans vos favoris",
     "removed": "Retiré des favoris",
     "save": "Enregistrer",
-    "saved": "Enregistré"
+    "saved": "Enregistré",
+    "failed_to_fetch": "Impossible de charger la liste de souhaits",
+    "product_not_found": "Produit introuvable",
+    "failed_to_add": "Impossible d'ajouter à la liste de souhaits",
+    "already_in_wishlist": "Article déjà dans la liste de souhaits",
+    "login_required": "Veuillez vous connecter pour gérer votre liste de souhaits",
+    "failed_to_update_notifications": "Impossible de mettre à jour les notifications",
+    "failed_to_remove": "Impossible de retirer l'article de la liste de souhaits"
   },
   "account": {
     "wishlist": {
