@@ -1162,6 +1162,8 @@
     "reorder": {
       "added": "Added to your cart",
       "all_skipped": "Items are out of stock and could not be added.",
+      "items_skipped_one": "({{count}} item out of stock)",
+      "items_skipped_other": "({{count}} items out of stock)",
       "error": "Something went wrong. Please try again."
     },
     "review": {
@@ -4405,6 +4407,16 @@
     "step3_desc": "Your piece is hand-stitched and delivered worldwide in 3–4 weeks.",
     "step3_title": "Hand delivered",
     "suspended": "Suspended",
+    "filter": {
+      "bespoke": "Bespoke only"
+    },
+    "tab": {
+      "all": "All Products",
+      "caftans": "Caftans",
+      "mens": "Men's",
+      "bespoke": "Bespoke",
+      "reviews": "Reviews"
+    },
     "tabs_label": "Product categories",
     "tagline_default": "Hand-stitched caftans & traditional men's wear",
     "verified": "Verified by Beldify",

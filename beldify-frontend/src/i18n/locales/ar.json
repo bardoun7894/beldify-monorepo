@@ -1166,6 +1166,11 @@
     "reorder": {
       "added": "أُضيف إلى سلة التسوق",
       "all_skipped": "لم تتوفر المنتجات حالياً",
+      "items_skipped_one": "({{count}} منتج غير متوفر)",
+      "items_skipped_two": "({{count}} منتجان غير متوفران)",
+      "items_skipped_few": "({{count}} منتجات غير متوفرة)",
+      "items_skipped_many": "({{count}} منتجاً غير متوفر)",
+      "items_skipped_other": "({{count}} منتج غير متوفر)",
       "error": "حدث خطأ، يرجى المحاولة مجدداً"
     },
     "review": {
@@ -4635,6 +4640,16 @@
     "step3_desc": "تُخاط قطعتك يدوياً وتُشحن إلى أي مكان في 3–4 أسابيع.",
     "step3_title": "تسليم يدوي",
     "suspended": "موقوف",
+    "filter": {
+      "bespoke": "مخصص فقط"
+    },
+    "tab": {
+      "all": "جميع المنتجات",
+      "caftans": "قفاطين",
+      "mens": "ملابس رجالية",
+      "bespoke": "مخصص",
+      "reviews": "التقييمات"
+    },
     "tabs_label": "فئات المنتجات",
     "tagline_default": "قفاطين مخيطة يدوياً وملابس رجالية تقليدية",
     "verified": "موثّق من Beldify",

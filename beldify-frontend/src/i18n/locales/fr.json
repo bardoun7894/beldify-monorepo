@@ -1135,6 +1135,8 @@
     "reorder": {
       "added": "Ajouté à votre panier",
       "all_skipped": "Les articles sont épuisés et n'ont pas pu être ajoutés.",
+      "items_skipped_one": "({{count}} article épuisé)",
+      "items_skipped_other": "({{count}} articles épuisés)",
       "error": "Une erreur s'est produite. Veuillez réessayer."
     },
     "review": {
@@ -4178,6 +4180,16 @@
     "step3_desc": "Votre pièce est cousue à la main et livrée dans le monde entier en 3–4 semaines.",
     "step3_title": "Livraison à la main",
     "suspended": "Suspendu",
+    "filter": {
+      "bespoke": "Sur mesure uniquement"
+    },
+    "tab": {
+      "all": "Tous les produits",
+      "caftans": "Caftans",
+      "mens": "Homme",
+      "bespoke": "Sur mesure",
+      "reviews": "Avis"
+    },
     "tabs_label": "Catégories de produits",
     "tagline_default": "Caftans cousus main et vêtements traditionnels pour hommes",
     "verified": "Vérifié par Beldify",

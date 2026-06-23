@@ -1162,6 +1162,8 @@
     "reorder": {
       "added": "Toegevoegd aan je winkelwagen",
       "all_skipped": "Artikelen zijn uitverkocht en konden niet worden toegevoegd.",
+      "items_skipped_one": "({{count}} artikel uitverkocht)",
+      "items_skipped_other": "({{count}} artikelen uitverkocht)",
       "error": "Er is iets misgegaan. Probeer het opnieuw."
     },
     "review": {
@@ -4392,6 +4394,16 @@
     "step3_desc": "Je stuk wordt met de hand gestikt en wereldwijd bezorgd in 3–4 weken.",
     "step3_title": "Met de hand bezorgd",
     "suspended": "Opgeschort",
+    "filter": {
+      "bespoke": "Alleen op maat"
+    },
+    "tab": {
+      "all": "Alle producten",
+      "caftans": "Kaftans",
+      "mens": "Heren",
+      "bespoke": "Op maat",
+      "reviews": "Beoordelingen"
+    },
     "tabs_label": "Productcategorieën",
     "tagline_default": "Met de hand gestike kaftans & traditionele herenkleding",
     "verified": "Geverifieerd door Beldify",

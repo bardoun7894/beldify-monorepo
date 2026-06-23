@@ -1135,6 +1135,8 @@
     "reorder": {
       "added": "Añadido a tu carrito",
       "all_skipped": "Los artículos están agotados y no se pudieron agregar.",
+      "items_skipped_one": "({{count}} artículo agotado)",
+      "items_skipped_other": "({{count}} artículos agotados)",
       "error": "Algo salió mal. Por favor, inténtalo de nuevo."
     },
     "review": {
@@ -4195,6 +4197,16 @@
     "step3_desc": "Tu pieza se cose a mano y se entrega en todo el mundo en 3–4 semanas.",
     "step3_title": "Entrega artesanal",
     "suspended": "Suspendido",
+    "filter": {
+      "bespoke": "Solo a medida"
+    },
+    "tab": {
+      "all": "Todos los productos",
+      "caftans": "Caftanes",
+      "mens": "Hombre",
+      "bespoke": "A medida",
+      "reviews": "Reseñas"
+    },
     "tabs_label": "Categorías de productos",
     "tagline_default": "Caftanes cosidos a mano y ropa tradicional masculina",
     "verified": "Verificado por Beldify",

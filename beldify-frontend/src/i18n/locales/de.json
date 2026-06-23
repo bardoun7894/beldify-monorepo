@@ -1162,6 +1162,8 @@
     "reorder": {
       "added": "Zu deinem Warenkorb hinzugefügt",
       "all_skipped": "Artikel sind ausverkauft und konnten nicht hinzugefügt werden.",
+      "items_skipped_one": "({{count}} Artikel ausverkauft)",
+      "items_skipped_other": "({{count}} Artikel ausverkauft)",
       "error": "Etwas ist schiefgelaufen. Bitte versuche es erneut."
     },
     "review": {
@@ -4392,6 +4394,16 @@
     "step3_desc": "Dein Stück wird handgenäht und weltweit in 3–4 Wochen geliefert.",
     "step3_title": "Handgeliefert",
     "suspended": "Ausgesetzt",
+    "filter": {
+      "bespoke": "Nur Maßanfertigung"
+    },
+    "tab": {
+      "all": "Alle Produkte",
+      "caftans": "Kaftane",
+      "mens": "Herren",
+      "bespoke": "Maßanfertigung",
+      "reviews": "Bewertungen"
+    },
     "tabs_label": "Produktkategorien",
     "tagline_default": "Handgenähte Kaftans & traditionelle Herrenbekleidung",
     "verified": "Von Beldify verifiziert",
