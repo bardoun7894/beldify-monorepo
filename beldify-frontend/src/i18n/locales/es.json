@@ -3513,6 +3513,8 @@
     "product_not_found": "Producto no encontrado",
     "failed_to_add": "No se pudo añadir a favoritos",
     "already_in_wishlist": "Este artículo ya está en favoritos",
+    "failed_to_update_notifications": "No se pudieron actualizar las notificaciones de favoritos",
+    "failed_to_remove": "No se pudo eliminar el artículo de favoritos",
     "login_required": "Inicia sesión para gestionar tus favoritos"
   },
   "account": {

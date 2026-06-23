@@ -3492,6 +3492,8 @@
     "product_not_found": "Produit introuvable",
     "failed_to_add": "Échec de l'ajout aux favoris",
     "already_in_wishlist": "Cet article est déjà dans vos favoris",
+    "failed_to_update_notifications": "Échec de la mise à jour des notifications des favoris",
+    "failed_to_remove": "Échec de la suppression de l'article des favoris",
     "login_required": "Veuillez vous connecter pour gérer vos favoris"
   },
   "account": {

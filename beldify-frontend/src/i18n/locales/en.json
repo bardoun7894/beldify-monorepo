@@ -3345,6 +3345,8 @@
     "product_not_found": "Product not found",
     "failed_to_add": "Failed to add item to wishlist",
     "already_in_wishlist": "Item already in wishlist",
+    "failed_to_update_notifications": "Failed to update wishlist notifications",
+    "failed_to_remove": "Failed to remove item from wishlist",
     "login_required": "Please login to manage your wishlist"
   },
   "account": {

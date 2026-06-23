@@ -3319,6 +3319,8 @@
     "product_not_found": "Produkt nicht gefunden",
     "failed_to_add": "Hinzufügen zur Wunschliste fehlgeschlagen",
     "already_in_wishlist": "Artikel ist bereits auf deiner Wunschliste",
+    "failed_to_update_notifications": "Benachrichtigungen für die Wunschliste konnten nicht aktualisiert werden",
+    "failed_to_remove": "Artikel konnte nicht aus der Wunschliste entfernt werden",
     "login_required": "Bitte melde dich an, um die Wunschliste zu verwalten"
   },
   "account": {

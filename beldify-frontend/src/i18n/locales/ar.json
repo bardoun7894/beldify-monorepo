@@ -3579,6 +3579,8 @@
     "product_not_found": "المنتج غير موجود",
     "failed_to_add": "فشل في إضافة العنصر إلى المفضلة",
     "already_in_wishlist": "العنصر موجود بالفعل في المفضلة",
+    "failed_to_update_notifications": "تعذّر تحديث تنبيهات المفضلة",
+    "failed_to_remove": "تعذّر إزالة العنصر من المفضلة",
     "login_required": "يرجى تسجيل الدخول لإدارة المفضلة"
   },
   "account": {

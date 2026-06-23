@@ -3319,6 +3319,8 @@
     "product_not_found": "Product niet gevonden",
     "failed_to_add": "Toevoegen aan wenslijst mislukt",
     "already_in_wishlist": "Dit item staat al op je wenslijst",
+    "failed_to_update_notifications": "Bijwerken van wenslijstmeldingen mislukt",
+    "failed_to_remove": "Verwijderen van item uit wenslijst mislukt",
     "login_required": "Log in om je wenslijst te beheren"
   },
   "account": {
