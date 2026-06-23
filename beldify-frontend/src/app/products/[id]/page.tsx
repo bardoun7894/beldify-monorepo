@@ -33,6 +33,7 @@ import {
   Minus,
   ChevronDown,
   Sparkles,
+  MessageCircle,
 } from 'lucide-react';
 import { PdpBuyBar } from '@/components/products/PdpBuyBar';
 import { HowToBuySheet } from '@/components/products/HowToBuySheet';
@@ -1796,6 +1797,19 @@ export default function ProductDetailsPage() {
               </div>
             );
           })()}
+
+          {/* Ask seller — in-app messaging CTA, below seller card.
+              Links to the existing /community/messages/[shopId] route which
+              handles the login redirect for guests. Keeps transaction in-app. */}
+          {product.shop?.id && (
+            <Link
+              href={`/community/messages/${product.shop.id}`}
+              className="inline-flex items-center gap-1.5 text-sm font-medium text-indigo-700 hover:text-indigo-900 underline-offset-2 hover:underline transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30 rounded"
+            >
+              <MessageCircle className="h-4 w-4 shrink-0" aria-hidden />
+              {t('shop.message_atelier', 'Message the atelier')}
+            </Link>
+          )}
 
           {/* Description — 3 lines, styled. dir="auto" lets the browser detect the
               text's language from the first strong character, so an English blurb on
