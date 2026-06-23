@@ -10,6 +10,7 @@ import {
   X,
 } from 'lucide-react';
 import ShippingCalculator from './ShippingCalculator';
+import { intlLocale } from '@/i18n/config';
 
 const playfair = { fontFamily: '"Playfair Display", ui-serif, Georgia, serif' };
 
@@ -42,10 +43,11 @@ export default function OrderSummaryCard({
   onCheckout,
   loading = false,
 }: OrderSummaryCardProps) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const numberLocale = intlLocale(i18n.language);
 
   const fmt = (n: number) =>
-    n.toLocaleString('ar-MA', {
+    n.toLocaleString(numberLocale, {
       minimumFractionDigits: 2,
       maximumFractionDigits: 2,
     });
