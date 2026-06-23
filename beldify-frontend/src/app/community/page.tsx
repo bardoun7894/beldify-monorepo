@@ -144,7 +144,9 @@ export default function CommunityPage() {
     (filters.skills?.length ?? 0);
 
   // ── Fetch public job feed ────────────────────────────────────────────────
-  const loadPosts = useCallback(async () => {
+  // signal: { cancelled } lets the effect that owns the fetch cancel a stale
+  // response after a filter/sort/page change without rebuilding the callback.
+  const loadPosts = useCallback(async (signal?: { cancelled: boolean }) => {
     setLoading(true);
     setError(false);
     try {
@@ -154,18 +156,22 @@ export default function CommunityPage() {
         12,
         sort,
       );
+      if (signal?.cancelled) return;
       setPosts(response.data);
       setTotalPages(response.meta?.last_page ?? 1);
     } catch (err) {
+      if (signal?.cancelled) return;
       logger.error('Error fetching posts:', err);
       setError(true);
     } finally {
-      setLoading(false);
+      if (!signal?.cancelled) setLoading(false);
     }
   }, [filters, searchQuery, currentPage, sort]);
 
   useEffect(() => {
-    loadPosts();
+    const signal = { cancelled: false };
+    loadPosts(signal);
+    return () => { signal.cancelled = true; };
   }, [loadPosts]);
 
   // ── Fetch user's own posts via communityService.fetchMyPosts ──────────────
