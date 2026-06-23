@@ -133,7 +133,7 @@ export default function ProductQuickView({
         });
       })
       .finally(() => {
-        setTimeout(() => setIsAddingToCart(false), 1000);
+        cartTimerRef.current = setTimeout(() => setIsAddingToCart(false), 1000);
       });
   };
 
