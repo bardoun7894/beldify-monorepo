@@ -818,16 +818,13 @@ export default function ProductDetailsPage() {
 
   // Function to handle adding to cart
   const handleAddToCart = async () => {
-    // CARTDBG: trace which branch handleAddToCart takes and the resolved IDs.
-    if (typeof window !== 'undefined') {
-      const hasVariants = (product?.variants?.length ?? 0) > 0;
-      const resolvedStockId = product?.stock?.id ?? product?.stock_id ?? product?.id;
-      console.warn(
-        `[CARTDBG] handleAddToCart entry | hasVariants=${hasVariants}` +
-        ` | selectedVariant=${selectedVariant?.id ?? 'none'}` +
-        ` | resolvedStockId=${resolvedStockId} | quantity=${quantity}`
-      );
-    }
+    const hasVariants = (product?.variants?.length ?? 0) > 0;
+    const resolvedStockId = product?.stock?.id ?? product?.stock_id ?? product?.id;
+    logger.log(
+      `[cart] handleAddToCart | hasVariants=${hasVariants}` +
+      ` | selectedVariant=${selectedVariant?.id ?? 'none'}` +
+      ` | resolvedStockId=${resolvedStockId} | quantity=${quantity}`
+    );
 
     // Guests can add to cart and check out via the guest cart (X-Guest-Token) —
     // no login required. Do not gate add-to-cart behind authentication; the
@@ -994,16 +991,13 @@ export default function ProductDetailsPage() {
 
   // Function to handle direct purchase
   const handlePurchaseNow = async () => {
-    // CARTDBG: trace handlePurchaseNow entry
-    if (typeof window !== 'undefined') {
-      const hasVariants = (product?.variants?.length ?? 0) > 0;
-      const resolvedStockId = product?.stock?.id ?? product?.stock_id ?? product?.id;
-      console.warn(
-        `[CARTDBG] handlePurchaseNow entry | hasVariants=${hasVariants}` +
-        ` | selectedVariant=${selectedVariant?.id ?? 'none'}` +
-        ` | resolvedStockId=${resolvedStockId} | quantity=${quantity}`
-      );
-    }
+    const hasVariants = (product?.variants?.length ?? 0) > 0;
+    const resolvedStockId = product?.stock?.id ?? product?.stock_id ?? product?.id;
+    logger.log(
+      `[cart] handlePurchaseNow | hasVariants=${hasVariants}` +
+      ` | selectedVariant=${selectedVariant?.id ?? 'none'}` +
+      ` | resolvedStockId=${resolvedStockId} | quantity=${quantity}`
+    );
 
     // Guests can buy now via the guest cart + guest checkout (COD) — no login
     // required. Do not gate direct purchase behind authentication; the flow adds
@@ -1469,13 +1463,27 @@ export default function ProductDetailsPage() {
     },
   };
 
+  const breadcrumbJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: '/' },
+      ...(displayCategory ? [{ '@type': 'ListItem', position: 2, name: displayCategory, item: `/products?category=${encodeURIComponent(product.category || '')}` }] : []),
+      { '@type': 'ListItem', position: displayCategory ? 3 : 2, name: displayName, item: `/products/${product.id}` },
+    ],
+  };
+
   // pb-28 on mobile = ~112px clearance for the PdpBuyBar (two rows + safe-area)
   return (
     <div className="bg-canvas min-h-screen pb-28 md:pb-16">
-    {/* Product structured data for SEO */}
+    {/* Product + Breadcrumb structured data for SEO */}
     <script
       type="application/ld+json"
       dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd) }}
+    />
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
     />
     <main className="max-w-7xl mx-auto" role="main">
       {/* ── 1. Breadcrumb strip ── */}

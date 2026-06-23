@@ -151,8 +151,37 @@ export default function CategoryDetailPage() {
     ? (isRTL && category.category_name_ar ? category.category_name_ar : category.category_name_en)
     : '';
 
+  const breadcrumbJsonLd = category ? {
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          { '@type': 'ListItem', position: 1, name: 'Home', item: '/categories' },
+          { '@type': 'ListItem', position: 2, name: category.category_name_en, item: `/categories/${slug}` },
+        ],
+      },
+      {
+        '@type': 'ItemList',
+        name: category.category_name_en,
+        numberOfItems: productCount,
+        itemListElement: (categoryData?.products ?? []).slice(0, 10).map((p, i) => ({
+          '@type': 'ListItem',
+          position: i + 1,
+          url: `/products/${p.id}`,
+        })),
+      },
+    ],
+  } : null;
+
   return (
     <div className="min-h-screen bg-canvas pb-20">
+      {breadcrumbJsonLd && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+        />
+      )}
       <OpenSoukRequestModal
         isOpen={openSouk.isOpen}
         onClose={openSouk.close}

@@ -40,7 +40,7 @@ export default function FloatingSupportButton() {
                 <button
                   key={index}
                   onClick={option.action}
-                  className="w-full flex items-center space-x-2 p-2 rounded hover:bg-gray-50 transition-colors"
+                  className="w-full flex items-center gap-2 p-2 rounded hover:bg-gray-50 transition-colors"
                 >
                   <option.icon className="w-4 h-4 text-indigo-600" />
                   <span className="text-sm text-gray-700">{option.label}</span>

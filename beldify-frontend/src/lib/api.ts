@@ -72,7 +72,8 @@ api.interceptors.request.use(
     if (typeof window !== 'undefined' && config.url?.includes('/api/')) {
       const tokenPresent = Boolean(token || guestToken);
       const shortHash = guestToken ? guestToken.slice(0, 6) : (token ? 'auth' : 'none');
-      console.warn(`[CARTDBG] req ${config.url} sentToken=${tokenPresent} prefix=${shortHash}`);
+      // eslint-disable-next-line no-console
+      if (process.env.NODE_ENV !== 'production') console.log(`[cart] req ${config.url} sentToken=${tokenPresent} prefix=${shortHash}`);
     }
 
     if (token) {
