@@ -178,13 +178,16 @@ function postToBackend(event: AnalyticsEvent): void {
   const headers: Record<string, string> = { 'Content-Type': 'application/json' };
 
   if (win) {
-    const authToken = localStorage.getItem('token');
-    const guestToken = localStorage.getItem('guest_token');
-
-    if (authToken) {
-      headers['Authorization'] = `Bearer ${authToken}`;
-    } else if (guestToken) {
-      headers['X-Guest-Token'] = guestToken;
+    try {
+      const authToken = localStorage.getItem('token');
+      const guestToken = localStorage.getItem('guest_token');
+      if (authToken) {
+        headers['Authorization'] = `Bearer ${authToken}`;
+      } else if (guestToken) {
+        headers['X-Guest-Token'] = guestToken;
+      }
+    } catch {
+      // localStorage unavailable (Safari ITP / private mode) — send unauthenticated
     }
   }
 

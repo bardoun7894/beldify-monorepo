@@ -7,7 +7,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Pagination, Navigation, A11y, Keyboard } from 'swiper/modules';
 import { useTranslation } from 'react-i18next';
 import { Sparkles } from 'lucide-react';
-import '@/i18n/config';
+import { intlLocale } from '@/i18n/config';
 
 import 'swiper/css';
 import 'swiper/css/pagination';
@@ -86,9 +86,8 @@ export default function ProductHeroSlides({ products }: ProductHeroSlidesProps) 
 
   /** Format price in locale-appropriate MAD string */
   const formatMAD = (price: number) => {
-    const locale = isArabicScript ? 'ar-MA' : lang === 'fr' ? 'fr-FR' : 'en-US';
     try {
-      return new Intl.NumberFormat(locale, {
+      return new Intl.NumberFormat(intlLocale(lang), {
         style: 'currency',
         currency: 'MAD',
         maximumFractionDigits: 0,

@@ -3,6 +3,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { ArrowRight } from 'lucide-react';
+import { intlLocale } from '@/i18n/config';
 
 const playfair = { fontFamily: '"Playfair Display", ui-serif, Georgia, serif' };
 
@@ -19,10 +20,10 @@ export default function CartMobileBar({
   onCheckout,
   loading = false,
 }: CartMobileBarProps) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   const fmt = (n: number) =>
-    n.toLocaleString('ar-MA', {
+    n.toLocaleString(intlLocale(i18n.language), {
       minimumFractionDigits: 2,
       maximumFractionDigits: 2,
     });

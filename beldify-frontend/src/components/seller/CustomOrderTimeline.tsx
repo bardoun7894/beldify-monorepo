@@ -11,6 +11,7 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ChevronRight, Circle, CheckCircle2, Loader2 } from 'lucide-react';
+import { intlLocale } from '@/i18n/config';
 import {
   CustomOrder,
   CustomOrderStatus,
@@ -115,7 +116,7 @@ export default function CustomOrderTimeline({ order, onAdvanced }: CustomOrderTi
                       dateTime={entry.created_at}
                       className="text-xs text-gray-400"
                     >
-                      {new Date(entry.created_at).toLocaleDateString(isRTL ? 'ar-MA' : 'en-GB', {
+                      {new Date(entry.created_at).toLocaleDateString(intlLocale(i18n.language), {
                         day: '2-digit', month: 'short', year: 'numeric',
                       })}
                     </time>

@@ -8,6 +8,7 @@ import { useTranslation } from 'react-i18next';
 import { ArrowRight } from 'lucide-react';
 import '@/i18n/config';
 import WishlistButton from '@/components/products/WishlistButton';
+import { intlLocale } from '@/i18n/config';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -60,7 +61,7 @@ interface MarketCardProps {
 }
 
 function MarketCard({ product, isArabicScript }: MarketCardProps) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   const name = isArabicScript
     ? product.name_ar || product.name
@@ -121,12 +122,12 @@ function MarketCard({ product, isArabicScript }: MarketCardProps) {
           <div className="mt-1.5 flex items-baseline gap-1.5">
             <span className="text-sm font-bold text-indigo-700 tabular-nums">
               <span className="currency-mad">
-                {price.toLocaleString('ar-MA')} {t('common.currency', 'درهم')}
+                {price.toLocaleString(intlLocale(i18n.language))} {t('common.currency', 'درهم')}
               </span>
             </span>
             {originalPrice && (
               <span className="text-[10px] text-gray-400 line-through tabular-nums">
-                {originalPrice.toLocaleString('ar-MA')}
+                {originalPrice.toLocaleString(intlLocale(i18n.language))}
               </span>
             )}
           </div>

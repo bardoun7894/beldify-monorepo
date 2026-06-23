@@ -8,6 +8,7 @@ import { useTranslation } from 'react-i18next';
 import { ArrowRight, Star } from 'lucide-react';
 import '@/i18n/config';
 import { megaOfferService, MegaOfferCollection, FeaturedProduct } from '@/services/megaOfferService';
+import { intlLocale } from '@/i18n/config';
 
 interface MegaOffersProps {
   megaOffers?: MegaOfferCollection[];
@@ -68,7 +69,7 @@ function ProductCard({ product, locale }: { product: FeaturedProduct; locale: st
 
           <div className="flex items-center gap-2 mb-1">
             <span className="font-bold text-[hsl(var(--primary))] text-sm">
-              {Number(product.price).toLocaleString('ar-MA')} <span dir="rtl" lang="ar">درهم</span>
+              {Number(product.price).toLocaleString(intlLocale(locale))} <span dir="rtl" lang="ar">درهم</span>
             </span>
             {product.has_discount && product.original_price && product.original_price !== product.price && (
               <span className="text-xs text-gray-400 line-through">

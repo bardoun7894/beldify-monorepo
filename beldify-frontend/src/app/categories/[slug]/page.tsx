@@ -13,6 +13,7 @@ import CategoryDetailHero from '@/components/category/CategoryDetailHero';
 import { Product } from '@/lib/types';
 import { RefreshCw, PackageSearch, SlidersHorizontal, Megaphone } from 'lucide-react';
 import logger from '@/utils/consoleLogger';
+import { intlLocale } from '@/i18n/config';
 import useOpenSoukNudge from '@/hooks/useOpenSoukNudge';
 import OpenSoukRequestModal from '@/components/opensouk/OpenSoukRequestModal';
 
@@ -251,7 +252,7 @@ export default function CategoryDetailPage() {
                     ) : (
                       <span>
                         <strong className="text-gray-900">
-                          {categoryData.products.length.toLocaleString(isRTL ? 'ar-MA' : 'fr-MA')}
+                          {categoryData.products.length.toLocaleString(intlLocale(i18n.language))}
                         </strong>{' '}
                         {t('products.results_label', 'منتج')}
                       </span>
@@ -340,7 +341,7 @@ export default function CategoryDetailPage() {
                               </h4>
                               {subCategory.itemCount > 0 && (
                                 <span className="text-xs text-gray-500">
-                                  {subCategory.itemCount.toLocaleString(isRTL ? 'ar-MA' : 'fr-MA')}{' '}
+                                  {subCategory.itemCount.toLocaleString(intlLocale(i18n.language))}{' '}
                                   {t('category.items', 'قطعة')}
                                 </span>
                               )}

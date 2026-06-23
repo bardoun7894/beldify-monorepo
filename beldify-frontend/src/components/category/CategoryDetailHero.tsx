@@ -2,6 +2,7 @@
 
 import Image from 'next/image';
 import { useTranslation } from 'react-i18next';
+import { intlLocale } from '@/i18n/config';
 
 interface CategoryDetailHeroProps {
   /** Displayed name (already localised by caller) */
@@ -23,7 +24,7 @@ export default function CategoryDetailHero({
   itemCount,
   loading = false,
 }: CategoryDetailHeroProps) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   return (
     <div className="relative h-64 sm:h-80 md:h-[420px] bg-indigo-950 overflow-hidden">
@@ -59,7 +60,7 @@ export default function CategoryDetailHero({
       {/* Amber product count pill — top-end (RTL-aware) */}
       {typeof itemCount === 'number' && itemCount > 0 && (
         <span className="absolute top-4 end-4 sm:top-6 sm:end-6 inline-flex items-center rounded-full bg-amber-500 px-3 py-1.5 text-[11px] font-semibold uppercase tracking-wide text-amber-950 shadow-atlas-sm">
-          {itemCount.toLocaleString('ar-MA')} {t('category.items', 'قطعة')}
+          {itemCount.toLocaleString(intlLocale(i18n.language))} {t('category.items', 'قطعة')}
         </span>
       )}
 

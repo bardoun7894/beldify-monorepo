@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { ArrowRight, Sparkles } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import WishlistButton from '@/components/products/WishlistButton';
+import { intlLocale } from '@/i18n/config';
 
 interface IncomingProduct {
   id: number;
@@ -121,7 +122,7 @@ function PriceTag({
   comparePrice: number | null;
   hasVariants: boolean;
 }) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const discountPct =
     comparePrice && comparePrice > price
       ? Math.round((1 - price / comparePrice) * 100)
@@ -135,11 +136,11 @@ function PriceTag({
         </span>
       )}
       <p className="text-sm font-semibold text-[hsl(var(--primary))]">
-        <span className="currency-mad">{Number(price).toLocaleString('ar-MA')} درهم</span>
+        <span className="currency-mad">{Number(price).toLocaleString(intlLocale(i18n.language))} درهم</span>
       </p>
       {comparePrice && comparePrice > price && (
         <span className="text-[10px] text-gray-400 line-through tabular-nums">
-          {Number(comparePrice).toLocaleString('ar-MA')}
+          {Number(comparePrice).toLocaleString(intlLocale(i18n.language))}
         </span>
       )}
       {discountPct !== null && (
