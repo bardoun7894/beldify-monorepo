@@ -1,6 +1,6 @@
 'use client';
 
-import { Fragment, useState, useEffect } from 'react';
+import { Fragment, useState, useEffect, useRef } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { XMarkIcon, SparklesIcon, BoltIcon, HeartIcon, BellIcon, DevicePhoneMobileIcon } from '@heroicons/react/24/outline';
 import { CheckCircleIcon } from '@heroicons/react/24/solid';
@@ -22,6 +22,8 @@ export default function ModernInstallPrompt() {
 
   const [isAnimating, setIsAnimating] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
+  const successTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const dismissTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     if (showInstallPrompt) {
@@ -29,11 +31,19 @@ export default function ModernInstallPrompt() {
     }
   }, [showInstallPrompt]);
 
+  useEffect(() => {
+    return () => {
+      if (successTimerRef.current) clearTimeout(successTimerRef.current);
+      if (dismissTimerRef.current) clearTimeout(dismissTimerRef.current);
+    };
+  }, []);
+
   const handleInstall = async () => {
     const result = await install();
     if (result) {
       setShowSuccess(true);
-      setTimeout(() => {
+      if (successTimerRef.current) clearTimeout(successTimerRef.current);
+      successTimerRef.current = setTimeout(() => {
         setShowSuccess(false);
         dismissInstallPrompt();
       }, 2000);
@@ -42,7 +52,8 @@ export default function ModernInstallPrompt() {
 
   const handleDismiss = () => {
     setIsAnimating(false);
-    setTimeout(() => dismissInstallPrompt(), 300);
+    if (dismissTimerRef.current) clearTimeout(dismissTimerRef.current);
+    dismissTimerRef.current = setTimeout(() => dismissInstallPrompt(), 300);
   };
 
   const handleRemindLater = () => {

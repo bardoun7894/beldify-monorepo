@@ -56,6 +56,7 @@ export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({ 
   const lastCheckedRef = useRef<number>(0);
   const isRefreshingRef = useRef<boolean>(false);
   const notificationCallbackRef = useRef<((data: any) => void) | null>(null);
+  const markReadTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // ── Throttled unread count refresh (mirrors MessagingContext) ──────────────
 
@@ -124,8 +125,9 @@ export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({ 
         )
       );
       await serviceMarkAsRead(id);
-      // Authoritative refresh after a short delay
-      setTimeout(() => {
+      // Authoritative refresh after a short delay — cancel any pending refresh first
+      if (markReadTimerRef.current) clearTimeout(markReadTimerRef.current);
+      markReadTimerRef.current = setTimeout(() => {
         lastCheckedRef.current = 0; // reset throttle so next refresh runs
         refreshUnreadCount();
       }, 1000);
@@ -140,7 +142,8 @@ export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({ 
       prev.map((n) => ({ ...n, read_at: n.read_at ?? new Date().toISOString() }))
     );
     await serviceMarkAllAsRead();
-    setTimeout(() => {
+    if (markReadTimerRef.current) clearTimeout(markReadTimerRef.current);
+    markReadTimerRef.current = setTimeout(() => {
       lastCheckedRef.current = 0;
       refreshUnreadCount();
     }, 1000);

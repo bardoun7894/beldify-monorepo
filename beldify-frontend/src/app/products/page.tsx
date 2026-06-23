@@ -18,6 +18,7 @@ import { Button } from '@/components/ui/button';
 import { SearchAssistBar } from '@/components/buyer-ai/SearchAssistBar';
 import type { AssistFilters } from '@/services/buyerAiService';
 import { sortOptionsForQuery, resolveSort, defaultSortForQuery } from './sortConfig';
+import { intlLocale } from '@/i18n/config';
 
 interface ProductFiltersState {
   category?: string;
@@ -348,9 +349,10 @@ export default function ProductsPage() {
       });
     }
     if (filters.minPrice !== undefined && filters.maxPrice !== undefined) {
+      const loc = intlLocale(i18n.language);
       chips.push({
         id: 'price-range',
-        label: `${filters.minPrice.toLocaleString()} – ${filters.maxPrice.toLocaleString()} ${t('product.currency', 'MAD')}`,
+        label: `${filters.minPrice.toLocaleString(loc)} – ${filters.maxPrice.toLocaleString(loc)} ${t('product.currency', 'MAD')}`,
         type: 'price',
       });
     }

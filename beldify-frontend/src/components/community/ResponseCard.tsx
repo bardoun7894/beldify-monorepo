@@ -26,6 +26,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { useDirection } from '@/hooks/useDirection';
 import LoadingSpinner from '@/components/common/LoadingSpinner';
 import logger from '@/utils/consoleLogger';
+import { intlLocale } from '@/i18n/config';
 
 // Inline seller mini-profile shape from PostResponseResource.buildSellerProfile()
 interface SellerProfile {
@@ -87,7 +88,7 @@ export default function ResponseCard({
   const { user } = useAuth();
   const params = useParams();
   const currentPostId = postId || params?.id;
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { isRTL } = useDirection();
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [showImages, setShowImages] = useState(false);
@@ -263,7 +264,7 @@ export default function ResponseCard({
             <div className="inline-flex items-center gap-1.5 px-3.5 py-2 bg-amber-50 rounded-xl ring-1 ring-amber-200">
               <Wallet size={14} className="text-amber-700 shrink-0" />
               <span className="font-bold text-amber-900 text-sm">
-                {response.price.toLocaleString()}{' '}
+                {response.price.toLocaleString(intlLocale(i18n.language))}{' '}
                 <span className="font-medium text-amber-700 text-xs">{response.currency || 'MAD'}</span>
               </span>
             </div>

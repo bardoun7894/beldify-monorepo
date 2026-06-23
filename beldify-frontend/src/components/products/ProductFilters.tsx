@@ -9,6 +9,7 @@ import {
   SlidersHorizontal,
 } from 'lucide-react';
 import { useState, Fragment } from 'react';
+import { intlLocale } from '@/i18n/config';
 import { Dialog, Transition } from '@headlessui/react';
 import { Switch } from '@headlessui/react';
 
@@ -166,9 +167,10 @@ export default function ProductFilters({
 
     // MAD currency for price range badge
     if (filters.minPrice !== undefined && filters.maxPrice !== undefined) {
+      const loc = intlLocale(i18n.language);
       badges.push({
         id: 'price-range',
-        label: `${filters.minPrice.toLocaleString()} – ${filters.maxPrice.toLocaleString()} ${t('product.currency', 'MAD')}`,
+        label: `${filters.minPrice.toLocaleString(loc)} – ${filters.maxPrice.toLocaleString(loc)} ${t('product.currency', 'MAD')}`,
         type: 'price',
       });
     }

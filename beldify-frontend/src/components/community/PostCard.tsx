@@ -19,6 +19,7 @@ import type { CommunityPost } from '@/types/community';
 import { useDirection } from '@/hooks/useDirection';
 import { useAuth } from '@/contexts/AuthContext';
 import ShareButton from '@/components/share/ShareButton';
+import { intlLocale } from '@/i18n/config';
 
 interface PostCardProps {
   post: CommunityPost & {
@@ -29,7 +30,7 @@ interface PostCardProps {
 }
 
 /** Format MAD budget range from various API shapes */
-function formatBudget(post: CommunityPost): string {
+function formatBudget(post: CommunityPost, locale: string): string {
   if (post.budget && typeof post.budget === 'object') {
     const min =
       typeof post.budget.min === 'string'
@@ -41,7 +42,7 @@ function formatBudget(post: CommunityPost): string {
         : post.budget.max;
     if (!isNaN(min) && !isNaN(max)) {
       const currency = post.budget.currency || post.currency || 'MAD';
-      return `${min.toLocaleString()} – ${max.toLocaleString()} ${currency}`;
+      return `${min.toLocaleString(locale)} – ${max.toLocaleString(locale)} ${currency}`;
     }
   }
   const rawMin = post.budget_min;
@@ -51,7 +52,7 @@ function formatBudget(post: CommunityPost): string {
     const max = typeof rawMax === 'string' ? parseFloat(rawMax) : rawMax;
     if (!isNaN(min) && !isNaN(max)) {
       const currency = post.currency || 'MAD';
-      return `${min.toLocaleString()} – ${max.toLocaleString()} ${currency}`;
+      return `${min.toLocaleString(locale)} – ${max.toLocaleString(locale)} ${currency}`;
     }
   }
   return '';
@@ -120,7 +121,7 @@ function getInitials(name: string): string {
 }
 
 export default function PostCard({ post, isUserPost = false }: PostCardProps) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { isRTL } = useDirection();
   const { user } = useAuth();
   const [buyerImgError, setBuyerImgError] = React.useState(false);
@@ -135,7 +136,7 @@ export default function PostCard({ post, isUserPost = false }: PostCardProps) {
   const sellerRespondUrl =
     `${(process.env.NEXT_PUBLIC_API_URL || 'https://pro.beldify.com').replace(/\/$/, '')}/seller/community/posts/${post.id}/respond`;
 
-  const budgetDisplay = formatBudget(post);
+  const budgetDisplay = formatBudget(post, intlLocale(i18n.language));
 
   const titleLower = post.title?.toLowerCase() || '';
   const descLower = post.description?.toLowerCase() || '';
