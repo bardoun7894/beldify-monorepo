@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, useContext, useState, useEffect, ReactNode, useCallback } from 'react';
+import { createContext, useContext, useState, useEffect, ReactNode, useCallback, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import toast from '@/utils/toast';
 import logger from '@/utils/consoleLogger';
@@ -126,6 +126,13 @@ export function EnhancedPWAProvider({ children }: { children: ReactNode }) {
     }
     setEngagement(data);
   }, []);
+
+  // Stable refs so the cart/wishlist interval never needs to re-register
+  // when loadEngagement/saveEngagement are recreated after engagement state updates.
+  const loadEngagementRef = useRef(loadEngagement);
+  const saveEngagementRef = useRef(saveEngagement);
+  useEffect(() => { loadEngagementRef.current = loadEngagement; }, [loadEngagement]);
+  useEffect(() => { saveEngagementRef.current = saveEngagement; }, [saveEngagement]);
 
   // Smart timing algorithm for e-commerce
   const calculateOptimalTiming = useCallback(() => {
@@ -344,34 +351,36 @@ export function EnhancedPWAProvider({ children }: { children: ReactNode }) {
   }, []);
   /* eslint-enable react-hooks/exhaustive-deps */
 
-  // Track cart and wishlist changes
+  // Track cart and wishlist changes — deps [] so the interval is created once on mount.
+  // loadEngagementRef/saveEngagementRef always point to the latest callbacks.
   useEffect(() => {
     const checkCartAndWishlist = () => {
       try {
         const cart = localStorage.getItem('cart');
         const wishlist = localStorage.getItem('wishlist');
-        const eng = loadEngagement();
-        
+        const eng = loadEngagementRef.current();
+
         let cartValue = 0;
         if (cart) {
           const cartItems = JSON.parse(cart);
-          cartValue = cartItems.reduce((total: number, item: any) => 
+          cartValue = cartItems.reduce((total: number, item: any) =>
             total + (item.price * item.quantity), 0);
         }
-        
-        saveEngagement({
+
+        saveEngagementRef.current({
           ...eng,
           cartValue,
-          hasWishlist: wishlist ? JSON.parse(wishlist).length > 0 : false
+          hasWishlist: wishlist ? JSON.parse(wishlist).length > 0 : false,
         });
       } catch (error) {
         logger.error('Error checking cart/wishlist:', error);
       }
     };
 
-    const interval = setInterval(checkCartAndWishlist, 5000); // Check every 5 seconds
+    const interval = setInterval(checkCartAndWishlist, 5000);
     return () => clearInterval(interval);
-  }, [loadEngagement, saveEngagement]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const promptInstall = () => {
     if (!isInstalled && !checkRecentlyDismissed()) {

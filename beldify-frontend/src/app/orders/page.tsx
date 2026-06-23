@@ -144,22 +144,26 @@ export default function OrdersPage() {
 
   // Fetch orders
   useEffect(() => {
+    let cancelled = false;
     const fetchOrders = async () => {
       try {
         syncUrlLocale();
         setLoading(true);
         const data = await orderService.getOrders();
+        if (cancelled) return;
         setOrders(data || []);
         logger.log('Orders loaded:', data.length);
       } catch (error: any) {
+        if (cancelled) return;
         logger.error('Error loading orders:', error);
         setError(error?.message || t('orders.error.loading'));
       } finally {
-        setLoading(false);
+        if (!cancelled) setLoading(false);
       }
     };
 
     fetchOrders();
+    return () => { cancelled = true; };
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [i18n.language, retryKey]);
 
