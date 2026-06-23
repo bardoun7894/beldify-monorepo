@@ -9,6 +9,7 @@ import { formatPrice } from '@/utils/formatters';
 import { getImageUrl, DEFAULT_PLACEHOLDER_IMAGE } from '@/utils/imageUtils';
 import { useDirection } from '@/hooks/useDirection';
 import { useCart } from '@/contexts/CartContext';
+import { useWishlist } from '@/contexts/WishlistContext';
 import toast from '@/utils/toast';
 import {
   ShoppingCart,
@@ -51,10 +52,15 @@ const ProductCard = memo(function ProductCard({
   const { t } = useTranslation();
   const { isRTL } = useDirection();
   const { addToCart } = useCart();
+  const {
+    isInWishlist: isInWishlistFn,
+    addToWishlist,
+    removeFromWishlist,
+  } = useWishlist();
 
   const [isHovering, setIsHovering] = useState(false);
   const [isAddingToCart, setIsAddingToCart] = useState(false);
-  const [isWishlisted, setIsWishlisted] = useState(isInWishlist);
+  const [isWishlistLoading, setIsWishlistLoading] = useState(false);
   const [showQuickView, setShowQuickView] = useState(false);
   const cartTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -138,26 +144,33 @@ const ProductCard = memo(function ProductCard({
     }
   };
   
-  // Handle wishlist toggle
-  const handleWishlistToggle = (e: React.MouseEvent) => {
+  // Single source of truth: the WishlistContext. Falls back to the prop only
+  // when the context has nothing for this id, so callers passing isInWishlist
+  // still get an accurate initial render.
+  const isWishlisted = isInWishlistFn(id) || isInWishlist;
+
+  // Handle wishlist toggle — actually persists via WishlistContext
+  // (guest items go to localStorage; auth items hit the /api/wishlist endpoint).
+  // The previous fake toast-only path silently lost every guest save.
+  const handleWishlistToggle = async (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    
-    setIsWishlisted(!isWishlisted);
-    
-    if (onAddToWishlist) {
-      onAddToWishlist(product as Product);
-    } else {
-      // Default behavior
-      toast.success(
-        isWishlisted
-          ? t('wishlist.removed')
-          : t('wishlist.added'),
-        {
-          position: isRTL ? 'bottom-left' : 'bottom-right',
-          duration: 2000,
-        }
-      );
+    if (isWishlistLoading) return;
+
+    setIsWishlistLoading(true);
+    try {
+      if (isWishlisted) {
+        await removeFromWishlist(id);
+      } else {
+        await addToWishlist(id);
+      }
+      // Notify parent only after the operation succeeds — keeps the prop
+      // contract intact for callers who manage their own state on top.
+      onAddToWishlist?.(product as Product);
+    } catch {
+      // Context already surfaces an error toast; nothing more to do.
+    } finally {
+      setIsWishlistLoading(false);
     }
   };
   
@@ -256,7 +269,8 @@ const ProductCard = memo(function ProductCard({
           >
             <button
               onClick={handleWishlistToggle}
-              className={`btn-action ${isWishlisted ? 'btn-action-active' : 'btn-action-default'}`}
+              disabled={isWishlistLoading}
+              className={`btn-action ${isWishlisted ? 'btn-action-active' : 'btn-action-default'} ${isWishlistLoading ? 'opacity-70 cursor-wait' : ''}`}
               aria-pressed={isWishlisted}
               aria-label={isWishlisted ? t('wishlist.remove') : t('wishlist.add')}
               tabIndex={isHovering ? 0 : -1}

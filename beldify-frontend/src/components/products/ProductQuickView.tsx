@@ -12,6 +12,7 @@ import { formatPrice } from '@/utils/formatters';
 import { getImageUrl, DEFAULT_PLACEHOLDER_IMAGE } from '@/utils/imageUtils';
 import { useDirection } from '@/hooks/useDirection';
 import { useCart } from '@/contexts/CartContext';
+import { useWishlist } from '@/contexts/WishlistContext';
 import toast from '@/utils/toast';
 
 interface ProductQuickViewProps {
@@ -35,9 +36,14 @@ export default function ProductQuickView({
   const { isRTL } = useDirection();
   const router = useRouter();
   const { addItem } = useCart();
+  const {
+    isInWishlist: isInWishlistFn,
+    addToWishlist,
+    removeFromWishlist,
+  } = useWishlist();
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [isAddingToCart, setIsAddingToCart] = useState(false);
-  const [isWishlisted, setIsWishlisted] = useState(isInWishlist);
+  const [isWishlistLoading, setIsWishlistLoading] = useState(false);
   const [quantity, setQuantity] = useState(1);
   const cartTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -144,20 +150,27 @@ export default function ProductQuickView({
       });
   };
 
-  const handleWishlistToggle = () => {
-    setIsWishlisted(!isWishlisted);
-    
-    if (onAddToWishlist) {
-      onAddToWishlist(product);
-    }
-    
-    toast.success(
-      isWishlisted ? t('wishlist.removed') : t('wishlist.added'),
-      {
-        position: isRTL ? 'bottom-left' : 'bottom-right',
-        duration: 2000,
+  // Single source of truth: the WishlistContext (with a prop fallback for
+  // callers that pre-populate the state).
+  const isWishlisted = isInWishlistFn(id) || isInWishlist;
+
+  // Persist via WishlistContext — guests go to localStorage, auth hits /api.
+  // The previous toast-only path silently dropped every save.
+  const handleWishlistToggle = async () => {
+    if (isWishlistLoading) return;
+    setIsWishlistLoading(true);
+    try {
+      if (isWishlisted) {
+        await removeFromWishlist(id);
+      } else {
+        await addToWishlist(id);
       }
-    );
+      onAddToWishlist?.(product);
+    } catch {
+      // Context surfaces its own error toast.
+    } finally {
+      setIsWishlistLoading(false);
+    }
   };
 
   const renderStars = (rating: number) => {
@@ -390,11 +403,12 @@ export default function ProductQuickView({
 
                         <button
                           onClick={handleWishlistToggle}
+                          disabled={isWishlistLoading}
                           className={`p-3 rounded-xl border transition-all duration-300 ${
                             isWishlisted
                               ? 'bg-red-50 border-red-200 text-red-600'
                               : 'bg-gray-50 border-gray-200 text-gray-600 hover:bg-red-50 hover:border-red-200 hover:text-red-600'
-                          }`}
+                          } ${isWishlistLoading ? 'opacity-70 cursor-wait' : ''}`}
                           aria-pressed={isWishlisted}
                           aria-label={isWishlisted ? t('wishlist.remove') : t('wishlist.add')}
                         >

@@ -173,6 +173,22 @@ export default function CategoryDetailPage() {
       { '@type': 'ListItem', position: 3, name: breadcrumbLeafName, item: `${siteUrl}/categories/${slug}` },
     ],
   };
+  // ItemList JSON-LD — exposes the first 24 products as a structured listing
+  // so Google can render a product carousel for category SERP entries.
+  const productsForLd = categoryData?.products ?? [];
+  const itemListJsonLd =
+    productsForLd.length > 0
+      ? {
+          '@context': 'https://schema.org',
+          '@type': 'ItemList',
+          itemListElement: productsForLd.slice(0, 24).map((p, idx) => ({
+            '@type': 'ListItem',
+            position: idx + 1,
+            url: `${siteUrl}/products/${p.id}`,
+            name: p.name,
+          })),
+        }
+      : null;
 
   return (
     <div className="min-h-screen bg-canvas pb-20">
@@ -180,6 +196,12 @@ export default function CategoryDetailPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
+      {itemListJsonLd && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListJsonLd) }}
+        />
+      )}
       <OpenSoukRequestModal
         isOpen={openSouk.isOpen}
         onClose={openSouk.close}

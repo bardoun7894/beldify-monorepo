@@ -139,8 +139,51 @@ export default function CategoryPage() {
     : '';
   const productCount = category?.itemCount ?? categoryData?.products?.length ?? 0;
 
+  // BreadcrumbList + ItemList JSON-LD — same rich-result coverage the sibling
+  // /categories/[slug] page already emits. Slug is available pre-fetch, so the
+  // breadcrumb appears even before products load.
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.beldify.com';
+  const breadcrumbLeafName =
+    categoryName ||
+    (typeof slug === 'string'
+      ? slug.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase())
+      : '');
+  const breadcrumbJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: t('navigation.home', 'Home'), item: `${siteUrl}/` },
+      { '@type': 'ListItem', position: 2, name: t('navigation.categories', 'Categories'), item: `${siteUrl}/categories` },
+      { '@type': 'ListItem', position: 3, name: breadcrumbLeafName, item: `${siteUrl}/category/${slug}` },
+    ],
+  };
+  const products = categoryData?.products ?? [];
+  const itemListJsonLd =
+    products.length > 0
+      ? {
+          '@context': 'https://schema.org',
+          '@type': 'ItemList',
+          itemListElement: products.slice(0, 24).map((p, idx) => ({
+            '@type': 'ListItem',
+            position: idx + 1,
+            url: `${siteUrl}/products/${p.id}`,
+            name: p.name,
+          })),
+        }
+      : null;
+
   return (
     <div className="min-h-screen bg-canvas pb-20">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
+      {itemListJsonLd && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListJsonLd) }}
+        />
+      )}
       {/* ── Hero ─────────────────────────────────────────────────────── */}
       <CategoryDetailHero
         name={loading && !category ? '' : categoryName}
