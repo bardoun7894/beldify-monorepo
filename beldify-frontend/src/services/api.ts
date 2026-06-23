@@ -14,6 +14,27 @@ const api = axios.create({
   withCredentials: true,
 });
 
+// Safe localStorage helpers — Safari ITP / private mode can throw SecurityError
+// on any localStorage access (getItem/setItem/removeItem), not just SSR. Bare
+// reads in axios interceptors break every API request when that happens.
+const safeGetToken = (): string | null => {
+  if (typeof window === 'undefined') return null;
+  try {
+    return window.localStorage.getItem('token');
+  } catch {
+    return null;
+  }
+};
+
+const safeRemoveToken = (): void => {
+  if (typeof window === 'undefined') return;
+  try {
+    window.localStorage.removeItem('token');
+  } catch {
+    /* ignore — Safari ITP / quota errors */
+  }
+};
+
 api.interceptors.request.use(request => {
   // Only log in debug mode
   if (isDebuggingEnabled()) {
@@ -31,7 +52,7 @@ api.interceptors.request.use(request => {
 // Add request interceptor for auth token
 api.interceptors.request.use(
   async (config) => {
-    const token = localStorage.getItem('token');
+    const token = safeGetToken();
     if (token) {
       config.headers['Authorization'] = `Bearer ${token}`;
     }
@@ -50,8 +71,9 @@ api.interceptors.response.use(
       // Only force a re-login when an actual auth session existed and is now
       // invalid. Guests (no token) legitimately get 401 from auth-only endpoints
       // on public pages (e.g. cart/related-products) — never hijack them to /login.
-      const hadToken = typeof window !== 'undefined' && !!localStorage.getItem('token');
-      localStorage.removeItem('token');
+      // safeGetToken returns null on ITP throw, so guests stay un-redirected.
+      const hadToken = !!safeGetToken();
+      safeRemoveToken();
       if (hadToken && typeof window !== 'undefined') {
         const currentPath = window.location.pathname;
         if (currentPath !== '/login') {
@@ -213,7 +235,7 @@ export const cartService = {
     try {
       debugLog('Fetching cart...');
       // Check if token exists before making the API call
-      const token = localStorage.getItem('token');
+      const token = safeGetToken();
       if (!token) {
         debugLog('No authentication token found when fetching cart');
         return { status: 'error', message: 'Authentication required' };
@@ -247,7 +269,7 @@ export const cartService = {
       // For 401 errors, handle authentication issues
       if (error.response?.status === 401) {
         debugError('Authentication error when fetching cart');
-        localStorage.removeItem('token');
+        safeRemoveToken();
         return {
           status: 'error',
           message: 'Authentication failed. Please log in again.',

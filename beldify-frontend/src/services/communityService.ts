@@ -62,13 +62,16 @@ interface ResponseCreationResponse {
   data: CommunityResponse;
 }
 
-// Helper to get the authorization token from localStorage
+// Helper to get the authorization token from localStorage.
+// Safari ITP / private mode can throw SecurityError even when window exists;
+// the try/catch keeps the interceptor from breaking every API call.
 const getAuthToken = (): string | null => {
-  if (typeof window !== 'undefined') {
-    // Check for token in the same key used by AuthContext.tsx
-    return localStorage.getItem('token');
+  if (typeof window === 'undefined') return null;
+  try {
+    return window.localStorage.getItem('token');
+  } catch {
+    return null;
   }
-  return null;
 };
 
 // Function to get CSRF token — uses same-origin Next.js route to avoid CORS
@@ -142,7 +145,8 @@ axiosInstance.interceptors.response.use(
       if (error.response?.status === 401) {
         // Only redirect an expired auth session — guests browsing community
         // content legitimately get 401 from auth-only endpoints; don't bounce them.
-        const hadToken = typeof window !== 'undefined' && !!localStorage.getItem('token');
+        // getAuthToken is ITP-safe (try/catch); reuse rather than reading inline.
+        const hadToken = !!getAuthToken();
         if (hadToken && typeof window !== 'undefined') {
           // Check if we're not already on the login page to avoid redirect loops
           const currentPath = window.location.pathname;

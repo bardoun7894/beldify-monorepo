@@ -43,8 +43,19 @@ const getCsrfToken = (): string | null => {
   return null;
 };
 
+// Safari ITP / private mode can throw SecurityError on any localStorage access;
+// every token read must be try/catch-guarded or notification polling breaks.
+const safeGetStoredToken = (): string | null => {
+  if (typeof window === 'undefined') return null;
+  try {
+    return window.localStorage.getItem('token');
+  } catch {
+    return null;
+  }
+};
+
 const getAuthHeaders = (): Record<string, string> => {
-  let token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
+  let token = safeGetStoredToken();
 
   if (!token && typeof document !== 'undefined') {
     const authCookie = document.cookie
@@ -80,7 +91,7 @@ const NOTIFICATIONS_BASE = `${API_BASE_URL}/api/v1/notifications`;
  */
 export const getNotifications = async (page: number = 1): Promise<PaginatedNotifications> => {
   try {
-    const authToken = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
+    const authToken = safeGetStoredToken();
     if (!authToken) {
       logger.warn('notificationService: no auth token for getNotifications');
       return { data: [], current_page: 1, last_page: 1, total: 0, per_page: 15 };
@@ -105,7 +116,7 @@ export const getNotifications = async (page: number = 1): Promise<PaginatedNotif
  */
 export const getUnreadCount = async (): Promise<UnreadCountResponse> => {
   try {
-    const authToken = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
+    const authToken = safeGetStoredToken();
     if (!authToken) {
       logger.warn('notificationService: no auth token for getUnreadCount');
       return { unread_count: 0 };
@@ -128,7 +139,7 @@ export const getUnreadCount = async (): Promise<UnreadCountResponse> => {
  */
 export const markAsRead = async (id: string): Promise<void> => {
   try {
-    const authToken = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
+    const authToken = safeGetStoredToken();
     if (!authToken) {
       logger.warn('notificationService: no auth token for markAsRead');
       return;
@@ -149,7 +160,7 @@ export const markAsRead = async (id: string): Promise<void> => {
  */
 export const markAllAsRead = async (): Promise<void> => {
   try {
-    const authToken = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
+    const authToken = safeGetStoredToken();
     if (!authToken) {
       logger.warn('notificationService: no auth token for markAllAsRead');
       return;
@@ -170,7 +181,7 @@ export const markAllAsRead = async (): Promise<void> => {
  */
 export const deleteNotification = async (id: string): Promise<void> => {
   try {
-    const authToken = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
+    const authToken = safeGetStoredToken();
     if (!authToken) {
       logger.warn('notificationService: no auth token for deleteNotification');
       return;

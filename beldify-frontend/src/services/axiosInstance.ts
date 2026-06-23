@@ -21,14 +21,20 @@ axiosInstance.interceptors.request.use(
     let token = null;
     
     if (typeof window !== 'undefined') {
-      // Try multiple possible token names
-      for (const source of tokenSources) {
-        const possibleToken = localStorage.getItem(source);
-        if (possibleToken) {
-          token = possibleToken;
-          logger.log(`Found token with key: ${source}`);
-          break;
+      // Try multiple possible token names. Safari ITP / private mode can throw
+      // SecurityError on any localStorage access — wrap the whole loop so a
+      // single throw doesn't break this interceptor for every request.
+      try {
+        for (const source of tokenSources) {
+          const possibleToken = window.localStorage.getItem(source);
+          if (possibleToken) {
+            token = possibleToken;
+            logger.log(`Found token with key: ${source}`);
+            break;
+          }
         }
+      } catch {
+        /* ignore — treat as anonymous request */
       }
     }
     
@@ -99,13 +105,17 @@ axiosInstance.interceptors.response.use(
       if (typeof window !== 'undefined') {
         const tokenSources = ['authToken', 'auth_token', 'token', 'access_token'];
         let foundToken = false;
-        
-        for (const source of tokenSources) {
-          const token = localStorage.getItem(source);
-          if (token) {
-            logger.log(`Found potentially invalid token in ${source}`);
-            foundToken = true;
+
+        try {
+          for (const source of tokenSources) {
+            const token = window.localStorage.getItem(source);
+            if (token) {
+              logger.log(`Found potentially invalid token in ${source}`);
+              foundToken = true;
+            }
           }
+        } catch {
+          /* ignore — Safari ITP */
         }
         
         // If we have a token but still got a 401, we might need to refresh the CSRF token
