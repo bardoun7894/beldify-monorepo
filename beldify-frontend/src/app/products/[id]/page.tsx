@@ -867,12 +867,6 @@ export default function ProductDetailsPage() {
       return;
     }
     
-    if (selectedVariant && selectedVariant.quantity === 0) {
-      toast.debug('Attempted to add out-of-stock variant to cart');
-      toast.error(t('stock.out_of_stock'));
-      return;
-    }
-    
     // More validation
     if (product && !selectedColor && product.variants.length > 0) {
       toast.debug('Attempted to add product without selecting a color');

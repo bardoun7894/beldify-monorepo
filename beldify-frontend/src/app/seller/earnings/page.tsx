@@ -173,21 +173,21 @@ export default function SellerEarningsPage() {
             <KpiCard
               label={t('seller.earnings.kpi_gross', 'Gross Revenue')}
               value={`${fmtMAD(earnings.gross_revenue, numLocale)} DH`}
-              sub={`Last ${earnings.period} days`}
+              sub={t('seller.earnings.kpi_period', 'Last {{period}} days', { period: earnings.period })}
               icon={TrendingUp}
               accent="bg-amber-100 text-amber-700"
             />
             <KpiCard
               label={t('seller.earnings.kpi_net', 'Net Revenue')}
               value={`${fmtMAD(earnings.net_revenue, numLocale)} DH`}
-              sub={`After commission`}
+              sub={t('seller.earnings.kpi_after_commission', 'After commission')}
               icon={DollarSign}
               accent="bg-emerald-100 text-emerald-700"
             />
             <KpiCard
               label={t('seller.earnings.kpi_orders', 'Orders')}
               value={earnings.orders_count}
-              sub={`Avg ${fmtMAD(earnings.average_order_value, numLocale)} DH`}
+              sub={t('seller.earnings.kpi_avg', 'Avg {{avg}} DH', { avg: fmtMAD(earnings.average_order_value, numLocale) })}
               icon={ShoppingBag}
               accent="bg-indigo-100 text-indigo-700"
             />

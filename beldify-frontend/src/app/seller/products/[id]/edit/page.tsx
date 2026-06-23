@@ -137,6 +137,12 @@ export default function SellerEditProductPage() {
   const [aiExistingImages, setAiExistingImages] = useState<{ id: number; url: string }[]>([]);
 
   const imageInputRef = useRef<HTMLInputElement>(null);
+  const blobPreviewRef = useRef<string | null>(null);
+
+  // Revoke any pending blob URL on unmount to prevent memory leaks
+  useEffect(() => () => {
+    if (blobPreviewRef.current) URL.revokeObjectURL(blobPreviewRef.current);
+  }, []);
 
   // Fetch product data and categories in parallel
   useEffect(() => {
@@ -258,11 +264,15 @@ export default function SellerEditProductPage() {
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0] ?? null;
     if (!file) return;
+    if (blobPreviewRef.current) URL.revokeObjectURL(blobPreviewRef.current);
     const preview = URL.createObjectURL(file);
+    blobPreviewRef.current = preview;
     setForm((prev) => ({ ...prev, product_image: file, imagePreview: preview }));
   };
 
   const clearImage = () => {
+    if (blobPreviewRef.current) URL.revokeObjectURL(blobPreviewRef.current);
+    blobPreviewRef.current = null;
     setForm((prev) => ({ ...prev, product_image: null, imagePreview: null }));
     if (imageInputRef.current) imageInputRef.current.value = '';
   };
