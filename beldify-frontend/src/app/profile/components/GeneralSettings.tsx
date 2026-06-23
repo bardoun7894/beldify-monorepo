@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
-import { toast } from 'react-hot-toast';
+import toast from '@/utils/toast';
 import { User, MapPin, Truck } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import logger from '@/utils/consoleLogger';

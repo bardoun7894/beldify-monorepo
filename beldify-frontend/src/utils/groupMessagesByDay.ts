@@ -27,7 +27,7 @@ function toLocalDateKey(d: Date): string {
 }
 
 /** Produce a short, friendly label for a day bucket. */
-function makeDayLabel(dateKey: string): string {
+function makeDayLabel(dateKey: string, locale?: string): string {
   const today = toLocalDateKey(new Date());
 
   // Build the date by parsing the key directly (no TZ shift from ISO string).
@@ -44,7 +44,7 @@ function makeDayLabel(dateKey: string): string {
   // Within the current year: short locale string like "Mon 2 Jun".
   const isCurrentYear = y === new Date().getFullYear();
   if (isCurrentYear) {
-    return date.toLocaleDateString(undefined, {
+    return date.toLocaleDateString(locale, {
       weekday: 'short',
       day: 'numeric',
       month: 'short',
@@ -52,7 +52,7 @@ function makeDayLabel(dateKey: string): string {
   }
 
   // Older: include year.
-  return date.toLocaleDateString(undefined, {
+  return date.toLocaleDateString(locale, {
     day: 'numeric',
     month: 'short',
     year: 'numeric',
@@ -63,9 +63,10 @@ function makeDayLabel(dateKey: string): string {
  * Group messages by calendar day.
  *
  * @param messages - List of messages in any order; they will be sorted by created_at.
+ * @param locale - Optional BCP-47 locale (e.g. "ar-MA", "fr-MA") for the day label.
  * @returns Array of DayGroup objects in chronological order.
  */
-export function groupMessagesByDay(messages: Message[]): DayGroup[] {
+export function groupMessagesByDay(messages: Message[], locale?: string): DayGroup[] {
   if (!messages || messages.length === 0) return [];
 
   // Sort chronologically first.
@@ -91,7 +92,7 @@ export function groupMessagesByDay(messages: Message[]): DayGroup[] {
 
   return Array.from(groupMap.entries()).map(([dateKey, msgs]) => ({
     dateKey,
-    label: makeDayLabel(dateKey),
+    label: makeDayLabel(dateKey, locale),
     messages: msgs,
   }));
 }

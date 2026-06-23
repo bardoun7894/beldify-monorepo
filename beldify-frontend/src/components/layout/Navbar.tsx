@@ -23,7 +23,7 @@ import { useTranslation } from 'react-i18next';
 import { useDirection } from '@/hooks/useDirection';
 import { useLocalizedHref } from '@/utils/navigation';
 import CategoryDropdown from '../navigation/CategoryDropdown';
-import { toast } from 'react-hot-toast';
+import toast from '@/utils/toast';
 import { useRouter, usePathname } from 'next/navigation';
 import { useWishlist } from '@/contexts/WishlistContext';
 import { useMessaging } from '@/contexts/MessagingContext';

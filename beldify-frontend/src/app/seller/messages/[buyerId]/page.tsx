@@ -319,7 +319,7 @@ export default function SellerThreadPage() {
         ) : (
           /* Messages grouped by day */
           <>
-            {groupMessagesByDay(messages as any).map((group) => (
+            {groupMessagesByDay(messages as any, timeLocale).map((group) => (
               <React.Fragment key={group.dateKey}>
                 <ConversationDateDivider label={group.label} />
                 {group.messages.map((m: any) => {

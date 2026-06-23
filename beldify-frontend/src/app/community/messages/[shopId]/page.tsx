@@ -318,7 +318,7 @@ export default function ConversationPage() {
           ) : (
             /* Messages grouped by day with date dividers */
             <>
-              {groupMessagesByDay(messages).map((group) => (
+              {groupMessagesByDay(messages, timeLocale).map((group) => (
                 <React.Fragment key={group.dateKey}>
                   <ConversationDateDivider label={group.label} />
                   {group.messages.map((m) => {
