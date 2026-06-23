@@ -599,6 +599,7 @@ export function TryOnModal({
   };
 
   const handleTopupSubmit = async (packIndex: number, file: File) => {
+    if (topupSubmitting) return;
     setTopupSubmitting(true);
     try {
       await submitTopup(packIndex, file);

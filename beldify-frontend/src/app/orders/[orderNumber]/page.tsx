@@ -145,6 +145,7 @@ export default function OrderDetailsPage() {
   // Return-request submit handler
   const handleReturnSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (submittingReturn) return;
     if (!returnReason) {
       setReturnError(
         (i18n.language === 'ar' || i18n.language === 'ma') ? 'يرجى اختيار سبب' : 'Please select a reason'

@@ -2,6 +2,7 @@
 
 import { useTranslation } from 'react-i18next';
 import { useState, useEffect, useCallback, use } from 'react';
+import { intlLocale } from '@/i18n/config';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { Star, MapPin, Calendar, Clock, MessageCircle, BadgeCheck, Ruler } from 'lucide-react';
@@ -11,7 +12,7 @@ import toast from '@/utils/toast';
 
 export default function TailorProfilePage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [tailor, setTailor] = useState<Tailor | null>(null);
   const [loading, setLoading] = useState(true);
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
@@ -53,6 +54,7 @@ export default function TailorProfilePage({ params }: { params: Promise<{ id: st
   }, [loadTimeSlots]);
 
   const handleBooking = async () => {
+    if (bookingLoading) return;
     if (!selectedService || !selectedDate || !selectedTimeSlot) return;
 
     setBookingLoading(true);
@@ -250,7 +252,7 @@ export default function TailorProfilePage({ params }: { params: Promise<{ id: st
                         <div className="flex">{renderStars(review.rating)}</div>
                       </div>
                       <span className="text-xs text-gray-400">
-                        {new Date(review.created_at).toLocaleDateString()}
+                        {new Date(review.created_at).toLocaleDateString(intlLocale(i18n.language), { year: 'numeric', month: 'short', day: 'numeric' })}
                       </span>
                     </div>
                     <p className="text-sm text-gray-700">{review.review_text}</p>

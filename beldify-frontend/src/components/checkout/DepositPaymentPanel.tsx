@@ -85,6 +85,7 @@ export default function DepositPaymentPanel({ order, isBuyer, onSuccess }: Depos
   };
 
   const handleBankTransferSubmit = async () => {
+    if (submitting) return;
     if (!file) {
       toast.error(t('customOrders.deposit.file_required', 'Please attach your transfer receipt.'));
       return;

@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent, FormEvent, useEffect } from 'react';
+import React, { useState, ChangeEvent, FormEvent, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StarIcon } from '@heroicons/react/24/solid';
 import { StarIcon as StarIconOutline } from '@heroicons/react/24/outline';
@@ -39,12 +39,13 @@ export const ReviewForm: React.FC<ReviewFormProps> = ({
   const [error, setError] = useState<string | null>(null);
   const [formError, setFormError] = useState<string | null>(null);
 
-  useEffect(() => {
-    // Clean up object URLs on unmount
-    return () => {
-      imagePreviews.forEach(url => URL.revokeObjectURL(url));
-    };
-  }, [imagePreviews]);
+  // Keep a ref in sync so the unmount cleanup sees the latest URLs, not the
+  // initial empty array (closing over state in a [] effect would revoke nothing).
+  const imagePreviewsRef = useRef<string[]>(imagePreviews);
+  useEffect(() => { imagePreviewsRef.current = imagePreviews; }, [imagePreviews]);
+  useEffect(() => () => {
+    imagePreviewsRef.current.forEach(url => URL.revokeObjectURL(url));
+  }, []);
 
   const handleRatingChange = (newRating: number) => {
     setRating(newRating);
@@ -85,6 +86,7 @@ export const ReviewForm: React.FC<ReviewFormProps> = ({
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    if (isSubmitting) return;
     setFormError(null);
 
     if (rating === 0) {
