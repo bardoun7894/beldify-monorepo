@@ -11,7 +11,7 @@
  *
  * Section B: Store vertical picker
  */
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   Gem,
@@ -142,6 +142,18 @@ export default function StoreSettingsPage() {
   const [verticalSaving, setVerticalSaving] = useState(false);
   const [verticalSaved, setVerticalSaved] = useState(false);
 
+  // Refs for the "Saved!" badge auto-dismiss timers so we can cancel-on-refire
+  // and clean up on unmount.
+  const profileSavedTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const verticalSavedTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (profileSavedTimerRef.current) clearTimeout(profileSavedTimerRef.current);
+      if (verticalSavedTimerRef.current) clearTimeout(verticalSavedTimerRef.current);
+    };
+  }, []);
+
   // ── AI state ──────────────────────────────────────────────────────────────
   const [costs, setCosts] = useState<FeatureCosts | null>(null);
   const [aiGenerating, setAiGenerating] = useState(false);
@@ -227,7 +239,8 @@ export default function StoreSettingsPage() {
       });
       setProfileSaved(true);
       toast.success(t('seller.store_settings.profile_saved', 'Store profile saved!'));
-      setTimeout(() => setProfileSaved(false), 2500);
+      if (profileSavedTimerRef.current) clearTimeout(profileSavedTimerRef.current);
+      profileSavedTimerRef.current = setTimeout(() => setProfileSaved(false), 2500);
     } catch (err: any) {
       if (err?.response?.status === 422) {
         const errors = err.response.data?.errors ?? {};
@@ -273,7 +286,8 @@ export default function StoreSettingsPage() {
       setPendingVertical(null);
       setVerticalSaved(true);
       toast.success(t('seller.store_settings.vertical_saved', 'Store type updated!'));
-      setTimeout(() => setVerticalSaved(false), 2500);
+      if (verticalSavedTimerRef.current) clearTimeout(verticalSavedTimerRef.current);
+      verticalSavedTimerRef.current = setTimeout(() => setVerticalSaved(false), 2500);
     } catch {
       toast.error(t('seller.store_settings.vertical_save_error', 'Failed to update store type. Please try again.'));
     } finally {

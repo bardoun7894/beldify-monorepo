@@ -21,6 +21,7 @@ import {
   TableCell,
 } from '@/components/ui/table';
 import { orderStatusVariant, ORDER_STATUS_LABEL } from '@/constants/orderStatusColors';
+import { intlLocale } from '@/i18n/config';
 
 const ORDER_STATUSES: Array<{ value: string; label: string }> = [
   { value: '', label: 'All statuses' },
@@ -44,12 +45,13 @@ function Skeleton({ className }: { className?: string }) {
   return <div className={`animate-pulse bg-gray-100 rounded-xl ${className ?? ''}`} />;
 }
 
-function fmtMAD(n: number) {
-  return n.toLocaleString('fr-MA', { minimumFractionDigits: 0 });
+function fmtMAD(n: number, numLocale: string = 'fr-MA') {
+  return n.toLocaleString(numLocale, { minimumFractionDigits: 0 });
 }
 
 export default function SellerOrdersPage() {
   const { t, i18n } = useTranslation();
+  const numLocale = intlLocale(i18n.language);
   const { isAuthenticated } = useAuth();
   const isRTL = i18n.language === 'ar' || i18n.language === 'ma';
 
@@ -160,7 +162,7 @@ export default function SellerOrdersPage() {
                     <StatusBadge status={order.status} />
                   </TableCell>
                   <TableCell numeric className="py-3.5 font-medium text-gray-900">
-                    <span className="currency-mad">{fmtMAD(order.total_amount)} DH</span>
+                    <span className="currency-mad">{fmtMAD(order.total_amount, numLocale)} DH</span>
                   </TableCell>
                 </TableRow>
               ))}

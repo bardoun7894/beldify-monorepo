@@ -260,15 +260,9 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         ? { stock_id: validId, quantity: validQuantity }
         : { variant_id: validId, quantity: validQuantity };
 
-      if (typeof window !== 'undefined') {
-        console.warn('[CARTDBG] addItem payload:', JSON.stringify(payload), '| type:', type);
-      }
       logger.log('Adding item to cart:', payload);
       const response = await cartService.addItem(payload);
 
-      if (typeof window !== 'undefined') {
-        console.warn('[CARTDBG] addItem response.status:', response?.status);
-      }
       if (response.status === 'success') {
         await invalidateCartCache();
         logger.log('Item added to cart successfully');
