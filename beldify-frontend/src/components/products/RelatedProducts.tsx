@@ -46,6 +46,7 @@ const RelatedProducts: React.FC<RelatedProductsProps> = ({
       return;
     }
 
+    let cancelled = false;
     const fetchRelatedProducts = async () => {
       setLoading(true);
       try {
@@ -55,21 +56,26 @@ const RelatedProducts: React.FC<RelatedProductsProps> = ({
         } else if (productId) {
           data = await productService.getRelatedProducts(productId, limit);
         } else {
-          setFetchedProducts([]);
-          setLoading(false);
+          if (!cancelled) {
+            setFetchedProducts([]);
+            setLoading(false);
+          }
           return;
         }
 
-        setFetchedProducts(data.products || []);
+        if (!cancelled) setFetchedProducts(data.products || []);
       } catch (error) {
         console.error('Error fetching related products:', error);
-        setFetchedProducts([]);
+        if (!cancelled) setFetchedProducts([]);
       } finally {
-        setLoading(false);
+        if (!cancelled) setLoading(false);
       }
     };
 
     fetchRelatedProducts();
+    return () => {
+      cancelled = true;
+    };
   }, [productId, isCartPage, limit, isPdpMode]);
 
   // Resolve which product list to render.

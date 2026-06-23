@@ -904,7 +904,7 @@ export default function ProductDetailsPage() {
       // variant-less products that have no nested `stock` object.
       if (product && product.variants.length === 0) {
         const stockId = Number(product.stock?.id ?? product.stock_id ?? product.id);
-        const loadingToast = toast.loading('Adding to cart...');
+        const loadingToast = toast.loading(t('cart.adding'));
         try {
           await addItem(stockId, quantity, 'stock');
         } catch (error) {
@@ -951,7 +951,7 @@ export default function ProductDetailsPage() {
       }
 
       // Show loading toast
-      const loadingToast = toast.loading('Adding to cart...');
+      const loadingToast = toast.loading(t('cart.adding'));
 
       try {
         // Add item to cart with variant ID as string

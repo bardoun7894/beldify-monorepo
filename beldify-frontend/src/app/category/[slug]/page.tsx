@@ -61,6 +61,7 @@ export default function CategoryPage() {
   const [retryKey, setRetryKey] = useState(0);
 
   useEffect(() => {
+    let cancelled = false;
     const fetchCategoryData = async () => {
       try {
         setLoading(true);
@@ -77,7 +78,7 @@ export default function CategoryPage() {
         qs.append('sort', sortBy || 'newest');
 
         const response = await axios.get(`/api/categories/${slug}?${qs.toString()}`);
-        setCategoryData(response.data);
+        if (!cancelled) setCategoryData(response.data);
       } catch (err: any) {
         logger.error('Error fetching category data:', err);
         let errorMessage = t('errors.failed_to_fetch_categories', 'تعذّر تحميل التصنيف');
@@ -85,15 +86,18 @@ export default function CategoryPage() {
         else if (err.response?.data?.message) errorMessage = err.response.data.message;
         else if (typeof err.response?.data === 'string') errorMessage = err.response.data;
         else if (err.message) errorMessage = err.message;
-        setError(errorMessage);
+        if (!cancelled) setError(errorMessage);
       } finally {
-        setLoading(false);
+        if (!cancelled) setLoading(false);
       }
     };
 
     if (slug) {
       fetchCategoryData();
     }
+    return () => {
+      cancelled = true;
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps -- t is a fresh ref in tests; omitted to avoid render loops
   }, [slug, filters, sortBy, retryKey]);
 

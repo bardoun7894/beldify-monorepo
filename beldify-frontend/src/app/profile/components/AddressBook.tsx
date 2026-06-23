@@ -575,8 +575,22 @@ export default function AddressBook() {
   }, [t]);
 
   useEffect(() => {
-    loadAddresses();
-  }, [loadAddresses]);
+    let cancelled = false;
+    (async () => {
+      setIsLoading(true);
+      try {
+        const result = await addressService.list();
+        if (!cancelled) setAddresses(result);
+      } catch {
+        if (!cancelled) toast.error(t('profile:address_book.load_error', 'Could not load addresses'));
+      } finally {
+        if (!cancelled) setIsLoading(false);
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [t]);
 
   // ── Handlers ────────────────────────────────────────────────────────────────
   const handleAdd = () => {
