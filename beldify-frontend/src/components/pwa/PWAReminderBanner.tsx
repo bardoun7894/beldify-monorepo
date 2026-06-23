@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { XMarkIcon, DevicePhoneMobileIcon, SparklesIcon } from '@heroicons/react/24/outline';
 import { useEnhancedPWA } from '@/contexts/EnhancedPWAContext';
 import { useTranslation } from 'react-i18next';
@@ -13,17 +13,23 @@ export default function PWAReminderBanner() {
 
   useEffect(() => {
     // Only show if app is installed but user is not in PWA mode
-    if (isInstalled && !isPWAMode && showReminderBanner) {
-      setTimeout(() => {
-        setIsVisible(true);
-        setIsAnimating(true);
-      }, 500);
-    }
+    if (!(isInstalled && !isPWAMode && showReminderBanner)) return;
+    const id = setTimeout(() => {
+      setIsVisible(true);
+      setIsAnimating(true);
+    }, 500);
+    return () => clearTimeout(id);
   }, [isInstalled, isPWAMode, showReminderBanner]);
+
+  const dismissTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  useEffect(() => () => {
+    if (dismissTimerRef.current) clearTimeout(dismissTimerRef.current);
+  }, []);
 
   const handleDismiss = () => {
     setIsAnimating(false);
-    setTimeout(() => {
+    if (dismissTimerRef.current) clearTimeout(dismissTimerRef.current);
+    dismissTimerRef.current = setTimeout(() => {
       setIsVisible(false);
       dismissReminder();
     }, 300);
@@ -58,7 +64,7 @@ export default function PWAReminderBanner() {
             <XMarkIcon className="h-3 w-3 sm:h-4 sm:w-4 text-gray-600" />
           </button>
 
-          <div className="flex items-start space-x-2 sm:space-x-3">
+          <div className="flex items-start gap-2 sm:gap-3">
             {/* Icon */}
             <div className="flex-shrink-0">
               <div className="relative">
@@ -92,7 +98,7 @@ export default function PWAReminderBanner() {
               </div>
 
               {/* Action buttons */}
-              <div className="mt-2 sm:mt-3 flex space-x-2">
+              <div className="mt-2 sm:mt-3 flex gap-2">
                 <button
                   onClick={handleOpenApp}
                   className="flex-1 rounded-lg bg-indigo-900 px-3 py-1 sm:py-1.5 text-xs font-semibold text-white hover:bg-indigo-800 transition-colors"
@@ -131,13 +137,13 @@ export function PWAMinimalReminder() {
   return (
     <div className="fixed top-0 start-0 end-0 z-40 bg-indigo-900 py-2 px-3 sm:px-4">
       <div className="flex items-center justify-between max-w-7xl mx-auto">
-        <div className="flex items-center space-x-2 min-w-0 flex-1">
+        <div className="flex items-center gap-2 min-w-0 flex-1">
           <DevicePhoneMobileIcon className="h-4 w-4 sm:h-5 sm:w-5 text-white flex-shrink-0" />
           <p className="text-xs sm:text-sm text-white truncate">
             {t('pwa.minimal_reminder', 'Get a better experience with our app!')}
           </p>
         </div>
-        <div className="flex items-center space-x-2 sm:space-x-3 ms-2">
+        <div className="flex items-center gap-2 sm:gap-3 ms-2">
           <button
             onClick={() => window.open(`${window.location.origin}?mode=pwa`, '_blank')}
             className="text-xs sm:text-sm font-medium text-white underline hover:no-underline whitespace-nowrap"
