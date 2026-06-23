@@ -23,6 +23,7 @@ import logger from '@/utils/consoleLogger';
 import { usePWATriggers } from '@/hooks/usePWATriggers';
 import { track } from '@/lib/analytics';
 import { getImageUrl } from '@/utils/imageUtils';
+import { intlLocale } from '@/i18n/config';
 import PaymentProofUpload from '@/components/checkout/PaymentProofUpload';
 import { useAuth } from '@/contexts/AuthContext';
 import { useWebPush } from '@/hooks/useWebPush';
@@ -91,7 +92,7 @@ export default function OrderConfirmationPage() {
   }, []);
 
   const formatAmount = (amount: number) =>
-    new Intl.NumberFormat(i18n.language, {
+    new Intl.NumberFormat(intlLocale(i18n.language), {
       style: 'decimal',
       minimumFractionDigits: 2,
       maximumFractionDigits: 2,

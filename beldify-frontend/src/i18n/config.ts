@@ -29,6 +29,26 @@ const deLocale = de as LocaleType;
 
 export const RTL_LANGUAGES = ['ar', 'ma'];
 
+// Canonical BCP47 mapping for i18n language → Intl.* locale tag.
+// 'ma' (Darija) is NOT a valid BCP47 tag and throws RangeError on Safari
+// (silently falls back to English on Chrome). Always route raw i18n.language
+// through intlLocale() before passing to Intl.NumberFormat / DateTimeFormat /
+// RelativeTimeFormat. Source of truth — do not duplicate this map per-file.
+export const INTL_LOCALE_MAP: Record<string, string> = {
+  en: 'en-US',
+  fr: 'fr-FR',
+  ar: 'ar-MA',
+  ma: 'ar-MA',
+  es: 'es-ES',
+  nl: 'nl-NL',
+  de: 'de-DE',
+};
+
+export function intlLocale(lang?: string | null): string {
+  const k = (lang || 'ma').toLowerCase().split('-')[0];
+  return INTL_LOCALE_MAP[k] || 'fr-FR';
+}
+
 // Create a custom i18n instance
 const createI18n = () => {
   const i18nInstance = i18n.createInstance();

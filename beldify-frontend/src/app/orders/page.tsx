@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next';
 import { motion, useReducedMotion } from 'framer-motion';
 import { orderService, Order, OrderItem, PerSellerOrder } from '@/services/orderService';
 import toast from '@/utils/toast';
-import { syncUrlLocale } from '@/i18n/config';
+import { syncUrlLocale, intlLocale } from '@/i18n/config';
 import { OrdersLoadingScreen } from '@/components/ui/LoadingManager';
 import ModernOrderFilters from '@/components/orders/ModernOrderFilters';
 import ModernSearchBar from '@/components/orders/ModernSearchBar';
@@ -96,13 +96,11 @@ export default function OrdersPage() {
 
       // If less than 7 days, show relative time
       if (diffDays < 7) {
-        return new Intl.RelativeTimeFormat(i18n.language, { numeric: 'auto' }).format(-diffDays, 'day');
+        return new Intl.RelativeTimeFormat(intlLocale(i18n.language), { numeric: 'auto' }).format(-diffDays, 'day');
       }
 
       // Otherwise show formatted date
-      const lang = i18n.language || 'en';
-      const isDarijaOrArabic = lang === 'ar' || lang === 'ma';
-      return new Intl.DateTimeFormat(isDarijaOrArabic ? 'ar-MA' : 'en-US', {
+      return new Intl.DateTimeFormat(intlLocale(i18n.language), {
         year: 'numeric',
         month: 'short',
         day: 'numeric',

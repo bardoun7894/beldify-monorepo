@@ -12,6 +12,7 @@ import OrderSummaryCard from '@/components/cart/OrderSummaryCard';
 import EmptyCartState from '@/components/cart/EmptyCartState';
 import CartMobileBar from '@/components/cart/CartMobileBar';
 import { usePWATriggers } from '@/hooks/usePWATriggers';
+import { intlLocale } from '@/i18n/config';
 import {
   ArrowLeft,
   ArrowRight,
@@ -235,7 +236,7 @@ export default function CartPage() {
                       {/* Per-seller financial summary (plan.md FR-017 / T2) */}
                       <div className="flex-shrink-0 text-end">
                         <p className="text-xs font-semibold text-gray-700 tabular-nums currency-mad">
-                          {new Intl.NumberFormat(i18n.language, {
+                          {new Intl.NumberFormat(intlLocale(i18n.language), {
                             style: 'decimal',
                             minimumFractionDigits: 2,
                             maximumFractionDigits: 2,

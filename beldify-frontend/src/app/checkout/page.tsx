@@ -15,6 +15,7 @@ import { usePWATriggers } from '@/hooks/usePWATriggers';
 import { getImageUrl } from '@/utils/imageUtils';
 import { shippingService, type ShippingMethod } from '@/services/shippingService';
 import { addressService, type SavedAddress } from '@/services/addressService';
+import { intlLocale } from '@/i18n/config';
 import {
   ShoppingBag,
   ArrowRight,
@@ -215,7 +216,7 @@ export default function CheckoutPage() {
   // Locale-aware currency formatter — shared with order-confirmation so the same
   // cart renders identical digits/grouping across both screens (Arabic numerals).
   const formatAmount = (amount: number) =>
-    new Intl.NumberFormat(i18n.language, {
+    new Intl.NumberFormat(intlLocale(i18n.language), {
       style: 'decimal',
       minimumFractionDigits: 2,
       maximumFractionDigits: 2,
