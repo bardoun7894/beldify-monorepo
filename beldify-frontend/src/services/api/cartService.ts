@@ -9,8 +9,10 @@ export const cartService: CartService = {
    * Backend: POST /api/cart/merge-guest — idempotent, returns the fresh cart.
    */
   async mergeGuestCart(): Promise<CartServiceResponse> {
-    const guestToken =
-      typeof window !== 'undefined' ? window.localStorage.getItem('guest_token') : null;
+    let guestToken: string | null = null;
+    if (typeof window !== 'undefined') {
+      try { guestToken = window.localStorage.getItem('guest_token'); } catch { /* Safari ITP */ }
+    }
     if (!guestToken) {
       return { status: 'success' } as CartServiceResponse;
     }

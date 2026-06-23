@@ -11,6 +11,7 @@ export default function PWAReminderBanner() {
   const [isVisible, setIsVisible] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
   const showTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const dismissTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     if (isInstalled && !isPWAMode && showReminderBanner) {
@@ -24,12 +25,17 @@ export default function PWAReminderBanner() {
         clearTimeout(showTimerRef.current);
         showTimerRef.current = null;
       }
+      if (dismissTimerRef.current !== null) {
+        clearTimeout(dismissTimerRef.current);
+        dismissTimerRef.current = null;
+      }
     };
   }, [isInstalled, isPWAMode, showReminderBanner]);
 
   const handleDismiss = () => {
     setIsAnimating(false);
-    setTimeout(() => {
+    if (dismissTimerRef.current) clearTimeout(dismissTimerRef.current);
+    dismissTimerRef.current = setTimeout(() => {
       setIsVisible(false);
       dismissReminder();
     }, 300);

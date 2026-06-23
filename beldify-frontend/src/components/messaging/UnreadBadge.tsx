@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { getUnreadCount } from '@/services/messagingService';
 import logger from '@/utils/consoleLogger';
 
@@ -21,49 +21,43 @@ export const UnreadBadge: React.FC<UnreadBadgeProps> = ({
   onNewMessages
 }) => {
   const [unreadCount, setUnreadCount] = useState<number>(0);
-  const [lastCheck, setLastCheck] = useState<number>(Date.now());
+  // Use a ref for lastCheck so polling doesn't restart the effect on every fetch
+  const lastCheckRef = useRef<number>(Date.now());
+  const onNewMessagesRef = useRef(onNewMessages);
+  onNewMessagesRef.current = onNewMessages;
 
   useEffect(() => {
-    // Function to fetch unread count
     const fetchUnreadCount = async () => {
       try {
-        const result = await getUnreadCount(lastCheck);
+        const result = await getUnreadCount(lastCheckRef.current);
+        lastCheckRef.current = result.currentTimestamp || Date.now();
 
-        if (result.count !== unreadCount) {
-          setUnreadCount(result.count);
-
-          // Notify parent component about new messages
-          if (onNewMessages && result.hasNew) {
-            onNewMessages(result.count);
+        setUnreadCount((prev) => {
+          if (result.count !== prev) {
+            if (onNewMessagesRef.current && result.hasNew) {
+              onNewMessagesRef.current(result.count);
+            }
+            return result.count;
           }
-        }
-
-        setLastCheck(result.currentTimestamp || Date.now());
+          return prev;
+        });
       } catch (error) {
         logger.error('Failed to fetch unread count:', error);
       }
     };
 
-    // Initial fetch
     fetchUnreadCount();
-
-    // Set up polling
     const interval = setInterval(fetchUnreadCount, pollInterval);
 
-    // Also fetch when window regains focus
-    const handleFocus = () => {
-      fetchUnreadCount();
-    };
-
+    const handleFocus = () => fetchUnreadCount();
     window.addEventListener('focus', handleFocus);
 
     return () => {
       clearInterval(interval);
       window.removeEventListener('focus', handleFocus);
     };
-  }, [lastCheck, unreadCount, pollInterval, onNewMessages]);
+  }, [pollInterval]);
 
-  // Don't show badge if count is 0 and showZero is false
   if (!showZero && unreadCount === 0) {
     return null;
   }

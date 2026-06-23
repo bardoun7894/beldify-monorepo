@@ -65,8 +65,11 @@ interface ResponseCreationResponse {
 // Helper to get the authorization token from localStorage
 const getAuthToken = (): string | null => {
   if (typeof window !== 'undefined') {
-    // Check for token in the same key used by AuthContext.tsx
-    return localStorage.getItem('token');
+    try {
+      return localStorage.getItem('token');
+    } catch {
+      return null;
+    }
   }
   return null;
 };

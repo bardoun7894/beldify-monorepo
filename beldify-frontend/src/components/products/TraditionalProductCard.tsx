@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Product } from '@/lib/types';
@@ -50,6 +50,8 @@ export default function TraditionalProductCard({
   const [isHovering, setIsHovering] = useState(false);
   const [isAddingToCart, setIsAddingToCart] = useState(false);
   const [isWishlisted, setIsWishlisted] = useState(isInWishlist);
+  const cartTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  useEffect(() => () => { if (cartTimerRef.current) clearTimeout(cartTimerRef.current); }, []);
 
   const {
     id,
@@ -103,9 +105,9 @@ export default function TraditionalProductCard({
     
     if (onAddToCart) {
       onAddToCart(product as Product);
-      setTimeout(() => setIsAddingToCart(false), 1000);
+      cartTimerRef.current = setTimeout(() => setIsAddingToCart(false), 1000);
     } else {
-      setTimeout(() => {
+      cartTimerRef.current = setTimeout(() => {
         setIsAddingToCart(false);
         toast.success(t('product.addedToCart'), {
           position: isRTL ? 'bottom-left' : 'bottom-right',

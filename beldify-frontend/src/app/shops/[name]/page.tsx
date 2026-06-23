@@ -100,14 +100,16 @@ async function verifyAuthentication(): Promise<boolean> {
   if (typeof window === 'undefined') return false;
   const sources = ['authToken', 'auth_token', 'token', 'access_token'];
   let token: string | null = null;
-  for (const src of sources) {
-    const found = localStorage.getItem(src);
-    if (found) { token = found; break; }
+  try {
+    for (const src of sources) {
+      const found = localStorage.getItem(src);
+      if (found) { token = found; break; }
+    }
+  } catch {
+    return false;
   }
   if (!token) return false;
-  try {
-    return token.length >= 10 && token !== 'null' && token !== 'undefined';
-  } catch { return false; }
+  return token.length >= 10 && token !== 'null' && token !== 'undefined';
 }
 
 // ─── Page ────────────────────────────────────────────────────────────────────

@@ -16,28 +16,30 @@ const api = axios.create({
   withCredentials: true,
 });
 
-// Helper functions to safely get tokens
+// Helper functions to safely get tokens (try/catch guards Safari ITP SecurityError)
 const getAuthToken = () => {
   if (typeof window !== 'undefined') {
-    return localStorage.getItem('token');
+    try { return localStorage.getItem('token'); } catch { return null; }
   }
   return null;
 };
 
 const getGuestToken = () => {
   if (typeof window !== 'undefined') {
-    return localStorage.getItem('guest_token');
+    try { return localStorage.getItem('guest_token'); } catch { return null; }
   }
   return null;
 };
 
 const setGuestToken = (token: string | null) => {
   if (typeof window !== 'undefined') {
-    if (token) {
-      localStorage.setItem('guest_token', token);
-    } else {
-      localStorage.removeItem('guest_token');
-    }
+    try {
+      if (token) {
+        localStorage.setItem('guest_token', token);
+      } else {
+        localStorage.removeItem('guest_token');
+      }
+    } catch { /* Safari ITP — guest token persistence unavailable */ }
   }
 };
 
@@ -130,7 +132,7 @@ api.interceptors.response.use(
       // cart coupons) — those must never hijack a guest to /login, or guest
       // cart/checkout breaks. Protected routes are already gated upstream.
       if (getAuthToken()) {
-        localStorage.removeItem('token');
+        try { localStorage.removeItem('token'); } catch { /* Safari ITP */ }
         const currentPath = window.location.pathname;
         if (currentPath !== '/login') {
           window.location.href = `/login?redirect=${encodeURIComponent(currentPath)}`;
