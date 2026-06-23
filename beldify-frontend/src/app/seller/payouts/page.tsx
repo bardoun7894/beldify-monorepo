@@ -23,6 +23,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '@/hooks/useAuth';
+import { intlLocale } from '@/i18n/config';
 import {
   getSellerPayouts,
   requestPayout,
@@ -50,13 +51,13 @@ function Skeleton({ className }: { className?: string }) {
   return <div className={`animate-pulse bg-gray-100 rounded-xl ${className ?? ''}`} />;
 }
 
-function fmtMAD(n: number): string {
-  return n.toLocaleString('fr-MA', { minimumFractionDigits: 0 });
+function fmtMAD(n: number, numLocale: string = 'fr-MA'): string {
+  return n.toLocaleString(numLocale, { minimumFractionDigits: 0 });
 }
 
-function fmtDate(iso: string): string {
+function fmtDate(iso: string, numLocale?: string): string {
   try {
-    return new Date(iso).toLocaleDateString(undefined, {
+    return new Date(iso).toLocaleDateString(numLocale, {
       year: 'numeric',
       month: 'short',
       day: 'numeric',
@@ -114,11 +115,13 @@ function BalanceCard({
   available,
   minAmount,
   currency,
+  numLocale,
   t,
 }: {
   available: number;
   minAmount: number;
   currency: string;
+  numLocale: string;
   t: (k: string, f: string) => string;
 }) {
   return (
@@ -135,7 +138,7 @@ function BalanceCard({
             className="text-4xl font-bold leading-none tabular-nums"
             data-testid="payout-available"
           >
-            {fmtMAD(available)}
+            {fmtMAD(available, numLocale)}
           </p>
           <p className="text-sm text-indigo-300 mt-0.5">
             {currency} {t('payouts.balance_card.available_label', 'withdrawable')}
@@ -359,12 +362,14 @@ function RequestPayoutForm({
   available,
   minAmount,
   currency,
+  numLocale,
   onSuccess,
   t,
 }: {
   available: number;
   minAmount: number;
   currency: string;
+  numLocale: string;
   onSuccess: () => void;
   t: (k: string, f: string) => string;
 }) {
@@ -384,8 +389,8 @@ function RequestPayoutForm({
         .replace('{{currency}}', currency);
     }
     if (n > available) {
-      return t('payouts.form.above_available', `Maximum available is ${fmtMAD(available)} ${currency}`)
-        .replace('{{available}}', fmtMAD(available))
+      return t('payouts.form.above_available', `Maximum available is ${fmtMAD(available, numLocale)} ${currency}`)
+        .replace('{{available}}', fmtMAD(available, numLocale))
         .replace('{{currency}}', currency);
     }
     return null;
@@ -398,8 +403,8 @@ function RequestPayoutForm({
           .replace('{{min}}', String(minAmount))
           .replace('{{currency}}', currency);
       case 'above_available':
-        return t('payouts.form.error_above_available', `Amount exceeds your available balance of ${fmtMAD(available)} ${currency}`)
-          .replace('{{available}}', fmtMAD(available))
+        return t('payouts.form.error_above_available', `Amount exceeds your available balance of ${fmtMAD(available, numLocale)} ${currency}`)
+          .replace('{{available}}', fmtMAD(available, numLocale))
           .replace('{{currency}}', currency);
       case 'no_bank_details':
         return t('payouts.form.error_no_bank_details', 'Please add your bank details (RIB) before requesting a payout');
@@ -493,8 +498,8 @@ function RequestPayoutForm({
 
         {/* Helper: available balance */}
         <p className="text-xs text-gray-400">
-          {t('payouts.form.available_hint', `Available: ${fmtMAD(available)} ${currency}`)
-            .replace('{{available}}', fmtMAD(available))
+          {t('payouts.form.available_hint', `Available: ${fmtMAD(available, numLocale)} ${currency}`)
+            .replace('{{available}}', fmtMAD(available, numLocale))
             .replace('{{currency}}', currency)}
         </p>
 
@@ -518,9 +523,11 @@ function RequestPayoutForm({
 
 function PayoutHistory({
   requests,
+  numLocale,
   t,
 }: {
   requests: PayoutRequest[];
+  numLocale: string;
   t: (k: string, f: string) => string;
 }) {
   return (
@@ -551,13 +558,13 @@ function PayoutHistory({
                 <div className="flex items-center gap-2 flex-wrap mb-1">
                   <StatusBadge id={req.id} status={req.status} t={t} />
                   <span className="text-xs font-bold text-gray-900 tabular-nums currency-mad">
-                    {fmtMAD(req.amount)} MAD
+                    {fmtMAD(req.amount, numLocale)} MAD
                   </span>
                 </div>
 
                 <p className="text-xs text-gray-400">
                   {t('payouts.history.requested_on', 'Requested')}{' '}
-                  {fmtDate(req.created_at)}
+                  {fmtDate(req.created_at, numLocale)}
                 </p>
 
                 {/* Rejection reason */}
@@ -576,7 +583,7 @@ function PayoutHistory({
                     )}
                     {req.paid_at && (
                       <p className="text-xs text-emerald-600">
-                        {t('payouts.history.paid_on', 'Paid on')} {fmtDate(req.paid_at)}
+                        {t('payouts.history.paid_on', 'Paid on')} {fmtDate(req.paid_at, numLocale)}
                       </p>
                     )}
                   </div>
@@ -596,6 +603,7 @@ export default function SellerPayoutsPage() {
   const { t, i18n } = useTranslation();
   const { isAuthenticated } = useAuth();
   const isRTL = i18n.language === 'ar' || i18n.language === 'ma';
+  const numLocale = intlLocale(i18n.language);
 
   const [data, setData] = useState<SellerPayoutsResponse | null>(null);
   const [loading, setLoading] = useState(true);
@@ -689,6 +697,7 @@ export default function SellerPayoutsPage() {
             available={data.available}
             minAmount={data.min_amount}
             currency={data.currency}
+            numLocale={numLocale}
             t={t}
           />
 
@@ -788,9 +797,9 @@ export default function SellerPayoutsPage() {
               <p className="text-sm text-gray-500">
                 {t(
                   'payouts.form.gate_below_min',
-                  `Your balance (${fmtMAD(data.available)} MAD) is below the minimum payout of ${data.min_amount} MAD.`
+                  `Your balance (${fmtMAD(data.available, numLocale)} MAD) is below the minimum payout of ${data.min_amount} MAD.`
                 )
-                  .replace('{{available}}', fmtMAD(data.available))
+                  .replace('{{available}}', fmtMAD(data.available, numLocale))
                   .replace('{{min}}', String(data.min_amount))}
               </p>
             </div>
@@ -799,13 +808,14 @@ export default function SellerPayoutsPage() {
               available={data.available}
               minAmount={data.min_amount}
               currency={data.currency}
+              numLocale={numLocale}
               onSuccess={handleRequestSuccess}
               t={t}
             />
           ) : null}
 
           {/* 4. History */}
-          <PayoutHistory requests={data.requests} t={t} />
+          <PayoutHistory requests={data.requests} numLocale={numLocale} t={t} />
         </>
       )}
     </div>

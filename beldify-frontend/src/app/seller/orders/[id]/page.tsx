@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '@/hooks/useAuth';
+import { intlLocale } from '@/i18n/config';
 import toast from '@/utils/toast';
 import {
   getSellerOrder,
@@ -44,13 +45,13 @@ function Skeleton({ className }: { className?: string }) {
   return <div className={`animate-pulse bg-gray-100 rounded-xl ${className ?? ''}`} />;
 }
 
-function fmtMAD(n: number) {
-  return n.toLocaleString('fr-MA', { minimumFractionDigits: 0 });
+function fmtMAD(n: number, numLocale: string = 'fr-MA') {
+  return n.toLocaleString(numLocale, { minimumFractionDigits: 0 });
 }
 
-function fmtDate(dateStr: string): string {
+function fmtDate(dateStr: string, numLocale: string = 'fr-MA'): string {
   try {
-    return new Date(dateStr).toLocaleDateString('fr-MA', { year: 'numeric', month: 'long', day: 'numeric' });
+    return new Date(dateStr).toLocaleDateString(numLocale, { year: 'numeric', month: 'long', day: 'numeric' });
   } catch {
     return dateStr;
   }
@@ -62,6 +63,7 @@ export default function SellerOrderDetailPage() {
   const params = useParams();
   const orderId = Number(params?.id);
   const isRTL = i18n.language === 'ar' || i18n.language === 'ma';
+  const numLocale = intlLocale(i18n.language);
 
   const [order, setOrder] = useState<SellerOrderDetail | null>(null);
   const [loading, setLoading] = useState(true);
@@ -154,7 +156,7 @@ export default function SellerOrderDetailPage() {
                 <StatusBadge status={order.status} />
                 <span className="flex items-center gap-1 text-xs text-gray-400">
                   <Calendar className="w-3 h-3" aria-hidden="true" />
-                  {fmtDate(order.created_at)}
+                  {fmtDate(order.created_at, numLocale)}
                 </span>
               </div>
             </div>
@@ -215,10 +217,10 @@ export default function SellerOrderDetailPage() {
                       <TableCell className="py-3.5 text-gray-500 text-xs">{item.variant ?? '—'}</TableCell>
                       <TableCell numeric className="py-3.5 text-gray-700">{item.quantity}</TableCell>
                       <TableCell numeric className="py-3.5 text-gray-700">
-                        <span className="currency-mad">{fmtMAD(item.unit_price)} DH</span>
+                        <span className="currency-mad">{fmtMAD(item.unit_price, numLocale)} DH</span>
                       </TableCell>
                       <TableCell numeric className="py-3.5 font-medium text-gray-900">
-                        <span className="currency-mad">{fmtMAD(item.line_total)} DH</span>
+                        <span className="currency-mad">{fmtMAD(item.line_total, numLocale)} DH</span>
                       </TableCell>
                     </TableRow>
                   ))}
@@ -236,17 +238,17 @@ export default function SellerOrderDetailPage() {
                 <dl className="space-y-2 text-sm">
                   <div className="flex justify-between">
                     <dt className="text-gray-500">{t('seller.order_detail.subtotal', 'Subtotal')}</dt>
-                    <dd className="text-gray-900 font-medium">{fmtMAD(order.subtotal)} DH</dd>
+                    <dd className="text-gray-900 font-medium">{fmtMAD(order.subtotal, numLocale)} DH</dd>
                   </div>
                   <div className="flex justify-between">
                     <dt className="text-gray-500">
                       {t('seller.order_detail.commission', `Commission (${order.commission_rate}%)`)}
                     </dt>
-                    <dd className="text-rose-600 font-medium">−{fmtMAD(order.commission_amount)} DH</dd>
+                    <dd className="text-rose-600 font-medium">−{fmtMAD(order.commission_amount, numLocale)} DH</dd>
                   </div>
                   <div className="flex justify-between pt-2 border-t border-gray-100">
                     <dt className="text-gray-900 font-semibold">{t('seller.order_detail.net', 'Net to you')}</dt>
-                    <dd className="text-emerald-700 font-bold text-base">{fmtMAD(order.net_amount)} DH</dd>
+                    <dd className="text-emerald-700 font-bold text-base">{fmtMAD(order.net_amount, numLocale)} DH</dd>
                   </div>
                 </dl>
               </div>

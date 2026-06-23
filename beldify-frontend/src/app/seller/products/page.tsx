@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '@/hooks/useAuth';
+import { intlLocale } from '@/i18n/config';
 import { getSellerProducts, SellerProduct } from '@/services/sellerOnboardingService';
 import { Plus, Package, AlertCircle, Pencil, X, Copy } from 'lucide-react';
 import { AiGenerateButton } from '@/components/seller/AiGenerateButton';
@@ -26,9 +27,9 @@ import {
   TableCell,
 } from '@/components/ui/table';
 
-function fmtPrice(price: string | number): string {
+function fmtPrice(price: string | number, numLocale: string = 'fr-MA'): string {
   const n = typeof price === 'string' ? parseFloat(price) : price;
-  return isNaN(n) ? String(price) : n.toLocaleString('fr-MA', { minimumFractionDigits: 0 });
+  return isNaN(n) ? String(price) : n.toLocaleString(numLocale, { minimumFractionDigits: 0 });
 }
 
 function Skeleton({ className }: { className?: string }) {
@@ -161,6 +162,7 @@ export default function SellerProductsPage() {
   const { t, i18n } = useTranslation();
   const { isAuthenticated } = useAuth();
   const isRTL = i18n.language === 'ar' || i18n.language === 'ma';
+  const numLocale = intlLocale(i18n.language);
 
   const [products, setProducts] = useState<SellerProduct[]>([]);
   const [loading, setLoading] = useState(true);
@@ -288,7 +290,7 @@ export default function SellerProductsPage() {
                       {product.name}
                     </TableCell>
                     <TableCell numeric className="py-3.5 text-gray-700">
-                      <span className="currency-mad">{fmtPrice(product.price)} DH</span>
+                      <span className="currency-mad">{fmtPrice(product.price, numLocale)} DH</span>
                     </TableCell>
                     <TableCell numeric className="py-3.5 text-gray-700">
                       {stock}
