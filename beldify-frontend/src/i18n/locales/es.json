@@ -1418,7 +1418,8 @@
       "item_unavailable": "Artículo no disponible: Este artículo está agotado o la cantidad solicitada supera nuestro stock disponible. ({{name}})",
       "insufficient_stock": "Solo hay {{count}} artículo(s) disponible(s) para {{name}}. Por favor actualice su carrito.",
       "cart_items_unavailable": "Uno o más artículos en su carrito ya no están disponibles en la cantidad solicitada. Por favor revise su carrito e intente de nuevo.",
-      "order_creation_failed": "Error al crear el pedido"
+      "order_creation_failed": "Error al crear el pedido",
+      "stock_availability_error": "Se produjo un error al verificar la disponibilidad de stock."
     },
     "success": {
       "order_placed": "¡Tu pedido ha sido realizado exitosamente!",
@@ -4844,7 +4845,12 @@
       "kpi_gross": "Ingresos Brutos",
       "kpi_net": "Ingresos Netos",
       "kpi_orders": "Pedidos",
+      "kpi_period": "Últimos {{period}} días",
+      "kpi_after_commission": "Después de comisión",
       "net": "Ingresos netos",
+      "period_7": "7 días",
+      "period_30": "30 días",
+      "period_90": "90 días",
       "title": "Ingresos",
       "no_daily_data": "No hay datos diarios disponibles",
       "chart_aria": "Gráfico de ganancias por día",

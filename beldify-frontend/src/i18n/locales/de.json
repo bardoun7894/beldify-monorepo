@@ -1433,7 +1433,8 @@
       "item_unavailable": "Artikel nicht verfügbar: Dieser Artikel ist derzeit ausverkauft oder die angeforderte Menge übersteigt unseren verfügbaren Bestand. ({{name}})",
       "insufficient_stock": "Es sind nur noch {{count}} Artikel verfügbar für {{name}}. Bitte aktualisiere deinen Warenkorb.",
       "cart_items_unavailable": "Ein oder mehrere Artikel in deinem Warenkorb sind in der angeforderten Menge nicht mehr verfügbar. Bitte überprüfe deinen Warenkorb und versuche es erneut.",
-      "order_creation_failed": "Bestellung konnte nicht erstellt werden"
+      "order_creation_failed": "Bestellung konnte nicht erstellt werden",
+      "stock_availability_error": "Beim Prüfen der Lagerverfügbarkeit ist ein Fehler aufgetreten."
     },
     "success": {
       "order_placed": "Bestellung erfolgreich aufgegeben! Vielen Dank für deinen Kauf.",
@@ -3972,7 +3973,12 @@
       "kpi_gross": "Bruttoumsatz",
       "kpi_net": "Nettoumsatz",
       "kpi_orders": "Bestellungen",
+      "kpi_period": "Letzte {{period}} Tage",
+      "kpi_after_commission": "Nach Provision",
       "net": "Nettoumsatz",
+      "period_7": "7 Tage",
+      "period_30": "30 Tage",
+      "period_90": "90 Tage",
       "title": "Verdienste",
       "no_daily_data": "Keine Tagesdaten verfügbar",
       "chart_aria": "Einnahmen-Diagramm pro Tag",

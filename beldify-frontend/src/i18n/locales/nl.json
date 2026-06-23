@@ -1433,7 +1433,8 @@
       "item_unavailable": "Artikel niet beschikbaar: Dit artikel is momenteel niet in voorraad of de aangevraagde hoeveelheid overschrijdt onze beschikbare voorraad. ({{name}})",
       "insufficient_stock": "Slechts {{count}} artikel(en) beschikbaar voor {{name}}. Werk je winkelwagen bij.",
       "cart_items_unavailable": "Een of meer artikelen in je winkelwagen zijn niet langer in de aangevraagde hoeveelheid beschikbaar. Controleer je winkelwagen en probeer het opnieuw.",
-      "order_creation_failed": "Bestellingcreatie mislukt"
+      "order_creation_failed": "Bestellingcreatie mislukt",
+      "stock_availability_error": "Er is een fout opgetreden bij het controleren van de voorraad."
     },
     "success": {
       "order_placed": "Bestelling succesvol geplaatst! Bedankt voor je aankoop.",

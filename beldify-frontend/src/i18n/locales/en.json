@@ -1440,7 +1440,8 @@
       "item_unavailable": "Item Unavailable: This item is currently out of stock or the requested quantity exceeds our available stock. ({{name}})",
       "insufficient_stock": "Only {{count}} item(s) available for {{name}}. Please update your cart.",
       "cart_items_unavailable": "One or more items in your cart are no longer available in the requested quantity. Please review your cart and try again.",
-      "order_creation_failed": "Order creation failed"
+      "order_creation_failed": "Order creation failed",
+      "stock_availability_error": "An error occurred while checking stock availability."
     },
     "success": {
       "order_placed": "Order placed successfully! Thank you for your purchase.",
@@ -3980,7 +3981,12 @@
       "kpi_gross": "Gross Revenue",
       "kpi_net": "Net Revenue",
       "kpi_orders": "Orders",
+      "kpi_period": "Last {{period}} days",
+      "kpi_after_commission": "After commission",
       "net": "Net revenue",
+      "period_7": "7 days",
+      "period_30": "30 days",
+      "period_90": "90 days",
       "title": "Earnings",
       "no_daily_data": "No daily data available",
       "chart_aria": "Earnings chart by day",

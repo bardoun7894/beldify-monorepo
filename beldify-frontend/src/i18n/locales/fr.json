@@ -1418,7 +1418,8 @@
       "item_unavailable": "Article indisponible : Cet article est actuellement en rupture de stock ou la quantité demandée dépasse notre stock disponible. ({{name}})",
       "insufficient_stock": "Seulement {{count}} article(s) disponible(s) pour {{name}}. Veuillez mettre à jour votre panier.",
       "cart_items_unavailable": "Un ou plusieurs articles de votre panier ne sont plus disponibles dans la quantité demandée. Veuillez vérifier votre panier et réessayer.",
-      "order_creation_failed": "Échec de la création de la commande"
+      "order_creation_failed": "Échec de la création de la commande",
+      "stock_availability_error": "Une erreur s'est produite lors de la vérification de la disponibilité du stock."
     },
     "success": {
       "order_placed": "Commande passée avec succès ! Merci pour votre achat.",
@@ -4756,7 +4757,12 @@
       "kpi_gross": "Chiffre d'affaires brut",
       "kpi_net": "Chiffre d'affaires net",
       "kpi_orders": "Commandes",
+      "kpi_period": "{{period}} derniers jours",
+      "kpi_after_commission": "Après commission",
       "net": "Chiffre d'affaires net",
+      "period_7": "7 jours",
+      "period_30": "30 jours",
+      "period_90": "90 jours",
       "title": "Gains",
       "no_daily_data": "Aucune donnée quotidienne disponible",
       "chart_aria": "Graphique des gains par jour",

@@ -615,7 +615,7 @@ export default function CheckoutPage() {
             quantity: item.quantity,
           });
           toast.error(
-            error.message || 'An error occurred while checking stock availability.'
+            error.message || t('checkout.errors.stock_availability_error')
           );
           return;
         }
