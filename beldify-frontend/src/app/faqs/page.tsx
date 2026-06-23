@@ -96,11 +96,27 @@ const faqGroups: { heading: string; key: string; faqs: { q: string; a: string }[
   },
 ];
 
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqGroups.flatMap(({ faqs }) =>
+    faqs.map(({ q, a }) => ({
+      '@type': 'Question',
+      name: q,
+      acceptedAnswer: { '@type': 'Answer', text: a },
+    }))
+  ),
+};
+
 export default function FAQsPage() {
   const { t } = useTranslation();
 
   return (
     <main className="min-h-screen bg-canvas text-gray-900">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+      />
       {/* Editorial hero strip — DESIGN.md §6.4 */}
       <section className="relative isolate overflow-hidden bg-indigo-900 text-white">
         <div

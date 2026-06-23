@@ -7,6 +7,8 @@ import { useForm } from 'react-hook-form';
 import logger from '@/utils/consoleLogger';
 import { contactService } from '@/services/contactService';
 
+const SUPPORT_PHONE = process.env.NEXT_PUBLIC_SUPPORT_PHONE || '+212708150351';
+
 export default function ContactPage() {
   const { t } = useTranslation();
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -73,9 +75,9 @@ export default function ContactPage() {
     {
       icon: Phone,
       title: t('contact.cards.phone.title', 'Call us'),
-      detail: '+212 (0) 7 08 15 03 51',
+      detail: SUPPORT_PHONE,
       sub: t('contact.cards.phone.sub', 'Mon – Fri, 9 am – 6 pm (Morocco)'),
-      href: 'tel:+212708150351',
+      href: `tel:${SUPPORT_PHONE}`,
     },
     {
       icon: MapPin,

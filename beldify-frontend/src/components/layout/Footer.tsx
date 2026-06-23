@@ -5,6 +5,8 @@ import Link from 'next/link';
 import { MapPin, Phone, Mail, Instagram, Facebook, Twitter } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
+const SUPPORT_PHONE = process.env.NEXT_PUBLIC_SUPPORT_PHONE || '+212708150351';
+
 const Footer = () => {
   const { t } = useTranslation();
   const [newsletterEmail, setNewsletterEmail] = useState('');
@@ -88,7 +90,7 @@ const Footer = () => {
               </li>
               <li className="flex items-center gap-2">
                 <Phone className="h-4 w-4 text-amber-300 shrink-0" aria-hidden="true" />
-                <a href="tel:+212708150351" className="hover:text-white transition-colors">+212 (0) 7 08 15 03 51</a>
+                <a href={`tel:${SUPPORT_PHONE}`} className="hover:text-white transition-colors">{SUPPORT_PHONE}</a>
               </li>
               <li className="flex items-center gap-2">
                 <Mail className="h-4 w-4 text-amber-300 shrink-0" aria-hidden="true" />
