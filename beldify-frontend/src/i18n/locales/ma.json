@@ -4757,7 +4757,7 @@
     "earnings": {
       "breakdown_heading": "تفاصيل مالية",
       "chart_heading": "الأرباح كل يوم",
-      "chart_sub": "كاتبان آخر ${earnings.period} يوم في ${earnings.currency}",
+      "chart_sub": "كاتبان آخر {{period}} يوم في {{currency}}",
       "commission": "عمولة المنصة",
       "eyebrow": "مركز البياع",
       "fetch_error": "ما تحملت بيانات الأرباح.",
@@ -4786,7 +4786,7 @@
       "col_total": "المجموع",
       "col_unit": "الوحدة",
       "col_variant": "النوع",
-      "commission": "العمولة (${order.commission_rate}%)",
+      "commission": "العمولة ({{commissionRate}}%)",
       "customer_heading": "الزبون",
       "eyebrow": "تفاصيل الطلب",
       "fetch_error": "ما تحمّل الطلب.",
@@ -4813,7 +4813,7 @@
       "next_page": "الصفحة الجاية",
       "no_orders": "ما كاينة طلبات بعد",
       "no_orders_sub": "الطلبات غادي تضهر هنا ملي يشري الزبناء من المتجر ديالك.",
-      "pagination_info": "الصفحة ${meta.current_page} من ${meta.last_page} — ${meta.total} طلب",
+      "pagination_info": "الصفحة {{currentPage}} من {{lastPage}} — {{total}} طلب",
       "prev_page": "الصفحة السابقة",
       "title": "الطلبات"
     },

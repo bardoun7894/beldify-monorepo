@@ -4835,7 +4835,7 @@
     "earnings": {
       "breakdown_heading": "Desglose financiero",
       "chart_heading": "Ingresos por día",
-      "chart_sub": "Mostrando últimos ${earnings.period} días en ${earnings.currency}",
+      "chart_sub": "Mostrando últimos {{period}} días en {{currency}}",
       "commission": "Comisión de la plataforma",
       "eyebrow": "Centro del Vendedor",
       "fetch_error": "No se pudieron cargar los datos de ingresos.",
@@ -4864,7 +4864,7 @@
       "col_total": "Total",
       "col_unit": "Unitario",
       "col_variant": "Variante",
-      "commission": "Comisión (${order.commission_rate}%)",
+      "commission": "Comisión ({{commissionRate}}%)",
       "customer_heading": "Cliente",
       "eyebrow": "Detalle del Pedido",
       "fetch_error": "No se pudo cargar el pedido.",
@@ -4891,7 +4891,7 @@
       "next_page": "Página siguiente",
       "no_orders": "Sin pedidos aún",
       "no_orders_sub": "Los pedidos aparecerán aquí una vez que los clientes compren en tu tienda.",
-      "pagination_info": "Página ${meta.current_page} de ${meta.last_page} — ${meta.total} pedidos",
+      "pagination_info": "Página {{currentPage}} de {{lastPage}} — {{total}} pedidos",
       "prev_page": "Página anterior",
       "title": "Pedidos"
     },

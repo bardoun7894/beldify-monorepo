@@ -3971,7 +3971,7 @@
     "earnings": {
       "breakdown_heading": "Financial breakdown",
       "chart_heading": "Revenue by day",
-      "chart_sub": "Showing last ${earnings.period} days in ${earnings.currency}",
+      "chart_sub": "Showing last {{period}} days in {{currency}}",
       "commission": "Platform commission",
       "eyebrow": "Seller Hub",
       "fetch_error": "Could not load earnings data.",
@@ -4000,7 +4000,7 @@
       "col_total": "Total",
       "col_unit": "Unit",
       "col_variant": "Variant",
-      "commission": "Commission (${order.commission_rate}%)",
+      "commission": "Commission ({{commissionRate}}%)",
       "customer_heading": "Customer",
       "eyebrow": "Order Detail",
       "fetch_error": "Could not load order.",
@@ -4027,7 +4027,7 @@
       "next_page": "Next page",
       "no_orders": "No orders yet",
       "no_orders_sub": "Orders will appear here once customers purchase from your store.",
-      "pagination_info": "Page ${meta.current_page} of ${meta.last_page} — ${meta.total} orders",
+      "pagination_info": "Page {{currentPage}} of {{lastPage}} — {{total}} orders",
       "prev_page": "Previous page",
       "title": "Orders"
     },

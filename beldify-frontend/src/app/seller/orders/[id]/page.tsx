@@ -242,7 +242,7 @@ export default function SellerOrderDetailPage() {
                   </div>
                   <div className="flex justify-between">
                     <dt className="text-gray-500">
-                      {t('seller.order_detail.commission', `Commission (${order.commission_rate}%)`)}
+                      {t('seller.order_detail.commission', 'Commission ({{commissionRate}}%)', { commissionRate: order.commission_rate })}
                     </dt>
                     <dd className="text-rose-600 font-medium">−{fmtMAD(order.commission_amount, numLocale)} DH</dd>
                   </div>

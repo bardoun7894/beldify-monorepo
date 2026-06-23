@@ -34,9 +34,10 @@ const ORDER_STATUSES: Array<{ value: string; label: string }> = [
 ];
 
 function StatusBadge({ status }: { status: OrderStatus }) {
+  const { t } = useTranslation();
   return (
     <Badge variant={orderStatusVariant(status)}>
-      {ORDER_STATUS_LABEL[status] ?? status}
+      {t(`seller.orders.status_${status}`, ORDER_STATUS_LABEL[status] ?? status)}
     </Badge>
   );
 }
@@ -173,7 +174,7 @@ export default function SellerOrdersPage() {
           {meta.last_page > 1 && (
             <div className="flex items-center justify-between px-5 py-3 border-t border-gray-100 text-sm">
               <p className="text-gray-400 text-xs">
-                {t('seller.orders.pagination_info', `Page ${meta.current_page} of ${meta.last_page} — ${meta.total} orders`)}
+                {t('seller.orders.pagination_info', 'Page {{currentPage}} of {{lastPage}} — {{total}} orders', { currentPage: meta.current_page, lastPage: meta.last_page, total: meta.total })}
               </p>
               <div className="flex items-center gap-2">
                 <button

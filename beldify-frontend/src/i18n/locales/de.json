@@ -3963,7 +3963,7 @@
     "earnings": {
       "breakdown_heading": "Finanzielle Übersicht",
       "chart_heading": "Umsatz nach Tag",
-      "chart_sub": "Letzten ${earnings.period} Tage in ${earnings.currency} angezeigt",
+      "chart_sub": "Letzten {{period}} Tage in {{currency}} angezeigt",
       "commission": "Plattformgebühr",
       "eyebrow": "Verkäufer-Hub",
       "fetch_error": "Umsatzdaten konnten nicht geladen werden.",
@@ -3992,7 +3992,7 @@
       "col_total": "Gesamtbetrag",
       "col_unit": "Einheit",
       "col_variant": "Variante",
-      "commission": "Gebühr (${order.commission_rate}%)",
+      "commission": "Gebühr ({{commissionRate}}%)",
       "customer_heading": "Kunde",
       "eyebrow": "Bestelldetails",
       "fetch_error": "Bestellung konnte nicht geladen werden.",
@@ -4019,7 +4019,7 @@
       "next_page": "Nächste Seite",
       "no_orders": "Noch keine Bestellungen",
       "no_orders_sub": "Bestellungen werden hier angezeigt, sobald Kunden aus deinem Shop kaufen.",
-      "pagination_info": "Seite ${meta.current_page} von ${meta.last_page} — ${meta.total} Bestellungen",
+      "pagination_info": "Seite {{currentPage}} von {{lastPage}} — {{total}} Bestellungen",
       "prev_page": "Vorherige Seite",
       "title": "Bestellungen"
     },

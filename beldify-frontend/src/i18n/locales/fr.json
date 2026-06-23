@@ -4747,7 +4747,7 @@
     "earnings": {
       "breakdown_heading": "Répartition financière",
       "chart_heading": "Chiffre d'affaires par jour",
-      "chart_sub": "Affichage des ${earnings.period} derniers jours en ${earnings.currency}",
+      "chart_sub": "Affichage des {{period}} derniers jours en {{currency}}",
       "commission": "Commission plateforme",
       "eyebrow": "Hub vendeur",
       "fetch_error": "Impossible de charger les données de gains.",
@@ -4776,7 +4776,7 @@
       "col_total": "Total",
       "col_unit": "Unitaire",
       "col_variant": "Variante",
-      "commission": "Commission (${order.commission_rate}%)",
+      "commission": "Commission ({{commissionRate}}%)",
       "customer_heading": "Client",
       "eyebrow": "Détails de la commande",
       "fetch_error": "Impossible de charger la commande.",
@@ -4803,7 +4803,7 @@
       "next_page": "Page suivante",
       "no_orders": "Pas encore de commandes",
       "no_orders_sub": "Les commandes apparaîtront ici une fois que les clients achèteront dans votre magasin.",
-      "pagination_info": "Page ${meta.current_page} sur ${meta.last_page} — ${meta.total} commandes",
+      "pagination_info": "Page {{currentPage}} sur {{lastPage}} — {{total}} commandes",
       "prev_page": "Page précédente",
       "title": "Commandes"
     },

@@ -3963,7 +3963,7 @@
     "earnings": {
       "breakdown_heading": "Financieel overzicht",
       "chart_heading": "Opbrengsten per dag",
-      "chart_sub": "Toont laatste ${earnings.period} dagen in ${earnings.currency}",
+      "chart_sub": "Toont laatste {{period}} dagen in {{currency}}",
       "commission": "Platformcommissie",
       "eyebrow": "Verkoopportaal",
       "fetch_error": "Kon gegevens over inkomsten niet laden.",
@@ -3992,7 +3992,7 @@
       "col_total": "Totaal",
       "col_unit": "Eenheid",
       "col_variant": "Variant",
-      "commission": "Commissie (${order.commission_rate}%)",
+      "commission": "Commissie ({{commissionRate}}%)",
       "customer_heading": "Klant",
       "eyebrow": "Besteldetails",
       "fetch_error": "Kon bestelling niet laden.",
@@ -4019,7 +4019,7 @@
       "next_page": "Volgende pagina",
       "no_orders": "Nog geen bestellingen",
       "no_orders_sub": "Bestellingen verschijnen hier zodra klanten in je winkel kopen.",
-      "pagination_info": "Pagina ${meta.current_page} van ${meta.last_page} — ${meta.total} bestellingen",
+      "pagination_info": "Pagina {{currentPage}} van {{lastPage}} — {{total}} bestellingen",
       "prev_page": "Vorige pagina",
       "title": "Bestellingen"
     },

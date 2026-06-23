@@ -206,7 +206,7 @@ export default function SellerEarningsPage() {
                 {t('seller.earnings.chart_heading', 'Revenue by day')}
               </h2>
               <p className="text-xs text-gray-400 mt-0.5">
-                {t('seller.earnings.chart_sub', `Showing last ${earnings.period} days in ${earnings.currency}`)}
+                {t('seller.earnings.chart_sub', 'Showing last {{period}} days in {{currency}}', { period: earnings.period, currency: earnings.currency })}
               </p>
             </div>
             <div className="px-5 pt-4 pb-6">
