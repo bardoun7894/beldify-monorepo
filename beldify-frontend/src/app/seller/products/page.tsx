@@ -239,7 +239,12 @@ export default function SellerProductsPage() {
 
       {/* Loading */}
       {loading && (
-        <div className="space-y-3">
+        <div
+          className="space-y-3"
+          role="status"
+          aria-live="polite"
+          aria-label={t('seller.products.loading', 'Loading products')}
+        >
           {[1, 2, 3, 4, 5].map((i) => <Skeleton key={i} className="h-14" />)}
         </div>
       )}
@@ -266,7 +271,7 @@ export default function SellerProductsPage() {
 
       {/* Products list */}
       {!loading && !error && products.length > 0 && (
-        <div className="bg-white rounded-2xl ring-1 ring-gray-200 shadow-sm overflow-hidden">
+        <div className="bg-white rounded-2xl ring-1 ring-gray-200 shadow-sm">
           <Table>
             <TableHeader>
               <TableRow className="bg-gray-50 border-b border-gray-100">

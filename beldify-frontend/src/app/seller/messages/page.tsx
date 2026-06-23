@@ -233,8 +233,11 @@ export default function SellerMessagesPage() {
                       </p>
 
                       {hasUnread ? (
-                        <span className="inline-flex h-5 min-w-[20px] shrink-0 items-center justify-center rounded-full bg-amber-400 px-1.5 text-[11px] font-bold text-indigo-950">
-                          {conv.unread_count > 99 ? '99+' : conv.unread_count}
+                        <span
+                          className="inline-flex h-5 min-w-[20px] shrink-0 items-center justify-center rounded-full bg-amber-400 px-1.5 text-[11px] font-bold text-indigo-950"
+                          aria-label={t('seller.messages.unread_count', '{{count}} unread messages', { count: conv.unread_count > 99 ? '99+' : conv.unread_count })}
+                        >
+                          <span aria-hidden="true">{conv.unread_count > 99 ? '99+' : conv.unread_count}</span>
                         </span>
                       ) : (
                         <ChevronRight

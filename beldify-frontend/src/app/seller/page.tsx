@@ -228,7 +228,7 @@ export default function SellerDashboardPage() {
       )}
 
       {/* Recent orders */}
-      <div className="bg-white rounded-2xl ring-1 ring-gray-200 shadow-sm overflow-hidden">
+      <div className="bg-white rounded-2xl ring-1 ring-gray-200 shadow-sm">
         <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100">
           <h2 className="text-sm font-semibold text-gray-900">
             {t('seller.dashboard.recent_orders', 'Recent Orders')}
@@ -243,7 +243,12 @@ export default function SellerDashboardPage() {
         </div>
 
         {ordersLoading ? (
-          <div className="p-4 space-y-3">
+          <div
+            className="p-4 space-y-3"
+            role="status"
+            aria-live="polite"
+            aria-label={t('seller.dashboard.loading_orders', 'Loading recent orders')}
+          >
             {[1, 2, 3].map((i) => <Skeleton key={i} className="h-10" />)}
           </div>
         ) : orders.length === 0 ? (

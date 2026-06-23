@@ -28,6 +28,7 @@ function PasswordField({
   required?: boolean;
   minLength?: number;
 }) {
+  const { t } = useTranslation('profile');
   const [show, setShow] = useState(false);
 
   return (
@@ -49,7 +50,7 @@ function PasswordField({
         <button
           type="button"
           onClick={() => setShow((v) => !v)}
-          aria-label={show ? 'Hide password' : 'Show password'}
+          aria-label={show ? t('a11y.hide_password', 'Hide password') : t('a11y.show_password', 'Show password')}
           className="absolute inset-y-0 end-0 flex items-center pe-3 text-indigo-500 hover:text-indigo-700 transition-colors"
         >
           {show ? <EyeOff className="h-4 w-4" aria-hidden="true" /> : <Eye className="h-4 w-4" aria-hidden="true" />}

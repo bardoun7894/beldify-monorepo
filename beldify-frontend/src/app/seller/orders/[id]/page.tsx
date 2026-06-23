@@ -128,7 +128,12 @@ export default function SellerOrderDetailPage() {
 
       {/* Loading */}
       {loading && (
-        <div className="space-y-4">
+        <div
+          className="space-y-4"
+          role="status"
+          aria-live="polite"
+          aria-label={t('seller.order_detail.loading', 'Loading order details')}
+        >
           <Skeleton className="h-8 w-48" />
           <Skeleton className="h-32" />
           <Skeleton className="h-48" />
@@ -196,7 +201,7 @@ export default function SellerOrderDetailPage() {
           {/* 2-col grid: items + sidebar */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             {/* Order items table */}
-            <div className="lg:col-span-2 bg-white rounded-2xl ring-1 ring-gray-200 shadow-sm overflow-hidden">
+            <div className="lg:col-span-2 bg-white rounded-2xl ring-1 ring-gray-200 shadow-sm">
               <div className="px-5 py-4 border-b border-gray-100">
                 <h2 className="text-sm font-semibold text-gray-900">
                   {t('seller.order_detail.items_heading', 'Items')}
