@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { getUnreadCount } from '@/services/messagingService';
 import logger from '@/utils/consoleLogger';
 
@@ -21,26 +21,35 @@ export const UnreadBadge: React.FC<UnreadBadgeProps> = ({
   onNewMessages
 }) => {
   const [unreadCount, setUnreadCount] = useState<number>(0);
-  const [lastCheck, setLastCheck] = useState<number>(Date.now());
+  const lastCheckRef = useRef<number>(Date.now());
+  const unreadCountRef = useRef<number>(0);
+  const onNewMessagesRef = useRef(onNewMessages);
+
+  // Keep callback ref current without re-running the polling effect
+  useEffect(() => {
+    onNewMessagesRef.current = onNewMessages;
+  }, [onNewMessages]);
 
   useEffect(() => {
-    // Function to fetch unread count
+    let cancelled = false;
+
     const fetchUnreadCount = async () => {
       try {
-        const result = await getUnreadCount(lastCheck);
+        const result = await getUnreadCount(lastCheckRef.current);
+        if (cancelled) return;
 
-        if (result.count !== unreadCount) {
+        if (result.count !== unreadCountRef.current) {
+          unreadCountRef.current = result.count;
           setUnreadCount(result.count);
 
-          // Notify parent component about new messages
-          if (onNewMessages && result.hasNew) {
-            onNewMessages(result.count);
+          if (onNewMessagesRef.current && result.hasNew) {
+            onNewMessagesRef.current(result.count);
           }
         }
 
-        setLastCheck(result.currentTimestamp || Date.now());
+        lastCheckRef.current = result.currentTimestamp || Date.now();
       } catch (error) {
-        logger.error('Failed to fetch unread count:', error);
+        if (!cancelled) logger.error('Failed to fetch unread count:', error);
       }
     };
 
@@ -58,10 +67,11 @@ export const UnreadBadge: React.FC<UnreadBadgeProps> = ({
     window.addEventListener('focus', handleFocus);
 
     return () => {
+      cancelled = true;
       clearInterval(interval);
       window.removeEventListener('focus', handleFocus);
     };
-  }, [lastCheck, unreadCount, pollInterval, onNewMessages]);
+  }, [pollInterval]);
 
   // Don't show badge if count is 0 and showZero is false
   if (!showZero && unreadCount === 0) {
