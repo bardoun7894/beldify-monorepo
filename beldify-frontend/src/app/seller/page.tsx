@@ -33,9 +33,10 @@ import {
   TableCell,
 } from '@/components/ui/table';
 import { orderStatusVariant, ORDER_STATUS_LABEL } from '@/constants/orderStatusColors';
+import { intlLocale } from '@/i18n/config';
 
-function fmtMAD(n: number) {
-  return n.toLocaleString('fr-MA', { minimumFractionDigits: 0 });
+function fmtMAD(n: number, locale: string) {
+  return n.toLocaleString(locale, { minimumFractionDigits: 0 });
 }
 
 // ── Status badge ──────────────────────────────────────────────────────────────
@@ -135,8 +136,9 @@ function Skeleton({ className }: { className?: string }) {
 }
 
 export default function SellerDashboardPage() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { isAuthenticated } = useAuth();
+  const numLocale = intlLocale(i18n.language);
 
   const [earnings, setEarnings] = useState<SellerEarningsData | null>(null);
   const [earningsLoading, setEarningsLoading] = useState(true);
@@ -191,14 +193,14 @@ export default function SellerDashboardPage() {
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
           <KpiCard
             label={t('seller.dashboard.kpi_gross', 'Gross Revenue')}
-            value={`${fmtMAD(earnings.gross_revenue)} DH`}
+            value={`${fmtMAD(earnings.gross_revenue, numLocale)} DH`}
             sub={`Last ${earnings.period} days`}
             icon={TrendingUp}
             accent="bg-amber-100 text-amber-700"
           />
           <KpiCard
             label={t('seller.dashboard.kpi_net', 'Net Revenue')}
-            value={`${fmtMAD(earnings.net_revenue)} DH`}
+            value={`${fmtMAD(earnings.net_revenue, numLocale)} DH`}
             sub={`After ${earnings.total_commission} DH commission`}
             icon={DollarSign}
             accent="bg-emerald-100 text-emerald-700"
@@ -206,13 +208,13 @@ export default function SellerDashboardPage() {
           <KpiCard
             label={t('seller.dashboard.kpi_orders', 'Orders')}
             value={earnings.orders_count}
-            sub={`Avg ${fmtMAD(earnings.average_order_value)} DH`}
+            sub={`Avg ${fmtMAD(earnings.average_order_value, numLocale)} DH`}
             icon={ShoppingBag}
             accent="bg-indigo-100 text-indigo-700"
           />
           <KpiCard
             label={t('seller.dashboard.kpi_commission', 'Commission')}
-            value={`${fmtMAD(earnings.total_commission)} DH`}
+            value={`${fmtMAD(earnings.total_commission, numLocale)} DH`}
             sub={`${Math.round((earnings.total_commission / (earnings.gross_revenue || 1)) * 100)}% rate`}
             icon={BarChart2}
             accent="bg-rose-100 text-rose-700"
@@ -283,7 +285,7 @@ export default function SellerDashboardPage() {
                     <StatusBadge status={order.status} />
                   </TableCell>
                   <TableCell numeric className="font-medium text-gray-900">
-                    <span className="currency-mad">{fmtMAD(order.total_amount)} DH</span>
+                    <span className="currency-mad">{fmtMAD(order.total_amount, numLocale)} DH</span>
                   </TableCell>
                 </TableRow>
               ))}

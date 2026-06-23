@@ -10,9 +10,10 @@ import {
   EarningsPeriod,
 } from '@/services/sellerDashboardService';
 import { TrendingUp, DollarSign, ShoppingBag, BarChart2, AlertCircle, Wallet, ArrowRight } from 'lucide-react';
+import { intlLocale } from '@/i18n/config';
 
-function fmtMAD(n: number) {
-  return n.toLocaleString('fr-MA', { minimumFractionDigits: 0 });
+function fmtMAD(n: number, locale: string) {
+  return n.toLocaleString(locale, { minimumFractionDigits: 0 });
 }
 
 const PERIODS: Array<{ value: EarningsPeriod; label: string }> = [
@@ -51,7 +52,8 @@ function KpiCard({
 
 // ── Inline bar chart ──────────────────────────────────────────────────────────
 function EarningsChart({ byDay }: { byDay: Array<{ date: string; revenue: number }> }) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const numLocale = intlLocale(i18n.language);
   const max = Math.max(...byDay.map((d) => d.revenue), 1);
   const visible = byDay.slice(-30); // cap to 30 bars for readability
 
@@ -74,11 +76,11 @@ function EarningsChart({ byDay }: { byDay: Array<{ date: string; revenue: number
         return (
           <div
             key={i}
-            title={`${d.date}: ${fmtMAD(d.revenue)} DH`}
+            title={`${d.date}: ${fmtMAD(d.revenue, numLocale)} DH`}
             className="flex-1 bg-amber-400 rounded-t-sm hover:bg-indigo-500 transition-colors cursor-default"
             style={{ height: `${pct}%` }}
             role="img"
-            aria-label={`${d.date}: ${fmtMAD(d.revenue)} DH`}
+            aria-label={`${d.date}: ${fmtMAD(d.revenue, numLocale)} DH`}
           />
         );
       })}
@@ -95,6 +97,7 @@ export default function SellerEarningsPage() {
   const { t, i18n } = useTranslation();
   const { isAuthenticated } = useAuth();
   const isRTL = i18n.language === 'ar' || i18n.language === 'ma';
+  const numLocale = intlLocale(i18n.language);
 
   const [period, setPeriod] = useState<EarningsPeriod>(30);
   const [earnings, setEarnings] = useState<SellerEarningsData | null>(null);
@@ -169,14 +172,14 @@ export default function SellerEarningsPage() {
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
             <KpiCard
               label={t('seller.earnings.kpi_gross', 'Gross Revenue')}
-              value={`${fmtMAD(earnings.gross_revenue)} DH`}
+              value={`${fmtMAD(earnings.gross_revenue, numLocale)} DH`}
               sub={`Last ${earnings.period} days`}
               icon={TrendingUp}
               accent="bg-amber-100 text-amber-700"
             />
             <KpiCard
               label={t('seller.earnings.kpi_net', 'Net Revenue')}
-              value={`${fmtMAD(earnings.net_revenue)} DH`}
+              value={`${fmtMAD(earnings.net_revenue, numLocale)} DH`}
               sub={`After commission`}
               icon={DollarSign}
               accent="bg-emerald-100 text-emerald-700"
@@ -184,13 +187,13 @@ export default function SellerEarningsPage() {
             <KpiCard
               label={t('seller.earnings.kpi_orders', 'Orders')}
               value={earnings.orders_count}
-              sub={`Avg ${fmtMAD(earnings.average_order_value)} DH`}
+              sub={`Avg ${fmtMAD(earnings.average_order_value, numLocale)} DH`}
               icon={ShoppingBag}
               accent="bg-indigo-100 text-indigo-700"
             />
             <KpiCard
               label={t('seller.earnings.kpi_commission', 'Commission paid')}
-              value={`${fmtMAD(earnings.total_commission)} DH`}
+              value={`${fmtMAD(earnings.total_commission, numLocale)} DH`}
               icon={BarChart2}
               accent="bg-rose-100 text-rose-700"
             />
@@ -228,15 +231,15 @@ export default function SellerEarningsPage() {
             <dl className="divide-y divide-gray-100 text-sm">
               <div className="flex justify-between px-5 py-3">
                 <dt className="text-gray-500">{t('seller.earnings.gross', 'Gross revenue')}</dt>
-                <dd className="font-medium text-gray-900 tabular-nums currency-mad">{fmtMAD(earnings.gross_revenue)} DH</dd>
+                <dd className="font-medium text-gray-900 tabular-nums currency-mad">{fmtMAD(earnings.gross_revenue, numLocale)} DH</dd>
               </div>
               <div className="flex justify-between px-5 py-3">
                 <dt className="text-gray-500">{t('seller.earnings.commission', 'Platform commission')}</dt>
-                <dd className="font-medium text-rose-600 tabular-nums currency-mad">−{fmtMAD(earnings.total_commission)} DH</dd>
+                <dd className="font-medium text-rose-600 tabular-nums currency-mad">−{fmtMAD(earnings.total_commission, numLocale)} DH</dd>
               </div>
               <div className="flex justify-between px-5 py-3 bg-gray-50">
                 <dt className="font-semibold text-gray-900">{t('seller.earnings.net', 'Net revenue')}</dt>
-                <dd className="font-bold text-emerald-700 text-base tabular-nums currency-mad">{fmtMAD(earnings.net_revenue)} DH</dd>
+                <dd className="font-bold text-emerald-700 text-base tabular-nums currency-mad">{fmtMAD(earnings.net_revenue, numLocale)} DH</dd>
               </div>
             </dl>
           </div>

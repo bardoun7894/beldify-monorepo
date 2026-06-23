@@ -15,6 +15,7 @@ import {
   InsufficientCreditsError,
 } from '@/services/sellerAiService';
 import toast from '@/utils/toast';
+import { intlLocale } from '@/i18n/config';
 import { Badge } from '@/components/ui/badge';
 import { Dialog } from '@/components/ui/dialog';
 import {
@@ -26,9 +27,9 @@ import {
   TableCell,
 } from '@/components/ui/table';
 
-function fmtPrice(price: string | number): string {
+function fmtPrice(price: string | number, locale: string): string {
   const n = typeof price === 'string' ? parseFloat(price) : price;
-  return isNaN(n) ? String(price) : n.toLocaleString('fr-MA', { minimumFractionDigits: 0 });
+  return isNaN(n) ? String(price) : n.toLocaleString(locale, { minimumFractionDigits: 0 });
 }
 
 function Skeleton({ className }: { className?: string }) {
@@ -161,6 +162,7 @@ export default function SellerProductsPage() {
   const { t, i18n } = useTranslation();
   const { isAuthenticated } = useAuth();
   const isRTL = i18n.language === 'ar' || i18n.language === 'ma';
+  const numLocale = intlLocale(i18n.language);
 
   const [products, setProducts] = useState<SellerProduct[]>([]);
   const [loading, setLoading] = useState(true);
@@ -288,7 +290,7 @@ export default function SellerProductsPage() {
                       {product.name}
                     </TableCell>
                     <TableCell numeric className="py-3.5 text-gray-700">
-                      <span className="currency-mad">{fmtPrice(product.price)} DH</span>
+                      <span className="currency-mad">{fmtPrice(product.price, numLocale)} DH</span>
                     </TableCell>
                     <TableCell numeric className="py-3.5 text-gray-700">
                       {stock}

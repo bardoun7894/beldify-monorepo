@@ -43,6 +43,7 @@ import {
 import toast from '@/utils/toast';
 import { Badge } from '@/components/ui/badge';
 import { payoutStatusVariant } from '@/constants/payoutStatusColors';
+import { intlLocale } from '@/i18n/config';
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 
@@ -50,8 +51,8 @@ function Skeleton({ className }: { className?: string }) {
   return <div className={`animate-pulse bg-gray-100 rounded-xl ${className ?? ''}`} />;
 }
 
-function fmtMAD(n: number): string {
-  return n.toLocaleString('fr-MA', { minimumFractionDigits: 0 });
+function fmtMAD(n: number, locale = 'fr-MA'): string {
+  return n.toLocaleString(locale, { minimumFractionDigits: 0 });
 }
 
 function fmtDate(iso: string): string {
