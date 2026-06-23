@@ -8,6 +8,7 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { bannerService, Banner } from '../services/api/bannerService';
 import logger from '@/utils/consoleLogger';
+import { useDirection } from '@/hooks/useDirection';
 
 interface SlideData {
   id: number;
@@ -24,7 +25,7 @@ interface SlideData {
 
 export default function HeroSlider() {
   const { t, i18n } = useTranslation();
-  const isRTL = i18n.language === 'ar' || i18n.language === 'ma';
+  const { isRTL } = useDirection();
 
   // State for API data
   const [banners, setBanners] = useState<Banner[]>([]);

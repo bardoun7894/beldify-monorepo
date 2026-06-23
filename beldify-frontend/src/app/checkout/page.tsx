@@ -39,6 +39,7 @@ import {
 import { CheckoutProgressBar } from '@/components/checkout/CheckoutProgressBar';
 import { track } from '@/lib/analytics';
 import { intlLocale } from '@/i18n/config';
+import { useDirection } from '@/hooks/useDirection';
 
 // ── Playfair inline style token ───────────────────────────────────────────────
 const playfair = { fontFamily: '"Playfair Display", ui-serif, Georgia, serif' };
@@ -183,7 +184,7 @@ export default function CheckoutPage() {
   const { state: cartState, clearCart } = useCart();
   const { t, i18n } = useTranslation();
   const { user, isAuthenticated } = useAuth();
-  const isRTL = i18n.language === 'ar' || i18n.language === 'ma';
+  const { isRTL } = useDirection();
   const { triggerOnCheckout } = usePWATriggers();
 
   // ── Buy-now guest mode ────────────────────────────────────────────────────

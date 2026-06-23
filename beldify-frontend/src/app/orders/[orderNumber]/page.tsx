@@ -32,6 +32,7 @@ import {
   AlertTriangle,
 } from 'lucide-react';
 import logger from '@/utils/consoleLogger';
+import { useDirection } from '@/hooks/useDirection';
 
 const playfair = { fontFamily: '"Playfair Display", ui-serif, Georgia, serif' };
 
@@ -88,7 +89,7 @@ export default function OrderDetailsPage() {
   const params = useParams();
   const searchParams = useSearchParams();
   const router = useRouter();
-  const isRTL = i18n.language === 'ar' || i18n.language === 'ma';
+  const { isRTL } = useDirection();
   const shouldReduceMotion = useReducedMotion();
   const orderNumber = params?.orderNumber as string;
 

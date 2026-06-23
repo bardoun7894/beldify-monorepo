@@ -13,6 +13,7 @@ import EmptyCartState from '@/components/cart/EmptyCartState';
 import CartMobileBar from '@/components/cart/CartMobileBar';
 import { usePWATriggers } from '@/hooks/usePWATriggers';
 import { intlLocale } from '@/i18n/config';
+import { useDirection } from '@/hooks/useDirection';
 import {
   ArrowLeft,
   ArrowRight,
@@ -38,7 +39,7 @@ export default function CartPage() {
   } = useCart();
   const router = useRouter();
   const { t, i18n } = useTranslation();
-  const isRTL = i18n.language === 'ar' || i18n.language === 'ma';
+  const { isRTL } = useDirection();
   const { triggerOnCartAdd } = usePWATriggers();
 
   // Trigger PWA prompt when user has items in cart

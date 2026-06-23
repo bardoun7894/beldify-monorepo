@@ -14,6 +14,7 @@ import { Product } from '@/lib/types';
 import { SlidersHorizontal, RefreshCw, PackageSearch } from 'lucide-react';
 import logger from '@/utils/consoleLogger';
 import { intlLocale } from '@/i18n/config';
+import { useDirection } from '@/hooks/useDirection';
 
 interface Category {
   id: number;
@@ -43,7 +44,7 @@ export default function CategoryPage() {
   const { t, i18n } = useTranslation();
   const params = useParams();
   const slug = typeof params === 'object' && params !== null ? (params as any).slug : '';
-  const isRTL = i18n.language === 'ar' || i18n.language === 'ma';
+  const { isRTL } = useDirection();
 
   const [categoryData, setCategoryData] = useState<CategoryData | null>(null);
   const [loading, setLoading] = useState(true);
