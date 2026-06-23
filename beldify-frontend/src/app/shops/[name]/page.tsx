@@ -384,10 +384,79 @@ export default function ShopPage() {
 
   const shopId = shop?.id;
 
+  // BreadcrumbList + Store JSON-LD — mirrors the rich-result coverage the
+  // /category/[slug] and /products pages emit. AggregateRating only emitted when
+  // the seller has real reviews (Google rejects schemas with rating but no count).
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.beldify.com';
+  const shopUrl = `${siteUrl}/shops/${encodeURIComponent(shop.name)}`;
+  const breadcrumbJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: t('navigation.home', 'Home'), item: `${siteUrl}/` },
+      { '@type': 'ListItem', position: 2, name: t('navigation.stores', 'Shops'), item: `${siteUrl}/shops` },
+      { '@type': 'ListItem', position: 3, name: shop.name, item: shopUrl },
+    ],
+  };
+  const storeImage =
+    shop.cover_image ||
+    shop.profile?.cover_image ||
+    shop.profile?.store_logo ||
+    undefined;
+  const storeJsonLd: Record<string, unknown> = {
+    '@context': 'https://schema.org',
+    '@type': 'Store',
+    name: shop.name,
+    url: shopUrl,
+    ...(storeImage ? { image: storeImage } : {}),
+    ...(rawDescription ? { description: rawDescription } : {}),
+    address: {
+      '@type': 'PostalAddress',
+      addressLocality: rawCity,
+      addressCountry: 'MA',
+    },
+  };
+  if (rating > 0 && reviewsCount > 0) {
+    storeJsonLd.aggregateRating = {
+      '@type': 'AggregateRating',
+      ratingValue: rating.toFixed(1),
+      reviewCount: reviewsCount,
+      bestRating: '5',
+      worstRating: '1',
+    };
+  }
+  const itemListJsonLd =
+    allProducts.length > 0
+      ? {
+          '@context': 'https://schema.org',
+          '@type': 'ItemList',
+          itemListElement: allProducts.slice(0, 24).map((p, idx) => ({
+            '@type': 'ListItem',
+            position: idx + 1,
+            url: `${siteUrl}/products/${p.id}`,
+            name: p.name,
+          })),
+        }
+      : null;
+
   // ── render ─────────────────────────────────────────────────────────────────
 
   return (
     <div className="bg-canvas min-h-screen">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(storeJsonLd) }}
+      />
+      {itemListJsonLd && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListJsonLd) }}
+        />
+      )}
 
       {/* ── 1. Cover Hero ──────────────────────────────────────────────────── */}
       <section className="relative h-72 sm:h-[28rem] overflow-hidden bg-indigo-950">

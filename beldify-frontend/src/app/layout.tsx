@@ -119,6 +119,39 @@ export function generateViewport() {
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
+  // Site-wide structured data — emitted once in the root layout so every page
+  // surfaces them to Google + AI answer engines (ChatGPT / Perplexity / Gemini).
+  // Organization powers the Knowledge Panel; WebSite with SearchAction enables
+  // the sitelinks search box on brand SERPs (deep-link to /products?q=).
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.beldify.com';
+  const organizationJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: 'Beldify',
+    url: siteUrl,
+    logo: `${siteUrl}/icons/apple-icon-180.png`,
+    description: 'Bringing Moroccan Traditional Fashion to the Modern World',
+    sameAs: [
+      'https://www.instagram.com/beldify',
+      'https://www.facebook.com/beldify',
+      'https://www.tiktok.com/@beldify',
+    ],
+  };
+  const websiteJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: 'Beldify',
+    url: siteUrl,
+    potentialAction: {
+      '@type': 'SearchAction',
+      target: {
+        '@type': 'EntryPoint',
+        urlTemplate: `${siteUrl}/products?q={search_term_string}`,
+      },
+      'query-input': 'required name=search_term_string',
+    },
+  };
+
   return (
     <html
       lang="ma"
@@ -127,6 +160,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       className={`${poppins.variable} ${montserrat.variable} ${rubik.variable} ${playfair.variable} ${ibmPlexArabic.variable}`}
     >
       <body suppressHydrationWarning>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
+        />
         <a
           href="#main-content"
           className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-indigo-600 focus:text-white focus:rounded-lg focus:shadow-lg"
