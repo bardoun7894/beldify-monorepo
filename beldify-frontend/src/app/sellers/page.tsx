@@ -34,8 +34,42 @@ export default function SellersPage() {
     },
   ];
 
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'HowTo',
+    name: 'How to become a seller on Beldify',
+    description:
+      'Beldify connects Moroccan ateliers with buyers across 23 cities. Join 120+ verified sellers already growing their business on our platform.',
+    totalTime: 'P5D',
+    step: [
+      {
+        '@type': 'HowToStep',
+        position: 1,
+        name: 'Apply',
+        text: 'Complete our short application at beldify.com/seller/register. Tell us about your atelier, the pieces you make, and attach a few photos. Most applications are reviewed within 3–5 business days.',
+        url: 'https://beldify.com/seller/register',
+      },
+      {
+        '@type': 'HowToStep',
+        position: 2,
+        name: 'Get verified',
+        text: 'A Beldify curator reviews your craft and brand story. Once approved you receive your Verified badge, which builds immediate trust with buyers browsing the marketplace.',
+      },
+      {
+        '@type': 'HowToStep',
+        position: 3,
+        name: 'Start selling',
+        text: 'List products, set your prices, and reach thousands of buyers across 23 cities worldwide. We handle payments, and transfer your earnings bi-weekly with no hidden fees.',
+      },
+    ],
+  };
+
   return (
     <main className="min-h-screen bg-canvas text-gray-900">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       {/* Hero — generous, asymmetric, no eyebrow */}
       <section className="relative isolate overflow-hidden bg-indigo-950">
         {/* Subtle decorative wash — not glassmorphism, not gradient-clip text */}
