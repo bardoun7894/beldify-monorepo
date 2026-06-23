@@ -187,23 +187,31 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Execute tool
-    const result = await (mcpTools as any)[tool](params || {});
+    // Execute tool — track tool name so the error branch can report it
+    // without re-reading the already-consumed request body.
+    try {
+      const result = await (mcpTools as any)[tool](params || {});
 
-    return NextResponse.json({
-      success: true,
-      tool,
-      result
-    }, { headers: corsHeaders });
+      return NextResponse.json({
+        success: true,
+        tool,
+        result
+      }, { headers: corsHeaders });
+    } catch (toolError: any) {
+      console.error('Frontend MCP Tool Error:', tool, toolError);
+      return NextResponse.json(
+        { error: 'Tool execution failed', tool },
+        { status: 500, headers: corsHeaders }
+      );
+    }
 
   } catch (error: any) {
+    // Body parse / unexpected handler error — never echo raw error.message
+    // back to the client (it can leak filesystem paths from getSafePath etc.).
     console.error('Frontend MCP Error:', error);
 
     return NextResponse.json(
-      {
-        error: error.message || 'Internal server error',
-        tool: request.body ? JSON.parse(await request.text()).tool : 'unknown'
-      },
+      { error: 'Internal server error' },
       { status: 500, headers: corsHeaders }
     );
   }

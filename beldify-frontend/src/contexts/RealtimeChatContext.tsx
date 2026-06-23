@@ -54,6 +54,15 @@ export const RealtimeChatProvider: React.FC<{ children: React.ReactNode }> = ({ 
   const reconnectAttempts = useRef<number>(0);
   const maxReconnectAttempts = 5;
 
+  // Track latest auth in a ref so disconnect handlers (bound at connect-time)
+  // see the current value instead of a stale closure capture. Without this,
+  // a logout-while-disconnected event still re-attempts reconnect with the
+  // now-revoked token.
+  const isAuthenticatedRef = useRef<boolean>(isAuthenticated);
+  useEffect(() => {
+    isAuthenticatedRef.current = isAuthenticated;
+  }, [isAuthenticated]);
+
   // Connect to Pusher/Laravel Reverb
   const connect = useCallback(() => {
     if (!isAuthenticated || !user) {
@@ -123,8 +132,9 @@ export const RealtimeChatProvider: React.FC<{ children: React.ReactNode }> = ({ 
         setIsConnected(false);
         setConnectionStatus('disconnected');
 
-        // Attempt to reconnect if authenticated and under max attempts
-        if (isAuthenticated && reconnectAttempts.current < maxReconnectAttempts) {
+        // Attempt to reconnect if authenticated and under max attempts.
+        // Read from the ref to avoid stale-closure reconnects after logout.
+        if (isAuthenticatedRef.current && reconnectAttempts.current < maxReconnectAttempts) {
           reconnectAttempts.current++;
           const delay = Math.min(1000 * Math.pow(2, reconnectAttempts.current), 30000);
           logger.log(`RealtimeChat: Attempting to reconnect in ${delay}ms (attempt ${reconnectAttempts.current})`);
@@ -291,7 +301,11 @@ export const RealtimeChatProvider: React.FC<{ children: React.ReactNode }> = ({ 
     return () => {
       disconnect();
     };
-  }, [isAuthenticated, user, connect, disconnect]);
+    // connect/disconnect are recreated when [isAuthenticated, user] change, so
+    // listing them here would re-run the effect twice on every auth flip and
+    // can cause connect→cleanup→connect thrash. Track auth-identity directly.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isAuthenticated, user?.id]);
 
   const contextValue: RealtimeChatContextType = {
     isConnected,
