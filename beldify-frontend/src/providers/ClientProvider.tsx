@@ -10,6 +10,7 @@ import { WishlistProvider } from '@/contexts/WishlistContext';
 import { NavigationProvider } from '@/providers/NavigationProvider';
 import RootLayoutClient from '@/app/layout-client';
 import i18nInstance from '@/i18n/config';
+import logger from '@/utils/consoleLogger';
 
 // Dynamically import deferred providers wrapper to reduce initial bundle size
 const DeferredProviders = dynamic(
@@ -40,7 +41,7 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
   }
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-    console.error(`Error caught by ${this.props.name || 'error'} boundary:`, error, errorInfo);
+    logger.error(`Error caught by ${this.props.name || 'error'} boundary:`, error, errorInfo);
     this.setState({ error, errorInfo });
   }
 
@@ -156,7 +157,7 @@ class SilentErrorBoundary extends Component<
   }
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-    console.warn(`[${this.props.name}] Non-critical provider error (app continues):`, error.message);
+    logger.warn(`[${this.props.name}] Non-critical provider error (app continues):`, error.message);
   }
 
   render() {

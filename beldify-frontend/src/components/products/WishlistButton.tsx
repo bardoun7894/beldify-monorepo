@@ -7,7 +7,7 @@ import { useWishlist } from '@/contexts/WishlistContext';
 import { useTranslation } from 'react-i18next';
 import toast from '@/utils/toast';
 import { useAuth } from '@/contexts/AuthContext';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import logger from '@/utils/consoleLogger'; 
 interface WishlistButtonProps {
   productId: number;
@@ -27,6 +27,7 @@ export default function WishlistButton({
   const { isAuthenticated } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
+  const pathname = usePathname();
   const isLiked = isAuthenticated && isInWishlist(productId);
 
   const handleToggleWishlist = async (e: React.MouseEvent) => {
@@ -37,7 +38,7 @@ export default function WishlistButton({
 
     if (!isAuthenticated) {
       toast.error(t('auth.login_required'));
-      router.push('/login');
+      router.push(`/login?redirect=${encodeURIComponent(pathname)}`);
       return;
     }
 

@@ -4,6 +4,7 @@ import React from 'react';
 import { ExclamationTriangleIcon, ArrowPathIcon } from '@heroicons/react/24/outline';
 import { useTranslation } from 'react-i18next';
 import '@/i18n/config';
+import logger from '@/utils/consoleLogger';
 
 interface ErrorBoundaryState {
   hasError: boolean;
@@ -40,9 +41,8 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundarySta
       errorInfo,
     });
 
-    // Log error for debugging
-    console.error('ErrorBoundary caught an error:', error);
-    console.error('Error info:', errorInfo);
+    logger.error('ErrorBoundary caught an error:', error);
+    logger.error('Error info:', errorInfo);
 
     // Call custom error handler
     this.props.onError?.(error, errorInfo);

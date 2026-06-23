@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import Link from 'next/link';
 import { useTranslation } from 'react-i18next';
 import { AlertTriangle, RefreshCw, Home } from 'lucide-react';
+import logger from '@/utils/consoleLogger';
 
 export default function Error({
   error,
@@ -15,7 +16,7 @@ export default function Error({
   const { t } = useTranslation();
 
   useEffect(() => {
-    console.error(error);
+    logger.error('[route-error]', error);
   }, [error]);
 
   return (
