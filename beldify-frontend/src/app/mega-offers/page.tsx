@@ -29,7 +29,7 @@ function CollectionSkeleton() {
 
 export default function MegaOffersPage() {
   const { t, i18n } = useTranslation();
-  const locale = i18n.language || 'ma';
+  const locale = i18n.language || 'en';
   const [collections, setCollections] = useState<MegaOfferCollection[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);

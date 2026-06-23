@@ -229,7 +229,8 @@ export default function WishlistPage() {
                   // On sale → sale_price is the discounted (active) amount; price is the struck
                   // original. Matches ProductCard's displayPrice convention. Off sale → just price.
                   const onSale = Boolean(item.product.is_on_sale && item.product.sale_price);
-                  const activePrice = onSale ? item.product.sale_price! : item.product.price;
+                  // Guard: fall back to price if sale_price is null/undefined (avoids non-null assertion NaN)
+                  const activePrice = onSale ? item.product.sale_price ?? item.product.price : item.product.price;
                   const discountPct = item.product.discount_percentage;
                   return (
                     <div className="flex items-center justify-between gap-1">

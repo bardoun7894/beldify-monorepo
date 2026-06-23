@@ -50,13 +50,17 @@ function Skeleton({ className }: { className?: string }) {
   return <div className={`animate-pulse bg-gray-100 rounded-xl ${className ?? ''}`} />;
 }
 
-function fmtMAD(n: number): string {
-  return n.toLocaleString('fr-MA', { minimumFractionDigits: 0 });
+const BCP47_MAP: Record<string, string> = { ar: 'ar-MA', ma: 'ar-MA', fr: 'fr-FR' };
+
+function fmtMAD(n: number, lang?: string): string {
+  const locale = BCP47_MAP[lang ?? ''] ?? 'fr-MA';
+  return n.toLocaleString(locale, { minimumFractionDigits: 0 });
 }
 
-function fmtDate(iso: string): string {
+function fmtDate(iso: string, lang?: string): string {
   try {
-    return new Date(iso).toLocaleDateString(undefined, {
+    const locale = BCP47_MAP[lang ?? ''] ?? 'en-US';
+    return new Date(iso).toLocaleDateString(locale, {
       year: 'numeric',
       month: 'short',
       day: 'numeric',

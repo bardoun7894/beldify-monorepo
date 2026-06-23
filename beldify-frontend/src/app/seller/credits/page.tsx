@@ -47,9 +47,12 @@ function Skeleton({ className }: { className?: string }) {
   return <div className={`animate-pulse bg-gray-100 rounded-xl ${className ?? ''}`} />;
 }
 
-function fmtDate(iso: string): string {
+const BCP47_MAP: Record<string, string> = { ar: 'ar-MA', ma: 'ar-MA', fr: 'fr-FR' };
+
+function fmtDate(iso: string, lang?: string): string {
   try {
-    return new Date(iso).toLocaleDateString(undefined, {
+    const locale = BCP47_MAP[lang ?? ''] ?? 'en-US';
+    return new Date(iso).toLocaleDateString(locale, {
       year: 'numeric',
       month: 'short',
       day: 'numeric',

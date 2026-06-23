@@ -153,9 +153,9 @@ export default function InvoicePage() {
     );
   }
 
-  // Calculate subtotal from items
+  // Calculate subtotal from items — guard against undefined unit_price/quantity → NaN
   const itemsSubtotal = order.items.reduce(
-    (sum, item) => sum + item.unit_price * item.quantity,
+    (sum, item) => sum + (Number(item.unit_price) || 0) * (Number(item.quantity) || 1),
     0
   );
   const shippingAmount = order.shipping_amount ?? 0;

@@ -39,9 +39,22 @@ export function formatPrice(price: number | string): string {
   return numPrice.toFixed(2);
 }
 
-export function formatDate(dateString: string): string {
+/**
+ * Map i18n language codes to valid BCP-47 locales for Intl APIs.
+ * 'ma' (Darija) is not a valid BCP-47 tag — map it to 'ar-MA'.
+ */
+export function toBCP47(lang?: string): string {
+  const map: Record<string, string> = {
+    ar: 'ar-MA',
+    ma: 'ar-MA',
+    fr: 'fr-FR',
+  };
+  return map[lang ?? ''] ?? 'en-US';
+}
+
+export function formatDate(dateString: string, locale?: string): string {
   const date = new Date(dateString);
-  return new Intl.DateTimeFormat('en-US', {
+  return new Intl.DateTimeFormat(toBCP47(locale), {
     year: 'numeric',
     month: 'long',
     day: 'numeric',

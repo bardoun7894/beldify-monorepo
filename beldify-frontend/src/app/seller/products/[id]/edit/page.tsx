@@ -708,6 +708,7 @@ export default function SellerEditProductPage() {
                 <div>
                   <label htmlFor="category_id" className="block text-sm font-medium text-gray-700 mb-1.5">
                     {t('seller.product.category_label', 'Category')}
+                    <span className="text-rose-500 ms-1" aria-hidden="true">*</span>
                   </label>
                   <select
                     id="category_id"
@@ -736,6 +737,7 @@ export default function SellerEditProductPage() {
                   <div>
                     <label htmlFor="current_sale_unit_price" className="block text-sm font-medium text-gray-700 mb-1.5">
                       {t('seller.product.price_mad_label', 'Price (MAD)')}
+                      <span className="text-rose-500 ms-1" aria-hidden="true">*</span>
                     </label>
                     <input
                       id="current_sale_unit_price"
@@ -753,6 +755,7 @@ export default function SellerEditProductPage() {
                   <div>
                     <label htmlFor="quantity" className="block text-sm font-medium text-gray-700 mb-1.5">
                       {t('seller.product.quantity_label', 'Quantity')}
+                      <span className="text-rose-500 ms-1" aria-hidden="true">*</span>
                     </label>
                     <input
                       id="quantity"

@@ -96,10 +96,10 @@ export default function OrdersPage() {
         return new Intl.RelativeTimeFormat(i18n.language, { numeric: 'auto' }).format(-diffDays, 'day');
       }
 
-      // Otherwise show formatted date
-      const lang = i18n.language || 'en';
-      const isDarijaOrArabic = lang === 'ar' || lang === 'ma';
-      return new Intl.DateTimeFormat(isDarijaOrArabic ? 'ar-MA' : 'en-US', {
+      // Otherwise show formatted date — map to valid BCP-47 locale
+      const bcp47Map: Record<string, string> = { ar: 'ar-MA', ma: 'ar-MA', fr: 'fr-FR' };
+      const bcp47 = bcp47Map[i18n.language] ?? 'en-US';
+      return new Intl.DateTimeFormat(bcp47, {
         year: 'numeric',
         month: 'short',
         day: 'numeric',
@@ -153,7 +153,6 @@ export default function OrdersPage() {
         setLoading(true);
         const data = await orderService.getOrders();
         setOrders(data || []);
-        logger.log('Orders loaded:', data.length);
       } catch (error: any) {
         logger.error('Error loading orders:', error);
         setError(error?.message || t('orders.error.loading'));

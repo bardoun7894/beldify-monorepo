@@ -218,8 +218,9 @@ export default function OrderConfirmationPage() {
     );
   }
 
+  // Guard against undefined unit_price/quantity → NaN on financial docs
   const itemsSubtotal = order.items.reduce(
-    (acc, item) => acc + item.unit_price * item.quantity,
+    (acc, item) => acc + (Number(item.unit_price) || 0) * (Number(item.quantity) || 1),
     0
   );
 

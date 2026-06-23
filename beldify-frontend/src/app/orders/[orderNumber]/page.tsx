@@ -179,9 +179,10 @@ export default function OrderDetailsPage() {
   const formatDate = (date: string | null | undefined) => {
     if (!date) return '';
     try {
-      const lang = i18n.language || 'en';
-      const isDarijaOrArabic = lang === 'ar' || lang === 'ma' || lang.startsWith('ar') || lang.startsWith('ma');
-      return new Intl.DateTimeFormat(isDarijaOrArabic ? 'ar-MA' : 'en-US', {
+      // Map to valid BCP-47 locale — 'ma' (Darija) is not a valid BCP-47 tag
+      const bcp47Map: Record<string, string> = { ar: 'ar-MA', ma: 'ar-MA', fr: 'fr-FR' };
+      const bcp47 = bcp47Map[i18n.language] ?? 'en-US';
+      return new Intl.DateTimeFormat(bcp47, {
         year: 'numeric',
         month: 'long',
         day: 'numeric',

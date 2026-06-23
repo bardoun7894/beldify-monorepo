@@ -219,7 +219,6 @@ export default function RegisterPage() {
         width: 280,
       });
 
-      logger.log('Google button initialized successfully');
     } catch (error) {
       logger.error('Error initializing Google button:', error);
       toast.error(t('auth.google_signup_init_failed'));

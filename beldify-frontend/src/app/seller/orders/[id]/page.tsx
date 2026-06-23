@@ -44,13 +44,17 @@ function Skeleton({ className }: { className?: string }) {
   return <div className={`animate-pulse bg-gray-100 rounded-xl ${className ?? ''}`} />;
 }
 
-function fmtMAD(n: number) {
-  return n.toLocaleString('fr-MA', { minimumFractionDigits: 0 });
+const BCP47_MAP: Record<string, string> = { ar: 'ar-MA', ma: 'ar-MA', fr: 'fr-FR' };
+
+function fmtMAD(n: number, lang?: string) {
+  const locale = BCP47_MAP[lang ?? ''] ?? 'fr-MA';
+  return n.toLocaleString(locale, { minimumFractionDigits: 0 });
 }
 
-function fmtDate(dateStr: string): string {
+function fmtDate(dateStr: string, lang?: string): string {
   try {
-    return new Date(dateStr).toLocaleDateString('fr-MA', { year: 'numeric', month: 'long', day: 'numeric' });
+    const locale = BCP47_MAP[lang ?? ''] ?? 'fr-MA';
+    return new Date(dateStr).toLocaleDateString(locale, { year: 'numeric', month: 'long', day: 'numeric' });
   } catch {
     return dateStr;
   }
@@ -154,7 +158,7 @@ export default function SellerOrderDetailPage() {
                 <StatusBadge status={order.status} />
                 <span className="flex items-center gap-1 text-xs text-gray-400">
                   <Calendar className="w-3 h-3" aria-hidden="true" />
-                  {fmtDate(order.created_at)}
+                  {fmtDate(order.created_at, i18n.language)}
                 </span>
               </div>
             </div>
@@ -215,10 +219,10 @@ export default function SellerOrderDetailPage() {
                       <TableCell className="py-3.5 text-gray-500 text-xs">{item.variant ?? '—'}</TableCell>
                       <TableCell numeric className="py-3.5 text-gray-700">{item.quantity}</TableCell>
                       <TableCell numeric className="py-3.5 text-gray-700">
-                        <span className="currency-mad">{fmtMAD(item.unit_price)} DH</span>
+                        <span className="currency-mad">{fmtMAD(item.unit_price, i18n.language)} DH</span>
                       </TableCell>
                       <TableCell numeric className="py-3.5 font-medium text-gray-900">
-                        <span className="currency-mad">{fmtMAD(item.line_total)} DH</span>
+                        <span className="currency-mad">{fmtMAD(item.line_total, i18n.language)} DH</span>
                       </TableCell>
                     </TableRow>
                   ))}
@@ -236,17 +240,17 @@ export default function SellerOrderDetailPage() {
                 <dl className="space-y-2 text-sm">
                   <div className="flex justify-between">
                     <dt className="text-gray-500">{t('seller.order_detail.subtotal', 'Subtotal')}</dt>
-                    <dd className="text-gray-900 font-medium">{fmtMAD(order.subtotal)} DH</dd>
+                    <dd className="text-gray-900 font-medium">{fmtMAD(order.subtotal, i18n.language)} DH</dd>
                   </div>
                   <div className="flex justify-between">
                     <dt className="text-gray-500">
                       {t('seller.order_detail.commission', `Commission (${order.commission_rate}%)`)}
                     </dt>
-                    <dd className="text-rose-600 font-medium">−{fmtMAD(order.commission_amount)} DH</dd>
+                    <dd className="text-rose-600 font-medium">−{fmtMAD(order.commission_amount, i18n.language)} DH</dd>
                   </div>
                   <div className="flex justify-between pt-2 border-t border-gray-100">
                     <dt className="text-gray-900 font-semibold">{t('seller.order_detail.net', 'Net to you')}</dt>
-                    <dd className="text-emerald-700 font-bold text-base">{fmtMAD(order.net_amount)} DH</dd>
+                    <dd className="text-emerald-700 font-bold text-base">{fmtMAD(order.net_amount, i18n.language)} DH</dd>
                   </div>
                 </dl>
               </div>
