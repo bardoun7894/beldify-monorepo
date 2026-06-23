@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { API_BASE_URL } from '@/config/constants';
+import logger from '@/utils/consoleLogger';
 
 export interface Banner {
   id: number;
@@ -75,14 +76,14 @@ export const bannerService = {
         }));
       }
       
-      console.warn('Using fallback banner data due to invalid API response');
+      logger.warn('Using fallback banner data due to invalid API response');
       return fallbackBanners;
     } catch (error) {
-      console.error(`Attempt ${attempt}/${maxRetries} failed:`, error);
-      
+      logger.error(`Attempt ${attempt}/${maxRetries} failed:`, error);
+
       // If this was the last attempt, return fallback data
       if (attempt === maxRetries) {
-        console.warn('All retry attempts failed. Using fallback banner data');
+        logger.warn('All retry attempts failed. Using fallback banner data');
         return fallbackBanners;
       }
       

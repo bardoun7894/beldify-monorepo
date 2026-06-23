@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
+import logger from '@/utils/consoleLogger';
 
 interface PerformanceMetrics {
   FCP?: number; // First Contentful Paint
@@ -71,9 +72,7 @@ export function usePerformanceMonitor() {
         if (metrics.CLS && metrics.CLS > 0.1) recommendations.push('Consider reducing Cumulative Layout Shift');
 
         if (recommendations.length > 0) {
-          console.group('⚡ Performance Recommendations');
-          recommendations.forEach(rec => console.warn(rec));
-          console.groupEnd();
+          recommendations.forEach(rec => logger.warn('[Performance]', rec));
         }
       }
 

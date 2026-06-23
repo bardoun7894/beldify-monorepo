@@ -114,7 +114,7 @@ api.interceptors.response.use(
     // normally a no-op and we never thrash the cart key cross-request).
     const backendGuestToken = response.headers?.['x-guest-token'];
     if (typeof window !== 'undefined' && response.config?.url?.includes('/api/')) {
-      console.warn(
+      logger.log(
         `[CARTDBG] res ${response.config.url} status=${response.status}` +
         ` backendTokenPresent=${Boolean(backendGuestToken)}`
       );

@@ -1,3 +1,5 @@
+import logger from '@/utils/consoleLogger';
+
 /**
  * Web Push utility helpers (native VAPID — no Firebase).
  *
@@ -86,7 +88,7 @@ export async function subscribeToPush(
 ): Promise<PushSubscription | null> {
   const vapidKey = process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY;
   if (!vapidKey) {
-    console.warn('[webPush] NEXT_PUBLIC_VAPID_PUBLIC_KEY is not set');
+    logger.warn('[webPush] NEXT_PUBLIC_VAPID_PUBLIC_KEY is not set');
     return null;
   }
 
@@ -102,7 +104,7 @@ export async function subscribeToPush(
     });
     return subscription;
   } catch (err) {
-    console.error('[webPush] subscribe failed:', err);
+    logger.error('[webPush] subscribe failed:', err);
     return null;
   }
 }
@@ -120,7 +122,7 @@ export async function unsubscribeFromPush(
     if (!subscription) return true;
     return await subscription.unsubscribe();
   } catch (err) {
-    console.error('[webPush] unsubscribe failed:', err);
+    logger.error('[webPush] unsubscribe failed:', err);
     return false;
   }
 }

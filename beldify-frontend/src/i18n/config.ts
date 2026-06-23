@@ -1,6 +1,7 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
+import logger from '@/utils/consoleLogger';
 
 // Import JSON files with type declarations
 type LocaleType = {
@@ -99,13 +100,13 @@ const createI18n = () => {
       },
       saveMissing: false,
       missingKeyHandler: (lng, ns, key) => {
-        console.warn(`Missing translation: ${lng}.${ns}.${key}`);
+        logger.warn(`Missing translation: ${lng}.${ns}.${key}`);
       },
     });
 
   // Add error handling for language changes
   i18nInstance.on('failedLoading', (lng, ns, msg) => {
-    console.error(`Failed loading ${lng} ${ns}:`, msg);
+    logger.error(`Failed loading ${lng} ${ns}:`, msg);
   });
 
   return i18nInstance;

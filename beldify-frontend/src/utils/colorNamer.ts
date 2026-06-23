@@ -1,4 +1,5 @@
 import { useState, useCallback } from 'react';
+import logger from '@/utils/consoleLogger';
 
 /**
  * Color Namer Utility
@@ -258,7 +259,7 @@ export const getColorName = (hex: string): string => {
     const { name } = findNearestColor(hex);
     return name;
   } catch (error) {
-    console.error('Error finding color name:', error);
+    logger.error('Error finding color name:', error);
     return 'Unknown';
   }
 };
@@ -270,7 +271,7 @@ export const getColorInfo = (hex: string): { name: string, hex: string } => {
   try {
     return findNearestColor(hex);
   } catch (error) {
-    console.error('Error finding color info:', error);
+    logger.error('Error finding color info:', error);
     return { name: 'Unknown', hex };
   }
 };
@@ -314,7 +315,7 @@ export const getColorNameFromAPI = async (hexCode: string): Promise<string> => {
     // Return the color name
     return data.name.value;
   } catch (error) {
-    console.error('Error fetching color name:', error);
+    logger.error('Error fetching color name:', error);
     // Fallback to local function if API fails
     const fallbackName = getColorName(hexCode);
     colorNameCache[hex] = fallbackName;
@@ -341,7 +342,7 @@ export const useLazyColorName = (hexCode: string | null | undefined) => {
       const name = await getColorNameFromAPI(hexCode);
       setColorName(name);
     } catch (error) {
-      console.error('Failed to load color name:', error);
+      logger.error('Failed to load color name:', error);
       // Fallback to simple name
       setColorName(getColorName(hexCode));
     } finally {
