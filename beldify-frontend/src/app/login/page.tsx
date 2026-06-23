@@ -33,7 +33,11 @@ export default function LoginPage() {
     const params = new URLSearchParams(window.location.search);
     const redirect = params.get('redirect');
     if (redirect) {
-      sessionStorage.setItem('redirectAfterLogin', redirect);
+      try {
+        sessionStorage.setItem('redirectAfterLogin', redirect);
+      } catch {
+        /* sessionStorage unavailable (Safari private mode / sandboxed iframe) */
+      }
     }
   }, []);
 

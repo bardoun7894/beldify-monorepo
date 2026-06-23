@@ -65,9 +65,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   // Initialize axios with stored token
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+    try {
+      const token = localStorage.getItem('token');
+      if (token) {
+        axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+      }
+    } catch {
+      /* localStorage unavailable (Safari private mode / sandboxed iframe) */
     }
   }, []);
 
@@ -77,8 +81,21 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   // cause an infinite auth-check loop.
   /* eslint-disable react-hooks/exhaustive-deps */
   useEffect(() => {
-    // Check if token is expired (older than 24 hours)
-    const tokenTimestamp = localStorage.getItem('token_timestamp');
+    let tokenTimestamp: string | null = null;
+    let token: string | null = null;
+    let cachedUserData: string | null = null;
+    try {
+      tokenTimestamp = localStorage.getItem('token_timestamp');
+      token = localStorage.getItem('token');
+      cachedUserData = localStorage.getItem('cached_user_data');
+    } catch {
+      /* localStorage unavailable (Safari private mode / sandboxed iframe) — treat as unauthenticated */
+      setIsAuthenticated(false);
+      setUser(null);
+      setLoading(false);
+      return;
+    }
+
     const now = new Date().getTime();
     const tokenAge = tokenTimestamp ? now - parseInt(tokenTimestamp) : Infinity;
     const TOKEN_EXPIRY = 24 * 60 * 60 * 1000; // 24 hours
@@ -89,15 +106,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       return;
     }
 
-    // Get token from localStorage
-    const token = localStorage.getItem('token');
-    
     if (token) {
       // Always set the Authorization header if we have a token
       axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-      
+
       // Check cached user data first
-      const cachedUserData = localStorage.getItem('cached_user_data');
       if (cachedUserData) {
         try {
           const { user: cachedUser, timestamp } = JSON.parse(cachedUserData);
@@ -113,10 +126,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           }
         } catch (e) {
           // Invalid cached data, ignore and fetch fresh
-          localStorage.removeItem('cached_user_data');
+          try { localStorage.removeItem('cached_user_data'); } catch { /* ignore */ }
         }
       }
-      
+
       // No valid cached data, check auth with the server
       checkAuth();
     } else {
@@ -209,10 +222,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const handleAuthError = async () => {
     // Clear all auth-related cache
-    localStorage.removeItem('token');
-    localStorage.removeItem('token_timestamp');
-    localStorage.removeItem('cached_token');
-    localStorage.removeItem('cached_user_data');
+    try {
+      localStorage.removeItem('token');
+      localStorage.removeItem('token_timestamp');
+      localStorage.removeItem('cached_token');
+      localStorage.removeItem('cached_user_data');
+    } catch {
+      /* localStorage unavailable — proceed with in-memory clear */
+    }
     delete axios.defaults.headers.common['Authorization'];
 
     // Clear authentication cookies

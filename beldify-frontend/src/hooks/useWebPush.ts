@@ -98,12 +98,16 @@ async function deleteSubscription(
  * Retrieve the auth token from localStorage (mirrors the pattern useFCM used).
  */
 function getAuthToken(): string | null {
-  if (typeof localStorage === 'undefined') return null;
-  return (
-    localStorage.getItem('token') ||
-    localStorage.getItem('authToken') ||
-    localStorage.getItem('auth_token')
-  );
+  try {
+    return (
+      localStorage.getItem('token') ||
+      localStorage.getItem('authToken') ||
+      localStorage.getItem('auth_token')
+    );
+  } catch {
+    /* localStorage unavailable (Safari private mode / sandboxed iframe) */
+    return null;
+  }
 }
 
 /**
