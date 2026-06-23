@@ -387,12 +387,17 @@ export default function ReturnsPage() {
 
         {/* Tab navigation */}
         <nav
-          className="flex justify-center mb-10 gap-1 bg-white rounded-2xl p-1.5 max-w-xl mx-auto shadow-sm ring-1 ring-gray-200"
+          role="tablist"
           aria-label={t('account.returns.tabs_label', 'Returns and refunds navigation')}
+          className="flex justify-center mb-10 gap-1 bg-white rounded-2xl p-1.5 max-w-xl mx-auto shadow-sm ring-1 ring-gray-200"
         >
           {tabs.map((tab) => (
             <button
               key={tab.id}
+              role="tab"
+              aria-selected={activeTab === tab.id}
+              aria-controls={`tab-panel-${tab.id}`}
+              id={`tab-${tab.id}`}
               onClick={() => setActiveTab(tab.id)}
               className={`flex-1 py-2.5 px-3 rounded-xl text-xs sm:text-sm font-medium transition-all duration-200 ${
                 activeTab === tab.id
@@ -409,7 +414,7 @@ export default function ReturnsPage() {
         <div className="max-w-4xl mx-auto">
           {/* Returns Policy Tab */}
           {activeTab === 'returns' && (
-            <div className="space-y-6">
+            <div id="tab-panel-returns" role="tabpanel" aria-labelledby="tab-returns" className="space-y-6">
               <div className="bg-white rounded-2xl p-6 sm:p-8 shadow-sm ring-1 ring-gray-200">
                 <h2
                   className="text-xl font-bold text-gray-900 mb-4"
@@ -490,7 +495,7 @@ export default function ReturnsPage() {
 
           {/* Exchanges Tab */}
           {activeTab === 'exchanges' && (
-            <div className="space-y-6">
+            <div id="tab-panel-exchanges" role="tabpanel" aria-labelledby="tab-exchanges" className="space-y-6">
               <div className="bg-white rounded-2xl p-6 sm:p-8 shadow-sm ring-1 ring-gray-200">
                 <h2
                   className="text-xl font-bold text-gray-900 mb-4"
@@ -567,7 +572,7 @@ export default function ReturnsPage() {
 
           {/* Return Process Tab */}
           {activeTab === 'process' && (
-            <div className="space-y-8">
+            <div id="tab-panel-process" role="tabpanel" aria-labelledby="tab-process" className="space-y-8">
               <h2
                 className="text-xl font-bold text-gray-900"
                 style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
@@ -631,7 +636,7 @@ export default function ReturnsPage() {
 
           {/* Request a Return Tab */}
           {activeTab === 'request' && (
-            <div className="space-y-6 max-w-2xl mx-auto">
+            <div id="tab-panel-request" role="tabpanel" aria-labelledby="tab-request" className="space-y-6 max-w-2xl mx-auto">
               <RequestReturnSection />
             </div>
           )}

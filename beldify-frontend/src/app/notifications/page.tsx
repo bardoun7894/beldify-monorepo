@@ -297,7 +297,7 @@ export default function NotificationsPage() {
 
   useEffect(() => {
     if (!isAuthenticated) {
-      router.push('/login');
+      router.push('/login?redirect=/notifications');
       return;
     }
     load(1);
