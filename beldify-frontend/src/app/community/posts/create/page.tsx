@@ -443,6 +443,7 @@ export default function CreatePostPage() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (isLoading) return;
     setError(null);
 
     if (!validateForm()) {

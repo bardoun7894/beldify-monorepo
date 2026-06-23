@@ -1,7 +1,7 @@
 'use client';
 
 import { ReactNode, createContext, useContext, useEffect, useRef } from 'react';
-import { useRouter, usePathname } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 
 interface NavigationContextType {
   navigateTo: (path: string) => void;
@@ -17,9 +17,8 @@ const NavigationContext = createContext<NavigationContextType>({
 // Custom hook to enhance Next.js router performance without breaking state persistence
 export function NavigationProvider({ children }: { children: ReactNode }) {
   const router = useRouter();
-  const pathname = usePathname();
   const pendingRef = useRef(false);
-  
+
   // Custom navigation function that prevents the delay without breaking state
   const navigateTo = (path: string) => {
     // Visual feedback only
@@ -34,8 +33,8 @@ export function NavigationProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     // Prefetch all links in viewport for faster navigation (defined inline to
     // avoid a stale-closure dep on the outer `router` reference).
-    const prefetchVisibleLinks = () => {
-      if (typeof window === 'undefined' || !window.IntersectionObserver) return;
+    const prefetchVisibleLinks = (): { timerId: ReturnType<typeof setTimeout> | undefined; observer: IntersectionObserver | null } => {
+      if (typeof window === 'undefined' || !window.IntersectionObserver) return { timerId: undefined, observer: null };
 
       const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
@@ -57,11 +56,11 @@ export function NavigationProvider({ children }: { children: ReactNode }) {
           observer.observe(link);
         });
       }, 1000);
-      return timerId;
+      return { timerId, observer };
     };
 
     // Prefetch links for faster navigation
-    const prefetchTimerId = prefetchVisibleLinks();
+    const { timerId: prefetchTimerId, observer: prefetchObserver } = prefetchVisibleLinks();
 
     // Clear cursor and pending state on route change
     const handleRouteChange = () => {
@@ -86,6 +85,7 @@ export function NavigationProvider({ children }: { children: ReactNode }) {
 
     return () => {
       if (prefetchTimerId) clearTimeout(prefetchTimerId);
+      prefetchObserver?.disconnect();
       document.head.removeChild(style);
     };
   }, [router]);

@@ -396,6 +396,7 @@ export default function EditPostPage() {
   // ── Submit ───────────────────────────────────────────────────────────────
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (isSubmitting) return;
     setSubmitError(null);
 
     if (!validateForm()) {

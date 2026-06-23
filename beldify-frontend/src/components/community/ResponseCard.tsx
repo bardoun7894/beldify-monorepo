@@ -101,12 +101,14 @@ export default function ResponseCard({
     return `${S3_CONFIG.BASE_URL}/${imagePath}`;
   };
 
+  const numLocale = intlLocale(i18n.language);
   const formatDate = (dateString: string) => {
     try {
+      const d = new Date(dateString);
       return (
-        new Date(dateString).toLocaleDateString() +
+        d.toLocaleDateString(numLocale) +
         ' ' +
-        new Date(dateString).toLocaleTimeString()
+        d.toLocaleTimeString(numLocale, { hour: '2-digit', minute: '2-digit' })
       );
     } catch (error) {
       logger.error('Error formatting date:', error);

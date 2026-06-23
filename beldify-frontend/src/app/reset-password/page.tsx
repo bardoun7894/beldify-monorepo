@@ -134,6 +134,7 @@ function ResetPasswordForm() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (isLoading) return;
     setApiError('');
     if (!validate()) return;
 
