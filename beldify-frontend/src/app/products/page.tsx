@@ -432,9 +432,21 @@ export default function ProductsPage() {
     '@type': 'BreadcrumbList',
     itemListElement: [
       { '@type': 'ListItem', position: 1, name: 'Beldify', item: 'https://beldify.com' },
-      { '@type': 'ListItem', position: 2, name: 'Produits', item: 'https://beldify.com/products' },
+      { '@type': 'ListItem', position: 2, name: t('nav.products', 'Products'), item: 'https://beldify.com/products' },
     ],
   };
+
+  const itemListJsonLd = products.length > 0 ? {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: t('nav.products', 'Products'),
+    numberOfItems: products.length,
+    itemListElement: products.slice(0, 24).map((product, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      url: `https://beldify.com/products/${product.id}`,
+    })),
+  } : null;
 
   return (
     <div className="min-h-screen bg-canvas pb-24 md:pb-16">
@@ -442,6 +454,12 @@ export default function ProductsPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
+      {itemListJsonLd && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListJsonLd) }}
+        />
+      )}
       <OpenSoukRequestModal
         isOpen={openSouk.isOpen}
         onClose={openSouk.close}

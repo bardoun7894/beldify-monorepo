@@ -183,8 +183,37 @@ export default function CategoriesPage() {
     );
   }
 
+  const categoriesJsonLd = categories.length > 0 ? {
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          { '@type': 'ListItem', position: 1, name: 'Beldify', item: 'https://beldify.com' },
+          { '@type': 'ListItem', position: 2, name: t('nav.categories', 'Categories'), item: 'https://beldify.com/categories' },
+        ],
+      },
+      {
+        '@type': 'ItemList',
+        name: t('nav.categories', 'Categories'),
+        numberOfItems: categories.length,
+        itemListElement: categories.slice(0, 20).map((cat, i) => ({
+          '@type': 'ListItem',
+          position: i + 1,
+          url: `https://beldify.com/categories/${cat.slug || cat.id}`,
+        })),
+      },
+    ],
+  } : null;
+
   return (
     <div className="min-h-screen bg-canvas pb-20">
+      {categoriesJsonLd && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(categoriesJsonLd) }}
+        />
+      )}
       {/* ── Editorial hero strip ─────────────────────────────────────── */}
       <section className="relative isolate overflow-hidden bg-indigo-950 text-white">
         {/* Ambient radial light — amber warm left, indigo accent right */}
