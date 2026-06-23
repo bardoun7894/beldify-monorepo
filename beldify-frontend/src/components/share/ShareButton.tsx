@@ -8,7 +8,7 @@
  * See docs/marketing/growth-plan-2026-06-05.md (anti-disintermediation rule).
  */
 
-import { useState, useRef, useEffect, type MouseEvent as ReactMouseEvent } from 'react';
+import { useState, useRef, useEffect, useCallback, type MouseEvent as ReactMouseEvent } from 'react';
 import { Share2, Link2, Check, Facebook } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { cn } from '@/lib/utils';
@@ -51,6 +51,7 @@ export default function ShareButton({
   const [open, setOpen] = useState(false);
   const [copied, setCopied] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
+  const copiedTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // Resolve to an absolute URL so it works when pasted anywhere.
   const resolveUrl = () => {
@@ -81,6 +82,12 @@ export default function ShareButton({
     };
   }, [open]);
 
+  useEffect(() => {
+    return () => {
+      if (copiedTimerRef.current !== null) clearTimeout(copiedTimerRef.current);
+    };
+  }, []);
+
   const handleTrigger = async (e: ReactMouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
@@ -98,17 +105,21 @@ export default function ShareButton({
     setOpen((v) => !v);
   };
 
-  const copyLink = async (e: ReactMouseEvent) => {
+  const copyLink = useCallback(async (e: ReactMouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
     try {
       await navigator.clipboard.writeText(shareUrl);
       setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
+      if (copiedTimerRef.current !== null) clearTimeout(copiedTimerRef.current);
+      copiedTimerRef.current = setTimeout(() => {
+        setCopied(false);
+        copiedTimerRef.current = null;
+      }, 2000);
     } catch {
       /* clipboard blocked — user can still use the WhatsApp/Facebook links */
     }
-  };
+  }, [shareUrl]);
 
   const stop = (e: ReactMouseEvent) => e.stopPropagation();
   const waHref = `https://wa.me/?text=${encodeURIComponent(message)}`;

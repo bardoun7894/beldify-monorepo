@@ -15,6 +15,7 @@ import Link from 'next/link';
 import { useTranslation } from 'react-i18next';
 import { orderService, Order } from '@/services/orderService';
 import { formatMAD } from '@/components/orders/formatMAD';
+import { intlLocale } from '@/i18n/config';
 import { ChevronLeft, Printer, CheckCircle, Clock, AlertCircle } from 'lucide-react';
 import logger from '@/utils/consoleLogger';
 
@@ -69,7 +70,7 @@ export default function InvoicePage() {
     (dateStr: string | null | undefined) => {
       if (!dateStr) return '—';
       try {
-        return new Intl.DateTimeFormat(isRTL ? 'ar-MA' : 'en-US', {
+        return new Intl.DateTimeFormat(intlLocale(i18n.language), {
           year: 'numeric',
           month: 'long',
           day: 'numeric',
@@ -78,7 +79,7 @@ export default function InvoicePage() {
         return dateStr;
       }
     },
-    [isRTL]
+    [i18n.language]
   );
 
   useEffect(() => {

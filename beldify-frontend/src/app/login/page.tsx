@@ -43,7 +43,12 @@ export default function LoginPage() {
 
   // Function to handle stored actions after successful login
   const handleStoredAction = async () => {
-    const redirectAction = sessionStorage.getItem('redirectAction');
+    let redirectAction: string | null = null;
+    try {
+      redirectAction = sessionStorage.getItem('redirectAction');
+    } catch {
+      return false; // sessionStorage unavailable (Safari ITP / private mode)
+    }
 
     if (!redirectAction) return false; // No stored action
 
@@ -102,10 +107,12 @@ export default function LoginPage() {
       toast.error(t('auth.action_failed'));
 
       // Clear stored data on error
-      sessionStorage.removeItem('redirectAction');
-      sessionStorage.removeItem('redirectProductId');
-      sessionStorage.removeItem('redirectQuantity');
-      sessionStorage.removeItem('redirectVariant');
+      try {
+        sessionStorage.removeItem('redirectAction');
+        sessionStorage.removeItem('redirectProductId');
+        sessionStorage.removeItem('redirectQuantity');
+        sessionStorage.removeItem('redirectVariant');
+      } catch { /* storage unavailable — nothing to clear */ }
     }
 
     return false;

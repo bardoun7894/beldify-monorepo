@@ -143,7 +143,9 @@ export const shopService = {
       
       // Store follow status in session storage
       if (typeof window !== 'undefined') {
-        sessionStorage.setItem(`shop_${shopId}_following`, 'true');
+        try {
+          sessionStorage.setItem(`shop_${shopId}_following`, 'true');
+        } catch { /* sessionStorage unavailable (Safari ITP / private mode) */ }
         logger.log(`Updated session storage: shop_${shopId}_following = true`);
       }
       
@@ -183,7 +185,9 @@ export const shopService = {
       
       // Update session storage after successful unfollow
       if (typeof window !== 'undefined') {
-        sessionStorage.setItem(`shop_${shopId}_following`, 'false');
+        try {
+          sessionStorage.setItem(`shop_${shopId}_following`, 'false');
+        } catch { /* sessionStorage unavailable (Safari ITP / private mode) */ }
         logger.log(`Updated session storage after unfollow: shop_${shopId}_following = false`);
       }
       
@@ -261,36 +265,39 @@ export const shopService = {
       if (response.data?.status === 'success' && response.data?.data) {
         // Store in session storage for persistence
         if (typeof window !== 'undefined') {
-          const storeKey = `shop_${shopId}_following`;
-          sessionStorage.setItem(storeKey, response.data.data.isFollowing ? 'true' : 'false');
+          try {
+            sessionStorage.setItem(`shop_${shopId}_following`, response.data.data.isFollowing ? 'true' : 'false');
+          } catch { /* sessionStorage unavailable (Safari ITP / private mode) */ }
         }
-        
+
         return {
           data: response.data.data,
           isAuthenticated: response.data.data.isAuthenticated !== false,
           error: null
         };
       }
-      
+
       // Handle flat structure: { isFollowing: bool }
       if (typeof response.data?.isFollowing === 'boolean') {
         // Store in session storage for persistence
         if (typeof window !== 'undefined') {
-          const storeKey = `shop_${shopId}_following`;
-          sessionStorage.setItem(storeKey, response.data.isFollowing ? 'true' : 'false');
+          try {
+            sessionStorage.setItem(`shop_${shopId}_following`, response.data.isFollowing ? 'true' : 'false');
+          } catch { /* sessionStorage unavailable (Safari ITP / private mode) */ }
         }
-        
+
         return {
           data: { isFollowing: response.data.isFollowing },
           isAuthenticated: true,
           error: null
         };
       }
-      
+
       // Fallback to session storage if response format is unexpected
       if (typeof window !== 'undefined') {
         const storeKey = `shop_${shopId}_following`;
-        const storedStatus = sessionStorage.getItem(storeKey);
+        let storedStatus: string | null = null;
+        try { storedStatus = sessionStorage.getItem(storeKey); } catch { /* storage unavailable */ }
         if (storedStatus) {
           logger.log(`Using cached follow status from session storage: ${storedStatus}`);
           return {

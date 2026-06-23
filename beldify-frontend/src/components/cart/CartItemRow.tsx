@@ -4,6 +4,7 @@ import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useTranslation } from 'react-i18next';
+import { intlLocale } from '@/i18n/config';
 import { getImageUrl } from '@/utils/imageUtils';
 import {
   Minus,
@@ -65,18 +66,20 @@ export default function CartItemRow({
       ? item.product.name_ar
       : item.product.name;
 
-  const lineTotal = (item.unit_price * item.quantity).toLocaleString('ar-MA', {
+  const locale = intlLocale(i18n.language);
+
+  const lineTotal = (item.unit_price * item.quantity).toLocaleString(locale, {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
   });
 
-  const unitPriceFormatted = item.unit_price.toLocaleString('ar-MA', {
+  const unitPriceFormatted = item.unit_price.toLocaleString(locale, {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
   });
 
   const originalPriceFormatted = item.product.price
-    ? item.product.price.toLocaleString('ar-MA', {
+    ? item.product.price.toLocaleString(locale, {
         minimumFractionDigits: 2,
         maximumFractionDigits: 2,
       })
