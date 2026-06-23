@@ -59,7 +59,8 @@ const MESSAGING_ENDPOINTS = {
  */
 export const getRecentMessages = async (): Promise<Message[]> => {
   try {
-    const authToken = localStorage.getItem('token');
+    let authToken: string | null = null;
+    try { authToken = localStorage.getItem('token'); } catch { /* Safari ITP */ }
 
     if (!authToken) {
       logger.warn('No authentication token found');

@@ -69,8 +69,11 @@ export const RealtimeChatProvider: React.FC<{ children: React.ReactNode }> = ({ 
     try {
       setConnectionStatus('connecting');
 
-      // Get auth token (with SSR guard)
-      const token = typeof window !== 'undefined' ? (localStorage.getItem('token') || '') : '';
+      // Get auth token (with SSR + Safari ITP guard)
+      let token = '';
+      if (typeof window !== 'undefined') {
+        try { token = localStorage.getItem('token') || ''; } catch { /* Safari ITP */ }
+      }
       if (!token) {
         logger.log('RealtimeChat: No token available, skipping connection');
         setConnectionStatus('disconnected');

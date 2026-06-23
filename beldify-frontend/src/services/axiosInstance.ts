@@ -21,15 +21,16 @@ axiosInstance.interceptors.request.use(
     let token = null;
     
     if (typeof window !== 'undefined') {
-      // Try multiple possible token names
-      for (const source of tokenSources) {
-        const possibleToken = localStorage.getItem(source);
-        if (possibleToken) {
-          token = possibleToken;
-          logger.log(`Found token with key: ${source}`);
-          break;
+      try {
+        for (const source of tokenSources) {
+          const possibleToken = localStorage.getItem(source);
+          if (possibleToken) {
+            token = possibleToken;
+            logger.log(`Found token with key: ${source}`);
+            break;
+          }
         }
-      }
+      } catch { /* Safari ITP private-mode */ }
     }
     
     if (token) {
@@ -99,14 +100,15 @@ axiosInstance.interceptors.response.use(
       if (typeof window !== 'undefined') {
         const tokenSources = ['authToken', 'auth_token', 'token', 'access_token'];
         let foundToken = false;
-        
-        for (const source of tokenSources) {
-          const token = localStorage.getItem(source);
-          if (token) {
-            logger.log(`Found potentially invalid token in ${source}`);
-            foundToken = true;
+        try {
+          for (const source of tokenSources) {
+            const token = localStorage.getItem(source);
+            if (token) {
+              logger.log(`Found potentially invalid token in ${source}`);
+              foundToken = true;
+            }
           }
-        }
+        } catch { /* Safari ITP private-mode */ }
         
         // If we have a token but still got a 401, we might need to refresh the CSRF token
         if (foundToken) {

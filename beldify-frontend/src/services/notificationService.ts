@@ -44,7 +44,10 @@ const getCsrfToken = (): string | null => {
 };
 
 const getAuthHeaders = (): Record<string, string> => {
-  let token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
+  let token: string | null = null;
+  if (typeof window !== 'undefined') {
+    try { token = localStorage.getItem('token'); } catch { /* Safari ITP */ }
+  }
 
   if (!token && typeof document !== 'undefined') {
     const authCookie = document.cookie

@@ -31,7 +31,8 @@ api.interceptors.request.use(request => {
 // Add request interceptor for auth token
 api.interceptors.request.use(
   async (config) => {
-    const token = localStorage.getItem('token');
+    let token: string | null = null;
+    try { token = localStorage.getItem('token'); } catch { /* Safari ITP private-mode */ }
     if (token) {
       config.headers['Authorization'] = `Bearer ${token}`;
     }
@@ -50,8 +51,9 @@ api.interceptors.response.use(
       // Only force a re-login when an actual auth session existed and is now
       // invalid. Guests (no token) legitimately get 401 from auth-only endpoints
       // on public pages (e.g. cart/related-products) — never hijack them to /login.
-      const hadToken = typeof window !== 'undefined' && !!localStorage.getItem('token');
-      localStorage.removeItem('token');
+      let hadToken = false;
+      try { hadToken = typeof window !== 'undefined' && !!localStorage.getItem('token'); } catch { /* Safari ITP */ }
+      try { localStorage.removeItem('token'); } catch { /* Safari ITP */ }
       if (hadToken && typeof window !== 'undefined') {
         const currentPath = window.location.pathname;
         if (currentPath !== '/login') {
@@ -247,7 +249,7 @@ export const cartService = {
       // For 401 errors, handle authentication issues
       if (error.response?.status === 401) {
         debugError('Authentication error when fetching cart');
-        localStorage.removeItem('token');
+        try { localStorage.removeItem('token'); } catch { /* Safari ITP */ }
         return {
           status: 'error',
           message: 'Authentication failed. Please log in again.',
