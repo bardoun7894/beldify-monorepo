@@ -11,6 +11,7 @@ import {
 import { useState, Fragment } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { Switch } from '@headlessui/react';
+import { intlLocale } from '@/i18n/config';
 
 // ── Facet types ────────────────────────────────────────────────────────────
 
@@ -166,9 +167,10 @@ export default function ProductFilters({
 
     // MAD currency for price range badge
     if (filters.minPrice !== undefined && filters.maxPrice !== undefined) {
+      const numLocale = intlLocale(i18n.language);
       badges.push({
         id: 'price-range',
-        label: `${filters.minPrice.toLocaleString()} – ${filters.maxPrice.toLocaleString()} ${t('product.currency', 'MAD')}`,
+        label: `${filters.minPrice.toLocaleString(numLocale)} – ${filters.maxPrice.toLocaleString(numLocale)} ${t('product.currency', 'MAD')}`,
         type: 'price',
       });
     }

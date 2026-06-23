@@ -147,12 +147,26 @@ function TopupSheet({ packs, rib, topups, onSubmit, submitting, confirmed }: Top
   );
   const [receiptFile, setReceiptFile] = useState<File | null>(null);
   const [ribCopied, setRibCopied] = useState(false);
+  const ribCopiedTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => () => {
+    if (ribCopiedTimerRef.current) {
+      clearTimeout(ribCopiedTimerRef.current);
+      ribCopiedTimerRef.current = null;
+    }
+  }, []);
 
   const handleCopyRib = async () => {
     try {
       await navigator.clipboard.writeText(rib);
       setRibCopied(true);
-      setTimeout(() => setRibCopied(false), 2000);
+      if (ribCopiedTimerRef.current) {
+        clearTimeout(ribCopiedTimerRef.current);
+      }
+      ribCopiedTimerRef.current = setTimeout(() => {
+        setRibCopied(false);
+        ribCopiedTimerRef.current = null;
+      }, 2000);
     } catch {
       // clipboard API not available in test env — ignore
     }

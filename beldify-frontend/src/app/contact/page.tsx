@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Mail, Phone, MapPin } from 'lucide-react';
 import { useForm } from 'react-hook-form';
@@ -13,6 +13,14 @@ export default function ContactPage() {
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const [submitError, setSubmitError] = useState('');
   const [rateLimited, setRateLimited] = useState(false);
+  const successTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => () => {
+    if (successTimerRef.current) {
+      clearTimeout(successTimerRef.current);
+      successTimerRef.current = null;
+    }
+  }, []);
 
   const {
     register,
@@ -37,8 +45,12 @@ export default function ContactPage() {
       logger.log('Contact form submitted successfully');
       setSubmitSuccess(true);
       reset();
-      setTimeout(() => {
+      if (successTimerRef.current) {
+        clearTimeout(successTimerRef.current);
+      }
+      successTimerRef.current = setTimeout(() => {
         setSubmitSuccess(false);
+        successTimerRef.current = null;
       }, 6000);
     } catch (error: unknown) {
       logger.error('Error submitting contact form:', error);

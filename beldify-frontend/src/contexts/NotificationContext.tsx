@@ -56,6 +56,29 @@ export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({ 
   const lastCheckedRef = useRef<number>(0);
   const isRefreshingRef = useRef<boolean>(false);
   const notificationCallbackRef = useRef<((data: any) => void) | null>(null);
+  const refreshTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => () => {
+    if (refreshTimerRef.current) {
+      clearTimeout(refreshTimerRef.current);
+      refreshTimerRef.current = null;
+    }
+  }, []);
+
+  const scheduleAuthoritativeRefresh = useCallback((delayMs: number) => {
+    if (refreshTimerRef.current) {
+      clearTimeout(refreshTimerRef.current);
+    }
+    refreshTimerRef.current = setTimeout(() => {
+      lastCheckedRef.current = 0;
+      refreshTimerRef.current = null;
+      void refreshUnreadCountRef.current?.();
+    }, delayMs);
+  }, []);
+
+  // refreshUnreadCount is defined below; we keep a ref so scheduleAuthoritativeRefresh
+  // doesn't need to depend on it (and risk recreating timers on every render).
+  const refreshUnreadCountRef = useRef<(() => Promise<void>) | null>(null);
 
   // ── Throttled unread count refresh (mirrors MessagingContext) ──────────────
 
@@ -95,6 +118,12 @@ export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({ 
     }
   }, [isAuthenticated, user]);
 
+  // Keep the latest refreshUnreadCount accessible to the scheduler without
+  // adding it to scheduleAuthoritativeRefresh's deps.
+  useEffect(() => {
+    refreshUnreadCountRef.current = refreshUnreadCount;
+  }, [refreshUnreadCount]);
+
   // ── Fetch notification list ────────────────────────────────────────────────
 
   const fetchNotifications = useCallback(
@@ -125,13 +154,11 @@ export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({ 
         )
       );
       await serviceMarkAsRead(id);
-      // Authoritative refresh after a short delay
-      setTimeout(() => {
-        lastCheckedRef.current = 0; // reset throttle so next refresh runs
-        refreshUnreadCount();
-      }, 1000);
+      // Authoritative refresh after a short delay — scheduled via ref so rapid
+      // mark-as-read taps don't stack timers or call setState after unmount.
+      scheduleAuthoritativeRefresh(1000);
     },
-    [refreshUnreadCount]
+    [scheduleAuthoritativeRefresh]
   );
 
   const markAllAsRead = useCallback(async () => {
@@ -141,11 +168,8 @@ export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({ 
       prev.map((n) => ({ ...n, read_at: n.read_at ?? new Date().toISOString() }))
     );
     await serviceMarkAllAsRead();
-    setTimeout(() => {
-      lastCheckedRef.current = 0;
-      refreshUnreadCount();
-    }, 1000);
-  }, [refreshUnreadCount]);
+    scheduleAuthoritativeRefresh(1000);
+  }, [scheduleAuthoritativeRefresh]);
 
   // ── Optional realtime: expose setter for RealtimeChatContext ──────────────
 
