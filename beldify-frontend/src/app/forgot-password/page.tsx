@@ -19,6 +19,7 @@ export default function ForgotPasswordPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (isLoading) return;
 
     if (!email) {
       setEmailError(t('auth.email_required', 'Email is required'));

@@ -65,6 +65,7 @@ export function SizeAdvisorSheet({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (sheetState === 'loading') return;
     setSheetState('loading');
 
     try {
