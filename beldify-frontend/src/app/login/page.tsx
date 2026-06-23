@@ -28,12 +28,18 @@ export default function LoginPage() {
     remember: false,
   });
 
-  // Check for redirect parameter in URL on component mount
+  // Check for redirect parameter in URL on component mount.
+  // sessionStorage is wrapped because Safari ITP / private-mode throws SecurityError
+  // on storage access, which would otherwise crash the login page render.
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const redirect = params.get('redirect');
-    if (redirect) {
-      sessionStorage.setItem('redirectAfterLogin', redirect);
+    try {
+      const params = new URLSearchParams(window.location.search);
+      const redirect = params.get('redirect');
+      if (redirect) {
+        sessionStorage.setItem('redirectAfterLogin', redirect);
+      }
+    } catch {
+      // ignore — guests in restricted-storage browsers will land on /profile after login
     }
   }, []);
 

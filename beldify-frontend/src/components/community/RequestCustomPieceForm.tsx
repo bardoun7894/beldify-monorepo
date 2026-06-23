@@ -158,6 +158,7 @@ export default function RequestCustomPieceForm() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (submitting) return;
     if (!material) {
       setError(t("Please choose a material — it's the only required field.", "يرجى اختيار المادة — إنه الحقل المطلوب الوحيد."));
       return;

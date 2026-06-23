@@ -485,8 +485,15 @@ export default function RegisterPage() {
               </div>
               {/* Password strength affordance */}
               {formData.password && strengthMeta && (
-                <div className="mt-2 flex items-center gap-3">
-                  <div className="h-1 flex-1 rounded-full bg-amber-100 overflow-hidden">
+                <div className="mt-2 flex items-center gap-3" aria-live="polite" aria-atomic="true">
+                  <div
+                    className="h-1 flex-1 rounded-full bg-amber-100 overflow-hidden"
+                    role="progressbar"
+                    aria-valuemin={0}
+                    aria-valuemax={3}
+                    aria-valuenow={passwordScore}
+                    aria-valuetext={strengthMeta.label}
+                  >
                     <div className={`h-full rounded-full transition-all duration-200 ${strengthMeta.bar}`} />
                   </div>
                   <span className={`text-xs font-medium ${strengthMeta.text}`}>

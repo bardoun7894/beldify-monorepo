@@ -1,14 +1,15 @@
-import React, { useState, ChangeEvent, FormEvent, useEffect } from 'react';
+import React, { useState, ChangeEvent, FormEvent, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StarIcon } from '@heroicons/react/24/solid';
 import { StarIcon as StarIconOutline } from '@heroicons/react/24/outline';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea'; 
+import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { CreateReviewRequest } from '@/types/review';
 import { CameraIcon, XCircleIcon } from '@heroicons/react/24/outline';
 import { cn } from '@/utils/classNames';
+import logger from '@/utils/consoleLogger';
 
 interface ReviewFormProps {
   productId: string;
@@ -38,12 +39,19 @@ export const ReviewForm: React.FC<ReviewFormProps> = ({
   const [error, setError] = useState<string | null>(null);
   const [formError, setFormError] = useState<string | null>(null);
 
+  // Track current previews via ref so the unmount cleanup sees the latest list
+  // without re-running on every change (the previous [imagePreviews] dep array
+  // revoked URLs from the prior render, breaking thumbnails after a 2nd image).
+  const imagePreviewsRef = useRef<string[]>([]);
   useEffect(() => {
-    // Clean up object URLs on unmount
-    return () => {
-      imagePreviews.forEach(url => URL.revokeObjectURL(url));
-    };
+    imagePreviewsRef.current = imagePreviews;
   }, [imagePreviews]);
+
+  useEffect(() => {
+    return () => {
+      imagePreviewsRef.current.forEach(url => URL.revokeObjectURL(url));
+    };
+  }, []);
 
   const handleRatingChange = (newRating: number) => {
     setRating(newRating);
@@ -118,7 +126,7 @@ export const ReviewForm: React.FC<ReviewFormProps> = ({
       imagePreviews.forEach(url => URL.revokeObjectURL(url));
       setImagePreviews([]);
     } catch (err) {
-      console.error('Review submission error:', err);
+      logger.error('Review submission error:', err);
       setError(t('reviews.form.submit_error'));
     } finally {
       setIsSubmitting(false);
