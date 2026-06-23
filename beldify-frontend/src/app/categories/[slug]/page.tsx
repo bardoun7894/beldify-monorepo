@@ -155,8 +155,31 @@ export default function CategoryDetailPage() {
     ? (isRTL && category.category_name_ar ? category.category_name_ar : category.category_name_en)
     : '';
 
+  // BreadcrumbList JSON-LD — Home › Categories › {slug-derived-name}.
+  // Slug is available pre-fetch so the schema is emitted even before products load,
+  // giving Google a stable rich-result breadcrumb on category SERP entries.
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.beldify.com';
+  const breadcrumbLeafName =
+    categoryName ||
+    (typeof slug === 'string'
+      ? slug.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase())
+      : '');
+  const breadcrumbJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: t('navigation.home', 'Home'), item: `${siteUrl}/` },
+      { '@type': 'ListItem', position: 2, name: t('navigation.categories', 'Categories'), item: `${siteUrl}/categories` },
+      { '@type': 'ListItem', position: 3, name: breadcrumbLeafName, item: `${siteUrl}/categories/${slug}` },
+    ],
+  };
+
   return (
     <div className="min-h-screen bg-canvas pb-20">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
       <OpenSoukRequestModal
         isOpen={openSouk.isOpen}
         onClose={openSouk.close}

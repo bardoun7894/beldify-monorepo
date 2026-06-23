@@ -1469,7 +1469,7 @@ export default function ProductDetailsPage() {
 
   // ── JSON-LD structured data (Product schema) ──────────────────────────────
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.beldify.com';
-  const productJsonLd = {
+  const productJsonLd: Record<string, unknown> = {
     '@context': 'https://schema.org',
     '@type': 'Product',
     name: displayName,
@@ -1486,6 +1486,20 @@ export default function ProductDetailsPage() {
       url: `${siteUrl}/products/${product.id}`,
     },
   };
+  // AggregateRating — emit only when there's at least one review with a real
+  // rating, so Google can surface the star snippet on SERP. Skipping when
+  // reviewCount=0 avoids the "0.0 (0 reviews)" anti-snippet penalty.
+  const reviewCountForLd = product.reviews_count ?? 0;
+  const ratingForLd = product.rating ?? 0;
+  if (reviewCountForLd > 0 && ratingForLd > 0) {
+    productJsonLd.aggregateRating = {
+      '@type': 'AggregateRating',
+      ratingValue: ratingForLd.toFixed(1),
+      reviewCount: reviewCountForLd,
+      bestRating: '5',
+      worstRating: '1',
+    };
+  }
 
   // BreadcrumbList JSON-LD — drives rich-results breadcrumb on Google PDP cards.
   // Mirrors the visible breadcrumb nav below (Home › Category › Product).

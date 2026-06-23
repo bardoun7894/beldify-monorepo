@@ -427,8 +427,28 @@ export default function ProductsPage() {
     );
   }
 
+  // BreadcrumbList JSON-LD — Home › Products (or Home › Search Results for ?q=).
+  // Static at SSR (no fetch dependency) so Google sees a stable rich-result
+  // breadcrumb on the highest-traffic SEO entry point.
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.beldify.com';
+  const leafName = searchQuery
+    ? t('catalog.search.results_for', 'Search: {{query}}', { query: searchQuery })
+    : t('navigation.products', 'Products');
+  const breadcrumbJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: t('navigation.home', 'Home'), item: `${siteUrl}/` },
+      { '@type': 'ListItem', position: 2, name: leafName, item: `${siteUrl}/products${searchQuery ? `?q=${encodeURIComponent(searchQuery)}` : ''}` },
+    ],
+  };
+
   return (
     <div className="min-h-screen bg-canvas pb-24 md:pb-16">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
       <OpenSoukRequestModal
         isOpen={openSouk.isOpen}
         onClose={openSouk.close}
