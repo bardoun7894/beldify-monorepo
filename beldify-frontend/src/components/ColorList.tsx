@@ -11,7 +11,7 @@ const ColorList: React.FC<ColorListProps> = ({ colors }) => {
     <div className="flex flex-wrap gap-2">
       {colors.map((color, index) => (
         <div
-          key={index}
+          key={`${color}-${index}`}
           className="flex items-center gap-1.5 px-2 py-1 rounded-full border border-gray-200 text-xs text-gray-700"
           title={color}
         >

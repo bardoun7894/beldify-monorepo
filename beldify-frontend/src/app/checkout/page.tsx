@@ -426,8 +426,11 @@ export default function CheckoutPage() {
           const response = await fetch(
             `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`
           );
+          if (!response.ok) {
+            throw new Error(`Geocoding service returned ${response.status}`);
+          }
           const data = await response.json();
-          const address = data.address;
+          const address = data?.address ?? {};
 
           let detectedCountry = address.country || '';
           const countryMap: Record<string, string> = {
@@ -557,6 +560,10 @@ export default function CheckoutPage() {
   };
 
   const handlePaymentSubmit = async () => {
+    // Re-entrancy guard — button disabled state does not block Enter key
+    // submission on the payment form. Without this, a fast double-click or
+    // Enter-key burst can fire the checkout flow twice in parallel.
+    if (isProcessing) return;
     try {
       setIsProcessing(true);
 
@@ -613,7 +620,7 @@ export default function CheckoutPage() {
             quantity: item.quantity,
           });
           toast.error(
-            error.message || 'An error occurred while checking stock availability.'
+            error.message || t('checkout.errors.stock_check_failed', 'An error occurred while checking stock availability.')
           );
           return;
         }
