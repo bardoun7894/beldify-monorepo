@@ -1,6 +1,7 @@
 'use client';
 
 import { createContext, useContext, useState, useEffect, ReactNode, useCallback } from 'react';
+import { useTranslation } from 'react-i18next';
 import toast from '@/utils/toast';
 import logger from '@/utils/consoleLogger';
 
@@ -59,6 +60,7 @@ interface UserEngagement {
 }
 
 export function EnhancedPWAProvider({ children }: { children: ReactNode }) {
+  const { t } = useTranslation();
   const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null);
   const [isInstallable, setIsInstallable] = useState(false);
   const [isInstalled, setIsInstalled] = useState(false);
@@ -256,7 +258,7 @@ export function EnhancedPWAProvider({ children }: { children: ReactNode }) {
       setIsInstallable(false);
       setShowInstallPrompt(false);
       try {
-        toast.success('App installed successfully! Find it on your home screen.');
+        toast.success(t('pwa.install.success', 'App installed successfully!'));
       } catch {
         // Toast may fail silently
       }

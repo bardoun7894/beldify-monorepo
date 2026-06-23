@@ -239,7 +239,7 @@ export default function RegisterPage() {
       const authResult = await googleAuth(response.credential, true);
 
       if (authResult.success) {
-        toast.success('Google registration successful!');
+        toast.success(t('auth.google_login_success'));
         router.push('/profile');
       } else {
         setError(authResult.message || t('auth.registration_failed'));

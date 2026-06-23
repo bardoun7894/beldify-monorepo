@@ -74,6 +74,7 @@ export function SearchAssistBar({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (isAssisting) return;
     const trimmed = query.trim();
     if (!trimmed) return;
 
