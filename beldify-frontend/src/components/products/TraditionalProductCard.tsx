@@ -8,6 +8,7 @@ import { useTranslation } from 'react-i18next';
 import { formatPrice } from '@/utils/formatters';
 import { getImageUrl, DEFAULT_PLACEHOLDER_IMAGE } from '@/utils/imageUtils';
 import { useDirection } from '@/hooks/useDirection';
+import { useWishlist } from '@/contexts/WishlistContext';
 import toast from '@/utils/toast';
 import {
   ShoppingCart,
@@ -46,10 +47,15 @@ export default function TraditionalProductCard({
   const { t } = useTranslation();
   const { isRTL } = useDirection();
   const router = useRouter();
-  
+  const {
+    isInWishlist: isInWishlistFn,
+    addToWishlist,
+    removeFromWishlist,
+  } = useWishlist();
+
   const [isHovering, setIsHovering] = useState(false);
   const [isAddingToCart, setIsAddingToCart] = useState(false);
-  const [isWishlisted, setIsWishlisted] = useState(isInWishlist);
+  const [isWishlistLoading, setIsWishlistLoading] = useState(false);
   const cartTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
@@ -124,25 +130,29 @@ export default function TraditionalProductCard({
     }
   };
   
-  // Handle wishlist toggle
-  const handleWishlistToggle = (e: React.MouseEvent) => {
+  // Derived state — single source of truth is WishlistContext.
+  // Falls back to the prop only when the context has nothing for this id.
+  const isWishlisted = isInWishlistFn(id) || isInWishlist;
+
+  // Actually persists via WishlistContext (guest → localStorage, auth → API).
+  // The previous fake toast-only path silently dropped every save.
+  const handleWishlistToggle = async (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    
-    setIsWishlisted(!isWishlisted);
-    
-    if (onAddToWishlist) {
-      onAddToWishlist(product as Product);
-    } else {
-      toast.success(
-        isWishlisted
-          ? t('wishlist.removed')
-          : t('wishlist.added'),
-        {
-          position: isRTL ? 'bottom-left' : 'bottom-right',
-          duration: 2000,
-        }
-      );
+    if (isWishlistLoading) return;
+
+    setIsWishlistLoading(true);
+    try {
+      if (isWishlisted) {
+        await removeFromWishlist(id);
+      } else {
+        await addToWishlist(id);
+      }
+      onAddToWishlist?.(product as Product);
+    } catch {
+      // Context surfaces its own error toast.
+    } finally {
+      setIsWishlistLoading(false);
     }
   };
   
@@ -224,8 +234,10 @@ export default function TraditionalProductCard({
           <div className="absolute top-3 end-3 z-10 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-all duration-200 translate-x-2 group-hover:translate-x-0">
             <button
               onClick={handleWishlistToggle}
-              className={`btn-action ${isWishlisted ? 'btn-action-active' : 'btn-action-default'}`}
+              disabled={isWishlistLoading}
+              className={`btn-action ${isWishlisted ? 'btn-action-active' : 'btn-action-default'} ${isWishlistLoading ? 'opacity-70 cursor-wait' : ''}`}
               aria-pressed={isWishlisted}
+              aria-busy={isWishlistLoading}
               aria-label={isWishlisted ? t('wishlist.remove') : t('wishlist.add')}
             >
               <Heart className={`h-3.5 w-3.5 ${isWishlisted ? 'fill-current' : ''}`} aria-hidden="true" />

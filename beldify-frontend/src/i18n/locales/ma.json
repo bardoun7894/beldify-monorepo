@@ -3345,7 +3345,12 @@
     "added_success": "تحفظ فالمفضلة ديالك",
     "removed": "تمحا من المفضلة",
     "save": "حفظ",
-    "saved": "محفوظ"
+    "saved": "محفوظ",
+    "failed_to_fetch": "ما تقدرناش نجيبو حوايج المفضلة",
+    "product_not_found": "المنتج ما لقيناهش",
+    "failed_to_add": "ما تقدرناش نزيدو الحاجة للمفضلة",
+    "already_in_wishlist": "هاد الحاجة راها فالمفضلة",
+    "login_required": "دخل عافاك باش تدبّر المفضلة"
   },
   "account": {
     "wishlist": {

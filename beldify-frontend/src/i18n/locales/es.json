@@ -3508,7 +3508,12 @@
     "added_success": "Guardado en tu lista de deseos",
     "removed": "Eliminado de favoritos",
     "save": "Guardar",
-    "saved": "Guardado"
+    "saved": "Guardado",
+    "failed_to_fetch": "No se pudieron cargar los favoritos",
+    "product_not_found": "Producto no encontrado",
+    "failed_to_add": "No se pudo añadir a favoritos",
+    "already_in_wishlist": "Este artículo ya está en favoritos",
+    "login_required": "Inicia sesión para gestionar tus favoritos"
   },
   "account": {
     "wishlist": {

@@ -3314,7 +3314,12 @@
     "added_success": "Zu deiner Wunschliste gespeichert",
     "removed": "Aus der Wunschliste entfernt",
     "save": "Speichern",
-    "saved": "Gespeichert"
+    "saved": "Gespeichert",
+    "failed_to_fetch": "Wunschliste konnte nicht geladen werden",
+    "product_not_found": "Produkt nicht gefunden",
+    "failed_to_add": "Hinzufügen zur Wunschliste fehlgeschlagen",
+    "already_in_wishlist": "Artikel ist bereits auf deiner Wunschliste",
+    "login_required": "Bitte melde dich an, um die Wunschliste zu verwalten"
   },
   "account": {
     "wishlist": {

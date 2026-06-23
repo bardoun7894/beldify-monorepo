@@ -266,10 +266,10 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       if (response.status === 'success') {
         await invalidateCartCache();
         logger.log('Item added to cart successfully');
-        toast.success('Item added to cart');
+        toast.success(t('cart.added_successfully', 'Item added to cart'));
       } else {
         logger.log(`Error adding item to cart: ${response.message}`);
-        toast.error(response.message || 'Failed to add item to cart');
+        toast.error(response.message || t('cart.error_adding', 'Failed to add item to cart'));
       }
     } catch (error: any) {
       logger.error('Error adding item to cart:', error);
@@ -341,14 +341,14 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
       if (response.status === 'success') {
         await invalidateCartCache();
-        toast.success('Cart updated');
-        
+        toast.success(t('cart.updated_successfully', 'Cart updated'));
+
         // Show low stock warning if applicable
         if (response.data?.stock_status === 'low_stock' && response.data.available_quantity) {
-          toast.error(`Only ${response.data.available_quantity} items left in stock`);
+          toast.error(t('cart.stock.low', { remaining: response.data.available_quantity, defaultValue: `Only ${response.data.available_quantity} left` }));
         }
       } else {
-        toast.error(response.message || 'Failed to update cart');
+        toast.error(response.message || t('cart.error_updating', 'Failed to update cart'));
       }
     } catch (error: any) {
       logger.error('Error updating quantity:', error);
@@ -379,10 +379,10 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       setLoading(true);
       await cartService.removeItem(itemId);
       await invalidateCartCache();
-      toast.success('Item removed from cart');
+      toast.success(t('cart.removed_successfully', 'Item removed from cart'));
     } catch (error: any) {
       logger.error('Error removing item:', error);
-      toast.error('Failed to remove item');
+      toast.error(t('cart.error_removing', 'Failed to remove item'));
     } finally {
       setLoading(false);
     }
@@ -424,10 +424,10 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       await cartService.clearCart();
       await clearCache('cart');
       setState(defaultState);
-      toast.success('Cart cleared');
+      toast.success(t('cart.cleared_successfully', 'Cart cleared'));
     } catch (error: any) {
       logger.error('Error clearing cart:', error);
-      toast.error('Failed to clear cart');
+      toast.error(t('cart.error_clearing', 'Failed to clear cart'));
     } finally {
       setLoading(false);
     }

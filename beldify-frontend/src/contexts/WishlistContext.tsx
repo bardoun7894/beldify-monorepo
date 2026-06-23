@@ -1,6 +1,7 @@
 'use client';
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useAuth } from './AuthContext';
 import axios from '@/lib/axios';
 import toast from '@/utils/toast';
@@ -61,6 +62,7 @@ export function WishlistProvider({ children }: { children: React.ReactNode }) {
   const [wishlistItems, setWishlistItems] = useState<WishlistItem[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const { isAuthenticated } = useAuth();
+  const { t } = useTranslation();
 
   const refreshWishlist = async () => {
     if (!isAuthenticated) {
@@ -79,7 +81,7 @@ export function WishlistProvider({ children }: { children: React.ReactNode }) {
       }
     } catch (error) {
       logger.error('Error fetching wishlist:', error);
-      toast.error('Failed to fetch wishlist items');
+      toast.error(t('wishlist.failed_to_fetch', 'Failed to fetch wishlist items'));
     } finally {
       setIsLoading(false);
     }
@@ -113,7 +115,7 @@ export function WishlistProvider({ children }: { children: React.ReactNode }) {
         const data = await productService.getProduct(productId);
         const p = data?.product;
         if (!p) {
-          toast.error('Product not found');
+          toast.error(t('wishlist.product_not_found', 'Product not found'));
           return;
         }
 
@@ -139,10 +141,10 @@ export function WishlistProvider({ children }: { children: React.ReactNode }) {
           if (prev.some((i) => i.product_id === productId)) return prev;
           return [...prev, guestItem];
         });
-        toast.success('Added to wishlist');
+        toast.success(t('wishlist.added', 'Added to wishlist'));
       } catch (error) {
         logger.error('Error adding to guest wishlist:', error);
-        toast.error('Failed to add item to wishlist');
+        toast.error(t('wishlist.failed_to_add', 'Failed to add item to wishlist'));
       }
       return;
     }
@@ -168,9 +170,9 @@ export function WishlistProvider({ children }: { children: React.ReactNode }) {
     } catch (error: any) {
       logger.error('Error adding to wishlist:', error);
       if (error.response?.status === 400) {
-        toast.error(error.response.data.message || 'Item already in wishlist');
+        toast.error(error.response.data.message || t('wishlist.already_in_wishlist', 'Item already in wishlist'));
       } else {
-        toast.error('Failed to add item to wishlist');
+        toast.error(t('wishlist.failed_to_add', 'Failed to add item to wishlist'));
       }
       throw error;
     } finally {
@@ -182,7 +184,7 @@ export function WishlistProvider({ children }: { children: React.ReactNode }) {
     if (!isAuthenticated) {
       // Price-drop / back-in-stock notifications inherently need an account.
       // This is intentional — guests are prompted to sign in.
-      toast.error('Please login to manage your wishlist');
+      toast.error(t('wishlist.login_required', 'Please login to manage your wishlist'));
       return;
     }
 

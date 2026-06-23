@@ -3469,7 +3469,12 @@
     "added_success": "Enregistré dans vos favoris",
     "removed": "Retiré des favoris",
     "save": "Enregistrer",
-    "saved": "Enregistré"
+    "saved": "Enregistré",
+    "failed_to_fetch": "Échec du chargement des favoris",
+    "product_not_found": "Produit introuvable",
+    "failed_to_add": "Échec de l'ajout aux favoris",
+    "already_in_wishlist": "Cet article est déjà dans vos favoris",
+    "login_required": "Veuillez vous connecter pour gérer vos favoris"
   },
   "account": {
     "wishlist": {
