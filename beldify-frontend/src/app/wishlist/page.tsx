@@ -64,8 +64,12 @@ export default function WishlistPage() {
   const handleRemoveFromWishlist = async (e: React.MouseEvent, productId: number) => {
     e.preventDefault();
     e.stopPropagation();
-    await removeFromWishlist(productId);
-    toast.success(t('wishlist.removed_success', 'Item removed from wishlist'));
+    try {
+      await removeFromWishlist(productId);
+      toast.success(t('wishlist.removed_success', 'Item removed from wishlist'));
+    } catch (err) {
+      logger.error('Error removing from wishlist:', err);
+    }
   };
 
   // ── Loading skeleton ──────────────────────────────────────────────
@@ -207,6 +211,7 @@ export default function WishlistPage() {
                       src={getImageUrl(item.product.image_url)}
                       alt={item.product.name}
                       fill
+                      sizes="(min-width: 1024px) 25vw, (min-width: 640px) 33vw, 50vw"
                       className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
                       onError={(e) => {
                         setImageError((prev) => ({ ...prev, [item.product.id]: true }));

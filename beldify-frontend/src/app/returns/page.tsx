@@ -112,9 +112,19 @@ function RequestReturnSection() {
       // Refresh existing request
       await checkExistingRequest(selectedOrderNumber);
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : '';
+      // returnService re-throws axios errors verbatim ("Network Error" / "Request
+      // failed with status code …") and falls back to the literal token
+      // "return_request_failed" — none of those should ever be shown to a buyer.
+      const raw = err instanceof Error ? err.message : '';
+      const isAxiosBoilerplate =
+        !raw ||
+        raw === 'return_request_failed' ||
+        raw.toLowerCase().startsWith('network error') ||
+        raw.toLowerCase().startsWith('request failed');
       setSubmitError(
-        msg || t('returns.request.submit_error', 'Could not submit your return request. Please try again.')
+        isAxiosBoilerplate
+          ? t('returns.request.submit_error', 'Could not submit your return request. Please try again.')
+          : raw
       );
     } finally {
       setIsSubmitting(false);
