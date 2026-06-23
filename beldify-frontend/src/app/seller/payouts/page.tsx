@@ -55,9 +55,9 @@ function fmtMAD(n: number, locale: string): string {
   return n.toLocaleString(locale, { minimumFractionDigits: 0 });
 }
 
-function fmtDate(iso: string): string {
+function fmtDate(iso: string, locale: string): string {
   try {
-    return new Date(iso).toLocaleDateString(undefined, {
+    return new Date(iso).toLocaleDateString(locale, {
       year: 'numeric',
       month: 'short',
       day: 'numeric',
@@ -565,7 +565,7 @@ function PayoutHistory({
 
                 <p className="text-xs text-gray-400">
                   {t('payouts.history.requested_on', 'Requested')}{' '}
-                  {fmtDate(req.created_at)}
+                  {fmtDate(req.created_at, numLocale)}
                 </p>
 
                 {/* Rejection reason */}
@@ -584,7 +584,7 @@ function PayoutHistory({
                     )}
                     {req.paid_at && (
                       <p className="text-xs text-emerald-600">
-                        {t('payouts.history.paid_on', 'Paid on')} {fmtDate(req.paid_at)}
+                        {t('payouts.history.paid_on', 'Paid on')} {fmtDate(req.paid_at, numLocale)}
                       </p>
                     )}
                   </div>

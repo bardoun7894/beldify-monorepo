@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useParams, useSearchParams, useRouter } from 'next/navigation';
 import { MessageSquare, ChevronLeft, Send, Loader2, ArrowLeft } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import { intlLocale } from '@/i18n/config';
 import { useAuth } from '@/contexts/AuthContext';
 import { useRealtimeChat } from '@/contexts/RealtimeChatContext';
 import * as messagingService from '@/services/messagingService';
@@ -22,7 +23,7 @@ import { TypingIndicator } from '@/components/messaging/TypingIndicator';
  * messagingService.sendMessage(); both are keyed by the shop id.
  */
 export default function ConversationPage() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { user, isAuthenticated } = useAuth();
   const { onMessageReceived, onUserTyping, sendTypingIndicator, isConnected, connectionStatus } = useRealtimeChat();
   const router = useRouter();
@@ -148,7 +149,7 @@ export default function ConversationPage() {
     try {
       const d = new Date(dateString);
       if (isNaN(d.getTime())) return '';
-      return d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      return d.toLocaleTimeString(intlLocale(i18n.language), { hour: '2-digit', minute: '2-digit' });
     } catch {
       return '';
     }
@@ -316,7 +317,7 @@ export default function ConversationPage() {
           ) : (
             /* Messages grouped by day with date dividers */
             <>
-              {groupMessagesByDay(messages).map((group) => (
+              {groupMessagesByDay(messages, intlLocale(i18n.language)).map((group) => (
                 <React.Fragment key={group.dateKey}>
                   <ConversationDateDivider label={group.label} />
                   {group.messages.map((m) => {

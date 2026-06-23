@@ -23,16 +23,17 @@ import {
 import { groupMessagesByDay } from '@/utils/groupMessagesByDay';
 import { ConversationDateDivider } from '@/components/messaging/ConversationDateDivider';
 import logger from '@/utils/consoleLogger';
+import { intlLocale } from '@/i18n/config';
 
 // ── Polling interval while thread is open ────────────────────────────────────
 const POLL_INTERVAL_MS = 15_000;
 
-function formatTime(dateString: string | undefined): string {
+function formatTime(dateString: string | undefined, locale: string): string {
   if (!dateString) return '';
   try {
     const d = new Date(dateString);
     if (isNaN(d.getTime())) return '';
-    return d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    return d.toLocaleTimeString(locale, { hour: '2-digit', minute: '2-digit' });
   } catch {
     return '';
   }
@@ -317,12 +318,12 @@ export default function SellerThreadPage() {
         ) : (
           /* Messages grouped by day */
           <>
-            {groupMessagesByDay(messages as any).map((group) => (
+            {groupMessagesByDay(messages as any, intlLocale(i18n.language)).map((group) => (
               <React.Fragment key={group.dateKey}>
                 <ConversationDateDivider label={group.label} />
                 {group.messages.map((m: any) => {
                   const mine = (m as SellerMessageItem).isSentByMe;
-                  const timestamp = formatTime(m.created_at);
+                  const timestamp = formatTime(m.created_at, intlLocale(i18n.language));
                   return (
                     <div
                       key={String(m.id)}

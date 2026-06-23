@@ -1455,6 +1455,17 @@ export default function ProductDetailsPage() {
           : 'https://schema.org/OutOfStock',
       url: `${siteUrl}/products/${product.id}`,
     },
+    ...(product.reviews_count && product.reviews_count > 0 && product.rating && product.rating > 0
+      ? {
+          aggregateRating: {
+            '@type': 'AggregateRating',
+            ratingValue: String(product.rating),
+            reviewCount: String(product.reviews_count),
+            bestRating: '5',
+            worstRating: '1',
+          },
+        }
+      : {}),
   };
 
   const breadcrumbJsonLd = {
