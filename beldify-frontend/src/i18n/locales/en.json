@@ -1132,7 +1132,9 @@
       "reason_label": "Reason (optional)",
       "reason_placeholder": "Let us know why you are cancelling…",
       "cancelling": "Cancelling…",
-      "confirm": "Cancel order"
+      "confirm": "Cancel order",
+      "success": "Order cancelled",
+      "error": "Could not cancel this order"
     },
     "return": {
       "title": "Request a return",

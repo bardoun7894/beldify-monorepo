@@ -1132,7 +1132,9 @@
       "reason_label": "Reden (optioneel)",
       "reason_placeholder": "Laat ons weten waarom je annuleert…",
       "cancelling": "Annuleren…",
-      "confirm": "Bestelling Annuleren"
+      "confirm": "Bestelling Annuleren",
+      "success": "Bestelling geannuleerd",
+      "error": "Kon deze bestelling niet annuleren"
     },
     "return": {
       "title": "Retour Indienen",

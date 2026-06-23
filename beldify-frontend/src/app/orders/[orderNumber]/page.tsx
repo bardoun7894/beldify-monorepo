@@ -131,12 +131,10 @@ export default function OrderDetailsPage() {
       setCancelReason('');
       // Bust the cache entry so the orders list also picks up the new status
       orderService.resetCache(`order:${orderNumber}`);
-      toast.success(
-        (i18n.language === 'ar' || i18n.language === 'ma') ? 'تم إلغاء الطلب' : 'Order cancelled'
-      );
+      toast.success(t('orders.cancel.success', 'Order cancelled'));
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : '';
-      toast.error(msg || ((i18n.language === 'ar' || i18n.language === 'ma') ? 'تعذّر الإلغاء' : 'Could not cancel this order'));
+      toast.error(msg || t('orders.cancel.error', 'Could not cancel this order'));
     } finally {
       setCancelling(false);
     }
@@ -146,9 +144,7 @@ export default function OrderDetailsPage() {
   const handleReturnSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!returnReason) {
-      setReturnError(
-        (i18n.language === 'ar' || i18n.language === 'ma') ? 'يرجى اختيار سبب' : 'Please select a reason'
-      );
+      setReturnError(t('returns.request.reason_required', 'Please select a reason'));
       return;
     }
     setSubmittingReturn(true);
@@ -162,13 +158,11 @@ export default function OrderDetailsPage() {
       setShowReturnModal(false);
       setReturnReason('');
       setReturnDetails('');
-      toast.success(
-        (i18n.language === 'ar' || i18n.language === 'ma') ? 'تم إرسال طلب الإرجاع' : 'Return request submitted'
-      );
+      toast.success(t('returns.request.success', 'Return request submitted'));
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : '';
       setReturnError(
-        msg || ((i18n.language === 'ar' || i18n.language === 'ma') ? 'تعذّر إرسال الطلب' : 'Could not submit return request')
+        msg || t('returns.request.submit_error', 'Could not submit return request')
       );
     } finally {
       setSubmittingReturn(false);

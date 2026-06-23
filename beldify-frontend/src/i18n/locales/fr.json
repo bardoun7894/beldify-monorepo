@@ -1105,7 +1105,9 @@
       "reason_label": "Motif (facultatif)",
       "reason_placeholder": "Dites-nous pourquoi vous annulez…",
       "cancelling": "Annulation…",
-      "confirm": "Annuler la commande"
+      "confirm": "Annuler la commande",
+      "success": "Commande annulée",
+      "error": "Impossible d'annuler cette commande"
     },
     "return": {
       "title": "Demander un retour",

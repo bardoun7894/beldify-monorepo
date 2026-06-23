@@ -1132,7 +1132,9 @@
       "reason_label": "Grund (optional)",
       "reason_placeholder": "Sag uns, warum du stornierst…",
       "cancelling": "Wird storniert…",
-      "confirm": "Bestellung stornieren"
+      "confirm": "Bestellung stornieren",
+      "success": "Bestellung storniert",
+      "error": "Diese Bestellung konnte nicht storniert werden"
     },
     "return": {
       "title": "Rückgabe anfragen",
