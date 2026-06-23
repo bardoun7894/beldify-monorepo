@@ -118,6 +118,44 @@ export function generateViewport() {
   }
 }
 
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.beldify.com';
+
+const siteJsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'WebSite',
+      '@id': `${SITE_URL}/#website`,
+      url: SITE_URL,
+      name: 'Beldify',
+      description: 'Bringing Moroccan Traditional Fashion to the Modern World',
+      potentialAction: {
+        '@type': 'SearchAction',
+        target: {
+          '@type': 'EntryPoint',
+          urlTemplate: `${SITE_URL}/products?q={search_term_string}`,
+        },
+        'query-input': 'required name=search_term_string',
+      },
+    },
+    {
+      '@type': 'Organization',
+      '@id': `${SITE_URL}/#organization`,
+      name: 'Beldify',
+      url: SITE_URL,
+      logo: {
+        '@type': 'ImageObject',
+        url: `${SITE_URL}/icons/favicon-32x32.png`,
+      },
+      description: 'Moroccan multi-seller marketplace specializing in traditional fashion',
+      address: {
+        '@type': 'PostalAddress',
+        addressCountry: 'MA',
+      },
+    },
+  ],
+};
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html
@@ -127,6 +165,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       className={`${poppins.variable} ${montserrat.variable} ${rubik.variable} ${playfair.variable} ${ibmPlexArabic.variable}`}
     >
       <body suppressHydrationWarning>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(siteJsonLd) }}
+        />
         <a
           href="#main-content"
           className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-indigo-600 focus:text-white focus:rounded-lg focus:shadow-lg"
