@@ -57,8 +57,15 @@ export default function LanguageSuggestionBanner() {
     // Only run client-side
     if (typeof window === 'undefined') return;
 
-    // Skip if user already acted on the banner
-    if (localStorage.getItem(DONE_KEY)) return;
+    // Skip if user already acted on the banner.
+    // localStorage access can throw in Safari private mode — treat a failure as
+    // "not yet dismissed" so the suggestion still surfaces.
+    try {
+      if (localStorage.getItem(DONE_KEY)) return;
+    } catch {
+      // Storage unavailable — fall through and show the banner (it'll be a
+      // session-only experience for these users, which is acceptable).
+    }
 
     // Skip if user has an explicit locale cookie (they made a deliberate choice)
     if (Cookies.get('NEXT_LOCALE')) return;
@@ -75,14 +82,22 @@ export default function LanguageSuggestionBanner() {
   }, []); // mount-once — intentional
 
   const dismiss = () => {
-    localStorage.setItem(DONE_KEY, '1');
+    try {
+      localStorage.setItem(DONE_KEY, '1');
+    } catch {
+      // Safari private mode etc. — UI dismissal still works for the session.
+    }
     setVisible(false);
   };
 
   const switchLang = () => {
     if (!suggestion) return;
 
-    localStorage.setItem(DONE_KEY, '1');
+    try {
+      localStorage.setItem(DONE_KEY, '1');
+    } catch {
+      // Safari private mode etc. — language switch still proceeds.
+    }
     setVisible(false);
 
     // Persist locale cookie (same mechanic as LanguageSwitcher)

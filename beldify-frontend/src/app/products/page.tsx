@@ -443,12 +443,35 @@ export default function ProductsPage() {
     ],
   };
 
+  // ItemList JSON-LD — exposes the first page of results to Google as a
+  // structured product listing (the carousel/list rich-result eligibility).
+  // Capped at the first 24 to keep payload bounded as the user scrolls.
+  const itemListJsonLd =
+    products.length > 0
+      ? {
+          '@context': 'https://schema.org',
+          '@type': 'ItemList',
+          itemListElement: products.slice(0, 24).map((p, idx) => ({
+            '@type': 'ListItem',
+            position: idx + 1,
+            url: `${siteUrl}/products/${p.id}`,
+            name: p.name,
+          })),
+        }
+      : null;
+
   return (
     <div className="min-h-screen bg-canvas pb-24 md:pb-16">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
+      {itemListJsonLd && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListJsonLd) }}
+        />
+      )}
       <OpenSoukRequestModal
         isOpen={openSouk.isOpen}
         onClose={openSouk.close}

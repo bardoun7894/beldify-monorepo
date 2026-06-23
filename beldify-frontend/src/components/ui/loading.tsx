@@ -56,11 +56,22 @@ export function LoadingOverlay({ showOnlyOnce = false }) {
 
   React.useEffect(() => {
     if (showOnlyOnce) {
-      const hasShown = sessionStorage.getItem('hasShownInitialLoader');
+      // sessionStorage access throws in Safari private mode / locked-down profiles —
+      // treat any failure as "first visit" so the loader still renders gracefully.
+      let hasShown: string | null = null;
+      try {
+        hasShown = sessionStorage.getItem('hasShownInitialLoader');
+      } catch {
+        hasShown = null;
+      }
       if (hasShown) {
         setShowLoader(false);
       } else {
-        sessionStorage.setItem('hasShownInitialLoader', 'true');
+        try {
+          sessionStorage.setItem('hasShownInitialLoader', 'true');
+        } catch {
+          // Best-effort persistence; banner will show again next visit.
+        }
         const timer = setTimeout(() => setShowLoader(false), 3000);
         return () => clearTimeout(timer);
       }
