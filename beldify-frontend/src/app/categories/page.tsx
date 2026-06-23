@@ -183,14 +183,16 @@ export default function CategoriesPage() {
     );
   }
 
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.beldify.com';
+
   const categoriesJsonLd = categories.length > 0 ? {
     '@context': 'https://schema.org',
     '@graph': [
       {
         '@type': 'BreadcrumbList',
         itemListElement: [
-          { '@type': 'ListItem', position: 1, name: 'Beldify', item: 'https://beldify.com' },
-          { '@type': 'ListItem', position: 2, name: t('nav.categories', 'Categories'), item: 'https://beldify.com/categories' },
+          { '@type': 'ListItem', position: 1, name: 'Beldify', item: siteUrl },
+          { '@type': 'ListItem', position: 2, name: t('nav.categories', 'Categories'), item: `${siteUrl}/categories` },
         ],
       },
       {
@@ -200,7 +202,7 @@ export default function CategoriesPage() {
         itemListElement: categories.slice(0, 20).map((cat, i) => ({
           '@type': 'ListItem',
           position: i + 1,
-          url: `https://beldify.com/categories/${cat.slug || cat.id}`,
+          url: `${siteUrl}/categories/${cat.slug || cat.id}`,
         })),
       },
     ],

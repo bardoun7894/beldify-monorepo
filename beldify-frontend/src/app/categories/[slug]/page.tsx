@@ -153,14 +153,16 @@ export default function CategoryDetailPage() {
     ? (isRTL && category.category_name_ar ? category.category_name_ar : category.category_name_en)
     : '';
 
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.beldify.com';
+
   const breadcrumbJsonLd = category ? {
     '@context': 'https://schema.org',
     '@graph': [
       {
         '@type': 'BreadcrumbList',
         itemListElement: [
-          { '@type': 'ListItem', position: 1, name: 'Home', item: '/categories' },
-          { '@type': 'ListItem', position: 2, name: category.category_name_en, item: `/categories/${slug}` },
+          { '@type': 'ListItem', position: 1, name: 'Home', item: `${siteUrl}/categories` },
+          { '@type': 'ListItem', position: 2, name: category.category_name_en, item: `${siteUrl}/categories/${slug}` },
         ],
       },
       {
@@ -170,7 +172,7 @@ export default function CategoryDetailPage() {
         itemListElement: (categoryData?.products ?? []).slice(0, 10).map((p, i) => ({
           '@type': 'ListItem',
           position: i + 1,
-          url: `/products/${p.id}`,
+          url: `${siteUrl}/products/${p.id}`,
         })),
       },
     ],

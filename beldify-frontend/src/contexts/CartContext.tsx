@@ -180,7 +180,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         error.response = {
           data: {
             type: 'insufficient_stock',
-            message: `Only ${stockAvailable.available_quantity} item${stockAvailable.available_quantity !== 1 ? 's' : ''} available`,
+            message: t('cart.stock.low', { remaining: stockAvailable.available_quantity }),
             available_quantity: stockAvailable.available_quantity
           }
         };

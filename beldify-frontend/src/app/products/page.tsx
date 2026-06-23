@@ -427,12 +427,14 @@ export default function ProductsPage() {
     );
   }
 
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.beldify.com';
+
   const breadcrumbJsonLd = {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
     itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'Beldify', item: 'https://beldify.com' },
-      { '@type': 'ListItem', position: 2, name: t('nav.products', 'Products'), item: 'https://beldify.com/products' },
+      { '@type': 'ListItem', position: 1, name: 'Beldify', item: siteUrl },
+      { '@type': 'ListItem', position: 2, name: t('nav.products', 'Products'), item: `${siteUrl}/products` },
     ],
   };
 
@@ -444,7 +446,7 @@ export default function ProductsPage() {
     itemListElement: products.slice(0, 24).map((product, index) => ({
       '@type': 'ListItem',
       position: index + 1,
-      url: `https://beldify.com/products/${product.id}`,
+      url: `${siteUrl}/products/${product.id}`,
     })),
   } : null;
 
