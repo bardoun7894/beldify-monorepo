@@ -72,6 +72,13 @@ export default function SellerProfilePage() {
 
   const logoInputRef = useRef<HTMLInputElement>(null);
   const bannerInputRef = useRef<HTMLInputElement>(null);
+  const navTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (navTimerRef.current) clearTimeout(navTimerRef.current);
+    };
+  }, []);
 
   // Fetch profile on mount
   useEffect(() => {
@@ -152,7 +159,8 @@ export default function SellerProfilePage() {
       setCompletionPct(newPct);
       toast.success(t('seller.profile.save_success', 'Profile saved!'));
       // Navigate back to onboarding hub
-      setTimeout(() => router.push('/seller/onboarding'), 800);
+      if (navTimerRef.current) clearTimeout(navTimerRef.current);
+      navTimerRef.current = setTimeout(() => router.push('/seller/onboarding'), 800);
     } catch (err: any) {
       if (err?.response?.status === 403) {
         setSuspended(true);

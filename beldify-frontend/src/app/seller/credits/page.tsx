@@ -478,6 +478,11 @@ export default function SellerCreditsPage() {
   const [purchaseStep, setPurchaseStep] = useState<PurchaseStep>('packs');
   const [selectedPack, setSelectedPack] = useState<CreditPack | null>(null);
 
+  const refreshTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  useEffect(() => () => {
+    if (refreshTimerRef.current) clearTimeout(refreshTimerRef.current);
+  }, []);
+
   const fetchAll = useCallback(async () => {
     if (!isAuthenticated) return;
     setLoading(true);
@@ -510,7 +515,8 @@ export default function SellerCreditsPage() {
   const handlePurchaseSuccess = () => {
     setPurchaseStep('success');
     // Refresh data after a short delay so the new purchase shows up
-    setTimeout(() => {
+    if (refreshTimerRef.current) clearTimeout(refreshTimerRef.current);
+    refreshTimerRef.current = setTimeout(() => {
       fetchAll();
     }, 1500);
   };

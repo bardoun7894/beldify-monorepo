@@ -14,9 +14,25 @@ const getCsrfToken = (): string | null => {
   return null;
 };
 
+// Safari ITP / private-mode can throw SecurityError on any localStorage access.
+// `typeof window !== 'undefined'` only guards SSR — the actual read can still
+// throw, so the access itself is wrapped in try/catch. We probe `localStorage`
+// (the global) rather than `window.localStorage` so vitest tests running in
+// the `node` environment (which mock `globalThis.localStorage` but do not
+// define `window`) still see the mocked token. Both resolve to the same
+// reference in a browser.
+const safeGetStoredToken = (): string | null => {
+  try {
+    if (typeof localStorage === 'undefined') return null;
+    return localStorage.getItem('token');
+  } catch {
+    return null;
+  }
+};
+
 // Helper function to get authentication headers
 const getAuthHeaders = () => {
-  let token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
+  let token = safeGetStoredToken();
 
   if (!token && typeof document !== 'undefined') {
     const authCookie = document.cookie
@@ -56,7 +72,7 @@ const MESSAGING_ENDPOINTS = {
  */
 export const getRecentMessages = async (): Promise<Message[]> => {
   try {
-    const authToken = localStorage.getItem('token');
+    const authToken = safeGetStoredToken();
 
     if (!authToken) {
       logger.warn('No authentication token found');
@@ -96,7 +112,7 @@ export const getConversation = async (
   otherUser: any;
 }> => {
   try {
-    const authToken = localStorage.getItem('token');
+    const authToken = safeGetStoredToken();
 
     if (!authToken) {
       throw new Error('Authentication required to view conversations');
@@ -151,7 +167,7 @@ export const sendMessage = async (
     }
     
     // Get token from localStorage and auth_token cookie as fallback
-    let token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
+    let token = safeGetStoredToken();
     
     // If no token in localStorage, try to get from cookies
     if (!token && typeof document !== 'undefined') {
@@ -163,7 +179,7 @@ export const sendMessage = async (
     
     if (!token) {
       logger.error('No authentication token found:', {
-        hasLocalStorage: !!localStorage.getItem('token'),
+        hasLocalStorage: !!safeGetStoredToken(),
         hasCookie: typeof document !== 'undefined' && document.cookie.includes('auth_token='),
       });
       throw new Error('Authentication required to send messages');
@@ -290,7 +306,7 @@ export interface SellerMarkReadResult {
 export const getSellerConversations = async (): Promise<SellerConversationsResult> => {
   const empty: SellerConversationsResult = { conversations: [], total_unread: 0 };
   try {
-    const authToken = localStorage.getItem('token');
+    const authToken = safeGetStoredToken();
     if (!authToken) {
       logger.warn('getSellerConversations: no token');
       return empty;
@@ -318,7 +334,7 @@ export const getSellerThread = async (
   buyerId: string,
   page: number = 1
 ): Promise<SellerThreadResult> => {
-  const authToken = localStorage.getItem('token');
+  const authToken = safeGetStoredToken();
   if (!authToken) {
     throw new Error('Authentication required to view seller thread');
   }
@@ -346,7 +362,7 @@ export const sendSellerMessage = async (
   buyerId: string,
   content: string
 ): Promise<SellerMessageItem> => {
-  const authToken = localStorage.getItem('token');
+  const authToken = safeGetStoredToken();
   if (!authToken) {
     throw new Error('Authentication required to send seller message');
   }
@@ -368,7 +384,7 @@ export const sendSellerMessage = async (
  */
 export const markSellerThreadRead = async (buyerId: string): Promise<SellerMarkReadResult> => {
   try {
-    const authToken = localStorage.getItem('token');
+    const authToken = safeGetStoredToken();
     if (!authToken) {
       logger.warn('markSellerThreadRead: no token');
       return { count: 0 };
@@ -393,7 +409,7 @@ export const markSellerThreadRead = async (buyerId: string): Promise<SellerMarkR
  */
 export const getSellerUnreadCount = async (): Promise<number> => {
   try {
-    const authToken = localStorage.getItem('token');
+    const authToken = safeGetStoredToken();
 
     if (!authToken) {
       logger.warn('No authentication token found for seller unread count');
@@ -422,7 +438,7 @@ export const getUnreadCount = async (lastCheckedTimestamp?: number): Promise<{
   currentTimestamp?: number;
 }> => {
   try {
-    const authToken = localStorage.getItem('token');
+    const authToken = safeGetStoredToken();
     
     if (!authToken) {
       logger.warn('No authentication token found for unread count');
@@ -473,7 +489,7 @@ export const getUnreadCount = async (lastCheckedTimestamp?: number): Promise<{
  */
 export const markMessagesAsRead = async (shopId?: string, messageId?: string): Promise<{ count: number }> => {
   try {
-    const authToken = localStorage.getItem('token');
+    const authToken = safeGetStoredToken();
     
     if (!authToken) {
       logger.warn('No authentication token found for marking messages as read');
@@ -514,7 +530,7 @@ export const checkNewMessages = async (shopId: string, lastMessageId?: string): 
   messages?: any[];
 }> => {
   try {
-    const authToken = localStorage.getItem('token');
+    const authToken = safeGetStoredToken();
     
     if (!authToken) {
       logger.warn('No authentication token found for checking new messages');

@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useTranslation } from 'react-i18next';
@@ -128,6 +128,20 @@ export default function ShopPage() {
   const [visibleCount, setVisibleCount] = useState(8);
   const [otherShops, setOtherShops] = useState<{ name: string; subtitle: string }[]>([]);
 
+  // Timer refs so navigation/state-update timers don't fire after unmount and
+  // are reset (not stacked) on rapid taps.
+  const loginRedirectTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const followVerifyTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const followVerifyCancelledRef = useRef(false);
+
+  useEffect(() => {
+    return () => {
+      if (loginRedirectTimerRef.current) clearTimeout(loginRedirectTimerRef.current);
+      if (followVerifyTimerRef.current) clearTimeout(followVerifyTimerRef.current);
+      followVerifyCancelledRef.current = true;
+    };
+  }, []);
+
   // ── follow helpers (preserved from original) ──────────────────────────────
 
   const checkFollowStatus = async (shopId: number) => {
@@ -150,7 +164,11 @@ export default function ShopPage() {
     if (!isAuth) {
       toast.error(t('shop.toast.loginToFollow', 'Please login to follow this shop'), { duration: 3000, position: 'bottom-center', id: 'auth-login-required' });
       const currentPath = window.location.pathname;
-      setTimeout(() => router.push(`/login?redirect=${encodeURIComponent(currentPath)}`), 1500);
+      if (loginRedirectTimerRef.current) clearTimeout(loginRedirectTimerRef.current);
+      loginRedirectTimerRef.current = setTimeout(
+        () => router.push(`/login?redirect=${encodeURIComponent(currentPath)}`),
+        1500
+      );
       return;
     }
     setIsFollowActionLoading(true);
@@ -162,13 +180,20 @@ export default function ShopPage() {
       if (res?.isAuthenticated === false) {
         setIsFollowing(prev);
         toast.error(t('shop.toast.authError', 'Authentication error. Please login again'), { duration: 3000, id: 'auth-error' });
-        setTimeout(() => router.push(`/login?redirect=${encodeURIComponent(window.location.pathname)}`), 1500);
+        if (loginRedirectTimerRef.current) clearTimeout(loginRedirectTimerRef.current);
+        loginRedirectTimerRef.current = setTimeout(
+          () => router.push(`/login?redirect=${encodeURIComponent(window.location.pathname)}`),
+          1500
+        );
         return;
       }
       toast.success(t('shop.toast.followSuccess', 'Successfully {{action}} shop', { action: prev ? 'unfollowed' : 'followed' }), { duration: 2000, id: 'follow-success' });
-      setTimeout(async () => {
+      if (followVerifyTimerRef.current) clearTimeout(followVerifyTimerRef.current);
+      followVerifyTimerRef.current = setTimeout(async () => {
+        if (followVerifyCancelledRef.current) return;
         try {
           const ver = await shopService.checkFollowing(shop.id);
+          if (followVerifyCancelledRef.current) return;
           if (ver.data?.isFollowing !== undefined) setIsFollowing(ver.data.isFollowing);
         } catch { /* silent */ }
       }, 1000);
