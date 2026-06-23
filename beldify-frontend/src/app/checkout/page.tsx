@@ -401,7 +401,7 @@ export default function CheckoutPage() {
     // Online gateways (card / PayPal) produce phantom pending orders with no real charge.
     // Hide them behind a "coming soon" overlay until a live gateway is activated.
     if (method.kind === 'gateway') {
-      return t('checkout.payment.gateway_coming_soon', 'قريباً / Coming soon');
+      return t('checkout.payment.gateway_coming_soon', 'قريباً');
     }
     if (method.kind === 'cod' && !codAllowed) {
       return effectiveTotalForCod > COD_MAX_AMOUNT

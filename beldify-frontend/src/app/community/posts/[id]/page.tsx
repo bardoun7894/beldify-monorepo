@@ -40,7 +40,7 @@ import LoadingSpinner from '@/components/common/LoadingSpinner';
 import ResponseCard from '@/components/community/ResponseCard';
 import { ProposalAiRanking } from '@/components/community/ProposalAiRanking';
 import { formatDistanceToNow } from 'date-fns';
-import { ar } from 'date-fns/locale';
+import { ar, fr, enUS } from 'date-fns/locale';
 
 /** Initials from a name — fallback avatar */
 function getInitials(name: string): string {
@@ -61,11 +61,17 @@ function nameToGradient(name: string): string {
   return GRADIENTS[code % GRADIENTS.length];
 }
 
-function timeAgo(dateString: string, isRTL: boolean): string {
+function dateFnsLocale(lang: string) {
+  if (lang.startsWith('ar') || lang === 'ma') return ar;
+  if (lang.startsWith('fr')) return fr;
+  return enUS;
+}
+
+function timeAgo(dateString: string, lang: string): string {
   try {
     return formatDistanceToNow(new Date(dateString), {
       addSuffix: true,
-      locale: isRTL ? ar : undefined,
+      locale: dateFnsLocale(lang),
     });
   } catch {
     return dateString;
@@ -73,7 +79,7 @@ function timeAgo(dateString: string, isRTL: boolean): string {
 }
 
 export default function PostDetailPage() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const params = useParams();
   const router = useRouter();
   const { isAuthenticated, user } = useAuth();
@@ -378,7 +384,7 @@ export default function PostDetailPage() {
                   {postedAt && (
                     <span className="flex items-center gap-1">
                       <Clock size={11} className="text-gray-400" />
-                      {timeAgo(postedAt, isRTL)}
+                      {timeAgo(postedAt, i18n.language)}
                     </span>
                   )}
                   <span className="flex items-center gap-1">

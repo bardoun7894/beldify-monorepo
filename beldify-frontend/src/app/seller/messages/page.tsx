@@ -9,7 +9,7 @@ import {
   SellerConversation,
 } from '@/services/messagingService';
 import { formatDistanceToNow } from 'date-fns';
-import { ar, enUS } from 'date-fns/locale';
+import { ar, fr, enUS } from 'date-fns/locale';
 import { MessagesSquare, RefreshCw, Search, ChevronRight } from 'lucide-react';
 import { convertStorageUrl } from '@/utils/storageUrls';
 import Image from 'next/image';
@@ -86,7 +86,9 @@ export default function SellerMessagesPage() {
     try {
       const d = new Date(dateString);
       if (isNaN(d.getTime())) return '';
-      return formatDistanceToNow(d, { addSuffix: true, locale: isRTL ? ar : enUS });
+      const lang = i18n.language;
+      const locale = (lang.startsWith('ar') || lang === 'ma') ? ar : lang.startsWith('fr') ? fr : enUS;
+      return formatDistanceToNow(d, { addSuffix: true, locale });
     } catch {
       return '';
     }

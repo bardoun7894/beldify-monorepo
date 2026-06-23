@@ -14,7 +14,7 @@ import {
   Reply,
 } from 'lucide-react';
 import { formatDistanceToNow } from 'date-fns';
-import { ar } from 'date-fns/locale';
+import { ar, fr, enUS } from 'date-fns/locale';
 import type { CommunityPost } from '@/types/community';
 import { useDirection } from '@/hooks/useDirection';
 import { useAuth } from '@/contexts/AuthContext';
@@ -66,11 +66,17 @@ function getImageSrc(image: string | { url?: string; image_path?: string } | any
   return '';
 }
 
-function timeAgo(dateString: string, isRTL: boolean): string {
+function dateFnsLocale(lang: string) {
+  if (lang.startsWith('ar') || lang === 'ma') return ar;
+  if (lang.startsWith('fr')) return fr;
+  return enUS;
+}
+
+function timeAgo(dateString: string, lang: string): string {
   try {
     return formatDistanceToNow(new Date(dateString), {
       addSuffix: true,
-      locale: isRTL ? ar : undefined,
+      locale: dateFnsLocale(lang),
     });
   } catch {
     return dateString;
@@ -319,7 +325,7 @@ export default function PostCard({ post, isUserPost = false }: PostCardProps) {
               )}
               {postedAt && (
                 <span className="text-[10px] text-gray-400">
-                  {timeAgo(postedAt, isRTL)}
+                  {timeAgo(postedAt, i18n.language)}
                 </span>
               )}
             </div>

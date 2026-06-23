@@ -9,7 +9,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { useMessaging } from '@/contexts/MessagingContext';
 import logger from '@/utils/consoleLogger';
 import { formatDistanceToNow } from 'date-fns';
-import { ar, enUS } from 'date-fns/locale';
+import { ar, fr, enUS } from 'date-fns/locale';
 import { useTranslation } from 'react-i18next';
 import { useDirection } from '@/hooks/useDirection';
 import { convertStorageUrl } from '@/utils/storageUrls';
@@ -53,7 +53,7 @@ export default function MessagesPage() {
   const router = useRouter();
   const { isAuthenticated, user } = useAuth();
   const { refreshUnreadCount } = useMessaging();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { isRTL } = useDirection();
   const prefersReducedMotion = useReducedMotion();
 
@@ -154,10 +154,9 @@ export default function MessagesPage() {
       if (isNaN(date.getTime())) {
         return '';
       }
-      return formatDistanceToNow(date, { 
-        addSuffix: true,
-        locale: isRTL ? ar : enUS
-      });
+      const lang = i18n.language;
+      const locale = (lang.startsWith('ar') || lang === 'ma') ? ar : lang.startsWith('fr') ? fr : enUS;
+      return formatDistanceToNow(date, { addSuffix: true, locale });
     } catch (error) {
       logger.warn('Invalid date string:', dateString, error);
       return '';

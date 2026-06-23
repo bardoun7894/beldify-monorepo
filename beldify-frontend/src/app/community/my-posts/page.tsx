@@ -22,7 +22,7 @@ import {
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { formatDistanceToNow } from 'date-fns';
-import { ar } from 'date-fns/locale';
+import { ar, fr, enUS } from 'date-fns/locale';
 
 import { useAuth } from '@/contexts/AuthContext';
 import { fetchMyPosts, closePost, deleteCommunityPost } from '@/services/communityService';
@@ -77,11 +77,17 @@ function getStatusConfig(status: string) {
   return STATUS_CONFIG[status] ?? STATUS_CONFIG['open'];
 }
 
-function timeAgo(dateString: string, isRTL: boolean): string {
+function dateFnsLocale(lang: string) {
+  if (lang.startsWith('ar') || lang === 'ma') return ar;
+  if (lang.startsWith('fr')) return fr;
+  return enUS;
+}
+
+function timeAgo(dateString: string, lang: string): string {
   try {
     return formatDistanceToNow(new Date(dateString), {
       addSuffix: true,
-      locale: isRTL ? ar : undefined,
+      locale: dateFnsLocale(lang),
     });
   } catch {
     return dateString;
@@ -244,7 +250,7 @@ interface PostRowProps {
 }
 
 function PostRow({ post, isRTL, onDelete, onClose, actionLoading }: PostRowProps) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const id = String(post.id);
   const status = post.status ?? 'open';
   const cfg = getStatusConfig(status);
@@ -290,7 +296,7 @@ function PostRow({ post, isRTL, onDelete, onClose, actionLoading }: PostRowProps
           {postedAt && (
             <span className="flex items-center gap-1">
               <Clock size={10} className="shrink-0" />
-              {timeAgo(postedAt, isRTL)}
+              {timeAgo(postedAt, i18n.language)}
             </span>
           )}
           <span className="flex items-center gap-1">
