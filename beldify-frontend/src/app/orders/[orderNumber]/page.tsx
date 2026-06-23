@@ -218,17 +218,22 @@ export default function OrderDetailsPage() {
   }, [searchParams, i18n]);
 
   useEffect(() => {
+    let cancelled = false;
     const fetchOrder = async () => {
       try {
         setLoading(true);
         setError(null);
         const response = await orderService.getOrderDetails(orderNumber);
+        if (cancelled) return;
         setOrder(response);
         // If the order is delivered, check for an existing return request
         if (response.status === 'delivered') {
-          returnService.get(orderNumber).then(setReturnRequest).catch(() => {});
+          returnService.get(orderNumber)
+            .then((data) => { if (!cancelled) setReturnRequest(data); })
+            .catch(() => {});
         }
       } catch (error: any) {
+        if (cancelled) return;
         logger.error('Error fetching order:', error);
         if (error.message === 'order_not_found') {
           setError('not_found');
@@ -236,11 +241,14 @@ export default function OrderDetailsPage() {
           setError('error');
         }
       } finally {
-        setLoading(false);
+        if (!cancelled) setLoading(false);
       }
     };
 
     fetchOrder();
+    return () => {
+      cancelled = true;
+    };
   }, [orderNumber]);
 
   // Fetch review status once for delivered/completed orders
@@ -248,15 +256,20 @@ export default function OrderDetailsPage() {
     if (!order || !orderNumber) return;
     const s = order.status.toLowerCase();
     if (s !== 'delivered' && s !== 'completed') return;
+    let cancelled = false;
     setReviewStatusLoading(true);
     reviewService.getOrderReviewStatus(orderNumber)
       .then((data) => {
+        if (cancelled) return;
         if (data?.items) setReviewableItems(data.items);
       })
       .catch(() => {
         // Non-fatal — review status is a progressive enhancement
       })
-      .finally(() => setReviewStatusLoading(false));
+      .finally(() => { if (!cancelled) setReviewStatusLoading(false); });
+    return () => {
+      cancelled = true;
+    };
   }, [order, orderNumber]);
 
   // ── Review submit handler ──────────────────────────────────────────────────

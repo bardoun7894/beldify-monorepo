@@ -93,7 +93,7 @@ export default function ShopsPage() {
     setSearchQuery(currentSearch);
   }, [currentSearch]);
 
-  const fetchShops = useCallback(async () => {
+  const fetchShops = useCallback(async (signal?: { cancelled: boolean }) => {
     setLoading(true);
     const result = await shopService.getShops({
       page: currentPage,
@@ -102,6 +102,8 @@ export default function ShopsPage() {
       sort: validSort,
       per_page: 12,
     });
+
+    if (signal?.cancelled) return;
 
     if (result.error) {
       setError(result.error.message);
@@ -114,7 +116,11 @@ export default function ShopsPage() {
   }, [currentPage, currentSearch, currentType, validSort]);
 
   useEffect(() => {
-    fetchShops();
+    const signal = { cancelled: false };
+    fetchShops(signal);
+    return () => {
+      signal.cancelled = true;
+    };
   }, [fetchShops]);
 
   const handlePageChange = (page: number) => {

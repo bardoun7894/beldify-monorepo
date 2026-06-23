@@ -131,26 +131,32 @@ export default function CategoriesPage() {
   ];
 
   useEffect(() => {
+    let cancelled = false;
     const fetchFilteredCategories = async () => {
       try {
         setLoading(true);
         setError(null);
         const fetchedCategories = await categoryService.getAllCategories(selectedGender);
+        if (cancelled) return;
         if (!Array.isArray(fetchedCategories)) {
           throw new Error('Invalid categories data received');
         }
         setCategories(fetchedCategories);
         setError(null);
       } catch (err: any) {
+        if (cancelled) return;
         logger.error('Error fetching categories:', err);
         setError(t('errors.failed_to_fetch_categories', 'تعذّر تحميل التصنيفات.'));
         setCategories([]);
       } finally {
-        setLoading(false);
+        if (!cancelled) setLoading(false);
       }
     };
 
     fetchFilteredCategories();
+    return () => {
+      cancelled = true;
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps -- t is a fresh ref in tests; omitted to avoid render loops
   }, [selectedGender, retryKey]);
 
