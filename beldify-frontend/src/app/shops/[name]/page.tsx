@@ -130,9 +130,13 @@ export default function ShopPage() {
   const [visibleCount, setVisibleCount] = useState(8);
   const [otherShops, setOtherShops] = useState<{ name: string; subtitle: string }[]>([]);
   const followVerifyTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const loginRedirectTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // cleanup on unmount
-  useEffect(() => () => { if (followVerifyTimerRef.current) clearTimeout(followVerifyTimerRef.current); }, []);
+  useEffect(() => () => {
+    if (followVerifyTimerRef.current) clearTimeout(followVerifyTimerRef.current);
+    if (loginRedirectTimerRef.current) clearTimeout(loginRedirectTimerRef.current);
+  }, []);
 
   // ── follow helpers (preserved from original) ──────────────────────────────
 
@@ -156,7 +160,8 @@ export default function ShopPage() {
     if (!isAuth) {
       toast.error(t('shop.toast.loginToFollow', 'Please login to follow this shop'), { duration: 3000, position: 'bottom-center', id: 'auth-login-required' });
       const currentPath = window.location.pathname;
-      setTimeout(() => router.push(`/login?redirect=${encodeURIComponent(currentPath)}`), 1500);
+      if (loginRedirectTimerRef.current) clearTimeout(loginRedirectTimerRef.current);
+      loginRedirectTimerRef.current = setTimeout(() => router.push(`/login?redirect=${encodeURIComponent(currentPath)}`), 1500);
       return;
     }
     setIsFollowActionLoading(true);
@@ -168,7 +173,8 @@ export default function ShopPage() {
       if (res?.isAuthenticated === false) {
         setIsFollowing(prev);
         toast.error(t('shop.toast.authError', 'Authentication error. Please login again'), { duration: 3000, id: 'auth-error' });
-        setTimeout(() => router.push(`/login?redirect=${encodeURIComponent(window.location.pathname)}`), 1500);
+        if (loginRedirectTimerRef.current) clearTimeout(loginRedirectTimerRef.current);
+        loginRedirectTimerRef.current = setTimeout(() => router.push(`/login?redirect=${encodeURIComponent(window.location.pathname)}`), 1500);
         return;
       }
       toast.success(t('shop.toast.followSuccess', 'Successfully {{action}} shop', { action: prev ? 'unfollowed' : 'followed' }), { duration: 2000, id: 'follow-success' });
@@ -366,10 +372,23 @@ export default function ShopPage() {
 
   const shopId = shop?.id;
 
+  const shopJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'LocalBusiness',
+    name: shop.name,
+    ...(rawDescription ? { description: rawDescription } : {}),
+    url: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://www.beldify.com'}/shops/${encodeURIComponent(shop.name)}`,
+    address: { '@type': 'PostalAddress', addressLocality: rawCity, addressCountry: 'MA' },
+    ...(rating > 0 && reviewsCount > 0
+      ? { aggregateRating: { '@type': 'AggregateRating', ratingValue: Number(rating).toFixed(1), reviewCount: reviewsCount } }
+      : {}),
+  };
+
   // ── render ─────────────────────────────────────────────────────────────────
 
   return (
     <div className="bg-canvas min-h-screen">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(shopJsonLd) }} />
 
       {/* ── 1. Cover Hero ──────────────────────────────────────────────────── */}
       <section className="relative h-72 sm:h-[28rem] overflow-hidden bg-indigo-950">
