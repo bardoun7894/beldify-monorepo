@@ -21,6 +21,7 @@ import { useTranslation } from 'react-i18next';
 import toast from '@/utils/toast';
 import logger from '@/utils/consoleLogger';
 import { usePWATriggers } from '@/hooks/usePWATriggers';
+import { intlLocale } from '@/i18n/config';
 import { track } from '@/lib/analytics';
 import { getImageUrl } from '@/utils/imageUtils';
 import PaymentProofUpload from '@/components/checkout/PaymentProofUpload';
@@ -90,14 +91,12 @@ export default function OrderConfirmationPage() {
     }
   }, []);
 
-  const formatAmount = (amount: number) => {
-    const localeMap: Record<string, string> = { en: 'en-US', fr: 'fr-FR', ar: 'ar-MA', ma: 'ar-MA', es: 'es-ES', nl: 'nl-NL', de: 'de-DE' };
-    return new Intl.NumberFormat(localeMap[i18n.language] ?? 'fr-FR', {
+  const formatAmount = (amount: number) =>
+    new Intl.NumberFormat(intlLocale(i18n.language), {
       style: 'decimal',
       minimumFractionDigits: 2,
       maximumFractionDigits: 2,
     }).format(amount);
-  };
 
   useEffect(() => {
     const fetchOrder = async () => {

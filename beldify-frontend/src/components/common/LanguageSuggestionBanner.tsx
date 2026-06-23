@@ -58,7 +58,11 @@ export default function LanguageSuggestionBanner() {
     if (typeof window === 'undefined') return;
 
     // Skip if user already acted on the banner
-    if (localStorage.getItem(DONE_KEY)) return;
+    try {
+      if (localStorage.getItem(DONE_KEY)) return;
+    } catch {
+      return; // storage blocked — skip banner
+    }
 
     // Skip if user has an explicit locale cookie (they made a deliberate choice)
     if (Cookies.get('NEXT_LOCALE')) return;
@@ -75,14 +79,22 @@ export default function LanguageSuggestionBanner() {
   }, []); // mount-once — intentional
 
   const dismiss = () => {
-    localStorage.setItem(DONE_KEY, '1');
+    try {
+      localStorage.setItem(DONE_KEY, '1');
+    } catch {
+      // Private mode or storage blocked — suppress banner for session only
+    }
     setVisible(false);
   };
 
   const switchLang = () => {
     if (!suggestion) return;
 
-    localStorage.setItem(DONE_KEY, '1');
+    try {
+      localStorage.setItem(DONE_KEY, '1');
+    } catch {
+      // Private mode or storage blocked — proceed with language switch anyway
+    }
     setVisible(false);
 
     // Persist locale cookie (same mechanic as LanguageSwitcher)

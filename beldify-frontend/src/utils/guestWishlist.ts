@@ -69,7 +69,11 @@ export function addGuestWishlistItem(item: GuestWishlistItem): void {
   if (typeof window === 'undefined') return;
   const current = getGuestWishlist();
   if (current.some((i) => i.product_id === item.product_id)) return;
-  localStorage.setItem(STORAGE_KEY, JSON.stringify([...current, item]));
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify([...current, item]));
+  } catch {
+    // Quota exceeded or private mode — silently ignore
+  }
 }
 
 /**
@@ -80,7 +84,11 @@ export function removeGuestWishlistItem(productId: number): void {
   if (typeof window === 'undefined') return;
   const current = getGuestWishlist();
   const updated = current.filter((i) => i.product_id !== productId);
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
+  } catch {
+    // Quota exceeded or private mode — silently ignore
+  }
 }
 
 /**
@@ -88,7 +96,11 @@ export function removeGuestWishlistItem(productId: number): void {
  */
 export function clearGuestWishlist(): void {
   if (typeof window === 'undefined') return;
-  localStorage.removeItem(STORAGE_KEY);
+  try {
+    localStorage.removeItem(STORAGE_KEY);
+  } catch {
+    // Private mode or storage blocked — silently ignore
+  }
 }
 
 /**

@@ -2,6 +2,7 @@
 
 import { useTranslation } from 'react-i18next';
 import { ShieldCheck } from 'lucide-react';
+import { intlLocale } from '@/i18n/config';
 
 type TranslationArray = string[];
 
@@ -17,8 +18,7 @@ export default function PrivacyPolicyPage() {
   const { t, i18n } = useTranslation();
 
   const lastUpdated = new Date('2025-05-18');
-  const _intlLocaleMap: Record<string, string> = { en: 'en-US', fr: 'fr-FR', ar: 'ar-MA', ma: 'ar-MA', es: 'es-ES', nl: 'nl-NL', de: 'de-DE' };
-  const formattedDate = new Intl.DateTimeFormat(_intlLocaleMap[i18n.language] ?? 'fr-FR', {
+  const formattedDate = new Intl.DateTimeFormat(intlLocale(i18n.language), {
     year: 'numeric',
     month: 'long',
     day: 'numeric',

@@ -12,6 +12,7 @@ import OrderSummaryCard from '@/components/cart/OrderSummaryCard';
 import EmptyCartState from '@/components/cart/EmptyCartState';
 import CartMobileBar from '@/components/cart/CartMobileBar';
 import { usePWATriggers } from '@/hooks/usePWATriggers';
+import { intlLocale } from '@/i18n/config';
 import {
   ArrowLeft,
   ArrowRight,
@@ -236,7 +237,7 @@ export default function CartPage() {
                       <div className="flex-shrink-0 text-end">
                         <p className="text-xs font-semibold text-gray-700 tabular-nums currency-mad">
                           {new Intl.NumberFormat(
-                            ({ en: 'en-US', fr: 'fr-FR', ar: 'ar-MA', ma: 'ar-MA', es: 'es-ES', nl: 'nl-NL', de: 'de-DE' } as Record<string, string>)[i18n.language] ?? 'fr-FR',
+                            intlLocale(i18n.language),
                             { style: 'decimal', minimumFractionDigits: 2, maximumFractionDigits: 2 }
                           ).format(sellerSubtotal)} MAD
                         </p>

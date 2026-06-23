@@ -14,7 +14,7 @@ import { OrdersLoadingScreen } from '@/components/ui/LoadingManager';
 import PlaceholderImage from '@/components/PlaceholderImage';
 import { formatMAD } from '@/components/orders/formatMAD';
 import { useParams, useSearchParams } from 'next/navigation';
-import { syncUrlLocale } from '@/i18n/config';
+import { syncUrlLocale, intlLocale } from '@/i18n/config';
 import {
   ShoppingBag,
   Truck,
@@ -179,9 +179,7 @@ export default function OrderDetailsPage() {
   const formatDate = (date: string | null | undefined) => {
     if (!date) return '';
     try {
-      const lang = i18n.language || 'en';
-      const isDarijaOrArabic = lang === 'ar' || lang === 'ma' || lang.startsWith('ar') || lang.startsWith('ma');
-      return new Intl.DateTimeFormat(isDarijaOrArabic ? 'ar-MA' : 'en-US', {
+      return new Intl.DateTimeFormat(intlLocale(i18n.language || 'fr'), {
         year: 'numeric',
         month: 'long',
         day: 'numeric',
@@ -189,7 +187,7 @@ export default function OrderDetailsPage() {
         minute: 'numeric',
         hour12: true,
       }).format(new Date(date));
-    } catch (e) {
+    } catch {
       return '';
     }
   };

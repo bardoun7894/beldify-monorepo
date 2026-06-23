@@ -32,7 +32,12 @@ export default function RootLayoutClient({ children }: RootLayoutClientProps) {
       // Get language from URL or localStorage, fallback to 'ma'
       const urlParams = new URLSearchParams(window.location.search);
       const urlLang = urlParams.get('lang');
-      const savedLang = localStorage.getItem('i18nextLng');
+      let savedLang: string | null = null;
+      try {
+        savedLang = localStorage.getItem('i18nextLng');
+      } catch {
+        // Private mode or storage blocked — proceed with default
+      }
       const initialLang = urlLang || savedLang || 'ma';
 
       // Set initial language

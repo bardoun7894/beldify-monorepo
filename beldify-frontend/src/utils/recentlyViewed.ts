@@ -57,5 +57,9 @@ export function addRecentlyViewed(item: RecentlyViewedItem): void {
  */
 export function clearRecentlyViewed(): void {
   if (typeof window === 'undefined') return;
-  localStorage.removeItem(STORAGE_KEY);
+  try {
+    localStorage.removeItem(STORAGE_KEY);
+  } catch {
+    // Private mode or storage blocked — silently ignore
+  }
 }
