@@ -66,14 +66,19 @@ const ProductCard = memo(function ProductCard({
     images, // Added images to destructuring
     has_discount,
     discount_price,
-    rating,
-    reviews_count,
+    rating: rawRating,
+    reviews_count: rawReviewsCount,
     category,
     category_ar,
     stock_status,
-    stock_quantity,
+    stock_quantity: rawStockQuantity,
     ends_at,
   } = product;
+
+  // Null-guard API fields that may be absent on partial payloads
+  const rating = rawRating ?? 0;
+  const reviews_count = rawReviewsCount ?? 0;
+  const stock_quantity = rawStockQuantity ?? 0;
 
   const displayName = isRTL ? name_ar || name : name;
   const displayCategory = isRTL ? category_ar || category : category;

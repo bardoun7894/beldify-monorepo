@@ -43,7 +43,7 @@ export default function EmptyCartState() {
         className="inline-flex items-center gap-2 bg-amber-500 hover:bg-amber-400 text-amber-950 rounded-full py-3 px-8 text-sm font-semibold transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-400 shadow-atlas-sm"
       >
         {t('cart.empty.cta', 'Browse the souk')}
-        <ArrowRight className="w-4 h-4" aria-hidden="true" />
+        <ArrowRight className="w-4 h-4 rtl:rotate-180" aria-hidden="true" />
       </Link>
 
       {/* Trust hint */}

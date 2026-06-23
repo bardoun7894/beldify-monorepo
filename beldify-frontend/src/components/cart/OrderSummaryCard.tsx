@@ -42,10 +42,10 @@ export default function OrderSummaryCard({
   onCheckout,
   loading = false,
 }: OrderSummaryCardProps) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   const fmt = (n: number) =>
-    n.toLocaleString('ar-MA', {
+    n.toLocaleString(i18n.language, {
       minimumFractionDigits: 2,
       maximumFractionDigits: 2,
     });
@@ -209,7 +209,7 @@ export default function OrderSummaryCard({
         ) : (
           <>
             {t('cart.summary.checkout', 'Proceed to checkout')}
-            <ArrowRight className="w-4 h-4" aria-hidden="true" />
+            <ArrowRight className="w-4 h-4 rtl:rotate-180" aria-hidden="true" />
           </>
         )}
       </button>

@@ -261,7 +261,7 @@ describe('PDP Stitch chrome', () => {
     //   t('trust.returns', 'Free returns'), t('trust.authentic', 'Authentic')
     const ships = await screen.findByText(/Ships in 3 days/i);
     expect(ships).toBeInTheDocument();
-    const returns_ = await screen.findByText(/Free returns/i);
+    const returns_ = await screen.findByText(/14-day returns/i);
     expect(returns_).toBeInTheDocument();
     const auth = await screen.findByText(/^Authentic$/i);
     expect(auth).toBeInTheDocument();

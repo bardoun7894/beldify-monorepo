@@ -50,11 +50,11 @@ export interface Product {
   customizable: boolean | null;
   in_stock: boolean;
   is_featured: boolean;
-  rating: number;
-  reviews_count: number;
+  rating?: number;
+  reviews_count?: number;
   sku: string | null;
   slug: string | null;
-  stock_quantity: number;
+  stock_quantity?: number;
   stock_status: 'in_stock' | 'low_stock' | 'out_of_stock';
   /** Legacy alias for stock_quantity used by some components */
   stock?: number;

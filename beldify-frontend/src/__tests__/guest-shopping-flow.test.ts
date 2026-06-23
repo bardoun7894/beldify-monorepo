@@ -211,15 +211,16 @@ describe('C9 — CARTDBG diagnostics in add-to-cart path', () => {
   const cartCtx = read('src/contexts/CartContext.tsx');
   const apiLib = read('src/lib/api.ts');
 
-  it('logs CARTDBG in handleAddToCart of PDP', () => {
-    expect(pdp).toContain('[CARTDBG]');
+  it('does NOT log CARTDBG in handleAddToCart of PDP (debug logging removed)', () => {
+    // CARTDBG console.warn blocks have been removed from the PDP to clean up production output.
+    expect(pdp).not.toContain('[CARTDBG]');
   });
 
-  it('logs CARTDBG in handlePurchaseNow of PDP', () => {
-    // Both handlers must log so we can trace which branch fired
+  it('does NOT log CARTDBG in handlePurchaseNow of PDP (debug logging removed)', () => {
+    // CARTDBG console.warn blocks have been removed from the PDP to clean up production output.
     const purchaseNowMatch = pdp.match(/const handlePurchaseNow[\s\S]{0,2000}/);
     if (purchaseNowMatch) {
-      expect(purchaseNowMatch[0]).toContain('[CARTDBG]');
+      expect(purchaseNowMatch[0]).not.toContain('[CARTDBG]');
     }
   });
 
