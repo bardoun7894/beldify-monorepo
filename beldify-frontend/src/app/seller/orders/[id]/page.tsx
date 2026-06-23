@@ -76,17 +76,23 @@ export default function SellerOrderDetailPage() {
 
   useEffect(() => {
     if (!isAuthenticated || !orderId) return;
+    let cancelled = false;
     setLoading(true);
     getSellerOrder(orderId)
       .then((res) => {
-        setOrder(res.data);
-        setSelectedStatus(res.data.status);
-        selectedStatusRef.current = res.data.status;
+        if (!cancelled) {
+          setOrder(res.data);
+          setSelectedStatus(res.data.status);
+          selectedStatusRef.current = res.data.status;
+        }
       })
       .catch(() => {
-        setError(t('seller.order_detail.fetch_error', 'Could not load order.'));
+        if (!cancelled) setError(t('seller.order_detail.fetch_error', 'Could not load order.'));
       })
-      .finally(() => setLoading(false));
+      .finally(() => {
+        if (!cancelled) setLoading(false);
+      });
+    return () => { cancelled = true; };
   }, [isAuthenticated, orderId, t]);
 
   const handleUpdateStatus = async (e: React.FormEvent<HTMLFormElement>) => {

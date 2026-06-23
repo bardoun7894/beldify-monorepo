@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '@/hooks/useAuth';
@@ -62,23 +62,25 @@ export default function SellerOrdersPage() {
   const [statusFilter, setStatusFilter] = useState('');
   const [page, setPage] = useState(1);
 
-  const fetchOrders = useCallback(() => {
+  useEffect(() => {
     if (!isAuthenticated) return;
+    let cancelled = false;
     setLoading(true);
     getSellerOrders({ status: statusFilter || undefined, page })
       .then((res) => {
-        setOrders(res.data);
-        setMeta(res.meta);
+        if (!cancelled) {
+          setOrders(res.data);
+          setMeta(res.meta);
+        }
       })
       .catch(() => {
-        setOrders([]);
+        if (!cancelled) setOrders([]);
       })
-      .finally(() => setLoading(false));
+      .finally(() => {
+        if (!cancelled) setLoading(false);
+      });
+    return () => { cancelled = true; };
   }, [isAuthenticated, statusFilter, page]);
-
-  useEffect(() => {
-    fetchOrders();
-  }, [fetchOrders]);
 
   const handleStatusChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setStatusFilter(e.target.value);

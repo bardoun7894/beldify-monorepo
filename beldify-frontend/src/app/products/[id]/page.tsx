@@ -1169,12 +1169,14 @@ export default function ProductDetailsPage() {
   }, [activeTab, id, product]);
 
   useEffect(() => {
+    let cancelled = false;
     const fetchProduct = async () => {
       try {
         setLoading(true);
         // Convert id to string if it's an array
         const productId = Array.isArray(id) ? id[0] : id;
         const response = await productService.getProduct(productId as string);
+        if (cancelled) return;
         setProduct(response.product);
 
         // Set default selections if available
@@ -1186,14 +1188,16 @@ export default function ProductDetailsPage() {
           setSelectedVariant(defaultVariant);
         }
       } catch (error) {
+        if (cancelled) return;
         setError(t('errors.product_load_failed'));
-          logger.error('Error fetching product:', error);
+        logger.error('Error fetching product:', error);
       } finally {
-        setLoading(false);
+        if (!cancelled) setLoading(false);
       }
     };
 
     fetchProduct();
+    return () => { cancelled = true; };
     // fetch is keyed by route id only; t() is stable enough for error copy
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
@@ -1204,10 +1208,12 @@ export default function ProductDetailsPage() {
   // This guarantees the two shelves always show different items.
   useEffect(() => {
     if (!id) return;
+    let cancelled = false;
     const productId = Array.isArray(id) ? id[0] : id;
     productService.getRelatedProducts(productId, 8)
-      .then((data) => setAllRelatedProducts(data.products || []))
-      .catch(() => setAllRelatedProducts([]));
+      .then((data) => { if (!cancelled) setAllRelatedProducts(data.products || []); })
+      .catch(() => { if (!cancelled) setAllRelatedProducts([]); });
+    return () => { cancelled = true; };
   }, [id]);
 
   // Track recently-viewed products in localStorage for the home-page shelf

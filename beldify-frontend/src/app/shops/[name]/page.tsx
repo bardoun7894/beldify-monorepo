@@ -223,6 +223,7 @@ export default function ShopPage() {
 
   useEffect(() => {
     if (!params?.name) return;
+    let shopFetchCancelled = false;
     const fetchShop = async () => {
       try {
         setIsLoading(true);
@@ -230,6 +231,7 @@ export default function ShopPage() {
         const storeName = decodeURIComponent(params.name as string);
         logger.log('Fetching shop with name:', storeName);
         const response = await shopService.getShopByName(storeName);
+        if (shopFetchCancelled) return;
         if (response.error) { setError(response.error.message); return; }
         if (response.data?.store) {
           const shopData: Shop = {
@@ -273,13 +275,15 @@ export default function ShopPage() {
           setError(t('shops.not_found'));
         }
       } catch (err: any) {
+        if (shopFetchCancelled) return;
         logger.error('Error in fetchShop:', err);
         setError(t('shops.error_message'));
       } finally {
-        setIsLoading(false);
+        if (!shopFetchCancelled) setIsLoading(false);
       }
     };
     fetchShop();
+    return () => { shopFetchCancelled = true; };
   }, [params?.name, t]);
 
   // ── derived data ───────────────────────────────────────────────────────────
