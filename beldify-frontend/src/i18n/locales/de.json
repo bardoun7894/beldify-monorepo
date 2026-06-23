@@ -1164,7 +1164,9 @@
     "reorder": {
       "added": "Zu deinem Warenkorb hinzugefügt",
       "all_skipped": "Artikel sind ausverkauft und konnten nicht hinzugefügt werden.",
-      "error": "Etwas ist schiefgelaufen. Bitte versuche es erneut."
+      "error": "Etwas ist schiefgelaufen. Bitte versuche es erneut.",
+      "skipped_note_one": "({{count}} Artikel ausverkauft)",
+      "skipped_note_other": "({{count}} Artikel ausverkauft)"
     },
     "review": {
       "write_review": "Bewertung schreiben",

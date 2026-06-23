@@ -45,7 +45,15 @@ export default function LoginPage() {
 
   // Function to handle stored actions after successful login
   const handleStoredAction = async () => {
-    const redirectAction = sessionStorage.getItem('redirectAction');
+    // Safari private mode can throw on sessionStorage access — guests in
+    // restricted-storage browsers should still complete login and land on
+    // the default redirect rather than crash here.
+    let redirectAction: string | null = null;
+    try {
+      redirectAction = sessionStorage.getItem('redirectAction');
+    } catch {
+      return false;
+    }
 
     if (!redirectAction) return false; // No stored action
 

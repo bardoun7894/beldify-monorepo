@@ -827,7 +827,7 @@ export default function ProductDetailsPage() {
     if (typeof window !== 'undefined') {
       const hasVariants = (product?.variants?.length ?? 0) > 0;
       const resolvedStockId = product?.stock?.id ?? product?.stock_id ?? product?.id;
-      console.warn(
+      logger.warn(
         `[CARTDBG] handleAddToCart entry | hasVariants=${hasVariants}` +
         ` | selectedVariant=${selectedVariant?.id ?? 'none'}` +
         ` | resolvedStockId=${resolvedStockId} | quantity=${quantity}`
@@ -1003,7 +1003,7 @@ export default function ProductDetailsPage() {
     if (typeof window !== 'undefined') {
       const hasVariants = (product?.variants?.length ?? 0) > 0;
       const resolvedStockId = product?.stock?.id ?? product?.stock_id ?? product?.id;
-      console.warn(
+      logger.warn(
         `[CARTDBG] handlePurchaseNow entry | hasVariants=${hasVariants}` +
         ` | selectedVariant=${selectedVariant?.id ?? 'none'}` +
         ` | resolvedStockId=${resolvedStockId} | quantity=${quantity}`
@@ -1069,8 +1069,13 @@ export default function ProductDetailsPage() {
         // Add to cart with the appropriate ID type
         await addItem(itemId, quantity, idType);
         
-        // Set flags for checkout flow
-        sessionStorage.setItem('purchaseNow', 'true');
+        // Set flags for checkout flow. Safari private mode can throw on
+        // sessionStorage writes; swallow so the buy-now path still proceeds.
+        try {
+          sessionStorage.setItem('purchaseNow', 'true');
+        } catch {
+          // Storage unavailable — checkout will treat this as a normal add-to-cart.
+        }
 
         // Analytics: add_to_cart (buy-now path)
         const analyticsPrice = selectedVariant

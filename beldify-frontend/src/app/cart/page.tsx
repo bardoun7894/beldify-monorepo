@@ -56,6 +56,7 @@ export default function CartPage() {
   const [couponCode, setCouponCode] = React.useState('');
 
   const handleApplyCoupon = async () => {
+    if (loading) return;
     const code = couponCode.trim();
     if (!code) {
       toast.error(t('cart.coupon.enter_code', 'Please enter a promo code'));
@@ -70,6 +71,7 @@ export default function CartPage() {
   };
 
   const handleRemoveCoupon = async () => {
+    if (loading) return;
     try {
       await removeCoupon();
     } catch {

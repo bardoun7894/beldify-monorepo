@@ -1168,7 +1168,13 @@
     "reorder": {
       "added": "تضافت للسيلة ديالك",
       "all_skipped": "المنتجات ماكايناش دابا",
-      "error": "وقع مشكل، عاود جرب"
+      "error": "وقع مشكل، عاود جرب",
+      "skipped_note_zero": "(ما كاينش شي منتج خاسر)",
+      "skipped_note_one": "(منتج واحد ماكاينش)",
+      "skipped_note_two": "(جوج منتجات ماكايناش)",
+      "skipped_note_few": "({{count}} منتجات ماكايناش)",
+      "skipped_note_many": "({{count}} منتج ماكاينش)",
+      "skipped_note_other": "({{count}} منتج ماكاينش)"
     },
     "review": {
       "write_review": "كتب رأيك",

@@ -1137,7 +1137,9 @@
     "reorder": {
       "added": "Ajouté à votre panier",
       "all_skipped": "Les articles sont épuisés et n'ont pas pu être ajoutés.",
-      "error": "Une erreur s'est produite. Veuillez réessayer."
+      "error": "Une erreur s'est produite. Veuillez réessayer.",
+      "skipped_note_one": "({{count}} article épuisé)",
+      "skipped_note_other": "({{count}} articles épuisés)"
     },
     "review": {
       "write_review": "Écrire un avis",

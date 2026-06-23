@@ -1137,7 +1137,9 @@
     "reorder": {
       "added": "Añadido a tu carrito",
       "all_skipped": "Los artículos están agotados y no se pudieron agregar.",
-      "error": "Algo salió mal. Por favor, inténtalo de nuevo."
+      "error": "Algo salió mal. Por favor, inténtalo de nuevo.",
+      "skipped_note_one": "({{count}} artículo agotado)",
+      "skipped_note_other": "({{count}} artículos agotados)"
     },
     "review": {
       "write_review": "Escribir una reseña",

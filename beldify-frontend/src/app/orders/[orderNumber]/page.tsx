@@ -105,9 +105,7 @@ export default function OrderDetailsPage() {
       }
       const skippedNote =
         result.items_skipped > 0
-          ? (i18n.language === 'ar' || i18n.language === 'ma')
-            ? ` (${result.items_skipped} منتج غير متوفر)`
-            : ` (${result.items_skipped} item${result.items_skipped > 1 ? 's' : ''} out of stock)`
+          ? ` ${t('orders.reorder.skipped_note', { count: result.items_skipped })}`
           : '';
       toast.success(t('orders.reorder.added', 'Added to your cart') + skippedNote);
       router.push('/cart');

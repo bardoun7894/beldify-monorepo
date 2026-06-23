@@ -1164,7 +1164,9 @@
     "reorder": {
       "added": "Added to your cart",
       "all_skipped": "Items are out of stock and could not be added.",
-      "error": "Something went wrong. Please try again."
+      "error": "Something went wrong. Please try again.",
+      "skipped_note_one": "({{count}} item out of stock)",
+      "skipped_note_other": "({{count}} items out of stock)"
     },
     "review": {
       "write_review": "Write a review",

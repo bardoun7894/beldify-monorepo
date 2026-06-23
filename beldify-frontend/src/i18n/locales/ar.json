@@ -1168,7 +1168,13 @@
     "reorder": {
       "added": "أُضيف إلى سلة التسوق",
       "all_skipped": "لم تتوفر المنتجات حالياً",
-      "error": "حدث خطأ، يرجى المحاولة مجدداً"
+      "error": "حدث خطأ، يرجى المحاولة مجدداً",
+      "skipped_note_zero": "(لا توجد منتجات غير متوفرة)",
+      "skipped_note_one": "(منتج واحد غير متوفر)",
+      "skipped_note_two": "(منتجان غير متوفرين)",
+      "skipped_note_few": "({{count}} منتجات غير متوفرة)",
+      "skipped_note_many": "({{count}} منتجاً غير متوفر)",
+      "skipped_note_other": "({{count}} منتج غير متوفر)"
     },
     "review": {
       "write_review": "اكتب تقييمًا",
