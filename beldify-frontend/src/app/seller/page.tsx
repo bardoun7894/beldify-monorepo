@@ -41,9 +41,10 @@ function fmtMAD(n: number, locale: string) {
 
 // ── Status badge ──────────────────────────────────────────────────────────────
 function StatusBadge({ status }: { status: string }) {
+  const { t } = useTranslation();
   return (
     <Badge variant={orderStatusVariant(status)}>
-      {ORDER_STATUS_LABEL[status] ?? status}
+      {t(`seller.orders.status_${status}`, ORDER_STATUS_LABEL[status] ?? status)}
     </Badge>
   );
 }
@@ -96,7 +97,9 @@ function OnboardingBanner({ status }: { status: OnboardingStatusData }) {
         href="/seller/onboarding"
         className="shrink-0 text-xs font-medium text-amber-700 hover:text-amber-900 hover:underline"
       >
-        {isPending ? 'Track progress' : 'Complete setup'}
+        {isPending
+          ? t('seller.onboarding_banner.track_progress', 'Track progress')
+          : t('seller.onboarding_banner.complete_setup', 'Complete setup')}
       </Link>
     </div>
   );

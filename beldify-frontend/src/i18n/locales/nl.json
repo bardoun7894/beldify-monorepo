@@ -4006,7 +4006,12 @@
       "update_btn": "Status bijwerken",
       "update_error": "Kon bestelstatus niet bijwerken.",
       "update_status_label": "Bestelstatus bijwerken",
-      "updating": "Bijwerken…"
+      "updating": "Bijwerken…",
+      "status_pending": "In afwachting",
+      "status_processing": "In behandeling",
+      "status_shipped": "Verzonden",
+      "status_delivered": "Geleverd",
+      "status_cancelled": "Geannuleerd"
     },
     "orders": {
       "col_customer": "Klant",
@@ -4021,6 +4026,13 @@
       "no_orders_sub": "Bestellingen verschijnen hier zodra klanten in je winkel kopen.",
       "pagination_info": "Pagina {{currentPage}} van {{lastPage}} — {{total}} bestellingen",
       "prev_page": "Vorige pagina",
+      "status_all": "Alle statussen",
+      "status_cancelled": "Geannuleerd",
+      "status_delivered": "Geleverd",
+      "status_pending": "In afwachting",
+      "status_processing": "In behandeling",
+      "status_refunded": "Terugbetaald",
+      "status_shipped": "Verzonden",
       "title": "Bestellingen"
     },
     "onboarding_banner": {
@@ -4028,7 +4040,9 @@
       "view_journey": "Bekijk traject",
       "pending": "Aanvraag in behandeling",
       "progress": "Voltooi je winkelinstelling — {{pct}}% klaar",
-      "finish_hint": "Maak je profiel af om alle functies te ontgrendelen en te beginnen met verkopen."
+      "finish_hint": "Maak je profiel af om alle functies te ontgrendelen en te beginnen met verkopen.",
+      "track_progress": "Voortgang bijhouden",
+      "complete_setup": "Instelling voltooien"
     },
     "quote": {
       "error_amount": "Offertebedrag is verplicht en moet > 0 zijn",

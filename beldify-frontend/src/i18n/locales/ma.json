@@ -4800,7 +4800,12 @@
       "update_btn": "حدّث الحالة",
       "update_error": "ما تحدّثت حالة الطلب.",
       "update_status_label": "حدّث حالة الطلب",
-      "updating": "كاتحدّث…"
+      "updating": "كاتحدّث…",
+      "status_pending": "في الانتظار",
+      "status_processing": "كيتعالج",
+      "status_shipped": "شحن",
+      "status_delivered": "وصل",
+      "status_cancelled": "ملغي"
     },
     "orders": {
       "col_customer": "الزبون",
@@ -4815,6 +4820,13 @@
       "no_orders_sub": "الطلبات غادي تضهر هنا ملي يشري الزبناء من المتجر ديالك.",
       "pagination_info": "الصفحة {{currentPage}} من {{lastPage}} — {{total}} طلب",
       "prev_page": "الصفحة السابقة",
+      "status_all": "جميع الحالات",
+      "status_cancelled": "ملغي",
+      "status_delivered": "وصل",
+      "status_pending": "في الانتظار",
+      "status_processing": "كيتعالج",
+      "status_refunded": "مرجّع",
+      "status_shipped": "شحن",
       "title": "الطلبات"
     },
     "onboarding_banner": {
@@ -4822,7 +4834,9 @@
       "view_journey": "شوف المسار",
       "pending": "الطلب كيتراجع",
       "progress": "كمّل إعداد المتجر ديالك — {{pct}}٪ سالينة",
-      "finish_hint": "كمّل البروفيل ديالك باش تحل جميع الميزات وتبدا تبيع."
+      "finish_hint": "كمّل البروفيل ديالك باش تحل جميع الميزات وتبدا تبيع.",
+      "track_progress": "تابع التقدم",
+      "complete_setup": "كمّل الإعداد"
     },
     "quote": {
       "error_amount": "مبلغ العرض مطلوب وتقع يكون أكتر من الصفر",

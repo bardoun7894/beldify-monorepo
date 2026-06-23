@@ -4878,7 +4878,12 @@
       "update_btn": "Actualiza el estado",
       "update_error": "Error al actualizar el estado del pedido.",
       "update_status_label": "Actualiza el estado del pedido",
-      "updating": "Actualizando…"
+      "updating": "Actualizando…",
+      "status_pending": "Pendiente",
+      "status_processing": "En proceso",
+      "status_shipped": "Enviado",
+      "status_delivered": "Entregado",
+      "status_cancelled": "Cancelado"
     },
     "orders": {
       "col_customer": "Cliente",
@@ -4893,6 +4898,13 @@
       "no_orders_sub": "Los pedidos aparecerán aquí una vez que los clientes compren en tu tienda.",
       "pagination_info": "Página {{currentPage}} de {{lastPage}} — {{total}} pedidos",
       "prev_page": "Página anterior",
+      "status_all": "Todos los estados",
+      "status_cancelled": "Cancelado",
+      "status_delivered": "Entregado",
+      "status_pending": "Pendiente",
+      "status_processing": "En proceso",
+      "status_refunded": "Reembolsado",
+      "status_shipped": "Enviado",
       "title": "Pedidos"
     },
     "onboarding_banner": {
@@ -4900,7 +4912,9 @@
       "view_journey": "Ver el recorrido",
       "pending": "Solicitud en revisión",
       "progress": "Completa la configuración de tu tienda — {{pct}}% hecho",
-      "finish_hint": "Termina tu perfil para desbloquear todas las funciones y empezar a vender."
+      "finish_hint": "Termina tu perfil para desbloquear todas las funciones y empezar a vender.",
+      "track_progress": "Seguir el progreso",
+      "complete_setup": "Completar configuración"
     },
     "quote": {
       "error_amount": "El monto del presupuesto es obligatorio y debe ser > 0",

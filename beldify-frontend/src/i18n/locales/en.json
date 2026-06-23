@@ -4014,7 +4014,12 @@
       "update_btn": "Update status",
       "update_error": "Failed to update order status.",
       "update_status_label": "Update order status",
-      "updating": "Updating…"
+      "updating": "Updating…",
+      "status_pending": "Pending",
+      "status_processing": "Processing",
+      "status_shipped": "Shipped",
+      "status_delivered": "Delivered",
+      "status_cancelled": "Cancelled"
     },
     "orders": {
       "col_customer": "Customer",
@@ -4029,6 +4034,13 @@
       "no_orders_sub": "Orders will appear here once customers purchase from your store.",
       "pagination_info": "Page {{currentPage}} of {{lastPage}} — {{total}} orders",
       "prev_page": "Previous page",
+      "status_all": "All statuses",
+      "status_cancelled": "Cancelled",
+      "status_delivered": "Delivered",
+      "status_pending": "Pending",
+      "status_processing": "Processing",
+      "status_refunded": "Refunded",
+      "status_shipped": "Shipped",
       "title": "Orders"
     },
     "onboarding_banner": {
@@ -4036,7 +4048,9 @@
       "view_journey": "View journey",
       "pending": "Application under review",
       "progress": "Complete your store setup — {{pct}}% done",
-      "finish_hint": "Finish your profile to unlock all features and start selling."
+      "finish_hint": "Finish your profile to unlock all features and start selling.",
+      "track_progress": "Track progress",
+      "complete_setup": "Complete setup"
     },
     "quote": {
       "error_amount": "Quote amount is required and must be > 0",

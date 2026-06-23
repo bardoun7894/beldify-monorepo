@@ -4006,7 +4006,12 @@
       "update_btn": "Status aktualisieren",
       "update_error": "Bestellstatus konnte nicht aktualisiert werden.",
       "update_status_label": "Aktualisiere den Bestellstatus",
-      "updating": "Wird aktualisiert …"
+      "updating": "Wird aktualisiert …",
+      "status_pending": "Ausstehend",
+      "status_processing": "In Bearbeitung",
+      "status_shipped": "Versandt",
+      "status_delivered": "Geliefert",
+      "status_cancelled": "Storniert"
     },
     "orders": {
       "col_customer": "Kunde",
@@ -4021,6 +4026,13 @@
       "no_orders_sub": "Bestellungen werden hier angezeigt, sobald Kunden aus deinem Shop kaufen.",
       "pagination_info": "Seite {{currentPage}} von {{lastPage}} — {{total}} Bestellungen",
       "prev_page": "Vorherige Seite",
+      "status_all": "Alle Status",
+      "status_cancelled": "Storniert",
+      "status_delivered": "Geliefert",
+      "status_pending": "Ausstehend",
+      "status_processing": "In Bearbeitung",
+      "status_refunded": "Erstattet",
+      "status_shipped": "Versandt",
       "title": "Bestellungen"
     },
     "onboarding_banner": {
@@ -4028,7 +4040,9 @@
       "view_journey": "Verlauf ansehen",
       "pending": "Bewerbung wird geprüft",
       "progress": "Schließe deine Shop-Einrichtung ab — {{pct}} % fertig",
-      "finish_hint": "Vervollständige dein Profil, um alle Funktionen freizuschalten und mit dem Verkauf zu starten."
+      "finish_hint": "Vervollständige dein Profil, um alle Funktionen freizuschalten und mit dem Verkauf zu starten.",
+      "track_progress": "Fortschritt verfolgen",
+      "complete_setup": "Einrichtung abschließen"
     },
     "quote": {
       "error_amount": "Das Angebotsamount ist erforderlich und muss > 0 sein",

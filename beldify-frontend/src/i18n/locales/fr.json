@@ -4790,7 +4790,12 @@
       "update_btn": "Mettre à jour le statut",
       "update_error": "Impossible de mettre à jour le statut de la commande.",
       "update_status_label": "Mettre à jour le statut de la commande",
-      "updating": "Mise à jour…"
+      "updating": "Mise à jour…",
+      "status_pending": "En attente",
+      "status_processing": "En cours",
+      "status_shipped": "Expédié",
+      "status_delivered": "Livré",
+      "status_cancelled": "Annulé"
     },
     "orders": {
       "col_customer": "Client",
@@ -4805,6 +4810,13 @@
       "no_orders_sub": "Les commandes apparaîtront ici une fois que les clients achèteront dans votre magasin.",
       "pagination_info": "Page {{currentPage}} sur {{lastPage}} — {{total}} commandes",
       "prev_page": "Page précédente",
+      "status_all": "Tous les statuts",
+      "status_cancelled": "Annulé",
+      "status_delivered": "Livré",
+      "status_pending": "En attente",
+      "status_processing": "En cours",
+      "status_refunded": "Remboursé",
+      "status_shipped": "Expédié",
       "title": "Commandes"
     },
     "onboarding_banner": {
@@ -4812,7 +4824,9 @@
       "view_journey": "Voir le parcours",
       "pending": "Candidature en cours d'examen",
       "progress": "Terminez la configuration de votre boutique — {{pct}} % effectués",
-      "finish_hint": "Complétez votre profil pour débloquer toutes les fonctionnalités et commencer à vendre."
+      "finish_hint": "Complétez votre profil pour débloquer toutes les fonctionnalités et commencer à vendre.",
+      "track_progress": "Suivre la progression",
+      "complete_setup": "Finaliser la configuration"
     },
     "quote": {
       "error_amount": "Le montant du devis est obligatoire et doit être > 0",

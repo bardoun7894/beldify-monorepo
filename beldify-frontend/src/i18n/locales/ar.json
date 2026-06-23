@@ -4247,7 +4247,12 @@
       "update_btn": "تحديث الحالة",
       "update_error": "فشل في تحديث حالة الطلب.",
       "update_status_label": "تحديث حالة الطلب",
-      "updating": "جاري التحديث…"
+      "updating": "جاري التحديث…",
+      "status_pending": "قيد الانتظار",
+      "status_processing": "قيد المعالجة",
+      "status_shipped": "تم الشحن",
+      "status_delivered": "تم التوصيل",
+      "status_cancelled": "ملغى"
     },
     "orders": {
       "col_customer": "العميل",
@@ -4262,6 +4267,13 @@
       "no_orders_sub": "ستظهر الطلبات هنا بمجرد شراء العملاء من متجرك.",
       "pagination_info": "الصفحة {{currentPage}} من {{lastPage}} — {{total}} طلبات",
       "prev_page": "الصفحة السابقة",
+      "status_all": "جميع الحالات",
+      "status_cancelled": "ملغى",
+      "status_delivered": "تم التوصيل",
+      "status_pending": "قيد الانتظار",
+      "status_processing": "قيد المعالجة",
+      "status_refunded": "مسترجع",
+      "status_shipped": "تم الشحن",
       "title": "الطلبات"
     },
     "onboarding_banner": {
@@ -4269,7 +4281,9 @@
       "view_journey": "عرض المسار",
       "pending": "الطلب قيد المراجعة",
       "progress": "أكمل إعداد متجرك — {{pct}}٪ منجز",
-      "finish_hint": "أكمل ملفك الشخصي لفتح جميع الميزات والبدء في البيع."
+      "finish_hint": "أكمل ملفك الشخصي لفتح جميع الميزات والبدء في البيع.",
+      "track_progress": "تتبع التقدم",
+      "complete_setup": "أكمل الإعداد"
     },
     "quote": {
       "error_amount": "مبلغ العرض مطلوب ويجب أن يكون أكبر من الصفر",

@@ -34,9 +34,10 @@ const UPDATABLE_STATUSES: Array<{ value: OrderStatus; label: string }> = [
 ];
 
 function StatusBadge({ status }: { status: OrderStatus }) {
+  const { t } = useTranslation();
   return (
     <Badge variant={orderStatusVariant(status)}>
-      {ORDER_STATUS_LABEL[status] ?? status}
+      {t(`seller.orders.status_${status}`, ORDER_STATUS_LABEL[status] ?? status)}
     </Badge>
   );
 }
