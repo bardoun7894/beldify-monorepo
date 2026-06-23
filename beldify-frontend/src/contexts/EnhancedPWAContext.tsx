@@ -57,6 +57,17 @@ interface UserEngagement {
   cartAbandoned: boolean;
 }
 
+// Safe localStorage read — Safari ITP / private mode throws SecurityError on
+// getItem (typeof window guards do NOT catch this). PWA storage reads that
+// happen outside an existing try/catch must route through this wrapper.
+function safeLSGet(key: string): string | null {
+  try {
+    return localStorage.getItem(key);
+  } catch {
+    return null;
+  }
+}
+
 export function EnhancedPWAProvider({ children }: { children: ReactNode }) {
   const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null);
   const [isInstallable, setIsInstallable] = useState(false);
@@ -103,20 +114,31 @@ export function EnhancedPWAProvider({ children }: { children: ReactNode }) {
   }, []);
 
   // Load and save engagement data
+  // Storage access is wrapped in try/catch: Safari ITP / private mode throws
+  // SecurityError on getItem/setItem (not only on typeof window guards); without
+  // these guards the entire PWA context crashes on those browsers.
   const loadEngagement = useCallback(() => {
-    const saved = localStorage.getItem('pwa-engagement');
-    if (saved) {
-      try {
-        return JSON.parse(saved) as UserEngagement;
-      } catch {
-        return engagement;
+    try {
+      const saved = localStorage.getItem('pwa-engagement');
+      if (saved) {
+        try {
+          return JSON.parse(saved) as UserEngagement;
+        } catch {
+          return engagement;
+        }
       }
+    } catch {
+      // Storage blocked — fall through to in-memory default
     }
     return engagement;
   }, [engagement]);
 
   const saveEngagement = useCallback((data: UserEngagement) => {
-    localStorage.setItem('pwa-engagement', JSON.stringify(data));
+    try {
+      localStorage.setItem('pwa-engagement', JSON.stringify(data));
+    } catch {
+      // Storage blocked — engagement still tracked in-memory for this session
+    }
     setEngagement(data);
   }, []);
 
@@ -171,7 +193,7 @@ export function EnhancedPWAProvider({ children }: { children: ReactNode }) {
     
     // Enhanced penalty system with progressive backoff
     if (eng.installDismissed > 0) {
-      const dismissCount = parseInt(localStorage.getItem('pwa-dismiss-count') || '0');
+      const dismissCount = parseInt(safeLSGet('pwa-dismiss-count') || '0');
       const hoursSinceDismissed = (Date.now() - eng.installDismissed) / (1000 * 60 * 60);
       
       if (hoursSinceDismissed < 24) score -= 100; // Don't show for 24 hours
@@ -181,7 +203,7 @@ export function EnhancedPWAProvider({ children }: { children: ReactNode }) {
     }
     
     // Dynamic threshold based on user history
-    const dismissCount = parseInt(localStorage.getItem('pwa-dismiss-count') || '0');
+    const dismissCount = parseInt(safeLSGet('pwa-dismiss-count') || '0');
     const baseThreshold = 50;
     const adaptiveThreshold = baseThreshold + (dismissCount * 10); // Increase threshold for dismissers
     

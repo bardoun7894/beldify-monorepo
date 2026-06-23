@@ -15,6 +15,7 @@ import { RefreshCw, PackageSearch, SlidersHorizontal, Megaphone } from 'lucide-r
 import logger from '@/utils/consoleLogger';
 import useOpenSoukNudge from '@/hooks/useOpenSoukNudge';
 import OpenSoukRequestModal from '@/components/opensouk/OpenSoukRequestModal';
+import { intlLocale } from '@/i18n/config';
 
 interface CategoryInfo {
   id: number;
@@ -46,6 +47,7 @@ export default function CategoryDetailPage() {
   const params = useParams();
   const slug = typeof params === 'object' && params !== null ? (params as any).slug : '';
   const isRTL = i18n.language === 'ar' || i18n.language === 'ma';
+  const numberLocale = intlLocale(i18n.language);
 
   const [categoryData, setCategoryData] = useState<CategoryData | null>(null);
   const [loading, setLoading] = useState(true);
@@ -224,7 +226,7 @@ export default function CategoryDetailPage() {
                     ) : (
                       <span>
                         <strong className="text-gray-900">
-                          {categoryData.products.length.toLocaleString(isRTL ? 'ar-MA' : 'fr-MA')}
+                          {categoryData.products.length.toLocaleString(numberLocale)}
                         </strong>{' '}
                         {t('products.results_label', 'منتج')}
                       </span>
@@ -313,7 +315,7 @@ export default function CategoryDetailPage() {
                               </h4>
                               {subCategory.itemCount > 0 && (
                                 <span className="text-xs text-gray-500">
-                                  {subCategory.itemCount.toLocaleString(isRTL ? 'ar-MA' : 'fr-MA')}{' '}
+                                  {subCategory.itemCount.toLocaleString(numberLocale)}{' '}
                                   {t('category.items', 'قطعة')}
                                 </span>
                               )}

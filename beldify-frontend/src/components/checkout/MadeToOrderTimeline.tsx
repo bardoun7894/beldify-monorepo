@@ -18,6 +18,7 @@ import {
 } from '@/services/customOrderService';
 import { cn } from '@/lib/utils';
 import { formatPrice } from '@/utils/formatters';
+import { intlLocale } from '@/i18n/config';
 
 // ─── Lifecycle order for the progress visual ─────────────────────────────────
 
@@ -38,6 +39,7 @@ export interface MadeToOrderTimelineProps {
 export default function MadeToOrderTimeline({ order }: MadeToOrderTimelineProps) {
   const { t, i18n } = useTranslation();
   const isRTL = i18n.language === 'ar' || i18n.language === 'ma';
+  const dateLocale = intlLocale(i18n.language);
 
   const currentMeta = STATUS_META[order.status];
   const isCancelled = order.status === 'cancelled';
@@ -109,7 +111,7 @@ export default function MadeToOrderTimeline({ order }: MadeToOrderTimelineProps)
                   {t('customOrders.timeline.eta', 'ETA')}
                 </dt>
                 <dd className="text-sm font-semibold text-gray-900">
-                  {new Date(order.eta).toLocaleDateString(isRTL ? 'ar-MA' : 'en-GB', {
+                  {new Date(order.eta).toLocaleDateString(dateLocale, {
                     day: '2-digit', month: 'long', year: 'numeric',
                   })}
                 </dd>
@@ -163,7 +165,7 @@ export default function MadeToOrderTimeline({ order }: MadeToOrderTimelineProps)
                           <p className="text-xs text-gray-500">{progressEntry.note}</p>
                         )}
                         <time dateTime={progressEntry.created_at} className="text-[10px] text-gray-400">
-                          {new Date(progressEntry.created_at).toLocaleDateString(isRTL ? 'ar-MA' : 'en-GB', {
+                          {new Date(progressEntry.created_at).toLocaleDateString(dateLocale, {
                             day: '2-digit', month: 'short', year: 'numeric',
                           })}
                         </time>
@@ -206,7 +208,7 @@ export default function MadeToOrderTimeline({ order }: MadeToOrderTimelineProps)
                         {t(`customOrders.status.${entry.status}`, meta.label)}
                       </span>
                       <time dateTime={entry.created_at} className="text-[10px] text-gray-400">
-                        {new Date(entry.created_at).toLocaleDateString(isRTL ? 'ar-MA' : 'en-GB', {
+                        {new Date(entry.created_at).toLocaleDateString(dateLocale, {
                           day: '2-digit', month: 'short', year: 'numeric',
                         })}
                       </time>

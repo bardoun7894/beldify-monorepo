@@ -20,6 +20,7 @@ import {
   AdvancePayload,
 } from '@/services/customOrderService';
 import { cn } from '@/lib/utils';
+import { intlLocale } from '@/i18n/config';
 
 const playfair = { fontFamily: '"Playfair Display", ui-serif, Georgia, serif' };
 
@@ -31,6 +32,7 @@ export interface CustomOrderTimelineProps {
 export default function CustomOrderTimeline({ order, onAdvanced }: CustomOrderTimelineProps) {
   const { t, i18n } = useTranslation();
   const isRTL = i18n.language === 'ar' || i18n.language === 'ma';
+  const dateLocale = intlLocale(i18n.language);
 
   const [selectedNext, setSelectedNext] = useState<CustomOrderStatus | ''>('');
   const [note, setNote] = useState('');
@@ -115,7 +117,7 @@ export default function CustomOrderTimeline({ order, onAdvanced }: CustomOrderTi
                       dateTime={entry.created_at}
                       className="text-xs text-gray-400"
                     >
-                      {new Date(entry.created_at).toLocaleDateString(isRTL ? 'ar-MA' : 'en-GB', {
+                      {new Date(entry.created_at).toLocaleDateString(dateLocale, {
                         day: '2-digit', month: 'short', year: 'numeric',
                       })}
                     </time>

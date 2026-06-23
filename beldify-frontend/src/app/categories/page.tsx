@@ -10,6 +10,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { SearchX, ArrowUpRight } from 'lucide-react';
 import logger from '@/utils/consoleLogger';
+import { intlLocale } from '@/i18n/config';
 
 // Jewel-tone accents cycled across the grid so cards read as a curated set even
 // before (or without) photography. Rooted in the Atlas indigo + saffron palette.
@@ -33,6 +34,8 @@ interface CategoryCardProps {
 }
 
 function CategoryCard({ href, image, name, count, index, accent, isRTL }: CategoryCardProps) {
+  const { i18n } = useTranslation();
+  const numberLocale = intlLocale(i18n.language);
   const [loaded, setLoaded] = useState(false);
   const [errored, setErrored] = useState(false);
   const showImage = !!image && !errored;
@@ -86,7 +89,7 @@ function CategoryCard({ href, image, name, count, index, accent, isRTL }: Catego
         {/* Item-count badge */}
         {typeof count === 'number' && count > 0 && (
           <span className="absolute top-3 end-3 rounded-full bg-white/95 px-2.5 py-1 text-[11px] font-semibold text-gray-900 shadow-atlas-sm backdrop-blur-sm">
-            {count.toLocaleString(isRTL ? 'ar-MA' : 'fr-MA')}
+            {count.toLocaleString(numberLocale)}
           </span>
         )}
 
@@ -118,6 +121,7 @@ export default function CategoriesPage() {
   const [retryKey, setRetryKey] = useState(0);
 
   const isRTL = i18n.language === 'ar' || i18n.language === 'ma';
+  const numberLocale = intlLocale(i18n.language);
 
   const genderFilters = [
     { label: t('common.all'), value: 'All' },
@@ -244,7 +248,7 @@ export default function CategoriesPage() {
         {categories.length > 0 && (
           <p className="mb-6 text-sm text-gray-500 border-b border-gray-100 pb-4">
             <span className="font-semibold text-gray-900">
-              {categories.length.toLocaleString(isRTL ? 'ar-MA' : 'fr-MA')}
+              {categories.length.toLocaleString(numberLocale)}
             </span>{' '}
             {t('categories.collections_found', 'تصنيف')}
           </p>
