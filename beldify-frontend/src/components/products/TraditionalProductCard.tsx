@@ -8,6 +8,7 @@ import { useTranslation } from 'react-i18next';
 import { formatPrice } from '@/utils/formatters';
 import { getImageUrl, DEFAULT_PLACEHOLDER_IMAGE } from '@/utils/imageUtils';
 import { useDirection } from '@/hooks/useDirection';
+import { useWishlist } from '@/contexts/WishlistContext';
 import toast from '@/utils/toast';
 import {
   ShoppingCart,
@@ -45,11 +46,12 @@ export default function TraditionalProductCard({
 }: TraditionalProductCardProps) {
   const { t } = useTranslation();
   const { isRTL } = useDirection();
+  const { isInWishlist: isInWishlistFn, addToWishlist, removeFromWishlist } = useWishlist();
   const router = useRouter();
-  
+
   const [isHovering, setIsHovering] = useState(false);
   const [isAddingToCart, setIsAddingToCart] = useState(false);
-  const [isWishlisted, setIsWishlisted] = useState(isInWishlist);
+  const [isToggling, setIsToggling] = useState(false);
   const cartTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   useEffect(() => () => { if (cartTimerRef.current) clearTimeout(cartTimerRef.current); }, []);
 
@@ -72,6 +74,7 @@ export default function TraditionalProductCard({
 
   const stock = stockRaw ?? 0;
 
+  const isWishlisted = isInWishlistFn(id);
   const displayName = isRTL ? name_ar || name : name;
   const displayCategory = isRTL ? category_ar || category : category;
   const displayPrice = has_discount && discount_price ? discount_price : price;
@@ -117,25 +120,26 @@ export default function TraditionalProductCard({
     }
   };
   
-  // Handle wishlist toggle
-  const handleWishlistToggle = (e: React.MouseEvent) => {
+  // Handle wishlist toggle — calls real WishlistContext; context handles toasts
+  const handleWishlistToggle = async (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    
-    setIsWishlisted(!isWishlisted);
-    
+    if (isToggling) return;
     if (onAddToWishlist) {
       onAddToWishlist(product as Product);
-    } else {
-      toast.success(
-        isWishlisted
-          ? t('wishlist.removed')
-          : t('wishlist.added'),
-        {
-          position: isRTL ? 'bottom-left' : 'bottom-right',
-          duration: 2000,
-        }
-      );
+      return;
+    }
+    setIsToggling(true);
+    try {
+      if (isWishlisted) {
+        await removeFromWishlist(id);
+      } else {
+        await addToWishlist(id);
+      }
+    } catch {
+      // Context handles error toasts
+    } finally {
+      setIsToggling(false);
     }
   };
   
@@ -217,7 +221,8 @@ export default function TraditionalProductCard({
           <div className="absolute top-3 end-3 z-10 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-all duration-200 translate-x-2 group-hover:translate-x-0">
             <button
               onClick={handleWishlistToggle}
-              className={`btn-action ${isWishlisted ? 'btn-action-active' : 'btn-action-default'}`}
+              disabled={isToggling}
+              className={`btn-action ${isWishlisted ? 'btn-action-active' : 'btn-action-default'} disabled:opacity-50`}
               aria-pressed={isWishlisted}
               aria-label={isWishlisted ? t('wishlist.remove') : t('wishlist.add')}
             >
