@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useRef, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ShoppingCart, Info, Ruler } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -104,6 +104,11 @@ export default function MeasurementForm({ onAddToCart, onSave }: MeasurementForm
     notes: '',
   });
   const [highlightedField, setHighlightedField] = useState<string | null>(null);
+  const highlightTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => () => {
+    if (highlightTimerRef.current) clearTimeout(highlightTimerRef.current);
+  }, []);
 
   // handleChange is stable per field key
   const handleChange = useCallback(
@@ -121,8 +126,9 @@ export default function MeasurementForm({ onAddToCart, onSave }: MeasurementForm
       const input = el.querySelector<HTMLInputElement>('input');
       input?.focus();
     }
-    // Clear highlight after 1.5 s
-    setTimeout(() => setHighlightedField(null), 1500);
+    // Clear highlight after 1.5 s — cancel previous to avoid stacking
+    if (highlightTimerRef.current) clearTimeout(highlightTimerRef.current);
+    highlightTimerRef.current = setTimeout(() => setHighlightedField(null), 1500);
   }, []);
 
   const handleAddToCart = useCallback(() => {

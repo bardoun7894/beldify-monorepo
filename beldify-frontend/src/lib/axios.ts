@@ -19,9 +19,13 @@ instance.interceptors.request.use(
     // Get token from localStorage (browser only — this instance is sometimes
     // imported by Next server route handlers where localStorage is undefined).
     if (typeof window !== 'undefined') {
-      const token = localStorage.getItem('token');
-      if (token) {
-        config.headers.Authorization = `Bearer ${token}`;
+      try {
+        const token = localStorage.getItem('token');
+        if (token) {
+          config.headers.Authorization = `Bearer ${token}`;
+        }
+      } catch {
+        /* Safari ITP private-mode throws SecurityError on storage access */
       }
     }
 
@@ -40,8 +44,13 @@ instance.interceptors.response.use(
     if (error.response?.status === 401) {
       // Only redirect a genuinely-expired session; never bounce guests (no token)
       // who hit 401 on auth-only endpoints from public pages.
-      const hadToken = typeof window !== 'undefined' && !!localStorage.getItem('token');
-      localStorage.removeItem('token');
+      let hadToken = false;
+      try {
+        hadToken = typeof window !== 'undefined' && !!localStorage.getItem('token');
+        localStorage.removeItem('token');
+      } catch {
+        /* Safari ITP — storage inaccessible; treat as no token */
+      }
       if (hadToken && typeof window !== 'undefined' && window.location.pathname !== '/login') {
         window.location.href = `/login?redirect=${encodeURIComponent(window.location.pathname)}`;
       }

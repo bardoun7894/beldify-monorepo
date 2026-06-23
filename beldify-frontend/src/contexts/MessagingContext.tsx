@@ -79,15 +79,20 @@ export const MessagingProvider: React.FC<{ children: React.ReactNode }> = ({ chi
       // Pass the last checked timestamp to the API for optimization
       const result = await getUnreadCount(lastCheckedRef.current);
 
-      // Only update state if the count has changed
-      if (result.count !== unreadCount) {
-        setUnreadCount(result.count);
-        if (process.env.NODE_ENV === 'development') {
-          logger.log('Updated unread message count:', result.count);
+      // Functional update avoids capturing unreadCount in the closure,
+      // keeping this callback stable across count changes (no polling restart).
+      setUnreadCount((prev) => {
+        if (result.count !== prev) {
+          if (process.env.NODE_ENV === 'development') {
+            logger.log('Updated unread message count:', result.count);
+          }
+          return result.count;
         }
-      } else if (process.env.NODE_ENV === 'development') {
-        logger.log('Unread count unchanged:', result.count);
-      }
+        if (process.env.NODE_ENV === 'development') {
+          logger.log('Unread count unchanged:', result.count);
+        }
+        return prev;
+      });
 
       // Update the last checked timestamp
       lastCheckedRef.current = now;
@@ -97,7 +102,7 @@ export const MessagingProvider: React.FC<{ children: React.ReactNode }> = ({ chi
       setIsLoading(false);
       isRefreshingRef.current = false;
     }
-  }, [isAuthenticated, user, unreadCount]);
+  }, [isAuthenticated, user]);
 
   // Create a debounced version of refreshUnreadCount.
   // Inline the debounce body so useCallback receives a plain inline function and
