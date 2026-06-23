@@ -285,8 +285,6 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         } else {
           toast.error(errorMessage);
         }
-      } else if (error.message) {
-        toast.error(error.message);
       } else {
         toast.error(t('cart.error_adding'));
       }
@@ -364,8 +362,6 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         } else {
           toast.error(errorMessage);
         }
-      } else if (error.message) {
-        toast.error(error.message);
       } else {
         toast.error(t('cart.error_updating'));
       }

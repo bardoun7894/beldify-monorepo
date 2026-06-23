@@ -609,14 +609,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
       if (response.data.status === 'success') {
         setUser(response.data.user);
-        toast.success(response.data.message);
+        toast.success(response.data.message || t('profile.notifications.changes_saved'));
         return { success: true };
       }
 
       return { success: false, message: response.data.message };
     } catch (error: any) {
       logger.error('Profile update failed:', error);
-      const message = error.response?.data?.message || 'Failed to update profile';
+      const message = error.response?.data?.message || t('profile.notifications.error_saving');
       toast.error(message);
       return { success: false, message };
     }
@@ -627,14 +627,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       const response = await axios.post('/api/user/password', data);
 
       if (response.data.status === 'success') {
-        toast.success(response.data.message);
+        toast.success(response.data.message || t('profile.security.success_message'));
         return { success: true };
       }
 
       return { success: false, message: response.data.message };
     } catch (error: any) {
       logger.error('Password update failed:', error);
-      const message = error.response?.data?.message || 'Failed to update password';
+      const message = error.response?.data?.message || t('profile.security.error_message');
       toast.error(message);
       return { success: false, message };
     }
@@ -646,14 +646,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
       if (response.data.status === 'success') {
         setUser(response.data.user);
-        toast.success(response.data.message);
+        toast.success(response.data.message || t('profile.preferences.success_message'));
         return { success: true };
       }
 
       return { success: false, message: response.data.message };
     } catch (error: any) {
       logger.error('Preferences update failed:', error);
-      const message = error.response?.data?.message || 'Failed to update preferences';
+      const message = error.response?.data?.message || t('profile.preferences.error_message');
       toast.error(message);
       return { success: false, message };
     }

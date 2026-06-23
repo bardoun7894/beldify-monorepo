@@ -427,8 +427,9 @@ export default function CheckoutPage() {
           const response = await fetch(
             `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`
           );
+          if (!response.ok) throw new Error(`Nominatim ${response.status}`);
           const data = await response.json();
-          const address = data.address;
+          const address = data?.address ?? {};
 
           let detectedCountry = address.country || '';
           const countryMap: Record<string, string> = {
