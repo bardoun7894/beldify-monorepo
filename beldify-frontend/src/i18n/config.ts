@@ -138,7 +138,24 @@ if (typeof window !== 'undefined') {
   });
 }
 
-// Function to sync URL locale with i18n
+// Maps the app's language codes to valid BCP47 locale tags for Intl.* constructors.
+// 'ma' (Darija) is NOT a valid BCP47 tag — must map to 'ar-MA'.
+export const INTL_LOCALE_MAP: Record<string, string> = {
+  en: 'en-US',
+  fr: 'fr-FR',
+  ar: 'ar-MA',
+  ma: 'ar-MA',
+  es: 'es-ES',
+  nl: 'nl-NL',
+  de: 'de-DE',
+};
+
+// Returns a valid BCP47 locale tag for use in Intl.* constructors.
+export function intlLocale(lang: string): string {
+  return INTL_LOCALE_MAP[lang] ?? 'fr-FR';
+}
+
+// Syncs URL locale param with i18n instance (call on navigation if needed).
 export function syncUrlLocale() {
   if (typeof window !== 'undefined') {
     const url = new URL(window.location.href);

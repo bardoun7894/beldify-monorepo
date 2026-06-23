@@ -52,38 +52,40 @@ export function NavigationProvider({ children }: { children: ReactNode }) {
       });
 
       // Observe all links in the viewport
-      setTimeout(() => {
+      const timerId = setTimeout(() => {
         document.querySelectorAll('a[href]').forEach(link => {
           observer.observe(link);
         });
       }, 1000);
+      return timerId;
     };
 
     // Prefetch links for faster navigation
-    prefetchVisibleLinks();
-    
+    const prefetchTimerId = prefetchVisibleLinks();
+
     // Clear cursor and pending state on route change
     const handleRouteChange = () => {
       document.body.style.cursor = '';
       pendingRef.current = false;
     };
-    
+
     // Reset on page load
     handleRouteChange();
-    
+
     // Setup global CSS to improve perceived performance
     const style = document.createElement('style');
     style.innerHTML = `
-      a, button { 
-        transition: opacity 0.1s ease-out !important; 
+      a, button {
+        transition: opacity 0.1s ease-out !important;
       }
-      a:active, button:active { 
-        opacity: 0.7 !important; 
+      a:active, button:active {
+        opacity: 0.7 !important;
       }
     `;
     document.head.appendChild(style);
-    
+
     return () => {
+      if (prefetchTimerId) clearTimeout(prefetchTimerId);
       document.head.removeChild(style);
     };
   }, [router]);

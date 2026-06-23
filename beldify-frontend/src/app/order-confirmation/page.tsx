@@ -90,12 +90,14 @@ export default function OrderConfirmationPage() {
     }
   }, []);
 
-  const formatAmount = (amount: number) =>
-    new Intl.NumberFormat(i18n.language, {
+  const formatAmount = (amount: number) => {
+    const localeMap: Record<string, string> = { en: 'en-US', fr: 'fr-FR', ar: 'ar-MA', ma: 'ar-MA', es: 'es-ES', nl: 'nl-NL', de: 'de-DE' };
+    return new Intl.NumberFormat(localeMap[i18n.language] ?? 'fr-FR', {
       style: 'decimal',
       minimumFractionDigits: 2,
       maximumFractionDigits: 2,
     }).format(amount);
+  };
 
   useEffect(() => {
     const fetchOrder = async () => {

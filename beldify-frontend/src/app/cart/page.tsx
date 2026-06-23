@@ -235,11 +235,10 @@ export default function CartPage() {
                       {/* Per-seller financial summary (plan.md FR-017 / T2) */}
                       <div className="flex-shrink-0 text-end">
                         <p className="text-xs font-semibold text-gray-700 tabular-nums currency-mad">
-                          {new Intl.NumberFormat(i18n.language, {
-                            style: 'decimal',
-                            minimumFractionDigits: 2,
-                            maximumFractionDigits: 2,
-                          }).format(sellerSubtotal)} MAD
+                          {new Intl.NumberFormat(
+                            ({ en: 'en-US', fr: 'fr-FR', ar: 'ar-MA', ma: 'ar-MA', es: 'es-ES', nl: 'nl-NL', de: 'de-DE' } as Record<string, string>)[i18n.language] ?? 'fr-FR',
+                            { style: 'decimal', minimumFractionDigits: 2, maximumFractionDigits: 2 }
+                          ).format(sellerSubtotal)} MAD
                         </p>
                         <p className="text-[10px] text-gray-400 mt-0.5 leading-tight" aria-label={sellerShippingNote}>
                           {sellerShippingNote}

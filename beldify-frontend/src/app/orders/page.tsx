@@ -89,12 +89,14 @@ export default function OrdersPage() {
     try {
       const d = new Date(date);
       const now = new Date();
-      const diffTime = Math.abs(now.getTime() - d.getTime());
-      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+      const diffTime = Math.max(0, now.getTime() - d.getTime());
+      const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
 
       // If less than 7 days, show relative time
       if (diffDays < 7) {
-        return new Intl.RelativeTimeFormat(i18n.language, { numeric: 'auto' }).format(-diffDays, 'day');
+        const localeMap: Record<string, string> = { en: 'en-US', fr: 'fr-FR', ar: 'ar-MA', ma: 'ar-MA', es: 'es-ES', nl: 'nl-NL', de: 'de-DE' };
+        const locale = localeMap[i18n.language] ?? 'fr-FR';
+        return new Intl.RelativeTimeFormat(locale, { numeric: 'auto' }).format(-diffDays, 'day');
       }
 
       // Otherwise show formatted date

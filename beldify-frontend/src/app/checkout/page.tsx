@@ -214,12 +214,14 @@ export default function CheckoutPage() {
 
   // Locale-aware currency formatter — shared with order-confirmation so the same
   // cart renders identical digits/grouping across both screens (Arabic numerals).
-  const formatAmount = (amount: number) =>
-    new Intl.NumberFormat(i18n.language, {
+  const formatAmount = (amount: number) => {
+    const localeMap: Record<string, string> = { en: 'en-US', fr: 'fr-FR', ar: 'ar-MA', ma: 'ar-MA', es: 'es-ES', nl: 'nl-NL', de: 'de-DE' };
+    return new Intl.NumberFormat(localeMap[i18n.language] ?? 'fr-FR', {
       style: 'decimal',
       minimumFractionDigits: 2,
       maximumFractionDigits: 2,
     }).format(amount);
+  };
 
   const [step, setStep] = useState(1);
   const [selectedPayment, setSelectedPayment] = useState<string>('cod');
