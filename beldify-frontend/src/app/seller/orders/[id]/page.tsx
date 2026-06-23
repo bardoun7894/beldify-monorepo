@@ -34,9 +34,10 @@ const UPDATABLE_STATUSES: Array<{ value: OrderStatus; label: string }> = [
 ];
 
 function StatusBadge({ status }: { status: OrderStatus }) {
+  const { t } = useTranslation();
   return (
     <Badge variant={orderStatusVariant(status)}>
-      {ORDER_STATUS_LABEL[status] ?? status}
+      {t(`seller.orders.status_${status}`, ORDER_STATUS_LABEL[status] ?? status)}
     </Badge>
   );
 }
@@ -75,17 +76,26 @@ export default function SellerOrderDetailPage() {
 
   useEffect(() => {
     if (!isAuthenticated || !orderId) return;
+    let cancelled = false;
     setLoading(true);
     getSellerOrder(orderId)
       .then((res) => {
+        if (cancelled) return;
         setOrder(res.data);
         setSelectedStatus(res.data.status);
         selectedStatusRef.current = res.data.status;
       })
       .catch(() => {
+        if (cancelled) return;
         setError(t('seller.order_detail.fetch_error', 'Could not load order.'));
       })
-      .finally(() => setLoading(false));
+      .finally(() => {
+        if (cancelled) return;
+        setLoading(false);
+      });
+    return () => {
+      cancelled = true;
+    };
   }, [isAuthenticated, orderId, t]);
 
   const handleUpdateStatus = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -175,7 +185,7 @@ export default function SellerOrderDetailPage() {
               >
                 {UPDATABLE_STATUSES.map(({ value, label }) => (
                   <option key={value} value={value}>
-                    {t(`seller.order_detail.status_${value}`, label)}
+                    {t(`seller.orders.status_${value}`, label)}
                   </option>
                 ))}
               </select>
@@ -242,7 +252,7 @@ export default function SellerOrderDetailPage() {
                   </div>
                   <div className="flex justify-between">
                     <dt className="text-gray-500">
-                      {t('seller.order_detail.commission', `Commission (${order.commission_rate}%)`)}
+                      {t('seller.order_detail.commission', 'Commission ({{rate}}%)', { rate: order.commission_rate })}
                     </dt>
                     <dd className="text-rose-600 font-medium">−{fmtMAD(order.commission_amount, numLocale)} DH</dd>
                   </div>

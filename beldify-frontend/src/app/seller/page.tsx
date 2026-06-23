@@ -44,9 +44,10 @@ function fmtMAD(n: number, numLocale: string = 'fr-MA') {
 
 // ── Status badge ──────────────────────────────────────────────────────────────
 function StatusBadge({ status }: { status: string }) {
+  const { t } = useTranslation();
   return (
     <Badge variant={orderStatusVariant(status)}>
-      {ORDER_STATUS_LABEL[status] ?? status}
+      {t(`seller.orders.status_${status}`, ORDER_STATUS_LABEL[status] ?? status)}
     </Badge>
   );
 }
