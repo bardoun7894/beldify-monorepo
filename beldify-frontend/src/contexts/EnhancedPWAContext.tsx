@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, useContext, useState, useEffect, ReactNode, useCallback } from 'react';
+import { createContext, useContext, useState, useEffect, useRef, ReactNode, useCallback } from 'react';
 import toast from '@/utils/toast';
 import logger from '@/utils/consoleLogger';
 
@@ -359,21 +359,31 @@ export function EnhancedPWAProvider({ children }: { children: ReactNode }) {
   /* eslint-enable react-hooks/exhaustive-deps */
 
   // Track cart and wishlist changes
+  // Refs prevent the interval from being torn down + rebuilt every time
+  // saveEngagement updates `engagement` state (which would otherwise recreate
+  // loadEngagement and churn the 5s interval indefinitely).
+  const loadEngagementRef = useRef(loadEngagement);
+  const saveEngagementRef = useRef(saveEngagement);
+  useEffect(() => {
+    loadEngagementRef.current = loadEngagement;
+    saveEngagementRef.current = saveEngagement;
+  }, [loadEngagement, saveEngagement]);
+
   useEffect(() => {
     const checkCartAndWishlist = () => {
       try {
         const cart = localStorage.getItem('cart');
         const wishlist = localStorage.getItem('wishlist');
-        const eng = loadEngagement();
-        
+        const eng = loadEngagementRef.current();
+
         let cartValue = 0;
         if (cart) {
           const cartItems = JSON.parse(cart);
-          cartValue = cartItems.reduce((total: number, item: any) => 
+          cartValue = cartItems.reduce((total: number, item: any) =>
             total + (item.price * item.quantity), 0);
         }
-        
-        saveEngagement({
+
+        saveEngagementRef.current({
           ...eng,
           cartValue,
           hasWishlist: wishlist ? JSON.parse(wishlist).length > 0 : false
@@ -385,7 +395,7 @@ export function EnhancedPWAProvider({ children }: { children: ReactNode }) {
 
     const interval = setInterval(checkCartAndWishlist, 5000); // Check every 5 seconds
     return () => clearInterval(interval);
-  }, [loadEngagement, saveEngagement]);
+  }, []);
 
   const promptInstall = () => {
     if (!isInstalled && !checkRecentlyDismissed()) {
