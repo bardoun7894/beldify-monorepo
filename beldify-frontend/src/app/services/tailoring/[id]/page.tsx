@@ -1,6 +1,7 @@
 'use client';
 
 import { useTranslation } from 'react-i18next';
+import { intlLocale } from '@/i18n/config';
 import { useState, useEffect, useCallback, use } from 'react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
@@ -11,7 +12,8 @@ import toast from '@/utils/toast';
 
 export default function TailorProfilePage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const dateLocale = intlLocale(i18n.language);
   const [tailor, setTailor] = useState<Tailor | null>(null);
   const [loading, setLoading] = useState(true);
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
@@ -250,7 +252,11 @@ export default function TailorProfilePage({ params }: { params: Promise<{ id: st
                         <div className="flex">{renderStars(review.rating)}</div>
                       </div>
                       <span className="text-xs text-gray-400">
-                        {new Date(review.created_at).toLocaleDateString()}
+                        {new Intl.DateTimeFormat(dateLocale, {
+                          year: 'numeric',
+                          month: 'short',
+                          day: 'numeric',
+                        }).format(new Date(review.created_at))}
                       </span>
                     </div>
                     <p className="text-sm text-gray-700">{review.review_text}</p>

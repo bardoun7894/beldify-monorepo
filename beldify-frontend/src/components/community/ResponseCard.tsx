@@ -104,11 +104,14 @@ export default function ResponseCard({
 
   const formatDate = (dateString: string) => {
     try {
-      return (
-        new Date(dateString).toLocaleDateString() +
-        ' ' +
-        new Date(dateString).toLocaleTimeString()
-      );
+      const d = new Date(dateString);
+      return new Intl.DateTimeFormat(numLocale, {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+      }).format(d);
     } catch (error) {
       logger.error('Error formatting date:', error);
       return dateString;

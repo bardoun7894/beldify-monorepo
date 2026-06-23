@@ -13,6 +13,7 @@ import logger from '@/utils/consoleLogger';
 import { groupMessagesByDay } from '@/utils/groupMessagesByDay';
 import { ConversationDateDivider } from '@/components/messaging/ConversationDateDivider';
 import { TypingIndicator } from '@/components/messaging/TypingIndicator';
+import { intlLocale } from '@/i18n/config';
 
 /**
  * Conversation detail page — a single customer↔seller thread.
@@ -22,7 +23,8 @@ import { TypingIndicator } from '@/components/messaging/TypingIndicator';
  * messagingService.sendMessage(); both are keyed by the shop id.
  */
 export default function ConversationPage() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const timeLocale = intlLocale(i18n.language);
   const { user, isAuthenticated } = useAuth();
   const { onMessageReceived, onUserTyping, sendTypingIndicator, isConnected, connectionStatus } = useRealtimeChat();
   const router = useRouter();
@@ -148,7 +150,7 @@ export default function ConversationPage() {
     try {
       const d = new Date(dateString);
       if (isNaN(d.getTime())) return '';
-      return d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      return new Intl.DateTimeFormat(timeLocale, { hour: '2-digit', minute: '2-digit' }).format(d);
     } catch {
       return '';
     }

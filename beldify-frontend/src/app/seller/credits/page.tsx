@@ -15,6 +15,7 @@
 import React, { useEffect, useState, useCallback, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '@/hooks/useAuth';
+import { intlLocale } from '@/i18n/config';
 import {
   getSellerCredits,
   getSellerCreditPacks,
@@ -47,13 +48,13 @@ function Skeleton({ className }: { className?: string }) {
   return <div className={`animate-pulse bg-gray-100 rounded-xl ${className ?? ''}`} />;
 }
 
-function fmtDate(iso: string): string {
+function fmtDate(iso: string, locale: string): string {
   try {
-    return new Date(iso).toLocaleDateString(undefined, {
+    return new Intl.DateTimeFormat(locale, {
       year: 'numeric',
       month: 'short',
       day: 'numeric',
-    });
+    }).format(new Date(iso));
   } catch {
     return iso;
   }
@@ -355,9 +356,11 @@ function PurchaseForm({
 function PurchaseHistory({
   purchases,
   t,
+  locale,
 }: {
   purchases: CreditPurchaseRecord[];
   t: (k: string, f: string) => string;
+  locale: string;
 }) {
   if (purchases.length === 0) {
     return (
@@ -383,7 +386,7 @@ function PurchaseHistory({
               </div>
               <p className="text-xs text-gray-500 mt-0.5 font-medium">
                 {p.pack_name} · {p.credits} {t('credits.pack_card.credits_unit', 'credits')} · {p.price_mad} MAD ·{' '}
-                {fmtDate(p.created_at)}
+                {fmtDate(p.created_at, locale)}
               </p>
               {p.notes && (
                 <p className="text-xs text-rose-600 mt-1">{p.notes}</p>
@@ -400,9 +403,11 @@ function PurchaseHistory({
 function TransactionLedger({
   transactions,
   t,
+  locale,
 }: {
   transactions: SellerCreditsResponse['transactions'];
   t: (k: string, f: string) => string;
+  locale: string;
 }) {
   const TRANSACTION_TYPE_LABELS: Record<string, string> = {
     purchase: t('credits.tx_type.purchase', 'Purchase'),
@@ -453,7 +458,7 @@ function TransactionLedger({
               <p className="text-xs text-gray-500">
                 → {tx.balance_after}
               </p>
-              <p className="text-xs text-gray-400">{fmtDate(tx.created_at)}</p>
+              <p className="text-xs text-gray-400">{fmtDate(tx.created_at, locale)}</p>
             </div>
           </li>
         ))}
@@ -467,6 +472,7 @@ export default function SellerCreditsPage() {
   const { t, i18n } = useTranslation();
   const { isAuthenticated } = useAuth();
   const isRTL = i18n.language === 'ar' || i18n.language === 'ma';
+  const dateLocale = intlLocale(i18n.language);
 
   const [credits, setCredits] = useState<SellerCreditsResponse | null>(null);
   const [packsData, setPacksData] = useState<SellerCreditPacksResponse | null>(null);
@@ -629,10 +635,10 @@ export default function SellerCreditsPage() {
           </div>
 
           {/* Purchase history */}
-          <PurchaseHistory purchases={purchases} t={t} />
+          <PurchaseHistory purchases={purchases} t={t} locale={dateLocale} />
 
           {/* Transaction ledger */}
-          <TransactionLedger transactions={credits.transactions} t={t} />
+          <TransactionLedger transactions={credits.transactions} t={t} locale={dateLocale} />
         </>
       )}
     </div>

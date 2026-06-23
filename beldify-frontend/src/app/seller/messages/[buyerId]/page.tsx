@@ -22,17 +22,18 @@ import {
 } from 'lucide-react';
 import { groupMessagesByDay } from '@/utils/groupMessagesByDay';
 import { ConversationDateDivider } from '@/components/messaging/ConversationDateDivider';
+import { intlLocale } from '@/i18n/config';
 import logger from '@/utils/consoleLogger';
 
 // ── Polling interval while thread is open ────────────────────────────────────
 const POLL_INTERVAL_MS = 15_000;
 
-function formatTime(dateString: string | undefined): string {
+function formatTime(dateString: string | undefined, locale: string): string {
   if (!dateString) return '';
   try {
     const d = new Date(dateString);
     if (isNaN(d.getTime())) return '';
-    return d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    return new Intl.DateTimeFormat(locale, { hour: '2-digit', minute: '2-digit' }).format(d);
   } catch {
     return '';
   }
@@ -63,6 +64,7 @@ export default function SellerThreadPage() {
   const params = useParams();
   const buyerId = String(params?.buyerId ?? '');
   const isRTL = i18n.language === 'ar' || i18n.language === 'ma';
+  const timeLocale = intlLocale(i18n.language);
 
   const [messages, setMessages] = useState<SellerMessageItem[]>([]);
   const [otherUser, setOtherUser] = useState<SellerOtherUser>({ id: '', display_name: '', avatar: null });
@@ -322,7 +324,7 @@ export default function SellerThreadPage() {
                 <ConversationDateDivider label={group.label} />
                 {group.messages.map((m: any) => {
                   const mine = (m as SellerMessageItem).isSentByMe;
-                  const timestamp = formatTime(m.created_at);
+                  const timestamp = formatTime(m.created_at, timeLocale);
                   return (
                     <div
                       key={String(m.id)}
