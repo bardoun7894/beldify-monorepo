@@ -1,10 +1,8 @@
 import { useTranslation } from 'react-i18next';
-import { useSearchParams } from 'next/navigation';
 
 export function useLanguage() {
   const { i18n } = useTranslation();
-  const searchParams = useSearchParams();
-  const locale = searchParams?.get('locale') || 'en';
+  const locale = i18n.language || 'ma';
 
   const dir = (locale === 'ar' || locale === 'ma') ? 'rtl' : 'ltr';
   const language = locale;
@@ -14,6 +12,6 @@ export function useLanguage() {
     language,
     locale,
     isRTL: dir === 'rtl',
-    currentLanguage: locale, // Added for compatibility with traditional wear components
+    currentLanguage: locale,
   };
 }

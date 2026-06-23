@@ -56,7 +56,7 @@ function OnboardingBanner({ status }: { status: OnboardingStatusData }) {
     return (
       <div className="flex items-center gap-3 p-3 rounded-xl bg-rose-50 ring-1 ring-rose-200 text-sm">
         <XCircle className="w-4 h-4 text-rose-600 shrink-0" aria-hidden="true" />
-        <span className="text-rose-800 font-medium">Store suspended — contact support</span>
+        <span className="text-rose-800 font-medium">{t('seller.onboarding_banner.suspended', 'تم تعليق المتجر — تواصل مع الدعم')}</span>
       </div>
     );
   }

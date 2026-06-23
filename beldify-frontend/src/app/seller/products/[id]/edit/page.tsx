@@ -372,6 +372,7 @@ export default function SellerEditProductPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (submitting) return;
     setSubmitError(null);
 
     if (!form.product_name_en.trim()) {

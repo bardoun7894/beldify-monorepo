@@ -417,6 +417,7 @@ function RequestPayoutForm({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (submitting) return;
     setSubmitError(null);
     const err = validate(amount);
     if (err) {

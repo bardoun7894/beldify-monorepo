@@ -557,6 +557,7 @@ export default function CheckoutPage() {
   };
 
   const handlePaymentSubmit = async () => {
+    if (isProcessing) return;
     try {
       setIsProcessing(true);
 
