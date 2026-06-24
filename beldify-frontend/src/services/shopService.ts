@@ -87,8 +87,12 @@ export const shopService = {
   async getShopByName(name: string) {
     try {
       const response = await axiosInstance.get<ApiResponse>(`/api/shops/${name}`);
+      // Backend wraps the payload as { status, message, data: { store } }.
+      // The page reads `.data.store`, so unwrap the envelope here. Fall back to
+      // the raw body if a caller ever returns the store at the top level.
+      const body = response.data as any;
       return {
-        data: response.data,
+        data: (body?.data ?? body) as ApiResponse,
         error: null,
       };
     } catch (error: any) {

@@ -111,7 +111,7 @@ describe('RTL binary — JewelryFields FIELD_LABELS uses t() not hardcoded ar pr
   });
 });
 
-describe.skip('RTL binary — key manifest completeness (transient cache artifact, absent in CI)', () => {
+describe('RTL binary — key manifest completeness', () => {
   const MANIFEST_PATH = join(ROOT, '.cache/i18n-work/extra/rtl-binary-keys.json');
 
   it('rtl-binary-keys.json exists', () => {

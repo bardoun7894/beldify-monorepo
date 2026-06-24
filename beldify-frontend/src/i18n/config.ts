@@ -33,15 +33,9 @@ export const RTL_LANGUAGES = ['ar', 'ma'];
 const createI18n = () => {
   const i18nInstance = i18n.createInstance();
 
-  // Build the i18next plugin chain defensively. Test environments often
-  // partially mock react-i18next / the language detector, leaving these
-  // undefined; .use(undefined) throws and crashes every test that transitively
-  // imports this module. In production both plugins are always defined, so
-  // runtime behaviour is identical.
-  if (LanguageDetector) i18nInstance.use(LanguageDetector);
-  if (initReactI18next) i18nInstance.use(initReactI18next);
-
   i18nInstance
+    .use(LanguageDetector)
+    .use(initReactI18next)
     .init({
       resources: {
         en: {

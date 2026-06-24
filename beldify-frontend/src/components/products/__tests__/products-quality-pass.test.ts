@@ -35,8 +35,7 @@ describe('Emoji purge — products components', () => {
 
   for (const file of FILES) {
     it(`${file} contains no emoji characters`, () => {
-      // ★/☆ are typographic rating glyphs (U+2605/U+2606), not decorative emoji.
-      const content = readFile(path.join(COMPONENTS_DIR, file)).replace(/[★☆]/gu, '');
+      const content = readFile(path.join(COMPONENTS_DIR, file));
       expect(EMOJI_REGEX.test(content)).toBe(false);
     });
   }

@@ -262,7 +262,7 @@ describe('Task 6 — SORT_OPTIONS use products.sort.* keys', () => {
 
 // ─── Task 7: sort-keys.json cache artifact ───────────────────────────────────
 
-describe.skip('Task 7 — .cache/i18n-work/extra/sort-keys.json (transient cache artifact, absent in CI)', () => {
+describe('Task 7 — .cache/i18n-work/extra/sort-keys.json', () => {
   it('sort-keys.json file exists', () => {
     const exists = existsSync(join(ROOT, '.cache/i18n-work/extra/sort-keys.json'));
     expect(exists).toBe(true);

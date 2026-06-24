@@ -12,7 +12,7 @@ describe('community/posts/[id]/edit page', () => {
     const mod = await import('../page');
     expect(mod).toBeTruthy();
     expect(typeof mod.default).toBe('function');
-  }, 20000);
+  });
 });
 
 // ─── Task 2: communityService.updateCommunityPost must already exist ─────────
