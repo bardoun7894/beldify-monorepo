@@ -3,10 +3,25 @@ import logger from '@/utils/consoleLogger';
 import { CartService, CartServiceResponse, StockResponse } from './types';
 
 export const cartService: CartService = {
-  // TODO: Backend route /cart/merge-guest does not exist yet
-  async mergeGuestCart() {
-    logger.warn('mergeGuestCart called but backend route /cart/merge-guest does not exist yet');
-    return {};
+  /**
+   * Merge the guest cart (keyed by localStorage guest_token, also sent by the
+   * axios interceptor) into the authenticated user's cart after login.
+   * Backend: POST /api/cart/merge-guest — idempotent, returns the fresh cart.
+   */
+  async mergeGuestCart(): Promise<CartServiceResponse> {
+    const guestToken =
+      typeof window !== 'undefined' ? window.localStorage.getItem('guest_token') : null;
+    if (!guestToken) {
+      return { status: 'success' } as CartServiceResponse;
+    }
+    try {
+      const response = await api.post('/api/cart/merge-guest', { guest_token: guestToken });
+      logger.log('Guest cart merged:', response.data?.merged_items);
+      return response.data;
+    } catch (error: any) {
+      logger.error('Guest cart merge failed:', error.response?.status, error.response?.data);
+      throw error;
+    }
   },
   async getCart() {
     try {

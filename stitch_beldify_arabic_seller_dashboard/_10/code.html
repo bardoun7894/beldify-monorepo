@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+
+<html dir="rtl" lang="ar"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-fixed": "#e2dfff",
+                        "surface-container-highest": "#e4e2dd",
+                        "secondary-container": "#fea619",
+                        "error-container": "#ffdad6",
+                        "surface-variant": "#e4e2dd",
+                        "secondary-fixed-dim": "#ffb95f",
+                        "on-background": "#1b1c19",
+                        "on-tertiary": "#ffffff",
+                        "inverse-primary": "#c2c1fc",
+                        "tertiary-fixed-dim": "#ffb68c",
+                        "primary-container": "#3b3b6d",
+                        "primary": "#252555",
+                        "outline": "#777680",
+                        "surface-container-low": "#f5f3ee",
+                        "on-surface": "#1b1c19",
+                        "outline-variant": "#c8c5d0",
+                        "on-tertiary-container": "#f1965e",
+                        "inverse-surface": "#30312e",
+                        "on-secondary-fixed-variant": "#653e00",
+                        "on-secondary-container": "#684000",
+                        "secondary": "#855300",
+                        "on-primary-container": "#a8a7e1",
+                        "on-primary": "#ffffff",
+                        "background": "#fbf9f4",
+                        "surface-container-high": "#eae8e3",
+                        "on-error": "#ffffff",
+                        "surface": "#fbf9f4",
+                        "on-surface-variant": "#47464f",
+                        "on-secondary": "#ffffff",
+                        "secondary-fixed": "#ffddb8",
+                        "on-primary-fixed": "#151546",
+                        "surface-dim": "#dbdad5",
+                        "on-error-container": "#93000a",
+                        "on-primary-fixed-variant": "#414174",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary-fixed-variant": "#753401",
+                        "surface-tint": "#59598d",
+                        "on-secondary-fixed": "#2a1700",
+                        "surface-container": "#f0eee9",
+                        "tertiary-container": "#6b2f00",
+                        "tertiary-fixed": "#ffdbc9",
+                        "on-tertiary-fixed": "#321200",
+                        "tertiary": "#491e00",
+                        "error": "#ba1a1a",
+                        "surface-bright": "#fbf9f4",
+                        "primary-fixed-dim": "#c2c1fc",
+                        "inverse-on-surface": "#f2f1ec"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-mobile": "16px",
+                        "xxl": "48px",
+                        "sm": "8px",
+                        "lg": "24px",
+                        "xs": "4px",
+                        "gutter": "20px",
+                        "xl": "32px",
+                        "margin-desktop": "64px",
+                        "unit": "4px",
+                        "md": "16px"
+                    },
+                    "fontFamily": {
+                        "display-lg-mobile": ["IBM Plex Sans Arabic"],
+                        "body-md": ["IBM Plex Sans Arabic"],
+                        "label-md": ["IBM Plex Sans Arabic"],
+                        "body-lg": ["IBM Plex Sans Arabic"],
+                        "price-display": ["IBM Plex Sans Arabic"],
+                        "title-lg": ["IBM Plex Sans Arabic"],
+                        "headline-lg": ["IBM Plex Sans Arabic"],
+                        "headline-md": ["IBM Plex Sans Arabic"],
+                        "display-lg": ["IBM Plex Sans Arabic"]
+                    },
+                    "fontSize": {
+                        "display-lg-mobile": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "label-md": ["14px", {"lineHeight": "20px", "fontWeight": "500"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "price-display": ["22px", {"lineHeight": "28px", "fontWeight": "700"}],
+                        "title-lg": ["20px", {"lineHeight": "28px", "fontWeight": "500"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "600"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "display-lg": ["48px", {"lineHeight": "60px", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'IBM Plex Sans Arabic', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .editorial-shadow {
+            box-shadow: 0px 4px 20px rgba(37, 37, 85, 0.05);
+        }
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #252555; border-radius: 10px; }
+    </style>
+</head>
+<body class="bg-surface text-on-surface">
+<!-- Top Navigation Bar -->
+<header class="bg-surface dark:bg-surface-dim shadow-[0px_4px_20px_rgba(37,37,85,0.05)] border-b border-outline-variant/20 docked full-width top-0 z-50 sticky">
+<div class="flex flex-row-reverse justify-between items-center px-margin-mobile md:px-margin-desktop h-24 w-full">
+<div class="flex items-center gap-xl">
+<span class="font-headline-lg text-headline-lg font-bold text-primary dark:text-primary-fixed-dim tracking-tight">بيلديفاي</span>
+<nav class="hidden md:flex items-center gap-lg">
+<a class="text-on-surface-variant dark:text-outline hover:text-primary dark:hover:text-primary-fixed-dim font-medium transition-colors" href="#">لوحة التحكم</a>
+<a class="text-primary dark:text-primary-fixed-dim border-b-2 border-secondary-container font-bold pb-2 transition-all" href="#">المنتجات</a>
+<a class="text-on-surface-variant dark:text-outline hover:text-primary dark:hover:text-primary-fixed-dim font-medium transition-colors" href="#">الطلبات</a>
+<a class="text-on-surface-variant dark:text-outline hover:text-primary dark:hover:text-primary-fixed-dim font-medium transition-colors" href="#">التقارير</a>
+<a class="text-on-surface-variant dark:text-outline hover:text-primary dark:hover:text-primary-fixed-dim font-medium transition-colors" href="#">المتجر</a>
+</nav>
+</div>
+<div class="flex items-center gap-md">
+<span class="text-on-surface-variant font-medium cursor-pointer">العربية</span>
+<button class="material-symbols-outlined text-primary p-2 hover:bg-surface-container-low rounded-lg transition-all active:scale-95">notifications</button>
+<div class="w-10 h-10 rounded-full overflow-hidden border border-outline-variant">
+<img alt="صورة المتجر الشخصية" data-alt="A professional portrait of a Moroccan artisan studio owner, wearing a refined linen shirt. The setting is a brightly lit contemporary office with subtle Moroccan architectural details in the background. Soft natural sunlight illuminates the face, creating a welcoming and sophisticated editorial atmosphere with soft indigo shadows." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBfwQ7jxl3VqLxBCIbDYdSGUE98pwUKYqQCXO98NQrK-7eUD0doUQZ9RuoF7GYlnLIHDF0VGombXfTvilUffVJi-O83CRNacV5uU9ByRzCYM6H7Z8exBwG08sga7FM1O9nVqmDCjGZGIF8ERLenrK5ag5t9PP7lxyHClC5v_Exnf-oGJ0BuZ4F-_x486rL6THoYNwj0427G_sIsB41yisZj45p2cdEQ0Lz0FtYhcBElslJCkLDuLuz_l7xb2tc7J1FXiQZ2rzcJiZsY"/>
+</div>
+</div>
+</div>
+</header>
+<main class="max-w-[1440px] mx-auto px-margin-mobile md:px-margin-desktop py-lg">
+<!-- Breadcrumbs -->
+<nav class="flex items-center gap-xs text-on-surface-variant mb-xl font-label-md text-label-md">
+<a class="hover:text-primary transition-colors" href="#">الرئيسية</a>
+<span class="material-symbols-outlined text-[16px]">chevron_left</span>
+<a class="hover:text-primary transition-colors" href="#">أزياء</a>
+<span class="material-symbols-outlined text-[16px]">chevron_left</span>
+<span class="text-primary font-bold">قفطان</span>
+</nav>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-xxl items-start">
+<!-- Image Gallery Section -->
+<div class="lg:col-span-7 grid grid-cols-5 gap-md">
+<!-- Thumbnails -->
+<div class="col-span-1 flex flex-col gap-md">
+<div class="aspect-[3/4] rounded-xl overflow-hidden cursor-pointer border-2 border-primary active:scale-95 transition-all">
+<img alt="القفطان الملكي - زاوية 1" class="w-full h-full object-cover" data-alt="A close-up shot of a luxurious royal Moroccan kaftan made of deep indigo velvet. The image focuses on the intricate golden embroidery and handmade buttons known as Aakad. The lighting is soft and directional, highlighting the rich texture of the fabric and the shimmer of the silk threads in an editorial studio setting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC2OLIHoym92fuc-C1Aw0E2gWE82PGiDFnCF_2JzILYVe0uJBAvYDuHtt9vlVdHSzV5Pom5TeEDqa6mgFhJxG8mzgfM4UvJST0qn3tSx0ZAupYDzeHuCdLZ6scai5xC4OaPsVrOut1I__wL-3AK5Uwqfx1u42Yy2jKBsfn8oMsK_ya9RZx74mp99sb8ewIDiFZHZXjzUFz_RcuXxn9EHLgTu-La0sHArzObAol-OpwpKPKBFGzrU_KLWN2Sh-GUcwlREOt_O2zKFl92"/>
+</div>
+<div class="aspect-[3/4] rounded-xl overflow-hidden cursor-pointer border-2 border-transparent hover:border-outline-variant transition-all">
+<img alt="القفطان الملكي - تفصيل التطريز" class="w-full h-full object-cover" data-alt="Macro photography focusing on the detailed 'Sfifa' embroidery of a high-end Moroccan kaftan. The gold and silk threads create a complex geometric pattern against a backdrop of cream-colored premium silk. The lighting is warm and bright, emphasizing the artisanal craftsmanship and the luxurious quality of the materials used in a high-fashion editorial style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCIufqWZE-d7qgWlujwCpPOq-zfOpnpoCM4HR3uvCszBPDGpO0k9rFRr2Du2x30u3qA3dGwoyGtGniUeA_suD_g3cMBy3mDlVqQ7iKDiexPZyA_SmIq143Q8XV4t49zQr9zpC_8AwFWarSYwRsk_mtj7lPuSXSCLZKjZC0GwRwSfVdYg-LbBsRSnCm5LLKEp-wsRIYUejTCwC4SMkV8l7GdLGFrHHWoudatm9vXbe5Ti630zAmLY-XgH_NKSgm49xaAjww5ElD0rapL"/>
+</div>
+<div class="aspect-[3/4] rounded-xl overflow-hidden cursor-pointer border-2 border-transparent hover:border-outline-variant transition-all">
+<img alt="القفطان الملكي - الظهر" class="w-full h-full object-cover" data-alt="The back view of a royal Moroccan kaftan displayed on a minimalist mannequin. The garment features a long, elegant drape with a subtle trail. The studio setting is clean and contemporary with a soft parchment-colored background, creating a serene and premium atmosphere that highlights the sophisticated silhouette of the traditional Moroccan attire." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAHKWzDqFYfI4q1q3QRGFp0pNfYB4aLvBIMSvjpMZG-eM49eEh_ByV6oc0AHAkSBPkK3ljSxS-IKzbVpcfNAq6u_VQQtBL9kq0h7vWF3nqtDa3az__MeZZWA9N3l3ir3Ud4hcq8_JRiXhut1SATgz-xqglmBWKvtqQGX2tcRnep6ufSwgSZy8QRtfagkN7NlEjuHx-ROvGymItihuA3tEHiudPTFvdWhheSNmaRmUjJUyR8khj0_c_xIpYwX_b8ivpRxIZIEFhqR6-i"/>
+</div>
+<div class="aspect-[3/4] rounded-xl overflow-hidden cursor-pointer border-2 border-transparent hover:border-outline-variant transition-all">
+<img alt="القفطان الملكي - القماش" class="w-full h-full object-cover" data-alt="A lifestyle shot of a Moroccan woman elegantly wearing a royal kaftan in a modern riad courtyard. Soft sunlight filters through carved wooden screens, creating intricate shadow patterns on the vibrant indigo fabric. The mood is tranquil and sophisticated, blending traditional Moroccan architecture with high-fashion presentation and a warm, natural color palette." src="https://lh3.googleusercontent.com/aida-public/AB6AXuChSIYTN_53XK0JCuQd3BIyQm_QQHAS1G0qa7kF2zrZ3sEgoDcJH3WwikXYzCISbk8OOHUC6CjbQXl7WmxHCZ3JqmvxmmMn0BEqd6O2c-_1n593ekukewG5qDGDwm2KYBeC2i6IGC4vC2ToGwBFtceMLDvfwL1p5WOblA7xrkWiZDJSJx7U6Bqmvwewq2WbZgul8Zjj1usE7V3WRYslmo2Rcn4ypNuRSwknrCKRoZj5PKa9UyHeGRU1WISmXsrOWDop5n7GL3qjRjm0"/>
+</div>
+</div>
+<!-- Main Image -->
+<div class="col-span-4 relative group">
+<div class="aspect-[3/4] rounded-xl overflow-hidden bg-surface-container shadow-lg">
+<img alt="القفطان الملكي الرئيسي" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="Full-length editorial photograph of a stunning Royal Moroccan Kaftan in deep indigo velvet with elaborate gold Sfifa embroidery. The model stands in a minimalist, sun-drenched space that echoes modern Moroccan aesthetics. High-key lighting accentuates the premium textures and the artisanal detail of the handmade buttons, creating a sophisticated and culturally rich visual narrative." id="main-image" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAM-5BFlD4t57SCPxOhqe0Bz0zw9o1ckwJKPTdwtc6l8KNRKdgzhChzixohydkeTPsw0fmtsFluBEhHjnPQGadvZEA0E1v1yMG4hjr8tuj7JRUyZB9S7qHJmyHtgquc60UO2JgAM9rwFkCQNa30Sh6ZUss38HoR7KXUYtG3EYElb_vwuecroXe_derkkleLi8lL4r6s1lfeFXEvQKs0Xq9G4g0qS7dDiOI9W-JHjngPu-X9bGhYYmIFmI8j2m4sPMLL80ydPUGX7P0i"/>
+</div>
+<div class="absolute top-md right-md bg-secondary-container text-on-secondary-container px-md py-xs rounded-full font-label-md text-label-md font-bold">جديد</div>
+<button class="absolute bottom-md left-md bg-white/80 backdrop-blur-md p-md rounded-full material-symbols-outlined text-primary shadow-lg hover:bg-white transition-all">zoom_in</button>
+</div>
+</div>
+<!-- Product Details Section -->
+<div class="lg:col-span-5 flex flex-col gap-lg">
+<div>
+<div class="flex items-center gap-sm mb-sm">
+<div class="flex text-secondary-container">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">star</span>
+</div>
+<span class="text-on-surface-variant font-label-md text-label-md">(24 تقييم)</span>
+</div>
+<h1 class="font-headline-lg text-headline-lg text-primary mb-xs">القفطان الملكي "أطلس"</h1>
+<p class="font-price-display text-price-display text-secondary">1,250 د.م.</p>
+</div>
+<!-- Customization Tabs -->
+<div class="flex flex-col gap-md">
+<p class="font-title-lg text-title-lg">خيارات المقاس</p>
+<div class="grid grid-cols-2 gap-md">
+<button class="option-btn border-2 border-primary bg-primary/5 p-md rounded-xl text-right transition-all" onclick="selectOption(this)">
+<p class="font-bold text-primary">مقاسات قياسية</p>
+<p class="text-label-md text-on-surface-variant">S, M, L, XL</p>
+</button>
+<button class="option-btn border-2 border-outline-variant p-md rounded-xl text-right hover:border-primary/50 transition-all" onclick="selectOption(this)">
+<p class="font-bold text-on-surface">خياطة على المقاس</p>
+<p class="text-label-md text-on-surface-variant">تخصيص كامل</p>
+</button>
+</div>
+</div>
+<!-- Size Selection (Visible for Standard) -->
+<div class="flex flex-wrap gap-md">
+<button class="w-12 h-12 rounded-full border border-outline-variant flex items-center justify-center font-bold hover:bg-primary hover:text-white transition-all">S</button>
+<button class="w-12 h-12 rounded-full border-2 border-primary flex items-center justify-center font-bold bg-primary text-white transition-all">M</button>
+<button class="w-12 h-12 rounded-full border border-outline-variant flex items-center justify-center font-bold hover:bg-primary hover:text-white transition-all">L</button>
+<button class="w-12 h-12 rounded-full border border-outline-variant flex items-center justify-center font-bold hover:bg-primary hover:text-white transition-all">XL</button>
+</div>
+<!-- Add to Cart / Tailor CTA -->
+<div class="flex flex-col gap-md mt-md">
+<button class="bg-primary text-white py-lg rounded-xl font-headline-md text-headline-md shadow-lg active:scale-[0.98] transition-transform">إضافة إلى السلة</button>
+<button class="border-2 border-primary text-primary py-md rounded-xl font-title-lg text-title-lg flex items-center justify-center gap-sm active:scale-[0.98] transition-transform">
+<span class="material-symbols-outlined">straighten</span>
+                        ابدأ تجربة الخياطة المخصصة
+                    </button>
+</div>
+<!-- Description -->
+<div class="bg-surface-container-low p-lg rounded-xl editorial-shadow">
+<h3 class="font-title-lg text-title-lg text-primary mb-md">التفاصيل الفنية</h3>
+<p class="text-on-surface-variant font-body-md text-body-md leading-relaxed">
+                        قطعة فنية تجسد الأناقة المغربية العريقة. صُنع هذا القفطان من **الحرير الطبيعي** الفاخر الممزوج بالمخمل الإيطالي، مما يمنحه ملمساً ناعماً وبريقاً ملكياً. يتميز بتطريز **"السفيفة"** العريضة المصنوعة يدوياً بخيوط الذهب، مع أزرار **"العقاد"** التقليدية التي تمتد على طول التصميم.
+                    </p>
+<div class="mt-md flex flex-col gap-sm">
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined text-secondary">check_circle</span>
+<span class="font-label-md text-label-md">مناسب لحفلات الزفاف والمناسبات الرسمية</span>
+</div>
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined text-secondary">check_circle</span>
+<span class="font-label-md text-label-md">تطريز يدوي أصيل (معلم)</span>
+</div>
+</div>
+</div>
+<!-- Artisan Card -->
+<div class="flex items-center gap-lg p-md border border-outline-variant/30 rounded-xl hover:bg-white transition-all cursor-pointer group">
+<div class="w-16 h-16 rounded-full overflow-hidden shrink-0 ring-2 ring-primary/10">
+<img alt="دار الصانعة" data-alt="A portrait of a skilled Moroccan master tailor (Maâlem) in a traditional workshop surrounded by rolls of vibrant fabrics and vintage sewing machines. The artisan is focused on their work, embodying decades of craftsmanship. The scene is lit with warm, natural light pouring in from a high window, creating an atmosphere of dedication and heritage." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBcZ33DYU5DwDRZUB53gZypc--kXbjhQBYn5gCs89Ev0pMjZJf1dXf3M0y5npI_gy7TlkGgCmTWv0rxo_9GN2Jso3clcyiLMCIU4wWF28uP0YW40TOFwK71x_jp2JMgS-QGC_231S9briZcMd04MHt_RZn4cEXBzUhLRcj-3baoIqVR8x7-rf8-53KzHrZhCG4TaLBdGL9dYkUC8c9Ow_5BBDGaEB08KgQNSwZ3iL-7V_QzbdRlbl1U5yGhNQAlWKCIietUawWMHzXC"/>
+</div>
+<div class="flex-grow">
+<p class="font-title-lg text-title-lg text-primary">دار الصانعة (Dar Al Sani'a)</p>
+<p class="text-on-surface-variant font-label-md text-label-md">مشغل متخصص في القفطان المخزني الأصيل</p>
+</div>
+<span class="material-symbols-outlined text-primary group-hover:translate-x-[-4px] transition-transform">arrow_back</span>
+</div>
+<!-- Delivery Info -->
+<div class="grid grid-cols-2 gap-md">
+<div class="flex flex-col items-center p-md bg-white rounded-xl border border-outline-variant/20 text-center">
+<span class="material-symbols-outlined text-primary text-[32px] mb-xs">local_shipping</span>
+<p class="font-bold">توصيل سريع</p>
+<p class="text-label-md text-on-surface-variant">3-5 أيام عمل</p>
+</div>
+<div class="flex flex-col items-center p-md bg-white rounded-xl border border-outline-variant/20 text-center">
+<span class="material-symbols-outlined text-primary text-[32px] mb-xs">assignment_return</span>
+<p class="font-bold">إرجاع مجاني</p>
+<p class="text-label-md text-on-surface-variant">خلال 14 يوم</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Related Products Section -->
+<section class="mt-xxl">
+<div class="flex items-center justify-between mb-xl">
+<h2 class="font-headline-md text-headline-md text-primary">قد ينال إعجابك أيضاً</h2>
+<a class="text-primary font-bold flex items-center gap-xs" href="#">
+                    مشاهدة الكل
+                    <span class="material-symbols-outlined">west</span>
+</a>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-lg">
+<!-- Related Item 1 -->
+<div class="group cursor-pointer">
+<div class="aspect-[3/4] rounded-xl overflow-hidden mb-md relative shadow-md">
+<img alt="قفطان جوهرة" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="A luxurious Moroccan Jawhara kaftan in soft pastel pink silk with subtle silver embroidery. The garment is displayed against a clean, architectural white background that emphasizes its delicate texture and light, airy drape. The lighting is soft and diffused, creating a serene and premium editorial look for high-end boutique e-commerce." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDhwNAMkR0DTEoZUMAkBCFVaAc5oNt1_qNe6M1btr13C3ceJogaJ1yWk9_-vzwIv85lkvjqTpWfJ_0NUd-pWX92i9Xyk2ouK59Nr885AvI-kKdSrluZYc0K6JEu6hfTmiDCCBiTH2xNTV0AAms6H-vYQcOXI294DX1gZmRL2QcXK89aAkI8Xj2H3w1oLk08vBHmF5kLnMUhSZ5w6RvLZYThsxMlUBW1X-xUUl3bLO3x5eeiJeTcyHKHJs4AcL0WsW_s5infSjCAm9Id"/>
+<button class="absolute bottom-md right-md bg-white/90 p-sm rounded-full material-symbols-outlined text-primary opacity-0 group-hover:opacity-100 transition-all">shopping_cart</button>
+</div>
+<h3 class="font-bold text-on-surface mb-xs">قفطان "جوهرة" تقليدي</h3>
+<p class="text-secondary font-bold">950 د.م.</p>
+</div>
+<!-- Related Item 2 -->
+<div class="group cursor-pointer">
+<div class="aspect-[3/4] rounded-xl overflow-hidden mb-md relative shadow-md">
+<img alt="تكشيطة العروس" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="A grand two-piece Moroccan Takchita in royal emerald green silk, featuring heavy gold thread work and semi-precious stone embellishments. The setting is a majestic riad salon with ornate plasterwork. The photo uses dramatic, moody lighting to accentuate the depth of color and the opulence of the bridal attire in a cinematic editorial style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAFZgjOnOklR4tJf8LimNo1jI8nVb5GdzneDwNFpxCn5odcnKWgn0bOCQGxpOObwdsHUZSnkpv7ob0O5tZ2SBILAgBIXBA8QahNUsEYAVgmhhXQwqHVJ9JpromH-3KIk4CY6WiXh45XEjqRebMNRAqSxcU4ApLb67hVEwme7xVhgWnlmgY4pFWujJNk9guOKAu-tMnQ_7bvy9tVE68pv8-J0CnbH04dIZMx-4Z69zcqzP8atx47Dt1Y_qzrlFTpYkYUZ7iW6oQQLd7w"/>
+<button class="absolute bottom-md right-md bg-white/90 p-sm rounded-full material-symbols-outlined text-primary opacity-0 group-hover:opacity-100 transition-all">shopping_cart</button>
+</div>
+<h3 class="font-bold text-on-surface mb-xs">تكشيطة "زمرد" للعروس</h3>
+<p class="text-secondary font-bold">2,400 د.م.</p>
+</div>
+<!-- Related Item 3 -->
+<div class="group cursor-pointer">
+<div class="aspect-[3/4] rounded-xl overflow-hidden mb-md relative shadow-md">
+<img alt="جلابة عصرية" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="A modern Moroccan Djellaba in charcoal gray linen with minimalist black embroidery. The garment is worn by a model in an urban Marrakech setting with terracotta walls. The natural, warm sunlight creates strong contrasts and a contemporary aesthetic, highlighting the versatility and modern appeal of traditional North African silhouettes." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCf3usKuWRPTYHUJVlxO_xSa7bWt3YTHC_y5XfoaLESzHRdRR6aBQVLhQ2Uo57kkpJ2tksNRY4FrgdmDxC_3-v4snB3GsTCydWa8ky94HLWcyIXIlBIpp7biCfDQJQu9V35Gtq98pNfO0-bN0kJ0Tpz8Qw4Nor3gB5UBrezsWzINQqrp9nWFn3w6UfoQG7HCCcFqnuJmLBcRbWfMXaFSl8EeWTT8MGpHSRa8y2XgQRspNilPzgM401f2MVNctz_aCTIi6YWFkg6ZrWR"/>
+<button class="absolute bottom-md right-md bg-white/90 p-sm rounded-full material-symbols-outlined text-primary opacity-0 group-hover:opacity-100 transition-all">shopping_cart</button>
+</div>
+<h3 class="font-bold text-on-surface mb-xs">جلابة "ريفييرا" عصرية</h3>
+<p class="text-secondary font-bold">550 د.م.</p>
+</div>
+<!-- Related Item 4 -->
+<div class="group cursor-pointer">
+<div class="aspect-[3/4] rounded-xl overflow-hidden mb-md relative shadow-md">
+<img alt="قفطان صيفي" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="A lightweight summer kaftan in bright saffron amber cotton, featuring white silk piping and delicate handmade buttons. The image is shot outdoors near a poolside with shimmering blue water in the background. The high-key, vibrant lighting and joyful atmosphere emphasize the comfort and elegance of the piece for casual upscale resort wear." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBSZmzjrtTuGsroFdRjP8DTcWsCpDWobceYXLk2XDdNQzast_1kPxbIQJ3mkWR7nWkoC_BU979PDu5b5XhCMoh8PjZTj5QeiJ_bafinKKgodfbsa6a8OqxUc89cAVb5PMcyT1wHncPsWMGMciHU1lnMI85a1c39Rm_1mN1zRaZUrLNUbEaaf6NmbTKg5CkuxdbyBOTyFVgDNjMhT3OHmuu1x3J82x5kqV0iO9RMXEAM7U6TsB-_tlw0qrSHgF4-x4vb3CfYTQ8mNSWD"/>
+<button class="absolute bottom-md right-md bg-white/90 p-sm rounded-full material-symbols-outlined text-primary opacity-0 group-hover:opacity-100 transition-all">shopping_cart</button>
+</div>
+<h3 class="font-bold text-on-surface mb-xs">قفطان "ياقوت" خفيف</h3>
+<p class="text-secondary font-bold">820 د.م.</p>
+</div>
+</div>
+</section>
+</main>
+<!-- Mobile Navigation Bar -->
+<nav class="md:hidden fixed bottom-0 left-0 right-0 bg-surface border-t border-outline-variant/20 px-margin-mobile py-md flex justify-between items-center z-50 editorial-shadow">
+<div class="flex flex-col items-center text-primary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">home</span>
+<span class="text-[10px] font-bold">الرئيسية</span>
+</div>
+<div class="flex flex-col items-center text-on-surface-variant">
+<span class="material-symbols-outlined">grid_view</span>
+<span class="text-[10px]">الفئات</span>
+</div>
+<div class="flex flex-col items-center text-on-surface-variant">
+<span class="material-symbols-outlined">shopping_bag</span>
+<span class="text-[10px]">السلة</span>
+</div>
+<div class="flex flex-col items-center text-on-surface-variant">
+<span class="material-symbols-outlined">person</span>
+<span class="text-[10px]">حسابي</span>
+</div>
+</nav>
+<script>
+        function selectOption(btn) {
+            document.querySelectorAll('.option-btn').forEach(b => {
+                b.classList.remove('border-primary', 'bg-primary/5');
+                b.classList.add('border-outline-variant');
+                b.querySelector('p:first-child').classList.remove('text-primary');
+                b.querySelector('p:first-child').classList.add('text-on-surface');
+            });
+            btn.classList.add('border-primary', 'bg-primary/5');
+            btn.classList.remove('border-outline-variant');
+            btn.querySelector('p:first-child').classList.add('text-primary');
+            btn.querySelector('p:first-child').classList.remove('text-on-surface');
+        }
+
+        // Simple gallery switcher
+        document.querySelectorAll('.col-span-1 img').forEach(img => {
+            img.parentElement.addEventListener('click', () => {
+                const mainImg = document.getElementById('main-image');
+                const oldSrc = mainImg.src;
+                mainImg.src = img.src;
+                
+                // Active thumbnail state
+                document.querySelectorAll('.col-span-1 div').forEach(div => div.classList.replace('border-primary', 'border-transparent'));
+                img.parentElement.classList.replace('border-transparent', 'border-primary');
+            });
+        });
+    </script>
+</body></html>

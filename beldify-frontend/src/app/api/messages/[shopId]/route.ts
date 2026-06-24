@@ -4,7 +4,8 @@ import logger from '@/utils/consoleLogger';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL!;
 
-export async function GET(request: NextRequest, { params }: { params: { shopId: string } }) {
+export async function GET(request: NextRequest, { params }: { params: Promise<{ shopId: string }> }) {
+  const { shopId } = await params;
   try {
     const token =
       request.cookies.get('token')?.value ||
@@ -28,7 +29,7 @@ export async function GET(request: NextRequest, { params }: { params: { shopId: 
     });
 
     const response = await axios.get(
-      `${API_BASE_URL}/api/v1/buyer/messages/shops/${params.shopId}?${queryParams.toString()}`,
+      `${API_BASE_URL}/api/v1/buyer/messages/shops/${shopId}?${queryParams.toString()}`,
       {
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -37,7 +38,7 @@ export async function GET(request: NextRequest, { params }: { params: { shopId: 
         }
       }
     );
-    
+
     return NextResponse.json(response.data);
   } catch (error: any) {
     logger.error('Error fetching conversation:', error);
@@ -48,7 +49,8 @@ export async function GET(request: NextRequest, { params }: { params: { shopId: 
   }
 }
 
-export async function PUT(request: NextRequest, { params }: { params: { shopId: string } }) {
+export async function PUT(request: NextRequest, { params }: { params: Promise<{ shopId: string }> }) {
+  await params; // consume the promise
   try {
     const token =
       request.cookies.get('token')?.value ||
@@ -87,4 +89,4 @@ export async function PUT(request: NextRequest, { params }: { params: { shopId: 
       { status: error.response?.status || 500 }
     );
   }
-} 
+}

@@ -191,8 +191,8 @@ export default function SizeGuidePage() {
     rows: string[][];
     title: string;
   }) => (
-    <div className="rounded-2xl ring-1 ring-amber-200/60 bg-white shadow-sm overflow-hidden mb-8">
-      <div className="px-6 py-4 bg-indigo-50 border-b border-amber-100">
+    <div className="rounded-2xl ring-1 ring-gray-200 bg-white shadow-sm overflow-hidden mb-8">
+      <div className="px-6 py-4 bg-indigo-50 border-b border-gray-100">
         <h2
           className="text-xl font-bold text-indigo-900"
           style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
@@ -201,22 +201,22 @@ export default function SizeGuidePage() {
         </h2>
       </div>
       <div className="overflow-x-auto">
-        <table className="min-w-full divide-y divide-amber-100">
-          <thead className="bg-amber-50/50">
+        <table className="min-w-full divide-y divide-gray-100">
+          <thead className="bg-gray-50">
             <tr>
               {headers.map((header, index) => (
                 <th
                   key={index}
-                  className="px-6 py-4 text-left text-xs font-semibold text-indigo-900 uppercase tracking-wide"
+                  className="px-6 py-4 text-start text-xs font-semibold text-indigo-900 uppercase tracking-wide"
                 >
                   {header}
                 </th>
               ))}
             </tr>
           </thead>
-          <tbody className="bg-white divide-y divide-amber-50">
+          <tbody className="bg-white divide-y divide-gray-100">
             {rows.map((row, rowIndex) => (
-              <tr key={rowIndex} className="transition hover:bg-amber-50/30">
+              <tr key={rowIndex} className="transition hover:bg-gray-50">
                 {row.map((cell, cellIndex) => (
                   <td
                     key={cellIndex}
@@ -295,7 +295,7 @@ export default function SizeGuidePage() {
                 onClick={() => setGarmentType(key)}
                 className={`flex items-center gap-2 px-5 py-2 rounded-full text-sm font-medium transition ${
                   garmentType === key
-                    ? 'bg-amber-500 text-white shadow-sm'
+                    ? 'bg-amber-500 text-amber-950 shadow-sm'
                     : 'bg-amber-50 text-amber-800 ring-1 ring-amber-200 hover:ring-amber-400'
                 }`}
               >
@@ -352,8 +352,8 @@ export default function SizeGuidePage() {
             </h2>
             <div className="space-y-4">
               {/* Length Measurement */}
-              <div className="flex items-start p-5 rounded-2xl ring-1 ring-amber-200/60 bg-white shadow-sm">
-                <Layers className="h-5 w-5 text-amber-600 mt-1 mr-3 flex-shrink-0" />
+              <div className="flex items-start p-5 rounded-2xl ring-1 ring-gray-200 bg-white shadow-sm">
+                <Layers className="h-5 w-5 text-amber-600 mt-1 me-3 flex-shrink-0" />
                 <div>
                   <h3 className="font-semibold text-indigo-900">
                     {t('size_guide.length')}
@@ -368,12 +368,19 @@ export default function SizeGuidePage() {
               </div>
             </div>
           </div>
-          <div className="relative h-[400px] rounded-2xl overflow-hidden ring-1 ring-amber-200/60">
+          <div className="relative h-[400px] rounded-2xl overflow-hidden ring-1 ring-gray-200">
+            {/* The dedicated measurement-guide photo asset does not exist in
+                public/. Using hero-atelier.jpg as a visual stand-in; onError
+                hides the container if that image is also unavailable. */}
             <Image
-              src="/images/measurement-guide.jpg"
+              src="/images/hero-atelier.jpg"
               alt={t('content.sizeGuide.measurementGuideAlt', 'Measurement Guide')}
               fill
               className="object-cover"
+              onError={(e) => {
+                const parent = (e.currentTarget as HTMLImageElement).parentElement;
+                if (parent) parent.style.display = 'none';
+              }}
             />
           </div>
         </div>

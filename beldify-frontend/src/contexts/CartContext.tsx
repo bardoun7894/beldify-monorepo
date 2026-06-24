@@ -135,27 +135,32 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       if (stockAvailable.status === 'error') {
         logger.error('Stock check failed:', stockAvailable);
         const error = new Error('Failed to check stock availability') as ApiError;
-        error.response = { 
-          data: { 
+        error.response = {
+          data: {
             type: 'stock_check_failed',
             message: 'Unable to verify product availability. Please try again.'
-          } 
+          }
         };
         throw error;
       }
-      
+
+      // null available_quantity means made-to-order (unlimited production) — always available.
+      // Guard placed BEFORE the out_of_stock status check so that a mis-classified
+      // status (backend sends out_of_stock but quantity is null) does not block purchase.
+      if (stockAvailable.available_quantity === null) return true;
+
       // Handle out of stock cases
       if (['out_of_stock', 'no_stock', 'variant_not_found'].includes(stockAvailable.status) || stockAvailable.available_quantity === 0) {
         const error = new Error('Product is out of stock') as ApiError;
-        error.response = { 
-          data: { 
+        error.response = {
+          data: {
             type: 'out_of_stock',
             message: 'This product is currently out of stock'
-          } 
+          }
         };
         throw error;
       }
-      
+
       // Allow order if requested quantity exactly matches available stock
       if (stockAvailable.available_quantity === quantity) {
         return true;
@@ -168,7 +173,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
             data: {
               type: string;
               message: string;
-              available_quantity: number;
+              available_quantity: number | null;
             };
           };
         };
@@ -255,9 +260,15 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         ? { stock_id: validId, quantity: validQuantity }
         : { variant_id: validId, quantity: validQuantity };
 
+      if (typeof window !== 'undefined') {
+        console.warn('[CARTDBG] addItem payload:', JSON.stringify(payload), '| type:', type);
+      }
       logger.log('Adding item to cart:', payload);
       const response = await cartService.addItem(payload);
 
+      if (typeof window !== 'undefined') {
+        console.warn('[CARTDBG] addItem response.status:', response?.status);
+      }
       if (response.status === 'success') {
         await invalidateCartCache();
         logger.log('Item added to cart successfully');
@@ -434,7 +445,13 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     fetchCart();
-  }, []);
+    // refresh after login/logout (guest cart may have just been merged) and on
+    // explicit cart:refresh events (e.g. AuthContext after merge-guest succeeds)
+    const onRefresh = () => fetchCart();
+    window.addEventListener('cart:refresh', onRefresh);
+    return () => window.removeEventListener('cart:refresh', onRefresh);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isAuthenticated]);
 
   const value = {
     state,

@@ -28,9 +28,10 @@ describe('Atlas design tokens — globals.css', () => {
     expect(globalsCss).toContain('37 99% 55%');
   });
 
-  // surface/background = #fbf9f4 parchment → HSL 43 47% 97%
-  it('has Atlas parchment background token (43 47% 97%)', () => {
-    expect(globalsCss).toContain('43 47% 97%');
+  // surface/background = neutral near-white #fcfcfc → HSL 0 0% 99%
+  // (parchment #fbf9f4 retired 2026-06-10: user feedback — yellow cast; 60-30-10 rule)
+  it('has neutral near-white background token (0 0% 99%)', () => {
+    expect(globalsCss).toContain('0 0% 99%');
   });
 
   // on-surface ink = #1b1c19 → HSL 80 6% 10%
@@ -63,9 +64,9 @@ describe('Atlas design tokens — globals.css', () => {
     expect(globalsCss).toMatch(/--primary:\s*240 39% 24%/);
   });
 
-  // --background must be parchment
-  it('--background resolves to Atlas parchment', () => {
-    expect(globalsCss).toMatch(/--background:\s*43 47% 97%/);
+  // --background must be the neutral near-white canvas (parchment retired 2026-06-10)
+  it('--background resolves to neutral near-white', () => {
+    expect(globalsCss).toMatch(/--background:\s*0 0% 99%/);
   });
 
   // --foreground must be Atlas ink

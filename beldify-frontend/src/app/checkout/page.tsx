@@ -7,12 +7,14 @@ import Image from 'next/image';
 import { cartService } from '@/services/api';
 import { useCart } from '@/contexts/CartContext';
 import toast from '@/utils/toast';
-import { orderService } from '@/services/orderService';
+import { orderService, type Order } from '@/services/orderService';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '@/hooks/useAuth';
 import logger from '@/utils/consoleLogger';
 import { usePWATriggers } from '@/hooks/usePWATriggers';
 import { getImageUrl } from '@/utils/imageUtils';
+import { shippingService, type ShippingMethod } from '@/services/shippingService';
+import { addressService, type SavedAddress } from '@/services/addressService';
 import {
   ShoppingBag,
   ArrowRight,
@@ -28,10 +30,61 @@ import {
   RotateCcw,
   BadgeCheck,
   Headphones,
+  Check,
+  ChevronDown,
+  BookUser,
+  MessageCircle,
+  ChevronRight,
 } from 'lucide-react';
+import { CheckoutProgressBar } from '@/components/checkout/CheckoutProgressBar';
+import { track } from '@/lib/analytics';
 
 // ── Playfair inline style token ───────────────────────────────────────────────
 const playfair = { fontFamily: '"Playfair Display", ui-serif, Georgia, serif' };
+
+// ── Shipping config — LEGACY FALLBACK CONSTANTS ──────────────────────────────
+// These are now the fallback only. Live values come from shippingService.getMethods().
+// Kept here so the order-summary FREE badge and quote comparison still compile.
+const FREE_SHIPPING_THRESHOLD = 500;
+
+// ── Quote shape ───────────────────────────────────────────────────────────────
+
+/**
+ * Per-seller breakdown returned by the quote endpoint when cart spans >1 store.
+ * Plan.md FR-017 contract: { store_id, store_name, subtotal, shipping_amount,
+ *   tax_amount, discount_amount, items[] }
+ */
+interface PerSellerQuote {
+  store_id: number;
+  store_name?: string;
+  subtotal: number;
+  shipping_amount: number;
+  tax_amount?: number;
+  discount_amount?: number;
+  item_count?: number;
+}
+
+interface CheckoutQuote {
+  subtotal: number;
+  tax_amount: number;
+  shipping_amount: number;
+  discount_amount: number;
+  total_amount: number;
+  cod_allowed: boolean;
+  cod_max: number;
+  currency: string;
+  /**
+   * NEW (plan.md FR-017): per-seller breakdown when cart spans >1 seller.
+   * Present when backend returns the multi-seller split feature.
+   */
+  sellers?: PerSellerQuote[];
+  /** Legacy alias kept for back-compat during transition. */
+  per_seller?: PerSellerQuote[];
+}
+
+// ── Support contact — for shoppers who don't know how to pay ───────────────────
+const SUPPORT_PHONE = process.env.NEXT_PUBLIC_SUPPORT_PHONE || '+212708150351';
+const SUPPORT_WHATSAPP = SUPPORT_PHONE.replace(/[^0-9]/g, '');
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 interface ShippingInfo {
@@ -61,9 +114,17 @@ interface PaymentMethod {
   name: string;
   icon: string;
   description: string;
+  // cod = cash on delivery (Morocco-only, ≤ COD_MAX); transfer = offline
+  // money-transfer requiring an uploaded receipt; gateway = card/paypal (soon).
+  kind: 'cod' | 'transfer' | 'gateway';
 }
 
-type ShippingMethodKey = 'standard' | 'express' | 'pickup';
+// COD is allowed only within Morocco and up to this order total (MAD); mirrors
+// the server rule in OrderService::assertCodAllowed.
+const COD_MAX_AMOUNT = 500;
+
+// Fallback key type kept for the initial state; real IDs come from API methods.
+type ShippingMethodKey = string;
 
 // ── Constants ─────────────────────────────────────────────────────────────────
 const initialShippingInfo: ShippingInfo = {
@@ -101,14 +162,64 @@ const getCountryName = (code: string, t: (k: string) => string) => {
   return country ? t(`countries.${country.code.toLowerCase()}`) : code;
 };
 
+// ── Buy-now item type ─────────────────────────────────────────────────────────
+interface BuyNowItem {
+  product_id: number;
+  stock_id?: number;
+  variant_id?: number;
+  store_id: number;
+  quantity: number;
+  unit_price: number;
+  name: string;
+  name_ar?: string;
+  image: string;
+  ts: number;
+}
+
 // ── Main component ────────────────────────────────────────────────────────────
 export default function CheckoutPage() {
   const router = useRouter();
   const { state: cartState, clearCart } = useCart();
   const { t, i18n } = useTranslation();
   const { user, isAuthenticated } = useAuth();
-  const isRTL = i18n.language === 'ar';
+  const isRTL = i18n.language === 'ar' || i18n.language === 'ma';
   const { triggerOnCheckout } = usePWATriggers();
+
+  // ── Buy-now guest mode ────────────────────────────────────────────────────
+  // Read buyNow flag and sessionStorage item client-side (avoids Suspense
+  // boundary that useSearchParams requires in Next.js 15 App Router).
+  const [isBuyNow, setIsBuyNow] = useState(false);
+  const [buyNowItem, setBuyNowItem] = useState<BuyNowItem | null>(null);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('buyNow') !== '1') return;
+
+    try {
+      const raw = sessionStorage.getItem('beldify_buy_now');
+      if (!raw) return;
+      const parsed: BuyNowItem = JSON.parse(raw);
+      // Reject stale items (older than 30 min)
+      if (Date.now() - parsed.ts > 30 * 60 * 1000) {
+        sessionStorage.removeItem('beldify_buy_now');
+        return;
+      }
+      setIsBuyNow(true);
+      setBuyNowItem(parsed);
+    } catch {
+      // Malformed JSON — ignore, fall through to regular cart path
+    }
+  }, []);
+
+  // Locale-aware currency formatter — shared with order-confirmation so the same
+  // cart renders identical digits/grouping across both screens (Arabic numerals).
+  const formatAmount = (amount: number) =>
+    new Intl.NumberFormat(i18n.language, {
+      style: 'decimal',
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    }).format(amount);
 
   const [step, setStep] = useState(1);
   const [selectedPayment, setSelectedPayment] = useState<string>('cod');
@@ -120,13 +231,52 @@ export default function CheckoutPage() {
   const [sendUpdates, setSendUpdates] = useState(true);
   const [shippingMethod, setShippingMethod] = useState<ShippingMethodKey>('standard');
 
+  // ── Dynamic shipping methods (Task 1) ────────────────────────────────────
+  const [dynamicShippingMethods, setDynamicShippingMethods] = useState<ShippingMethod[]>([]);
+  const [shippingMethodsLoading, setShippingMethodsLoading] = useState(false);
+
+  // ── Saved addresses (Task 2 — auth only) ─────────────────────────────────
+  const [savedAddresses, setSavedAddresses] = useState<SavedAddress[]>([]);
+  const [selectedAddressId, setSelectedAddressId] = useState<number | null>(null);
+  const [saveNewAddress, setSaveNewAddress] = useState(false);
+
+  // ── Quote state (buyNow path only) ───────────────────────────────────────
+  const [quote, setQuote] = useState<CheckoutQuote | null>(null);
+  const [quoteLoading, setQuoteLoading] = useState(false);
+  const [quoteError, setQuoteError] = useState<string | null>(null);
+
   // Form validation state
   const [validationErrors, setValidationErrors] = useState<Record<string, string>>({});
   const [touchedFields, setTouchedFields] = useState<Record<string, boolean>>({});
+  // Collapsible optional fields (apartment, postal code)
+  const [showExtraFields, setShowExtraFields] = useState(false);
 
-  // Trigger PWA prompt on checkout page
+  // Trigger PWA prompt on checkout page + fire begin_checkout analytics event
   useEffect(() => {
     triggerOnCheckout();
+
+    // Analytics: begin_checkout — fires once on mount.
+    // Short delay lets the buyNow useEffect settle first.
+    const timer = setTimeout(() => {
+      const cartItems = cartState?.items ?? [];
+      const totalValue = cartState?.total_amount ?? 0;
+
+      if (cartItems.length > 0) {
+        track({
+          event: 'begin_checkout',
+          currency: 'MAD',
+          value: totalValue,
+          items: cartItems.map((item) => ({
+            item_id: String(item.stock_id ?? item.product?.id ?? ''),
+            item_name: item.product?.name ?? '',
+            price: item.unit_price ?? 0,
+            quantity: item.quantity,
+          })),
+        });
+      }
+    }, 300);
+
+    return () => clearTimeout(timer);
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Pre-fill from authenticated profile
@@ -165,26 +315,100 @@ export default function CheckoutPage() {
     setShippingInfo((prev) => ({ ...prev, [name]: value }));
   };
 
-  const getPaymentMethods = (): PaymentMethod[] => [
+  const getPaymentMethods = (): PaymentMethod[] => {
+    // Phase 1 guest "Buy Now" is COD-only.  The submit path already hardcodes
+    // payment_method: 'cod'; hiding all other methods prevents a confusing UX
+    // where a guest selects "Bank transfer" but the order is always placed as COD.
+    const allMethods: PaymentMethod[] = [
     {
       id: 'cod',
-      name: t('checkout.payment.methods.cod.title'),
+      kind: 'cod',
+      name: t('checkout.payment.methods.cod.title', 'Cash on delivery'),
       icon: '/icons/cod.svg',
-      description: t('checkout.payment.methods.cod.description'),
+      description: t('checkout.payment.methods.cod.description', 'Pay in cash when your order arrives'),
+    },
+    {
+      id: 'bank_transfer',
+      kind: 'transfer',
+      name: t('checkout.payment.methods.bank_transfer.title', 'Bank transfer'),
+      icon: '/icons/cod.svg',
+      description: t('checkout.payment.methods.bank_transfer.description', 'Transfer to our bank account, then upload the receipt'),
+    },
+    {
+      id: 'wafacash',
+      kind: 'transfer',
+      name: t('checkout.payment.methods.wafacash.title', 'Wafacash'),
+      icon: '/icons/cod.svg',
+      description: t('checkout.payment.methods.wafacash.description', 'Pay via Wafacash, then upload the receipt'),
+    },
+    {
+      id: 'cash_plus',
+      kind: 'transfer',
+      name: t('checkout.payment.methods.cash_plus.title', 'Cash Plus'),
+      icon: '/icons/cod.svg',
+      description: t('checkout.payment.methods.cash_plus.description', 'Pay via Cash Plus, then upload the receipt'),
+    },
+    {
+      id: 'western_union',
+      kind: 'transfer',
+      name: t('checkout.payment.methods.western_union.title', 'Western Union'),
+      icon: '/icons/cod.svg',
+      description: t('checkout.payment.methods.western_union.description', 'Send via Western Union, then upload the receipt'),
+    },
+    {
+      id: 'moneygram',
+      kind: 'transfer',
+      name: t('checkout.payment.methods.moneygram.title', 'MoneyGram'),
+      icon: '/icons/cod.svg',
+      description: t('checkout.payment.methods.moneygram.description', 'Send via MoneyGram, then upload the receipt'),
     },
     {
       id: 'paypal',
-      name: t('checkout.payment.methods.paypal.title'),
+      kind: 'gateway',
+      name: t('checkout.payment.methods.paypal.title', 'PayPal'),
       icon: '/icons/paypal.svg',
-      description: t('checkout.payment.methods.paypal.description'),
+      description: t('checkout.payment.methods.paypal.description', 'Pay securely via PayPal'),
     },
     {
       id: 'card',
-      name: t('checkout.payment.methods.card.title'),
+      kind: 'gateway',
+      name: t('checkout.payment.methods.card.title', 'Credit / Debit Card'),
       icon: '/icons/visa.svg',
-      description: t('checkout.payment.methods.card.description'),
+      description: t('checkout.payment.methods.card.description', 'Pay with Visa, Mastercard, or similar'),
     },
   ];
+    return allMethods;
+  };
+
+  // COD eligibility — for buyNow we trust the backend quote; for cart we mirror
+  // the backend rule client-side (Morocco only, ≤ COD_MAX_AMOUNT).
+  const effectiveTotalForCod = isBuyNow
+    ? (buyNowItem ? buyNowItem.unit_price * buyNowItem.quantity : 0)
+    : (cartState?.total_amount ?? 0);
+  const codAllowed = isBuyNow
+    ? (quote ? quote.cod_allowed : (
+        effectiveTotalForCod <= COD_MAX_AMOUNT &&
+        (shippingInfo.country || '').toUpperCase() === 'MA'
+      ))
+    : (
+        effectiveTotalForCod <= COD_MAX_AMOUNT &&
+        (shippingInfo.country || '').toUpperCase() === 'MA'
+      );
+
+  // Reason a method can't be picked (null = selectable).
+  const paymentDisabledReason = (method: PaymentMethod): string | null => {
+    // Online gateways (card / PayPal) produce phantom pending orders with no real charge.
+    // Hide them behind a "coming soon" overlay until a live gateway is activated.
+    if (method.kind === 'gateway') {
+      return t('checkout.payment.gateway_coming_soon', 'قريباً / Coming soon');
+    }
+    if (method.kind === 'cod' && !codAllowed) {
+      return effectiveTotalForCod > COD_MAX_AMOUNT
+        ? t('checkout.payment.cod_over_limit', `Not available over ${COD_MAX_AMOUNT} MAD`)
+        : t('checkout.payment.cod_morocco_only', 'Only available inside Morocco');
+    }
+    return null;
+  };
 
   const handleLocationDetection = () => {
     setIsLoadingLocation(true);
@@ -335,12 +559,13 @@ export default function CheckoutPage() {
     try {
       setIsProcessing(true);
 
-      if (!user?.id) {
-        toast.error(t('checkout.errors.auth_required'));
-        return;
-      }
+      // Guest cart checkout is allowed — no auth wall here.
+      // Guests may complete COD / transfer orders without an account.
+      // The backend POST /api/orders/checkout accepts guest payloads (auth optional).
+      // Saved-addresses UI remains auth-only (handled separately via isAuthenticated guards).
 
-      for (const item of cartState.items) {
+      // Server-cart stock loop — skip for buy-now (no server cart involved)
+      if (!isBuyNow) for (const item of cartState!.items) {
         try {
           const stockAvailable = await cartService.checkStock(item.stock_id);
 
@@ -361,15 +586,16 @@ export default function CheckoutPage() {
             stockAvailable.available_quantity === 0
           ) {
             throw new Error(
-              `Item Unavailable: This item is currently out of stock or the requested quantity exceeds our available stock. (${item.product.name})`
+              t('checkout.errors.item_unavailable', { name: item.product.name })
             );
           }
 
           if (stockAvailable.available_quantity < item.quantity) {
             throw new Error(
-              `Only ${stockAvailable.available_quantity} item${
-                stockAvailable.available_quantity !== 1 ? 's' : ''
-              } available for ${item.product.name}. Please update your cart.`
+              t('checkout.errors.insufficient_stock', {
+                count: stockAvailable.available_quantity,
+                name: item.product.name,
+              })
             );
           }
 
@@ -396,6 +622,12 @@ export default function CheckoutPage() {
         card: 'credit_card',
         paypal: 'paypal',
         cod: 'cash_on_delivery',
+        // Offline transfers are already canonical — pass through unchanged.
+        bank_transfer: 'bank_transfer',
+        wafacash: 'wafacash',
+        cash_plus: 'cash_plus',
+        western_union: 'western_union',
+        moneygram: 'moneygram',
       };
       const normalizedPaymentMethod = paymentMethodMap[selectedPayment] || selectedPayment;
 
@@ -409,25 +641,44 @@ export default function CheckoutPage() {
         return;
       }
 
-      if (!shippingInfo.firstName || shippingInfo.firstName.trim().length < 2) {
-        toast.error('First name is required and must be at least 2 characters');
-        return;
+      // The delivery form exposes a single "Full name" field (bound to firstName).
+      // Authenticated / saved-address prefill may populate firstName + lastName
+      // separately — honour that; otherwise split the full name on whitespace so the
+      // backend always receives a non-empty last_name. Fixes the guest-checkout block
+      // where lastName was validated but had no input field (storefront audit P0-A).
+      const fullNameRaw = (shippingInfo.firstName || '').trim();
+      let derivedFirstName = fullNameRaw;
+      let derivedLastName = (shippingInfo.lastName || '').trim();
+      if (!derivedLastName) {
+        const nameParts = fullNameRaw.split(/\s+/).filter(Boolean);
+        derivedFirstName = nameParts[0] || '';
+        derivedLastName = nameParts.length > 1 ? nameParts.slice(1).join(' ') : '';
       }
-
-      if (!shippingInfo.lastName || shippingInfo.lastName.trim().length < 2) {
-        toast.error('Last name is required and must be at least 2 characters');
+      if (!derivedFirstName || !derivedLastName || (derivedFirstName + derivedLastName).length < 3) {
+        toast.error(t('checkout.validation.full_name_required', 'Please enter your full name (first and last name).'));
         return;
       }
 
       const phoneDigits = shippingInfo.phone.replace(/\D/g, '');
       if (phoneDigits.length < 10) {
-        toast.error('Please enter a valid phone number with at least 10 digits');
+        toast.error(t('checkout.validation.phone_min_digits'));
         return;
       }
 
-      const availablePaymentMethods = ['credit_card', 'paypal', 'cash_on_delivery'];
+      const availablePaymentMethods = [
+        'cash_on_delivery',
+        'bank_transfer',
+        'wafacash',
+        'cash_plus',
+        'western_union',
+        'moneygram',
+        // Bypassed online gateways — accepted; order is created without a real
+        // charge (backend sets payment_status 'pending' for these).
+        'credit_card',
+        'paypal',
+      ];
       if (!availablePaymentMethods.includes(normalizedPaymentMethod)) {
-        toast.error('Please select a valid payment method');
+        toast.error(t('checkout.validation.payment_method_invalid'));
         return;
       }
 
@@ -472,41 +723,144 @@ export default function CheckoutPage() {
       };
       if (countryMap[normalizedCountry]) normalizedCountry = countryMap[normalizedCountry];
 
-      const orderData = {
-        items: cartState.items.map((item) => ({
-          product_id: item.product.id,
-          quantity: item.quantity,
-          unit_price: String(item.unit_price),
-          ...(item.stock_id && { stock_id: item.stock_id }),
-          ...(item.variant_id && { variant_id: item.variant_id }),
-          store_id: item.store?.id || 0,
-        })),
-        shipping_info: {
-          first_name: (shippingInfo.firstName || '').trim(),
-          last_name: (shippingInfo.lastName || '').trim(),
-          email: (shippingInfo.email || '').trim().toLowerCase(),
-          phone: (shippingInfo.phone?.replace(/\D/g, '') || '').trim(),
-          address: (shippingInfo.address || '').trim(),
-          apartment: (shippingInfo.apartment || '').trim(),
-          city: (shippingInfo.city || '').trim(),
-          state: (shippingInfo.state || '').trim(),
-          zip_code: (shippingInfo.postalCode || '').trim(),
-          country: normalizedCountry,
-        },
-        payment_method: normalizedPaymentMethod,
-        status: 'pending',
-        subtotal: String(cartState.subtotal),
-        tax_amount: String(cartState.tax_amount),
-        shipping_amount: String(cartState.shipping_amount),
-        discount_amount: String(cartState.discount_amount),
-        total_amount: String(cartState.total_amount),
-        coupon_code: cartState.coupon_code || null,
+      // ── Common shipping info shape ──────────────────────────────────────────
+      const shippingPayload = {
+        first_name: derivedFirstName,
+        last_name: derivedLastName,
+        email: (shippingInfo.email || '').trim().toLowerCase(),
+        phone: (shippingInfo.phone?.replace(/\D/g, '') || '').trim(),
+        address: (shippingInfo.address || '').trim(),
+        apartment: (shippingInfo.apartment || '').trim(),
+        city: (shippingInfo.city || '').trim(),
+        state: (shippingInfo.state || '').trim(),
+        zip_code: (shippingInfo.postalCode || '').trim(),
+        country: normalizedCountry,
       };
 
-      const response = await orderService.createOrder(orderData);
+      let response: any;
+
+      if (isBuyNow && buyNowItem) {
+        // ── Guest path — POST /api/orders/checkout ──────────────────────────
+        // Use quote numbers (authoritative) when available; guard against no-quote
+        if (!quote && !quoteLoading) {
+          toast.error(t('checkout.quote.load_error', 'Could not calculate order total. Please try again.'));
+          return;
+        }
+
+        const buyNowSubtotalFinal = quote ? quote.subtotal : buyNowItem.unit_price * buyNowItem.quantity;
+        const buyNowShippingFinal = quote ? quote.shipping_amount : 0;
+        const buyNowTaxFinal = quote ? quote.tax_amount : 0;
+        const buyNowDiscountFinal = quote ? quote.discount_amount : 0;
+        const buyNowTotalFinal = quote ? quote.total_amount : buyNowSubtotalFinal;
+
+        const checkoutPayload = {
+          items: [
+            {
+              product_id: buyNowItem.product_id,
+              quantity: buyNowItem.quantity,
+              unit_price: buyNowItem.unit_price,
+              ...(buyNowItem.stock_id ? { stock_id: buyNowItem.stock_id } : {}),
+              ...(buyNowItem.variant_id ? { variant_id: buyNowItem.variant_id } : {}),
+              store_id: buyNowItem.store_id ?? 0,
+            },
+          ],
+          shipping_info: shippingPayload,
+          payment_method: normalizedPaymentMethod,
+          subtotal: buyNowSubtotalFinal,
+          tax_amount: buyNowTaxFinal,
+          shipping_amount: buyNowShippingFinal,
+          discount_amount: buyNowDiscountFinal,
+          total_amount: buyNowTotalFinal,
+          coupon_code: null,
+          marketing_opt_in: sendUpdates,
+        };
+
+        response = await (orderService as any).createCheckoutOrder(checkoutPayload);
+      } else if (isAuthenticated && user?.id) {
+        // ── Authenticated cart path — POST /api/orders ──────────────────────
+        const orderData = {
+          items: cartState!.items.map((item) => ({
+            product_id: item.product.id,
+            quantity: item.quantity,
+            unit_price: String(item.unit_price),
+            ...(item.stock_id && { stock_id: item.stock_id }),
+            ...(item.variant_id && { variant_id: item.variant_id }),
+            store_id: item.store?.id || 0,
+          })),
+          shipping_info: shippingPayload,
+          payment_method: normalizedPaymentMethod,
+          // Additive — backend ignores if not yet supported
+          shipping_method_id: shippingMethod,
+          status: 'pending',
+          subtotal: String(cartState!.subtotal),
+          tax_amount: String(cartState!.tax_amount),
+          shipping_amount: String(cartState!.shipping_amount),
+          discount_amount: String(cartState!.discount_amount),
+          total_amount: String(cartState!.total_amount),
+          coupon_code: cartState!.coupon_code || null,
+          marketing_opt_in: sendUpdates,
+        };
+        response = await orderService.createOrder(orderData);
+      } else {
+        // ── Guest cart path — POST /api/orders/checkout (auth optional) ────
+        // Guest has no account but can still check out via COD / transfer.
+        // Uses the same public endpoint as the buy-now flow.
+        const guestCartPayload = {
+          items: cartState!.items.map((item) => ({
+            product_id: item.product.id,
+            quantity: item.quantity,
+            unit_price: typeof item.unit_price === 'string'
+              ? parseFloat(item.unit_price)
+              : item.unit_price,
+            ...(item.stock_id ? { stock_id: item.stock_id } : {}),
+            ...(item.variant_id ? { variant_id: item.variant_id } : {}),
+            store_id: item.store?.id ?? 0,
+          })),
+          shipping_info: shippingPayload,
+          payment_method: normalizedPaymentMethod,
+          subtotal: cartState!.subtotal ?? 0,
+          tax_amount: cartState!.tax_amount ?? 0,
+          shipping_amount: cartState!.shipping_amount ?? 0,
+          discount_amount: cartState!.discount_amount ?? 0,
+          total_amount: cartState!.total_amount ?? 0,
+          coupon_code: cartState!.coupon_code ?? null,
+          marketing_opt_in: sendUpdates,
+        };
+        response = await (orderService as any).createCheckoutOrder(guestCartPayload);
+      }
+
+      // ── Task 2: Save new address (non-blocking, auth only) ──────────────
+      // Only save when the user typed a fresh address (no existing address selected)
+      // and checked the "save this address" box.
+      if (isAuthenticated && saveNewAddress && !selectedAddressId) {
+        addressService
+          .create({
+            first_name: shippingPayload.first_name,
+            last_name: shippingPayload.last_name,
+            email: shippingPayload.email,
+            phone: shippingPayload.phone,
+            address: shippingPayload.address,
+            apartment: shippingPayload.apartment,
+            city: shippingPayload.city,
+            state: shippingPayload.state,
+            postal_code: shippingPayload.zip_code,
+            country: shippingPayload.country,
+          })
+          .catch((err) => {
+            logger.warn('Non-blocking: failed to save address:', err);
+          });
+      }
 
       if (response.success || response.status === 'success') {
+        // Extract group_number first (new multi-seller OrderGroup identifier, plan.md)
+        // Fall back to order_number for single-seller / back-compat legacy clients.
+        const group_number =
+          response?.data?.group_number ||
+          response?.data?.order_group?.group_number ||
+          response?.group_number;
+
         const orderNumber =
+          group_number ||
           response?.data?.order_number ||
           response?.data?.order?.order_number ||
           response?.order_number ||
@@ -516,7 +870,46 @@ export default function CheckoutPage() {
           response?.data?.id ||
           response?.id;
 
-        await clearCart();
+        if (isBuyNow) {
+          // Guest path: clear the buy-now stash and save order data for confirmation
+          try { sessionStorage.removeItem('beldify_buy_now'); } catch { /* noop */ }
+          // Stash enough for the confirmation page (no auth, can't fetch from server).
+          // FR-018: include group_number + orders[] so confirmation can enumerate sub-orders.
+          try {
+            const orderData = response?.data?.order || response?.data || response?.order || {};
+            // Sub-orders array from a multi-seller split checkout (plan.md)
+            const subOrders: Array<{ id: number | string; order_number: string; store_id: number; store_name?: string; total_amount?: number }> =
+              response?.data?.orders || response?.data?.order_group?.orders || [];
+            const guestOrderStash = {
+              order_number: orderNumber,
+              // NEW: group reference for FR-018 confirmation page sub-order enumeration
+              checkout_group_id: group_number,
+              // NEW: sub-orders from split checkout (plan.md sellers[])
+              orders: subOrders.length > 0 ? subOrders : undefined,
+              payment_status: orderData.payment_status ||
+                (normalizedPaymentMethod === 'cash_on_delivery' ? 'pending' : 'awaiting_payment'),
+              payment_method: normalizedPaymentMethod,
+              total_amount: totalAmount,
+              shipping_amount: shippingAmount,
+              tax_amount: taxAmount,
+              items: [{
+                id: String(buyNowItem!.product_id),
+                product_name: buyNowItem!.name,
+                quantity: buyNowItem!.quantity,
+                unit_price: buyNowItem!.unit_price,
+                product: {
+                  name: buyNowItem!.name,
+                  image_url: buyNowItem!.image,
+                },
+              }],
+              shipping_info: shippingPayload,
+              created_at: new Date().toISOString(),
+            };
+            sessionStorage.setItem('beldify_last_order', JSON.stringify(guestOrderStash));
+          } catch { /* noop */ }
+        } else {
+          await clearCart();
+        }
         toast.success(t('checkout.success.order_placed'));
 
         if (orderNumber) {
@@ -524,7 +917,7 @@ export default function CheckoutPage() {
             `/order-confirmation?orderId=${encodeURIComponent(String(orderNumber))}`
           );
         } else {
-          toast.success('Order placed. Redirecting to your orders...');
+          toast.success(t('checkout.success.redirecting_orders'));
           router.push('/orders');
         }
       } else {
@@ -533,10 +926,10 @@ export default function CheckoutPage() {
           response.message?.includes('out of stock')
         ) {
           throw new Error(
-            'One or more items in your cart are no longer available in the requested quantity. Please review your cart and try again.'
+            t('checkout.errors.cart_items_unavailable')
           );
         }
-        throw new Error(response.message || 'Order creation failed');
+        throw new Error(response.message || t('checkout.errors.order_creation_failed'));
       }
     } catch (error: any) {
       logger.error('Order processing error:', error);
@@ -556,26 +949,180 @@ export default function CheckoutPage() {
   };
 
   const handlePaymentMethodSelect = (methodId: string) => {
+    const method = getPaymentMethods().find((m) => m.id === methodId);
+    if (method && paymentDisabledReason(method)) return; // not selectable
     setSelectedPayment(methodId);
   };
 
-  // ── Derived totals ────────────────────────────────────────────────────────
-  const subtotal = cartState?.subtotal ?? 0;
-  const shippingAmount = cartState?.shipping_amount ?? 0;
-  const taxAmount = cartState?.tax_amount ?? 0;
-  const discountAmount = cartState?.discount_amount ?? 0;
-  const totalAmount = cartState?.total_amount ?? 0;
+  // ── Task 2: Prefill form from selected saved address ─────────────────────
+  const handleAddressSelect = (addressId: number) => {
+    setSelectedAddressId(addressId);
+    const addr = savedAddresses.find((a) => a.id === addressId);
+    if (!addr) return;
+    const prefill = addressService.prefillFromAddress(addr);
+    setShippingInfo((prev) => ({
+      ...prev,
+      firstName: prefill.firstName || prev.firstName,
+      lastName: prefill.lastName || prev.lastName,
+      email: prefill.email || prev.email,
+      phone: prefill.phone || prev.phone,
+      address: prefill.address,
+      apartment: prefill.apartment ?? prev.apartment,
+      city: prefill.city,
+      state: prefill.state,
+      postalCode: prefill.postalCode ?? '',
+      country: prefill.country,
+    }));
+    // Reset validation errors after prefill
+    setValidationErrors({});
+    setTouchedFields({});
+  };
+
+  // ── Fetch quote for BOTH buy-now and cart paths ───────────────────────────
+  // Buy-now: single item from URL params.
+  // Cart path: mapped from cartState.items using the same stock_id+quantity
+  //   shape that the place-order handler uses (item.stock_id, item.quantity).
+  // Coupon included when cartState.coupon_code is set (null for buy-now).
+  // Re-runs whenever items, country, or coupon change.
+  useEffect(() => {
+    // Buy-now guard: needs buyNowItem
+    if (isBuyNow && !buyNowItem) return;
+    // Cart guard: needs at least one item
+    if (!isBuyNow && !cartState?.items?.length) return;
+
+    let cancelled = false;
+    const fetchQuote = async () => {
+      setQuoteLoading(true);
+      setQuoteError(null);
+      try {
+        const quoteItems = isBuyNow
+          ? [{ stock_id: buyNowItem!.stock_id, quantity: buyNowItem!.quantity }]
+          : cartState!.items.map((item) => ({
+              stock_id: item.stock_id,
+              quantity: item.quantity,
+            }));
+        const result = await orderService.getCheckoutQuote({
+          items: quoteItems,
+          country: shippingInfo.country || 'MA',
+          coupon_code: isBuyNow ? null : (cartState?.coupon_code ?? null),
+        });
+        if (!cancelled) setQuote(result);
+      } catch {
+        if (!cancelled) {
+          setQuoteError(t('checkout.quote.load_error', 'Could not calculate order total. Please try again.'));
+          setQuote(null);
+        }
+      } finally {
+        if (!cancelled) setQuoteLoading(false);
+      }
+    };
+
+    fetchQuote();
+    return () => {
+      cancelled = true;
+    };
+  }, [isBuyNow, buyNowItem, shippingInfo.country, cartState?.items, cartState?.coupon_code]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // ── Task 2: Load saved addresses for authenticated users ──────────────────
+  useEffect(() => {
+    if (!isAuthenticated) return;
+    let cancelled = false;
+    const load = async () => {
+      try {
+        const addresses = await addressService.list();
+        if (cancelled) return;
+        setSavedAddresses(addresses);
+        // Preselect the default address if one exists
+        const defaultAddr = addresses.find((a) => a.is_default) ?? addresses[0] ?? null;
+        if (defaultAddr) {
+          setSelectedAddressId(defaultAddr.id);
+          // Prefill form fields from the default address
+          const prefill = addressService.prefillFromAddress(defaultAddr);
+          setShippingInfo((prev) => ({
+            ...prev,
+            firstName: prefill.firstName || prev.firstName,
+            lastName: prefill.lastName || prev.lastName,
+            email: prefill.email || prev.email,
+            phone: prefill.phone || prev.phone,
+            address: prefill.address || prev.address,
+            apartment: prefill.apartment ?? prev.apartment,
+            city: prefill.city || prev.city,
+            state: prefill.state || prev.state,
+            postalCode: prefill.postalCode ?? prev.postalCode,
+            country: prefill.country || prev.country,
+          }));
+        }
+      } catch {
+        // Non-blocking — address book failure must not break checkout
+      }
+    };
+    load();
+    return () => { cancelled = true; };
+  }, [isAuthenticated]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // If COD becomes ineligible (cart > limit or shipping leaves Morocco) while it
+  // is the selected method, fall back to the first transfer option.
+  useEffect(() => {
+    if (selectedPayment === 'cod' && !codAllowed) {
+      setSelectedPayment('bank_transfer');
+    }
+  }, [selectedPayment, codAllowed]);
+
+  // ── Derived totals — prefer server quote when available (both paths) ────────
+  // Buy-now: quote is always fetched; fall back to item math while loading.
+  // Cart path: quote is fetched on mount; fall back to cartState totals while
+  //   the quote is still loading (avoids a flash of stale local total).
+  // Both paths: once quote arrives it is authoritative (FR-017 server-quoting).
+  const buyNowSubtotalDerived = buyNowItem ? buyNowItem.unit_price * buyNowItem.quantity : 0;
+  const subtotal = isBuyNow
+    ? (quote ? quote.subtotal : buyNowSubtotalDerived)
+    : (quote ? quote.subtotal : (cartState?.subtotal ?? 0));
+  const shippingAmount = isBuyNow
+    ? (quote ? quote.shipping_amount : 0)
+    : (quote ? quote.shipping_amount : (cartState?.shipping_amount ?? 0));
+  const taxAmount = isBuyNow
+    ? (quote ? quote.tax_amount : 0)
+    : (quote ? quote.tax_amount : (cartState?.tax_amount ?? 0));
+  const discountAmount = isBuyNow
+    ? (quote ? quote.discount_amount : 0)
+    : (quote ? quote.discount_amount : (cartState?.discount_amount ?? 0));
+  const totalAmount = isBuyNow
+    ? (quote ? quote.total_amount : buyNowSubtotalDerived)
+    : (quote ? quote.total_amount : (cartState?.total_amount ?? 0));
+
+  // ── Task 1: Load dynamic shipping methods ────────────────────────────────
+  // Fetch whenever subtotal changes. On failure, dynamicShippingMethods stays []
+  // and renderDeliveryStep falls back to the hardcoded shippingMethodOptions below.
+  // Must stay below the derived `subtotal` (TDZ) and above the empty-cart return.
+  useEffect(() => {
+    let cancelled = false;
+    const load = async () => {
+      setShippingMethodsLoading(true);
+      try {
+        const methods = await shippingService.getMethods(subtotal);
+        if (!cancelled) setDynamicShippingMethods(methods);
+      } catch {
+        // getMethods never throws (it catches internally), but guard just in case
+        if (!cancelled) setDynamicShippingMethods([]);
+      } finally {
+        if (!cancelled) setShippingMethodsLoading(false);
+      }
+    };
+    load();
+    return () => { cancelled = true; };
+  }, [subtotal]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // ── Empty cart state ──────────────────────────────────────────────────────
-  if (!cartState?.items?.length) {
+  // Skip for buy-now guests — they have no server cart.
+  if (!isBuyNow && !cartState?.items?.length) {
     return (
-      <div className={`min-h-screen bg-amber-50/40 ${isRTL ? 'rtl' : 'ltr'}`}>
+      <div className={`min-h-screen bg-canvas ${isRTL ? 'rtl' : 'ltr'}`}>
         <div className="max-w-7xl mx-auto px-6 py-24 flex flex-col items-center text-center">
-          <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-amber-50 ring-2 ring-amber-200 mb-8">
+          <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-amber-50 ring-2 ring-amber-200 mb-8 shadow-atlas-sm">
             <ShoppingBag className="w-9 h-9 text-amber-500" />
           </div>
           <h2
-            className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4"
+            className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4 text-balance"
             style={playfair}
           >
             {t(
@@ -588,51 +1135,44 @@ export default function CheckoutPage() {
           </p>
           <Link
             href="/products"
-            className="inline-flex items-center gap-2 bg-indigo-700 hover:bg-indigo-800 text-white rounded-full py-3 px-8 text-sm font-semibold transition-colors"
+            className="inline-flex items-center gap-2 bg-indigo-700 hover:bg-indigo-800 text-white rounded-full py-3 px-8 text-sm font-semibold transition-all duration-200 hover-lift focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700/50"
           >
             {t('checkout.empty.cta', 'Back to shopping')}
-            <ArrowRight className="w-4 h-4" />
+            <ArrowRight className="w-4 h-4 rtl:rotate-180" aria-hidden="true" />
           </Link>
         </div>
 
         <ReassuranceStrip t={t} />
-
         <BespokeStrip t={t} />
       </div>
     );
   }
 
-  // ── Input helper ─────────────────────────────────────────────────────────
-  // expect: form inputs (input/select/textarea) use rounded-2xl per DESIGN.md §4
+  // ── Input helper — text-base + min-h-[48px] for non-technical users ─────
   const inputClass = (field?: string) =>
     `block w-full rounded-2xl bg-amber-50 ring-1 ${
       field && touchedFields[field] && validationErrors[field]
-        ? 'ring-red-400 focus:ring-red-500'
-        : 'ring-amber-200 focus:ring-indigo-500'
-    } px-3 py-2.5 text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 transition`;
+        ? 'ring-rose-400 focus:ring-rose-500'
+        : 'ring-gray-200 focus:ring-indigo-700/40'
+    } px-3 py-3 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 transition-all duration-150 min-h-[48px]`;
 
-  // ── Payment step (original visual, kept verbatim) ─────────────────────────
+  // ── Payment step ─────────────────────────────────────────────────────────
   const renderPaymentSection = () => (
-    <div className="bg-white rounded-2xl ring-1 ring-amber-200 p-6">
-      <div className="flex items-center justify-between mb-6">
-        <h2
-          id="payment-title"
-          className="text-xl font-semibold text-gray-900"
-          style={playfair}
-        >
-          {t('checkout.payment.title', 'Payment method')}
-        </h2>
-        <div className="flex items-center text-sm text-gray-500 gap-2">
-          {/* expect: completed step indicator uses indigo-700 (not green-600) per palette */}
-          <span className="w-6 h-6 flex items-center justify-center rounded-full bg-indigo-700 text-white text-xs font-medium">
-            ✓
-          </span>
-          <span>/</span>
-          <span className="w-6 h-6 flex items-center justify-center rounded-full bg-indigo-700 text-white text-xs font-medium">
-            2
-          </span>
-        </div>
-      </div>
+    <div className="bg-white rounded-2xl ring-1 ring-gray-200 p-6 shadow-atlas-sm">
+      <h2
+        id="payment-title"
+        className="text-xl font-semibold text-gray-900 mb-1"
+        style={playfair}
+      >
+        {t('checkout.payment.title', 'طريقة الدفع')}
+      </h2>
+      {/* COD subtitle — prominent for non-technical users */}
+      {codAllowed && (
+        <p className="text-sm text-indigo-600 mb-5">
+          {t('checkout.payment.cod_subtitle', 'خلّص ملي توصلك السلعة — الدفع عند الاستلام')}
+        </p>
+      )}
+      {!codAllowed && <div className="mb-5" />}
 
       <fieldset className="space-y-3" role="radiogroup" aria-labelledby="payment-title">
         <legend className="sr-only">{t('checkout.payment.title', 'Payment method')}</legend>
@@ -648,33 +1188,36 @@ export default function CheckoutPage() {
                 handlePaymentMethodSelect(method.id);
               }
             }}
-            className={`relative flex items-center p-4 border rounded-xl cursor-pointer transition-all ${
+            className={`relative flex items-center p-4 border rounded-2xl cursor-pointer transition-all duration-200 ${
               selectedPayment === method.id
-                ? 'border-indigo-700 bg-indigo-50'
-                : 'border-amber-200 hover:border-indigo-400'
+                ? 'border-indigo-700 bg-indigo-50 shadow-atlas-sm'
+                : 'border-gray-200 hover:border-indigo-400 hover:bg-gray-50'
             }`}
             onClick={() => handlePaymentMethodSelect(method.id)}
           >
             <div className="flex items-center flex-1 gap-3">
-              <Image
-                src={method.icon}
-                alt=""
-                width={48}
-                height={48}
-                className="object-contain p-1 flex-shrink-0"
-                aria-hidden="true"
-              />
+              <div className="w-12 h-12 rounded-xl bg-amber-50 ring-1 ring-amber-200 flex items-center justify-center flex-shrink-0 overflow-hidden">
+                <Image
+                  src={method.icon}
+                  alt=""
+                  width={40}
+                  height={40}
+                  className="object-contain p-1"
+                  aria-hidden="true"
+                />
+              </div>
               <div className="flex-1">
-                <h3 className="text-sm font-medium text-gray-900">
+                <h3 className="text-sm font-semibold text-gray-900">
                   {t(`checkout.payment.methods.${method.id}`, method.name)}
                 </h3>
-                <p className="text-sm text-gray-500">
+                <p className="text-xs text-gray-500 mt-0.5">
                   {t(`checkout.payment.descriptions.${method.id}`, method.description)}
                 </p>
               </div>
             </div>
+            {/* Custom radio dot */}
             <div
-              className={`w-5 h-5 rounded-full border-2 flex items-center justify-center flex-shrink-0 ${
+              className={`w-5 h-5 rounded-full border-2 flex items-center justify-center flex-shrink-0 transition-colors ${
                 selectedPayment === method.id ? 'border-indigo-700' : 'border-gray-300'
               }`}
             >
@@ -682,10 +1225,10 @@ export default function CheckoutPage() {
                 <div className="w-2.5 h-2.5 rounded-full bg-indigo-700" />
               )}
             </div>
-            {method.id !== 'cod' && (
-              <div className="absolute inset-0 bg-white/80 backdrop-blur-sm flex items-center justify-center rounded-xl">
-                <span className="text-xs font-medium text-gray-500 bg-white px-3 py-1 rounded-full shadow-sm border border-gray-200">
-                  {t('checkout.payment.coming_soon', 'Coming soon')}
+            {paymentDisabledReason(method) && (
+              <div className="absolute inset-0 bg-white flex items-center justify-center rounded-2xl">
+                <span className="text-xs font-medium text-gray-500 bg-white px-3 py-1 rounded-full shadow-atlas-sm ring-1 ring-gray-200">
+                  {paymentDisabledReason(method)}
                 </span>
               </div>
             )}
@@ -693,47 +1236,75 @@ export default function CheckoutPage() {
         ))}
       </fieldset>
 
+      {/* Help for shoppers who don't know how to pay */}
+      <div className="mt-6 rounded-2xl bg-gray-50 ring-1 ring-gray-200 p-4">
+        <div className="flex items-start gap-3">
+          <Headphones className="w-5 h-5 text-indigo-700 flex-shrink-0 mt-0.5" aria-hidden="true" />
+          <div className="flex-1">
+            <p className="text-sm font-semibold text-gray-900">
+              {t('checkout.payment.need_help_title', 'Not sure how to pay?')}
+            </p>
+            <p className="text-xs text-gray-500 mt-0.5">
+              {t(
+                'checkout.payment.need_help_body',
+                "Message or call us and we'll guide you through it."
+              )}
+            </p>
+            <div className="flex flex-wrap gap-2 mt-3">
+              <a
+                href={`https://wa.me/${SUPPORT_WHATSAPP}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 text-xs font-medium text-green-700 bg-green-50 ring-1 ring-green-200 rounded-full px-3 py-1.5 hover:bg-green-100 transition-colors"
+              >
+                <MessageCircle className="w-3.5 h-3.5" aria-hidden="true" />
+                {t('checkout.payment.whatsapp', 'WhatsApp')}
+              </a>
+              <a
+                href={`tel:${SUPPORT_PHONE}`}
+                className="inline-flex items-center gap-1.5 text-xs font-medium text-indigo-700 bg-indigo-50 ring-1 ring-indigo-200 rounded-full px-3 py-1.5 hover:bg-indigo-100 transition-colors"
+              >
+                <Phone className="w-3.5 h-3.5" aria-hidden="true" />
+                {t('checkout.payment.call', 'Call us')}
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div className="mt-8 flex justify-between gap-4">
         <button
           type="button"
           onClick={() => setStep(1)}
-          className="px-6 py-3 border border-amber-200 text-gray-700 font-medium rounded-full hover:bg-amber-50 transition-colors text-sm"
+          className="px-6 py-3 ring-1 ring-amber-200 text-gray-700 font-medium rounded-full hover:bg-amber-50 transition-all duration-200 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-700/30"
         >
           {t('checkout.actions.back_to_shipping', 'Back to Delivery')}
         </button>
         <button
           onClick={handlePaymentSubmit}
           disabled={isProcessing}
-          className="flex-1 inline-flex items-center justify-center gap-2 bg-indigo-700 hover:bg-indigo-800 text-white font-semibold rounded-full py-3 px-8 transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-sm"
+          className="flex-1 inline-flex flex-col items-center justify-center bg-amber-500 hover:bg-amber-400 text-amber-950 font-bold rounded-full py-3.5 px-8 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed text-base focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-400 shadow-sm min-h-[52px]"
         >
           {isProcessing ? (
             <>
               <svg
-                className="animate-spin h-4 w-4 text-white"
+                className="animate-spin h-4 w-4"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
+                aria-hidden="true"
               >
-                <circle
-                  className="opacity-25"
-                  cx="12"
-                  cy="12"
-                  r="10"
-                  stroke="currentColor"
-                  strokeWidth="4"
-                />
-                <path
-                  className="opacity-75"
-                  fill="currentColor"
-                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                />
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
               </svg>
-              <span>{t('checkout.actions.processing', 'Processing...')}</span>
+              <span>{t('checkout.actions.processing', 'جاري المعالجة...')}</span>
             </>
           ) : (
             <>
-              {t('checkout.actions.place_order', 'Place order')}
-              <ArrowRight className="w-4 h-4" />
+              <span>{t('checkout.actions.place_order', 'أكّد الطلب')}</span>
+              <span className="text-xs font-medium opacity-80 tabular-nums currency-mad mt-0.5">
+                {formatAmount(totalAmount)} MAD
+              </span>
             </>
           )}
         </button>
@@ -741,90 +1312,115 @@ export default function CheckoutPage() {
     </div>
   );
 
-  // ── Delivery step — Stitch design ─────────────────────────────────────────
+  // ── Delivery step — shipping method options ───────────────────────────────
+  // If dynamic methods loaded: use them; else fall back to hardcoded constants.
+  // Each option gets an icon by matching id prefix.
+  const getMethodIcon = (id: string) => {
+    if (id === 'express') return <Zap className="w-5 h-5 text-indigo-700" aria-hidden="true" />;
+    if (id === 'pickup') return <Store className="w-5 h-5 text-indigo-700" aria-hidden="true" />;
+    return <Truck className="w-5 h-5 text-indigo-700" aria-hidden="true" />;
+  };
+
+  // Source of truth for rendered options
+  const activeMethods = dynamicShippingMethods.length > 0
+    ? dynamicShippingMethods
+    : shippingService.getFallback(subtotal);
+
+  // Translate shipping method name + ETA by well-known id; fall back to
+  // backend-supplied strings (live API may already return localised values).
+  const getShippingMethodName = (id: string, fallback: string): string => {
+    const key = `checkout.shipping.methods.${id}.name`;
+    const translated = t(key, fallback);
+    return translated !== key ? translated : fallback;
+  };
+
+  const getShippingMethodEta = (id: string, fallback: string): string => {
+    const key = `checkout.shipping.methods.${id}.eta`;
+    const translated = t(key, fallback);
+    return translated !== key ? translated : fallback;
+  };
+
   const shippingMethodOptions: Array<{
     key: ShippingMethodKey;
     icon: React.ReactNode;
     name: string;
     eta: string;
     price: string;
-  }> = [
-    {
-      key: 'standard',
-      icon: <Truck className="w-5 h-5 text-indigo-700" />,
-      name: t('checkout.shipping.methods.standard.name', 'Standard Delivery'),
-      eta: t('checkout.shipping.methods.standard.eta', '3–5 business days'),
-      price:
-        subtotal >= 500
-          ? t('checkout.shipping.methods.standard.free', 'Free')
-          : '30 MAD',
-    },
-    {
-      key: 'express',
-      icon: <Zap className="w-5 h-5 text-indigo-700" />,
-      name: t('checkout.shipping.methods.express.name', 'Express Delivery'),
-      eta: t('checkout.shipping.methods.express.eta', '1–2 business days'),
-      price: '70 MAD',
-    },
-    {
-      key: 'pickup',
-      icon: <Store className="w-5 h-5 text-indigo-700" />,
-      name: t('checkout.shipping.methods.pickup.name', 'Pickup — Tetouan'),
-      eta: t('checkout.shipping.methods.pickup.eta', 'Ready next business day'),
-      price: t('checkout.shipping.methods.pickup.free', 'Free'),
-    },
-  ];
+    isFree: boolean;
+  }> = activeMethods.map((m) => ({
+    key: m.id,
+    icon: getMethodIcon(m.id),
+    name: getShippingMethodName(m.id, m.name),
+    eta: getShippingMethodEta(m.id, m.delivery_time),
+    price: m.is_free
+      ? t('checkout.shipping.methods.standard.free', 'Free')
+      : `${formatAmount(m.cost)} MAD`,
+    isFree: m.is_free,
+  }));
 
   const renderDeliveryStep = () => (
     <form
       id="checkout-delivery"
       onSubmit={handleShippingSubmit}
-      className="space-y-6"
+      className="space-y-5"
       noValidate
     >
       {/* Contact card */}
-      <section className="bg-white ring-1 ring-amber-200 rounded-2xl p-6">
-        <h2 className="text-xl font-semibold text-gray-900 mb-5" style={playfair}>
+      <section
+        className="bg-white ring-1 ring-gray-200 rounded-2xl p-6 shadow-atlas-sm"
+        aria-labelledby="section-contact"
+      >
+        <h2
+          id="section-contact"
+          className="text-xl font-semibold text-gray-900 mb-5"
+          style={playfair}
+        >
           {t('checkout.contact.title', 'Contact')}
         </h2>
         <div className="space-y-4">
-          {/* Email pill */}
-          <div className="relative">
-            <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
-            <input
-              type="email"
-              name="email"
-              id="email"
-              autoComplete="email"
-              autoCapitalize="off"
-              autoCorrect="off"
-              value={shippingInfo.email}
-              onChange={handleShippingChange}
-              onBlur={(e) => handleFieldBlur('email', e.target.value)}
-              placeholder={t('checkout.contact.email_placeholder', 'Email address')}
-              className={`block w-full rounded-full bg-amber-50 ring-1 ${
-                touchedFields.email && validationErrors.email
-                  ? 'ring-red-400 focus:ring-red-500'
-                  : 'ring-amber-200 focus:ring-indigo-500'
-              } pl-10 pr-4 py-2.5 text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 transition`}
-              aria-invalid={touchedFields.email && !!validationErrors.email}
-            />
+          {/* Email */}
+          <div>
+            <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1.5">
+              {t('checkout.contact.email_label', 'Email address')}
+            </label>
+            <div className="relative">
+              <Mail className="absolute start-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" aria-hidden="true" />
+              <input
+                type="email"
+                name="email"
+                id="email"
+                autoComplete="email"
+                autoCapitalize="off"
+                autoCorrect="off"
+                value={shippingInfo.email}
+                onChange={handleShippingChange}
+                onBlur={(e) => handleFieldBlur('email', e.target.value)}
+                placeholder={t('checkout.contact.email_placeholder', 'Email address')}
+                className={`block w-full rounded-full bg-amber-50 ring-1 ${
+                  touchedFields.email && validationErrors.email
+                    ? 'ring-rose-400 focus:ring-rose-500'
+                    : 'ring-gray-200 focus:ring-indigo-700/40'
+                } ps-10 pe-4 py-2.5 text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 transition-all duration-150`}
+                aria-invalid={touchedFields.email && !!validationErrors.email}
+                aria-describedby={touchedFields.email && validationErrors.email ? 'email-error' : undefined}
+              />
+            </div>
+            {touchedFields.email && validationErrors.email && (
+              <p id="email-error" className="text-xs text-rose-600 mt-1.5" role="alert">
+                {validationErrors.email}
+              </p>
+            )}
           </div>
-          {touchedFields.email && validationErrors.email && (
-            <p className="text-xs text-red-600" role="alert">
-              {validationErrors.email}
-            </p>
-          )}
 
           {/* Updates checkbox */}
-          <label className="flex items-center gap-3 cursor-pointer select-none">
+          <label className="flex items-center gap-3 cursor-pointer select-none group">
             <input
               type="checkbox"
               checked={sendUpdates}
               onChange={(e) => setSendUpdates(e.target.checked)}
-              className="w-4 h-4 rounded border-amber-300 text-amber-500 focus:ring-amber-400 bg-amber-50"
+              className="w-4 h-4 rounded border-gray-300 text-indigo-700 focus:ring-indigo-700/30 bg-amber-50"
             />
-            <span className="text-sm text-gray-600">
+            <span className="text-sm text-gray-600 group-hover:text-gray-800 transition-colors">
               {t(
                 'checkout.contact.updates_label',
                 'Send me order updates and offers'
@@ -835,10 +1431,62 @@ export default function CheckoutPage() {
       </section>
 
       {/* Delivery address card */}
-      <section className="bg-white ring-1 ring-amber-200 rounded-2xl p-6">
-        <h2 className="text-xl font-semibold text-gray-900 mb-5" style={playfair}>
+      <section
+        className="bg-white ring-1 ring-gray-200 rounded-2xl p-6 shadow-atlas-sm"
+        aria-labelledby="section-address"
+      >
+        <h2
+          id="section-address"
+          className="text-xl font-semibold text-gray-900 mb-5"
+          style={playfair}
+        >
           {t('checkout.address.title', 'Delivery address')}
         </h2>
+
+        {/* ── Task 2: Saved address dropdown (auth only) ──────────────────── */}
+        {isAuthenticated && savedAddresses.length > 0 && (
+          <div className="mb-5">
+            <label
+              htmlFor="saved-address-select"
+              className="block text-sm font-medium text-gray-700 mb-1.5"
+            >
+              <BookUser className="inline w-4 h-4 me-1.5 text-indigo-600" aria-hidden="true" />
+              {t('checkout.address.saved_addresses', 'Saved addresses')}
+            </label>
+            <div className="relative">
+              <select
+                id="saved-address-select"
+                value={selectedAddressId ?? ''}
+                onChange={(e) => {
+                  const val = e.target.value;
+                  if (val === '') {
+                    setSelectedAddressId(null);
+                  } else {
+                    handleAddressSelect(Number(val));
+                  }
+                }}
+                className={`${inputClass()} appearance-none pe-9`}
+                aria-label={t('checkout.address.saved_addresses', 'Saved addresses')}
+              >
+                <option value="">{t('checkout.address.type_new', 'Enter a new address')}</option>
+                {savedAddresses.map((addr) => (
+                  <option key={addr.id} value={addr.id}>
+                    {addr.label
+                      ? `${addr.label} — `
+                      : ''}{addr.first_name} {addr.last_name}, {addr.city}
+                    {addr.is_default
+                      ? ` (${t('checkout.address.default_badge', 'Default')})`
+                      : ''}
+                  </option>
+                ))}
+              </select>
+              <ChevronDown
+                className="absolute end-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none"
+                aria-hidden="true"
+              />
+            </div>
+          </div>
+        )}
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           {/* Full name — spans 2 */}
@@ -850,7 +1498,7 @@ export default function CheckoutPage() {
               {t('checkout.address.full_name', 'Full name')}
             </label>
             <div className="relative">
-              <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
+              <User className="absolute start-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" aria-hidden="true" />
               <input
                 type="text"
                 id="firstName"
@@ -859,7 +1507,7 @@ export default function CheckoutPage() {
                 value={shippingInfo.firstName}
                 onChange={handleShippingChange}
                 placeholder={t('checkout.address.full_name_placeholder', 'Ahmed Benali')}
-                className={`${inputClass()} pl-9`}
+                className={`${inputClass()} ps-9`}
               />
             </div>
           </div>
@@ -873,7 +1521,7 @@ export default function CheckoutPage() {
               {t('checkout.address.phone', 'Phone')}
             </label>
             <div className="relative">
-              <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
+              <Phone className="absolute start-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" aria-hidden="true" />
               <input
                 type="tel"
                 id="phone"
@@ -887,12 +1535,13 @@ export default function CheckoutPage() {
                   'checkout.address.phone_placeholder',
                   '+212 6 00 00 00 00'
                 )}
-                className={`${inputClass('phone')} pl-9`}
+                className={`${inputClass('phone')} ps-9`}
                 aria-invalid={touchedFields.phone && !!validationErrors.phone}
+                aria-describedby={touchedFields.phone && validationErrors.phone ? 'phone-error' : undefined}
               />
             </div>
             {touchedFields.phone && validationErrors.phone && (
-              <p className="text-xs text-red-600 mt-1" role="alert">
+              <p id="phone-error" className="text-xs text-rose-600 mt-1.5" role="alert">
                 {validationErrors.phone}
               </p>
             )}
@@ -914,6 +1563,7 @@ export default function CheckoutPage() {
               onBlur={(e) => handleFieldBlur('country', e.target.value)}
               className={`${inputClass('country')} appearance-none`}
               aria-invalid={touchedFields.country && !!validationErrors.country}
+              aria-describedby={touchedFields.country && validationErrors.country ? 'country-error' : undefined}
             >
               <option value="">{t('common.select_option', 'Select country')}</option>
               {countries.map((c) => (
@@ -923,7 +1573,7 @@ export default function CheckoutPage() {
               ))}
             </select>
             {touchedFields.country && validationErrors.country && (
-              <p className="text-xs text-red-600 mt-1" role="alert">
+              <p id="country-error" className="text-xs text-rose-600 mt-1.5" role="alert">
                 {validationErrors.country}
               </p>
             )}
@@ -948,9 +1598,10 @@ export default function CheckoutPage() {
               placeholder={t('checkout.address.city_placeholder', 'Casablanca')}
               className={inputClass('city')}
               aria-invalid={touchedFields.city && !!validationErrors.city}
+              aria-describedby={touchedFields.city && validationErrors.city ? 'city-error' : undefined}
             />
             {touchedFields.city && validationErrors.city && (
-              <p className="text-xs text-red-600 mt-1" role="alert">
+              <p id="city-error" className="text-xs text-rose-600 mt-1.5" role="alert">
                 {validationErrors.city}
               </p>
             )}
@@ -975,9 +1626,10 @@ export default function CheckoutPage() {
               placeholder={t('checkout.address.state_placeholder', 'Grand Casablanca')}
               className={inputClass('state')}
               aria-invalid={touchedFields.state && !!validationErrors.state}
+              aria-describedby={touchedFields.state && validationErrors.state ? 'state-error' : undefined}
             />
             {touchedFields.state && validationErrors.state && (
-              <p className="text-xs text-red-600 mt-1" role="alert">
+              <p id="state-error" className="text-xs text-rose-600 mt-1.5" role="alert">
                 {validationErrors.state}
               </p>
             )}
@@ -992,7 +1644,7 @@ export default function CheckoutPage() {
               {t('checkout.address.address', 'Street address')}
             </label>
             <div className="relative">
-              <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
+              <MapPin className="absolute start-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" aria-hidden="true" />
               <input
                 type="text"
                 id="address"
@@ -1005,226 +1657,381 @@ export default function CheckoutPage() {
                   'checkout.address.address_placeholder',
                   '123 Rue Mohammed V'
                 )}
-                className={`${inputClass('address')} pl-9`}
+                className={`${inputClass('address')} ps-9`}
                 aria-invalid={touchedFields.address && !!validationErrors.address}
+                aria-describedby={touchedFields.address && validationErrors.address ? 'address-error' : undefined}
               />
             </div>
             {touchedFields.address && validationErrors.address && (
-              <p className="text-xs text-red-600 mt-1" role="alert">
+              <p id="address-error" className="text-xs text-rose-600 mt-1.5" role="alert">
                 {validationErrors.address}
               </p>
             )}
           </div>
 
-          {/* Postal code */}
-          <div>
-            <label
-              htmlFor="postalCode"
-              className="block text-sm font-medium text-gray-700 mb-1.5"
-            >
-              {t('checkout.address.postal_code', 'Postal code')}
-            </label>
-            <div className="relative">
-              <Hash className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
+        </div>
+
+        {/* "زيد تفاصيل أخرى" — collapses postal code + apartment */}
+        <button
+          type="button"
+          onClick={() => setShowExtraFields((v) => !v)}
+          className="mt-3 inline-flex items-center gap-1.5 text-sm text-indigo-600 hover:text-indigo-800 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30 rounded"
+          aria-expanded={showExtraFields}
+        >
+          <ChevronRight
+            className={`w-4 h-4 transition-transform duration-200 ${showExtraFields ? 'rotate-90' : ''}`}
+            aria-hidden="true"
+          />
+          {t('checkout.address.extra_fields_toggle', 'زيد تفاصيل أخرى (الشقة، الكود البريدي)')}
+        </button>
+
+        {showExtraFields && (
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
+            {/* Postal code */}
+            <div>
+              <label
+                htmlFor="postalCode"
+                className="block text-sm font-medium text-gray-700 mb-1.5"
+              >
+                {t('checkout.address.postal_code', 'الكود البريدي')}
+              </label>
+              <div className="relative">
+                <Hash className="absolute start-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" aria-hidden="true" />
+                <input
+                  type="text"
+                  id="postalCode"
+                  name="postalCode"
+                  autoComplete="postal-code"
+                  value={shippingInfo.postalCode}
+                  onChange={handleShippingChange}
+                  placeholder="20000"
+                  className={`${inputClass()} ps-9`}
+                />
+              </div>
+            </div>
+
+            {/* Apartment */}
+            <div>
+              <label
+                htmlFor="apartment"
+                className="block text-sm font-medium text-gray-700 mb-1.5"
+              >
+                {t('checkout.address.apartment', 'الشقة أو الطابق')}{' '}
+                <span className="text-gray-400 font-normal text-xs">
+                  ({t('common.optional', 'اختياري')})
+                </span>
+              </label>
               <input
                 type="text"
-                id="postalCode"
-                name="postalCode"
-                autoComplete="postal-code"
-                value={shippingInfo.postalCode}
+                id="apartment"
+                name="apartment"
+                autoComplete="address-line2"
+                value={shippingInfo.apartment}
                 onChange={handleShippingChange}
-                placeholder="20000"
-                className={`${inputClass()} pl-9`}
+                placeholder={t('checkout.address.apartment_placeholder', 'شقة 4ب')}
+                className={inputClass()}
               />
             </div>
           </div>
+        )}
 
-          {/* Apartment — spans 2 on sm, 1 col */}
-          <div>
-            <label
-              htmlFor="apartment"
-              className="block text-sm font-medium text-gray-700 mb-1.5"
-            >
-              {t('checkout.address.apartment', 'Apartment, suite, etc.')}{' '}
-              <span className="text-gray-400 font-normal text-xs">
-                ({t('common.optional', 'optional')})
-              </span>
-            </label>
+        {/* ── Task 2: Save this address checkbox (auth only, fresh address) ── */}
+        {isAuthenticated && !selectedAddressId && (
+          <label className="flex items-center gap-3 cursor-pointer select-none group mt-4">
             <input
-              type="text"
-              id="apartment"
-              name="apartment"
-              autoComplete="address-line2"
-              value={shippingInfo.apartment}
-              onChange={handleShippingChange}
-              placeholder={t('checkout.address.apartment_placeholder', 'Apt 4B')}
-              className={inputClass()}
+              type="checkbox"
+              checked={saveNewAddress}
+              onChange={(e) => setSaveNewAddress(e.target.checked)}
+              className="w-4 h-4 rounded border-gray-300 text-indigo-700 focus:ring-indigo-700/30 bg-amber-50"
             />
-          </div>
-        </div>
+            <span className="text-sm text-gray-600 group-hover:text-gray-800 transition-colors">
+              {t('checkout.address.save_for_next', 'Save this address for future orders')}
+            </span>
+          </label>
+        )}
       </section>
 
       {/* Shipping method card */}
-      <section className="bg-white ring-1 ring-amber-200 rounded-2xl p-6">
-        <h2 className="text-xl font-semibold text-gray-900 mb-5" style={playfair}>
+      <section
+        className="bg-white ring-1 ring-gray-200 rounded-2xl p-6 shadow-atlas-sm"
+        aria-labelledby="section-shipping"
+      >
+        <h2
+          id="section-shipping"
+          className="text-xl font-semibold text-gray-900 mb-5"
+          style={playfair}
+        >
           {t('checkout.shipping.title', 'Shipping method')}
         </h2>
 
-        <div className="space-y-3">
-          {shippingMethodOptions.map((opt) => {
-            const isSelected = shippingMethod === opt.key;
-            return (
-              <label
-                key={opt.key}
-                className={`flex items-start gap-3 p-4 rounded-xl ring-1 cursor-pointer transition-colors ${
-                  isSelected
-                    ? 'ring-2 ring-indigo-700 bg-indigo-50'
-                    : 'ring-amber-200 hover:bg-amber-50/50'
-                }`}
-              >
-                <input
-                  type="radio"
-                  name="shippingMethod"
-                  value={opt.key}
-                  checked={isSelected}
-                  onChange={() => setShippingMethod(opt.key)}
-                  className="sr-only"
-                />
-                <span className="mt-0.5 flex-shrink-0">{opt.icon}</span>
-                <div className="flex-1">
-                  <p className="text-sm font-semibold text-gray-900">{opt.name}</p>
-                  <p className="text-xs text-gray-500 mt-0.5">{opt.eta}</p>
-                </div>
-                {/* expect: free-shipping price shows amber-600 (not green-600) per palette */}
-                <span
-                  className={`text-sm font-semibold flex-shrink-0 ${
-                    opt.price === 'Free' || opt.price === t('checkout.shipping.methods.standard.free', 'Free') || opt.price === t('checkout.shipping.methods.pickup.free', 'Free')
-                      ? 'text-amber-600'
-                      : 'text-gray-900'
+        <fieldset role="radiogroup" aria-labelledby="section-shipping">
+          <legend className="sr-only">{t('checkout.shipping.title', 'Shipping method')}</legend>
+          <div className="space-y-3">
+            {shippingMethodOptions.map((opt) => {
+              const isSelected = shippingMethod === opt.key;
+              return (
+                <label
+                  key={opt.key}
+                  className={`flex items-center gap-3 p-4 rounded-2xl ring-1 cursor-pointer transition-all duration-200 ${
+                    isSelected
+                      ? 'ring-2 ring-indigo-700 bg-indigo-50 shadow-atlas-sm'
+                      : 'ring-gray-200 hover:bg-gray-50 hover:ring-gray-300'
                   }`}
                 >
-                  {opt.price}
-                </span>
-              </label>
-            );
-          })}
-        </div>
+                  <input
+                    type="radio"
+                    name="shippingMethod"
+                    value={opt.key}
+                    checked={isSelected}
+                    onChange={() => setShippingMethod(opt.key)}
+                    className="sr-only"
+                  />
+                  {/* Custom radio */}
+                  <div
+                    className={`w-4 h-4 rounded-full border-2 flex items-center justify-center flex-shrink-0 transition-colors ${
+                      isSelected ? 'border-indigo-700' : 'border-gray-300'
+                    }`}
+                  >
+                    {isSelected && <div className="w-2 h-2 rounded-full bg-indigo-700" />}
+                  </div>
+                  <span className="flex-shrink-0">{opt.icon}</span>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-semibold text-gray-900">{opt.name}</p>
+                    <p className="text-xs text-gray-500 mt-0.5">{opt.eta}</p>
+                  </div>
+                  <span
+                    className={`text-sm font-semibold flex-shrink-0 ${
+                      opt.isFree ? 'text-amber-700' : 'text-gray-900 tabular-nums currency-mad'
+                    }`}
+                  >
+                    {opt.price}
+                  </span>
+                </label>
+              );
+            })}
+          </div>
+        </fieldset>
       </section>
     </form>
   );
 
   // ── Order summary (right column) ──────────────────────────────────────────
   const renderOrderSummary = () => (
-    <div className="bg-white ring-1 ring-amber-200 rounded-2xl p-6 lg:sticky lg:top-24 self-start">
-      {/* Kicker */}
+    <div className="bg-white ring-1 ring-gray-200 rounded-2xl p-6 shadow-atlas-sm lg:sticky lg:top-24 self-start">
       <p className="text-xs uppercase tracking-[0.18em] text-amber-700 font-medium mb-4">
         {t('checkout.summary.kicker', 'Order Summary')}
       </p>
 
       {/* Line items */}
-      <ul className="space-y-3 mb-5">
-        {cartState.items.map((item) => {
-          const productName =
-            i18n.language === 'ar' ? item.product.name_ar : item.product.name;
-          return (
-            <li key={item.id} className="flex items-center gap-3">
-              <div className="relative w-12 h-12 flex-shrink-0 rounded-lg ring-1 ring-amber-200 overflow-hidden bg-amber-50">
-                <Image
-                  src={getImageUrl(item.product.image_url, '/placeholder.png')}
-                  alt={productName || 'Product image'}
-                  fill
-                  className="object-cover"
-                  sizes="48px"
-                />
-              </div>
-              <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium text-gray-900 truncate">
-                  {productName}
-                </p>
-                <p className="text-xs text-gray-500">
-                  {t('checkout.summary.qty', 'Qty')} {item.quantity}
-                </p>
-              </div>
-              <span className="text-sm font-semibold text-indigo-700 flex-shrink-0">
-                {(item.unit_price * item.quantity).toFixed(2)} MAD
+      <ul className="space-y-3 mb-5" aria-label={t('checkout.summary.items_list', 'Order items')}>
+        {isBuyNow && buyNowItem ? (
+          // ── Guest buy-now: render single item from sessionStorage ──────────
+          <li className="flex items-center gap-3">
+            <div className="relative w-12 h-12 flex-shrink-0 rounded-xl ring-1 ring-amber-200 overflow-hidden bg-amber-50">
+              <Image
+                src={getImageUrl(buyNowItem.image, '/placeholder.png')}
+                alt={((i18n.language === 'ar' || i18n.language === 'ma') ? buyNowItem.name_ar : undefined) || buyNowItem.name || t('checkout.summary.product_image_alt')}
+                fill
+                className="object-cover"
+                sizes="48px"
+              />
+              <span className="absolute -top-1.5 -end-1.5 w-5 h-5 rounded-full bg-indigo-700 text-white text-[10px] font-bold flex items-center justify-center leading-none">
+                {buyNowItem.quantity}
               </span>
-            </li>
-          );
-        })}
+            </div>
+            <div className="flex-1 min-w-0">
+              <p className="text-sm font-medium text-gray-900 truncate">
+                {((i18n.language === 'ar' || i18n.language === 'ma') ? buyNowItem.name_ar : undefined) || buyNowItem.name}
+              </p>
+            </div>
+            <span className="text-sm font-semibold text-indigo-700 flex-shrink-0 tabular-nums currency-mad">
+              {formatAmount(buyNowItem.unit_price * buyNowItem.quantity)} MAD
+            </span>
+          </li>
+        ) : (
+          // ── Authenticated cart path ────────────────────────────────────────
+          cartState!.items.map((item) => {
+            const productName =
+              (i18n.language === 'ar' || i18n.language === 'ma') ? item.product.name_ar : item.product.name;
+            return (
+              <li key={item.id} className="flex items-center gap-3">
+                <div className="relative w-12 h-12 flex-shrink-0 rounded-xl ring-1 ring-amber-200 overflow-hidden bg-amber-50">
+                  <Image
+                    src={getImageUrl(item.product.image_url, '/placeholder.png')}
+                    alt={productName || t('checkout.summary.product_image_alt')}
+                    fill
+                    className="object-cover"
+                    sizes="48px"
+                  />
+                  {/* Quantity badge */}
+                  <span className="absolute -top-1.5 -end-1.5 w-5 h-5 rounded-full bg-indigo-700 text-white text-[10px] font-bold flex items-center justify-center leading-none">
+                    {item.quantity}
+                  </span>
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-medium text-gray-900 truncate">
+                    {productName}
+                  </p>
+                </div>
+                <span className="text-sm font-semibold text-indigo-700 flex-shrink-0 tabular-nums currency-mad">
+                  {formatAmount(item.unit_price * item.quantity)} MAD
+                </span>
+              </li>
+            );
+          })
+        )}
       </ul>
 
-      <div className="border-t border-amber-200 pt-4 space-y-2 text-sm">
-        <div className="flex justify-between">
-          <span className="text-gray-600">{t('checkout.summary.subtotal', 'Subtotal')}</span>
-          <span className="text-gray-900 font-medium">{subtotal.toFixed(2)} MAD</span>
+      {/* Quote loading / error state (both buy-now and cart paths) */}
+      {quoteLoading && (
+        <div className="flex items-center gap-2 text-xs text-indigo-600 py-2">
+          <svg className="animate-spin h-3.5 w-3.5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" aria-hidden="true">
+            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+          </svg>
+          {t('checkout.quote.loading', 'Calculating total…')}
         </div>
-        <div className="flex justify-between">
-          <span className="text-gray-600">{t('checkout.summary.shipping', 'Shipping')}</span>
-          <span className="text-gray-900 font-medium">
-            {shippingAmount > 0
-              ? `${shippingAmount.toFixed(2)} MAD`
-              : subtotal >= 500
-              ? t('cart.summary.free', 'Free')
-              : '—'}
-          </span>
-        </div>
+      )}
+      {quoteError && !quoteLoading && (
+        <p className="text-xs text-rose-600 py-2" role="alert">{quoteError}</p>
+      )}
+
+      {/* ── Per-seller shipping breakdown (multi-seller cart) ────────────────
+           When the quote returns per_seller with >1 entry, show individual
+           shipping fees per store so the buyer understands the N charges.
+           Falls back to the flat shipping line for single-seller carts. */}
+      {(() => {
+        // Resolve the sellers array from the quote (plan.md FR-017 contract).
+        // `sellers` is the new canonical field; `per_seller` is kept for back-compat.
+        // For the cart path we don't have a quote, so we only show per-seller
+        // breakdown when the quote is available and has >1 entry.
+        const perSeller = quote?.sellers ?? quote?.per_seller;
+        const isMultiSeller = Array.isArray(perSeller) && perSeller.length > 1;
+
+        // Helper: resolve store name from cart items by store_id
+        const resolveStoreName = (storeId: number, sellerEntry: PerSellerQuote): string => {
+          if (sellerEntry.store_name) return sellerEntry.store_name;
+          // Try to find store info from cart items
+          const cartItems = isBuyNow
+            ? null
+            : cartState?.items;
+          const matchItem = cartItems?.find(
+            (item) => (item.store?.id ?? 0) === storeId
+          );
+          const name = matchItem?.store?.name;
+          return name ?? `Shop #${storeId}`;
+        };
+
+        return (
+          <div className="border-t border-gray-200 pt-4 space-y-2 text-sm">
+            <div className="flex justify-between">
+              <span className="text-gray-600">{t('checkout.summary.subtotal', 'Subtotal')}</span>
+              <span className="text-gray-900 font-medium tabular-nums currency-mad">{formatAmount(subtotal)} MAD</span>
+            </div>
+
+            {isMultiSeller ? (
+              // ── Per-seller shipping rows (plan.md FR-017 sellers[] contract) ─
+              (quote!.sellers ?? quote!.per_seller)!.map((seller) => (
+                <div key={seller.store_id} className="flex justify-between">
+                  <span className="text-gray-600">
+                    {t('checkout.summary.seller_shipping', 'Shipping — {{store}}', {
+                      store: resolveStoreName(seller.store_id, seller),
+                    }).replace('{{store}}', resolveStoreName(seller.store_id, seller))}
+                  </span>
+                  {seller.shipping_amount > 0 ? (
+                    <span className="text-gray-900 font-medium tabular-nums currency-mad">
+                      {formatAmount(seller.shipping_amount)} MAD
+                    </span>
+                  ) : (
+                    <span className="text-amber-700 font-semibold">
+                      {t('cart.summary.free', 'Free')}
+                    </span>
+                  )}
+                </div>
+              ))
+            ) : (
+              // ── Flat shipping row (single seller or no per_seller data) ────
+              <div className="flex justify-between">
+                <span className="text-gray-600">{t('checkout.summary.shipping', 'Shipping')}</span>
+                {shippingAmount > 0 ? (
+                  <span className="text-gray-900 font-medium tabular-nums currency-mad">
+                    {formatAmount(shippingAmount)} MAD
+                  </span>
+                ) : subtotal >= FREE_SHIPPING_THRESHOLD ? (
+                  <span className="text-amber-700 font-semibold">
+                    {t('cart.summary.free', 'Free')}
+                  </span>
+                ) : (
+                  <span className="text-gray-900 font-medium tabular-nums">—</span>
+                )}
+              </div>
+            )}
+          </div>
+        );
+      })()}
+
+      {/* Tax + discount rows — always flat (same for single/multi seller) */}
+      <div className="space-y-2 text-sm">
         {taxAmount > 0 && (
           <div className="flex justify-between">
             <span className="text-gray-600">{t('checkout.summary.tax', 'Tax')}</span>
-            <span className="text-gray-900 font-medium">{taxAmount.toFixed(2)} MAD</span>
+            <span className="text-gray-900 font-medium tabular-nums currency-mad">{formatAmount(taxAmount)} MAD</span>
           </div>
         )}
         {discountAmount > 0 && (
           <div className="flex justify-between">
             <span className="text-gray-600">{t('checkout.summary.discount', 'Discount')}</span>
-            {/* expect: discount "good news" uses amber-600 (green not in palette per DESIGN.md §2) */}
-            <span className="text-amber-600 font-medium">-{discountAmount.toFixed(2)} MAD</span>
+            <span className="text-amber-700 font-medium tabular-nums currency-mad">-{formatAmount(discountAmount)} MAD</span>
           </div>
         )}
       </div>
 
       {/* Total */}
-      <div className="flex items-baseline justify-between mt-4 mb-6 pt-4 border-t border-amber-200">
+      <div className="flex items-baseline justify-between mt-4 mb-6 pt-4 border-t border-gray-200">
         <span className="text-gray-700 font-medium text-sm">
           {t('checkout.summary.total', 'Total')}
         </span>
         <span
-          className="text-2xl font-bold text-indigo-700"
+          className="text-2xl font-bold text-indigo-700 tabular-nums currency-mad"
           style={playfair}
         >
-          {totalAmount.toFixed(2)} MAD
+          {formatAmount(totalAmount)} MAD
         </span>
       </div>
 
-      {/* CTA */}
+      {/* CTA — full-width amber-500, total inside, Darija "أكّد الطلب" */}
       {step === 1 ? (
         <button
           type="submit"
           form="checkout-delivery"
-          className="w-full inline-flex items-center justify-center gap-2 bg-indigo-700 hover:bg-indigo-800 text-white rounded-full py-3 text-sm font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+          className="w-full inline-flex flex-col items-center justify-center bg-amber-500 hover:bg-amber-400 text-amber-950 rounded-full py-3.5 text-base font-bold transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-400 shadow-sm min-h-[52px]"
         >
-          {t('checkout.actions.continue_payment', 'Continue to payment')}
-          <ArrowRight className="w-4 h-4" />
+          <span>{t('checkout.actions.continue_to_confirm', 'كمّل للتأكيد')}</span>
+          <span className="text-xs font-medium opacity-80 tabular-nums currency-mad mt-0.5">
+            {formatAmount(totalAmount)} MAD
+          </span>
         </button>
       ) : (
         <button
           type="button"
           onClick={handlePaymentSubmit}
           disabled={isProcessing}
-          className="w-full inline-flex items-center justify-center gap-2 bg-indigo-700 hover:bg-indigo-800 text-white rounded-full py-3 text-sm font-semibold transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          className="w-full inline-flex flex-col items-center justify-center bg-amber-500 hover:bg-amber-400 text-amber-950 rounded-full py-3.5 text-base font-bold transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-400 shadow-sm min-h-[52px]"
         >
           {isProcessing ? (
             <>
-              <svg className="animate-spin h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <svg className="animate-spin h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" aria-hidden="true">
                 <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                 <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
               </svg>
-              {t('checkout.actions.processing', 'Processing...')}
+              <span>{t('checkout.actions.processing', 'جاري المعالجة...')}</span>
             </>
           ) : (
             <>
-              {t('checkout.actions.place_order', 'Place order')}
-              <ArrowRight className="w-4 h-4" />
+              <span>{t('checkout.actions.confirm_order', 'أكّد الطلب')}</span>
+              <span className="text-xs font-medium opacity-80 tabular-nums currency-mad mt-0.5">
+                {formatAmount(totalAmount)} MAD
+              </span>
             </>
           )}
         </button>
@@ -1233,16 +2040,15 @@ export default function CheckoutPage() {
       {/* Trust micro-pills */}
       <div className="flex flex-wrap justify-center gap-2 mt-4">
         <span className="inline-flex items-center gap-1.5 text-xs text-gray-600 bg-amber-50 ring-1 ring-amber-200 rounded-full px-3 py-1.5">
-          <ShieldCheck className="w-3.5 h-3.5 text-amber-600" />
+          <ShieldCheck className="w-3.5 h-3.5 text-amber-700" aria-hidden="true" />
           {t('cart.trust.secure', 'Secure payments')}
         </span>
         <span className="inline-flex items-center gap-1.5 text-xs text-gray-600 bg-amber-50 ring-1 ring-amber-200 rounded-full px-3 py-1.5">
-          <RotateCcw className="w-3.5 h-3.5 text-amber-600" />
+          <RotateCcw className="w-3.5 h-3.5 text-amber-700" aria-hidden="true" />
           {t('cart.trust.returns', 'Free 14-day returns')}
         </span>
       </div>
 
-      {/* Payment methods */}
       <p className="text-center text-xs text-gray-400 mt-3">
         {t(
           'cart.payment_methods',
@@ -1252,7 +2058,7 @@ export default function CheckoutPage() {
     </div>
   );
 
-  // ── Stepper strip ─────────────────────────────────────────────────────────
+  // ── Progress stepper steps ─────────────────────────────────────────────────
   const steps: Array<{ id: number; label: string; completed: boolean; active: boolean }> = [
     {
       id: 1,
@@ -1263,7 +2069,7 @@ export default function CheckoutPage() {
     {
       id: 2,
       label: t('checkout.stepper.delivery', 'Delivery'),
-      completed: false,
+      completed: step > 1,
       active: step === 1,
     },
     {
@@ -1280,65 +2086,33 @@ export default function CheckoutPage() {
     },
   ];
 
+  // Map 2-step checkout state to 3-step progress bar
+  // step 1 = المعلومات, step 2 = التأكيد (payment), bag always complete
+  const progressStep = step === 1 ? 2 : 3;
+
   return (
-    <div className={`min-h-screen bg-amber-50/40 ${isRTL ? 'rtl' : 'ltr'}`}>
-      {/* ── Stepper strip ─────────────────────────────────────────────────── */}
-      <div className="bg-amber-50 border-b border-amber-200 py-5">
-        <div className="max-w-7xl mx-auto px-6">
-          <nav aria-label={t('checkout.stepper.aria_label', 'Checkout progress')}>
-            <ol className="flex items-center justify-center gap-0" role="list">
-              {steps.map((s, idx) => (
-                <li key={s.id} className="flex items-center">
-                  <div className="flex flex-col items-center relative">
-                    <span
-                      className={`flex h-8 w-8 items-center justify-center rounded-full text-xs font-semibold transition-colors ${
-                        s.completed
-                          ? 'bg-indigo-700 text-white'
-                          : s.active
-                          ? 'bg-indigo-700 text-white ring-2 ring-amber-300'
-                          : 'bg-gray-200 text-gray-600'
-                      }`}
-                      aria-current={s.active ? 'step' : undefined}
-                    >
-                      {s.active ? (
-                        <span className="h-2.5 w-2.5 rounded-full bg-amber-400" />
-                      ) : s.completed ? (
-                        '✓'
-                      ) : (
-                        s.id
-                      )}
-                    </span>
-                    <span
-                      className={`mt-1.5 text-xs font-medium whitespace-nowrap ${
-                        s.active
-                          ? 'text-indigo-700'
-                          : s.completed
-                          ? 'text-amber-600'
-                          : 'text-gray-400'
-                      }`}
-                    >
-                      {s.label}
-                    </span>
-                  </div>
-                  {idx < steps.length - 1 && (
-                    <div className="w-16 sm:w-24 h-px bg-amber-200 mx-2 mb-5" />
-                  )}
-                </li>
-              ))}
-            </ol>
-          </nav>
+    <div className={`min-h-screen bg-canvas ${isRTL ? 'rtl' : 'ltr'}`}>
+      {/* ── 3-step progress bar (السلة ← المعلومات ← التأكيد) ──────────────── */}
+      <div className="bg-white border-b border-gray-100 py-2">
+        <div className="max-w-7xl mx-auto px-6 flex items-center justify-between gap-4">
+          <CheckoutProgressBar currentStep={progressStep as 1 | 2 | 3} />
+
+          {/* Guest login hint — demoted, never blocking */}
+          {!isAuthenticated && (
+            <Link
+              href={`/login?redirect=${encodeURIComponent('/checkout')}`}
+              className="hidden sm:inline-flex shrink-0 text-xs text-indigo-600 hover:text-indigo-800 underline underline-offset-2 transition-colors whitespace-nowrap focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30 rounded"
+            >
+              {t('checkout.guest.have_account', 'عندك حساب؟ دخل')}
+            </Link>
+          )}
         </div>
       </div>
 
       {/* ── Page heading ──────────────────────────────────────────────────── */}
       <div className="max-w-7xl mx-auto px-6 pt-8 pb-2">
-        <p className="text-xs uppercase tracking-[0.18em] text-amber-700 font-medium mb-2">
-          {step === 1
-            ? t('checkout.heading.kicker', 'STEP 2 OF 4')
-            : t('checkout.heading.kicker_payment', 'STEP 3 OF 4')}
-        </p>
         <h1
-          className="text-3xl sm:text-4xl font-bold text-gray-900"
+          className="text-3xl sm:text-4xl font-bold text-gray-900 text-balance"
           style={playfair}
         >
           {step === 1
@@ -1373,25 +2147,25 @@ export default function CheckoutPage() {
 function ReassuranceStrip({ t }: { t: (k: string, fb: string) => string }) {
   const items = [
     {
-      icon: <BadgeCheck className="w-7 h-7 text-amber-500" />,
+      icon: <BadgeCheck className="w-7 h-7 text-amber-500" aria-hidden="true" />,
       label: t('checkout.reassurance.verified', 'Verified Sellers'),
     },
     {
-      icon: <ShieldCheck className="w-7 h-7 text-amber-500" />,
+      icon: <ShieldCheck className="w-7 h-7 text-amber-500" aria-hidden="true" />,
       label: t('checkout.reassurance.authentic', 'Authentic Craft'),
     },
     {
-      icon: <RotateCcw className="w-7 h-7 text-amber-500" />,
+      icon: <RotateCcw className="w-7 h-7 text-amber-500" aria-hidden="true" />,
       label: t('checkout.reassurance.returns', 'Free Returns'),
     },
     {
-      icon: <Headphones className="w-7 h-7 text-amber-500" />,
+      icon: <Headphones className="w-7 h-7 text-amber-500" aria-hidden="true" />,
       label: t('checkout.reassurance.support', 'Multilingual Support'),
     },
   ];
 
   return (
-    <section className="bg-amber-50/60 border-y border-amber-200/50 py-12 px-6">
+    <section className="bg-gray-50 border-y border-gray-200 py-12 px-6" aria-label={t('checkout.reassurance.section_label', 'Why shop with us')}>
       <div className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8">
         {items.map(({ icon, label }) => (
           <div key={label} className="flex flex-col items-center text-center gap-3">
@@ -1409,27 +2183,28 @@ function ReassuranceStrip({ t }: { t: (k: string, fb: string) => string }) {
 // ── Bespoke strip ─────────────────────────────────────────────────────────────
 function BespokeStrip({ t }: { t: (k: string, fb: string) => string }) {
   return (
-    <section className="bg-indigo-900 py-16 relative overflow-hidden">
+    <section className="bg-indigo-950 py-16 relative overflow-hidden">
       <div
-        className="absolute inset-0 opacity-25 pointer-events-none"
+        className="absolute inset-0 opacity-20 pointer-events-none"
+        aria-hidden="true"
         style={{
           background:
-            'radial-gradient(circle at 20% 20%, #f59e0b 0, transparent 45%), radial-gradient(circle at 80% 60%, #6366f1 0, transparent 50%)',
+            'radial-gradient(circle at 20% 20%, hsl(var(--amber-500)) 0, transparent 45%), radial-gradient(circle at 80% 60%, hsl(var(--indigo-500)) 0, transparent 50%)',
         }}
       />
       <div className="relative z-10 max-w-7xl mx-auto px-6 text-center flex flex-col md:flex-row items-center justify-center gap-8">
         <h2
           className="text-3xl md:text-4xl font-bold text-white"
-          style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
+          style={playfair}
         >
           {t('cart.bespoke.headline', 'Want it tailored to you?')}
         </h2>
         <Link
           href="/services/tailoring"
-          className="inline-flex items-center justify-center px-8 py-3 bg-amber-400 hover:bg-amber-300 text-gray-900 font-bold rounded-full transition-colors text-sm"
+          className="inline-flex items-center justify-center px-8 py-3 bg-amber-400 hover:bg-amber-300 text-gray-900 font-bold rounded-full transition-all duration-200 hover-lift text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-400/60"
         >
           {t('checkout.bespoke.cta', 'Explore bespoke')}
-          <ArrowRight className="w-4 h-4 ml-2" />
+          <ArrowRight className="w-4 h-4 ms-2 rtl:rotate-180" aria-hidden="true" />
         </Link>
       </div>
     </section>

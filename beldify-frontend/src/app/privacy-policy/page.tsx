@@ -6,13 +6,8 @@ import { ShieldCheck } from 'lucide-react';
 type TranslationArray = string[];
 
 const ListItem = ({ children }: { children: React.ReactNode }) => {
-  const { i18n } = useTranslation();
-  const isRTL = i18n.language === 'ar' || i18n.language === 'ma';
-
   return (
-    <li
-      className={`relative ${isRTL ? 'pr-6' : 'pl-6'} before:absolute before:top-1/2 before:h-1.5 before:w-1.5 before:-translate-y-1/2 before:rounded-full before:bg-amber-500 ${isRTL ? 'before:right-2' : 'before:left-2'}`}
-    >
+    <li className="relative ps-6 before:absolute before:top-1/2 before:h-1.5 before:w-1.5 before:-translate-y-1/2 before:rounded-full before:bg-amber-500 before:start-2">
       {children}
     </li>
   );
@@ -60,9 +55,9 @@ export default function PrivacyPolicyPage() {
       <div className="bg-white">
         <div className="mx-auto max-w-7xl py-12 px-6 lg:py-16 lg:px-8">
           <div className="mx-auto max-w-3xl">
-            <div className={`flex items-center mb-8 ${isRTL ? 'flex-row-reverse' : ''}`}>
+            <div className="flex items-center gap-4 mb-8">
               <ShieldCheck
-                className={`h-8 w-8 text-indigo-600 flex-shrink-0 ${isRTL ? 'ml-4' : 'mr-4'}`}
+                className="h-8 w-8 text-indigo-600 flex-shrink-0"
               />
               <h2
                 className="text-2xl font-bold text-indigo-900"
@@ -229,9 +224,9 @@ export default function PrivacyPolicyPage() {
             </div>
 
             {/* Atlas amber-50 callout panel */}
-            <div className="mt-12 rounded-2xl bg-amber-50 ring-1 ring-amber-200/60 p-6 sm:p-8">
-              <div className={`flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 ${isRTL ? 'sm:flex-row-reverse' : ''}`}>
-                <div className={`flex gap-4 ${isRTL ? 'flex-row-reverse' : ''}`}>
+            <div className="mt-12 rounded-2xl bg-amber-50 ring-1 ring-amber-200 p-6 sm:p-8">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                <div className="flex gap-4">
                   <ShieldCheck className="h-6 w-6 text-amber-600 flex-shrink-0 mt-0.5" />
                   <div>
                     <h3 className="text-base font-semibold text-indigo-900">
@@ -242,7 +237,7 @@ export default function PrivacyPolicyPage() {
                     </p>
                   </div>
                 </div>
-                <div className={`${isRTL ? 'sm:mr-auto' : 'sm:ml-auto'} flex-shrink-0`}>
+                <div className="sm:ms-auto flex-shrink-0">
                   <a
                     href="/contact"
                     className="inline-flex w-full sm:w-auto justify-center items-center rounded-full px-6 py-3 text-sm font-semibold text-white bg-indigo-700 hover:bg-indigo-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition"

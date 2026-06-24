@@ -7,13 +7,18 @@ import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
 import ReviewsSection from '@/components/reviews/ReviewsSection';
 import RelatedProducts from '@/components/products/RelatedProducts';
+import ShareButton from '@/components/share/ShareButton';
+import NotifyMeButton from '@/components/products/NotifyMeButton';
 import { productService } from '@/services/api';
+import { Product } from '@/lib/types';
+import { partitionShelves } from './partitionShelves';
 import { useDirection } from '@/hooks/useDirection';
 import { formatPrice } from '@/utils/formatters';
 import { getColorName, useLazyColorName } from '@/utils/colorNamer';
 import { buildImageUrl, cn } from '@/lib/utils';
 import { getImageUrl } from '@/utils/imageUtils';
 import logger from '@/utils/consoleLogger';
+import { addRecentlyViewed } from '@/utils/recentlyViewed';
 import { CheckCircle2, XCircle, AlertCircle } from 'lucide-react';
 import {
   BadgeCheck,
@@ -27,11 +32,24 @@ import {
   Plus,
   Minus,
   ChevronDown,
+  Sparkles,
 } from 'lucide-react';
+import { PdpBuyBar } from '@/components/products/PdpBuyBar';
+import { HowToBuySheet } from '@/components/products/HowToBuySheet';
+import { AiReviewSummaryCard } from '@/components/buyer-ai/AiReviewSummaryCard';
+import { SizeAdvisorSheet } from '@/components/buyer-ai/SizeAdvisorSheet';
+import { getReviewSummary, type ReviewSummaryAI } from '@/services/buyerAiService';
 import { useCart } from '@/contexts/CartContext';
 import { useAuth } from '@/contexts/AuthContext';
 import { useWishlist } from '@/contexts/WishlistContext';
 import toast from '@/utils/toast';
+import JewelryFields from '@/components/products/JewelryFields';
+import { isJewelryProduct, hasRingSizes } from './verticalDetection';
+import { TryOnButton } from '@/components/buyer-ai/TryOnButton';
+import { TryOnModal } from '@/components/buyer-ai/TryOnModal';
+import { fetchTryonConfig, type TryonConfig } from '@/services/tryonService';
+import { track } from '@/lib/analytics';
+import { useAiFeatures } from '@/hooks/useAiFeatures';
 
 interface ProductImage {
   id: string;
@@ -86,7 +104,15 @@ interface ProductDetails {
   name_ar?: string;
   description: string;
   price: number;
-  stock?: number; // Main product stock quantity (matches backend API)
+  /** Hybrid-stock object for variant-less products (new backend contract).
+   *  quantity: null = made-to-order (unlimited production, always purchasable).
+   *  Legacy scalar `quantity` field kept for backward compatibility only. */
+  stock?: {
+    id: string;
+    quantity: number | null;
+    in_stock: boolean;
+    made_to_order: boolean;
+  } | null;
   quantity?: number | string; // Legacy field for backward compatibility
   main_image?: string;
   images: ProductImage[];
@@ -95,6 +121,12 @@ interface ProductDetails {
   store_id?: number;
   category?: string;
   category_ar?: string;
+  /** Vertical slug set by the backend (e.g. "jewelry", "womenswear", "menswear") */
+  vertical?: string | null;
+  /** Category slug for vertical detection (e.g. "jewelry") */
+  category_slug?: string | null;
+  /** Jewelry/vertical spec fields stored in customization_options */
+  customization_options?: Record<string, string | number | null> | null;
   has_discount?: boolean;
   discount_price?: number;
   rating?: number;
@@ -149,15 +181,48 @@ export default function ProductDetailsPage() {
   const [selectedSize, setSelectedSize] = useState<VariantSize | null>(null);
   const [selectedFabric, setSelectedFabric] = useState<VariantFabric | null>(null);
   const [selectedImage, setSelectedImage] = useState<ProductImage | null>(null);
+  // Fetched once; partitioned between "Complete the look" (first 4) and
+  // "You might also like" (next 4) so the two shelves show distinct items.
+  const [allRelatedProducts, setAllRelatedProducts] = useState<Product[]>([]);
 
   // State for active main image index in the simple gallery
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [activeTab, setActiveTab] = useState<'description' | 'specs' | 'sizing' | 'reviews'>('description');
+  // Click-to-zoom lightbox state
+  const [isZoomed, setIsZoomed] = useState(false);
+  // "كيفاش نشري؟" how-to-buy sheet
+  const [isHowToBuyOpen, setIsHowToBuyOpen] = useState(false);
+  // Virtual try-on modal
+  const [isTryOnOpen, setIsTryOnOpen] = useState(false);
+  const [tryOnHidden, setTryOnHidden] = useState(false);
+  // Shared try-on config — fetched once, passed to both button and modal so
+  // paid mode (sign-in gate, wallet, top-up) activates correctly
+  const [tryonConfig, setTryonConfig] = useState<TryonConfig | undefined>(undefined);
+
+  useEffect(() => {
+    let cancelled = false;
+    fetchTryonConfig()
+      .then((cfg) => {
+        if (!cancelled) setTryonConfig(cfg);
+      })
+      .catch(() => {
+        if (!cancelled) setTryOnHidden(true);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+  // AI review summary — loaded either on product fetch (when reviews_count >= 3)
+  // or lazily when the Reviews tab first becomes active.
+  const [aiReviewSummary, setAiReviewSummary] = useState<ReviewSummaryAI | null>(null);
+  const aiReviewFetchedRef = React.useRef(false);
   const { addItem } = useCart();
   const { user, isAuthenticated } = useAuth();
   const { isInWishlist, addToWishlist, removeFromWishlist } = useWishlist();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { isRTL } = useDirection();
+  // AI feature flags — defaults to all-false; hides AI UI until backend confirms enabled
+  const { tryon: tryonEnabled, buyer_ai: buyerAiEnabled } = useAiFeatures();
   const router = useRouter();
 
   // Transform image URLs to fetch from the correct source
@@ -234,16 +299,12 @@ export default function ProductDetailsPage() {
       isNull: qty === null,
       isUndefined: qty === undefined,
       isZero: qty === 0,
-      isStringZero: qty === "0",
       isFalsy: !qty
     });
 
     // Check for all possible falsy/zero values
     if (qty === null || qty === undefined) return true;
-    if (typeof qty === 'number' && qty === 0) return true;
-    if (typeof qty === 'string' && qty === "0") return true;
-    if (typeof qty === 'string' && parseInt(qty) <= 0) return true;
-    if (typeof qty === 'number' && qty <= 0) return true;
+    if (qty <= 0) return true;
 
     return false;
   };
@@ -275,57 +336,31 @@ export default function ProductDetailsPage() {
         return true;
       }
     } else if (product) {
-      // For products WITHOUT variants, check main product stock
-      // Use 'stock' field first (matches backend API), fallback to 'quantity' for backward compatibility
-      const productStock = product.stock ?? product.quantity;
-      logger.log('Checking main product stock:', {
-        productId: product.id,
-        stock: product.stock,
-        quantity: product.quantity,
-        finalStock: productStock,
-        stockType: typeof productStock,
-        requestedQty: quantity
-      });
-
-      // Check if main product is out of stock
-      // Handle various edge cases: null, undefined, 0, "0", empty string, false, negative values, invalid strings
-      if (productStock === null || productStock === undefined || productStock === 0 || productStock === "0" || productStock === "") {
-        logger.log('Button disabled: Main product out of stock');
-        return true;
-      }
-      
-      // Handle boolean false separately
-      if (typeof productStock === 'boolean' && productStock === false) {
-        logger.log('Button disabled: Main product out of stock');
-        return true;
-      }
-
-      // Convert to number and validate
-      let availableStock;
-      if (typeof productStock === 'string') {
-        availableStock = parseInt(productStock);
-        // Handle invalid string conversions (NaN) or negative values
-        if (isNaN(availableStock) || availableStock <= 0) {
-          logger.log('Button disabled: Invalid or negative stock value');
+      // For products WITHOUT variants, use the hybrid-stock object (new backend contract)
+      if (product.stock) {
+        // New stock object path: use in_stock flag directly
+        if (product.stock.in_stock === false) {
+          logger.log('Button disabled: product.stock.in_stock is false');
           return true;
         }
-      } else if (typeof productStock === 'number') {
-        // Handle negative numbers
-        if (productStock <= 0) {
-          logger.log('Button disabled: Negative or zero stock');
+        // made_to_order and in_stock === true → always purchasable (null quantity = unlimited)
+        // If quantity is a finite number, check it covers the requested amount
+        if (
+          product.stock.quantity !== null &&
+          typeof product.stock.quantity === 'number' &&
+          quantity > product.stock.quantity
+        ) {
+          logger.log('Button disabled: Requested quantity exceeds main product stock');
           return true;
         }
-        availableStock = productStock;
       } else {
-        // Handle any other unexpected types
-        logger.log('Button disabled: Invalid stock type');
-        return true;
-      }
-
-      // Check if requested quantity exceeds available stock
-      if (quantity > availableStock) {
-        logger.log('Button disabled: Requested quantity exceeds main product stock');
-        return true;
+        // Legacy fallback: no stock object — use quantity field
+        const legacyStock = product.quantity;
+        const legacyNum = typeof legacyStock === 'string' ? parseInt(legacyStock) : legacyStock;
+        if (!legacyNum || legacyNum <= 0) {
+          logger.log('Button disabled: Legacy stock unavailable');
+          return true;
+        }
       }
     }
 
@@ -423,7 +458,7 @@ export default function ProductDetailsPage() {
         }
       }
     }
-    return '/placeholder-product.jpg'; // Ultimate fallback
+    return '/placeholder-product.svg'; // Ultimate fallback
   };
 
   // Enhanced variant selection logic with debugging
@@ -650,6 +685,8 @@ export default function ProductDetailsPage() {
       variantId: selectedVariant?.id,
       price: selectedVariant?.price || product?.price
     });
+    // price/variant snapshot is intentionally driven by the selection keys only
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedColor, selectedSize, selectedFabric, updateSelectedVariant]);
 
   // Effect to set initial variant and display related images
@@ -718,6 +755,8 @@ export default function ProductDetailsPage() {
         });
       }
     }
+    // initial variant/images are derived once per product load by design
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [product]);
 
   // Type predicate to help TypeScript understand filtered values
@@ -771,6 +810,8 @@ export default function ProductDetailsPage() {
     ));
     
     return { colors, sizes, fabrics }; 
+    // selectedFabric kept for parity with sibling selectors; memo is cheap
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [product, selectedColor, selectedSize, selectedFabric]);
 
   // Use the available options in your render
@@ -780,26 +821,9 @@ export default function ProductDetailsPage() {
 
   // Function to handle adding to cart
   const handleAddToCart = async () => {
-    // Check authentication first
-    if (!isAuthenticated || !user) {
-      toast.error(t('auth.login_required'));
-      // Store the intended action and product info
-      sessionStorage.setItem('redirectAction', 'addToCart');
-      sessionStorage.setItem('redirectProductId', product?.id?.toString() || '');
-      if (selectedVariant) {
-        sessionStorage.setItem('redirectVariant', JSON.stringify({
-          id: selectedVariant.id,
-          color: selectedColor,
-          size: selectedSize,
-          fabric: selectedFabric
-        }));
-      }
-      sessionStorage.setItem('redirectQuantity', quantity.toString());
-      // Preserve the current URL for redirect after login
-      const currentUrl = window.location.pathname + window.location.search;
-      router.push(`/login?redirect=${encodeURIComponent(currentUrl)}`);
-      return;
-    }
+    // Guests can add to cart and check out via the guest cart (X-Guest-Token) —
+    // no login required. Do not gate add-to-cart behind authentication; the
+    // downstream addItem/cart logic works identically for guests and members.
 
     // Early exit if button should be disabled
     if (product?.variants && product.variants.length > 0) {
@@ -858,6 +882,47 @@ export default function ProductDetailsPage() {
     }
 
     try {
+      // ── Variant-less path (hybrid-stock backend contract) ──────────────────
+      // When a product has no variants, resolve the stock_id with the same
+      // precedence as handlePurchaseNow: product.stock.id → product.stock_id →
+      // product.id. The catalog serves flat stocks-table rows whose own id IS
+      // the stock_id (see KB beldify-catalog-stocks-table), so falling back to
+      // product.id is required — without it, add-to-cart silently no-ops for
+      // variant-less products that have no nested `stock` object.
+      if (product && product.variants.length === 0) {
+        const stockId = Number(product.stock?.id ?? product.stock_id ?? product.id);
+        const loadingToast = toast.loading('Adding to cart...');
+        try {
+          await addItem(stockId, quantity, 'stock');
+        } catch (error) {
+          logger.error('Variant-less cart error:', {
+            stockId,
+            error: error instanceof Error ? error.message : 'Unknown error'
+          });
+          throw error;
+        }
+        toast.dismiss(loadingToast);
+        toast.success(t('success.addedToCart'), { icon: '🛒', duration: 3000 });
+        // Analytics: add_to_cart (variant-less path)
+        track({
+          event: 'add_to_cart',
+          currency: 'MAD',
+          value: (product.price || 0) * quantity,
+          items: [
+            {
+              item_id: String(stockId),
+              item_name: product.name,
+              item_category: product.category || '',
+              price: product.price || 0,
+              quantity,
+            },
+          ],
+        });
+        setQuantity(1);
+        return;
+      }
+
+      // ── Variant path ───────────────────────────────────────────────────────
       // Enhanced checks to ensure selectedVariant is valid
       if (!selectedVariant || typeof selectedVariant.id !== 'string') {
         logger.error('Invalid selectedVariant:', selectedVariant);
@@ -893,6 +958,23 @@ export default function ProductDetailsPage() {
         duration: 3000,
       });
 
+      // Analytics: add_to_cart (variant path)
+      track({
+        event: 'add_to_cart',
+        currency: 'MAD',
+        value: (selectedVariant.price || product?.price || 0) * quantity,
+        items: [
+          {
+            item_id: String(selectedVariant.id),
+            item_name: product?.name ?? '',
+            item_category: product?.category || '',
+            item_variant: [selectedColor?.name, selectedSize?.name].filter(Boolean).join(' / '),
+            price: selectedVariant.price || product?.price || 0,
+            quantity,
+          },
+        ],
+      });
+
       // Reset quantity to 1 after successful addition
       setQuantity(1);
     } catch (error) {
@@ -904,26 +986,9 @@ export default function ProductDetailsPage() {
 
   // Function to handle direct purchase
   const handlePurchaseNow = async () => {
-    // Check authentication first
-    if (!isAuthenticated || !user) {
-      toast.error(t('auth.login_required'));
-      // Store the intended action and product info
-      sessionStorage.setItem('redirectAction', 'purchaseNow');
-      sessionStorage.setItem('redirectProductId', product?.id?.toString() || '');
-      if (selectedVariant) {
-        sessionStorage.setItem('redirectVariant', JSON.stringify({
-          id: selectedVariant.id,
-          color: selectedColor,
-          size: selectedSize,
-          fabric: selectedFabric
-        }));
-      }
-      sessionStorage.setItem('redirectQuantity', quantity.toString());
-      // Preserve the current URL for redirect after login
-      const currentUrl = window.location.pathname + window.location.search;
-      router.push(`/login?redirect=${encodeURIComponent(currentUrl)}`);
-      return;
-    }
+    // Guests can buy now via the guest cart + guest checkout (COD) — no login
+    // required. Do not gate direct purchase behind authentication; the flow adds
+    // to the guest cart and proceeds to /checkout, which supports guests.
 
     // Early exit if button should be disabled
     if (product?.variants && product.variants.length > 0) {
@@ -962,8 +1027,13 @@ export default function ProductDetailsPage() {
           itemId = Number(selectedVariant.id);
           idType = 'variant';
           logger.log('Using variant_id for purchase:', itemId);
+        } else if (product.stock?.id) {
+          // Variant-less product: use the hybrid stock object id (current backend contract)
+          itemId = Number(product.stock.id);
+          idType = 'stock';
+          logger.log('Using stock.id for purchase:', itemId);
         } else if (product.stock_id) {
-          // Otherwise fall back to stock_id
+          // Legacy fallback: top-level scalar stock_id
           itemId = Number(product.stock_id);
           logger.log('Using stock_id for purchase:', itemId);
         } else {
@@ -977,7 +1047,26 @@ export default function ProductDetailsPage() {
         
         // Set flags for checkout flow
         sessionStorage.setItem('purchaseNow', 'true');
-        
+
+        // Analytics: add_to_cart (buy-now path)
+        const analyticsPrice = selectedVariant
+          ? (selectedVariant.price || product.price || 0)
+          : (product.price || 0);
+        track({
+          event: 'add_to_cart',
+          currency: 'MAD',
+          value: analyticsPrice * quantity,
+          items: [
+            {
+              item_id: String(selectedVariant?.id ?? product.id),
+              item_name: product.name,
+              item_category: product.category || '',
+              price: analyticsPrice,
+              quantity,
+            },
+          ],
+        });
+
         // Navigate to checkout
         router.push('/checkout');
       }
@@ -991,6 +1080,83 @@ export default function ProductDetailsPage() {
     }
   };
 
+
+  // ── Guest "Buy now" handler ────────────────────────────────────────────────
+  // Writes a minimal buy-now object to sessionStorage and navigates to
+  // /checkout?buyNow=1.  Does NOT touch the server cart or CartContext.
+  // No auth required — this is the guest COD entry point.
+  const handleBuyNow = () => {
+    if (!product) return;
+
+    // Require variant selection when the product has variants
+    if (product.variants && product.variants.length > 0 && !selectedVariant) {
+      toast.error(t('product.select_options', 'Select options first'));
+      return;
+    }
+
+    if (shouldDisableButton()) {
+      toast.error(t('stock.out_of_stock', 'Out of stock'));
+      return;
+    }
+
+    // Resolve stock_id — same precedence as handlePurchaseNow and handleAddToCart
+    let stockId: number | undefined;
+    let variantId: number | undefined;
+
+    if (selectedVariant && selectedVariant.id) {
+      variantId = Number(selectedVariant.id);
+    } else if (product.stock?.id) {
+      stockId = Number(product.stock.id);
+    } else if (product.stock_id) {
+      stockId = Number(product.stock_id);
+    } else {
+      stockId = Number(product.id);
+    }
+
+    const unitPrice = displayPrice;
+    const imageUrl = getCurrentImageUrl() || product.main_image || '';
+
+    const buyNowItem = {
+      product_id: Number(product.id),
+      stock_id: stockId,
+      variant_id: variantId,
+      store_id: product.store_id || 0,
+      quantity,
+      unit_price: unitPrice,
+      name: product.name,
+      name_ar: product.name_ar,
+      image: imageUrl,
+      ts: Date.now(),
+    };
+
+    try {
+      sessionStorage.setItem('beldify_buy_now', JSON.stringify(buyNowItem));
+    } catch {
+      // sessionStorage unavailable (private browsing restrictions)
+      toast.error(t('errors.session_storage_unavailable', 'Unable to proceed — please enable cookies'));
+      return;
+    }
+
+    router.push('/checkout?buyNow=1');
+  };
+
+  // Fetch AI review summary:
+  //   - eagerly on product load when reviews_count >= 3 (to surface compact gist in buy column)
+  //   - lazily on Reviews tab open otherwise
+  // Spec: render ONLY on 200, no skeleton flash (stays null on 204/error).
+  useEffect(() => {
+    if (aiReviewFetchedRef.current || !id || !product) return;
+    // Eager path: enough reviews to generate a meaningful summary
+    const reviewCount = product.reviews_count ?? 0;
+    const isReviewsTab = activeTab === 'reviews';
+    if (!isReviewsTab && reviewCount < 3) return;
+    aiReviewFetchedRef.current = true;
+    const productId = Array.isArray(id) ? id[0] : id;
+    getReviewSummary(productId, i18n?.language ?? 'ar')
+      .then(setAiReviewSummary)
+      .catch(() => { /* graceful: stays null */ });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeTab, id, product]);
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -1010,7 +1176,7 @@ export default function ProductDetailsPage() {
           setSelectedVariant(defaultVariant);
         }
       } catch (error) {
-        setError('Failed to load product');
+        setError(t('errors.product_load_failed'));
           logger.error('Error fetching product:', error);
       } finally {
         setLoading(false);
@@ -1018,22 +1184,126 @@ export default function ProductDetailsPage() {
     };
 
     fetchProduct();
+    // fetch is keyed by route id only; t() is stable enough for error copy
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
+
+  // Fetch 8 related products once; split into two distinct shelf slices:
+  //   [0..3] → "Complete the look" up-sell shelf
+  //   [4..7] → "You might also like" shelf
+  // This guarantees the two shelves always show different items.
+  useEffect(() => {
+    if (!id) return;
+    const productId = Array.isArray(id) ? id[0] : id;
+    productService.getRelatedProducts(productId, 8)
+      .then((data) => setAllRelatedProducts(data.products || []))
+      .catch(() => setAllRelatedProducts([]));
+  }, [id]);
+
+  // Track recently-viewed products in localStorage for the home-page shelf
+  useEffect(() => {
+    if (!product) return;
+    addRecentlyViewed({
+      id: Number(product.id),
+      name: product.name,
+      image: product.main_image || '',
+      price: product.price,
+      viewedAt: Date.now(),
+    });
+  }, [product]);
+
+  // Analytics: fire view_item once the product data is available
+  useEffect(() => {
+    if (!product) return;
+    track({
+      event: 'view_item',
+      currency: 'MAD',
+      value: product.price || 0,
+      items: [
+        {
+          item_id: String(product.id),
+          item_name: product.name,
+          item_category: product.category || '',
+          price: product.price || 0,
+          quantity: 1,
+        },
+      ],
+    });
+  }, [product]);
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-amber-50">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-700"></div>
+      <div className="bg-canvas min-h-screen">
+        <div className="max-w-7xl mx-auto px-6 pt-6 pb-16">
+          {/* Breadcrumb skeleton */}
+          <div className="flex items-center gap-2 mb-8">
+            <div className="h-3 w-12 rounded-full bg-gray-100 animate-pulse" />
+            <div className="h-3 w-2 rounded-full bg-gray-100 animate-pulse" />
+            <div className="h-3 w-20 rounded-full bg-gray-100 animate-pulse" />
+            <div className="h-3 w-2 rounded-full bg-gray-100 animate-pulse" />
+            <div className="h-3 w-32 rounded-full bg-gray-100 animate-pulse" />
+          </div>
+          {/* Hero skeleton — 2-col on lg */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
+            {/* Gallery skeleton */}
+            <div className="flex flex-col gap-4">
+              <div className="w-full aspect-[4/5] rounded-2xl bg-gray-100 animate-pulse" />
+              <div className="grid grid-cols-4 gap-3">
+                {[...Array(4)].map((_, i) => (
+                  <div key={i} className="aspect-square rounded-xl bg-gray-100 animate-pulse" />
+                ))}
+              </div>
+            </div>
+            {/* Info pane skeleton */}
+            <div className="bg-white rounded-2xl ring-1 ring-gray-200 p-8 flex flex-col gap-5 shadow-atlas-sm">
+              <div className="h-3 w-20 rounded-full bg-gray-100 animate-pulse" />
+              <div className="space-y-2">
+                <div className="h-8 w-3/4 rounded-2xl bg-gray-100 animate-pulse" />
+                <div className="h-8 w-1/2 rounded-2xl bg-gray-100 animate-pulse" />
+              </div>
+              <div className="h-6 w-28 rounded-full bg-gray-100 animate-pulse" />
+              <div className="h-4 w-24 rounded-full bg-gray-100 animate-pulse" />
+              <div className="space-y-1.5">
+                <div className="h-3.5 w-full rounded-full bg-gray-100 animate-pulse" />
+                <div className="h-3.5 w-5/6 rounded-full bg-gray-100 animate-pulse" />
+              </div>
+              <div className="flex gap-2">
+                {[...Array(4)].map((_, i) => (
+                  <div key={i} className="h-10 w-10 rounded-full bg-gray-100 animate-pulse" />
+                ))}
+              </div>
+              <div className="flex gap-2">
+                {[0, 1, 2, 3].map((i) => (
+                  <div key={i} className="h-8 w-14 rounded-full bg-gray-100 animate-pulse" />
+                ))}
+              </div>
+              <div className="h-12 w-full rounded-full bg-gray-100 animate-pulse mt-2" />
+              <div className="h-10 w-full rounded-full bg-gray-100 animate-pulse" />
+            </div>
+          </div>
+        </div>
       </div>
     );
   }
 
   if (error || !product) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-amber-50">
-        <div className="flex flex-col items-center gap-3 text-center px-6">
-          <p className="text-rose-700 font-medium">{error || t('errors.productNotFound', 'Product not found')}</p>
-          <Link href="/products" className="text-sm text-indigo-700 underline underline-offset-2 hover:text-indigo-900">
+      <div className="min-h-screen flex items-center justify-center bg-canvas">
+        <div className="flex flex-col items-center gap-4 text-center px-6 max-w-sm">
+          <div className="h-16 w-16 rounded-2xl bg-rose-50 ring-1 ring-rose-200 flex items-center justify-center">
+            <XCircle className="h-8 w-8 text-rose-700" aria-hidden />
+          </div>
+          <h1 className="text-xl font-semibold text-gray-900" style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}>
+            {error || t('errors.productNotFound', 'Product not found')}
+          </h1>
+          <p className="text-sm text-gray-500">
+            {t('errors.productNotFoundDesc', 'This product may have been removed or the link is incorrect.')}
+          </p>
+          <Link
+            href="/products"
+            className="inline-flex items-center gap-2 rounded-full bg-indigo-700 px-6 py-2.5 text-sm font-semibold text-white hover:bg-indigo-800 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30"
+          >
+            <ArrowRight className="h-4 w-4 rtl:rotate-180" aria-hidden />
             {t('navigation.backToProducts', 'Back to products')}
           </Link>
         </div>
@@ -1043,6 +1313,16 @@ export default function ProductDetailsPage() {
 
   const displayName = isRTL ? product.name_ar || product.name : product.name;
   const displayCategory = isRTL ? product.category_ar || product.category : product.category;
+
+  // ── Vertical detection — drives jewelry vs. clothing UI branching ─────────
+  const isJewelry = isJewelryProduct({
+    vertical: product.vertical,
+    category: product.category,
+    category_slug: product.category_slug,
+    customization_options: product.customization_options as Record<string, unknown> | null | undefined,
+  });
+  // Jewelry spec data from backend customization_options (vertical spec fields)
+  const jewelrySpec = product.customization_options ?? null;
   
   // Use the selected variant's price if available, otherwise use product price
   const variantPrice = selectedVariant?.price;
@@ -1084,54 +1364,38 @@ export default function ProductDetailsPage() {
   // Get the stock status for the current variant or main product
   const stockStatus = (() => {
     if (selectedVariant) {
-      return selectedVariant.quantity > 0 
-        ? `${t('stock.in_stock')} (${selectedVariant.quantity})` 
+      return selectedVariant.quantity > 0
+        ? `${t('stock.in_stock')} (${selectedVariant.quantity})`
         : t('stock.out_of_stock');
     }
-    
-    if (product) {
-      const productStock = product.stock ?? product.quantity;
-      
-      // Handle edge cases for stock status display
-       if (productStock === null || productStock === undefined || productStock === 0 || productStock === "0" || productStock === "") {
-         return t('stock.out_of_stock');
-       }
-       
-       // Handle boolean false separately
-       if (typeof productStock === 'boolean' && productStock === false) {
-        return t('stock.out_of_stock');
+
+    if (product && product.stock) {
+      // New hybrid-stock object path
+      if (!product.stock.in_stock) return t('stock.out_of_stock');
+      if (product.stock.made_to_order) return t('stock.made_to_order', 'Made to order');
+      if (product.stock.quantity !== null) {
+        return `${t('stock.in_stock_simple', 'In stock')} (${product.stock.quantity})`;
       }
-      
-      // Convert to number and validate
-      let stockValue;
-      if (typeof productStock === 'string') {
-        stockValue = parseInt(productStock);
-        if (isNaN(stockValue) || stockValue <= 0) {
-          return t('stock.out_of_stock');
-        }
-      } else if (typeof productStock === 'number') {
-        if (productStock <= 0) {
-          return t('stock.out_of_stock');
-        }
-        stockValue = productStock;
-      } else {
-        return t('stock.out_of_stock');
-      }
-      
-      return `${t('stock.in_stock')} (${stockValue})`;
+      return t('stock.in_stock_simple', 'In stock');
     }
-    
+
+    // Legacy fallback
+    if (product) {
+      const legacyStock = product.quantity;
+      const legacyNum = typeof legacyStock === 'string' ? parseInt(legacyStock) : legacyStock;
+      if (!legacyNum || legacyNum <= 0) return t('stock.out_of_stock');
+      return `${t('stock.in_stock_simple', 'In stock')} (${legacyNum})`;
+    }
+
     return t('stock.out_of_stock');
   })();
 
   // Wishlist toggle helper
+  // Guests are handled by WishlistContext's guest path (localStorage-backed,
+  // merged to server on login/register). Do NOT redirect guests to /login here —
+  // they must be able to wishlist without an account.
   const wishlisted = isInWishlist(Number(product.id));
   const handleWishlistToggle = async () => {
-    if (!isAuthenticated) {
-      toast.error(t('auth.login_required'));
-      router.push(`/login?redirect=${encodeURIComponent(window.location.pathname)}`);
-      return;
-    }
     if (wishlisted) {
       await removeFromWishlist(Number(product.id));
     } else {
@@ -1161,13 +1425,39 @@ export default function ProductDetailsPage() {
     ? t('product.new', 'NEW')
     : displayCategory || '';
 
-  // Size pills — use variant sizes if present, else default
-  const sizePills: string[] = availableSizes.length > 0
-    ? availableSizes.map(s => s.name)
-    : ['S', 'M', 'L', 'XL'];
+  // Size pills — only from real variant sizes; render nothing when no sizes available
+  const sizePills: string[] = availableSizes.map(s => s.name);
+  // For jewelry, detect if sizes are ring-size codes (numeric, 40–75 range)
+  const isRingSizes = isJewelry && hasRingSizes(sizePills);
 
+  // ── JSON-LD structured data (Product schema) ──────────────────────────────
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.beldify.com';
+  const productJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    name: displayName,
+    description: product.description || displayName,
+    image: getCurrentImageUrl() || product.main_image || undefined,
+    offers: {
+      '@type': 'Offer',
+      price: String(displayPrice),
+      priceCurrency: 'MAD',
+      availability:
+        !shouldDisableButton()
+          ? 'https://schema.org/InStock'
+          : 'https://schema.org/OutOfStock',
+      url: `${siteUrl}/products/${product.id}`,
+    },
+  };
+
+  // pb-28 on mobile = ~112px clearance for the PdpBuyBar (two rows + safe-area)
   return (
-    <div className="bg-amber-50 min-h-screen pb-16">
+    <div className="bg-canvas min-h-screen pb-28 md:pb-16">
+    {/* Product structured data for SEO */}
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd) }}
+    />
     <main className="max-w-7xl mx-auto" role="main">
       {/* ── 1. Breadcrumb strip ── */}
       <nav className="px-6 py-4 text-sm text-gray-500" aria-label={t('catalog.pdp.breadcrumb_label', 'Breadcrumb')}>
@@ -1199,44 +1489,77 @@ export default function ProductDetailsPage() {
         </ol>
       </nav>
 
-      {/* ── 2. Hero (2-col on lg+) ── */}
-
       {/* ── 2. Hero — 2-col on lg+ ── */}
-      <section className="px-6 grid grid-cols-1 lg:grid-cols-2 gap-10 mb-16" aria-label={t('product.details', 'Product details')}>
+      <section className="px-6 grid grid-cols-1 lg:grid-cols-[1fr_480px] xl:grid-cols-[1fr_520px] gap-10 mb-16" aria-label={t('product.details', 'Product details')}>
 
         {/* ── Left: Image gallery ── */}
         <div className="flex flex-col gap-4">
-          {/* Main image — 4:5 aspect, amber-200 ring, Atlas rounded-lg (16px) */}
-          <div className="relative w-full aspect-[4/5] rounded-lg overflow-hidden ring-1 ring-amber-200 bg-amber-50">
+          {/* Main image — constrained on mobile so title+price appear above the fold.
+              max-h-[55vh] on mobile keeps the gallery to ~55% of the viewport height,
+              letting the info pane title + price + buy CTA show within 390×844.
+              On desktop the layout is 2-col so the constraint is removed (lg:aspect-[4/5]). */}
+          <div
+            className="relative w-full max-h-[55vh] lg:max-h-none lg:aspect-[4/5] aspect-[4/5] rounded-2xl overflow-hidden ring-1 ring-amber-200 shadow-atlas-sm group cursor-zoom-in"
+            onClick={() => getCurrentImageUrl() && setIsZoomed(true)}
+            role="button"
+            aria-label={t('product.zoom_image', 'Zoom image')}
+            tabIndex={0}
+            onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); getCurrentImageUrl() && setIsZoomed(true); } }}
+          >
             {getCurrentImageUrl() ? (
               <Image
                 src={getCurrentImageUrl()}
                 alt={displayName}
                 fill
                 priority
-                className="object-cover transition-transform duration-500 hover:scale-105"
+                className="object-cover transition-transform duration-700 group-hover:scale-[1.03]"
                 sizes="(max-width: 1024px) 100vw, 50vw"
               />
             ) : (
-              <div className="w-full h-full bg-amber-100 flex items-center justify-center">
-                <span className="text-amber-400 text-sm">{displayName}</span>
+              <div className="w-full h-full bg-amber-100 flex items-center justify-center rounded-2xl">
+                <span className="text-amber-400 text-sm font-medium">{displayName}</span>
               </div>
             )}
+
+            {/* Gradient vignette at base — editorial depth */}
+            <div
+              aria-hidden
+              className="absolute inset-x-0 bottom-0 h-1/4 bg-gradient-to-t from-gray-950/20 to-transparent pointer-events-none"
+            />
+
+            {/* Kicker badge overlaid on image (mobile only) */}
+            {kickerLabel && (
+              <span className="lg:hidden absolute top-4 start-4 text-xs uppercase tracking-[0.18em] text-amber-700 font-medium bg-amber-50 ring-1 ring-amber-200 rounded-full px-3 py-1">
+                {kickerLabel}
+              </span>
+            )}
+
             {/* Wishlist pill top-end (RTL-safe logical positioning) */}
             <button
               onClick={handleWishlistToggle}
               aria-label={wishlisted ? t('wishlist.remove', 'Remove from wishlist') : t('wishlist.add', 'Add to wishlist')}
-              className="absolute top-4 end-4 bg-white/90 backdrop-blur-sm rounded-full p-2.5 shadow-sm hover:bg-white transition-colors"
+              className="absolute top-4 end-4 bg-white rounded-full p-2.5 shadow-atlas-sm hover:bg-white transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30"
             >
               <Heart
-                className={cn('h-5 w-5', wishlisted ? 'fill-indigo-700 text-indigo-700' : 'text-gray-500')}
+                className={cn('h-5 w-5 transition-colors', wishlisted ? 'fill-rose-600 text-rose-600' : 'text-gray-500')}
               />
             </button>
+
+            {/* Sale badge overlaid on image (start side, below wishlist) */}
+            {hasDiscount && discountPercentage > 0 && (
+              <span className="absolute bottom-4 end-4 inline-flex items-center rounded-full bg-rose-700 px-2.5 py-1 text-xs font-bold text-white shadow-atlas-sm">
+                −{discountPercentage}%
+              </span>
+            )}
           </div>
 
-          {/* Thumbnail row (up to 4) */}
+          {/* Thumbnail strip (up to 5, scroll on mobile) */}
           {thumbnails.length > 1 && (
-            <div className="grid grid-cols-4 gap-3">
+            <div
+              className="flex gap-3 overflow-x-auto pb-1 snap-x snap-mandatory scrollbar-none"
+              role="group"
+              aria-label={t('product.image_thumbnails', 'Product images')}
+            >
               {thumbnails.map((img, idx) => (
                 <button
                   key={img.id}
@@ -1244,19 +1567,21 @@ export default function ProductDetailsPage() {
                     setSelectedImage(img);
                     setActiveImageIndex(idx);
                   }}
+                  aria-label={`${displayName} ${t('product.view', 'view')} ${idx + 1}`}
+                  aria-pressed={activeImageIndex === idx}
                   className={cn(
-                    'relative aspect-square rounded-xl overflow-hidden ring-1 transition-all duration-200',
+                    'relative shrink-0 w-20 h-20 rounded-xl overflow-hidden ring-1 transition-all duration-200 snap-start focus:outline-none focus-visible:ring-2',
                     activeImageIndex === idx
-                      ? 'ring-indigo-700 ring-2'
-                      : 'ring-amber-200 opacity-70 hover:opacity-100'
+                      ? 'ring-2 ring-indigo-700 shadow-atlas-sm focus-visible:ring-indigo-700'
+                      : 'ring-gray-200 opacity-60 hover:opacity-90 hover:ring-gray-300 focus-visible:ring-indigo-700/50'
                   )}
                 >
                   <Image
                     src={buildImageUrl(img.url)}
-                    alt={`${displayName} ${t('product.view', 'view')} ${idx + 1}`}
+                    alt={`${displayName} ${idx + 1}`}
                     fill
                     className="object-cover"
-                    sizes="10vw"
+                    sizes="80px"
                   />
                 </button>
               ))}
@@ -1264,19 +1589,22 @@ export default function ProductDetailsPage() {
           )}
         </div>
 
-        {/* ── Right: Info pane on sand background ── */}
-        <div className="bg-white ring-1 ring-amber-200 rounded-lg p-8 flex flex-col gap-5 shadow-atlas-sm">
+        {/* ── Right: Info pane ── */}
+        <div className="bg-white ring-1 ring-gray-200 rounded-2xl p-7 lg:p-8 flex flex-col gap-5 shadow-atlas-sm">
 
-          {/* Kicker */}
+          {/* Kicker — desktop only (mobile shows it overlaid on image) */}
           {kickerLabel && (
-            <p className="text-xs uppercase tracking-[0.18em] text-amber-700 font-medium">
+            <p className="hidden lg:block text-xs uppercase tracking-[0.18em] text-amber-700 font-medium">
               {kickerLabel}
             </p>
           )}
 
-          {/* Product name */}
+          {/* Product name — large Playfair on desktop */}
           <h1
-            className={cn('text-3xl sm:text-4xl font-bold text-gray-900 leading-tight', isRTL ? 'font-arabic' : '')}
+            className={cn(
+              'text-3xl sm:text-4xl lg:text-[2.6rem] font-bold text-gray-900 leading-[1.1] tracking-tight',
+              isRTL ? 'font-arabic' : ''
+            )}
             style={isRTL ? undefined : { fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
           >
             {displayName}
@@ -1284,68 +1612,170 @@ export default function ProductDetailsPage() {
 
           {/* Price line */}
           <div className="flex items-baseline gap-3 flex-wrap">
+            <span className="text-3xl font-bold text-indigo-700 tabular-nums currency-mad">
+              {formatPrice(displayPrice)}
+            </span>
             {hasDiscount && (
-              <span className="text-base text-gray-500 line-through">
+              <span className="text-base text-gray-500 line-through tabular-nums">
                 {formatPrice(product.price)}
               </span>
             )}
-            <span className="text-2xl font-semibold text-indigo-700">
-              {formatPrice(displayPrice)}
-            </span>
             {hasDiscount && discountPercentage > 0 && (
-              <span className="inline-flex items-center rounded-full bg-amber-100 px-2.5 py-0.5 text-xs font-semibold text-amber-700 ring-1 ring-amber-300">
+              <span className="inline-flex items-center rounded-full bg-rose-700 px-2.5 py-0.5 text-xs font-bold text-white">
                 −{discountPercentage}%
               </span>
             )}
           </div>
 
-          {/* Verified seller chip */}
-          <div className="flex items-center gap-2 flex-wrap">
-            <span className="inline-flex items-center gap-1.5 bg-amber-50 ring-1 ring-amber-200 rounded-full px-3 py-1.5 text-sm text-gray-800">
-              <BadgeCheck className="h-4 w-4 text-indigo-700" aria-hidden />
-              {product.shop?.name ?? 'Atelier Fassi'}
-              {(product.shop?.location ?? 'Fez') && (
-                <span className="text-gray-500">
-                  · {product.shop?.location ?? 'Fez'}
-                </span>
-              )}
-            </span>
-          </div>
-
-          {/* Provenance caption — renders only when shop.location (city) is present in API response */}
-          {/* expect: font-mono text-[10px] uppercase caption "<City> · artisan made" appears below seller chip */}
-          {product.shop?.location && (
-            <p className="font-mono text-[10px] tracking-[0.2em] uppercase text-gray-600 mt-1">
-              {product.shop.location} · {t('pdp.artisanMade', 'artisan made')}
-            </p>
-          )}
-          {/* TODO: render provenance once seller_city is in the API response (currently uses shop.location as proxy) */}
-
-          {/* Rating row */}
-          {product.rating != null && (
+          {/* Rating row — real stars only once reviews exist; a brand-new product
+              shows a positive Saffron-amber "new" badge instead of empty grey stars
+              (avoids the negative "0.0 (0 reviews)" social-proof penalty). */}
+          {(product.reviews_count ?? 0) > 0 ? (
             <div className="flex items-center gap-2 text-sm">
-              <span className="flex items-center gap-0.5" aria-hidden="true">
-                {[1,2,3,4,5].map(i => (
-                  <Star
-                    key={i}
-                    className={cn(
-                      'h-4 w-4',
-                      i <= Math.round(product.rating ?? 0) ? 'fill-amber-400 text-amber-400' : 'text-gray-300'
-                    )}
-                  />
-                ))}
+              {/* Numeric score — prominent social proof anchor */}
+              <span className="font-bold text-gray-900 tabular-nums">
+                {(product.rating ?? 0).toFixed(1)}
               </span>
-              <a href="#reviews" className="text-indigo-700 underline-offset-2 hover:underline">
+              {/* Spoken label announces the rating rounded to the nearest half, so it
+                  agrees with the rendered half-star fill (e.g. 3.4 → "3.5 stars"). */}
+              <span
+                className="flex items-center gap-0.5"
+                aria-label={`${Math.round((product.rating ?? 0) * 2) / 2} ${t('product.stars', 'stars')}`}
+              >
+                {[1, 2, 3, 4, 5].map((i) => {
+                  const rating = product.rating ?? 0;
+                  const isFull = rating >= i;
+                  const isHalf = !isFull && rating >= i - 0.5;
+                  return (
+                    <span key={i} className="relative inline-flex h-4 w-4 shrink-0" aria-hidden>
+                      {/* Empty base star */}
+                      <Star className="h-4 w-4 fill-gray-200 text-gray-200" />
+                      {/* Filled overlay — full star or a start-clipped half (RTL-safe via inset-inline-start) */}
+                      {(isFull || isHalf) && (
+                        <span
+                          className="absolute inset-y-0 start-0 overflow-hidden"
+                          style={{ width: isHalf ? '50%' : '100%' }}
+                        >
+                          <Star className="h-4 w-4 fill-amber-400 text-amber-400" />
+                        </span>
+                      )}
+                    </span>
+                  );
+                })}
+              </span>
+              <a
+                href="#reviews"
+                className="text-indigo-700 hover:underline underline-offset-2 text-sm font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30 rounded"
+              >
                 ({product.reviews_count ?? 0} {t('product.reviews', 'reviews')})
               </a>
             </div>
+          ) : (
+            <a
+              href="#reviews"
+              className="inline-flex items-center gap-1.5 self-start rounded-full bg-amber-100/80 px-3 py-1 text-xs font-semibold text-amber-700 ring-1 ring-amber-200 hover:bg-amber-100 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30"
+            >
+              <Sparkles className="h-3.5 w-3.5" aria-hidden />
+              {t('product.be_first_review', 'New — be the first to review')}
+            </a>
           )}
 
-          {/* Description — 2 lines */}
+          {/* AI review gist — compact one-liner surfaced in buy column when summary is ready
+              and the product has >= 3 reviews. Clicking scrolls to the Reviews tab.
+              Spec: only render on 200 (aiReviewSummary non-null), clearly labelled as AI. */}
+          {aiReviewSummary && (product.reviews_count ?? 0) >= 3 && (
+            <button
+              type="button"
+              onClick={() => {
+                setActiveTab('reviews');
+                document.getElementById('product-tabs')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+              }}
+              className="w-full text-start flex items-start gap-2 rounded-xl bg-amber-50 ring-1 ring-amber-200 px-3.5 py-2.5 hover:ring-indigo-300 hover:bg-indigo-50 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30 group"
+              aria-label={t('buyerAi.reviewSummary.header', 'ملخص التقييمات')}
+            >
+              <Sparkles className="h-3.5 w-3.5 text-amber-500 shrink-0 mt-0.5" aria-hidden />
+              <span className="text-xs text-gray-700 leading-relaxed line-clamp-2 group-hover:text-indigo-800 transition-colors">
+                <span className="font-semibold text-amber-700 me-1.5">
+                  {t('buyerAi.reviewSummary.header', 'ملخص بالذكاء الاصطناعي')}
+                </span>
+                {aiReviewSummary.summary}
+              </span>
+            </button>
+          )}
+
+          {/* Seller card — clickable when the shop has a public page; always
+              balanced via justify-between + an always-present subtitle, so a shop
+              with no location/url never leaves a gaping void on one side. */}
+          {(() => {
+            const shopName = product.shop?.name ?? t('shop.default_name');
+            const subtitle = product.shop?.location
+              ? `${product.shop.location} · ${t('pdp.artisanMade', 'artisan made')}`
+              : t('pdp.trustedArtisan', 'Verified artisan seller');
+            const inner = (
+              <>
+                <div className="flex items-center gap-3 min-w-0">
+                  {/* Shop logo / monogram */}
+                  <div className="shrink-0 h-11 w-11 rounded-full bg-indigo-700 flex items-center justify-center shadow-atlas-sm overflow-hidden">
+                    {product.shop?.logo ? (
+                      <Image
+                        src={buildImageUrl(product.shop.logo)}
+                        alt={shopName}
+                        width={44}
+                        height={44}
+                        className="rounded-full object-cover"
+                      />
+                    ) : (
+                      <span className="text-white font-semibold text-sm">
+                        {shopName.charAt(0).toUpperCase()}
+                      </span>
+                    )}
+                  </div>
+                  <div className="min-w-0">
+                    <div className="flex items-center gap-1.5">
+                      <span className="font-semibold text-gray-900 text-sm truncate">
+                        {shopName}
+                      </span>
+                      <BadgeCheck className="h-4 w-4 text-indigo-700 shrink-0" aria-label={t('shop.verified', 'Verified')} />
+                    </div>
+                    <p className="text-xs text-gray-500 truncate mt-0.5">{subtitle}</p>
+                  </div>
+                </div>
+                {product.shop?.url_name && (
+                  <span className="shrink-0 inline-flex items-center gap-1 rounded-full bg-indigo-50 px-3.5 py-2 text-xs font-semibold text-indigo-700 group-hover/seller:bg-indigo-100 transition-colors">
+                    {t('shop.visit', 'Visit shop')}
+                    <ArrowRight className="h-3.5 w-3.5 rtl:rotate-180" aria-hidden />
+                  </span>
+                )}
+              </>
+            );
+            return product.shop?.url_name ? (
+              <Link
+                href={`/shops/${product.shop.url_name}`}
+                className="group/seller flex items-center justify-between gap-3 bg-amber-50 ring-1 ring-amber-200 rounded-2xl px-4 py-3 hover:ring-indigo-300 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30"
+                aria-label={t('shop.visit', 'Visit shop')}
+              >
+                {inner}
+              </Link>
+            ) : (
+              <div className="flex items-center justify-between gap-3 bg-amber-50 ring-1 ring-amber-200 rounded-2xl px-4 py-3">
+                {inner}
+              </div>
+            );
+          })()}
+
+          {/* Description — 3 lines, styled. dir="auto" lets the browser detect the
+              text's language from the first strong character, so an English blurb on
+              an RTL page renders left-aligned with punctuation in the right place
+              instead of a period floating to the wrong side. */}
           {product.description && (
-            <p className="text-gray-600 text-sm leading-relaxed line-clamp-2">
+            <p dir="auto" className="text-gray-600 text-sm leading-relaxed line-clamp-3 border-s-2 border-gray-300 ps-3 text-start">
               {product.description}
             </p>
+          )}
+
+          {/* Jewelry spec block — shown immediately below description for jewelry products */}
+          {isJewelry && jewelrySpec && (
+            <JewelryFields spec={jewelrySpec} />
           )}
 
           {/* Color swatches (if present in variants) */}
@@ -1373,7 +1803,7 @@ export default function ProductDetailsPage() {
                         'w-8 h-8 rounded-full transition-all duration-200',
                         selectedColor?.id === color.id
                           ? 'ring-2 ring-amber-500 ring-offset-2'
-                          : 'ring-1 ring-amber-200 hover:ring-amber-300'
+                          : 'ring-1 ring-gray-200 hover:ring-gray-300'
                       )}
                       style={{ backgroundColor: color.hex_code }}
                     />
@@ -1383,49 +1813,53 @@ export default function ProductDetailsPage() {
             </fieldset>
           )}
 
-          {/* Size pills */}
-          <fieldset>
-            <div className="flex items-center justify-between mb-2">
-              <legend className="text-sm font-medium text-gray-800">
-                {t('product.size', 'Size')}
-              </legend>
-            </div>
-            <div className="flex flex-wrap gap-2" role="radiogroup">
-              {sizePills.map((sizeName) => {
-                const sizeObj = availableSizes.find(s => s.name === sizeName);
-                const isSelected = sizeObj
-                  ? selectedSize?.id === sizeObj.id
-                  : false;
-                const isAvail = sizeObj
-                  ? !selectedColor || product.variants.some(
-                      v => v.size?.id === sizeObj.id && v.color?.id === selectedColor.id && v.quantity > 0
-                    )
-                  : true;
-                return (
-                  <button
-                    key={sizeName}
-                    onClick={() => sizeObj && isAvail && handleSizeSelection(sizeObj)}
-                    disabled={!!sizeObj && !isAvail}
-                    role="radio"
-                    aria-checked={isSelected}
-                    className={cn(
-                      'px-4 py-1.5 rounded-full text-sm font-medium transition-all duration-200',
-                      isSelected
-                        ? 'bg-indigo-700 text-white'
-                        : isAvail
-                          ? 'bg-white ring-1 ring-amber-200 text-gray-700 hover:ring-indigo-300'
-                          : 'bg-gray-100 text-gray-400 ring-1 ring-gray-200 cursor-not-allowed'
-                    )}
-                  >
-                    {sizeName}
-                  </button>
-                );
-              })}
-            </div>
-          </fieldset>
+          {/* Size pills — only rendered when real variant sizes are present */}
+          {availableSizes.length > 0 && (
+            <fieldset>
+              <div className="flex items-center justify-between mb-2">
+                <legend className="text-sm font-medium text-gray-800">
+                  {isRingSizes
+                    ? t('jewelry.ring_size', 'Ring size')
+                    : t('product.size', 'Size')}
+                </legend>
+              </div>
+              <div className="flex flex-wrap gap-2" role="radiogroup">
+                {sizePills.map((sizeName) => {
+                  const sizeObj = availableSizes.find(s => s.name === sizeName);
+                  const isSelected = sizeObj
+                    ? selectedSize?.id === sizeObj.id
+                    : false;
+                  const isAvail = sizeObj
+                    ? !selectedColor || product.variants.some(
+                        v => v.size?.id === sizeObj.id && v.color?.id === selectedColor.id && v.quantity > 0
+                      )
+                    : true;
+                  return (
+                    <button
+                      key={sizeName}
+                      onClick={() => sizeObj && isAvail && handleSizeSelection(sizeObj)}
+                      disabled={!!sizeObj && !isAvail}
+                      role="radio"
+                      aria-checked={isSelected}
+                      className={cn(
+                        'px-4 py-1.5 rounded-full text-sm font-medium transition-all duration-200',
+                        isSelected
+                          ? 'bg-indigo-700 text-white'
+                          : isAvail
+                            ? 'bg-white ring-1 ring-gray-200 text-gray-700 hover:ring-indigo-300'
+                            : 'bg-gray-100 text-gray-400 ring-1 ring-gray-200 cursor-not-allowed'
+                      )}
+                    >
+                      {sizeName}
+                    </button>
+                  );
+                })}
+              </div>
+            </fieldset>
+          )}
 
-          {/* Fabric picker (if present) */}
-          {availableFabrics.length > 0 && (
+          {/* Fabric picker (if present) — hidden for jewelry products */}
+          {!isJewelry && availableFabrics.length > 0 && (
             <fieldset>
               <legend className="text-sm font-medium text-gray-800 mb-2">
                 {t('product.fabric', 'Fabric')}
@@ -1450,7 +1884,7 @@ export default function ProductDetailsPage() {
                         selectedFabric?.id === fabric.id
                           ? 'bg-indigo-700 text-white'
                           : isAvailableForSelection
-                            ? 'bg-white ring-1 ring-amber-200 text-gray-700 hover:ring-indigo-300'
+                            ? 'bg-white ring-1 ring-gray-200 text-gray-700 hover:ring-indigo-300'
                             : 'bg-gray-100 text-gray-400 ring-1 ring-gray-200 cursor-not-allowed'
                       )}
                     >
@@ -1462,112 +1896,297 @@ export default function ProductDetailsPage() {
             </fieldset>
           )}
 
-          {/* Custom size link */}
-          <Link
-            href="/services/tailoring"
-            className="text-sm text-indigo-700 underline underline-offset-2 hover:text-indigo-900 self-start"
-          >
-            {t('product.custom_size', 'Custom size available')}
-          </Link>
+          {/* AI size advisor — only shown when buyer_ai flag is ON, clothing products with size variants */}
+          {buyerAiEnabled && !isJewelry && availableSizes.length > 0 && (
+            <SizeAdvisorSheet
+              productId={product.id}
+              hasSizes={availableSizes.length > 0}
+              availableSizes={sizePills}
+              onSelectSize={(size) => {
+                const sizeObj = availableSizes.find(s => s.name === size);
+                if (sizeObj) handleSizeSelection(sizeObj);
+              }}
+            />
+          )}
 
-          {/* Quantity stepper */}
-          <div className="flex items-center gap-3">
-            <span className="text-sm font-medium text-gray-700">
-              {t('product.quantity', 'Qty')}
-            </span>
-            <div className="flex items-center bg-amber-50 ring-1 ring-amber-200 rounded-full overflow-hidden">
-              <button
-                onClick={() => setQuantity(q => Math.max(1, q - 1))}
-                disabled={quantity <= 1}
-                aria-label={t('stock.decrease_quantity', 'Decrease')}
-                className="p-2.5 hover:bg-amber-100 disabled:opacity-40 transition-colors"
-              >
-                <Minus className="h-3.5 w-3.5 text-gray-700" />
-              </button>
-              <span className="w-10 text-center text-sm font-semibold text-gray-900 select-none">
-                {quantity}
+          {/* Custom size link — clothing only (hidden for jewelry) */}
+          {!isJewelry && (
+            <Link
+              href="/services/tailoring"
+              className="inline-flex items-center gap-1.5 text-sm text-indigo-700 underline underline-offset-2 hover:text-indigo-900 transition-colors self-start focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30 rounded"
+            >
+              {t('product.custom_size', 'Custom size available')}
+              <ArrowRight className="h-3.5 w-3.5 rtl:rotate-180" aria-hidden />
+            </Link>
+          )}
+
+          {/* Divider */}
+          <div className="border-t border-gray-100" aria-hidden />
+
+          {/* Quantity stepper + CTA group */}
+          <div className="space-y-3">
+            {/* Qty row */}
+            <div className="flex items-center gap-4">
+              <span className="text-sm font-medium text-gray-700 shrink-0">
+                {t('product.quantity', 'Qty')}
               </span>
-              <button
-                onClick={() => setQuantity(q => q + 1)}
-                aria-label={t('stock.increase_quantity', 'Increase')}
-                className="p-2.5 hover:bg-amber-100 transition-colors"
-              >
-                <Plus className="h-3.5 w-3.5 text-gray-700" />
-              </button>
+              <div className="flex items-center bg-amber-50 ring-1 ring-amber-200 rounded-full overflow-hidden">
+                <button
+                  onClick={() => setQuantity(q => Math.max(1, q - 1))}
+                  disabled={quantity <= 1}
+                  aria-label={t('stock.decrease_quantity', 'Decrease quantity')}
+                  className="p-2.5 hover:bg-amber-100 disabled:opacity-40 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-indigo-700/30"
+                >
+                  <Minus className="h-3.5 w-3.5 text-gray-700" aria-hidden />
+                </button>
+                <span className="w-10 text-center text-sm font-semibold text-gray-900 select-none" aria-live="polite">
+                  {quantity}
+                </span>
+                <button
+                  onClick={() => setQuantity(q => q + 1)}
+                  aria-label={t('stock.increase_quantity', 'Increase quantity')}
+                  className="p-2.5 hover:bg-amber-100 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-indigo-700/30"
+                >
+                  <Plus className="h-3.5 w-3.5 text-gray-700" aria-hidden />
+                </button>
+              </div>
+              {/* Stock indicator — variant path */}
+              {selectedVariant && (
+                <span className={cn(
+                  'text-xs font-medium rounded-full px-2.5 py-1',
+                  selectedVariant.quantity > 0
+                    ? selectedVariant.quantity <= 5
+                      ? 'bg-amber-50 text-amber-700 ring-1 ring-amber-200'
+                      : 'bg-emerald-50 text-emerald-700 ring-1 ring-emerald-200'
+                    : 'bg-rose-50 text-rose-700 ring-1 ring-rose-200'
+                )}>
+                  {selectedVariant.quantity > 0
+                    ? selectedVariant.quantity <= 5
+                      ? t('stock.only_left', 'Only {{count}} left', { count: selectedVariant.quantity })
+                      : `${selectedVariant.quantity} ${t('stock.available', 'available')}`
+                    : t('stock.out_of_stock', 'Out of stock')}
+                </span>
+              )}
+              {/* Stock indicator — variant-less (hybrid-stock) path */}
+              {!selectedVariant && product.variants.length === 0 && product.stock && (
+                <span className={cn(
+                  'text-xs font-medium rounded-full px-2.5 py-1',
+                  !product.stock.in_stock
+                    ? 'bg-rose-50 text-rose-700 ring-1 ring-rose-200'
+                    : product.stock.made_to_order
+                      ? 'bg-indigo-50 text-indigo-700 ring-1 ring-indigo-200'
+                      : product.stock.quantity !== null && product.stock.quantity <= 5
+                        ? 'bg-amber-50 text-amber-700 ring-1 ring-amber-200'
+                        : 'bg-emerald-50 text-emerald-700 ring-1 ring-emerald-200'
+                )}>
+                  {!product.stock.in_stock
+                    ? t('stock.out_of_stock', 'Out of stock')
+                    : product.stock.made_to_order
+                      ? t('stock.made_to_order', 'Made to order')
+                      : product.stock.quantity !== null && product.stock.quantity <= 5
+                        ? t('stock.only_left', 'Only {{count}} left', { count: product.stock.quantity })
+                        : t('stock.in_stock_simple', 'In stock')}
+                </span>
+              )}
             </div>
-            {selectedVariant && (
-              <span className="text-xs text-gray-500">
-                {selectedVariant.quantity > 0
-                  ? `${selectedVariant.quantity} ${t('stock.available', 'available')}`
-                  : t('stock.out_of_stock', 'Out of stock')}
-              </span>
+
+            {/* Primary CTA: Add to bag — DESKTOP ONLY (mobile purchase lives in the
+                sticky PdpBuyBar; duplicating both pairs on one mobile screen confused
+                users). Full-width, large tap target.
+                INTENTIONAL Atlas exception: the global add-to-cart contract is the
+                amber-500 / text-amber-950 accent variant, but on the PDP the saffron
+                accent is reserved for the bespoke-tailoring CTA below (the editorial
+                hook). To avoid two amber CTAs competing on one screen, the PDP add-to-bag
+                is the indigo-700 primary instead. This is a documented PDP-primary-indigo
+                exception, not silent drift. */}
+            <button
+              type="button"
+              onClick={() => {
+                if (!shouldDisableButton()) handleAddToCart();
+              }}
+              disabled={shouldDisableButton()}
+              className={cn(
+                'hidden md:flex w-full rounded-full py-4 items-center justify-center gap-2.5 text-base font-semibold transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30',
+                shouldDisableButton()
+                  ? 'bg-gray-100 text-gray-400 cursor-not-allowed ring-1 ring-gray-200'
+                  : 'bg-indigo-700 hover:bg-indigo-800 text-white shadow-atlas-sm hover:shadow-atlas-md active:scale-[0.98]'
+              )}
+            >
+              <ShoppingBag className="h-5 w-5" aria-hidden />
+              {(() => {
+                if (!product?.variants || product.variants.length === 0) {
+                  // Variant-less: reflect stock state in the label
+                  if (product?.stock && !product.stock.in_stock) return t('stock.out_of_stock', 'Out of stock');
+                  if (product?.stock?.made_to_order) return t('stock.made_to_order', 'Made to order');
+                  return t('cart.add_to_bag', 'Add to bag');
+                }
+                if (!selectedVariant) return t('product.select_options', 'Select options');
+                if (isOutOfStock(selectedVariant)) return t('stock.out_of_stock', 'Out of stock');
+                return t('cart.add_to_bag', 'Add to bag');
+              })()}
+            </button>
+
+            {/* Secondary CTA: Buy now — guest COD path, no account required */}
+            <button
+              type="button"
+              data-testid="buy-now-button"
+              onClick={handleBuyNow}
+              disabled={shouldDisableButton()}
+              className={cn(
+                'hidden md:flex w-full rounded-full py-3.5 items-center justify-center gap-2 text-sm font-semibold transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-500/40',
+                shouldDisableButton()
+                  ? 'bg-gray-100 text-gray-400 cursor-not-allowed ring-1 ring-gray-200'
+                  : 'bg-amber-400 hover:bg-amber-300 text-gray-900 shadow-atlas-sm hover:shadow-atlas-md active:scale-[0.98]'
+              )}
+            >
+              {t('product.buy_now', 'Buy now')}
+              <ArrowRight className="h-4 w-4 rtl:rotate-180" aria-hidden />
+            </button>
+
+            {/* Virtual try-on — clothing only, hidden when disabled, 403, or feature flag OFF */}
+            {!tryOnHidden && tryonEnabled && (
+              <TryOnButton
+                isJewelry={isJewelry}
+                productId={String(id ?? '')}
+                config={tryonConfig}
+                onOpen={() => setIsTryOnOpen(true)}
+              />
             )}
+
+            {/* Tertiary CTA: Save to wishlist */}
+            <button
+              type="button"
+              onClick={handleWishlistToggle}
+              className={cn(
+                'w-full rounded-full py-3 flex items-center justify-center gap-2 text-sm font-medium transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30',
+                wishlisted
+                  ? 'bg-rose-50 ring-1 ring-rose-200 text-rose-700 hover:bg-rose-100'
+                  : 'bg-white ring-1 ring-gray-200 text-gray-700 hover:ring-indigo-300 hover:text-indigo-700'
+              )}
+            >
+              <Heart className={cn('h-4 w-4', wishlisted ? 'fill-rose-600 text-rose-600' : '')} aria-hidden />
+              {wishlisted ? t('wishlist.saved', 'Saved') : t('wishlist.save', 'Save for later')}
+            </button>
+
+            {/* Notify me — back-in-stock (OOS) or price-drop (in-stock).
+                OOS: prominent, replaces the buy button's call to action.
+                In-stock: secondary, shown below the wishlist save button.
+                isProductOOS derives from variant-path and hybrid-stock-path
+                to avoid using shouldDisableButton() which also fires for
+                "no variant selected" — a different condition. */}
+            {(() => {
+              const isProductOOS =
+                // Variant path: variant selected and is out of stock
+                (selectedVariant && isOutOfStock(selectedVariant)) ||
+                // Variant-less hybrid-stock path: stock object says not in stock
+                (!selectedVariant && product.variants.length === 0 && product.stock && !product.stock.in_stock) ||
+                // Legacy fallback: no stock object, quantity ≤ 0
+                (!selectedVariant && product.variants.length === 0 && !product.stock && (() => {
+                  const n = typeof product.quantity === 'string' ? parseInt(product.quantity) : product.quantity;
+                  return !n || (n as number) <= 0;
+                })());
+
+              return (
+                <NotifyMeButton
+                  productId={Number(product.id)}
+                  currentPrice={displayPrice}
+                  isOutOfStock={!!isProductOOS}
+                  isRTL={isRTL}
+                />
+              );
+            })()}
+
+            {/* Tertiary CTA: Share — spreads the product link to WhatsApp/social,
+                pulling buyers back into the app (sale always closes in-app). */}
+            <ShareButton
+              block
+              title={product?.name}
+              text={product?.price != null ? formatPrice(product.price) : undefined}
+              label={t('share.share_product', 'Share this product')}
+            />
           </div>
 
-          {/* Primary CTA: Add to bag */}
-          <button
-            type="button"
-            onClick={() => {
-              if (!shouldDisableButton()) handleAddToCart();
-            }}
-            disabled={shouldDisableButton()}
-            className={cn(
-              'w-full rounded-full py-3 flex items-center justify-center gap-2 text-base font-semibold transition-all duration-200',
-              shouldDisableButton()
-                ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
-                : 'bg-indigo-700 hover:bg-indigo-800 text-white'
-            )}
-          >
-            <ShoppingBag className="h-5 w-5" aria-hidden />
-            {(() => {
-              if (!product?.variants || product.variants.length === 0) return t('cart.add_to_bag', 'Add to bag');
-              if (!selectedVariant) return t('product.select_options', 'Select options');
-              if (isOutOfStock(selectedVariant)) return t('stock.out_of_stock', 'Out of stock');
-              return t('cart.add_to_bag', 'Add to bag');
-            })()}
-          </button>
-
-          {/* Secondary CTA: Save (wishlist) */}
-          <button
-            type="button"
-            onClick={handleWishlistToggle}
-            className="w-full rounded-full py-3 flex items-center justify-center gap-2 text-sm font-medium bg-white ring-1 ring-gray-300 text-gray-700 hover:ring-indigo-300 hover:text-indigo-700 transition-all duration-200"
-          >
-            <Heart className={cn('h-4 w-4', wishlisted ? 'fill-indigo-700 text-indigo-700' : '')} aria-hidden />
-            {wishlisted ? t('wishlist.saved', 'Saved') : t('wishlist.save', 'Save')}
-          </button>
-
-          {/* Trust micro-pills */}
-          <div className="flex flex-wrap gap-2 pt-1">
-            <span className="bg-white ring-1 ring-amber-200 rounded-full px-2.5 py-1 text-xs text-gray-600 inline-flex items-center gap-1.5">
-              <Truck className="h-3.5 w-3.5 text-amber-600" aria-hidden />
-              {t('trust.ships', 'Ships in 3 days')}
-            </span>
-            <span className="bg-white ring-1 ring-amber-200 rounded-full px-2.5 py-1 text-xs text-gray-600 inline-flex items-center gap-1.5">
-              <RotateCcw className="h-3.5 w-3.5 text-amber-600" aria-hidden />
-              {t('trust.returns', 'Free returns 14 days')}
-            </span>
-            <span className="bg-white ring-1 ring-amber-200 rounded-full px-2.5 py-1 text-xs text-gray-600 inline-flex items-center gap-1.5">
-              <ShieldCheck className="h-3.5 w-3.5 text-amber-600" aria-hidden />
-              {t('trust.authentic', 'Authenticity guaranteed')}
-            </span>
+          {/* Trust strip — 3 micro-pills in a warm row */}
+          <div className="grid grid-cols-3 gap-2 pt-1">
+            <div className="flex flex-col items-center gap-1.5 bg-amber-50 ring-1 ring-amber-100 rounded-2xl p-3 text-center">
+              <Truck className="h-4 w-4 text-amber-600 shrink-0" aria-hidden />
+              <span className="text-[11px] text-gray-600 leading-snug font-medium">
+                {t('trust.ships', 'Ships in 3 days')}
+              </span>
+            </div>
+            <div className="flex flex-col items-center gap-1.5 bg-amber-50 ring-1 ring-amber-100 rounded-2xl p-3 text-center">
+              <RotateCcw className="h-4 w-4 text-amber-600 shrink-0" aria-hidden />
+              <span className="text-[11px] text-gray-600 leading-snug font-medium">
+                {t('trust.returns', 'Free 14-day returns')}
+              </span>
+            </div>
+            <div className="flex flex-col items-center gap-1.5 bg-amber-50 ring-1 ring-amber-100 rounded-2xl p-3 text-center">
+              <ShieldCheck className="h-4 w-4 text-amber-600 shrink-0" aria-hidden />
+              <span className="text-[11px] text-gray-600 leading-snug font-medium">
+                {t('trust.authentic', 'Authentic')}
+              </span>
+            </div>
           </div>
         </div>
       </section>
 
+      {/* ── Click-to-zoom lightbox overlay ── */}
+      {isZoomed && getCurrentImageUrl() && (
+        <div
+          role="dialog"
+          aria-label={t('product.zoom_image', 'Zoom image')}
+          aria-modal="true"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-gray-950/80 p-4"
+          onClick={() => setIsZoomed(false)}
+          onKeyDown={(e) => { if (e.key === 'Escape') setIsZoomed(false); }}
+          tabIndex={-1}
+        >
+          <div
+            className="relative max-w-3xl w-full max-h-[90vh] aspect-[4/5] rounded-2xl overflow-hidden shadow-2xl"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <Image
+              src={getCurrentImageUrl()}
+              alt={displayName}
+              fill
+              className="object-contain"
+              sizes="(max-width: 768px) 100vw, 768px"
+              priority
+            />
+          </div>
+          <button
+            aria-label={t('product.close_zoom', 'Close zoom')}
+            className="absolute top-4 end-4 bg-white rounded-full p-2.5 shadow-atlas-sm hover:bg-white transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30"
+            onClick={() => setIsZoomed(false)}
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+      )}
+
       {/* ── 3. Tabs section ── */}
-      <section className="px-6 mb-16" aria-label={t('product.tabs', 'Product tabs')}>
-        {/* Tab pills */}
-        <div className="flex gap-1 border-b border-amber-200 mb-8 overflow-x-auto">
+      <section className="px-6 mb-16" aria-label={t('product.tabs', 'Product tabs')} id="product-tabs">
+        {/* Tab pills — horizontal scroll on mobile, sticky feel */}
+        <div
+          className="flex gap-0 border-b border-amber-200 mb-8 overflow-x-auto scrollbar-none sticky top-0 z-10 bg-amber-50 pt-2"
+          role="tablist"
+          aria-label={t('product.tabs', 'Product tabs')}
+        >
           {(['description', 'specs', 'sizing', 'reviews'] as const).map((tab) => (
             <button
               key={tab}
+              role="tab"
+              id={`tab-${tab}`}
+              aria-controls={`tabpanel-${tab}`}
+              aria-selected={activeTab === tab}
               onClick={() => setActiveTab(tab)}
               className={cn(
-                'px-4 py-2.5 text-sm font-medium whitespace-nowrap transition-colors',
+                'px-5 py-3 text-sm font-medium whitespace-nowrap transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-indigo-700/30',
                 activeTab === tab
                   ? 'text-indigo-700 border-b-2 border-indigo-700 -mb-px'
-                  : 'text-gray-500 hover:text-gray-800'
+                  : 'text-gray-500 hover:text-gray-800 hover:bg-gray-100 rounded-t-xl'
               )}
             >
               {t(`product.tab_${tab}`, tab.charAt(0).toUpperCase() + tab.slice(1))}
@@ -1575,135 +2194,292 @@ export default function ProductDetailsPage() {
           ))}
         </div>
 
-        {/* Tab content */}
+        {/* Tab panels */}
         <div className="max-w-3xl">
-          {activeTab === 'description' && (
-            <div className="space-y-4 text-gray-600 text-sm leading-relaxed">
-              <p>{product.description}</p>
-              {product.description && (
-                <p>
-                  {t('product.description_secondary', 'Crafted by skilled artisans using traditional methods passed down through generations, this piece represents the finest in Moroccan craftsmanship.')}
-                </p>
-              )}
-              {/* Journal entry link card */}
-              <Link
-                href={`/journal/${product.category?.toLowerCase() ?? 'crafts'}`}
-                className="flex items-center justify-between mt-6 p-4 rounded-2xl bg-amber-50 ring-1 ring-amber-200 hover:ring-amber-300 transition-all group"
-              >
-                <div>
-                  <p className="text-xs uppercase tracking-widest text-amber-700 font-medium mb-1">
-                    {t('journal.from_the_journal', 'From the journal')}
-                  </p>
-                  <p className="text-sm font-medium text-gray-900">
-                    {t('product.read_journal', 'Read the journal entry')}
-                  </p>
+          {/* Description */}
+          <div
+            role="tabpanel"
+            id="tabpanel-description"
+            aria-labelledby="tab-description"
+            className={activeTab === 'description' ? '' : 'hidden'}
+          >
+            <div className="space-y-5 text-gray-600 text-sm leading-relaxed">
+              <p className="text-base">{product.description}</p>
+              {/* "From the journal" teaser removed — the journal route does not exist yet.
+                  TODO: restore link card when the journal section ships. */}
+            </div>
+          </div>
+
+          {/* Specs */}
+          <div
+            role="tabpanel"
+            id="tabpanel-specs"
+            aria-labelledby="tab-specs"
+            className={activeTab === 'specs' ? '' : 'hidden'}
+          >
+            {/* Jewelry products: show full JewelryFields spec table */}
+            {isJewelry && jewelrySpec ? (
+              <div className="space-y-4">
+                <JewelryFields spec={jewelrySpec} />
+                {/* Category + SKU still useful for reference */}
+                <div className="rounded-2xl ring-1 ring-gray-200 overflow-hidden bg-white">
+                  {product.category && (
+                    <div className="flex items-center gap-4 px-5 py-3.5 border-b border-gray-100 last:border-b-0">
+                      <span className="text-xs uppercase tracking-wider text-gray-500 w-24 shrink-0">{t('product.category', 'Category')}</span>
+                      <span className="text-sm font-medium text-gray-900">{displayCategory}</span>
+                    </div>
+                  )}
+                  {selectedVariant?.sku && (
+                    <div className="flex items-center gap-4 px-5 py-3.5 last:border-b-0">
+                      <span className="text-xs uppercase tracking-wider text-gray-500 w-24 shrink-0">{t('catalog.pdp.sku', 'SKU')}</span>
+                      <span className="text-sm font-mono text-gray-900">{selectedVariant.sku}</span>
+                    </div>
+                  )}
                 </div>
-                <ArrowRight className="h-5 w-5 text-indigo-700 group-hover:translate-x-0.5 transition-transform rtl:rotate-180" />
-              </Link>
-            </div>
-          )}
-          {activeTab === 'specs' && (
-            <div className="text-sm text-gray-600 leading-relaxed space-y-3">
-              {product.category && (
-                <p><span className="font-medium text-gray-900">{t('product.category', 'Category')}:</span> {displayCategory}</p>
-              )}
-              {selectedVariant?.sku && (
-                <p><span className="font-medium text-gray-900">{t('catalog.pdp.sku', 'SKU')}:</span> {selectedVariant.sku}</p>
-              )}
-              {availableFabrics.length > 0 && (
-                <p><span className="font-medium text-gray-900">{t('product.fabric', 'Fabric')}:</span> {availableFabrics.map(f => f.name).join(', ')}</p>
-              )}
-            </div>
-          )}
-          {activeTab === 'sizing' && (
-            <div className="text-sm text-gray-600 leading-relaxed space-y-3">
-              <p>{t('product.sizing_info', 'Please refer to our size guide for accurate measurements. Custom sizing is always available.')}</p>
-              <Link href="/services/tailoring" className="text-indigo-700 underline underline-offset-2 hover:text-indigo-900">
-                {t('product.custom_sizing', 'Request custom sizing')}
-              </Link>
-            </div>
-          )}
-          {activeTab === 'reviews' && (
+              </div>
+            ) : (
+              /* Clothing / default: category + SKU + fabrics table */
+              <div className="rounded-2xl ring-1 ring-gray-200 overflow-hidden bg-white">
+                {product.category && (
+                  <div className="flex items-center gap-4 px-5 py-3.5 border-b border-gray-100 last:border-b-0">
+                    <span className="text-xs uppercase tracking-wider text-gray-500 w-24 shrink-0">{t('product.category', 'Category')}</span>
+                    <span className="text-sm font-medium text-gray-900">{displayCategory}</span>
+                  </div>
+                )}
+                {selectedVariant?.sku && (
+                  <div className="flex items-center gap-4 px-5 py-3.5 border-b border-gray-100 last:border-b-0">
+                    <span className="text-xs uppercase tracking-wider text-gray-500 w-24 shrink-0">{t('catalog.pdp.sku', 'SKU')}</span>
+                    <span className="text-sm font-mono text-gray-900">{selectedVariant.sku}</span>
+                  </div>
+                )}
+                {availableFabrics.length > 0 && (
+                  <div className="flex items-center gap-4 px-5 py-3.5 last:border-b-0">
+                    <span className="text-xs uppercase tracking-wider text-gray-500 w-24 shrink-0">{t('product.fabric', 'Fabric')}</span>
+                    <span className="text-sm text-gray-900">{availableFabrics.map(f => f.name).join(', ')}</span>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+
+          {/* Sizing */}
+          <div
+            role="tabpanel"
+            id="tabpanel-sizing"
+            aria-labelledby="tab-sizing"
+            className={activeTab === 'sizing' ? '' : 'hidden'}
+          >
+            {isJewelry ? (
+              /* Jewelry ring-size guidance */
+              <div className="space-y-4 text-sm text-gray-600 leading-relaxed">
+                <p>{t('jewelry.ring_size_info', 'Ring sizes are in EU numeric format (e.g. 48–72). Use a ring sizer or measure the inner diameter of an existing ring in millimeters to find your size.')}</p>
+                <Link
+                  href="/custom-orders/new?vertical=jewelry"
+                  className="inline-flex items-center gap-2 text-indigo-700 underline underline-offset-2 hover:text-indigo-900 font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30 rounded"
+                >
+                  {t('jewelry.request_custom_size', 'Request a custom size')}
+                  <ArrowRight className="h-3.5 w-3.5 rtl:rotate-180" aria-hidden />
+                </Link>
+              </div>
+            ) : (
+              /* Clothing sizing guidance */
+              <div className="space-y-4 text-sm text-gray-600 leading-relaxed">
+                <p>{t('product.sizing_info', 'Please refer to our size guide for accurate measurements. Custom sizing is always available.')}</p>
+                <Link
+                  href="/services/tailoring"
+                  className="inline-flex items-center gap-2 text-indigo-700 underline underline-offset-2 hover:text-indigo-900 font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30 rounded"
+                >
+                  {t('product.custom_sizing', 'Request custom sizing')}
+                  <ArrowRight className="h-3.5 w-3.5 rtl:rotate-180" aria-hidden />
+                </Link>
+              </div>
+            )}
+          </div>
+
+          {/* Reviews */}
+          <div
+            role="tabpanel"
+            id="tabpanel-reviews"
+            aria-labelledby="tab-reviews"
+            className={activeTab === 'reviews' ? '' : 'hidden'}
+          >
+            {/* AI review summary card — lazy-fetched; renders only when buyer_ai is ON and data is 200 */}
+            {buyerAiEnabled && <AiReviewSummaryCard data={aiReviewSummary} />}
             <ReviewsSection productId={product.id} productName={product.name} />
-          )}
+          </div>
         </div>
       </section>
 
       {/* ── 4. Bespoke strip (full-bleed) ── */}
-      <section className="relative isolate overflow-hidden bg-indigo-900 text-white py-16 px-6 mb-16">
-        <div
-          aria-hidden
-          className="absolute inset-0 opacity-30 bg-[radial-gradient(circle_at_20%_20%,_#f59e0b_0,_transparent_45%),radial-gradient(circle_at_80%_60%,_#3b3b6d_0,_transparent_50%)]"
-        />
-        <div className="relative max-w-4xl mx-auto text-center flex flex-col items-center gap-6">
-          <p className="text-xs uppercase tracking-[0.18em] text-amber-300 font-medium">
-            {t('bespoke.eyebrow', 'Bespoke')}
-          </p>
-          <h2
-            className="text-3xl md:text-4xl font-bold leading-tight"
-            style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
-          >
-            {t('bespoke.headline', 'Want it tailored to you?')}
-          </h2>
-          <p className="text-indigo-100 text-sm max-w-lg">
-            {t('bespoke.body', 'Provide your measurements and an Atelier artisan will craft this piece specifically for you.')}
-          </p>
-          <Link
-            href="/services/tailoring"
-            className="inline-flex items-center gap-2 rounded-full bg-amber-400 px-8 py-3 text-sm font-semibold text-gray-900 hover:bg-amber-300 transition-colors"
-          >
-            {t('bespoke.cta', 'Start a tailoring order')}
-            <ArrowRight className="h-4 w-4 rtl:rotate-180" aria-hidden />
-          </Link>
-        </div>
-      </section>
-
-      {/* TODO (brief 3.2): when an AI-curated "complete the look" shelf is added here, prepend
-           the Sparkles chip per brief delta 3.2:
-           <div className="flex items-center gap-2 mb-4">
-             <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-amber-100 text-amber-800 text-xs font-medium ring-1 ring-amber-200">
-               <Sparkles size={12} className="shrink-0" />
-               {t('pdp.aiStyling', 'AI styled for you')}
-             </span>
-           </div>
-           No shelf exists currently — skipped per conditional rule. */}
-
-      {/* ── 5. You might also like ── */}
-      <section className="px-6 mb-16" aria-label={t('product.related', 'You might also like')}>
-        <h2
-          className="text-2xl font-bold text-gray-900 mb-8"
-          style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
-        >
-          {t('product.you_might_also_like', 'You might also like')}
-        </h2>
-        <RelatedProducts productId={product.id} limit={4} />
-      </section>
-
-      {/* Mobile sticky add-to-bag bar */}
-      <div className="fixed bottom-0 left-0 right-0 z-40 bg-white border-t border-amber-100 p-4 md:hidden shadow-lg">
-        <div className="flex items-center gap-3">
-          <div className="flex-shrink-0">
-            <p className="text-base font-bold text-indigo-700">
-              {formatPrice((selectedVariant?.price || product.price) * quantity)}
+      {/* Jewelry products get a jewelry-specific custom-order section.
+          Clothing/default products get the tailoring bespoke strip. */}
+      {isJewelry ? (
+        /* ── Jewelry: custom-piece request strip ── */
+        <section className="relative isolate overflow-hidden bg-indigo-900 text-white py-16 px-6 mb-16" data-testid="jewelry-bespoke-strip">
+          <div
+            aria-hidden
+            className="absolute inset-0 opacity-30 bg-[radial-gradient(circle_at_20%_20%,_theme(colors.amber.500)_0,_transparent_45%),radial-gradient(circle_at_80%_60%,_theme(colors.indigo.950)_0,_transparent_50%)]"
+          />
+          <div className="relative max-w-4xl mx-auto text-center flex flex-col items-center gap-6">
+            <p className="text-xs uppercase tracking-[0.18em] text-amber-300 font-medium">
+              {t('jewelry.bespoke.eyebrow', 'Custom Jewelry')}
             </p>
-            <p className="text-xs text-gray-500">{t('product.total', 'Total')}</p>
+            <h2
+              className="text-3xl md:text-4xl font-bold leading-tight"
+              style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
+            >
+              {t('jewelry.bespoke.headline', 'Request a custom piece')}
+            </h2>
+            <p className="text-indigo-100 text-sm max-w-lg">
+              {t('jewelry.bespoke.body', 'Choose your metal, stone, engraving, and ring size. Our master jewelers will craft a piece made specifically for you.')}
+            </p>
+            <Link
+              href="/custom-orders/new?vertical=jewelry"
+              className="inline-flex items-center gap-2 rounded-full bg-amber-500 px-8 py-3 text-sm font-semibold text-amber-950 shadow-atlas-sm hover:bg-amber-400 hover:text-amber-950 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-300 focus-visible:ring-offset-2 focus-visible:ring-offset-indigo-900"
+            >
+              {t('jewelry.bespoke.cta', 'Start a custom jewelry order')}
+              <ArrowRight className="h-4 w-4 rtl:rotate-180" aria-hidden />
+            </Link>
           </div>
-          <button
-            type="button"
-            onClick={() => { if (!shouldDisableButton()) handleAddToCart(); }}
-            disabled={shouldDisableButton()}
-            className={cn(
-              'flex-1 rounded-full py-3 flex items-center justify-center gap-1.5 text-sm font-semibold transition-all',
-              shouldDisableButton()
-                ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
-                : 'bg-indigo-700 text-white hover:bg-indigo-800'
+        </section>
+      ) : (
+        /* ── Clothing / default: tailoring bespoke strip ── */
+        <section className="relative isolate overflow-hidden bg-indigo-900 text-white py-16 px-6 mb-16">
+          {/* Decorative warm/indigo glow — token-single-sourced via theme() so the
+              palette never drifts to literal hexes. amber.500 = saffron accent,
+              indigo.950 = deep Atlas surface. */}
+          <div
+            aria-hidden
+            className="absolute inset-0 opacity-30 bg-[radial-gradient(circle_at_20%_20%,_theme(colors.amber.500)_0,_transparent_45%),radial-gradient(circle_at_80%_60%,_theme(colors.indigo.950)_0,_transparent_50%)]"
+          />
+          <div className="relative max-w-4xl mx-auto text-center flex flex-col items-center gap-6">
+            <p className="text-xs uppercase tracking-[0.18em] text-amber-300 font-medium">
+              {t('bespoke.eyebrow', 'Bespoke')}
+            </p>
+            <h2
+              className="text-3xl md:text-4xl font-bold leading-tight"
+              style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
+            >
+              {t('bespoke.headline', 'Want it tailored to you?')}
+            </h2>
+            <p className="text-indigo-100 text-sm max-w-lg">
+              {t('bespoke.body', 'Provide your measurements and an Atelier artisan will craft this piece specifically for you.')}
+            </p>
+            <Link
+              href="/services/tailoring"
+              className="inline-flex items-center gap-2 rounded-full bg-amber-500 px-8 py-3 text-sm font-semibold text-amber-950 shadow-atlas-sm hover:bg-amber-400 hover:text-amber-950 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-300 focus-visible:ring-offset-2 focus-visible:ring-offset-indigo-900"
+            >
+              {t('bespoke.cta', 'Start a tailoring order')}
+              <ArrowRight className="h-4 w-4 rtl:rotate-180" aria-hidden />
+            </Link>
+          </div>
+        </section>
+      )}
+
+      {/* ── 5a & 5b. Up-sell shelves — rendered only when data is available ──
+           Heuristic v1: partitionShelves() splits 8 related products into two
+           disjoint slices. When ≤ 4 are returned only "Complete the look" is
+           shown so the two shelves never display the same items.
+           A true complementary cross-sell engine needs a dedicated backend
+           endpoint — flagged as a follow-up. */}
+      {(() => {
+        const { completeLook, alsoLike } = partitionShelves(allRelatedProducts);
+        return (
+          <>
+            {/* 5a — Complete the look */}
+            {completeLook.length > 0 && (
+              <section
+                className="px-6 mb-12"
+                aria-label={t('pdp.complete_the_look', 'Complete the look')}
+              >
+                {/* Warmer container visually distinguishes this from "You might also like" */}
+                <div className="rounded-2xl bg-amber-50 ring-1 ring-amber-100 px-6 pt-6 pb-2">
+                  {/* Sparkles AI chip eyebrow */}
+                  <div className="flex items-center gap-2 mb-4">
+                    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-amber-100 text-amber-800 text-xs font-medium ring-1 ring-amber-200">
+                      <Sparkles size={12} className="shrink-0" aria-hidden />
+                      {t('pdp.aiStyling', 'AI styled for you')}
+                    </span>
+                  </div>
+                  {/* Section heading */}
+                  <div className="flex items-baseline justify-between flex-wrap gap-4 mb-2">
+                    <h2
+                      className="text-2xl sm:text-3xl font-bold text-gray-900"
+                      style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
+                    >
+                      {t('pdp.complete_the_look', 'Complete the look')}
+                    </h2>
+                  </div>
+                  <RelatedProducts
+                    products={completeLook}
+                    showHeading={false}
+                  />
+                </div>
+              </section>
             )}
-          >
-            <ShoppingBag className="h-4 w-4" aria-hidden />
-            {t('cart.add_to_bag', 'Add to bag')}
-          </button>
-        </div>
-      </div>
+
+            {/* 5b — You might also like (only rendered when alsoLike is non-empty
+                 to guarantee the two shelves never show duplicates) */}
+            {alsoLike.length > 0 && (
+              <section className="px-6 mb-16" aria-label={t('product.related', 'You might also like')}>
+                <div className="flex items-baseline justify-between mb-8 flex-wrap gap-4">
+                  <h2
+                    className="text-2xl sm:text-3xl font-bold text-gray-900"
+                    style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
+                  >
+                    {t('product.you_might_also_like', 'You might also like')}
+                  </h2>
+                  <Link
+                    href="/products"
+                    className="text-sm text-indigo-700 hover:text-indigo-900 underline underline-offset-2 font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30 rounded"
+                  >
+                    {t('product.view_all', 'View all')}
+                  </Link>
+                </div>
+                <RelatedProducts
+                  products={alsoLike}
+                  showHeading={false}
+                />
+              </section>
+            )}
+          </>
+        );
+      })()}
+
+      {/* Mobile sticky buy bar — PdpBuyBar handles z-50 > MobileBottomNav z-40 */}
+      {/* MobileBottomNav is hidden on /products/[id] so there is no overlap */}
+      <PdpBuyBar
+        price={(selectedVariant?.price || product.price)}
+        quantity={quantity}
+        disabled={shouldDisableButton()}
+        onAddToCart={() => { if (!shouldDisableButton()) handleAddToCart(); }}
+        onBuyNow={handleBuyNow}
+        onHowToBuy={() => setIsHowToBuyOpen(true)}
+        addToCartLabel={t('cart.add_to_bag', 'زيد للسلة')}
+        buyNowLabel={t('product.buy_now', 'شري دابا')}
+      />
+
+      {/* "كيفاش نشري؟" bottom sheet — non-technical buyer onboarding */}
+      <HowToBuySheet
+        isOpen={isHowToBuyOpen}
+        onClose={() => setIsHowToBuyOpen(false)}
+      />
+
+      {/* Virtual try-on modal — clothing products only, and only when feature flag is ON */}
+      {!isJewelry && tryonEnabled && (
+        <TryOnModal
+          open={isTryOnOpen}
+          onClose={() => setIsTryOnOpen(false)}
+          onHideFeature={() => {
+            setTryOnHidden(true);
+            setIsTryOnOpen(false);
+          }}
+          productId={String(id ?? '')}
+          config={tryonConfig}
+          isAuthenticated={isAuthenticated}
+          onBuyNow={handleBuyNow}
+        />
+      )}
     </main>
     </div>
   );

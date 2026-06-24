@@ -5,230 +5,13 @@ import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ArrowRight, Star, Tag } from 'lucide-react';
+import { ArrowRight, Star } from 'lucide-react';
 import '@/i18n/config';
-import { useTheme } from '@/providers/ThemeProvider';
-
-// Mega Offer Collection type based on API response
-interface MegaOfferCollection {
-  id: number;
-  title: string;
-  description: string;
-  banner_image: string;
-  slug: string;
-  start_date: string;
-  end_date: string;
-  color_theme?: {
-    primary: string;
-    secondary: string;
-    accent: string;
-  };
-  featured_products: FeaturedProduct[];
-}
-
-// Featured Product type
-interface FeaturedProduct {
-  id: number;
-  name: string;
-  name_ar: string;
-  description: string | null;
-  description_ar: string | null;
-  price: string;
-  original_price: string;
-  discount_price: string | null;
-  discount_percentage: number | null;
-  has_discount: boolean;
-  category: string;
-  category_name: string | null;
-  image: string | null;
-  main_image: string | null;
-  images: (string | null)[];
-  is_custom: boolean;
-  is_featured: boolean;
-  is_trending: boolean;
-  rating: number;
-  review_count: number;
-  in_stock: boolean;
-  slug: string;
-}
+import { megaOfferService, MegaOfferCollection, FeaturedProduct } from '@/services/megaOfferService';
 
 interface MegaOffersProps {
   megaOffers?: MegaOfferCollection[];
 }
-
-// Atlas-compliant test data — indigo-700 / amber-500 only
-const TEST_MEGA_OFFERS: MegaOfferCollection[] = [
-  {
-    id: 1,
-    title: 'Summer Fashion Sale',
-    description: 'Up to 70% off on summer collection',
-    banner_image: '',
-    slug: 'summer-fashion-sale',
-    start_date: '2024-01-01',
-    end_date: '2024-12-31',
-    featured_products: [
-      {
-        id: 1,
-        name: 'Traditional Moroccan Kaftan',
-        name_ar: 'قفطان مغربي تقليدي',
-        description: 'Beautiful handcrafted traditional kaftan',
-        description_ar: 'قفطان تقليدي مصنوع يدوياً',
-        price: '1200',
-        original_price: '2000',
-        discount_price: '1200',
-        discount_percentage: 40,
-        has_discount: true,
-        category: 'Traditional Wear',
-        category_name: 'Traditional Wear',
-        image: 'https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=400&h=400&fit=crop',
-        main_image: 'https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=400&h=400&fit=crop',
-        images: ['https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=400&h=400&fit=crop'],
-        is_custom: false,
-        is_featured: true,
-        is_trending: true,
-        rating: 4.5,
-        review_count: 128,
-        in_stock: true,
-        slug: 'traditional-moroccan-kaftan'
-      },
-      {
-        id: 2,
-        name: 'Handwoven Berber Rug',
-        name_ar: 'سجادة بربرية منسوجة يدوياً',
-        description: 'Authentic handwoven Berber rug',
-        description_ar: 'سجادة بربرية أصلية منسوجة يدوياً',
-        price: '800',
-        original_price: '1200',
-        discount_price: '800',
-        discount_percentage: 33,
-        has_discount: true,
-        category: 'Home Decor',
-        category_name: 'Home Decor',
-        image: 'https://images.unsplash.com/photo-1506439773649-6e0eb8cfb237?w=400&h=400&fit=crop',
-        main_image: 'https://images.unsplash.com/photo-1506439773649-6e0eb8cfb237?w=400&h=400&fit=crop',
-        images: ['https://images.unsplash.com/photo-1506439773649-6e0eb8cfb237?w=400&h=400&fit=crop'],
-        is_custom: false,
-        is_featured: true,
-        is_trending: false,
-        rating: 4.8,
-        review_count: 89,
-        in_stock: true,
-        slug: 'handwoven-berber-rug'
-      },
-      {
-        id: 3,
-        name: 'Moroccan Leather Bag',
-        name_ar: 'حقيبة جلدية مغربية',
-        description: 'Premium Moroccan leather handbag',
-        description_ar: 'حقيبة يد جلدية مغربية فاخرة',
-        price: '450',
-        original_price: '600',
-        discount_price: '450',
-        discount_percentage: 25,
-        has_discount: true,
-        category: 'Accessories',
-        category_name: 'Accessories',
-        image: 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=400&h=400&fit=crop',
-        main_image: 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=400&h=400&fit=crop',
-        images: ['https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=400&h=400&fit=crop'],
-        is_custom: false,
-        is_featured: true,
-        is_trending: true,
-        rating: 4.3,
-        review_count: 67,
-        in_stock: true,
-        slug: 'moroccan-leather-bag'
-      },
-      {
-        id: 4,
-        name: 'Argan Oil Set',
-        name_ar: 'مجموعة زيت الأركان',
-        description: 'Pure Moroccan argan oil beauty set',
-        description_ar: 'مجموعة زيت الأركان المغربي الخالص',
-        price: '180',
-        original_price: '250',
-        discount_price: '180',
-        discount_percentage: 28,
-        has_discount: true,
-        category: 'Beauty',
-        category_name: 'Beauty',
-        image: 'https://images.unsplash.com/photo-1556228578-8c89e6adf883?w=400&h=400&fit=crop',
-        main_image: 'https://images.unsplash.com/photo-1556228578-8c89e6adf883?w=400&h=400&fit=crop',
-        images: ['https://images.unsplash.com/photo-1556228578-8c89e6adf883?w=400&h=400&fit=crop'],
-        is_custom: false,
-        is_featured: true,
-        is_trending: false,
-        rating: 4.7,
-        review_count: 156,
-        in_stock: true,
-        slug: 'argan-oil-set'
-      }
-    ]
-  },
-  {
-    id: 2,
-    title: 'Festive Collection',
-    description: 'Perfect for special occasions and celebrations',
-    banner_image: '',
-    slug: 'festive-collection',
-    start_date: '2024-01-01',
-    end_date: '2024-12-31',
-    featured_products: [
-      {
-        id: 5,
-        name: 'Embroidered Djellaba',
-        name_ar: 'جلابة مطرزة',
-        description: 'Handcrafted embroidered djellaba for special occasions',
-        description_ar: 'جلابة مطرزة يدوياً للمناسبات الخاصة',
-        price: '299',
-        original_price: '399',
-        discount_price: '299',
-        discount_percentage: 25,
-        has_discount: true,
-        category: 'Traditional Wear',
-        category_name: 'Traditional Wear',
-        image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&h=400&fit=crop',
-        main_image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&h=400&fit=crop',
-        images: ['https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&h=400&fit=crop'],
-        is_custom: false,
-        is_featured: true,
-        is_trending: true,
-        rating: 4.6,
-        review_count: 234,
-        in_stock: true,
-        slug: 'embroidered-djellaba'
-      },
-      {
-        id: 6,
-        name: 'Moroccan Jewelry Set',
-        name_ar: 'مجموعة مجوهرات مغربية',
-        description: 'Traditional Moroccan silver jewelry set',
-        description_ar: 'مجموعة مجوهرات فضية مغربية تقليدية',
-        price: '199',
-        original_price: '299',
-        discount_price: '199',
-        discount_percentage: 33,
-        has_discount: true,
-        category: 'Jewelry',
-        category_name: 'Jewelry',
-        image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&h=400&fit=crop',
-        main_image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&h=400&fit=crop',
-        images: ['https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&h=400&fit=crop'],
-        is_custom: false,
-        is_featured: true,
-        is_trending: false,
-        rating: 4.4,
-        review_count: 189,
-        in_stock: true,
-        slug: 'moroccan-jewelry-set'
-      }
-    ]
-  }
-];
-
-// Atlas colors — deep indigo #252555 + saffron amber #fea619
-const ATLAS_PRIMARY = '#252555';
-const ATLAS_ACCENT = '#fea619';
 
 const getDaysRemaining = (endDate: string): number => {
   const end = new Date(endDate);
@@ -249,7 +32,7 @@ function ProductCard({ product, locale }: { product: FeaturedProduct; locale: st
       href={`/products/${product.slug}?locale=${locale}`}
       className="group/product block"
     >
-      <div className="bg-white rounded-2xl overflow-hidden transition hover:-translate-y-0.5 hover:shadow-md duration-[220ms] ease-[cubic-bezier(0.33,1,0.68,1)] border border-gray-100 hover:border-atlas-primary/[0.1]">
+      <div className="bg-white rounded-2xl overflow-hidden transition-all duration-200 ease-[cubic-bezier(0.33,1,0.68,1)] hover:-translate-y-0.5 shadow-atlas-sm hover:shadow-atlas-md ring-1 ring-gray-200">
         {/* Product Image */}
         <div className="relative h-32 md:h-40 overflow-hidden bg-gray-50">
           <Image
@@ -263,14 +46,14 @@ function ProductCard({ product, locale }: { product: FeaturedProduct; locale: st
           />
 
           {/* Badges */}
-          <div className="absolute top-2 left-2 flex flex-col gap-1">
+          <div className="absolute top-2 start-2 flex flex-col gap-1">
             {product.has_discount && product.discount_percentage && product.discount_percentage > 0 && (
               <span className="text-white text-xs px-2 py-0.5 rounded-full font-semibold bg-rose-700">
                 -{product.discount_percentage}%
               </span>
             )}
             {product.is_trending && (
-              <span className="text-[hsl(var(--on-secondary))] text-xs px-2 py-0.5 rounded-full font-semibold bg-[hsl(var(--secondary))]">
+              <span className="text-amber-950 text-xs px-2 py-0.5 rounded-full font-semibold bg-[hsl(var(--secondary))]">
                 {t('megaOffers.hot', 'HOT')}
               </span>
             )}
@@ -284,8 +67,8 @@ function ProductCard({ product, locale }: { product: FeaturedProduct; locale: st
           </h4>
 
           <div className="flex items-center gap-2 mb-1">
-            <span className="font-bold text-gray-900 text-sm">
-              {product.price} {t('currency')}
+            <span className="font-bold text-[hsl(var(--primary))] text-sm">
+              {Number(product.price).toLocaleString('ar-MA')} <span dir="rtl" lang="ar">درهم</span>
             </span>
             {product.has_discount && product.original_price && product.original_price !== product.price && (
               <span className="text-xs text-gray-400 line-through">
@@ -300,9 +83,10 @@ function ProductCard({ product, locale }: { product: FeaturedProduct; locale: st
                 <Star
                   key={i}
                   className={`h-3 w-3 ${i < Math.floor(product.rating) ? 'text-amber-400 fill-current' : 'text-gray-200'}`}
+                  aria-hidden="true"
                 />
               ))}
-              <span className="text-[10px] text-gray-500 ml-0.5">({product.review_count})</span>
+              <span className="text-[10px] text-gray-500 ms-0.5">({product.review_count})</span>
             </div>
           )}
         </div>
@@ -317,13 +101,13 @@ function CollectionCard({ collection, locale }: { collection: MegaOfferCollectio
   const daysLeft = getDaysRemaining(collection.end_date);
 
   return (
-    <div className="bg-white rounded-2xl shadow-sm hover:shadow-md transition-all duration-[220ms] ease-[cubic-bezier(0.33,1,0.68,1)] overflow-hidden border border-atlas-primary/[0.1] hover:border-atlas-primary/[0.1]">
+    <div className="bg-white rounded-2xl transition-all duration-200 ease-[cubic-bezier(0.33,1,0.68,1)] hover:-translate-y-0.5 overflow-hidden shadow-atlas-sm hover:shadow-atlas-md ring-1 ring-gray-200">
       {/* Collection Header */}
       <div className="relative px-6 py-5 bg-atlas-primary/[0.06] border-b border-atlas-primary/[0.1]">
         <div className="flex items-start justify-between gap-3">
           <div className="flex-1 min-w-0">
             <h3
-              className="text-xl font-bold text-[hsl(var(--primary))] mb-1 truncate"
+              className="text-xl font-bold text-gray-900 mb-1 truncate"
               style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
             >
               {collection.title}
@@ -332,10 +116,10 @@ function CollectionCard({ collection, locale }: { collection: MegaOfferCollectio
           </div>
 
           <div className="flex flex-col items-end gap-1.5 shrink-0">
-            <span className="px-3 py-1 rounded-full text-[hsl(var(--on-secondary))] text-xs font-semibold bg-[hsl(var(--secondary))]">
+            <span className="px-3 py-1 rounded-full text-amber-950 text-xs font-semibold bg-[hsl(var(--secondary))]">
               {t('megaOffers.upTo70Off', 'UP TO 70% OFF')}
             </span>
-            <span className="text-xs font-medium text-[hsl(var(--primary))] bg-atlas-primary/[0.08] px-2 py-0.5 rounded-full">
+            <span className="text-xs font-medium text-[hsl(var(--primary))] bg-[hsl(var(--primary)/0.08)] px-2 py-0.5 rounded-full">
               {daysLeft} {t('megaOffers.daysLeft', 'days left')}
             </span>
           </div>
@@ -351,7 +135,7 @@ function CollectionCard({ collection, locale }: { collection: MegaOfferCollectio
         </div>
 
         {/* Footer actions */}
-        <div className="mt-5 pt-4 border-t border-atlas-primary/[0.06] flex items-center justify-between">
+        <div className="mt-5 pt-4 border-t border-[hsl(var(--primary)/0.08)] flex items-center justify-between">
           {collection.featured_products && collection.featured_products.length > 4 && (
             <span className="text-sm font-medium text-[hsl(var(--secondary))]">
               +{collection.featured_products.length - 4} {t('megaOffers.moreItems', 'more items')}
@@ -359,10 +143,10 @@ function CollectionCard({ collection, locale }: { collection: MegaOfferCollectio
           )}
           <Link
             href={`/mega-offers/${collection.slug}?locale=${locale}`}
-            className="ml-auto inline-flex items-center gap-2 px-5 py-2 text-sm font-semibold text-white bg-[hsl(var(--primary))] hover:bg-primary-container rounded-xl transition-all duration-[220ms] ease-[cubic-bezier(0.33,1,0.68,1)] hover:shadow-atlas-sm hover:-translate-y-0.5"
+            className="ms-auto inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-white bg-[hsl(var(--primary))] hover:opacity-90 rounded-xl transition-all duration-200 ease-[cubic-bezier(0.33,1,0.68,1)] shadow-atlas-sm hover:shadow-atlas-md hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-[hsl(var(--primary)/0.3)] min-h-[44px]"
           >
             {t('megaOffers.viewCollection', 'View Collection')}
-            <ArrowRight className="h-4 w-4" />
+            <ArrowRight className="h-4 w-4" aria-hidden="true" />
           </Link>
         </div>
       </div>
@@ -399,65 +183,46 @@ const MegaOffers: React.FC<MegaOffersProps> = ({ megaOffers }) => {
 
       try {
         setLoading(true);
-        const locale = searchParams?.get('locale') || i18n.language || 'en';
-        const response = await fetch(`/api/products/mega-offers?locale=${locale}`);
-
-        if (!response.ok) {
-          throw new Error('Failed to fetch mega offers');
-        }
-
-        const data = await response.json();
-
-        if (data.success && data.data) {
-          setOffers(data.data);
-        } else {
-          setOffers(TEST_MEGA_OFFERS);
-        }
+        const data = await megaOfferService.getMegaOffers();
+        setOffers(data);
       } catch (err) {
-        console.error('Error fetching mega offers:', err);
+        // On any error render nothing — no mock fallback
         setError(t('megaOffers.loadError', 'Failed to load mega offers'));
-        setOffers(TEST_MEGA_OFFERS);
+        setOffers([]);
       } finally {
         setLoading(false);
       }
     };
 
     fetchMegaOffers();
-  }, [megaOffers, searchParams, i18n.language, t]);
+  }, [megaOffers, t]);
 
   if (!mounted) {
     return null;
   }
 
-  // Loading state
+  // Loading state — Atlas skeleton
   if (loading) {
     return (
-      <section className="py-16 sm:py-20 bg-white">
-        <div className="container mx-auto px-4">
-          <div className="max-w-7xl mx-auto animate-pulse">
-            <div className="text-center mb-12">
-              <div className="h-4 bg-gray-200 rounded-full w-32 mx-auto mb-4"></div>
-              <div className="h-10 bg-gray-200 rounded w-80 mx-auto mb-4"></div>
-              <div className="h-5 bg-gray-200 rounded w-56 mx-auto"></div>
-            </div>
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-              {[1, 2].map((i) => (
-                <div key={i} className="bg-white rounded-2xl border border-gray-100 overflow-hidden">
-                  <div className="h-24 bg-gray-100"></div>
-                  <div className="p-5 grid grid-cols-2 md:grid-cols-4 gap-3">
-                    {[1, 2, 3, 4].map((j) => (
-                      <div key={j} className="rounded-2xl overflow-hidden">
-                        <div className="h-36 bg-gray-200"></div>
-                        <div className="p-3">
-                          <div className="h-3 bg-gray-200 rounded mb-2"></div>
-                          <div className="h-4 bg-gray-200 rounded w-16"></div>
-                        </div>
+      <section className="py-16 sm:py-20 bg-background">
+        <div className="mx-auto max-w-7xl px-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            {[1, 2].map((i) => (
+              <div key={i} className="rounded-2xl overflow-hidden ring-1 ring-gray-200">
+                <div className="h-24 bg-gray-100 animate-pulse" />
+                <div className="p-5 grid grid-cols-2 md:grid-cols-4 gap-3">
+                  {[1, 2, 3, 4].map((j) => (
+                    <div key={j} className="rounded-2xl overflow-hidden">
+                      <div className="h-36 bg-gray-100 animate-pulse rounded-2xl" />
+                      <div className="p-3 space-y-2">
+                        <div className="h-3 bg-gray-100 animate-pulse rounded w-3/4" />
+                        <div className="h-3 bg-gray-100 animate-pulse rounded w-1/2" />
                       </div>
-                    ))}
-                  </div>
+                    </div>
+                  ))}
                 </div>
-              ))}
-            </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -469,53 +234,57 @@ const MegaOffers: React.FC<MegaOffersProps> = ({ megaOffers }) => {
   }
 
   return (
-    <section className="py-16 sm:py-20 bg-white">
-      <div className="container mx-auto px-4">
-        <div className="max-w-7xl mx-auto">
-          {/* Eyebrow + heading */}
-          <div className="text-center mb-10">
-            <div className="flex items-center justify-center gap-3 mb-4">
-              <div className="w-2 h-2 bg-[hsl(var(--secondary))] rounded-full"></div>
-              <span className="text-xs font-medium uppercase tracking-[0.18em] text-[hsl(var(--secondary))]">
-                {t('megaOffers.eyebrow', 'Special Collections')}
-              </span>
-            </div>
+    <section className="py-16 sm:py-20 bg-background">
+      <div className="mx-auto max-w-7xl px-6">
+        {/* Section heading — no centered eyebrow, left-aligned editorial */}
+        <div className="flex items-end justify-between mb-10">
+          <div>
             <h2
-              className="text-3xl md:text-4xl font-bold text-gray-900 mb-3"
+              className="text-3xl sm:text-4xl font-bold text-gray-900"
               style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
             >
-              {t('megaOffers.title', 'Mega Offers')}
+              {t('megaOffers.title', 'Special Collections')}
             </h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              {t('megaOffers.subtitle', 'Discover amazing deals on premium products')}
+            <p className="mt-1 text-sm text-gray-500">
+              {t('megaOffers.subtitle', 'Limited-time offers from Beldify ateliers')}
             </p>
-            {error && (
-              <div className="mt-4 bg-rose-50 border border-rose-200 text-rose-700 px-4 py-3 rounded-2xl text-sm max-w-lg mx-auto">
-                {error}
-              </div>
-            )}
           </div>
-
-          {/* Two-column grid of collections */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {offers.map((collection) => (
-              <CollectionCard key={collection.id} collection={collection} locale={i18n.language} />
-            ))}
-          </div>
-
-          {/* View All Collections — only if > 4 offers */}
           {offers.length > 4 && (
-            <div className="text-center mt-12">
-              <Link
-                href={`/mega-offers?locale=${i18n.language}`}
-                className="group inline-flex items-center gap-3 bg-[hsl(var(--primary))] hover:bg-primary-container text-white px-8 py-4 rounded-xl font-semibold transition-all duration-[220ms] ease-[cubic-bezier(0.33,1,0.68,1)] shadow-atlas-sm hover:shadow-atlas-md hover:-translate-y-0.5"
-              >
-                <span>{t('megaOffers.viewAllCollections', 'View All Collections')}</span>
-                <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
-              </Link>
-            </div>
+            <Link
+              href={`/mega-offers?locale=${i18n.language}`}
+              className="hidden sm:inline-flex items-center gap-1 text-sm font-semibold text-[hsl(var(--primary))] hover:opacity-80 transition-opacity duration-200 focus:outline-none focus:ring-2 focus:ring-[hsl(var(--primary)/0.3)] rounded"
+            >
+              {t('megaOffers.viewAllCollections', 'View all')}
+              <ArrowRight className="h-4 w-4" aria-hidden="true" />
+            </Link>
           )}
         </div>
+
+        {error && (
+          <div className="mb-6 bg-rose-50 border border-rose-200 text-rose-700 px-4 py-3 rounded-2xl text-sm max-w-lg">
+            {error}
+          </div>
+        )}
+
+        {/* Two-column grid of collections */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {offers.map((collection) => (
+            <CollectionCard key={collection.id} collection={collection} locale={i18n.language} />
+          ))}
+        </div>
+
+        {/* View All Collections — only if > 4 offers (mobile) */}
+        {offers.length > 4 && (
+          <div className="text-center mt-10 sm:hidden">
+            <Link
+              href={`/mega-offers?locale=${i18n.language}`}
+              className="inline-flex items-center gap-1 text-sm font-semibold text-[hsl(var(--primary))] hover:opacity-80 transition-opacity duration-200"
+            >
+              {t('megaOffers.viewAllCollections', 'View all collections')}
+              <ArrowRight className="h-4 w-4" aria-hidden="true" />
+            </Link>
+          </div>
+        )}
       </div>
     </section>
   );

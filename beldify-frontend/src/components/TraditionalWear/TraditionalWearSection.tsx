@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLanguage } from '@/hooks/useLanguage';
-import { Product } from '@/types/product';
+import { Product } from '@/lib/types';
 import { traditionalWearService } from '@/services/traditionalWearService';
 import ProductCard from '../products/ProductCard';
 import LoadingSpinner from '@/components/common/LoadingSpinner';
@@ -22,7 +22,7 @@ const TraditionalWearSection: React.FC<TraditionalWearSectionProps> = ({
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
-  const fetchProducts = async () => {
+  const fetchProducts = useCallback(async () => {
     setLoading(true);
     setError(null);
 
@@ -47,17 +47,17 @@ const TraditionalWearSection: React.FC<TraditionalWearSectionProps> = ({
         throw new Error(response.error);
       }
 
-      setProducts(response.data);
+      setProducts(response.data as unknown as Product[]);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to fetch products');
     } finally {
       setLoading(false);
     }
-  };
+  }, [category, currentLanguage]);
 
   useEffect(() => {
     fetchProducts();
-  }, [category, currentLanguage]);
+  }, [fetchProducts]);
 
   // Generate section title if not provided
   const sectionTitle = title || (
@@ -111,8 +111,6 @@ const TraditionalWearSection: React.FC<TraditionalWearSectionProps> = ({
               <ProductCard
                 key={product.id}
                 product={product}
-                fastDeliveryText={fastDeliveryText}
-                noImageText={noImageText}
               />
             ))}
 

@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import {
   Clock,
@@ -42,6 +42,7 @@ export default function ModernOrderFilters({
   isRTL = false,
 }: ModernOrderFiltersProps) {
   const { t } = useTranslation();
+  const shouldReduceMotion = useReducedMotion();
 
   const filterOptions: FilterOption[] = [
     {
@@ -63,7 +64,7 @@ export default function ModernOrderFilters({
       icon: Clock,
       color: 'text-amber-700',
       bgColor: 'bg-amber-50',
-      borderColor: 'border-amber-200',
+      borderColor: 'border-gray-200',
       hoverBg: 'hover:bg-amber-50',
       activeBg: 'bg-indigo-700',
       activeText: 'text-white',
@@ -109,10 +110,10 @@ export default function ModernOrderFilters({
       label: filterLabel('cancelled'),
       count: statusCounts.cancelled || 0,
       icon: XCircle,
-      color: 'text-gray-600',
-      bgColor: 'bg-gray-50',
-      borderColor: 'border-gray-200',
-      hoverBg: 'hover:bg-gray-50',
+      color: 'text-rose-700',
+      bgColor: 'bg-rose-50',
+      borderColor: 'border-rose-200',
+      hoverBg: 'hover:bg-rose-50',
       activeBg: 'bg-indigo-700',
       activeText: 'text-white',
     },
@@ -120,7 +121,7 @@ export default function ModernOrderFilters({
 
   return (
     <div className="space-y-4">
-      {/* Filter Pills — Desktop */}
+      {/* Filter pills — Desktop */}
       <div className="hidden lg:flex items-center gap-2 flex-wrap">
         {filterOptions.map((option, index) => {
           const isActive = statusFilter === option.key;
@@ -129,18 +130,18 @@ export default function ModernOrderFilters({
           return (
             <motion.button
               key={option.key}
-              initial={{ opacity: 0, y: 20 }}
+              initial={shouldReduceMotion ? false : { opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.05 }}
-              whileHover={{ scale: 1.03 }}
-              whileTap={{ scale: 0.97 }}
+              transition={{ delay: shouldReduceMotion ? 0 : index * 0.04, ease: [0.33, 1, 0.68, 1] }}
+              whileHover={shouldReduceMotion ? undefined : { scale: 1.02 }}
+              whileTap={shouldReduceMotion ? undefined : { scale: 0.98 }}
               onClick={() => setStatusFilter(option.key)}
               className={`
                 flex items-center gap-2 px-4 py-2.5 rounded-full
-                transition-all duration-200 ease-out
+                transition-all duration-200 focus:ring-2 focus:ring-indigo-700/30 focus:outline-none
                 ${isActive
-                  ? `${option.activeBg} ${option.activeText} shadow-md`
-                  : `bg-white border ${option.borderColor} ${option.hoverBg} hover:shadow-sm`
+                  ? `${option.activeBg} ${option.activeText} shadow-atlas-sm`
+                  : `bg-white border ${option.borderColor} ${option.hoverBg} hover:shadow-atlas-sm`
                 }
               `}
             >
@@ -165,7 +166,7 @@ export default function ModernOrderFilters({
         })}
       </div>
 
-      {/* Grid Cards — Tablet */}
+      {/* Grid cards — Tablet */}
       <div className="hidden sm:grid lg:hidden grid-cols-3 gap-3">
         {filterOptions.map((option, index) => {
           const isActive = statusFilter === option.key;
@@ -174,18 +175,18 @@ export default function ModernOrderFilters({
           return (
             <motion.button
               key={option.key}
-              initial={{ opacity: 0, scale: 0.9 }}
+              initial={shouldReduceMotion ? false : { opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: index * 0.05 }}
-              whileHover={{ y: -3 }}
-              whileTap={{ scale: 0.97 }}
+              transition={{ delay: shouldReduceMotion ? 0 : index * 0.04, ease: [0.33, 1, 0.68, 1] }}
+              whileHover={shouldReduceMotion ? undefined : { y: -2 }}
+              whileTap={shouldReduceMotion ? undefined : { scale: 0.98 }}
               onClick={() => setStatusFilter(option.key)}
               className={`
                 relative overflow-hidden p-4 rounded-2xl
-                transition-all duration-200
+                transition-all duration-200 focus:ring-2 focus:ring-indigo-700/30 focus:outline-none
                 ${isActive
-                  ? `${option.activeBg} text-white shadow-lg`
-                  : `bg-white border-2 ${option.borderColor} hover:shadow-md`
+                  ? `${option.activeBg} text-white shadow-atlas-md`
+                  : `bg-white border-2 ${option.borderColor} hover:shadow-atlas-sm`
                 }
               `}
             >
@@ -206,9 +207,9 @@ export default function ModernOrderFilters({
         })}
       </div>
 
-      {/* Mobile Horizontal Scroll */}
+      {/* Mobile horizontal scroll */}
       <div className="sm:hidden overflow-x-auto pb-2">
-        <div className="flex gap-2 min-w-max px-4">
+        <div className="flex gap-2 min-w-max px-1">
           {filterOptions.map((option, index) => {
             const isActive = statusFilter === option.key;
             const Icon = option.icon;
@@ -216,16 +217,16 @@ export default function ModernOrderFilters({
             return (
               <motion.button
                 key={option.key}
-                initial={{ opacity: 0, x: -20 }}
+                initial={shouldReduceMotion ? false : { opacity: 0, x: isRTL ? 12 : -12 }}
                 animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: index * 0.05 }}
-                whileTap={{ scale: 0.97 }}
+                transition={{ delay: shouldReduceMotion ? 0 : index * 0.04, ease: [0.33, 1, 0.68, 1] }}
+                whileTap={shouldReduceMotion ? undefined : { scale: 0.98 }}
                 onClick={() => setStatusFilter(option.key)}
                 className={`
                   flex items-center gap-2 px-3 py-2 rounded-2xl whitespace-nowrap
-                  transition-all duration-200
+                  transition-all duration-200 focus:ring-2 focus:ring-indigo-700/30 focus:outline-none
                   ${isActive
-                    ? `${option.activeBg} text-white shadow-md`
+                    ? `${option.activeBg} text-white shadow-atlas-sm`
                     : `bg-white border ${option.borderColor} ${option.hoverBg}`
                   }
                 `}
@@ -249,12 +250,12 @@ export default function ModernOrderFilters({
         </div>
       </div>
 
-      {/* Filter Summary Bar */}
+      {/* Active filter summary */}
       {statusFilter !== 'all' && (
         <motion.div
-          initial={{ opacity: 0, y: -10 }}
+          initial={shouldReduceMotion ? false : { opacity: 0, y: -8 }}
           animate={{ opacity: 1, y: 0 }}
-          className="flex items-center justify-between px-4 py-2 bg-amber-50 rounded-2xl ring-1 ring-amber-200"
+          className="flex items-center justify-between px-4 py-2.5 bg-amber-50 rounded-2xl ring-1 ring-amber-200"
         >
           <div className="flex items-center gap-2">
             <Filter className="w-4 h-4 text-indigo-700" strokeWidth={1.5} />
@@ -265,7 +266,7 @@ export default function ModernOrderFilters({
           </div>
           <button
             onClick={() => setStatusFilter('all')}
-            className="text-sm text-indigo-700 hover:text-indigo-800 font-medium"
+            className="text-sm text-indigo-700 hover:text-indigo-800 font-medium focus:underline"
           >
             {t('orders.filter.clear', 'Clear filter')}
           </button>

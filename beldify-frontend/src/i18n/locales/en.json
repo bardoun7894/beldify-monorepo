@@ -1,4 +1,13 @@
 {
+  "share": {
+    "share": "Share",
+    "share_product": "Share this product",
+    "share_shop": "Share atelier",
+    "whatsapp": "WhatsApp",
+    "facebook": "Facebook",
+    "copy_link": "Copy link",
+    "copied": "Link copied!"
+  },
   "common": {
     "search": "Search for products...",
     "filter": "Filter",
@@ -67,7 +76,58 @@
     "hours_ago": "{{count}} hour(s) ago",
     "days_ago": "{{count}} day(s) ago",
     "yesterday": "Yesterday",
-    "today": "Today"
+    "today": "Today",
+    "all": "All",
+    "apply": "Apply",
+    "browse_products": "Browse Products",
+    "clear": "Clear",
+    "currency_eur": "EUR",
+    "currency_mad": "MAD",
+    "currency_usd": "USD",
+    "go_to_first_page": "Go to first page",
+    "go_to_last_page": "Go to last page",
+    "go_to_page": "Go to page {{page}}",
+    "hide": "Hide",
+    "language_code": "en",
+    "mad": "MAD",
+    "next_page": "Next page",
+    "no_results": "No results found",
+    "not_found": "Not found",
+    "optional": "Optional",
+    "or_drag_drop": "or drag and drop",
+    "pagination": {
+      "goToPage": "Go to page",
+      "label": "Pagination",
+      "next": "Next",
+      "page": "Page",
+      "previous": "Previous"
+    },
+    "previous_page": "Previous page",
+    "processing": "Processing...",
+    "remove": "Remove",
+    "reset": "Reset",
+    "retry": "Retry",
+    "scroll_end": "Scroll to end",
+    "scroll_start": "Scroll to start",
+    "submitting": "Submitting...",
+    "title": "Beldify",
+    "tryAgain": "Try again",
+    "upload_images": "Upload images",
+    "welcome": "Welcome",
+    "you": "You",
+    "back_to": "Back to",
+    "errorTitle": "Something went wrong",
+    "remove_image": "Remove image",
+    "go_back": "Go back",
+    "dismiss": "Dismiss",
+    "copy": "Copy",
+    "read_more": "Read more",
+    "saving": "Saving…",
+    "show_less": "Show less",
+    "show_more": "Show more",
+    "need_help": "Need Help?",
+    "call_us": "Call us",
+    "email": "Email"
   },
   "validation": {
     "required": "This field is required",
@@ -90,7 +150,65 @@
       "description": "Discover our most popular product categories"
     },
     "more": "more",
-    "shopNow": "Shop Now"
+    "shopNow": "Shop Now",
+    "collections_found": "collection",
+    "no_results_description": "Try adjusting the filter or check back later.",
+    "no_results_title": "No categories found",
+    "did_you_mean": "Did you mean",
+    "open_souk_matches": "People are looking for this too",
+    "open_souk_responses": "{{count}} offers",
+    "topCategories": "Top categories",
+    "accessories": {
+      "description": "Traditional jewelry and accessories",
+      "name": "Accessories"
+    },
+    "categories_list": {
+      "boys_traditional": "Boys Traditional Clothing",
+      "caftan": "Caftan",
+      "girls_dresses": "Girls Dresses",
+      "jabador": "Jabador",
+      "mens_accessories": "Men's Accessories",
+      "mens_kandora": "Men's Kandora",
+      "mens_shoes": "Men's Shoes",
+      "takchita": "Takchita",
+      "womens_djellaba": "Women's Djellaba",
+      "womens_kandora": "Women's Kandora"
+    },
+    "comingSoon": "Coming Soon",
+    "coming_soon": "Coming Soon",
+    "discoverMore": "Discover thousands of products in all categories",
+    "discoverMostPopular": "Discover the most popular categories that our customers love",
+    "discover_popular": "Discover the most popular categories appreciated by our customers",
+    "djellaba": {
+      "description": "Comfortable traditional clothing for everyday wear",
+      "name": "Djellabas"
+    },
+    "exploreAllCategories": "Explore all categories",
+    "explore_all": "Explore all categories",
+    "items": "Product",
+    "items_count": "{{count}} item(s)",
+    "jabador": {
+      "description": "Modern Moroccan men's clothing",
+      "name": "Jabadors"
+    },
+    "kaftan": {
+      "description": "Traditional Moroccan dresses for special occasions",
+      "name": "Caftans"
+    },
+    "noCategories": "No categories available",
+    "popularCategories": "Popular Categories",
+    "popular_categories": "Popular Categories",
+    "shoes": {
+      "description": "Handmade leather shoes and slippers",
+      "name": "Traditional Shoes"
+    },
+    "takchita": {
+      "description": "Elegant ceremonial two-piece dresses",
+      "name": "Takchitas"
+    },
+    "top_categories": "Top Categories",
+    "trending": "Trending",
+    "viewAll": "View All"
   },
   "auth": {
     "logout": "Logout",
@@ -122,7 +240,107 @@
     "sign_in_with_google": "Sign in with Google",
     "sign_in_with_apple": "Sign in with Apple",
     "provider_google": "Google",
-    "provider_apple": "Apple"
+    "provider_apple": "Apple",
+    "back_to_login": "Back to sign in",
+    "bullet_bespoke": "Bespoke tailoring on demand",
+    "bullet_returns": "Free 14-day returns",
+    "bullet_verified": "Verified Moroccan sellers",
+    "check_email": "Check your email",
+    "check_spam": "Check your spam folder, or wait a few minutes and try again.",
+    "confirm_required": "Please confirm your password",
+    "contact_required": "Contact number is required",
+    "didnt_receive": "Didn't receive the email?",
+    "email_placeholder": "example@mail.com",
+    "email_required": "Email is required",
+    "enter_email": "you@example.com",
+    "first_name_placeholder": "First Name",
+    "first_name_required": "First name is required",
+    "get_back_in": "Let's get you back in.",
+    "get_back_in_sub": "We'll email you a reset link in seconds.",
+    "hide_password": "Hide password",
+    "invalid_email": "Please enter a valid email address",
+    "join_circle": "Join the Beldify circle.",
+    "join_circle_sub": "Save your favorites, follow ateliers, and book bespoke fittings.",
+    "last_name_placeholder": "Last Name",
+    "last_name_required": "Last name is required",
+    "loading_google": "Loading Google Sign-In...",
+    "login_error": "Login failed. Please check your credentials.",
+    "login_subtitle": "Welcome back. Please enter your details.",
+    "login_success": "Signed in successfully!",
+    "logout_error": "Sign-out failed. Please try again.",
+    "logout_success": "Signed out successfully.",
+    "password_fair": "Fair",
+    "password_placeholder": "••••••••",
+    "password_required": "Password is required",
+    "password_strong": "Strong",
+    "password_too_short": "Use at least 8 characters",
+    "password_weak": "Weak",
+    "passwords_no_match": "Passwords do not match",
+    "register_subtitle": "Join thousands of customers across Morocco.",
+    "remembered_password": "Remembered your password?",
+    "resend_link": "Resend link",
+    "reset_failed": "Failed to send reset link. Please try again.",
+    "reset_instructions": "Enter your email and we'll send you instructions to reset your password.",
+    "reset_instructions_sent": "We have sent password reset instructions to",
+    "reset_link_sent": "Password reset link sent to your email",
+    "send_reset_link": "Send reset link",
+    "sending": "Sending...",
+    "show_password": "Show password",
+    "sign_up_with_google": "Sign up with Google",
+    "welcome_back": "Welcome back to Beldify.",
+    "welcome_back_sub": "Pick up where you left off. Your wishlist, orders and tailoring chats are waiting.",
+    "registration_successful": "Registration successful!",
+    "registration_failed": "Registration failed",
+    "google_signin_unavailable": "Google Sign-In is currently unavailable",
+    "google_signup_init_failed": "Failed to initialize Google Sign-Up",
+    "google_registration_failed": "Registration with Google failed",
+    "action_failed": "Failed to complete action. Please try again.",
+    "google_unavailable": "Google Sign-In is currently unavailable",
+    "google_init_failed": "Failed to initialize Google Sign-In",
+    "google_login_success": "Google login successful!",
+    "google_login_failed": "Login with Google failed",
+    "reset_link_invalid": "Invalid reset link",
+    "reset_link_invalid_desc": "This password reset link is missing required information. Please request a new one.",
+    "request_new_link": "Request a new link",
+    "link_expired": "Link expired",
+    "link_expired_desc": "This reset link is no longer valid. Please request a new one — they expire after 60 minutes.",
+    "create_new_password": "Create new password",
+    "create_new_password_desc": "Choose a strong password with at least 8 characters.",
+    "new_password": "New password",
+    "new_password_placeholder": "Min. 8 characters",
+    "confirm_password": "Confirm password",
+    "confirm_password_placeholder": "Repeat your password",
+    "saving": "Saving...",
+    "set_new_password": "Set new password",
+    "password_updated": "Password updated",
+    "password_updated_desc": "Your password has been changed. You can now sign in with your new password.",
+    "almost_there": "Almost there.",
+    "almost_there_sub": "Choose a strong new password and you're back in.",
+    "rate_limited": "You've requested too many reset links. Please wait a few minutes and try again.",
+    "password_reset_success": "Password updated successfully",
+    "confirm_your_email": "Confirm your email.",
+    "confirm_your_email_sub": "One click and you're all set. Your account is almost ready.",
+    "verifying_email": "Verifying your email",
+    "verifying_email_title": "Verifying your email",
+    "verifying_email_desc": "Please wait a moment…",
+    "email_verified": "Email verified",
+    "email_verified_desc": "Your email address has been confirmed. You can now access all features.",
+    "already_verified": "Already verified",
+    "already_verified_desc": "Your email address is already confirmed. You are good to go.",
+    "go_to_home": "Go to homepage",
+    "verify_link_invalid": "Invalid verification link",
+    "verify_link_invalid_desc": "This verification link is missing required information. Please use the link from your email.",
+    "check_your_inbox": "Check your inbox",
+    "link_expired_resent_desc": "A new verification link has been sent to your inbox.",
+    "resend_verification": "Resend verification email",
+    "sign_in_to_resend": "Sign in to resend",
+    "resending": "Sending…",
+    "resent": "Resent!",
+    "verify_email_resent": "Verification email sent! Check your inbox.",
+    "rate_limit": "Too many requests. Please wait a moment.",
+    "resend_failed": "Failed to send. Please try again.",
+    "verify_email_banner": "Please verify your email address to unlock all features.",
+    "signInRequired": "Sign in to see your requests"
   },
   "navigation": {
     "home": "Home",
@@ -156,7 +374,14 @@
       "es": "Spanish",
       "ma": "Darija",
       "de": "German"
-    }
+    },
+    "backToProducts": "Back to products",
+    "dark_mode": "Dark mode",
+    "light_mode": "Light mode",
+    "messages": "Messages",
+    "register": "Sign up",
+    "login_short": "Sign in",
+    "openSouk": "Open Souk"
   },
   "category": {
     "popularCategories": "Popular Categories",
@@ -169,7 +394,13 @@
     "exploreAllCategories": "Explore All Categories",
     "discoverMore": "Discover thousands of products across all categories",
     "comingSoon": "Coming Soon",
-    "featured": "Featured"
+    "featured": "Featured",
+    "not_found": "Category not found",
+    "subcategories": "Subcategories",
+    "all_categories": "All Categories",
+    "empty": "No categories to display",
+    "loadMore": "Load more categories",
+    "view_all": "View all categories"
   },
   "bestSellers": {
     "title": "Best Sellers",
@@ -198,7 +429,15 @@
     "moreItems": "more items",
     "viewAllCollections": "View All Collections",
     "hot": "HOT",
-    "loadError": "Failed to load mega offers"
+    "loadError": "Failed to load mega offers",
+    "pageTitle": "Mega Offers",
+    "pageSubtitle": "Limited-time collections with deep discounts",
+    "emptyTitle": "No active offers right now",
+    "emptySubtitle": "New collections drop regularly — check back soon.",
+    "notFoundTitle": "This collection has ended",
+    "notFoundSubtitle": "It may have expired — explore the current offers instead.",
+    "backToOffers": "Back to offers",
+    "collectionEmpty": "No products in this collection yet."
   },
   "featuredSections": {
     "bestSellers": "Best Sellers",
@@ -206,17 +445,20 @@
     "mensTraditional": {
       "title": "Men's Traditional Wear",
       "viewAll": "View All",
-      "mensTraditionalDesc": "Discover our collection of authentic men's traditional clothing"
+      "mensTraditionalDesc": "Discover our collection of authentic men's traditional clothing",
+      "view_all": "View all Men's Traditional Clothing"
     },
     "womensTraditional": {
       "title": "Women's Traditional Wear",
       "viewAll": "View All",
-      "womensTraditionalDesc": "Discover our collection of authentic women's traditional clothing"
+      "womensTraditionalDesc": "Discover our collection of authentic women's traditional clothing",
+      "view_all": "View all Women's Traditional Clothing"
     },
     "childrensTraditional": {
       "title": "Children's Traditional Wear",
       "viewAll": "View All",
-      "childrensTraditionalDesc": "Discover our collection of authentic children's traditional clothing"
+      "childrensTraditionalDesc": "Discover our collection of authentic children's traditional clothing",
+      "view_all": "View all Children's Traditional Clothing"
     },
     "featuredStores": {
       "title": "Featured Stores",
@@ -241,7 +483,10 @@
     "topBrands": "Top Brands",
     "loadError": "Failed to load featured sections. Please try again later.",
     "bestSellersDesc": "Our most popular traditional Moroccan wear",
-    "newArrivalsDesc": "Latest additions to our collection"
+    "newArrivalsDesc": "Latest additions to our collection",
+    "inStock": "In stock",
+    "lowStock": "Last few",
+    "startsFrom": "From"
   },
   "product": {
     "product_add_to_cart": "Add to Cart",
@@ -335,7 +580,41 @@
     "request_custom_product": "Request Custom Product",
     "custom_product_description": "Can't find what you're looking for? Create a custom request and connect with sellers who can make it for you.",
     "custom_request_message": "Hi! I'm interested in a custom version of this product. Could you help me with a personalized design?",
-    "url": "Product URL"
+    "url": "Product URL",
+    "add_to_wishlist": "Add to wishlist",
+    "bestseller": "Bestseller",
+    "category": "Category",
+    "custom_size": "Custom size",
+    "custom_sizing": "Custom sizing available",
+    "description_secondary": "More details",
+    "details": "Product details",
+    "image_thumbnails": "Product images",
+    "new": "New",
+    "no_products": "No products found",
+    "read_journal": "Read the journal",
+    "related": "Related products",
+    "select_color": "Select color",
+    "sizing_info": "Sizing guide",
+    "stars": "stars",
+    "tabs": "Product tabs",
+    "view": "View product",
+    "view_all": "View all",
+    "you_might_also_like": "You might also like",
+    "express_delivery": "Express delivery",
+    "reviews": "Reviews",
+    "fallback_name": "Product",
+    "unknown": "Unknown Product",
+    "price_format": "{{price}} MAD",
+    "rating": "%{rating} ★",
+    "visit_external_website": "Visit Website",
+    "be_first_review": "New — be the first to review",
+    "tab_description": "Description",
+    "tab_specs": "Specs",
+    "tab_sizing": "Sizing",
+    "tab_reviews": "Reviews",
+    "close_zoom": "Close zoom",
+    "free_shipping": "Free shipping",
+    "zoom_image": "Zoom image"
   },
   "stock": {
     "in_stock": "In stock ({{count}})",
@@ -351,7 +630,18 @@
     "available": "Available",
     "remaining": "Remaining",
     "unavailable": "Unavailable",
-    "select_options_for_availability": "Select options to check availability"
+    "select_options_for_availability": "Select options to check availability",
+    "in_stock_simple": "In stock",
+    "low_stock": "Low stock",
+    "only_left": "Only {{count}} left",
+    "made_to_order": "Made to order",
+    "made_to_order_ships": "Made to order — ships in ~3 days",
+    "added": "Added!",
+    "custom_product_description": "Can't find what you're looking for? Create a custom request and contact sellers who can make it for you.",
+    "custom_request_message": "Hi! I'm interested in a custom version of this product. Can you help me with a personal design?",
+    "request_custom_product": "Request Custom Product",
+    "url": "Product Link",
+    "viewFullDetails": "View Full Details"
   },
   "success": {
     "addedToCart": "Product successfully added to cart"
@@ -361,7 +651,10 @@
     "empty": {
       "title": "Your cart is empty",
       "description": "You haven't added any products to your cart yet",
-      "cta": "Browse Products"
+      "cta": "Browse Products",
+      "heading": "Your bag is empty.",
+      "subtitle": "Browse our collection and find something you love.",
+      "trust": "Free 14-day returns · Authentic Moroccan craft"
     },
     "items": {
       "product": "Product",
@@ -370,7 +663,8 @@
       "quantity": "Quantity",
       "total": "Total",
       "remove": "Remove",
-      "update": "Update"
+      "update": "Update",
+      "sale": "Sale"
     },
     "summary": {
       "title": "Order Summary",
@@ -381,7 +675,11 @@
       "total": "Total",
       "proceed_to_checkout": "Proceed to Checkout",
       "checkout": "Checkout",
-      "continue_shopping": "Continue Shopping"
+      "continue_shopping": "Continue Shopping",
+      "free": "Free",
+      "freeShippingHint": "Add {{amount}} MAD more for free shipping",
+      "kicker": "Order Summary",
+      "checkout_darija": "Complete purchase"
     },
     "coupon": {
       "label": "Promo code",
@@ -391,18 +689,23 @@
       "applied": "Coupon applied: {{code}}",
       "removed": "Coupon removed",
       "invalid": "Invalid coupon code",
-      "enter_code": "Please enter a coupon code"
+      "enter_code": "Please enter a coupon code",
+      "applied_label": "applied"
     },
     "quantity": {
       "increase": "Increase quantity",
       "decrease": "Decrease quantity",
-      "max_limit": "Maximum available quantity is {{max}}"
+      "max_limit": "Maximum available quantity is {{max}}",
+      "current": "Quantity: {{count}}",
+      "label": "Quantity"
     },
     "stock": {
       "level": "Stock Level",
       "warning": "Only {{count}} left in stock",
       "max_reached": "Maximum stock reached",
-      "available": "{{count}} available"
+      "available": "{{count}} available",
+      "low": "Only {{remaining}} left",
+      "max": "Maximum quantity reached"
     },
     "notifications": {
       "removed": "Product removed from cart",
@@ -427,11 +730,49 @@
     "added_successfully": "Product added to cart",
     "removed_successfully": "Product removed from cart",
     "updated_successfully": "Cart updated successfully",
-    "cleared_successfully": "Cart cleared successfully"
+    "cleared_successfully": "Cart cleared successfully",
+    "add_to_bag": "Add to bag",
+    "added_success": "Added to cart",
+    "aiSuggestions": "Complete the look",
+    "also_like": "You might also like",
+    "bespoke": {
+      "cta": "Book a consultation",
+      "headline": "Want it tailored to you?"
+    },
+    "continue_shopping": "Continue shopping",
+    "heading": "Your bag",
+    "mobileBar": {
+      "itemCount": "{{count}} items",
+      "label": "Cart summary"
+    },
+    "payment_methods": "Visa · Mastercard · Cash on Delivery",
+    "reassurance": {
+      "authentic": "Authentic Moroccan craft",
+      "delivery": "Nationwide delivery",
+      "label": "Shopping assurance",
+      "support": "Support in AR / FR / EN",
+      "verified": "Verified Sellers"
+    },
+    "shipping": {
+      "calculate": "Estimate shipping",
+      "cost": "Shipping cost",
+      "enter_location": "Enter your location",
+      "free": "Free",
+      "select_city": "Select a city"
+    },
+    "sticky_bar": "Add to bag",
+    "subtitle": "{{count}} items · ready when you are",
+    "trust": {
+      "returns": "Free 14-day returns",
+      "secure": "Secure payments"
+    },
+    "adding": "Adding to cart..."
   },
   "products": {
     "title": "Products",
     "results": "{{count}} product",
+    "results_one": "{{count}} product",
+    "results_other": "{{count}} products",
     "no_results": "No products found",
     "add_to_cart": "Add to Cart",
     "customize": "Customize",
@@ -459,10 +800,13 @@
     "discount": "{{discount}}% off",
     "sort": {
       "title": "Sort by",
-      "newest": "Newest Products",
+      "newest": "Newest",
       "price_low_high": "Price: Low to High",
       "price_high_low": "Price: High to Low",
-      "popular": "Most Popular"
+      "popular": "Top Rated",
+      "relevance": "Relevance",
+      "price_low": "Price: Low to High",
+      "price_high": "Price: High to Low"
     },
     "filters": {
       "price_range": "Price Range",
@@ -544,7 +888,17 @@
       "remove_from_cart": "Remove from Cart",
       "view_cart": "View Cart",
       "checkout": "Checkout"
-    }
+    },
+    "results_label": "results",
+    "childrens_wear": {
+      "category": "Children's Wear",
+      "festive_set": "Children's Festive Set",
+      "girls_caftan": "Girls' Kaftan",
+      "kids_kandora": "Children's Kandora"
+    },
+    "empty_title": "Coming soon to stock",
+    "end_of_list": "All products loaded",
+    "no_results_hint": "This category has no products at the moment — check back soon."
   },
   "order": {
     "title": "Order #{{orderNumber}}",
@@ -589,7 +943,18 @@
     "shipping": {
       "title": "Shipping Information",
       "contact": "Contact Information",
-      "address": "Address"
+      "address": "Address",
+      "form": {
+        "address": "Address",
+        "apartment": "Apartment, block, etc. (optional)",
+        "city": "City",
+        "country": "Country",
+        "detecting_location": "Finding your location...",
+        "postal_code": "Postal Code",
+        "postal_code_placeholder": "Optional",
+        "state": "Region",
+        "use_location": "Use my location"
+      }
     },
     "summary": {
       "title": "Order Summary",
@@ -614,7 +979,8 @@
     },
     "error": {
       "title": "Sorry!",
-      "description": "There was a problem loading your orders. Please try again"
+      "description": "There was a problem loading your orders. Please try again",
+      "loading": "Failed to load orders. Please try again."
     },
     "not_found": {
       "title": "Order not found",
@@ -630,7 +996,13 @@
       "support": "Support",
       "download_invoice": "Download Invoice",
       "contact_support": "Contact Support",
-      "write_review": "Write Review"
+      "write_review": "Write Review",
+      "contact_seller": "Contact Seller",
+      "cancel_order": "Cancel order",
+      "request_return": "Request return",
+      "return_request": "Return request",
+      "back_to_order": "Back to order",
+      "buy_again": "Buy it again"
     },
     "filter": {
       "all": "All Orders",
@@ -664,7 +1036,8 @@
         "last_month": "Last month",
         "pending": "Pending orders",
         "high_priority": "High priority"
-      }
+      },
+      "quick_filter_label": "Quick filters"
     },
     "status": {
       "pending": "Pending",
@@ -688,7 +1061,8 @@
       "number": "Tracking Number",
       "estimated_delivery": "Estimated Delivery Date",
       "current": "Current",
-      "current_status": "Current Status"
+      "current_status": "Current Status",
+      "cancelled_message": "This order was cancelled. Contact support if you have questions."
     },
     "items": {
       "title": "Order Items",
@@ -696,16 +1070,33 @@
       "color": "Color",
       "size": "Size",
       "qty": "Qty",
-      "each": "each"
+      "each": "each",
+      "more": "more items",
+      "unknown_product": "Unknown Product",
+      "product": "Product",
+      "product_image": "Product Image",
+      "unit_price": "{{price}} MAD each"
     },
     "summary": {
       "title": "Order Summary",
       "subtotal": "Subtotal",
       "shipping": "Shipping",
       "free": "Free",
-      "total": "Total"
+      "total": "Total",
+      "items": "Items",
+      "order_date": "Order date",
+      "order_number": "Order number",
+      "payment_status": "Payment status",
+      "total_amount": "Total",
+      "items_count": "{{count}} items"
     },
-    "payment_status": "Payment Status",
+    "payment_status": {
+      "paid": "Paid",
+      "pending": "Awaiting Payment",
+      "failed": "Payment Failed",
+      "refunded": "Refunded",
+      "completed": "Completed"
+    },
     "placed_on": "Order Date",
     "order_number": "Order Number",
     "items_count": "Items",
@@ -726,36 +1117,113 @@
       "more_items": "and {{count}} more item",
       "view_details": "View Details",
       "shipping_to": "Shipping to"
+    },
+    "no_results": {
+      "subtitle": "Try adjusting your filters or search term.",
+      "title": "No matching orders found"
+    },
+    "shipping": {
+      "address": "Address",
+      "contact": "Contact",
+      "title": "Shipping address"
+    },
+    "subtitle": "orders",
+    "cancel": {
+      "title": "Cancel this order?",
+      "desc": "This cannot be undone. You can place a new order anytime.",
+      "reason_label": "Reason (optional)",
+      "reason_placeholder": "Let us know why you are cancelling…",
+      "cancelling": "Cancelling…",
+      "confirm": "Cancel order"
+    },
+    "return": {
+      "title": "Request a return",
+      "desc": "Tell us what went wrong and we will arrange the return."
+    },
+    "invoice": {
+      "status": {
+        "paid": "Paid",
+        "pending": "Pending"
+      },
+      "load_error": "Could not load order",
+      "not_found": "Order not found",
+      "bill_to": "Bill to",
+      "brand_tagline": "Moroccan Craft Marketplace",
+      "cancelled_msg": "No invoice available for cancelled orders.",
+      "col_item": "Item",
+      "col_qty": "Qty",
+      "col_total": "Total",
+      "col_unit": "Unit",
+      "download_print": "Download / Print invoice",
+      "invoice_label": "INVOICE",
+      "payment_method": "Payment method",
+      "payment_status": "Payment status",
+      "ship_to": "Ship to",
+      "title": "Invoice"
+    },
+    "reorder": {
+      "added": "Added to your cart",
+      "all_skipped": "Items are out of stock and could not be added.",
+      "error": "Something went wrong. Please try again."
+    },
+    "review": {
+      "write_review": "Write a review",
+      "submitted": "Review submitted",
+      "moderation": "Thanks — your review awaits moderation",
+      "submit_all": "Submit reviews",
+      "panel_title": "Review your order",
+      "comment_placeholder": "Share your experience with this product…",
+      "error_duplicate": "You have already reviewed this item.",
+      "error_generic": "Could not submit review. Please try again.",
+      "loading": "Checking review status…",
+      "all_reviewed": "You have reviewed all items in this order.",
+      "optional_comment": "Comment (optional)",
+      "star_label": "Rate this item"
     }
   },
   "order_confirmation": {
     "not_found": {
       "title": "Order Not Found",
       "description": "We couldn't find the order you're looking for.",
-      "cta": "Return to Home"
+      "cta": "Return to Home",
+      "view_orders": "View my orders"
     },
     "success": {
       "title": "Thank you for your order!",
-      "message": "Your order has been placed and is being processed. You'll receive a confirmation email shortly."
+      "message": "Your order has been placed and is being processed. You'll receive a confirmation email shortly.",
+      "confirmed": "Confirmed"
     },
     "order_number": "Order Number",
     "status": {
-      "label": "Order Status"
+      "label": "Order Status",
+      "values": {
+        "pending": "Pending",
+        "awaiting_payment": "Awaiting payment",
+        "processing": "Processing",
+        "confirmed": "Confirmed",
+        "shipped": "Shipped",
+        "delivered": "Delivered",
+        "cancelled": "Cancelled",
+        "refunded": "Refunded"
+      }
     },
     "shipping": {
       "title": "Shipping Address"
     },
     "details": {
-      "title": "Order Details"
+      "title": "Order Details",
+      "items_list": "Items in your order"
     },
     "items": {
-      "qty": "Qty"
+      "qty": "Qty",
+      "unknown": "Unknown product"
     },
     "summary": {
       "subtotal": "Subtotal",
       "shipping": "Shipping",
       "tax": "Tax",
-      "total": "Total"
+      "total": "Total",
+      "free_shipping": "Free"
     },
     "actions": {
       "view_status": "View Order Status",
@@ -763,6 +1231,38 @@
     },
     "error": {
       "fetch_failed": "Failed to load order details"
+    },
+    "next_steps": {
+      "dispatch": "We'll dispatch your order and send tracking info by email.",
+      "processing": "Your order is being reviewed and prepared.",
+      "support": "Questions? Contact us anytime through the app.",
+      "title": "What happens next?"
+    },
+    "trust": {
+      "note": "Your purchase is protected by Beldify Buyer Guarantee."
+    },
+    "proof": {
+      "title": "Complete your payment",
+      "choose_file": "Choose receipt (image or PDF)",
+      "reference": "Transfer reference / sender name (optional)",
+      "submit": "Upload receipt",
+      "uploading": "Uploading…",
+      "success": "Receipt uploaded — we will verify it shortly",
+      "error": "Could not upload your receipt. Please try again.",
+      "file_required": "Please attach your transfer receipt",
+      "under_review_title": "Payment under review",
+      "under_review_body": "We received your payment evidence and will confirm your order shortly.",
+      "need_help": "Not sure how to pay? We're here to help.",
+      "whatsapp": "WhatsApp",
+      "call": "Call us",
+      "send_to": "Send payment to"
+    },
+    "split": {
+      "title": "Your order was split across {{count}} sellers",
+      "description": "Each seller will prepare and ship their part independently. All orders are covered by Beldify Buyer Guarantee.",
+      "group_ref": "Group ref:",
+      "seller_label": "Seller {{n}}",
+      "seller_order": "Order"
     }
   },
   "checkout": {
@@ -796,7 +1296,36 @@
         "postal_code_placeholder": "Optional",
         "country": "Country",
         "use_location": "Use My Location",
-        "detecting_location": "Detecting your location..."
+        "detecting_location": "Detecting your location...",
+        "email": "Email",
+        "first_name": "First Name",
+        "last_name": "Last Name",
+        "phone": "Phone",
+        "zip_code": "Zip Code"
+      },
+      "errors": {
+        "address_failed": "Could not detect your address. Please enter it manually.",
+        "location_failed": "Location access denied. Please enter your address manually.",
+        "location_not_supported": "Geolocation is not supported by your browser."
+      },
+      "methods": {
+        "express": {
+          "eta": "1–2 business days",
+          "name": "Express Delivery"
+        },
+        "pickup": {
+          "eta": "Ready next business day",
+          "free": "Free",
+          "name": "Pickup — Tetouan"
+        },
+        "standard": {
+          "eta": "3–5 business days",
+          "free": "Free",
+          "name": "Standard Delivery"
+        }
+      },
+      "success": {
+        "location_detected": "Location detected — address filled in."
       }
     },
     "payment": {
@@ -808,11 +1337,31 @@
         },
         "paypal": {
           "title": "PayPal",
-          "description": "Coming Soon - Pay securely with PayPal"
+          "description": "Pay securely with PayPal"
         },
         "card": {
           "title": "Credit Card",
-          "description": "Coming Soon - Pay with Visa, Mastercard, or other cards"
+          "description": "Pay with Visa, Mastercard, or other cards"
+        },
+        "bank_transfer": {
+          "title": "Bank transfer",
+          "description": "Transfer to our bank account, then upload the receipt"
+        },
+        "wafacash": {
+          "title": "Wafacash",
+          "description": "Pay via Wafacash, then upload the receipt"
+        },
+        "cash_plus": {
+          "title": "Cash Plus",
+          "description": "Pay via Cash Plus, then upload the receipt"
+        },
+        "western_union": {
+          "title": "Western Union",
+          "description": "Send via Western Union, then upload the receipt"
+        },
+        "moneygram": {
+          "title": "MoneyGram",
+          "description": "Send via MoneyGram, then upload the receipt"
         }
       },
       "form": {
@@ -820,7 +1369,21 @@
         "card_holder": "Cardholder Name",
         "expiry_date": "Expiry Date",
         "cvv": "CVV"
-      }
+      },
+      "coming_soon": "Coming soon",
+      "descriptions": {
+        "card": "Coming Soon - Pay securely with your card",
+        "cod": "Pay when you receive your order",
+        "paypal": "Coming Soon - Pay securely via PayPal"
+      },
+      "cod_over_limit": "Not available over 500 MAD",
+      "cod_morocco_only": "Only available inside Morocco",
+      "gateway_coming_soon": "Coming soon",
+      "need_help_title": "Not sure how to pay?",
+      "need_help_body": "Message or call us and we'll guide you through it.",
+      "whatsapp": "WhatsApp",
+      "call": "Call us",
+      "cod_subtitle": "Pay when your order arrives — cash on delivery"
     },
     "order_summary": {
       "title": "Order Summary",
@@ -835,13 +1398,31 @@
       "continue": "Continue",
       "back": "Back",
       "place_order": "Place Order",
-      "processing": "Processing..."
+      "processing": "Processing...",
+      "back_to_shipping": "Back to Delivery",
+      "continue_payment": "Continue to payment",
+      "confirm_order": "Confirm order",
+      "continue_to_confirm": "Continue to confirm"
     },
     "validation": {
       "required": "This field is required",
       "invalid_email": "Please enter a valid email",
       "invalid_phone": "Please enter a valid phone number",
-      "location_error": "Failed to detect your location. Please try again or enter address manually"
+      "location_error": "Failed to detect your location. Please try again or enter address manually",
+      "address_required": "Street address is required",
+      "address_short": "Address is too short",
+      "city_required": "City is required",
+      "country_required": "Please select a country",
+      "email_invalid": "Please enter a valid email address",
+      "email_required": "Email address is required",
+      "phone_invalid": "Please enter a valid phone number",
+      "phone_required": "Phone number is required",
+      "state_required": "Region / State is required",
+      "first_name_required": "First name is required and must be at least 2 characters",
+      "last_name_required": "Last name is required and must be at least 2 characters",
+      "full_name_required": "Please enter your full name (first and last name)",
+      "phone_min_digits": "Please enter a valid phone number with at least 10 digits",
+      "payment_method_invalid": "Please select a valid payment method"
     },
     "errors": {
       "shipping_info_incomplete": "Please fill in all required shipping information",
@@ -855,10 +1436,97 @@
       "invalid_zip": "Please enter a valid ZIP code",
       "country_required": "Please select your country",
       "auth_required": "Please log in to continue with your order",
-      "shipping_info_required": "Shipping information is required to proceed"
+      "shipping_info_required": "Shipping information is required to proceed",
+      "item_unavailable": "Item Unavailable: This item is currently out of stock or the requested quantity exceeds our available stock. ({{name}})",
+      "insufficient_stock": "Only {{count}} item(s) available for {{name}}. Please update your cart.",
+      "cart_items_unavailable": "One or more items in your cart are no longer available in the requested quantity. Please review your cart and try again.",
+      "order_creation_failed": "Order creation failed"
     },
     "success": {
-      "order_placed": "Order placed successfully! Thank you for your purchase."
+      "order_placed": "Order placed successfully! Thank you for your purchase.",
+      "redirecting_orders": "Order placed. Redirecting to your orders..."
+    },
+    "address": {
+      "address": "Street address",
+      "address_placeholder": "123 Rue Mohammed V",
+      "apartment": "Apartment, suite, etc.",
+      "apartment_placeholder": "Apt 4B",
+      "city": "City",
+      "city_placeholder": "Casablanca",
+      "country": "Country",
+      "full_name": "Full name",
+      "full_name_placeholder": "Ahmed Benali",
+      "phone": "Phone",
+      "phone_placeholder": "+212 6 00 00 00 00",
+      "postal_code": "Postal code",
+      "state": "Region / State",
+      "state_placeholder": "Grand Casablanca",
+      "title": "Delivery address",
+      "saved_addresses": "Saved addresses",
+      "type_new": "Enter a new address",
+      "default_badge": "Default",
+      "save_for_next": "Save this address for future orders",
+      "extra_fields_toggle": "Add more details (apartment, postal code)"
+    },
+    "bespoke": {
+      "cta": "Explore bespoke"
+    },
+    "contact": {
+      "email_label": "Email address",
+      "email_placeholder": "you@example.com",
+      "title": "Contact",
+      "updates_label": "Send me order updates and offers"
+    },
+    "empty": {
+      "cta": "Back to shopping",
+      "heading": "Your bag is empty — nothing to ship.",
+      "subtitle": "Find something you love and come back."
+    },
+    "heading": {
+      "title": "Where should we send it?",
+      "title_payment": "How would you like to pay?"
+    },
+    "reassurance": {
+      "authentic": "Authentic Craft",
+      "returns": "Free Returns",
+      "section_label": "Why shop with us",
+      "support": "Multilingual Support",
+      "verified": "Verified Sellers"
+    },
+    "stepper": {
+      "aria_label": "Checkout progress",
+      "bag": "Bag",
+      "confirm": "Confirm",
+      "delivery": "Delivery",
+      "payment": "Payment"
+    },
+    "summary": {
+      "discount": "Discount",
+      "items_list": "Order items",
+      "kicker": "Order Summary",
+      "shipping": "Shipping",
+      "subtotal": "Subtotal",
+      "tax": "Tax",
+      "total": "Total",
+      "product_image_alt": "Product image",
+      "seller_shipping": "Shipping — {{store}}"
+    },
+    "steps": {
+      "payment": "Payment",
+      "review": "Review",
+      "shipping": "Shipping"
+    },
+    "quote": {
+      "loading": "Calculating total…",
+      "load_error": "Could not calculate order total. Please try again."
+    },
+    "guest": {
+      "have_account": "Have an account? Sign in"
+    },
+    "progress": {
+      "bag": "Cart",
+      "confirm": "Confirm",
+      "info": "Information"
     }
   },
   "profile": {
@@ -876,7 +1544,8 @@
     "tabs": {
       "general": "General",
       "security": "Security",
-      "preferences": "Preferences"
+      "preferences": "Preferences",
+      "addresses": "Addresses"
     },
     "default_user_name": "User",
     "title": "Profile",
@@ -898,7 +1567,9 @@
       "state": "State/Province",
       "postal_code": "Postal Code",
       "country": "Country",
-      "select_country": "Select Country"
+      "select_country": "Select Country",
+      "postal_code_placeholder": "Optional",
+      "zip_code": "Postal Code"
     },
     "actions": {
       "save_changes": "Save Changes",
@@ -954,6 +1625,39 @@
       },
       "success_message": "Preferences updated successfully",
       "error_message": "Failed to update preferences"
+    },
+    "edit_avatar": "Change photo",
+    "address_book": {
+      "loading": "Loading addresses",
+      "load_error": "Could not load addresses",
+      "empty_hint": "No saved addresses yet.",
+      "empty_title": "No saved addresses",
+      "empty_body": "Add an address to speed up checkout next time.",
+      "count": "{{count}} address(es) saved",
+      "add_new": "Add address",
+      "add_heading": "New address",
+      "edit_heading": "Edit address",
+      "default_badge": "Default",
+      "set_default": "Set as default",
+      "edit_address": "Edit address",
+      "delete_address": "Delete address",
+      "address_labeled": "{{label}} address",
+      "address_unnamed": "Saved address",
+      "delete_confirm_title": "Delete address?",
+      "delete_confirm_body": "This address will be permanently removed.",
+      "create_success": "Address saved",
+      "update_success": "Address updated",
+      "delete_success": "Address deleted",
+      "save_error": "Could not save address",
+      "delete_error": "Could not delete address",
+      "default_success": "Default address updated",
+      "default_error": "Could not update default",
+      "fields": {
+        "label": "Label",
+        "label_placeholder": "Home, Work…",
+        "street": "Street address",
+        "apartment": "Apartment, suite, etc."
+      }
     }
   },
   "errors": {
@@ -975,11 +1679,14 @@
     "shop_not_found": "Shop information not available",
     "boundary": {
       "title": "Something went wrong",
-      "body": "We apologize for the inconvenience. Please try refreshing the page.",
+      "body": "An unexpected error occurred. Please try refreshing the page.",
       "devDetails": "Error Details (Development)",
       "errorLabel": "Error:",
       "retry": "Try Again",
-      "reload": "Reload Page"
+      "reload": "Reload Page",
+      "oops": "Oops!",
+      "refresh": "Refresh Page",
+      "home": "Go Home"
     },
     "api": {
       "title": "Failed to load data",
@@ -990,7 +1697,15 @@
       "failed": "This component failed to load.",
       "namedFailed": "The {{name}} component failed to load.",
       "retry": "Retry"
-    }
+    },
+    "failed_to_fetch_categories": "Failed to load categories.",
+    "fetch_failed_body": "Something went wrong. Please try again.",
+    "fetch_failed_title": "Unable to load products",
+    "productNotFoundDesc": "This product could not be found or is no longer available.",
+    "something_went_wrong": "Something went wrong",
+    "product_load_failed": "Failed to load product",
+    "stock_unavailable": "Item is not available",
+    "session_storage_unavailable": "Unable to proceed — please enable cookies"
   },
   "notifications": {
     "success": {
@@ -1006,6 +1721,47 @@
       "place_order": "Failed to place order",
       "update_profile": "Failed to update profile",
       "save_address": "Failed to save address"
+    },
+    "changes_saved": "Changes saved successfully.",
+    "error_saving": "Error saving changes. Please try again.",
+    "bell": {
+      "title": "Notifications",
+      "aria": "Notifications",
+      "ariaWithCount": "Notifications, {{count}} unread",
+      "markAllRead": "Mark all read",
+      "empty": "No notifications yet",
+      "viewAll": "View all notifications",
+      "types": {
+        "order_placed": "New order placed",
+        "order_status": "Order status updated",
+        "community_response": "New response on your post",
+        "tailoring_booking": "Tailoring booking update",
+        "new_message": "New message",
+        "review_posted": "New review on your product",
+        "new_follower": "New follower",
+        "back_in_stock": "Back in stock",
+        "price_drop": "Price drop"
+      }
+    },
+    "page": {
+      "title": "Notifications",
+      "total": "{{count}} notifications",
+      "emptyTitle": "No notifications",
+      "emptyDescription": "You're all caught up! We'll notify you when something needs your attention.",
+      "markRead": "Mark as read",
+      "pagination": "Page {{current}} of {{last}}",
+      "types": {
+        "order_placed": "New order placed",
+        "order_status": "Order status updated",
+        "community_response": "New response on your post",
+        "tailoring_booking": "Tailoring booking update",
+        "new_message": "New message",
+        "review_posted": "New review on your product",
+        "new_follower": "New follower",
+        "back_in_stock": "Back in stock",
+        "price_drop": "Price drop"
+      },
+      "loadError": "Could not load notifications. Check your connection and try again."
     }
   },
   "filters": {
@@ -1021,7 +1777,14 @@
     "in_stock": "In Stock",
     "customizable": "Customizable",
     "on_sale": "On Sale",
-    "new_arrivals": "New Arrivals"
+    "new_arrivals": "New Arrivals",
+    "active_filters_label": "Active filters",
+    "max_price_aria": "Maximum price in MAD",
+    "min_price_aria": "Minimum price in MAD",
+    "open_drawer": "Open filters",
+    "remove_filter": "Remove filter",
+    "remove_filter_aria": "Remove this filter",
+    "apply": "Apply"
   },
   "shops": {
     "title": "SHOPS",
@@ -1031,7 +1794,93 @@
     "checkBackSoon": "Check back soon!",
     "list": {
       "eyebrow": "Marketplace",
-      "headline": "Hand-picked ateliers."
+      "headline": "Hand-picked ateliers.",
+      "sub": "Discover authentic Moroccan ateliers"
+    },
+    "browse": "Browse ateliers",
+    "error": {
+      "title": "Something went wrong"
+    },
+    "error_message": "Unable to load this shop. Please try again.",
+    "not_found": "Shop not found",
+    "search": {
+      "label": "Search shops",
+      "placeholder": "Search shops...",
+      "button": "Search",
+      "results": "Found {{count}} results"
+    },
+    "try_again": "Please try again later",
+    "all": "All shops",
+    "featured": "Featured",
+    "filters": {
+      "sort": {
+        "label": "Sort by",
+        "options": {
+          "latest": "Latest",
+          "name_asc": "Name A–Z",
+          "name_desc": "Name Z–A",
+          "products": "Most products"
+        }
+      },
+      "apply": "Apply Filters",
+      "categories": "Categories",
+      "clear": "Clear Filters",
+      "location": "Location",
+      "price_range": "Price Range",
+      "rating": "Rating",
+      "title": "Filters"
+    },
+    "nearby": "Nearby",
+    "noResults": "No shops found",
+    "products_count": "{{count}} product",
+    "shop": {
+      "follow": "Follow",
+      "following": "Following",
+      "about": "About the Shop",
+      "contact": "Contact",
+      "customer_support": "Customer Support",
+      "fast_shipping": "Fast Shipping",
+      "fast_shipping_desc": "Delivery in 2 to 4 days with tracking",
+      "followers": "{{count}} followers",
+      "joinedDate": "Joined {{date}}",
+      "location": "Location",
+      "products": "Products",
+      "quality_guarantee": "Quality Guarantee",
+      "quality_guarantee_desc": "100% traditional handmade products",
+      "report": "Report",
+      "response_rate": "Response rate {{rate}}%",
+      "response_time": "Responds within {{time}}",
+      "reviews": "Reviews",
+      "share": "Share",
+      "verified_seller": "Verified Seller",
+      "verified_seller_desc": "This seller is trusted and verified",
+      "visit": "Visit Shop"
+    },
+    "tryDifferentSearch": "Try adjusting your search or filters to find what you're looking for",
+    "typeFilter": "Shop type",
+    "types": {
+      "all": "All shops",
+      "company": "Company",
+      "distributor": "Distributor",
+      "individual": "Individual shop",
+      "manufacturer": "Manufacturer",
+      "regular": "Regular Shop"
+    },
+    "verified": "Verified",
+    "clearFilters": "Clear Filters",
+    "noImage": "No image available",
+    "no_shops": "No shops found",
+    "pagination": {
+      "next": "Next",
+      "page": "Page {{current}} of {{total}}",
+      "previous": "Previous"
+    },
+    "reviews_count": "{{count}} reviews",
+    "search_placeholder": "Search for shops...",
+    "sort": {
+      "newest": "Newest",
+      "products": "More Products",
+      "rating": "Best Rated"
     }
   },
   "sort": {
@@ -1039,7 +1888,8 @@
     "newest": "Newest Products",
     "price_low_high": "Price: Low to High",
     "price_high_low": "Price: High to Low",
-    "popular": "Most Popular"
+    "popular": "Most Popular",
+    "aria_label": "Sort products"
   },
   "pages": {
     "privacyPolicy": {
@@ -1121,7 +1971,12 @@
       "lastUpdated": "Last updated",
       "userAgreement": "Beldify User Agreement",
       "legalAssistance": "Need legal assistance?",
-      "clarification": "If you have any questions about our terms or need clarification on any policy, our customer support team is available to assist you."
+      "clarification": "If you have any questions about our terms or need clarification on any policy, our customer support team is available to assist you.",
+      "contactUs": "Contact us",
+      "lastUpdatedDate": "May 18, 2025",
+      "contactEmail": "Email: legal@beldify.com",
+      "contactPhone": "Phone: +212 (0) 7 08 15 03 51",
+      "contactAddress": "Postal Address: 123 Medina Street, Tetouan, Morocco"
     },
     "contact": {
       "title": "Contact Us",
@@ -1195,7 +2050,27 @@
       ],
       "needHelp": "Need Help With Your Shipping?",
       "helpText": "Our customer service team is ready to assist you with any questions about your shipment.",
-      "contactSupport": "Contact Support"
+      "contactSupport": "Contact Support",
+      "faq1": {
+        "question": "How can I track my order?",
+        "answer": "You can track your order by logging into your account and visiting the Orders section. There, you'll find tracking information for all your orders. Alternatively, you can use the tracking number provided in your shipping confirmation email."
+      },
+      "faq2": {
+        "question": "What are the shipping costs?",
+        "answer": "Shipping costs vary based on your location and the shipping method selected. Standard shipping within Morocco is 30 DH, express shipping is 50 DH, and international shipping starts from 150 DH."
+      },
+      "faq3": {
+        "question": "Do you ship internationally?",
+        "answer": "Yes, we ship internationally to most countries. International shipping rates start from 150 DH depending on the destination and package weight."
+      },
+      "faq4": {
+        "question": "How long will it take to receive my order?",
+        "answer": "Delivery times depend on your location and the shipping method selected. Standard shipping within Morocco takes 5-7 business days, express shipping takes 2-3 business days, and international shipping takes 7-14 business days."
+      },
+      "faq5": {
+        "question": "What should I do if my order hasn't arrived?",
+        "answer": "If your order hasn't arrived within the expected delivery timeframe, please contact our customer service team through the Contact Us page or via email at support@beldify.com."
+      }
     },
     "faqs": {
       "title": "Frequently Asked Questions",
@@ -1350,7 +2225,8 @@
       "tabs": {
         "returnsPolicy": "Returns Policy",
         "exchanges": "Exchanges",
-        "returnProcess": "Return Process"
+        "returnProcess": "Return Process",
+        "request": "Request a Return"
       },
       "steps": {
         "step1": {
@@ -1425,7 +2301,14 @@
         "refundText3": "Please allow additional time for your bank or credit card company to process the refund.",
         "helpTitle": "Need Help?",
         "helpText": "If you have any questions about our return process, please contact our customer service team.",
-        "contactButton": "Contact Support"
+        "contactButton": "Contact Support",
+        "contactSupport": "Contact Support",
+        "helpDescription": "Our support team is ready to assist with your return.",
+        "needHelp": "Need Help?"
+      },
+      "returnShipping": {
+        "description": "Return shipping costs may apply depending on your location.",
+        "title": "Return Shipping"
       }
     },
     "sellers": {
@@ -1492,19 +2375,25 @@
     "subtitle": "Subscribe to our newsletter for exclusive offers, new arrivals, and traditional Moroccan fashion inspiration.",
     "placeholder": "Enter your email",
     "button": "Subscribe",
-    "eyebrow": "Stay in the loop"
+    "eyebrow": "Stay in the loop",
+    "privacy": "No spam. Unsubscribe anytime."
   },
   "footer": {
     "description": "Discover the finest Moroccan fashion and handicrafts. Beldify connects you with authentic Moroccan artisans and designers.",
     "contact": {
-      "address": "123 Medina Street, Tetouan, Morocco"
+      "address": "123 Medina Street, Tetouan, Morocco",
+      "email": "contact@beldify.com",
+      "phone": "+212 (0) 7 08 15 03 51"
     },
     "titles": {
       "footer": "Footer",
       "quickLinks": "Quick Links",
       "support": "Support",
       "sellers": "Sellers",
-      "company": "Company"
+      "company": "Company",
+      "help": "Help",
+      "services": "Services",
+      "shop": "Shop"
     },
     "quickLinks": {
       "home": "Home",
@@ -1516,17 +2405,35 @@
       "contactUs": "Contact Us",
       "faqs": "FAQs",
       "shippingInfo": "Shipping Info",
-      "returnsExchanges": "Returns & Exchanges"
+      "returnsExchanges": "Returns & Exchanges",
+      "contact": "Contact Us",
+      "faq": "FAQ",
+      "returns": "Returns and Exchanges",
+      "shipping": "Shipping Information",
+      "sizeGuide": "Size Guide",
+      "support": "Support",
+      "title": "Support"
     },
     "sellers": {
       "becomeSeller": "Become a Seller",
       "sellerDashboard": "Seller Dashboard",
-      "sellerSupport": "Seller Support"
+      "sellerSupport": "Seller Support",
+      "become": "Become a Seller",
+      "dashboard": "Seller Dashboard",
+      "support": "Seller Support",
+      "title": "Sellers"
     },
     "company": {
       "aboutUs": "About Us",
       "privacyPolicy": "Privacy Policy",
-      "termsOfService": "Terms of Service"
+      "termsOfService": "Terms of Service",
+      "about": "Beldify",
+      "artisans": "Our Artisans",
+      "blog": "Blog",
+      "careers": "Careers",
+      "description": "We offer the best of traditional and modern Moroccan fashion",
+      "ourArtisans": "Our Artisans",
+      "press": "Press"
     },
     "social": {
       "facebook": "Facebook",
@@ -1557,7 +2464,48 @@
     "shipping": "Shipping",
     "returns": "Returns",
     "privacy": "Privacy",
-    "rightsReserved": "Crafted with care in Morocco."
+    "rightsReserved": "Crafted with care in Morocco.",
+    "tagline": "Morocco's home for authentic traditional fashion.",
+    "newsletter": "Newsletter",
+    "categories": {
+      "accessories": "Accessories",
+      "jellaba": "Djellaba",
+      "kaftan": "Caftan",
+      "new_arrivals": "New Arrivals",
+      "traditional": "Traditional Clothing"
+    },
+    "company_info": {
+      "about": "About Us",
+      "privacy": "Privacy Policy",
+      "terms": "Terms of Use",
+      "title": "Company"
+    },
+    "copyright": "© 2025 Beldify. All rights reserved",
+    "help": {
+      "contact": "Contact Us",
+      "faq": "Frequently Asked Questions",
+      "returns": "Returns and Exchanges",
+      "shipping": "Shipping Information",
+      "size_guide": "Size Guide"
+    },
+    "made_in": "Proudly Made in Morocco",
+    "quick_links": {
+      "categories": "Categories",
+      "community": "Open Souk",
+      "home": "Home",
+      "products": "Products",
+      "title": "Quick Links"
+    },
+    "services": {
+      "alterations": "Alterations",
+      "consultation": "Consultation",
+      "consultations": "Consultations",
+      "customTailoring": "Custom Tailoring",
+      "custom_tailoring": "Custom Tailoring",
+      "measurements": "Measurements"
+    },
+    "sellerCustomOrders": "Custom orders",
+    "sellerEarnings": "Earnings"
   },
   "countries": {
     "ma": "Morocco",
@@ -1566,7 +2514,17 @@
     "qa": "Qatar",
     "kw": "Kuwait",
     "bh": "Bahrain",
-    "om": "Oman"
+    "om": "Oman",
+    "MA": "Morocco",
+    "SA": "Saudi Arabia",
+    "AE": "United Arab Emirates",
+    "QA": "Qatar",
+    "KW": "Kuwait",
+    "BH": "Bahrain",
+    "OM": "Oman",
+    "FR": "France",
+    "GB": "United Kingdom",
+    "US": "United States"
   },
   "size_guide": {
     "title": "Size Guide for Traditional Moroccan Clothing",
@@ -1685,7 +2643,36 @@
     "aiChip": "AI styled for you",
     "luxuryCaftans": "Luxury Caftans",
     "discoverCollection": "Discover our exclusive collection",
-    "shopNow": "Shop Now"
+    "shopNow": "Shop Now",
+    "slide1": {
+      "button": "Shop now",
+      "description": "Wide range of high-quality products at the best prices",
+      "subtitle": "Discover the latest fashion trends",
+      "title": "Complete shopping experience"
+    },
+    "description": "Browse our carefully curated collection of traditional and contemporary Moroccan clothing, specially designed for celebrations and crafted by master artisans.",
+    "discover": "Discover",
+    "exclusive_collection": "Exclusive Collection",
+    "handcrafted": "Made with premium materials",
+    "learnMoreButton": "Learn More",
+    "shopButton": "Shop Now",
+    "slide2": {
+      "button": "Explore Offers",
+      "description": "Don't miss the chance to get the best offers and exclusive discounts",
+      "subtitle": "Save up to 70% on selected products",
+      "title": "Huge Discounts"
+    },
+    "slide3": {
+      "button": "Discover More",
+      "description": "Discover our exclusive collection of featured products specially designed for you",
+      "subtitle": "A unique selection",
+      "title": "Exclusive Products"
+    },
+    "titleLine1": "Discover Holiday Elegance",
+    "titleLine2": "With Authentic Moroccan Fashion",
+    "welcomeBadge": "🌙 Happy Eid to our souk!",
+    "banner_alt": "Caftan Collection",
+    "atelier_alt": "Moroccan atelier"
   },
   "verification": {
     "verify_phone": "Verify Your Phone",
@@ -1728,7 +2715,12 @@
       "content_placeholder": "Share your experience with this product",
       "add_photos_label": "Add Photos",
       "upload_image": "Upload Image",
-      "submit_review": "Submit Review"
+      "submit_review": "Submit Review",
+      "content_required": "Please write a review before submitting.",
+      "image_too_large": "Image is too large. Max 5 MB per photo.",
+      "max_images_reached": "You've reached the maximum number of photos.",
+      "rating_required": "Please select a star rating.",
+      "submit_error": "Couldn't submit your review. Please try again."
     },
     "review_submitted": "Thank you for your review!",
     "review_error": "Error submitting review. Please try again.",
@@ -1760,9 +2752,12 @@
     "stars": "Stars",
     "filter_reviews_by_rating": "Filter by Rating",
     "rating_summary": "Rating Summary",
-    "verified_buyer": "Verified buyer"
+    "verified_buyer": "Verified buyer",
+    "submitted_pending": "Thanks! Your review was submitted and will appear once approved."
   },
   "community": {
+    "respond_short": "Respond",
+    "respond_in_dashboard": "Reply in your seller dashboard",
     "verified_seller": "Verified Seller",
     "seller_response_description": "To respond to this post as a seller, use the button below",
     "view_shop": "View Shop",
@@ -1809,7 +2804,15 @@
       "no_messages": "No messages yet",
       "sending_custom_request": "Sending custom request...",
       "custom_request_sent": "Custom request sent successfully!",
-      "custom_request_error": "Failed to send custom request"
+      "custom_request_error": "Failed to send custom request",
+      "no_search_results": "No conversations match your search",
+      "recent_conversations": "Recent Conversations",
+      "search_conversations": "Search conversations...",
+      "last_seen": "Last seen: {{time}}",
+      "offline": "Offline",
+      "online_now": "Online Now",
+      "reviews": "Reviews",
+      "shop": "Shop"
     },
     "loading_messages": "Loading messages...",
     "error_loading_messages": "Error loading messages",
@@ -1911,7 +2914,8 @@
     "status": {
       "open": "Open",
       "in_progress": "In Progress",
-      "closed": "Closed"
+      "closed": "Closed",
+      "completed": "Completed"
     },
     "your_posts": "Your Posts",
     "no_user_posts": "You haven't created any posts yet",
@@ -1948,7 +2952,117 @@
     "images_selected": "images selected",
     "error_image_size": "Image size must be less than 5MB",
     "error_image_type": "Only JPG, PNG, GIF and WebP images are allowed",
-    "please_fix_errors": "Please fix the following errors:"
+    "please_fix_errors": "Please fix the following errors:",
+    "all_categories": "All Categories",
+    "all_statuses": "All Statuses",
+    "anonymous": "Anonymous",
+    "budget_hint": "A clear budget attracts more focused bids.",
+    "category": {
+      "accessories": "Accessories",
+      "clothing": "Clothing",
+      "footwear": "Footwear",
+      "other": "Other",
+      "traditional": "Traditional"
+    },
+    "error_category_required": "Please select a category",
+    "error_description_min_length": "Description must be at least 20 characters",
+    "error_invalid_price": "Please enter a valid price",
+    "error_title_min_length": "Title must be at least 5 characters",
+    "explore_community": "Explore Community",
+    "filter_by_category": "Category",
+    "filter_by_status": "Status",
+    "price_offer": "Price offer",
+    "response_description": "Describe your offer",
+    "response_description_placeholder": "Tell the buyer what you can make and how…",
+    "response_images": "Attach photos of your work",
+    "seller": "Seller",
+    "seller_skills_label": "Your craft skills",
+    "seller_skills_placeholder": "e.g. djellaba, caftan, tailoring…",
+    "submit_response": "Submit offer",
+    "back_to_community": "Back to community",
+    "budget_guidance": "What is the approximate budget for this project?",
+    "share_request": "Share request",
+    "timeline_estimate": "How long do you need to complete it?",
+    "timeline_section": "Timeline needed",
+    "budget_section": "Budget",
+    "category_name": "Category",
+    "create_request": "Create a request",
+    "no_user_posts_description": "You have not posted any requests yet.",
+    "submit_request": "Submit request",
+    "browse_souk": "Browse the souk",
+    "category_label": "Category",
+    "completed_jobs": "Completed jobs",
+    "confirm_accept_proposal": "Accept this proposal?",
+    "create_request_subtitle": "Tell tailors what you need",
+    "delivery_days_label": "Delivery time (days)",
+    "delivery_days_placeholder": "e.g. 14",
+    "delivery_in_days": "Delivery in {{count}} days",
+    "description_label": "Description",
+    "description_placeholder": "Describe what you want in detail",
+    "drop_zone_label": "Drag & drop photos here",
+    "images_attached": "{{count}} photos attached",
+    "photos_help": "Add photos to explain your idea",
+    "preview_empty": "No preview yet",
+    "preview_label": "Preview",
+    "preview_tip": "This is how sellers will see it",
+    "proposal_subtitle": "Send your offer to the buyer",
+    "request_posted": "Request posted",
+    "section_photos": "Photos",
+    "skills_help": "Pick the skills you need",
+    "skills_label": "Skills",
+    "skills_selected": "{{count}} selected",
+    "status_open": "Open",
+    "submit_proposal": "Submit proposal",
+    "success_body": "Your request is live. Tailors will respond soon.",
+    "success_title": "Request sent!",
+    "timeline_prefix": "Needed by",
+    "title_label": "Title",
+    "title_placeholder": "e.g. Custom caftan for a wedding",
+    "view_request": "View request",
+    "error_failed_to_fetch_post": "Failed to fetch post",
+    "error_invalid_post_data": "Invalid post data format",
+    "post_image_alt_suffix": "image",
+    "post_thumbnail_alt_suffix": "Thumbnail",
+    "prefill_title": "Custom {{productName}} - Similar Design Requested",
+    "image_preview_alt": "Preview {{index}}",
+    "category_items": {
+      "accessories": "Accessories",
+      "clothing": "Clothing",
+      "jewelry": "Jewelry",
+      "other": "Other",
+      "shoes": "Shoes"
+    },
+    "create_new": "Create New",
+    "drag_files_here": "Drag images here or click to select images",
+    "filter": "Filter",
+    "no_user_posts_community": "You haven't made any community posts yet",
+    "no_user_posts_main": "You haven't made any requests yet",
+    "post_your_request": "Post Your Request",
+    "share_with_community": "Share Your Request",
+    "your_post_detail": "Your Request",
+    "colors": "Colors",
+    "interested_q": "Interested in this job?",
+    "job_progress": "Progress",
+    "login_cta_body": "Sign in to your seller account to respond to this request.",
+    "login_to_propose": "Want to submit a proposal?",
+    "no_proposals_yet": "Be the first artisan to respond!",
+    "no_proposals_yet_title": "No proposals yet",
+    "posted_by": "Posted by",
+    "preview": "Preview",
+    "proposal_accepted": "Proposal accepted!",
+    "proposal_already_submitted": "You have already submitted a proposal for this job.",
+    "proposals": "proposals",
+    "reference_images": "Reference Images",
+    "request": "request",
+    "requirements": "Requirements",
+    "response_image_alt": "Response image",
+    "skills_comma_hint": "Separate with commas",
+    "styles": "Styles",
+    "thumbnail": "Thumbnail",
+    "view_custom_order": "View your custom order",
+    "view_image": "View image",
+    "view_portfolio": "View portfolio",
+    "your_bid": "Your Bid"
   },
   "pwa": {
     "banner": {
@@ -1982,7 +3096,22 @@
       "install_description": "Click the install button below to add Beldify to your device!",
       "install_button": "Install App",
       "got_it_button": "Got It!",
-      "remind_later": "Remind Later"
+      "remind_later": "Remind Later",
+      "android_steps": {
+        "step1": "1. Tap the menu (3 dots) in Chrome",
+        "step2": "2. Select \"Add to Home Screen\"",
+        "step3": "3. Tap \"Add\" to confirm"
+      },
+      "android_title": "Install on Android:",
+      "close": "Close",
+      "desktop_steps": {
+        "step1": "1. Click the install icon in the address bar",
+        "step2": "2. Click \"Install\" in the popup",
+        "step3": "3. The application will appear in your applications menu"
+      },
+      "desktop_title": "Install on Desktop:",
+      "dismiss": "Dismiss",
+      "maybe_later": "Maybe later"
     },
     "button": {
       "install_app": "Install App",
@@ -2014,7 +3143,58 @@
       "continue_browser": "Stay Here"
     },
     "minimal_reminder": "Get a better experience with our app!",
-    "open": "Open App"
+    "open": "Open App",
+    "benefits": {
+      "exclusive_deals": "🔔 Exclusive deals alerts",
+      "lightning_fast": "⚡ Lightning fast loading",
+      "one_tap": "✨ One-tap access from home screen",
+      "save_favorites": "❤️ Save your favorites offline"
+    },
+    "features": {
+      "fast_loading": "Fast Loading",
+      "home_screen_access": "Home Screen Access",
+      "offline_browsing": "Offline Browsing",
+      "push_notifications": "Push Notifications"
+    },
+    "install": {
+      "button": "Install App",
+      "failed": "App installation failed",
+      "not_supported": "Installation not supported on this device",
+      "success": "App installed successfully!"
+    },
+    "notifications": {
+      "permission": {
+        "allow": "Allow",
+        "deny": "Deny",
+        "message": "Stay informed about new offers and updates",
+        "title": "Enable Notifications"
+      },
+      "welcome": {
+        "body": "Discover our Moroccan fashion collection",
+        "title": "Welcome to Beldify!"
+      }
+    },
+    "offline": {
+      "message": "Some features may be limited",
+      "retry": "Retry",
+      "title": "You are offline"
+    },
+    "share": {
+      "text": "Discover Beldify - The best Moroccan fashion platform!",
+      "title": "Share Beldify"
+    },
+    "shortcuts": {
+      "cart": "Cart",
+      "orders": "Orders",
+      "profile": "Profile",
+      "shop": "Shop"
+    },
+    "update": {
+      "available": "Update Available",
+      "install": "Install Update",
+      "later": "Later"
+    },
+    "app_icon_alt": "App icon"
   },
   "brand": {
     "name": "Beldify",
@@ -2037,6 +3217,18 @@
     }
   },
   "openSouk": {
+    "browseCta": "Browse open requests",
+    "flowPostTitle": "Post your request",
+    "flowPostBody": "Describe the piece you want — title, budget, photos.",
+    "flowBidsTitle": "Ateliers come to you",
+    "flowBidsBody": "Tetouani workshops send offers with price and timing.",
+    "flowChooseTitle": "Choose & order",
+    "flowChooseBody": "Compare offers, pick your atelier, and it's made for you.",
+    "nudgeTitle": "Can't find what you're looking for?",
+    "nudgeBody": "Don't settle for what's in stock. Post a request and let Morocco's ateliers make exactly what you want.",
+    "nudgeCta": "Browse requests & post yours",
+    "nudgeDismiss": "Keep browsing",
+    "nudgeCategoryHint": "Looking for something in {{category}}?",
     "brand": "Open Souk",
     "eyebrow": "OPEN SOUK",
     "headline": "Post your brief. Ateliers come to you.",
@@ -2052,17 +3244,44 @@
     "helperStep3": "Add reference photos so ateliers know what you want",
     "helperStep4": "Set your timeline",
     "helperStep5": "Publish and ateliers will message you with offers",
-    "helperTip": "Tip: the more detail you give, the better the offers you'll receive."
+    "helperTip": "Tip: the more detail you give, the better the offers you'll receive.",
+    "budgetMax": "Max budget",
+    "budgetMin": "Min budget",
+    "budgetRange": "Budget range",
+    "filters": "Filters",
+    "proposals": "Proposals",
+    "searchPlaceholder": "Search requests...",
+    "skills": "Skills",
+    "sortBy": "Sort by",
+    "feedError": "Could not load requests",
+    "sort": {
+      "budgetAsc": "Budget: Low → High",
+      "budgetDesc": "Budget: High → Low",
+      "latest": "Latest",
+      "oldest": "Oldest"
+    },
+    "previewLabel": "Your request",
+    "previewItem": "Custom embroidered caftan",
+    "previewBudgetLabel": "Budget",
+    "previewDaysShort": "d",
+    "previewReplied": "{{n}} ateliers replied",
+    "trustFree": "Free to post",
+    "trustNoCommitment": "No commitment",
+    "trustCod": "Cash on delivery",
+    "previewBestOffer": "Best offer"
   },
   "catalog": {
     "categories": {
       "eyebrow": "Browse",
       "headline": "The souk, room by room.",
-      "error_description": "We couldn't load the categories. Please try again."
+      "error_description": "We couldn't load the categories. Please try again.",
+      "filter_by_gender": "Filter by gender",
+      "subheadline": "Kaftans, djellabas and bespoke tailoring — curated by heritage, gender and craft."
     },
     "products": {
       "eyebrow": "Marketplace",
-      "headline": "The Beldify catalog."
+      "headline": "The Beldify catalog.",
+      "subheading": "Handcrafted pieces from Morocco's finest ateliers"
     },
     "pdp": {
       "breadcrumb_label": "Breadcrumb",
@@ -2070,6 +3289,10 @@
     },
     "product": {
       "out_of_stock": "Out of stock"
+    },
+    "search": {
+      "headline": "Search results",
+      "subheading": "Showing results for your search"
     }
   },
   "heroSlider": {
@@ -2091,7 +3314,13 @@
     "add_to_cart": "Add to Cart",
     "remove": "Remove from Wishlist",
     "items_count_one": "{{count}} item",
-    "items_count_other": "{{count}} items"
+    "items_count_other": "{{count}} items",
+    "add": "Add to wishlist",
+    "added": "Added to wishlist",
+    "added_success": "Saved to your wishlist",
+    "removed": "Removed from wishlist",
+    "save": "Save",
+    "saved": "Saved"
   },
   "account": {
     "wishlist": {
@@ -2170,7 +3399,8 @@
       "section15Title": "15. Termination",
       "section15p1": "We may terminate or suspend your account and access to our Services immediately, without prior notice or liability, for any reason, including, without limitation, if you breach these Terms. Upon termination, your right to use the Services will immediately cease.",
       "section16Title": "16. Contact Information",
-      "section16Intro": "If you have any questions about these Terms, please contact us at:"
+      "section16Intro": "If you have any questions about these Terms, please contact us at:",
+      "sellerTermsLink": "Seller Terms"
     },
     "tailors": {
       "eyebrow": "Professional Services",
@@ -2250,7 +3480,17 @@
       "locationLabel": "Location",
       "mobileCallLabel": "Call",
       "mobileWhatsAppLabel": "WhatsApp",
-      "mobileBookLabel": "Book Appointment"
+      "mobileBookLabel": "Book Appointment",
+      "service1Price": "1500 - 3000 MAD",
+      "service1Duration": "2-3 weeks",
+      "service2Price": "200 - 500 MAD",
+      "service2Duration": "2-5 days",
+      "service3Price": "5000+ MAD",
+      "service3Duration": "4-8 weeks",
+      "service4Price": "2000 - 4000 MAD",
+      "service4Duration": "3-4 weeks",
+      "monFriHours": "9:00 - 18:00",
+      "satHours": "10:00 - 16:00"
     }
   },
   "about": {
@@ -2418,7 +3658,10 @@
         "subjectRequired": "Subject is required",
         "messageRequired": "Message is required",
         "messageTooLong": "Message must be under 500 characters"
-      }
+      },
+      "phonePlaceholder": "+212 (0) 7 XX XX XX XX",
+      "rate_limited": "You've sent too many messages recently. Please wait a while before trying again.",
+      "error": "Something went wrong. Please try again or email us directly."
     }
   },
   "offline": {
@@ -2427,5 +3670,1848 @@
     "retry": "Try Again",
     "back": "Go Back",
     "footnote": "Once you're back online, all features will be available again."
+  },
+  "messages": {
+    "sign_in_required": "Sign in to view messages",
+    "sign_in_description": "Access your conversations with artisan ateliers.",
+    "sign_in": "Sign In",
+    "conversation": "Conversation",
+    "live": "Live",
+    "connecting": "Connecting…",
+    "offline": "Offline",
+    "all_conversations": "All conversations",
+    "no_messages_yet": "No messages yet",
+    "start_conversation_hint": "Start the conversation, say hello to the atelier.",
+    "type_a_message": "Type a message…",
+    "send": "Send",
+    "error_loading": "Failed to load conversation",
+    "error_sending": "Failed to send message",
+    "typing_aria": "The other person is typing"
+  },
+  "seller": {
+    "register": {
+      "title": "Become a Seller",
+      "subtitle": "Apply to join Beldify and sell your Moroccan crafts to buyers worldwide.",
+      "login_prompt_title": "Sign in to continue",
+      "login_prompt_body": "You need an account to apply as a seller. Sign in or create a free account first.",
+      "login_cta": "Sign in",
+      "register_cta": "Create account",
+      "form_title": "Tell us about your store",
+      "store_name_label": "Store name",
+      "store_name_placeholder": "Your atelier or business name",
+      "business_type_label": "Business type",
+      "business_type_individual": "Individual / Freelancer",
+      "business_type_company": "Registered company",
+      "business_type_cooperative": "Cooperative",
+      "country_label": "Country",
+      "contact_email_label": "Contact email",
+      "contact_email_placeholder": "contact@yourbusiness.com",
+      "contact_phone_label": "Contact phone",
+      "contact_phone_placeholder": "+212 6 00 00 00 00",
+      "description_label": "About your store",
+      "description_placeholder": "Describe your products, craftsmanship, and what makes your store unique...",
+      "logo_label": "Store logo",
+      "logo_hint": "JPG or PNG, max 2 MB",
+      "submit_cta": "Apply to sell",
+      "submitting": "Submitting...",
+      "pending_title": "Application received!",
+      "pending_body": "Your store application is under review. We will notify you by email within 3–5 business days once a decision is made.",
+      "pending_cta": "Back to home",
+      "dashboard_cta": "Go to seller dashboard",
+      "already_seller_title": "You already have a seller account",
+      "already_seller_body": "Access your seller dashboard to manage products, orders, and earnings.",
+      "error_generic": "Something went wrong. Please try again.",
+      "validation_business_type": "Please select a business type",
+      "validation_country": "Please select a country",
+      "benefit_global": "Global reach — sell to buyers worldwide",
+      "benefit_quality": "Curated platform for Moroccan craftsmanship",
+      "benefit_secure": "Secure payments and buyer protection",
+      "track_application_cta": "Track your application"
+    },
+    "onboarding": {
+      "eyebrow": "Seller Journey",
+      "title": "Your Seller Onboarding",
+      "subtitle": "Track your progress and complete each step to go live.",
+      "overall_progress": "Overall progress",
+      "profile_pct": "Profile",
+      "products_count": "Products",
+      "complete_profile_cta": "Complete profile",
+      "add_product_cta": "Add product",
+      "login_title": "Sign in to view your seller journey",
+      "login_body": "You need to be signed in to access the seller onboarding dashboard.",
+      "sign_in": "Sign in",
+      "not_started_title": "You haven't applied yet",
+      "not_started_body": "Apply to become a seller on Beldify and start your journey.",
+      "apply_cta": "Apply to sell",
+      "fetch_error": "Could not load onboarding status.",
+      "unknown_error": "An unknown error occurred.",
+      "status_active_title": "Your store is approved and live!",
+      "status_active_body": "Buyers can discover and purchase your products.",
+      "status_suspended_title": "Your store has been suspended",
+      "status_suspended_body": "Please contact support to resolve this.",
+      "status_pending_title": "Application under review",
+      "status_needs_details": "Please complete your profile to speed up the review.",
+      "status_pending_body": "We will notify you once a decision has been made."
+    },
+    "profile": {
+      "eyebrow": "Store Profile",
+      "title": "Complete your profile",
+      "login_title": "Sign in to edit your profile",
+      "sign_in": "Sign in",
+      "suspended_title": "Your store is suspended",
+      "suspended_body": "Please contact support to resolve this.",
+      "fetch_error": "Could not load your profile.",
+      "save_success": "Profile saved!",
+      "save_error": "Failed to save. Please try again.",
+      "validation_error": "Please check your input.",
+      "saving": "Saving...",
+      "save_cta": "Save profile",
+      "store_name_label": "Store name",
+      "store_name_placeholder": "Your store name",
+      "contact_email_label": "Contact email",
+      "contact_phone_label": "Phone",
+      "description_label": "Store description",
+      "description_placeholder": "Tell buyers about your store and what makes it special...",
+      "address_label": "Address",
+      "address_placeholder": "Street address",
+      "city_label": "City",
+      "country_label": "Country",
+      "logo_label": "Store logo",
+      "logo_hint": "JPG or PNG, max 2 MB",
+      "logo_preview_alt": "Store logo",
+      "banner_label": "Store banner",
+      "banner_hint": "Recommended 1440x400px",
+      "banner_preview_alt": "Store banner",
+      "shipping_policy_label": "Shipping policy",
+      "shipping_policy_placeholder": "How do you ship? Estimated delivery time...",
+      "return_policy_label": "Return policy",
+      "return_policy_placeholder": "What is your return and refund policy?",
+      "section_basic": "Basic info",
+      "section_location": "Location",
+      "section_images": "Images",
+      "section_policies": "Policies"
+    },
+    "product": {
+      "eyebrow": "Products",
+      "title": "Add a new product",
+      "login_title": "Sign in to add a product",
+      "sign_in": "Sign in",
+      "suspended_title": "Your store is suspended",
+      "suspended_body": "You cannot add products while your store is suspended. Please contact support.",
+      "create_success": "Product added!",
+      "create_error": "Failed to create product. Please try again.",
+      "validation_error": "Please check your input.",
+      "validation_name": "Product name (English) is required.",
+      "validation_category": "Please select a category.",
+      "validation_price": "Please enter a valid price.",
+      "validation_quantity": "Please enter a valid quantity.",
+      "submitting": "Submitting...",
+      "submit_cta": "Add product",
+      "name_en_label": "Product name (English)",
+      "name_en_placeholder": "e.g. Royal Moroccan Caftan",
+      "name_ar_label": "Product name (Arabic)",
+      "description_label": "Description",
+      "description_placeholder": "Describe your product...",
+      "description_ar_label": "Description (Arabic)",
+      "category_label": "Category",
+      "price_mad_label": "Price (MAD)",
+      "quantity_label": "Quantity",
+      "is_active_label": "List product as active (visible to buyers)",
+      "image_upload_hint": "Click to upload product image",
+      "image_hint_size": "JPG, PNG or WebP - max 5 MB",
+      "image_preview_alt": "Product preview",
+      "remove_image": "Remove image",
+      "section_info": "Product info",
+      "section_pricing": "Category & pricing",
+      "section_image": "Product image",
+      "edit_title": "Edit Product",
+      "edit_submit_cta": "Save changes",
+      "update_success": "Product updated successfully",
+      "update_error": "Could not update product. Please try again.",
+      "fetch_error": "Could not load product details.",
+      "not_found": "Product not found or you do not have permission to edit it.",
+      "suspended_error": "Your account is suspended. Contact support to resolve.",
+      "edit_eyebrow": "Inventory",
+      "section_attributes": "Product attributes",
+      "vertical_required": "{{field}} is required for this product type.",
+      "vertical_save_failed": "Product saved, but its custom attributes could not be saved. Edit the product to add them.",
+      "danger_zone": "Danger zone",
+      "delete_confirm_prompt": "Are you sure?",
+      "delete_confirm_yes": "Yes, delete",
+      "delete_cta": "Delete product",
+      "delete_error": "Failed to delete product. Please try again.",
+      "delete_success": "Product deleted.",
+      "delete_warning": "Deleting this product is permanent and cannot be undone.",
+      "deleting": "Deleting...",
+      "load_error": "Could not load product. Please try again."
+    },
+    "products": {
+      "edit_aria": "Edit {{name}}",
+      "add_first_product": "Add your first product",
+      "add_product": "Add product",
+      "back_to_list": "Back to products",
+      "col_name": "Product",
+      "col_price": "Price (MAD)",
+      "col_status": "Status",
+      "col_stock": "Stock",
+      "eyebrow": "Inventory",
+      "fetch_error": "Could not load products.",
+      "no_products": "No products yet",
+      "no_products_sub": "Add your first product to start selling.",
+      "status_active": "Active",
+      "status_inactive": "Inactive",
+      "title": "My Products"
+    },
+    "store_settings": {
+      "profile_section_title": "Store Profile",
+      "profile_section_desc": "Update your public store information.",
+      "label_name": "Store name",
+      "label_email": "Business email",
+      "label_description": "Store description",
+      "label_phone": "Phone number",
+      "label_address": "Address",
+      "save_cta": "Save profile",
+      "saving": "Saving…",
+      "saved_indicator": "Saved",
+      "save_success": "Store profile saved",
+      "save_error": "Could not save profile. Please try again.",
+      "validation_error": "Please fix the errors below and try again.",
+      "fetch_error": "Could not load store profile.",
+      "address_label": "Address",
+      "address_placeholder": "Street, city, country",
+      "current_badge": "Current",
+      "description_label": "Store description",
+      "description_placeholder": "Tell buyers about your store...",
+      "email_label": "Contact email",
+      "eyebrow": "Store Settings",
+      "fields_for_vertical": "Fields for this vertical",
+      "name_label": "Store name",
+      "name_placeholder": "e.g. Atlas Bijoux",
+      "phone_label": "Phone number",
+      "profile_saved": "Store profile saved!",
+      "profile_section": "Store information",
+      "saved": "Saved",
+      "title": "Store profile",
+      "vertical_legend": "Store vertical",
+      "vertical_save_error": "Failed to update store type. Please try again.",
+      "vertical_saved": "Store type updated!",
+      "vertical_section": "Store type",
+      "verticals": {
+        "regular": "Regular Store",
+        "regular_desc": "Sell ready-made products. No custom order configuration.",
+        "jewelry": "Jewelry",
+        "jewelry_desc": "Sell ready-made and custom-made jewelry pieces with material, purity, gemstone and finish fields.",
+        "new_badge": "New",
+        "menswear": "Men's Clothing",
+        "menswear_desc": "Ready-made and made-to-order menswear with measurements and fabric selection.",
+        "womenswear": "Women's Clothing",
+        "womenswear_desc": "Ready-made and made-to-order womenswear with measurements and fabric selection.",
+        "tailor": "Tailor Store",
+        "tailor_desc": "Full tailoring service with measurements, fabric catalog, and custom orders."
+      }
+    },
+    "nav": {
+      "messages": "Messages",
+      "aria_label": "Seller navigation",
+      "custom_orders": "Custom Orders",
+      "dashboard": "Dashboard",
+      "earnings": "Earnings",
+      "mobile_aria_label": "Seller navigation mobile",
+      "orders": "Orders",
+      "products": "Products",
+      "profile": "Profile",
+      "store_settings": "Store Settings",
+      "payouts": "Payouts"
+    },
+    "messages": {
+      "eyebrow": "Seller Hub",
+      "title": "Messages",
+      "subtitle": "Conversations with your buyers",
+      "search_placeholder": "Search conversations…",
+      "list_heading": "Recent conversations",
+      "empty_title": "No messages yet",
+      "empty_body": "When buyers contact you, their messages will appear here.",
+      "no_preview": "No messages",
+      "no_search_results": "Try a different search term.",
+      "error_title": "Could not load messages",
+      "error_body": "Check your connection and try again.",
+      "error_loading": "Failed to load conversation.",
+      "error_sending": "Failed to send message. Please try again.",
+      "not_found_title": "Conversation not found",
+      "not_found_body": "This conversation does not exist or you do not have access to it.",
+      "back_to_messages": "Back to messages",
+      "load_older": "Load older messages",
+      "thread_aria": "Message thread",
+      "no_messages_title": "No messages yet",
+      "no_messages_body": "Start the conversation below.",
+      "type_message": "Type a message…",
+      "send": "Send",
+      "buyer": "Buyer"
+    },
+    "dashboard": {
+      "no_orders": "No orders yet — share your store to get started!",
+      "add_first_product_cta": "Add your first product",
+      "earnings_error": "Could not load earnings data.",
+      "eyebrow": "Seller Hub",
+      "title": "Dashboard",
+      "kpi_gross": "Gross Revenue",
+      "kpi_net": "Net Revenue",
+      "kpi_orders": "Orders",
+      "kpi_commission": "Commission",
+      "recent_orders": "Recent Orders",
+      "view_all_orders": "View all orders"
+    },
+    "earnings": {
+      "breakdown_heading": "Financial breakdown",
+      "chart_heading": "Revenue by day",
+      "chart_sub": "Showing last ${earnings.period} days in ${earnings.currency}",
+      "commission": "Platform commission",
+      "eyebrow": "Seller Hub",
+      "fetch_error": "Could not load earnings data.",
+      "gross": "Gross revenue",
+      "kpi_commission": "Commission paid",
+      "kpi_gross": "Gross Revenue",
+      "kpi_net": "Net Revenue",
+      "kpi_orders": "Orders",
+      "net": "Net revenue",
+      "title": "Earnings",
+      "no_daily_data": "No daily data available",
+      "chart_aria": "Earnings chart by day",
+      "request_payout_cta": "Request a payout"
+    },
+    "layout": {
+      "become_seller_cta": "Become a seller",
+      "credit_chip_aria": "AI Credits balance",
+      "hub_label": "Seller Hub",
+      "not_seller_title": "You are not a seller yet",
+      "storefront_link": "← Back to storefront"
+    },
+    "order_detail": {
+      "back": "Orders",
+      "col_product": "Product",
+      "col_qty": "Qty",
+      "col_total": "Total",
+      "col_unit": "Unit",
+      "col_variant": "Variant",
+      "commission": "Commission (${order.commission_rate}%)",
+      "customer_heading": "Customer",
+      "eyebrow": "Order Detail",
+      "fetch_error": "Could not load order.",
+      "financials_heading": "Summary",
+      "items_heading": "Items",
+      "net": "Net to you",
+      "shipping_heading": "Shipping address",
+      "status_updated": "Order status updated",
+      "subtotal": "Subtotal",
+      "suspended_error": "Your store is suspended — cannot update orders.",
+      "update_btn": "Update status",
+      "update_error": "Failed to update order status.",
+      "update_status_label": "Update order status",
+      "updating": "Updating…"
+    },
+    "orders": {
+      "col_customer": "Customer",
+      "col_items": "Items",
+      "col_number": "Order",
+      "col_status": "Status",
+      "col_total": "Total",
+      "eyebrow": "Seller Hub",
+      "filter_label": "Filter by status",
+      "next_page": "Next page",
+      "no_orders": "No orders yet",
+      "no_orders_sub": "Orders will appear here once customers purchase from your store.",
+      "pagination_info": "Page ${meta.current_page} of ${meta.last_page} — ${meta.total} orders",
+      "prev_page": "Previous page",
+      "title": "Orders"
+    },
+    "onboarding_banner": {
+      "active": "Store active and live",
+      "view_journey": "View journey",
+      "pending": "Application under review",
+      "progress": "Complete your store setup — {{pct}}% done",
+      "finish_hint": "Finish your profile to unlock all features and start selling."
+    },
+    "quote": {
+      "error_amount": "Quote amount is required and must be > 0",
+      "error_deposit": "Deposit must be between 0 and quote amount",
+      "error_eta": "ETA must be a future date",
+      "error_submit": "Failed to submit quote. Please try again.",
+      "section_title": "Send a Quote",
+      "amount_label": "Quote Amount (MAD)",
+      "deposit_label": "Deposit (MAD)",
+      "eta_label": "Estimated Delivery Date (ETA)",
+      "sending": "Sending…",
+      "send_cta": "Send Quote"
+    },
+    "ai_image": {
+      "section_title": "Generate with AI",
+      "pick_source": "Select a source image",
+      "pick_style": "Choose a style",
+      "style_studio": "Studio",
+      "style_lifestyle": "Lifestyle",
+      "style_white_bg": "White background",
+      "generate_cta": "Generate with AI",
+      "generating": "Generating…",
+      "progress_label": "Generation progress",
+      "generating_note": "This usually takes 20–60 seconds",
+      "timeout": "Processing timed out.",
+      "error_generic": "Generation failed.",
+      "success": "Image generated and added to your product!",
+      "generate_another": "Generate another",
+      "thumbnail_alt": "Product image",
+      "select_image_n": "Select image {{n}}"
+    }
+  },
+  "security": {
+    "change_password": "Change password",
+    "confirm_password": "Confirm new password",
+    "current_password": "Current password",
+    "error_message": "Failed to update password. Please check your current password and try again.",
+    "new_password": "New password",
+    "password_help": "Use at least 8 characters with a mix of letters, numbers, and symbols for a strong password.",
+    "password_mismatch": "Passwords do not match.",
+    "success_message": "Password updated successfully.",
+    "update_password": "Update password",
+    "updating": "Updating…"
+  },
+  "error": {
+    "body": "Sorry, something went wrong while loading this page. You can try again or go back to the home page.",
+    "contactUs": "Contact support",
+    "digest": "Error code",
+    "eyebrow": "An error occurred",
+    "general": "Something went wrong",
+    "goHome": "Go to home page",
+    "headline": "Unexpected error",
+    "persistsPrefix": "If the problem persists,",
+    "retry": "Try again"
+  },
+  "search": {
+    "browse_all_products": "Browse all products",
+    "no_results_for": "No results for \"{{query}}\"",
+    "no_results_title": "Nothing found",
+    "did_you_mean": "Did you mean",
+    "open_souk_matches": "People are looking for this too",
+    "open_souk_responses": "{{count}} offers",
+    "popular_searches": "Popular searches",
+    "tip_1": "Check the spelling",
+    "tip_2": "Try more general terms",
+    "tip_3": "Browse categories below",
+    "try_these_tips": "Try these tips"
+  },
+  "nav": {
+    "announcement": "Free delivery on orders over 500 MAD",
+    "breadcrumb": "Breadcrumb",
+    "browse": "Browse",
+    "cart": "Cart",
+    "home": "Home",
+    "search": "Search",
+    "search_placeholder": "Search for kaftans, djellabas…",
+    "jewelry": "Jewelry",
+    "tailoring": "Tailoring",
+    "journal": "Journal"
+  },
+  "bespoke": {
+    "body": "Every stitch made to your exact measurements. Our artisans craft your garment from scratch — your fabric, your fit, your story.",
+    "cta": "Start your bespoke order",
+    "eyebrow": "Made to measure",
+    "headline": "Your garment, your way."
+  },
+  "genders": {
+    "children": "Children",
+    "men": "Men",
+    "women": "Women"
+  },
+  "tabs": {
+    "general": "General",
+    "preferences": "Preferences",
+    "security": "Security",
+    "addresses": "Addresses"
+  },
+  "trust": {
+    "authentic": "100% authentic craftsmanship",
+    "returns": "Easy 14-day returns",
+    "ships": "Ships across Morocco"
+  },
+  "ai": {
+    "credits_unit": "credits",
+    "generate_listing": "Generate with AI",
+    "auto_translate": "Auto-translate",
+    "generate_store": "Generate with AI",
+    "marketing_copy": "Marketing copy",
+    "review_title": "AI generated — review before applying",
+    "review_name_en": "Name (English)",
+    "review_name_ar": "Name (Arabic)",
+    "review_desc_en": "Description (English)",
+    "apply": "Apply",
+    "discard": "Discard",
+    "generate_error": "AI generation failed. Credits were not charged.",
+    "translate_success": "Fields translated successfully.",
+    "translate_error": "Translation failed. Credits were not charged.",
+    "marketing_error": "Marketing copy generation failed. Credits were not charged.",
+    "marketing_eyebrow": "AI Marketing",
+    "marketing_sheet_title": "Marketing copy",
+    "whatsapp_label": "WhatsApp message",
+    "social_caption_label": "Social caption",
+    "product_url_label": "Product link",
+    "copy_whatsapp": "Copy WhatsApp message",
+    "copy_social": "Copy social caption",
+    "copy_url": "Copy product link",
+    "copied": "Copied!",
+    "copy_failed": "Could not copy to clipboard.",
+    "store_gen_section": "AI generation inputs (optional)",
+    "what_you_sell": "What do you sell?",
+    "what_you_sell_placeholder": "e.g. handmade jewelry",
+    "city": "City",
+    "city_placeholder": "e.g. Marrakech",
+    "style": "Style",
+    "style_placeholder": "e.g. traditional",
+    "store_results_title": "AI generated store content",
+    "name_ideas": "Name ideas",
+    "slogan": "Slogan",
+    "description": "Description",
+    "copy_name": "Copy {{name}}",
+    "copy_slogan": "Copy slogan",
+    "copy_description": "Copy description",
+    "applied": "Applied to store description.",
+    "apply_description": "Apply to description",
+    "chip": {
+      "suggestedMeasurements": "AI suggested measurements"
+    }
+  },
+  "pdp": {
+    "aiStyling": "AI styled for you",
+    "artisanMade": "Artisan made",
+    "complete_the_look": "Complete the look",
+    "trustedArtisan": "Verified artisan seller",
+    "howToBuy": {
+      "cod_note": "Cash on delivery — no bank card needed",
+      "title": "How to buy?",
+      "trigger": "How to buy?"
+    }
+  },
+  "actions": {
+    "close": "Close",
+    "save_changes": "Save changes"
+  },
+  "common:actions": {
+    "save_changes": "Save changes"
+  },
+  "home": {
+    "topCategories": "Top categories",
+    "hero": {
+      "eyebrow": "Authentic Moroccan craftsmanship",
+      "subtitle": "Worn for centuries. Made for today.",
+      "etymology": "beldi (بلدي) — local, artisan, of the country",
+      "description": "Caftans, djellabas, and bespoke tailoring from Morocco's finest ateliers — delivered worldwide.",
+      "cta_shop": "Shop the marketplace",
+      "cta_tailors": "Meet the tailors",
+      "search_label": "Search the marketplace",
+      "search_placeholder": "Search caftans, djellabas…",
+      "search_btn": "Search",
+      "discovery_chip": "Smart discovery — find your style",
+      "ai_chip": "AI styled for you",
+      "carousel_prev": "Previous slide",
+      "carousel_next": "Next slide",
+      "section_label": "Hero",
+      "art_slide1_headline": "Free delivery over 500 MAD",
+      "art_slide1_subline": "Caftans and djellabas from trusted Moroccan ateliers",
+      "art_slide1_cta": "Shop now",
+      "art_slide2_headline": "Tailored to your measurements",
+      "art_slide2_subline": "Choose your atelier, send your measurements, receive your piece at home",
+      "art_slide2_cta": "Start a tailoring order",
+      "art_slide3_headline": "Open Souk — post your brief and let ateliers compete",
+      "art_slide3_subline": "Our artisans compete for your project",
+      "art_slide3_cta": "Post a brief now"
+    },
+    "trust": {
+      "verified_sellers": "Verified sellers",
+      "secure_payments": "Secure payments",
+      "returns": "14-day returns",
+      "support": "Support in AR / FR / EN",
+      "label": "Why shop with Beldify",
+      "free_delivery": "Free delivery +500 MAD",
+      "delivery_sub": "In major cities in 48 hours",
+      "returns_sub": "No fees, no hassle",
+      "sellers_sub": "Workshops inspected one by one",
+      "support_sub": "WhatsApp, phone, email"
+    },
+    "categories": {
+      "title": "Shop the souk",
+      "subtitle": "Browse the souk",
+      "viewAll": "All categories",
+      "empty": "Categories will appear here once the catalogue is live.",
+      "rail_label": "Browse categories",
+      "products_count": "{{count}} products",
+      "sub_chips_more": "+{{n}} more",
+      "shop_all": "Shop all {{name}}",
+      "sub_chips_label": "Sub-categories"
+    },
+    "offers": {
+      "editorial_title": "Traditional Elegance",
+      "editorial_description": "Our finest ready-to-wear Moroccan creations — seasonal caftans and djellabas.",
+      "cta_shop_collection": "Shop the collection",
+      "cta_explore": "Explore now",
+      "festive_title": "Occasions Collection",
+      "festive_description": "Kaftans and takchitas for weddings and special occasions, hand-embroidered with love.",
+      "cta_explore_aria": "Explore festive collection"
+    },
+    "tailoring": {
+      "headline": "Want it tailored to you?",
+      "description": "Match with a Moroccan tailor, send your measurements, and receive a fitted piece in 2–4 weeks.",
+      "cta": "Start a tailoring order",
+      "step1_title": "Pick your tailor",
+      "step1_detail": "Browse verified ateliers across Tetouan, Fez, Casablanca.",
+      "step2_title": "Send measurements",
+      "step2_detail": "Use our guided form or upload an existing pattern.",
+      "step3_title": "Receive your piece",
+      "step3_detail": "Hand-finished and shipped to your door in 2–4 weeks.",
+      "badge_ar": "خياطة على القياس",
+      "steps_label": "How tailoring works"
+    },
+    "ateliers": {
+      "subtitle": "Curated ateliers",
+      "view_all": "All ateliers",
+      "headingAr": "ورشات مختارة"
+    },
+    "journal": {
+      "subtitle": "Stories from the atelier",
+      "view_all": "All stories",
+      "read_time_suffix": "read",
+      "headingAr": "المجلة",
+      "article1_title": "Inside a Fez brocade atelier",
+      "article1_excerpt": "How fourth-generation weavers in Fez still hand-thread gold into festival caftans.",
+      "article1_tag": "Craft",
+      "article2_title": "A takchita built in 3 fittings",
+      "article2_excerpt": "Following one bride from sketch to ceremony with Maison Marrakech.",
+      "article2_tag": "Wedding",
+      "article3_title": "Sizing a djellaba, the Moroccan way",
+      "article3_excerpt": "A field guide to measurements that travel — with no tape measure surprises.",
+      "article3_tag": "Heritage"
+    },
+    "seller": {
+      "headline_line1": "Sell your craft.",
+      "headline_line2": "Reach Morocco and beyond.",
+      "description": "Beldify gives Tetouani ateliers and independent artisans a professional storefront with AI-assisted listings, order management, and direct buyer messaging.",
+      "cta": "Open your boutique",
+      "ai_chip": "AI-assisted listings",
+      "stat_range_label": "Typical listing range",
+      "stat_sellers_label": "Active sellers",
+      "stat_protection_label": "Buyer protection",
+      "stat_sellers_value": "Growing",
+      "stat_range_value": "299–5,999 MAD",
+      "stat_range_hint": "What sellers typically charge",
+      "stat_protection_value": "14-day"
+    },
+    "openSouk": {
+      "eyebrow": "Live now",
+      "title": "Latest open requests",
+      "headingAr": "أحدث الطلبات",
+      "subtitle": "Open briefs waiting for offers — be the first to respond",
+      "postCta": "Post your brief",
+      "browseCta": "Browse the souk",
+      "emptyCta": "Be the first to post a brief",
+      "emptyBody": "No open briefs yet. Be the first to post one and let ateliers come to you.",
+      "exampleChip": "Example",
+      "exampleBudgetLabel": "Budget",
+      "exampleTitle1": "Wedding kaftan",
+      "exampleBudget1": "2,000 – 4,000 MAD",
+      "exampleTag1": "Women",
+      "exampleTitle2": "Men's wool djellaba",
+      "exampleBudget2": "800 – 1,200 MAD",
+      "exampleTag2": "Men",
+      "exampleTitle3": "Custom-fit takchita",
+      "exampleBudget3": "3,000 – 5,000 MAD",
+      "exampleTag3": "Women"
+    },
+    "marquee": {
+      "free_delivery": "Free delivery on orders over 500 MAD",
+      "returns": "14-day free returns",
+      "cod": "Cash on delivery available",
+      "support": "Support in Arabic, French & English"
+    },
+    "occasion": {
+      "title": "Shop by occasion",
+      "subtitle": "The right piece for every moment",
+      "cta": "Shop now",
+      "wedding": "Wedding",
+      "weddingDesc": "Caftans, takchitas & bridal gowns",
+      "eid": "Eid",
+      "eidDesc": "Festive looks for the whole family",
+      "summer": "Summer",
+      "summerDesc": "Lightweight djellabas & breezy sets",
+      "gifts": "Gifts",
+      "giftsDesc": "Jewelry & finds they'll love"
+    },
+    "zones": {
+      "wedding": "Weddings & occasions",
+      "jewelry": "Jewellery world",
+      "cta": "Discover"
+    },
+    "recentlyViewed": {
+      "title": "Recently viewed",
+      "subtitle": "Items you looked at"
+    },
+    "followedShops": {
+      "title": "From shops you follow",
+      "subtitle": "New arrivals from ateliers you saved",
+      "empty": "Nothing new from your followed shops yet",
+      "loginPrompt": "Sign in to see new arrivals from ateliers you follow"
+    }
+  },
+  "journal": {
+    "from_the_journal": "From the journal"
+  },
+  "page": {
+    "loading": "Loading…"
+  },
+  "roles": {
+    "vip": "VIP"
+  },
+  "shop": {
+    "about_heading": "Inside {{name}}",
+    "all_reviews": "Read all {{count}} reviews",
+    "atelier_image_alt": "Atelier interior {{n}}",
+    "bespoke_heading": "Have something specific in mind?",
+    "bespoke_sub": "Commission a custom piece tailored exactly to your measurements and vision, crafted with ancestral techniques.",
+    "cover_alt": "Atelier cover — {{name}}",
+    "discover_more": "Discover more ateliers",
+    "featured": "Featured",
+    "five_stars": "5 stars",
+    "load_more": "Load more",
+    "message_atelier": "Message the atelier",
+    "no_image": "No image",
+    "no_products_found": "No products found in this category.",
+    "no_reviews_sub": "Be the first to share your experience with this atelier.",
+    "no_reviews_title": "No reviews yet",
+    "reviews_heading": "Voices from our shoppers",
+    "shop_image": "Shop image",
+    "sort": {
+      "featured": "Featured",
+      "newest": "Newest",
+      "price_asc": "Price: low to high",
+      "price_desc": "Price: high to low"
+    },
+    "sort_label": "Sort products",
+    "stats": {
+      "no_reviews": "No reviews yet",
+      "products": "Products",
+      "response": "Response",
+      "response_value": "Fast",
+      "reviews": "{{count}} reviews",
+      "years": "Years on Beldify"
+    },
+    "step1_desc": "Share your dimensions and design vision via direct message.",
+    "step1_title": "Send measurements",
+    "step2_desc": "Review fabric swatches and finalise the bespoke details.",
+    "step2_title": "Confirm design",
+    "step3_desc": "Your piece is hand-stitched and delivered worldwide in 3–4 weeks.",
+    "step3_title": "Hand delivered",
+    "suspended": "Suspended",
+    "tabs_label": "Product categories",
+    "tagline_default": "Hand-stitched caftans & traditional men's wear",
+    "verified": "Verified by Beldify",
+    "visit": "Visit shop",
+    "city": {
+      "default": "Morocco"
+    },
+    "staticAteliers": {
+      "maisonMarrakech": {
+        "subtitle": "Contemporary Kaftans · Marrakech"
+      },
+      "artisanDuCuir": {
+        "subtitle": "Fine Leather Goods · Fez"
+      },
+      "zelligeStudio": {
+        "subtitle": "Handcrafted Silver · Essaouira"
+      },
+      "atlasWeavers": {
+        "subtitle": "Berber Textiles · Atlas Mts"
+      }
+    },
+    "description": {
+      "fallback": "This atelier brings the finest Moroccan craftsmanship directly to you. Each piece is hand-stitched with care and precision."
+    },
+    "staticReviews": {
+      "0": {
+        "text": "The craftsmanship is breathtaking. I ordered a caftan for my wedding, and the hand-stitching is flawless. Truly a piece of art."
+      },
+      "1": {
+        "text": "Incredible quality on the djellaba. The wool is soft yet structured, and the details are impeccable. The reputation is well-deserved."
+      },
+      "2": {
+        "text": "Their bespoke service was a dream. They guided me through fabric choices and measurements via message, and the final piece fits perfectly."
+      }
+    },
+    "toast": {
+      "loginToFollow": "Please login to follow this shop",
+      "actionFailed": "Action failed",
+      "authError": "Authentication error. Please login again",
+      "followSuccess": "Successfully {{action}} shop",
+      "genericError": "An error occurred"
+    },
+    "default_name": "Atelier Fassi",
+    "follow": {
+      "hint": "Follow {{shop}} to see new pieces first.",
+      "hint_ar": "تابِع {{shop}} لترى القطع الجديدة أولاً.",
+      "label": "Follow {{shop}}",
+      "label_ar": "تابِع المتجر",
+      "following": "Following",
+      "following_ar": "تتابِع"
+    },
+    "reviews_aggregate": "{{count}} verified reviews",
+    "reviews_aggregate_sub": "Ratings are collected from verified buyers after delivery."
+  },
+  "tailoring": {
+    "booking": {
+      "error": "Booking failed. Please try again.",
+      "success": "Booking confirmed! Your tailor will be in touch.",
+      "book_now": "Book now",
+      "choose_service": "Choose service",
+      "confirm": "Confirm",
+      "confirm_message": "Do you want to confirm your appointment with",
+      "confirm_title": "Confirm booking",
+      "select_date": "Select date",
+      "select_service": "Select service",
+      "select_time": "Select time",
+      "title": "Book appointment",
+      "slots_load_error": "Failed to load time slots"
+    },
+    "eyebrow": "BESPOKE",
+    "finalCta": {
+      "cta": "Start a tailoring order",
+      "headline": "Ready for something made just for you?",
+      "sub": "Browse our tailors, share your measurements, and receive a hand-finished piece in 2–4 weeks."
+    },
+    "gallery": {
+      "title": "Crafted in Morocco",
+      "alt": {
+        "0": "Men's traditional djellaba atelier",
+        "1": "Hand-embroidered caftan detail",
+        "2": "Wedding takchita in progress",
+        "3": "Brocade weaving, Fez atelier"
+      }
+    },
+    "headline": "Tailored to you,",
+    "headlineLine2": "by hand.",
+    "heroCta": "Start a tailoring order",
+    "heroImageAlt": "Hand-embroidered caftan detail, Moroccan atelier",
+    "howItWorks": {
+      "intro": "Three steps from your measurements to a hand-finished Moroccan piece.",
+      "title": "How it works"
+    },
+    "measurements": {
+      "addToCart": "Add to cart",
+      "breadcrumb": "Measurements",
+      "breadcrumbHome": "Home",
+      "breadcrumbLabel": "Breadcrumb",
+      "breadcrumbTailoring": "Tailoring",
+      "eg": "e.g.",
+      "eyebrow": "BESPOKE FIT",
+      "formTitle": "Your measurements",
+      "guideHint": "Use a flexible tape measure. Keep the tape straight and parallel to the floor when taking circumference measurements.",
+      "guideTitle": "Measurement guide",
+      "notes": "Additional notes",
+      "notesPlaceholder": "Any specific preferences about cut or fit?",
+      "optional": "optional",
+      "saveMeasurements": "Save measurements",
+      "subtitle": "Enter your measurements precisely for a perfect fit. Follow the visual guide for each measurement.",
+      "title": "Custom kaftan measurements",
+      "unitCm": "cm",
+      "unitCmLabel": "Centimeters",
+      "unitIn": "in",
+      "unitInLabel": "Inches",
+      "unitToggleLabel": "Measurement unit",
+      "chest": "Chest",
+      "diagramChest": "Chest",
+      "diagramHips": "Hips",
+      "diagramLength": "Length",
+      "diagramWaist": "Waist",
+      "hips": "Hips",
+      "length": "Length",
+      "saveError": "Could not save measurements",
+      "saved": "Measurements saved",
+      "waist": "Waist"
+    },
+    "profile": {
+      "not_found": "This tailor profile could not be found.",
+      "about": "About",
+      "portfolio": "Portfolio",
+      "reviews": "Reviews",
+      "specialties": "Specialties",
+      "load_error": "Failed to load tailor data",
+      "portfolio_image_alt": "Portfolio {{index}}",
+      "bio": "With over 15 years of experience in traditional Moroccan tailoring, I specialize in creating custom garments that blend traditional craftsmanship with modern style",
+      "no_reviews": "No reviews yet"
+    },
+    "stepsCta": "Start a tailoring order",
+    "sub": "Our 120+ verified ateliers create bespoke Moroccan garments to your exact measurements — shipped anywhere in the world. No fitting room required.",
+    "services": {
+      "alterations": {
+        "price": "Starting from 49 MAD",
+        "title": "Alterations",
+        "duration": "1 hour",
+        "description": "Professional clothing alterations for the perfect fit"
+      },
+      "custom_suits": {
+        "price": "Starting from 599 MAD",
+        "title": "Custom suits",
+        "duration": "2-3 hours",
+        "description": "Professionally crafted suits tailored to your exact measurements"
+      },
+      "traditional": {
+        "description": "Custom traditional Moroccan clothing with modern touches",
+        "price": "Starting from 299 MAD",
+        "title": "Traditional Clothing"
+      }
+    },
+    "tailors": {
+      "reviews": "Rating",
+      "years": "Year",
+      "availability": {
+        "available": "Book Appointment",
+        "busy": "Join Waitlist",
+        "unavailable": "Unavailable"
+      },
+      "description": "Connect with our experienced tailors to meet your custom clothing needs",
+      "experience": "Experience",
+      "title": "Our Professional Tailors"
+    },
+    "reviews": {
+      "mock": {
+        "1": {
+          "comment": "Excellent craftsmanship! My wedding suit was perfect.",
+          "service": "Custom Suit"
+        },
+        "2": {
+          "comment": "Great attention to detail. Very professional service.",
+          "service": "Alterations"
+        }
+      }
+    },
+    "book_appointment": "Book Appointment",
+    "filters": {
+      "all_locations": "All Locations",
+      "all_specialties": "All Specialties"
+    },
+    "page_description": "Experience the perfect fit with our specialized tailoring services",
+    "page_title": "Custom Tailoring Services",
+    "why_choose_us": {
+      "features": {
+        "craftsmanship": {
+          "description": "Years of expertise in fine tailoring",
+          "title": "Expert Craftsmanship"
+        },
+        "guarantee": {
+          "description": "Adjustments until you're completely satisfied",
+          "title": "Perfect Fit Guarantee"
+        },
+        "materials": {
+          "description": "Finest fabrics from around the world",
+          "title": "Premium Materials"
+        }
+      },
+      "title": "Why Choose Our Tailoring Services"
+    }
+  },
+  "sellers": {
+    "commission": {
+      "body": "No setup fee. No monthly subscription. No listing fee. You only pay Beldify when you make a sale — and we publish the exact rates by category on our seller help page.",
+      "cta": "Apply to sell",
+      "headline": "10–15% commission. Nothing else."
+    },
+    "cta": {
+      "apply": "Apply to sell",
+      "browse": "Browse sellers"
+    },
+    "finalCta": {
+      "cta": "Apply to sell",
+      "headline": "Ready to grow your atelier?",
+      "sub": "Applications are reviewed within 3–5 days. Join 120+ verified sellers and start reaching buyers worldwide."
+    },
+    "headline": "Bring your atelier",
+    "headlineLine2": "to the world.",
+    "howItWorks": {
+      "sub": "From first application to your first sale, we guide you through every step.",
+      "title": "Three steps to launch"
+    },
+    "stat1": "Verified ateliers already on the platform",
+    "stat2": "Cities reached worldwide",
+    "stat3": "Commission — only when you sell",
+    "steps": {
+      "apply": {
+        "body": "Complete our short application at beldify.com/seller/register. Tell us about your atelier, the pieces you make, and attach a few photos. Most applications are reviewed within 3–5 business days.",
+        "title": "Apply"
+      },
+      "sell": {
+        "body": "List products, set your prices, and reach thousands of buyers across 23 cities worldwide. We handle payments, and transfer your earnings bi-weekly with no hidden fees.",
+        "title": "Start selling"
+      },
+      "verify": {
+        "body": "A Beldify curator reviews your craft and brand story. Once approved you receive your Verified badge, which builds immediate trust with buyers browsing the marketplace.",
+        "title": "Get verified"
+      }
+    },
+    "sub": "Beldify connects Moroccan ateliers with buyers across 23 cities. Join 120+ verified sellers already growing their business on our platform.",
+    "testimonial": {
+      "1": {
+        "author": "Fatima Zahra",
+        "quote": "Joining Beldify transformed my small workshop into a thriving business. I now sell my hand-embroidered caftans to customers across Europe and the Middle East.",
+        "role": "Caftan designer, Fez"
+      },
+      "2": {
+        "author": "Kamal Idrissi",
+        "quote": "The support from the Beldify team has been exceptional. They helped me improve my product photography and descriptions — my sales doubled in the first month.",
+        "role": "Traditional jewellery maker, Tangier"
+      },
+      "heading": "Sellers speak for themselves"
+    },
+    "benefit1Text": "Reach customers worldwide with our international shipping and multi-language support.",
+    "benefit1Title": "Global Reach",
+    "benefit2Text": "Create your seller profile and list products quickly using our intuitive dashboard.",
+    "benefit2Title": "Easy Setup",
+    "benefit3Text": "Receive payments securely with our trusted payment processing system.",
+    "benefit3Title": "Secure Payments",
+    "benefit4Text": "Get dedicated support for all your selling needs, from product listings to shipping assistance.",
+    "benefit4Title": "Seller Support",
+    "benefitsTitle": "Benefits of Selling With Us",
+    "faqsTitle": "Seller FAQs",
+    "heroText": "Connect with customers worldwide and grow your business on our trusted platform for Moroccan fashion and crafts.",
+    "heroTitle": "Expand Your Business With Beldify",
+    "howItWorksTitle": "How It Works",
+    "learnMore": "Learn More",
+    "readyToSell": "Ready to Start Selling?",
+    "registerCTA": "Register as a Seller",
+    "registerNow": "Register Now on pro.beldify.com",
+    "registerText": "Join thousands of successful sellers on our platform and take your business to the next level.",
+    "step1Text": "Register for a seller account on pro.beldify.com and complete your profile with your business information.",
+    "step1Title": "Create Account",
+    "step2Text": "Upload your product catalog with images, descriptions, prices, and inventory information.",
+    "step2Title": "List Your Products",
+    "step3Text": "Receive notifications when customers request your products.",
+    "step3Title": "Receive Orders",
+    "step4Text": "Ship orders to customers and receive payments directly to your account.",
+    "step4Title": "Shipping and Payment",
+    "subtitle": "Join our marketplace and showcase your products to customers worldwide",
+    "testimonial1Business": "Traditional Caftan Boutique",
+    "testimonial1Name": "Fatima L.",
+    "testimonial1Text": "Since joining Beldify, my caftan sales have increased by 70%. The platform helped me reach customers in Europe and the Middle East that I couldn't reach before.",
+    "testimonial2Business": "Artisan Leather Goods",
+    "testimonial2Name": "Karim M.",
+    "testimonial2Text": "The seller dashboard makes it easy to manage my inventory and track orders. The support team has been very helpful with all my questions.",
+    "testimonial3Business": "Modern Moroccan Fashion",
+    "testimonial3Name": "Amina R.",
+    "testimonial3Text": "Beldify transformed my small business into a global brand. The exposure to worldwide customers has been invaluable for growth.",
+    "testimonialsTitle": "Seller Success Stories",
+    "title": "Become a Seller",
+    "sellerFaqs": [
+      {
+        "question": "How much does it cost to sell on Beldify?",
+        "answer": "Registration is free. We charge a 10% commission on each sale, which includes payment processing. There are no monthly fees or listing fees."
+      },
+      {
+        "question": "How and when do I receive payments?",
+        "answer": "Payments are processed bi-weekly for all completed orders. You can receive payments via bank transfer or other payment methods supported in your country."
+      },
+      {
+        "question": "Do I need to handle shipping?",
+        "answer": "Yes, sellers are responsible for shipping their products. We provide shipping guidelines and integration with major carriers to facilitate the process."
+      },
+      {
+        "question": "What products can I sell on Beldify?",
+        "answer": "We focus on Moroccan fashion, accessories, home décor, and handicrafts. All products must be authentic and comply with our marketplace standards."
+      }
+    ]
+  },
+  "preferences": {
+    "email_notifications": {
+      "description": "Receive order confirmations, shipping updates and account alerts by email.",
+      "title": "Email Notifications"
+    },
+    "error_message": "Failed to save preferences. Please try again.",
+    "language": {
+      "description": "This sets the display language across the whole site.",
+      "title": "Language"
+    },
+    "language_settings": "Language & Timezone",
+    "marketing_emails": {
+      "description": "Receive exclusive offers, seasonal collections and promotions.",
+      "title": "Marketing Emails"
+    },
+    "newsletter": {
+      "description": "Stay up to date with Beldify's latest news, trends and stories.",
+      "title": "Newsletter"
+    },
+    "notification_settings": "Notification Settings",
+    "order_updates": {
+      "description": "Get notified when your order status changes or ships.",
+      "title": "Order Updates"
+    },
+    "push_notifications": {
+      "title": "Push Notifications",
+      "description": "Receive order and message alerts even when Beldify is closed",
+      "enabled": "Push notifications enabled",
+      "disabled": "Push notifications disabled",
+      "error": "Could not enable push notifications",
+      "blocked": "Blocked in browser settings — enable in your browser to receive alerts"
+    },
+    "success_message": "Preferences saved successfully.",
+    "timezone": {
+      "description": "Used for displaying order times and delivery estimates.",
+      "title": "Timezone"
+    }
+  },
+  "fields": {
+    "address": "Address",
+    "billing_address": "Billing Address",
+    "city": "City",
+    "country": "Country",
+    "email": "Email",
+    "email_help": "Your email is used for order notifications and login.",
+    "full_name": "Full Name",
+    "phone": "Phone",
+    "postal_code": "Postal Code",
+    "select_country": "Select a country",
+    "shipping_address": "Shipping Address",
+    "shipping_info": "Shipping Information",
+    "state": "Region / State",
+    "username": "Username"
+  },
+  "notFound": {
+    "body": "This page may have been moved or no longer exists. Check the URL or head back to the homepage.",
+    "browseProducts": "Browse Products",
+    "eyebrow": "Error 404",
+    "goHome": "Go Home",
+    "headline": "Page Not Found",
+    "links": {
+      "contact": "Contact Us",
+      "faqs": "FAQs",
+      "shops": "Shops"
+    },
+    "quickLinks": "Quick Links",
+    "quickLinksLabel": "Quick links"
+  },
+  "header": {
+    "categories": "Categories",
+    "community": "Open Souk",
+    "language": "EN",
+    "login": "Log In",
+    "logo_alt": "Beldify Logo",
+    "search_placeholder": "Search products...",
+    "stores": "Stores"
+  },
+  "mega_offers": {
+    "subtitle": "Special offers not to be missed",
+    "summer_collection": {
+      "description": "Discover our beautiful collection of summer essentials at unbeatable prices! Limited offers on premium products that will elevate your summer experience. Don't miss this exclusive opportunity to shine this season!",
+      "discount": "UP TO 70% OFF",
+      "time_left": "{{days}} days remaining",
+      "title": "Spectacular Summer: Exclusive Collection"
+    },
+    "title": "MEGA OFFERS",
+    "view_collection": "View Collection"
+  },
+  "returns": {
+    "exchanges": {
+      "description": "We are happy to help you exchange items for a different size or color, subject to availability.",
+      "eligibility1": "The item must be unused, unworn, and in original condition with all tags attached",
+      "eligibility2": "Original packaging must be included",
+      "eligibility3": "Exchange must be requested within 14 days of delivery",
+      "eligibility4": "Item must be in stock for exchange",
+      "eligibilityDescription": "To be eligible for an exchange, your item must meet the following criteria:",
+      "eligibilityTitle": "Exchange Eligibility",
+      "internationalDescription": "International customers are responsible for return shipping costs and any applicable customs duties or taxes for the returned item. We will cover the shipping cost of the replacement item to you.",
+      "internationalTitle": "International Exchanges",
+      "priceDiffDescription": "If the replacement item is more expensive, you will be charged the difference. If it is less expensive, we will refund the difference to your original payment method.",
+      "priceDiffTitle": "Price Differences",
+      "processDescription": "Please note that exchanges are subject to stock availability. If your preferred replacement is not available, we will issue a refund to your original payment method.",
+      "requestDescription": "Follow these steps to exchange an item:",
+      "requestTitle": "How to Request an Exchange",
+      "step1": "Log in to your account and go to 'Order History'",
+      "step2": "Select the item you wish to exchange and choose 'Exchange' as the return reason",
+      "step3": "Select your preferred replacement item",
+      "step4": "Print the return label and send back the original item",
+      "step5": "Once we receive your return, we will ship your replacement",
+      "title": "Exchanges"
+    },
+    "nonReturnableItems": {
+      "item1": "Custom-made or personalized items",
+      "item2": "Intimate apparel (underwear, swimwear, hosiery)",
+      "item3": "Items marked as 'Final Sale' or on clearance",
+      "item4": "Items without original packaging or tags",
+      "item5": "Used or damaged items",
+      "item6": "Gift cards and digital products",
+      "title": "Not Eligible for Return"
+    },
+    "process": {
+      "contactButton": "Contact Support",
+      "helpText": "If you have questions about our return process, please contact our customer service team.",
+      "helpTitle": "Need Help?",
+      "refundText1": "Refunds are processed within 3 to 5 business days after we receive your return.",
+      "refundText2": "The refund will be credited to your original payment method.",
+      "refundText3": "Please allow additional time for your bank or credit card company to process the refund.",
+      "refundTitle": "Refund Information",
+      "shippingText1": "We provide a prepaid return label for returns in France and Morocco. International customers are responsible for return shipping costs.",
+      "shippingText2": "For your protection, we recommend using a trackable shipping service and purchasing shipping insurance.",
+      "shippingTitle": "Return Shipping",
+      "timeline1": "Day 1-2: Initiate the return and receive the return label",
+      "timeline2": "Day 3-5: Pack and ship your return",
+      "timeline3": "Day 6-10: We receive and inspect your return",
+      "timeline4": "Day 11-14: Refund is processed",
+      "timelineTitle": "Return Timeline",
+      "title": "Our Return Process"
+    },
+    "refunds": {
+      "description": "Once we receive your return, we will inspect it and notify you that we have received your returned item. We will inform you immediately of your refund status after inspecting the item.",
+      "timeline": "Refunds will be processed within 3 to 5 business days after we receive your return. The refund will be credited to your original payment method.",
+      "title": "Refunds"
+    },
+    "returnableItems": {
+      "item1": "Unworn, unwashed clothing with tags attached",
+      "item2": "Unused accessories with original packaging",
+      "item3": "Unopened beauty and personal care items",
+      "item4": "Defective items (during the warranty period)",
+      "item5": "Items in original condition with all pieces included",
+      "title": "Eligible for Return"
+    },
+    "returnsPolicy": {
+      "policy1": "We want you to be completely satisfied with your purchase. If you are not satisfied, you can return most items within 30 days of delivery for a full refund or exchange.",
+      "policy2": "To be eligible for a return, your item must be unused and in the same condition as you received it. It must also be in original packaging with all tags attached.",
+      "title": "Return Policy"
+    },
+    "steps": {
+      "step1": {
+        "description": "Start your return via our online portal",
+        "name": "Initiate Return"
+      },
+      "step2": {
+        "description": "Pack your items securely with original packaging",
+        "name": "Pack Items"
+      },
+      "step3": {
+        "description": "Use our prepaid return label to send items back",
+        "name": "Return"
+      },
+      "step4": {
+        "description": "Receive your refund once we process the return",
+        "name": "Receive Refund"
+      }
+    },
+    "subtitle": "Our policy and process for returns and exchanges",
+    "tabs": {
+      "exchanges": "Exchanges",
+      "returnProcess": "Return Process",
+      "returnsPolicy": "Returns Policy"
+    },
+    "title": "Returns and Exchanges",
+    "request": {
+      "title": "Request a return",
+      "desc": "Select a delivered order and tell us what went wrong. Returns must be requested within 14 days of delivery.",
+      "login_title": "Sign in to request a return",
+      "login_desc": "You need to be logged in to submit a return request for your order.",
+      "no_delivered": "No delivered orders found that are eligible for a return.",
+      "loading_orders": "Loading your orders…",
+      "select_order": "Order",
+      "select_order_placeholder": "— Select an order —",
+      "checking": "Checking for existing requests…",
+      "existing_title": "An existing return request was found for this order.",
+      "status_label": "Status:",
+      "reason_label": "Reason:",
+      "reason": "Reason for return",
+      "reason_placeholder": "— Select a reason —",
+      "details": "Additional details (optional)",
+      "details_placeholder": "Describe the issue in more detail…",
+      "submit": "Submit return request",
+      "submitting": "Submitting…",
+      "success": "Return request submitted. Our team will review it shortly.",
+      "order_required": "Please select an order.",
+      "reason_required": "Please select a reason.",
+      "submit_error": "Could not submit your return request. Please try again."
+    },
+    "status": {
+      "pending": "Pending",
+      "approved": "Approved",
+      "rejected": "Rejected",
+      "completed": "Completed"
+    },
+    "reason": {
+      "damaged": "Damaged",
+      "wrong_item": "Wrong item",
+      "not_as_described": "Not as described",
+      "size_issue": "Size issue",
+      "other": "Other"
+    }
+  },
+  "stores": {
+    "check_back": "Come back soon!",
+    "featuredStores": "Featured Stores",
+    "featuredStoresDescription": "Discover our top-rated and verified stores offering quality products",
+    "noShopsFound": "No stores found",
+    "no_stores": "No stores found",
+    "subtitle": "Discover our top-rated and verified stores offering quality products",
+    "title": "STORES"
+  },
+  "jewelry": {
+    "categories_eyebrow": "Categories",
+    "title": "Jewelry",
+    "subtitle": "Traditional and contemporary Moroccan jewelry. Ready-made or custom-crafted pieces.",
+    "filter": "Filter",
+    "clear_filters": "Clear filters",
+    "loading": "Loading…",
+    "items": "items",
+    "material": "Material",
+    "gemstone": "Gemstone",
+    "filter_by_material": "Filter by material",
+    "filter_by_gemstone": "Filter by gemstone",
+    "no_match": "No pieces match your filters",
+    "no_products": "No products available",
+    "products_aria": "Jewelry products",
+    "cta_eyebrow": "Can't find what you're looking for?",
+    "cta_title": "Request a Custom Piece",
+    "cta_sub": "Design your jewelry with a trusted artisan.",
+    "cta_button": "Custom Order",
+    "load_error": "Failed to load products",
+    "fields": {
+      "material": "Material",
+      "purity": "Purity",
+      "weight_grams": "Weight",
+      "size": "Size",
+      "gemstone_type": "Gemstone",
+      "gemstone_count": "Gemstone Count",
+      "gemstone_carat": "Carat",
+      "engraving": "Engraving",
+      "finish": "Finish",
+      "specs_aria": "Jewelry specifications",
+      "piece_specs": "Piece Specifications"
+    },
+    "bespoke": {
+      "eyebrow": "Custom Jewelry",
+      "headline": "Request a custom piece",
+      "body": "Choose your metal, stone, engraving, and ring size. Our master jewelers will craft a piece made specifically for you.",
+      "cta": "Start a custom jewelry order"
+    },
+    "ring_size": "Ring size",
+    "ring_size_info": "Ring sizes are in EU numeric format (e.g. 48–72). Use a ring sizer or measure the inner diameter of an existing ring in millimeters to find your size.",
+    "request_custom_size": "Request a custom size"
+  },
+  "notify_me": {
+    "back_in_stock": "Notify me when it's back",
+    "price_drop": "Notify me about price drops",
+    "notified": "You will be notified",
+    "saved_push_off": "Saved. Enable notifications to receive alerts",
+    "unsupported": "Saved. Your browser does not support notifications",
+    "saving": "Saving…"
+  },
+  "credits": {
+    "eyebrow": "Seller Hub",
+    "page_title": "AI Credits",
+    "page_subtitle": "Top up credits to use AI tools — listing writer, translator, and more.",
+    "fetch_error": "Could not load credit data. Please refresh.",
+    "no_packs": "No packs available. Check back soon.",
+    "buy_section_title": "Top up credits",
+    "balance_card": {
+      "eyebrow": "Your AI Credits",
+      "credits_label": "credits available",
+      "costs_label": "Feature costs",
+      "credits_unit": "credits"
+    },
+    "features": {
+      "listing_writer": "Listing Writer",
+      "store_creator": "Store Creator",
+      "translate_listing": "Auto-Translate",
+      "marketing_copy": "Marketing Copy"
+    },
+    "pack_card": {
+      "credits_unit": "credits",
+      "select_cta": "Buy this pack"
+    },
+    "purchase": {
+      "back": "Back to packs",
+      "form_title": "Complete your purchase",
+      "bank_details_label": "Bank transfer details",
+      "copy_rib": "Copy RIB",
+      "bank_details_unavailable": "Bank details not configured yet. Please contact support to complete your purchase.",
+      "receipt_label": "Payment receipt",
+      "receipt_hint": "JPG, PNG, WebP or PDF — max 5 MB",
+      "receipt_required": "Please upload your payment receipt",
+      "receipt_too_large": "Receipt must be smaller than 5 MB",
+      "reference_label": "Transfer reference (optional)",
+      "reference_placeholder": "Bank transfer reference code",
+      "submit_cta": "Submit purchase request",
+      "submitting": "Submitting…",
+      "submit_error": "Submission failed. Please try again.",
+      "success_title": "Purchase submitted!",
+      "success_body": "Your receipt is under review. Credits will be added once approved.",
+      "buy_more": "Buy more credits"
+    },
+    "history": {
+      "title": "Purchase history",
+      "empty": "No purchase history yet."
+    },
+    "ledger": {
+      "title": "Transaction history",
+      "empty": "No transactions yet."
+    },
+    "status": {
+      "approved": "approved",
+      "pending": "pending",
+      "rejected": "rejected"
+    },
+    "tx_type": {
+      "purchase": "Purchase",
+      "bonus": "Welcome bonus",
+      "consumption": "Used",
+      "refund": "Refund",
+      "adjustment": "Adjustment"
+    },
+    "modal": {
+      "eyebrow": "AI Credits",
+      "title": "Not enough credits",
+      "dismiss": "Dismiss",
+      "close": "Close modal",
+      "close_icon": "Go back",
+      "requires_credits": "requires credits you currently do not have.",
+      "generic_body": "You do not have enough credits to use this AI feature.",
+      "cost_label": "Required",
+      "balance_label": "Your balance",
+      "credits_unit": "credits",
+      "cta": "Top up credits",
+      "later": "Maybe later"
+    }
+  },
+  "buyerAi": {
+    "reviewSummary": {
+      "cardAriaLabel": "AI review summary",
+      "header": "Review Summary",
+      "proAriaLabel": "Positive: {{text}}",
+      "conAriaLabel": "Note: {{text}}",
+      "provenance": "AI-generated from buyer reviews",
+      "reviewsWord": "reviews"
+    },
+    "searchAssist": {
+      "placeholder": "Search or ask naturally…",
+      "inputAriaLabel": "Search products",
+      "assistAriaLabel": "AI search",
+      "assistTooltip": "Search with AI assist",
+      "clearReply": "Clear AI reply",
+      "replyAriaLabel": "AI search result"
+    },
+    "sizeAdvisor": {
+      "entry": "Find my size",
+      "entryAriaLabel": "Find my size",
+      "chipLabel": "AI Size Advisor",
+      "sheetTitle": "AI Size Advisor",
+      "heightLabel": "Height (cm)",
+      "weightLabel": "Weight (kg)",
+      "fitLabel": "Fit preference (optional)",
+      "fit_slim": "Slim",
+      "fit_regular": "Regular",
+      "fit_loose": "Loose",
+      "usualSizeLabel": "Your usual size (optional)",
+      "selectSizePlaceholder": "Select...",
+      "submitLabel": "Get recommendation",
+      "loading": "Calculating…",
+      "recommendedLabel": "Recommended size",
+      "confidenceHigh": "High confidence",
+      "confidenceMedium": "Medium confidence",
+      "confidenceLow": "Low confidence — verify with size chart",
+      "useThisSize": "Use this size",
+      "tryAgain": "Try different measurements",
+      "unavailableMessage": "AI size advisor is temporarily unavailable. Please refer to the size chart or contact the seller.",
+      "sizeChartLink": "View size chart",
+      "errorMessage": "Something went wrong. Please try again.",
+      "provenance": "AI powered · beldify assistant"
+    }
+  },
+  "discover": {
+    "empty": "Products coming soon.",
+    "endOfFeed": "You've seen everything — new arrivals added daily",
+    "heading": "More to love",
+    "sectionLabel": "Discover more",
+    "subheading": "New pieces added daily by Moroccan artisans",
+    "viewAll": "Browse all products"
+  },
+  "editPost": {
+    "blockedTitle": "Editing not available",
+    "blockedUnknown": "This request cannot be edited right now.",
+    "existingPhotos": "Existing photos",
+    "formSubtitle": "Changes will be visible to all artisans immediately",
+    "formTitle": "Update your bespoke request",
+    "newPhotos": "new photo(s) to add",
+    "pageTitle": "Edit your request",
+    "photosSubtitle": "Add new photos (existing photos are retained)",
+    "saveChanges": "Save changes",
+    "validationErrors": "Please fix the highlighted errors above."
+  },
+  "myPosts": {
+    "actionError": "Could not perform this action. Please try again.",
+    "actionForbidden": "You are not allowed to perform this action on this post.",
+    "actionValidationError": "This action cannot be completed. The post may have active proposals.",
+    "cardTitle": "Your Open Souk Requests",
+    "closeRequest": "Close request",
+    "confirmCloseAction": "Yes, close it",
+    "confirmCloseTitle": "Close this request?",
+    "confirmDeleteAction": "Yes, delete it",
+    "confirmDeleteTitle": "Delete this request?",
+    "editNotAllowed": "Cannot edit at this stage",
+    "emptyTitle": "You haven't posted any requests yet",
+    "loadError": "Could not load your requests. Please try again.",
+    "loginBody": "Your Open Souk requests are waiting — sign in to manage them.",
+    "navLink": "My requests",
+    "newRequest": "New request",
+    "pageTitle": "My Requests"
+  },
+  "pagination": {
+    "label": "Pagination",
+    "next": "Next page",
+    "previous": "Previous page"
+  },
+  "customOrders": {
+    "error": {
+      "load_orders": "Failed to load orders",
+      "load_detail": "Failed to load order detail",
+      "invalid_id": "Invalid order ID.",
+      "load_order": "Failed to load order.",
+      "submit": "Failed to submit your request. Please try again."
+    },
+    "loading": "Loading…",
+    "back_to_list": "Back to list",
+    "seller_dashboard": "Seller Dashboard",
+    "order_title": "Order #{{id}}",
+    "page_title": "Custom Orders",
+    "empty_title": "No custom orders yet",
+    "empty_sub": "New requests will appear here.",
+    "orders_list_aria": "Orders list",
+    "loading_order": "Loading order…",
+    "order_spec": "Order Spec",
+    "buyer_notes": "Buyer notes",
+    "customer": "Customer",
+    "back": "Back",
+    "custom_order_eyebrow": "Custom Order",
+    "request_title": "Request a Custom Piece",
+    "new_intro": "Tell us what you want. The only required field is Material — everything else is optional. Artisans will see it and reply.",
+    "trust": {
+      "secure": "Secure",
+      "seen_by_artisans": "Seen by artisans",
+      "verified_artisans": "Verified artisans"
+    },
+    "loading_aria": "Loading",
+    "my_orders": "My Orders",
+    "back_to_orders": "Back to orders",
+    "tracking_eyebrow": "Order Tracking",
+    "your_notes": "Your Notes",
+    "select_placeholder": "Select…",
+    "loading_fields": "Loading fields…",
+    "no_fields": "No custom fields for this vertical.",
+    "optional": "optional",
+    "field_required": "{{label}} is required",
+    "timeline": {
+      "error_advance": "Failed to advance order status.",
+      "status_label": "Status:",
+      "progress_log": "Progress Log",
+      "progress_history_aria": "Progress history",
+      "no_progress": "No progress entries yet.",
+      "advance_status": "Advance Status",
+      "next_status": "Next Status",
+      "select_status": "Select status…",
+      "note_label": "Note",
+      "note_placeholder": "Add a note…",
+      "updating": "Updating…",
+      "update_cta": "Update Status",
+      "terminal_state": "This order has reached a terminal state.",
+      "current_status": "Current Status",
+      "quote_details": "Quote Details",
+      "quote_amount": "Quote Amount",
+      "deposit": "Deposit",
+      "paid": "Paid",
+      "eta": "ETA",
+      "order_progress": "Order Progress",
+      "order_stages_aria": "Order stages",
+      "current_badge": "Current",
+      "cancelled": "This order has been cancelled.",
+      "activity_log": "Activity Log",
+      "activity_log_aria": "Activity log"
+    },
+    "status": {
+      "requested": "Requested",
+      "quoted": "Quoted",
+      "deposit_paid": "Deposit Paid",
+      "in_progress": "In Progress",
+      "ready": "Ready",
+      "delivered": "Delivered",
+      "closed": "Closed",
+      "cancelled": "Cancelled"
+    },
+    "submitted_title": "Request Submitted!",
+    "submitted_desc": "Your request #{{id}} is under review. The seller will contact you soon.",
+    "track_order": "Track Order",
+    "go_back": "Go Back",
+    "notes_label": "Notes",
+    "notes_placeholder": "Any additional details…",
+    "sending": "Sending…",
+    "send_request": "Send Request",
+    "deposit": {
+      "eyebrow": "Deposit Required",
+      "of_total": "of {{total}} total",
+      "subtitle": "Pay the deposit to confirm your custom order and start production.",
+      "choose_method": "Choose payment method",
+      "method_cod": "Cash on Delivery",
+      "method_transfer": "Bank Transfer",
+      "cod_description": "You will pay the deposit in cash when your order is delivered. Confirm to proceed.",
+      "confirm_cod": "Confirm order",
+      "transfer_description": "Transfer the deposit amount and upload your payment receipt below.",
+      "reference_label": "Transfer reference",
+      "reference_placeholder": "e.g. TXN-2026-001",
+      "proof_label": "Payment proof / receipt",
+      "proof_aria": "Upload payment proof or receipt",
+      "choose_file": "Choose receipt (image or PDF)",
+      "upload_receipt": "Upload receipt & confirm",
+      "file_required": "Please attach your transfer receipt.",
+      "already_paid": "Deposit paid — your order is now in progress.",
+      "success_cod": "Deposit confirmed! Your order is now in progress.",
+      "success_transfer": "Receipt uploaded — we will verify it shortly.",
+      "error": "Could not process payment. Please try again."
+    }
+  },
+  "tryon": {
+    "button": "Try it on",
+    "button_label": "Try it on — virtual fitting",
+    "modal_title": "Virtual try-on",
+    "upload_hint": "Upload your photo",
+    "upload_formats": "JPG, PNG or WebP",
+    "file_too_large": "Photo is too large. Please choose an image under 8MB.",
+    "preview_alt": "Your photo preview",
+    "remove_photo": "Remove photo",
+    "privacy_note": "Your photo is processed by AI and not stored on Beldify",
+    "generate_cta": "Generate",
+    "dressing_up": "Dressing you up…",
+    "progress_label": "Generation progress",
+    "generating_note": "This usually takes 20–60 seconds",
+    "result_alt": "Virtual try-on result",
+    "retry": "Try again",
+    "retry_label": "Try again",
+    "buy_now": "Buy now",
+    "daily_limit_title": "Daily limit reached",
+    "daily_limit_desc": "You've reached today's try-on limit. Try again tomorrow.",
+    "timeout": "Processing timed out. Please try again.",
+    "error_generic": "Something went wrong. Please try again.",
+    "credit_chip": "1 credit",
+    "credit_hint": "1 credit per try",
+    "guest_gate_title": "Sign in to try on clothes",
+    "guest_gate_desc": "Your first try is free — sign in to get started.",
+    "signin_cta": "Sign in",
+    "continue_browsing": "Continue browsing",
+    "balance_chip_label": "Try-ons remaining",
+    "choose_pack": "Choose a pack",
+    "credits_label": "credits",
+    "best_value": "Best value",
+    "bank_transfer_title": "Bank transfer details",
+    "rib_label": "RIB",
+    "copy_rib": "Copy RIB",
+    "amount_label": "Exact amount",
+    "bank_transfer_note": "Transfer the exact amount then upload your receipt below. Credits are added within 24 hours.",
+    "upload_receipt": "Upload receipt",
+    "receipt_hint": "JPG, PNG, WebP or PDF — max 8 MB",
+    "submit_receipt": "Submit receipt",
+    "submitting_receipt": "Submitting…",
+    "topup_pending_title": "Top-up pending approval",
+    "topup_pending_desc": "Your receipt has been submitted. An admin will validate your transfer shortly — credits will appear in your wallet once approved.",
+    "my_topups": "My top-ups",
+    "status_approved": "Approved",
+    "status_rejected": "Rejected",
+    "status_pending": "Pending",
+    "refund_notice": "Your credit has been returned to your wallet.",
+    "disclaimer": "AI-generated approximation — fit and cut may differ from the real product"
+  },
+  "payouts": {
+    "eyebrow": "Seller Hub",
+    "page_title": "Payouts",
+    "page_subtitle": "Withdraw your earnings to your bank account.",
+    "fetch_error": "Could not load payout data. Please refresh.",
+    "balance_card": {
+      "eyebrow": "Your Earnings",
+      "available_label": "withdrawable",
+      "min_note": "Minimum payout: {{min}} {{currency}}",
+      "framing": "your earnings ready to withdraw"
+    },
+    "bank_details": {
+      "title": "Bank account",
+      "edit_aria": "Edit bank details",
+      "edit": "Edit",
+      "edit_title": "Edit bank account",
+      "add_title": "Add bank account",
+      "account_holder": "Account holder",
+      "account_holder_placeholder": "Full name as on your bank account",
+      "bank_name": "Bank",
+      "bank_name_placeholder": "e.g. CIH Bank, Attijariwafa, BMCE",
+      "rib": "RIB",
+      "rib_hint": "24 digits",
+      "rib_placeholder": "230 780 4823412300048754 91",
+      "rib_invalid": "RIB must be exactly 24 digits",
+      "save_cta": "Save bank details",
+      "save": "Save",
+      "saving": "Saving…",
+      "cancel": "Cancel",
+      "saved_toast": "Bank details saved",
+      "save_error": "Could not save bank details. Please try again.",
+      "missing_title": "No bank account added",
+      "missing_body": "Add your RIB to be able to request a payout. Your bank details are required before submitting a withdrawal.",
+      "add_cta": "Add bank account"
+    },
+    "form": {
+      "title": "Request a payout",
+      "subtitle": "The amount will be transferred to your bank account by the platform.",
+      "amount_label": "Amount",
+      "amount_required": "Please enter an amount",
+      "below_min": "Minimum payout amount is {{min}} {{currency}}",
+      "above_available": "Maximum available is {{available}} {{currency}}",
+      "submit_cta": "Request payout",
+      "submitting": "Submitting…",
+      "available_hint": "Available: {{available}} {{currency}}",
+      "gate_no_bank_details": "Add your bank account details above to request a payout.",
+      "gate_open_request": "You already have a pending payout request.",
+      "gate_open_request_sub": "Only one request can be open at a time. Wait for it to be processed.",
+      "gate_below_min": "Your balance ({{available}} MAD) is below the minimum payout of {{min}} MAD.",
+      "error_below_min": "Amount is below the minimum of {{min}} {{currency}}",
+      "error_above_available": "Amount exceeds your available balance of {{available}} {{currency}}",
+      "error_no_bank_details": "Please add your bank details (RIB) before requesting a payout",
+      "error_open_request": "You already have a pending payout request. Wait for it to be processed.",
+      "error_generic": "Could not submit your request. Please try again."
+    },
+    "success": {
+      "title": "Request submitted!",
+      "body": "Your payout request is under review. The platform owner will transfer the funds by bank transfer and mark it as paid."
+    },
+    "history": {
+      "title": "Payout history",
+      "empty": "No payout requests yet.",
+      "requested_on": "Requested",
+      "reference": "Ref:",
+      "paid_on": "Paid on"
+    },
+    "status": {
+      "pending": "pending",
+      "approved": "approved",
+      "rejected": "rejected",
+      "paid": "paid"
+    },
+    "no_bank_details": "Add your bank account details to request a payout.",
+    "open_request_exists": "You already have an open request pending.",
+    "below_min": "Balance is below the minimum payout amount."
+  },
+  "search_typeahead": {
+    "suggestions_label": "Search suggestions",
+    "products": "Products",
+    "categories": "Categories",
+    "trending": "Trending",
+    "recent": "Recent searches"
+  },
+  "facet_filters": {
+    "stores": "Store / Seller",
+    "verticals": "Type / Vertical",
+    "show_more": "Show more",
+    "show_less": "Show less",
+    "vertical": {
+      "jewelry": "Jewelry",
+      "tailor": "Tailoring",
+      "fabric": "Fabric",
+      "caftan": "Caftan",
+      "djellaba": "Djellaba",
+      "accessory": "Accessories"
+    }
+  },
+  "post_order_push": {
+    "title": "Track your shipment",
+    "subtitle": "We'll notify you when your order status changes",
+    "enable_cta": "Enable notifications",
+    "enabling": "Enabling…",
+    "enable_aria": "Enable shipping notifications",
+    "guest_title": "Create an account to follow your orders",
+    "guest_cta": "Create account",
+    "guest_aria": "Create an account to track your orders"
+  },
+  "assistant": {
+    "launcher_aria": "Open shopping assistant",
+    "launcher_label": "Shop with AI",
+    "panel_title": "Shopping Assistant",
+    "close": "Close assistant",
+    "messages_label": "Conversation",
+    "input_placeholder": "Ask about any product, style, or price…",
+    "input_aria": "Message to assistant",
+    "send": "Send",
+    "thinking": "Assistant is thinking…",
+    "welcome_title": "Welcome!",
+    "welcome_message": "Ask me about caftans, djellabas, jewellery — in Darija, Arabic, French or English.",
+    "view_product": "View",
+    "error": "Something went wrong. Please try again.",
+    "retry": "Retry",
+    "chars_left": "chars left",
+    "over_limit": "{{count}} over limit"
+  },
+  "listingAi": {
+    "cta": "Analyze with AI",
+    "analyzing": "Analyzing...",
+    "results_title": "AI Analysis",
+    "unavailable": "AI analysis is not available right now.",
+    "error": "Analysis failed. Please try again.",
+    "quality_label": "Quality score",
+    "quality_aria": "Listing quality {{score}} out of 100",
+    "tips_label": "Tips",
+    "category_label": "Suggested category",
+    "apply_category": "Apply {{name}}",
+    "apply_category_aria": "Apply category {{name}}",
+    "attributes_label": "Suggested attributes",
+    "apply_attribute_aria": "Apply {{key}}: {{value}}",
+    "flags_label": "Warnings"
+  },
+  "opensoukAi": {
+    "draft_cta": "Draft with AI",
+    "draft_generating": "Drafting…",
+    "draft_prelude": "Need a head start?",
+    "draft_region_label": "AI Draft",
+    "draft_unavailable": "AI drafting is currently unavailable.",
+    "draft_error": "Could not generate a draft. Please try again.",
+    "draft_error_suspended": "AI drafting is unavailable for your account.",
+    "rank_cta": "Rank with AI",
+    "rank_loading": "Ranking…",
+    "rank_title": "AI Proposal Ranking",
+    "rank_region_label": "AI Ranking",
+    "rank_hint": "Click “Rank with AI” to see which proposals best match your brief.",
+    "rank_summary_label": "AI Summary",
+    "rank_error": "Could not rank proposals. Please try again.",
+    "rank_error_forbidden": "You do not have access to rank these proposals.",
+    "view_proposal": "View proposal",
+    "view_proposal_aria": "View proposal #{{id}}",
+    "rank_unavailable": "AI ranking is currently unavailable."
+  },
+  "compare": {
+    "title": "Compare Products",
+    "products": "products",
+    "back_to_products": "Back to Products",
+    "view_product": "View Product",
+    "remove": "Remove from comparison",
+    "add_more": "Add more products to compare",
+    "empty": {
+      "title": "Compare Products",
+      "description": "Select at least {{min}} products to compare them side by side. Browse our catalog and add items to compare.",
+      "browse": "Browse Products"
+    },
+    "error": {
+      "title": "Comparison Error",
+      "fetch": "Failed to load products for comparison.",
+      "not_enough": "Need at least {{min}} products to compare.",
+      "some_failed": "{{count}} product(s) could not be loaded"
+    },
+    "attributes": {
+      "price": "Price",
+      "rating": "Rating",
+      "category": "Category",
+      "store": "Store",
+      "availability": "Availability",
+      "color": "Color",
+      "size": "Size",
+      "description": "Description",
+      "unknown_store": "Unknown",
+      "not_applicable": "—"
+    }
   }
 }

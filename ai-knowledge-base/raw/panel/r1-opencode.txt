@@ -1,0 +1,2 @@
+[91m[1mError: [0mModel not found: opencode/minimax-m2.5-free.
+opencode:3: command not found: _kb_opencode_sync

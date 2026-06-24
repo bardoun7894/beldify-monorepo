@@ -84,7 +84,7 @@ function DefaultErrorFallback({ error, retry }: { error: Error; retry: () => voi
   const isDevelopment = process.env.NODE_ENV === 'development';
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-amber-50/40 px-4">
+    <div className="min-h-screen flex items-center justify-center bg-canvas px-4">
       <div className="max-w-md w-full bg-white rounded-2xl shadow-lg p-8 text-center">
         <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-rose-100 mb-4">
           <ExclamationTriangleIcon className="h-6 w-6 text-rose-700" />
@@ -120,7 +120,7 @@ function DefaultErrorFallback({ error, retry }: { error: Error; retry: () => voi
             onClick={retry}
             className="flex-1 inline-flex justify-center items-center px-4 py-3 text-sm font-semibold rounded-2xl text-white bg-indigo-700 hover:bg-indigo-800 transition focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
           >
-            <ArrowPathIcon className="h-4 w-4 mr-2" />
+            <ArrowPathIcon className="h-4 w-4 me-2" />
             {t('errors.boundary.retry', 'Try Again')}
           </button>
 
@@ -142,7 +142,7 @@ function APIErrorFallback({ error, retry }: { error: Error; retry: () => void })
   return (
     <div className="p-4 bg-rose-50 border border-rose-200 rounded-2xl">
       <div className="flex">
-        <ExclamationTriangleIcon className="h-5 w-5 text-rose-700 mr-2 flex-shrink-0" />
+        <ExclamationTriangleIcon className="h-5 w-5 text-rose-700 me-2 flex-shrink-0" />
         <div className="flex-1">
           <h3 className="text-sm font-semibold text-rose-800">
             {t('errors.api.title', 'Failed to load data')}
@@ -173,7 +173,7 @@ function ComponentErrorFallback({
 }: { error: Error; retry: () => void; componentName?: string }) {
   const { t } = useTranslation('common');
   return (
-    <div className="p-4 text-center bg-amber-50/50 border border-amber-200 rounded-2xl">
+    <div className="p-4 text-center bg-gray-50 border border-gray-200 rounded-2xl">
       <ExclamationTriangleIcon className="h-8 w-8 text-amber-700 mx-auto mb-2" />
       <p className="text-sm text-gray-700 mb-2">
         {componentName

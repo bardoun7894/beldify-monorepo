@@ -8,7 +8,7 @@ export interface CommunityPost {
   id: number | string;
   title: string;
   description: string;
-  status: 'open' | 'in_progress' | 'completed';
+  status: 'open' | 'pending' | 'in_progress' | 'completed';
   
   // Support both API formats
   budget_min?: number | string;
@@ -33,6 +33,21 @@ export interface CommunityPost {
   response_count?: number;
   responseCount?: number;
   hasResponses?: boolean;
+
+  // Proposal / proposal-count — both naming conventions
+  proposal_count?: number;
+  proposalCount?: number;
+
+  // Whether the authenticated seller has already submitted a proposal
+  has_my_proposal?: boolean;
+  hasMyProposal?: boolean;
+
+  // Buyer mini-profile (populated in job-detail and job-list responses)
+  buyer?: {
+    id: number | string;
+    name: string;
+    avatar?: string;
+  };
   
   // Support both image formats
   images: (CommunityImage | string)[];
@@ -105,6 +120,9 @@ export interface CommunityResponse {
   description: string;
   price?: number;
   currency?: string;
+  // Delivery timeline — both naming conventions
+  delivery_days?: number;
+  deliveryDays?: number;
   status?: 'pending' | 'accepted' | 'rejected';
   sellerSkills?: string[];
   seller_skills?: string[];
@@ -129,6 +147,13 @@ export interface CommunityResponse {
   createdAt?: string;
   updatedAt?: string;
   accepted?: boolean;
+  // Open Souk edit-cap (Laravel-only feature; surfaced for parity — the storefront
+  // never calls an updateResponse endpoint, editing happens in the seller dashboard).
+  editCount?: number;
+  editsRemaining?: number;
+  isMine?: boolean;
+  // Set on the ACCEPTED proposal — the bridged custom_order id (Contact-after-accept).
+  customOrderId?: string | number | null;
 }
 
 export interface MessageAttachment {
@@ -261,8 +286,52 @@ export interface CommunityResponseFormData {
   }[];
   price?: number;
   currency?: string;
-  
+  // Delivery timeline in days
+  delivery_days?: number;
+
   // New fields
   sellerSkills?: string[];
   productSpecifications?: string[];
 }
+
+// ── Open Souk — new shared types ──────────────────────────────────────────────
+
+/**
+ * Aggregate community stats returned by
+ * GET /api/v1/community/sellers/{shopId}/stats
+ */
+export interface SellerCommunityStats {
+  avg_rating: number;
+  completed_jobs: number;
+  total_proposals: number;
+  response_rate: number;
+  /** ISO-8601 date string */
+  member_since: string;
+}
+
+/**
+ * Filter params for the Open Souk job listing.
+ * Maps to query params accepted by GET /api/v1/community/posts
+ */
+export interface JobFilters {
+  category_id?: string;
+  budget_min?: number | string;
+  budget_max?: number | string;
+  skills?: string[];
+  status?: 'open' | 'in_progress' | 'completed';
+  /** Full-text search query (maps to `q` on the backend) */
+  q?: string;
+  /** Backward-compat alias — use `q` for new code */
+  search?: string;
+}
+
+/**
+ * Sort option passed as the `sort` query parameter.
+ * Values mirror the backend contract.
+ */
+export type JobSort =
+  | 'latest'
+  | 'oldest'
+  | 'budget_asc'
+  | 'budget_desc'
+  | string;

@@ -7,28 +7,34 @@ import toast from '@/utils/toast';
 import logger from '@/utils/consoleLogger';
 import { User, AuthResponse } from '@/types/auth';
 import { cartService } from '@/services/api';
+import { getGuestWishlist, clearGuestWishlist } from '@/utils/guestWishlist';
 
 // Define interface for registration data
 interface RegisterUserData {
+  // Phone-first required fields
+  full_name_en: string;
+  phone: string;
+  password: string;
+  password_confirmation: string;
+  // Optional
+  email?: string;
+  // Legacy fields still accepted for backward-compat (Google auth, old paths)
   full_name?: string | null;
-  full_name_en?: string | null;
   full_name_ar?: string | null;
   first_name?: string | null;
   last_name?: string | null;
   username?: string | null;
-  email: string;
-  password: string;
-  password_confirmation: string;
   contact_number?: string | null;
-  // Add other potential fields from your form if known
-  [key: string]: any; // Allow flexibility for other fields
+  // Allow extra fields from callers
+  [key: string]: any;
 }
 
 interface AuthContextType {
   user: User | null;
   loading: boolean;
   isAuthenticated: boolean;
-  login: (email: string, password: string) => Promise<{ success: boolean; message?: string }>;
+  /** identifier can be phone OR email */
+  login: (identifier: string, password: string, remember?: boolean) => Promise<{ success: boolean; message?: string }>;
   register: (userData: RegisterUserData) => Promise<{ success: boolean; message?: string; errors?: any }>;
   googleAuth: (credential: string, isRegistration?: boolean) => Promise<{ success: boolean; message?: string; errors?: any }>;
   logout: () => Promise<void>;
@@ -65,7 +71,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   }, []);
 
-  // Check authentication status on mount and cache the result
+  // Check authentication status on mount and cache the result.
+  // checkAuth and handleAuthError are defined after this effect and intentionally omitted from
+  // the dep array: including them would create a new function reference on every render and
+  // cause an infinite auth-check loop.
+  /* eslint-disable react-hooks/exhaustive-deps */
   useEffect(() => {
     // Check if token is expired (older than 24 hours)
     const tokenTimestamp = localStorage.getItem('token_timestamp');
@@ -116,6 +126,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       setLoading(false);
     }
   }, [pathname]); // Re-run when pathname changes to handle navigation
+  /* eslint-enable react-hooks/exhaustive-deps */
 
   const checkAuth = async (isInitialLoad = true) => {
     if (!isInitialLoad) setLoading(true); // Set loading true only for non-initial checks
@@ -237,10 +248,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
-  const login = async (email: string, password: string, remember = false): Promise<AuthResponse> => {
+  const login = async (identifier: string, password: string, remember = false): Promise<AuthResponse> => {
     setLoading(true);
     try {
-      toast.debug(`Attempting login for email: ${email}`);
+      toast.debug(`Attempting login for identifier: ${identifier}`);
       logger.log('Attempting login...');
 
       // Get CSRF token from our custom endpoint
@@ -256,9 +267,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         // Continue with login attempt even if CSRF fetch fails
       }
 
-      // Then make the login request with the CSRF token
+      // Post identifier (phone or email) as both `identifier` (new contract)
+      // and `email` (backward-compat for older backend paths).
       const response = await axios.post('/api/auth/login',
-        { email, password },
+        { identifier, email: identifier, password },
         {
           withCredentials: true,
           headers: {
@@ -338,11 +350,43 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         if (guestToken) {
           try {
             await cartService.mergeGuestCart();
-            // Clear guest token after successful merge
+            // Clear guest token after successful merge and refresh cart state
             localStorage.removeItem('guest_token');
+            window.dispatchEvent(new Event('cart:refresh'));
           } catch (error) {
+            // Keep the guest token so a later session can retry the merge.
             logger.error('Failed to merge guest cart:', error);
             // Don't show error to user, as login was still successful
+          }
+        }
+
+        // Merge guest wishlist (localStorage) into the user's account, mirroring
+        // the guest-cart merge above. Each item is an independent POST; duplicates
+        // (already-in-wishlist) are expected and harmless, so allSettled + always
+        // clear afterwards to avoid re-POSTing on every future login. Never block
+        // login on a merge failure.
+        const guestWishlist = getGuestWishlist();
+        if (guestWishlist.length > 0) {
+          try {
+            await Promise.allSettled(
+              guestWishlist.map((item) =>
+                axios.post('/api/wishlist', {
+                  product_id: item.product_id,
+                  // Forward stored notify flags so guest opt-ins survive login.
+                  // Hardcoding false was silently killing the back-in-stock and
+                  // price-drop trigger for guests who opted in pre-login.
+                  notify_price_drop: item.notify_price_drop ?? false,
+                  notify_back_in_stock: item.notify_back_in_stock ?? false,
+                  target_price: item.target_price ?? null,
+                  notes: '',
+                })
+              )
+            );
+          } catch (error) {
+            logger.error('Failed to merge guest wishlist:', error);
+          } finally {
+            clearGuestWishlist();
+            window.dispatchEvent(new Event('wishlist:refresh'));
           }
         }
 
@@ -379,7 +423,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const register = async (userData: RegisterUserData): Promise<AuthResponse> => {
     setLoading(true);
     try {
-      toast.debug(`Attempting registration for email: ${userData.email}`);
+      toast.debug(`Attempting registration for phone: ${userData.phone || userData.email || ''}`);
       // Get CSRF token from our custom endpoint
       let csrfToken = '';
       try {
@@ -393,57 +437,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         // Continue with registration attempt even if CSRF fetch fails
       }
 
-      // Prepare the registration data with name fields
-      const { full_name, full_name_en, full_name_ar, first_name, last_name, username, ...otherData } = userData;
-      
-      // Process name data for consistency
-      let finalFullNameEn = '';
-      let finalFirstName = '';
-      let finalLastName = '';
-      let finalUsername = '';
-      
-      // Handle username
-      if (username) {
-        finalUsername = username;
-      }
-      
-      // Handle first and last name
-      if (first_name || last_name) {
-        finalFirstName = first_name || '';
-        finalLastName = last_name || '';
-        finalFullNameEn = `${finalFirstName} ${finalLastName}`.trim();
-      }
-      // If no first/last name but full_name is provided, split it
-      else if (full_name || full_name_en) {
-        const nameToUse = full_name || full_name_en || '';
-        const nameParts = nameToUse.trim().split(' ');
-        finalFirstName = nameParts[0] || '';
-        finalLastName = nameParts.length > 1 ? nameParts.slice(1).join(' ') : '';
-        finalFullNameEn = nameToUse;
-      }
-      
-      // If username is not provided, generate one from last name or first name
-      if (!finalUsername) {
-        const nameBase = finalLastName || finalFirstName;
-        if (nameBase) {
-          const randomSuffix = Math.floor(1000 + Math.random() * 9000); // 4-digit number
-          finalUsername = `${nameBase.toLowerCase().replace(/\s+/g, '')}${randomSuffix}`;
-        } else {
-          // Last resort: random username
-          const randomSuffix = Math.floor(10000 + Math.random() * 90000); // 5-digit number
-          finalUsername = `user${randomSuffix}`;
-        }
-      }
-      
-      // Let TypeScript infer the type of dataPayload
-      const dataPayload = {
-        ...otherData,
-        username: finalUsername,
-        first_name: finalFirstName,
-        last_name: finalLastName,
-        full_name_en: finalFullNameEn,
-        full_name_ar: full_name_ar || '',
-      };
+      // Phone-first payload: forward userData as-is. Username is generated
+      // server-side now. Legacy fields (first_name, last_name, username) are
+      // still accepted for backward-compat with Google auth paths.
+      const dataPayload = { ...userData };
 
       // Make registration request with the CSRF token
       const response = await axios.post(
@@ -461,7 +458,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       );
 
       if (response.data.status === 'success') {
-        const { token, user } = response.data;
+        // Backend nests the auth payload under `data`:
+        // { status, message, data: { user, token } }. Fall back to the flat
+        // shape just in case. Reading the wrong level stored "undefined" and
+        // broke auto-login after registration.
+        const authPayload = response.data.data ?? response.data;
+        const token = authPayload.token ?? authPayload.access_token ?? response.data.token;
+        const user = authPayload.user ?? response.data.user;
         localStorage.setItem('token', token);
         localStorage.setItem('token_timestamp', new Date().getTime().toString());
 
@@ -486,8 +489,48 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         setUser(user);
         setIsAuthenticated(true);
         await checkAuth(false); // Re-check auth to ensure profile is fresh after registration
+
+        // Merge guest cart (if any) into the new account — mirrors what login() does.
+        // A guest who adds items then registers would otherwise lose their cart.
+        const guestToken = localStorage.getItem('guest_token');
+        if (guestToken) {
+          try {
+            await cartService.mergeGuestCart();
+            localStorage.removeItem('guest_token');
+            window.dispatchEvent(new Event('cart:refresh'));
+          } catch (mergeError) {
+            logger.error('Failed to merge guest cart on register:', mergeError);
+            // Non-fatal: registration succeeded, cart merge is best-effort.
+          }
+        }
+
+        // Merge guest wishlist — same logic as login()
+        const guestWishlist = getGuestWishlist();
+        if (guestWishlist.length > 0) {
+          try {
+            await Promise.allSettled(
+              guestWishlist.map((item) =>
+                axios.post('/api/wishlist', {
+                  product_id: item.product_id,
+                  notify_price_drop: item.notify_price_drop ?? false,
+                  notify_back_in_stock: item.notify_back_in_stock ?? false,
+                  target_price: item.target_price ?? null,
+                  notes: '',
+                })
+              )
+            );
+          } catch (wishlistMergeError) {
+            logger.error('Failed to merge guest wishlist on register:', wishlistMergeError);
+          } finally {
+            clearGuestWishlist();
+            window.dispatchEvent(new Event('wishlist:refresh'));
+          }
+        }
+
         toast.debug('Registration successful');
-        toast.success(response.data.message);
+        // Success toast is shown by the caller (register page) to avoid a
+        // double toast; auto-login state (token + user + isAuthenticated) is
+        // already set above so the post-register redirect stays authenticated.
         return { success: true, data: null, message: response.data.message };
       }
 
@@ -782,10 +825,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   );
 }
 
-// List of routes that require authentication
+// List of routes that require authentication.
+// NOTE: '/checkout' is intentionally NOT listed here — guests must reach checkout
+// to complete COD / bank-transfer purchases via the guest cart (X-Guest-Token).
+// Removing it from this list was a P0 fix (WCAG / guest-checkout parity).
 const protectedRoutes = [
   '/profile',
-  '/checkout',
   '/orders',
   '/account',
   '/address',

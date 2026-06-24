@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
-import { StarIcon } from '@heroicons/react/24/solid';
-import { HandThumbUpIcon as ThumbUpIcon, HandThumbDownIcon as ThumbDownIcon } from '@heroicons/react/24/outline';
-import { HandThumbUpIcon as ThumbUpSolid, HandThumbDownIcon as ThumbDownSolid } from '@heroicons/react/24/solid';
+import { Star, ThumbsUp, ThumbsDown, X, ChevronDown } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { Review } from '@/types/review';
 import { formatDate } from '@/utils/formatters';
@@ -82,12 +80,13 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ review, onReactionUpdate }) => 
   };
 
   return (
-    <div className="relative bg-white rounded-2xl p-5 shadow-sm ring-1 ring-amber-200 mb-6 overflow-hidden transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md">
-      
+    <article className="relative bg-white rounded-2xl p-6 shadow-atlas-sm ring-1 ring-gray-200 overflow-hidden transition-all duration-200 hover:-translate-y-0.5 hover:shadow-atlas-md">
+
       {/* Review Header */}
-      <div className="flex items-start justify-between mb-4">
-        <div className="flex items-center">
-          <div className="relative h-12 w-12 rounded-full overflow-hidden bg-gray-200 mr-3 ring-2 ring-amber-300 shadow-md">
+      <div className="flex items-start justify-between gap-3 mb-4">
+        <div className="flex items-center gap-3">
+          {/* Avatar — RTL-safe: gap replaces mr- */}
+          <div className="relative h-12 w-12 shrink-0 rounded-full overflow-hidden bg-amber-100 ring-2 ring-amber-300 shadow-atlas-sm">
             {review.userAvatar ? (
               <Image
                 src={getImageUrl(review.userAvatar)}
@@ -96,67 +95,67 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ review, onReactionUpdate }) => 
                 className="object-cover"
               />
             ) : (
-              <div className="flex items-center justify-center h-full w-full bg-indigo-700 text-white font-medium text-lg">
+              <div className="flex items-center justify-center h-full w-full bg-indigo-700 text-white font-semibold text-base">
                 {review.userName.charAt(0).toUpperCase()}
               </div>
             )}
           </div>
           <div>
-            <div className="font-semibold text-gray-900">{review.userName}</div>
-            <div className="text-sm text-gray-500">{formattedDate}</div>
+            <div className="font-semibold text-gray-900 text-sm">{review.userName}</div>
+            <div className="text-xs text-gray-500 mt-0.5">{formattedDate}</div>
           </div>
         </div>
-        
+
         {/* Verified badge — Atlas eyebrow style §6.7 */}
         {review.verified && (
-          <p className="text-xs uppercase tracking-[0.18em] text-amber-700 font-medium">
+          <span className="shrink-0 text-xs uppercase tracking-[0.18em] text-amber-700 font-medium bg-amber-50 ring-1 ring-amber-200 rounded-full px-2.5 py-1">
             {t('reviews.verified_buyer', 'Verified buyer')}
-          </p>
+          </span>
         )}
       </div>
-      
-      {/* Rating */}
+
+      {/* Rating + title */}
       <div className="mb-3">
-        <div className="flex items-center mb-2">
+        <div className="flex items-center gap-0.5 mb-2">
           {[...Array(5)].map((_, i) => (
-            <StarIcon
+            <Star
               key={i}
               className={cn(
-                "h-5 w-5", 
-                i < review.rating 
-                  ? "text-amber-400 drop-shadow-sm" 
-                  : "text-gray-200"
+                'h-4 w-4',
+                i < review.rating
+                  ? 'fill-amber-400 text-amber-400'
+                  : 'text-gray-200 fill-gray-200'
               )}
             />
           ))}
-          <span className="ml-2 text-sm font-medium text-gray-600">
+          <span className="ms-2 text-xs font-medium text-gray-500">
             {review.rating}/5
           </span>
         </div>
-        <h3
-          className="text-lg font-semibold text-gray-900"
-          style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
-        >
-          {review.title}
-        </h3>
+        {review.title && (
+          <h3
+            className="text-base font-semibold text-gray-900 leading-snug"
+            style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
+          >
+            {review.title}
+          </h3>
+        )}
       </div>
-      
+
       {/* Review content */}
-      <div className="text-gray-700 mb-4 bg-amber-50/60 p-3 rounded-2xl ring-1 ring-amber-100">
-        <p className="leading-relaxed">{truncatedContent}</p>
+      <div className="text-gray-700 mb-4 bg-gray-50 p-4 rounded-2xl ring-1 ring-gray-100 text-sm leading-relaxed">
+        <p>{truncatedContent}</p>
         {shouldTruncate && (
           <button
             onClick={() => setIsExpanded(true)}
-            className="text-indigo-600 hover:text-indigo-800 text-sm font-medium mt-2 flex items-center"
+            className="inline-flex items-center gap-1 text-indigo-700 hover:text-indigo-900 text-xs font-medium mt-2 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30"
           >
-            {t('reviews.read_more')}
-            <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-            </svg>
+            {t('reviews.read_more', 'Read more')}
+            <ChevronDown className="w-3.5 h-3.5" aria-hidden />
           </button>
         )}
       </div>
-      
+
       {/* Review images */}
       {review.images && review.images.length > 0 && (
         <div className="mb-4">
@@ -165,34 +164,39 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ review, onReactionUpdate }) => 
               <button
                 key={index}
                 onClick={() => setSelectedImage(image)}
-                className="relative h-20 w-20 rounded-md overflow-hidden border border-gray-200 hover:border-indigo-500 transition-all duration-200 hover:shadow-md"
+                aria-label={`${t('reviews.review_image', 'Review image')} ${index + 1}`}
+                className="relative h-20 w-20 rounded-xl overflow-hidden ring-1 ring-gray-200 hover:ring-indigo-700 transition-all duration-200 hover:shadow-atlas-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700"
               >
                 <Image
                   src={getImageUrl(image)}
-                  alt={`${t('reviews.review_image')} ${index + 1}`}
+                  alt={`${t('reviews.review_image', 'Review image')} ${index + 1}`}
                   fill
                   className="object-cover"
                 />
               </button>
             ))}
           </div>
-          
-          {/* Image modal */}
+
+          {/* Image lightbox */}
           {selectedImage && (
-            <div className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50 p-4 backdrop-blur-sm">
-              <div className="relative max-w-4xl max-h-full bg-white bg-opacity-10 rounded-xl p-1 shadow-2xl">
+            <div
+              className="fixed inset-0 bg-gray-950/85 flex items-center justify-center z-50 p-4 backdrop-blur-sm"
+              role="dialog"
+              aria-modal="true"
+              aria-label={t('reviews.review_image', 'Review image')}
+            >
+              <div className="relative max-w-4xl max-h-full rounded-2xl overflow-hidden shadow-atlas-xl">
                 <button
                   onClick={() => setSelectedImage(null)}
-                  className="absolute -top-3 -right-3 bg-white rounded-full p-2 shadow-lg hover:bg-gray-100 transition-colors z-10"
+                  aria-label={t('common.close', 'Close')}
+                  className="absolute top-3 end-3 z-10 bg-white/90 backdrop-blur-sm rounded-full p-2 shadow-atlas-sm hover:bg-white transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700"
                 >
-                  <svg className="w-6 h-6 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                  </svg>
+                  <X className="w-5 h-5 text-gray-800" aria-hidden />
                 </button>
-                <div className="relative h-[80vh] w-[80vw] max-w-4xl rounded-lg overflow-hidden">
+                <div className="relative h-[80vh] w-[80vw] max-w-4xl">
                   <Image
                     src={getImageUrl(selectedImage)}
-                    alt={t('reviews.review_image')}
+                    alt={t('reviews.review_image', 'Review image')}
                     fill
                     className="object-contain"
                   />
@@ -202,52 +206,50 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ review, onReactionUpdate }) => 
           )}
         </div>
       )}
-      
-      {/* Review footer */}
-      <div className="flex items-center justify-between mt-4 pt-3 border-t border-gray-100">
-        <div className="flex items-center space-x-4">
-          <button
-            onClick={() => handleReaction('like')}
-            disabled={isSubmitting}
-            className={cn(
-              "flex items-center space-x-1 text-sm px-3 py-1.5 rounded-full transition-all duration-200",
-              userReaction === 'like' 
-                ? "bg-indigo-50 text-indigo-600 font-medium shadow-sm" 
-                : "text-gray-600 hover:bg-gray-100"
-            )}
-            aria-label={t('reviews.helpful')}
-          >
-            {userReaction === 'like' ? (
-              <ThumbUpSolid className="h-4 w-4 mr-1" />
-            ) : (
-              <ThumbUpIcon className="h-4 w-4 mr-1" />
-            )}
-            <span>{likes}</span>
-            <span className="sr-only md:not-sr-only md:inline-block ml-1">{t('reviews.helpful')}</span>
-          </button>
-          
-          <button
-            onClick={() => handleReaction('dislike')}
-            disabled={isSubmitting}
-            className={cn(
-              "flex items-center space-x-1 text-sm px-3 py-1.5 rounded-full transition-all duration-200",
-              userReaction === 'dislike' 
-                ? "bg-gray-100 text-gray-700 font-medium shadow-sm" 
-                : "text-gray-600 hover:bg-gray-100"
-            )}
-            aria-label={t('reviews.not_helpful')}
-          >
-            {userReaction === 'dislike' ? (
-              <ThumbDownSolid className="h-4 w-4 mr-1" />
-            ) : (
-              <ThumbDownIcon className="h-4 w-4 mr-1" />
-            )}
-            <span>{dislikes}</span>
-            <span className="sr-only md:not-sr-only md:inline-block ml-1">{t('reviews.not_helpful')}</span>
-          </button>
-        </div>
+
+      {/* Review footer — reaction buttons */}
+      <div className="flex items-center gap-3 mt-4 pt-4 border-t border-gray-100">
+        <button
+          onClick={() => handleReaction('like')}
+          disabled={isSubmitting}
+          className={cn(
+            'inline-flex items-center gap-1.5 text-sm px-3 py-1.5 rounded-full transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30',
+            userReaction === 'like'
+              ? 'bg-indigo-50 text-indigo-700 font-medium ring-1 ring-indigo-200'
+              : 'text-gray-500 hover:bg-amber-50 hover:text-gray-700'
+          )}
+          aria-label={t('reviews.helpful', 'Helpful')}
+          aria-pressed={userReaction === 'like'}
+        >
+          <ThumbsUp
+            className={cn('h-3.5 w-3.5', userReaction === 'like' ? 'fill-indigo-700' : '')}
+            aria-hidden
+          />
+          <span>{likes}</span>
+          <span className="sr-only md:not-sr-only">{t('reviews.helpful', 'Helpful')}</span>
+        </button>
+
+        <button
+          onClick={() => handleReaction('dislike')}
+          disabled={isSubmitting}
+          className={cn(
+            'inline-flex items-center gap-1.5 text-sm px-3 py-1.5 rounded-full transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30',
+            userReaction === 'dislike'
+              ? 'bg-gray-100 text-gray-700 font-medium ring-1 ring-gray-200'
+              : 'text-gray-500 hover:bg-amber-50 hover:text-gray-700'
+          )}
+          aria-label={t('reviews.not_helpful', 'Not helpful')}
+          aria-pressed={userReaction === 'dislike'}
+        >
+          <ThumbsDown
+            className={cn('h-3.5 w-3.5', userReaction === 'dislike' ? 'fill-gray-700' : '')}
+            aria-hidden
+          />
+          <span>{dislikes}</span>
+          <span className="sr-only md:not-sr-only">{t('reviews.not_helpful', 'Not helpful')}</span>
+        </button>
       </div>
-    </div>
+    </article>
   );
 };
 

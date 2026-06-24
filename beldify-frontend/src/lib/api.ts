@@ -41,6 +41,24 @@ const setGuestToken = (token: string | null) => {
   }
 };
 
+// Mint the guest token ONCE, synchronously at module load, BEFORE any request
+// fires. Generating it inside the request interceptor races on a fresh guest's
+// first load: several concurrent /api/ calls each see no token and mint a
+// different one (last write wins), so the add and the read can land on
+// different guest carts and the cart appears empty. Initializing here means
+// every request shares one stable token.
+const ensureGuestToken = () => {
+  if (typeof window === 'undefined') return;
+  if (getAuthToken()) return; // authenticated users never need a guest token
+  if (!getGuestToken()) {
+    const gt = (window.crypto && typeof window.crypto.randomUUID === 'function')
+      ? window.crypto.randomUUID()
+      : `g-${Date.now()}-${Math.random().toString(36).slice(2, 12)}`;
+    setGuestToken(gt);
+  }
+};
+ensureGuestToken();
+
 // Add request interceptor for auth token and guest token
 api.interceptors.request.use(
   async (config) => {
@@ -48,11 +66,34 @@ api.interceptors.request.use(
     const token = getAuthToken();
     const guestToken = getGuestToken();
 
+    // CARTDBG: trace token presence on every /api/ request so we can compare
+    // the token used on add-POST vs the token used on cart-GET.
+    // We log only whether a token exists and a 6-char prefix (never the full value).
+    if (typeof window !== 'undefined' && config.url?.includes('/api/')) {
+      const tokenPresent = Boolean(token || guestToken);
+      const shortHash = guestToken ? guestToken.slice(0, 6) : (token ? 'auth' : 'none');
+      console.warn(`[CARTDBG] req ${config.url} sentToken=${tokenPresent} prefix=${shortHash}`);
+    }
+
     if (token) {
       config.headers['Authorization'] = `Bearer ${token}`;
-    } else if (guestToken && config.url?.includes('/api/cart')) {
-      // Only add guest token for cart-related endpoints when not authenticated
-      config.headers['X-Guest-Token'] = guestToken;
+    } else if (config.url?.includes('/api/')) {
+      // Ensure a STABLE client-side guest token exists and is always sent.
+      // The backend accepts any X-Guest-Token and keys the guest cart to it, so
+      // generating + persisting our own avoids depending on reading the
+      // backend-issued response header — which the service worker / XHR can drop
+      // cross-origin (www.beldify.com -> pro.beldify.com). Without a stable
+      // token, every request mints a new empty cart and the cart never persists.
+      let gt = guestToken;
+      if (!gt && typeof window !== 'undefined') {
+        gt = (window.crypto && typeof window.crypto.randomUUID === 'function')
+          ? window.crypto.randomUUID()
+          : `g-${Date.now()}-${Math.random().toString(36).slice(2, 12)}`;
+        setGuestToken(gt);
+      }
+      if (gt) {
+        config.headers['X-Guest-Token'] = gt;
+      }
     }
 
     return config;
@@ -65,18 +106,35 @@ api.interceptors.request.use(
 // Add response interceptor for auth errors and guest token handling
 api.interceptors.response.use(
   (response) => {
-    // Check for guest token in response headers
-    const guestToken = response.headers?.['x-guest-token'];
-    if (guestToken && !getAuthToken()) {
-      setGuestToken(guestToken);
+    // Adopt a backend-issued guest token only if we don't already hold one
+    // (the request interceptor generates + persists a stable token, so this is
+    // normally a no-op and we never thrash the cart key cross-request).
+    const backendGuestToken = response.headers?.['x-guest-token'];
+    if (typeof window !== 'undefined' && response.config?.url?.includes('/api/')) {
+      console.warn(
+        `[CARTDBG] res ${response.config.url} status=${response.status}` +
+        ` backendTokenPresent=${Boolean(backendGuestToken)}`
+      );
+    }
+    if (backendGuestToken && !getAuthToken() && !getGuestToken()) {
+      setGuestToken(backendGuestToken);
     }
     return response;
   },
   async (error) => {
     if (error.response?.status === 401 && typeof window !== 'undefined') {
-      localStorage.removeItem('token');
-      const currentPath = window.location.pathname;
-      window.location.href = `/login?redirect=${encodeURIComponent(currentPath)}`;
+      // Only force a re-login when an actual auth session existed and is now
+      // invalid. Guests (no auth token) legitimately receive 401 from auth-only
+      // sub-endpoints reached on public pages (e.g. cart/related-products,
+      // cart coupons) — those must never hijack a guest to /login, or guest
+      // cart/checkout breaks. Protected routes are already gated upstream.
+      if (getAuthToken()) {
+        localStorage.removeItem('token');
+        const currentPath = window.location.pathname;
+        if (currentPath !== '/login') {
+          window.location.href = `/login?redirect=${encodeURIComponent(currentPath)}`;
+        }
+      }
     }
     return Promise.reject(error);
   }
@@ -98,8 +156,8 @@ export const fetchCategories = async () => {
 // Tailors API
 export const fetchTailors = async (): Promise<Tailor[]> => {
   try {
-    const response = await api.get<ApiResponse<Tailor>>('/api/fetch-tailors'); // Add /api/
-    return response.data?.data?.tailors || [];
+    const response = await api.get<ApiResponse<Tailor[]>>('/api/fetch-tailors'); // Add /api/
+    return response.data?.data || [];
   } catch (error) {
     logger.error('Error fetching tailors:', error);
     return [];
@@ -145,8 +203,9 @@ export const fetchBestSellers = async (): Promise<Product[]> => {
     }
     
     // Fallback for old API format
-    if (response.data?.best_sellers && Array.isArray(response.data.best_sellers)) {
-      return response.data.best_sellers;
+    const dataAny = response.data as any;
+    if (dataAny?.best_sellers && Array.isArray(dataAny.best_sellers)) {
+      return dataAny.best_sellers;
     }
     
     logger.warn('Best sellers response format unexpected:', response.data);
@@ -161,8 +220,8 @@ export const fetchBestSellers = async (): Promise<Product[]> => {
 // Featured API
 export const fetchFeatured = async (): Promise<Product[]> => {
   try {
-    const response = await api.get<ApiResponse<Product>>('/api/fetch-featured'); // Add /api/
-    return response.data?.data?.featured || [];
+    const response = await api.get<ApiResponse<Product[]>>('/api/fetch-featured'); // Add /api/
+    return response.data?.data || [];
   } catch (error) {
     logger.error('Error fetching featured items:', error);
     return [];

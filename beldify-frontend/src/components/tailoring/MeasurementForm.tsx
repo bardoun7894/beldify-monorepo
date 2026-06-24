@@ -2,7 +2,8 @@
 
 import React, { useState, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ShoppingCart, Save, Info, Ruler } from 'lucide-react';
+import { ShoppingCart, Info, Ruler } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -27,15 +28,17 @@ interface MeasurementField {
   diagramId: string;
 }
 
+const PLAYFAIR = '"Playfair Display", ui-serif, Georgia, serif';
+
 // ─── Static data (hoisted outside component per vercel-react-best-practices) ──
 
 const MEASUREMENT_FIELDS: MeasurementField[] = [
   {
     key: 'chest',
     labelKey: 'tailoring.measurements.chest',
-    labelDefault: 'محيط الصدر',
+    labelDefault: 'Chest',
     hintKey: 'tailoring.measurements.chestHint',
-    hintDefault: 'قيسي حول الجزء الأكثر امتلاءً من الصدر.',
+    hintDefault: 'Measure around the fullest part of your chest.',
     exampleCm: '90',
     exampleIn: '35',
     diagramId: 'chest',
@@ -43,9 +46,9 @@ const MEASUREMENT_FIELDS: MeasurementField[] = [
   {
     key: 'waist',
     labelKey: 'tailoring.measurements.waist',
-    labelDefault: 'محيط الخصر',
+    labelDefault: 'Waist',
     hintKey: 'tailoring.measurements.waistHint',
-    hintDefault: 'قيسي حول أضيق جزء من خصرك.',
+    hintDefault: 'Measure around the narrowest part of your waist.',
     exampleCm: '70',
     exampleIn: '27',
     diagramId: 'waist',
@@ -53,9 +56,9 @@ const MEASUREMENT_FIELDS: MeasurementField[] = [
   {
     key: 'hips',
     labelKey: 'tailoring.measurements.hips',
-    labelDefault: 'محيط الأرداف',
+    labelDefault: 'Hips',
     hintKey: 'tailoring.measurements.hipsHint',
-    hintDefault: 'قيسي حول الجزء الأكثر امتلاءً من الأرداف.',
+    hintDefault: 'Measure around the fullest part of your hips.',
     exampleCm: '100',
     exampleIn: '39',
     diagramId: 'hips',
@@ -63,9 +66,9 @@ const MEASUREMENT_FIELDS: MeasurementField[] = [
   {
     key: 'length',
     labelKey: 'tailoring.measurements.length',
-    labelDefault: 'الطول الكلي',
+    labelDefault: 'Total length',
     hintKey: 'tailoring.measurements.lengthHint',
-    hintDefault: 'من أعلى الكتف إلى الطول المطلوب (مع الحذاء).',
+    hintDefault: 'From the top of the shoulder to the desired length (with shoes).',
     exampleCm: '140',
     exampleIn: '55',
     diagramId: 'length',
@@ -74,10 +77,10 @@ const MEASUREMENT_FIELDS: MeasurementField[] = [
 
 // Diagram annotation nodes: position as percentage of the 3:4 illustration container
 const DIAGRAM_NODES = [
-  { id: 'chest', labelKey: 'tailoring.measurements.diagramChest', labelDefault: 'الصدر', topPct: 25 },
-  { id: 'waist', labelKey: 'tailoring.measurements.diagramWaist', labelDefault: 'الخصر', topPct: 40 },
-  { id: 'hips', labelKey: 'tailoring.measurements.diagramHips', labelDefault: 'الأرداف', topPct: 56 },
-  { id: 'length', labelKey: 'tailoring.measurements.diagramLength', labelDefault: 'الطول', topPct: 75 },
+  { id: 'chest', labelKey: 'tailoring.measurements.diagramChest', labelDefault: 'Chest', topPct: 25 },
+  { id: 'waist', labelKey: 'tailoring.measurements.diagramWaist', labelDefault: 'Waist', topPct: 40 },
+  { id: 'hips', labelKey: 'tailoring.measurements.diagramHips', labelDefault: 'Hips', topPct: 56 },
+  { id: 'length', labelKey: 'tailoring.measurements.diagramLength', labelDefault: 'Length', topPct: 75 },
 ];
 
 // ─── MeasurementForm Component ────────────────────────────────────────────────
@@ -131,35 +134,31 @@ export default function MeasurementForm({ onAddToCart, onSave }: MeasurementForm
   }, [onSave, values, unit]);
 
   const unitLabel = unit === 'cm'
-    ? t('tailoring.measurements.unitCm', 'سم')
-    : t('tailoring.measurements.unitIn', 'إنش');
+    ? t('tailoring.measurements.unitCm', 'cm')
+    : t('tailoring.measurements.unitIn', 'in');
 
   return (
-    <div dir="rtl" className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+    <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
       {/* ── Left (Guide) column — 5 cols on desktop, order-2 on mobile ── */}
       <aside className="lg:col-span-5 order-2 lg:order-1">
-        <div className="bg-white rounded-2xl shadow-[0px_8px_30px_rgba(37,37,85,0.08)] p-6 h-full border border-amber-200/30 lg:sticky lg:top-32">
-          <h2 className="text-xl font-bold text-indigo-900 mb-5 pb-4 border-b border-amber-100"
-            style={{ fontFamily: '"IBM Plex Sans Arabic", ui-sans-serif, sans-serif' }}
+        <div className="bg-white rounded-2xl shadow-atlas-md p-6 h-full border border-gray-200 lg:sticky lg:top-32">
+          <h2 className="text-xl font-bold text-indigo-950 mb-5 pb-4 border-b border-gray-100"
+            style={{ fontFamily: PLAYFAIR }}
           >
-            {t('tailoring.measurements.guideTitle', 'دليل أخذ المقاسات')}
+            {t('tailoring.measurements.guideTitle', 'Measurement guide')}
           </h2>
 
           {/* Illustration with interactive nodes */}
-          <div className="relative w-full aspect-[3/4] bg-amber-50 rounded-xl overflow-hidden mb-5 border border-amber-200/30">
+          <div className="relative w-full aspect-[3/4] bg-amber-50 rounded-xl overflow-hidden mb-5 border border-amber-200">
             {/* Placeholder gradient representing a kaftan silhouette */}
             <div
-              className="absolute inset-0"
-              style={{
-                background:
-                  'linear-gradient(160deg, #fbf9f4 0%, #f0eee9 40%, #e4e2dd 100%)',
-              }}
+              className="absolute inset-0 bg-gradient-to-br from-gray-50 via-stone-100 to-stone-200"
               aria-hidden
             />
             {/* Kaftan outline decoration */}
             <svg
               aria-hidden
-              className="absolute inset-0 w-full h-full opacity-20"
+              className="absolute inset-0 w-full h-full opacity-20 stroke-indigo-950"
               viewBox="0 0 200 267"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
@@ -167,19 +166,19 @@ export default function MeasurementForm({ onAddToCart, onSave }: MeasurementForm
               {/* Simplified kaftan silhouette */}
               <path
                 d="M70 10 Q100 0 130 10 L150 60 Q130 70 100 72 Q70 70 50 60 Z"
-                stroke="#252555" strokeWidth="1.5" fill="none"
+                strokeWidth="1.5" fill="none"
               />
               <path
                 d="M50 60 L30 120 Q50 135 100 138 Q150 135 170 120 L150 60"
-                stroke="#252555" strokeWidth="1.5" fill="none"
+                strokeWidth="1.5" fill="none"
               />
               <path
                 d="M30 120 Q40 180 45 267"
-                stroke="#252555" strokeWidth="1.5" fill="none"
+                strokeWidth="1.5" fill="none"
               />
               <path
                 d="M170 120 Q160 180 155 267"
-                stroke="#252555" strokeWidth="1.5" fill="none"
+                strokeWidth="1.5" fill="none"
               />
             </svg>
 
@@ -190,24 +189,22 @@ export default function MeasurementForm({ onAddToCart, onSave }: MeasurementForm
                 type="button"
                 aria-label={t(`tailoring.measurements.diagram${node.id.charAt(0).toUpperCase() + node.id.slice(1)}`, node.labelDefault)}
                 onClick={() => handleDiagramNodeClick(node.id)}
-                className="absolute left-1/2 -translate-x-1/2 flex items-center justify-center w-full cursor-pointer group focus:outline-none"
+                className="absolute inset-x-0 mx-auto flex items-center justify-center w-full cursor-pointer group focus:outline-none"
                 style={{ top: `${node.topPct}%` }}
               >
                 {/* Horizontal measurement line */}
                 <div
-                  className="h-px w-1/2 absolute z-10 transition-colors duration-200"
-                  style={{ backgroundColor: '#fea619' }}
+                  className="h-px w-1/2 absolute z-10 bg-amber-500 transition-colors duration-200"
                   aria-hidden
                 />
                 {/* Central node dot */}
                 <div
-                  className="w-4 h-4 rounded-full z-20 border-2 border-white shadow-md transition-transform duration-200 group-hover:scale-125 group-focus-visible:scale-125"
-                  style={{ backgroundColor: '#fea619' }}
+                  className="w-4 h-4 rounded-full z-20 bg-amber-500 border-2 border-white shadow-atlas-sm transition-transform duration-200 group-hover:scale-125 group-focus-visible:scale-125"
                   aria-hidden
                 />
                 {/* Label */}
                 <span
-                  className="absolute end-[8%] bg-white/95 backdrop-blur-sm px-2 py-0.5 rounded text-xs font-medium text-indigo-900 shadow-sm select-none"
+                  className="absolute end-[8%] bg-white/95 backdrop-blur-sm px-2 py-0.5 rounded text-xs font-medium text-indigo-950 shadow-atlas-sm select-none"
                   aria-hidden
                 >
                   {t(node.labelKey, node.labelDefault)}
@@ -223,7 +220,7 @@ export default function MeasurementForm({ onAddToCart, onSave }: MeasurementForm
               <p className="text-sm text-indigo-800 leading-relaxed">
                 {t(
                   'tailoring.measurements.guideHint',
-                  'استخدمي شريط قياس مرن. تأكدي من أن الشريط مستقيم وموازي للأرض عند أخذ المقاسات المحيطية.'
+                  'Use a flexible tape measure. Keep the tape straight and parallel to the floor when taking circumference measurements.'
                 )}
               </p>
             </div>
@@ -233,48 +230,48 @@ export default function MeasurementForm({ onAddToCart, onSave }: MeasurementForm
 
       {/* ── Right (Form) column — 7 cols on desktop, order-1 on mobile ── */}
       <div className="lg:col-span-7 order-1 lg:order-2">
-        <div className="bg-white rounded-2xl shadow-[0px_4px_20px_rgba(37,37,85,0.05)] p-6 lg:p-8 border border-amber-200/30">
+        <div className="bg-white rounded-2xl shadow-atlas-sm p-6 lg:p-8 border border-gray-200">
 
           {/* Form header with unit toggle */}
-          <div className="flex justify-between items-center mb-8 pb-5 border-b border-amber-100">
+          <div className="flex justify-between items-center mb-8 pb-5 border-b border-gray-100">
             <h2
-              className="text-2xl font-bold text-indigo-900"
-              style={{ fontFamily: '"IBM Plex Sans Arabic", ui-sans-serif, sans-serif' }}
+              className="text-2xl font-bold text-indigo-950"
+              style={{ fontFamily: PLAYFAIR }}
             >
-              {t('tailoring.measurements.formTitle', 'المقاسات الشخصية')}
+              {t('tailoring.measurements.formTitle', 'Your measurements')}
             </h2>
 
             {/* Unit toggle */}
             <div
               role="group"
-              aria-label={t('tailoring.measurements.unitToggleLabel', 'وحدة القياس')}
-              className="flex bg-amber-50 rounded-lg p-1 border border-amber-200/50"
+              aria-label={t('tailoring.measurements.unitToggleLabel', 'Measurement unit')}
+              className="flex bg-amber-50 rounded-lg p-1 border border-amber-200"
             >
               <button
                 type="button"
                 aria-pressed={unit === 'cm'}
-                aria-label={t('tailoring.measurements.unitCmLabel', 'سنتيمتر')}
+                aria-label={t('tailoring.measurements.unitCmLabel', 'Centimeters')}
                 onClick={() => setUnit('cm')}
                 className={`px-4 py-1.5 rounded-md text-sm font-medium transition-all duration-150 ${
                   unit === 'cm'
-                    ? 'bg-white shadow-sm text-indigo-900'
+                    ? 'bg-white shadow-atlas-sm text-indigo-950'
                     : 'text-indigo-600 hover:text-indigo-900'
                 }`}
               >
-                {t('tailoring.measurements.unitCm', 'سم')}
+                {t('tailoring.measurements.unitCm', 'cm')}
               </button>
               <button
                 type="button"
                 aria-pressed={unit === 'in'}
-                aria-label={t('tailoring.measurements.unitInLabel', 'إنش')}
+                aria-label={t('tailoring.measurements.unitInLabel', 'Inches')}
                 onClick={() => setUnit('in')}
                 className={`px-4 py-1.5 rounded-md text-sm font-medium transition-all duration-150 ${
                   unit === 'in'
-                    ? 'bg-white shadow-sm text-indigo-900'
+                    ? 'bg-white shadow-atlas-sm text-indigo-950'
                     : 'text-indigo-600 hover:text-indigo-900'
                 }`}
               >
-                {t('tailoring.measurements.unitIn', 'إنش')}
+                {t('tailoring.measurements.unitIn', 'in')}
               </button>
             </div>
           </div>
@@ -284,7 +281,7 @@ export default function MeasurementForm({ onAddToCart, onSave }: MeasurementForm
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               {MEASUREMENT_FIELDS.map((field) => {
                 const isHighlighted = highlightedField === field.diagramId;
-                const placeholder = `${t('tailoring.measurements.eg', 'مثال')}: ${
+                const placeholder = `${t('tailoring.measurements.eg', 'e.g.')} ${
                   unit === 'cm' ? field.exampleCm : field.exampleIn
                 }`;
                 return (
@@ -297,7 +294,7 @@ export default function MeasurementForm({ onAddToCart, onSave }: MeasurementForm
                   >
                     <label
                       htmlFor={`input-${field.key}`}
-                      className="block text-sm font-medium text-indigo-900 mb-1.5"
+                      className="block text-sm font-medium text-indigo-950 mb-1.5"
                     >
                       {t(field.labelKey, field.labelDefault)}
                     </label>
@@ -310,12 +307,12 @@ export default function MeasurementForm({ onAddToCart, onSave }: MeasurementForm
                         value={values[field.key]}
                         onChange={handleChange(field.key)}
                         placeholder={placeholder}
-                        className="w-full bg-white border border-amber-200/60 rounded-lg py-3 px-4 ps-16 text-right text-base text-indigo-900 placeholder:text-indigo-300 focus:outline-none focus:ring-2 focus:ring-indigo-200 focus:border-indigo-400 transition-colors"
+                        className="w-full bg-white border border-gray-200 rounded-lg py-3 px-4 ps-16 text-start text-base text-indigo-950 placeholder:text-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-200 focus:border-indigo-400 transition-colors"
                         aria-describedby={`hint-${field.key}`}
                       />
-                      {/* Unit label positioned on the left side (start in RTL) */}
+                      {/* Unit label pinned to the inline-start edge (logical, RTL-safe) */}
                       <span
-                        className="absolute start-0 top-0 bottom-0 flex items-center px-4 text-sm text-indigo-400 font-medium pointer-events-none border-e border-amber-200/60 bg-amber-50/40 rounded-s-lg"
+                        className="absolute start-0 top-0 bottom-0 flex items-center px-4 text-sm text-indigo-600 font-medium pointer-events-none border-e border-gray-200 bg-gray-50 rounded-s-lg"
                         aria-hidden
                       >
                         {unitLabel}
@@ -323,7 +320,7 @@ export default function MeasurementForm({ onAddToCart, onSave }: MeasurementForm
                     </div>
                     <p
                       id={`hint-${field.key}`}
-                      className="mt-1.5 text-xs text-indigo-400 leading-relaxed"
+                      className="mt-1.5 text-xs text-indigo-600 leading-relaxed"
                     >
                       {t(field.hintKey, field.hintDefault)}
                     </p>
@@ -333,14 +330,14 @@ export default function MeasurementForm({ onAddToCart, onSave }: MeasurementForm
             </div>
 
             {/* Notes textarea */}
-            <div className="mt-6 pt-6 border-t border-amber-100">
+            <div className="mt-6 pt-6 border-t border-gray-100">
               <label
                 htmlFor="input-notes"
-                className="block text-sm font-medium text-indigo-900 mb-1.5"
+                className="block text-sm font-medium text-indigo-950 mb-1.5"
               >
-                {t('tailoring.measurements.notes', 'ملاحظات إضافية')}
-                <span className="ms-1.5 text-xs font-normal text-indigo-400">
-                  ({t('tailoring.measurements.optional', 'اختياري')})
+                {t('tailoring.measurements.notes', 'Additional notes')}
+                <span className="ms-1.5 text-xs font-normal text-indigo-600">
+                  ({t('tailoring.measurements.optional', 'optional')})
                 </span>
               </label>
               <textarea
@@ -350,35 +347,37 @@ export default function MeasurementForm({ onAddToCart, onSave }: MeasurementForm
                 onChange={handleChange('notes')}
                 placeholder={t(
                   'tailoring.measurements.notesPlaceholder',
-                  'هل هناك تفضيلات معينة بخصوص القصة أو المقاس؟'
+                  'Any specific preferences about cut or fit?'
                 )}
-                className="w-full bg-white border border-amber-200/60 rounded-lg py-3 px-4 text-right text-base text-indigo-900 placeholder:text-indigo-300 focus:outline-none focus:ring-2 focus:ring-indigo-200 focus:border-indigo-400 transition-colors resize-none"
+                className="w-full bg-white border border-gray-200 rounded-lg py-3 px-4 text-start text-base text-indigo-950 placeholder:text-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-200 focus:border-indigo-400 transition-colors resize-none"
               />
             </div>
 
             {/* Action buttons */}
-            <div className="flex flex-col sm:flex-row gap-3 mt-8 pt-5 border-t border-amber-100">
-              {/* Primary: Add to Cart — amber with dark text for WCAG AA contrast */}
-              <button
+            <div className="flex flex-col sm:flex-row gap-3 mt-8 pt-5 border-t border-gray-100">
+              {/* Primary: Add to Cart — Atlas accent (amber-500 / text-amber-950) */}
+              <Button
                 type="button"
+                variant="accent"
                 onClick={handleAddToCart}
-                className="flex-1 flex items-center justify-center gap-2 bg-amber-400 hover:bg-amber-300 active:bg-amber-500 text-gray-900 font-semibold py-4 px-6 rounded-xl shadow-sm transition-all duration-150 active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-amber-400 focus:ring-offset-2"
-                aria-label={t('tailoring.measurements.addToCart', 'إضافة إلى السلة')}
+                className="flex-1 py-4 px-6 rounded-xl"
+                aria-label={t('tailoring.measurements.addToCart', 'Add to cart')}
               >
-                <ShoppingCart className="h-5 w-5 flex-shrink-0" aria-hidden />
-                {t('tailoring.measurements.addToCart', 'إضافة إلى السلة')}
-              </button>
+                <ShoppingCart className="h-5 w-5 flex-shrink-0 me-2" aria-hidden />
+                {t('tailoring.measurements.addToCart', 'Add to cart')}
+              </Button>
 
               {/* Secondary: Save Measurements — outline indigo */}
-              <button
+              <Button
                 type="button"
+                variant="outline"
                 onClick={handleSave}
-                className="sm:flex-none flex items-center justify-center gap-2 bg-white hover:bg-indigo-50 active:bg-indigo-100 text-indigo-700 border border-indigo-200 font-semibold py-4 px-6 rounded-xl transition-all duration-150 active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-indigo-300 focus:ring-offset-2"
-                aria-label={t('tailoring.measurements.saveMeasurements', 'حفظ المقاسات')}
+                className="sm:flex-none py-4 px-6 rounded-xl"
+                aria-label={t('tailoring.measurements.saveMeasurements', 'Save measurements')}
               >
-                <Ruler className="h-5 w-5 flex-shrink-0" aria-hidden />
-                {t('tailoring.measurements.saveMeasurements', 'حفظ المقاسات')}
-              </button>
+                <Ruler className="h-5 w-5 flex-shrink-0 me-2" aria-hidden />
+                {t('tailoring.measurements.saveMeasurements', 'Save measurements')}
+              </Button>
             </div>
           </form>
         </div>

@@ -2,7 +2,9 @@ import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import React from 'react'
-import { useForm } from 'react-hook-form'
+import { useForm as _useForm } from 'react-hook-form'
+// declarations.d.ts declares react-hook-form as untyped; cast to recover generics.
+const useForm = _useForm as <T extends Record<string, any>>() => ReturnType<typeof _useForm>
 
 // Test form types
 interface TestFormData {
@@ -44,7 +46,7 @@ function TestLoginForm({
   } = useForm<TestFormData>()
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} data-testid="login-form">
+    <form onSubmit={handleSubmit(onSubmit)} data-testid="login-form" noValidate>
       {formError && (
         <div className="error-message" role="alert" data-testid="form-error">
           {formError}
@@ -117,7 +119,7 @@ function TestRegistrationForm({
   } = useForm<TestFormData>()
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} data-testid="registration-form">
+    <form onSubmit={handleSubmit(onSubmit)} data-testid="registration-form" noValidate>
       {formError && (
         <div className="error-message" role="alert" data-testid="form-error">
           {formError}
@@ -176,11 +178,11 @@ function TestRegistrationForm({
               message: mockT('auth.password_min_length'),
             },
             validate: {
-              hasUppercase: (value) =>
+              hasUppercase: (value: string) =>
                 /[A-Z]/.test(value) || 'Password must contain an uppercase letter',
-              hasLowercase: (value) =>
+              hasLowercase: (value: string) =>
                 /[a-z]/.test(value) || 'Password must contain a lowercase letter',
-              hasNumber: (value) =>
+              hasNumber: (value: string) =>
                 /\d/.test(value) || 'Password must contain a number',
             },
           })}

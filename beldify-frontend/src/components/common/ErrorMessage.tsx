@@ -30,7 +30,7 @@ export default function ErrorMessage({ message, action }: ErrorMessageProps) {
         {action && (
           <button
             onClick={action.onClick}
-            className="inline-block bg-amber-500 text-white px-6 py-2 rounded-lg hover:bg-amber-600 transition-colors"
+            className="inline-block bg-amber-500 text-amber-950 px-6 py-2 rounded-lg hover:bg-amber-600 transition-colors"
           >
             {action.label}
           </button>

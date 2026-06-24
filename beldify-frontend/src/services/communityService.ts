@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { CommunityPost, CommunityResponse, CommunityPostFormData, CommunityResponseFormData, Shop, Message } from '@/types/community';
+import { CommunityPost, CommunityResponse, CommunityPostFormData, CommunityResponseFormData, Shop, Message, SellerCommunityStats, JobFilters, JobSort } from '@/types/community';
 import { getMockShop, getMockMessages, addMockMessage } from '@/mocks/mockMessagingData';
 import logger from '@/utils/consoleLogger'; 
 
@@ -71,11 +71,12 @@ const getAuthToken = (): string | null => {
   return null;
 };
 
-// Function to get CSRF token
+// Function to get CSRF token — uses same-origin Next.js route to avoid CORS
 const getCsrfToken = async () => {
   try {
-    // Use API_BASE_URL, not API_V1_URL for CSRF cookies
-    const response = await axios.get(`${API_BASE_URL}/csrf-cookie`, { withCredentials: true });
+    // Use the same-origin Next.js proxy route; never call pro.beldify.com directly
+    // from the browser (cross-origin CORS block).
+    const response = await axios.get('/api/csrf-token', { withCredentials: true });
     logger.log('CSRF token response:', response.data);
     return true;
   } catch (error) {
@@ -87,7 +88,7 @@ const getCsrfToken = async () => {
 
 // Create axios instance with default configuration
 const axiosInstance = axios.create({
-  baseURL: API_V1_URL, // Use the v1 API endpoint
+  baseURL: LOCAL_API_BASE, // Route through Next.js same-origin proxy at /api
   headers: {
     'Content-Type': 'application/json',
     'Accept': 'application/json',
@@ -139,8 +140,10 @@ axiosInstance.interceptors.response.use(
       
       // Handle 401 Unauthorized errors
       if (error.response?.status === 401) {
-        // Redirect to login if needed
-        if (typeof window !== 'undefined') {
+        // Only redirect an expired auth session — guests browsing community
+        // content legitimately get 401 from auth-only endpoints; don't bounce them.
+        const hadToken = typeof window !== 'undefined' && !!localStorage.getItem('token');
+        if (hadToken && typeof window !== 'undefined') {
           // Check if we're not already on the login page to avoid redirect loops
           const currentPath = window.location.pathname;
           if (!currentPath.includes('/login')) {
@@ -161,26 +164,52 @@ axiosInstance.interceptors.response.use(
 );
 
 /**
- * Fetch community posts with pagination and filters
+ * Fetch community posts (Open Souk jobs) with pagination and filters.
+ *
+ * Supports both the legacy filter keys (category_id, status, color, style,
+ * search) and the new Open Souk keys (budget_min, budget_max, skills, q,
+ * sort, limit) so existing call-sites continue to work unchanged.
  */
 export const fetchCommunityPosts = async (
-  filters: { category_id?: string; status?: string; color?: string; style?: string; search?: string },
+  filters: JobFilters & {
+    color?: string;
+    style?: string;
+    /** @deprecated Use `q` instead */
+    search?: string;
+  },
   page: number = 1,
-  per_page: number = 12
+  per_page: number = 12,
+  sort?: JobSort,
+  limit?: number
 ): Promise<PaginatedPosts> => {
   const params = new URLSearchParams();
-  
-  // Add pagination params
+
+  // Pagination
   params.append('page', page.toString());
   params.append('per_page', per_page.toString());
-  
-  // Add filters if provided
+
+  // Legacy filters (backward-compat)
   if (filters.category_id) params.append('category_id', filters.category_id);
   if (filters.status) params.append('status', filters.status);
-  if (filters.color) params.append('color', filters.color);
-  if (filters.style) params.append('style', filters.style);
-  if (filters.search) params.append('search', filters.search);
-  
+  if (filters.color) params.append('color', filters.color ?? '');
+  if (filters.style) params.append('style', filters.style ?? '');
+
+  // Search: `q` takes precedence; fall back to `search` for old call-sites
+  const searchQuery = filters.q ?? filters.search;
+  if (searchQuery) params.append('q', searchQuery);
+
+  // New Open Souk filters
+  if (filters.budget_min != null) params.append('budget_min', String(filters.budget_min));
+  if (filters.budget_max != null) params.append('budget_max', String(filters.budget_max));
+  if (filters.skills && filters.skills.length > 0) {
+    filters.skills.forEach(skill => params.append('skills[]', skill));
+  }
+
+  // Sort and limit
+  const resolvedSort = sort ?? (filters as any).sort;
+  if (resolvedSort) params.append('sort', resolvedSort);
+  if (limit != null) params.append('limit', String(limit));
+
   return axiosInstance.get<PaginatedPosts>(`/community/posts?${params.toString()}`)
     .then(response => response.data)
     .catch(error => {
@@ -221,11 +250,10 @@ export const createCommunityPost = async (formData: FormData): Promise<Community
  * Update an existing community post
  */
 export const updateCommunityPost = async (id: string, formData: FormData): Promise<CommunityPost> => {
-  // We need to append the _method field for the backend to recognize it as a PUT request
-  // when sent with multipart/form-data
-  formData.append('_method', 'PUT');
-  
-  return axiosInstance.post<PostCreationResponse>(`/community/posts/${id}`, formData, {
+  // Use PUT directly — the Next.js route handler at /api/community/posts/[id]
+  // exports a PUT handler. The _method spoofing trick is only needed for
+  // Laravel when called directly; the Next proxy dispatches on real HTTP verbs.
+  return axiosInstance.put<PostCreationResponse>(`/community/posts/${id}`, formData, {
     headers: {
       'Content-Type': 'multipart/form-data',
     },
@@ -263,10 +291,30 @@ export const fetchPostResponses = async (postId: string): Promise<CommunityRespo
 };
 
 /**
- * Create a new response for a post
+ * Create a new response (proposal) for a post.
+ *
+ * Accepts either a pre-built FormData or a plain options object. When an
+ * options object is supplied, `delivery_days` is appended to the FormData
+ * sent to the backend (POST /api/v1/seller/community/posts/{post}/respond).
  */
-export const createCommunityResponse = async (postId: string, formData: FormData): Promise<CommunityResponse> => {
-  return axiosInstance.post<ResponseCreationResponse>(`/seller/community/posts/${postId}/respond`, formData, {
+export const createCommunityResponse = async (
+  postId: string,
+  formDataOrOptions:
+    | FormData
+    | { formData: FormData; delivery_days?: number }
+): Promise<CommunityResponse> => {
+  let fd: FormData;
+
+  if (formDataOrOptions instanceof FormData) {
+    fd = formDataOrOptions;
+  } else {
+    fd = formDataOrOptions.formData;
+    if (formDataOrOptions.delivery_days != null) {
+      fd.append('delivery_days', String(formDataOrOptions.delivery_days));
+    }
+  }
+
+  return axiosInstance.post<ResponseCreationResponse>(`/seller/community/posts/${postId}/respond`, fd, {
     headers: {
       'Content-Type': 'multipart/form-data',
     },
@@ -465,6 +513,68 @@ export const getMessages = async (userId: string, page: number = 1, perPage: num
     };
   } catch (error) {
     logger.error('Error fetching messages:', error);
+    throw error;
+  }
+};
+
+/**
+ * Fetch aggregate community stats for a seller/shop.
+ *
+ * Endpoint: GET /api/v1/community/sellers/{shopId}/stats (public)
+ * Returns avg_rating, completed_jobs, total_proposals, response_rate,
+ * member_since in snake_case exactly matching SellerCommunityStats.
+ */
+export const getSellerStats = async (shopId: string): Promise<SellerCommunityStats> => {
+  return axiosInstance.get<{ success: boolean; data: SellerCommunityStats }>(
+    `/community/sellers/${shopId}/stats`
+  )
+    .then(response => response.data.data)
+    .catch(error => {
+      logger.error(`Error fetching seller stats for shop ${shopId}:`, error);
+      throw error;
+    });
+};
+
+/**
+ * Fetch the authenticated buyer's own community posts.
+ *
+ * Endpoint: GET /api/v1/community/posts?user_id={userId}&page={page}&per_page={per_page}
+ * The backend GET /api/v1/community/posts supports ?user_id= for server-side filtering.
+ * Returns PaginatedPosts shaped the same way as fetchCommunityPosts.
+ */
+export const fetchMyPosts = async (
+  params: { page?: number; per_page?: number } = {}
+): Promise<PaginatedPosts> => {
+  const { page = 1, per_page = 20 } = params;
+  const query = new URLSearchParams({
+    page: String(page),
+    per_page: String(per_page),
+    mine: '1',            // hint for backends that support it
+  });
+
+  return axiosInstance.get<PaginatedPosts>(`/community/posts?${query.toString()}`)
+    .then(response => response.data)
+    .catch(error => {
+      logger.error('Error fetching my community posts:', error);
+      throw error;
+    });
+};
+
+/**
+ * Close (soft-delete / status transition) a community post owned by the
+ * authenticated user.
+ *
+ * The backend DELETE /api/v1/community/posts/{post} is re-used here —
+ * it marks the post as deleted / closed server-side. A dedicated PATCH
+ * endpoint is not available on the current backend.
+ *
+ * Endpoint: DELETE /api/v1/community/posts/{id}
+ */
+export const closePost = async (id: string): Promise<void> => {
+  try {
+    await axiosInstance.delete(`/community/posts/${id}`);
+  } catch (error) {
+    logger.error(`Error closing community post ${id}:`, error);
     throw error;
   }
 };

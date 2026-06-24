@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+
+<html class="light" dir="rtl" lang="ar"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Beldify - الصفحة الرئيسية</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container": "#f0eee9",
+                        "surface-tint": "#59598d",
+                        "on-error": "#ffffff",
+                        "surface-variant": "#e4e2dd",
+                        "secondary-fixed": "#ffddb8",
+                        "tertiary": "#491e00",
+                        "primary-container": "#3b3b6d",
+                        "surface-container-high": "#eae8e3",
+                        "on-tertiary-fixed-variant": "#753401",
+                        "inverse-on-surface": "#f2f1ec",
+                        "error": "#ba1a1a",
+                        "primary-fixed": "#e2dfff",
+                        "on-surface-variant": "#47464f",
+                        "primary-fixed-dim": "#c2c1fc",
+                        "on-error-container": "#93000a",
+                        "surface-container-lowest": "#ffffff",
+                        "on-primary-container": "#a8a7e1",
+                        "on-primary-fixed-variant": "#414174",
+                        "tertiary-fixed-dim": "#ffb68c",
+                        "inverse-primary": "#c2c1fc",
+                        "secondary-fixed-dim": "#ffb95f",
+                        "on-secondary-container": "#684000",
+                        "on-tertiary": "#ffffff",
+                        "on-primary": "#ffffff",
+                        "surface-container-highest": "#e4e2dd",
+                        "on-tertiary-container": "#f1965e",
+                        "on-secondary-fixed": "#2a1700",
+                        "on-background": "#1b1c19",
+                        "secondary": "#855300",
+                        "on-secondary": "#ffffff",
+                        "on-primary-fixed": "#151546",
+                        "surface-bright": "#fbf9f4",
+                        "on-secondary-fixed-variant": "#653e00",
+                        "primary": "#252555",
+                        "outline-variant": "#c8c5d0",
+                        "inverse-surface": "#30312e",
+                        "on-tertiary-fixed": "#321200",
+                        "surface-dim": "#dbdad5",
+                        "tertiary-fixed": "#ffdbc9",
+                        "tertiary-container": "#6b2f00",
+                        "surface-container-low": "#f5f3ee",
+                        "surface": "#fbf9f4",
+                        "secondary-container": "#fea619",
+                        "outline": "#777680",
+                        "error-container": "#ffdad6",
+                        "on-surface": "#1b1c19",
+                        "background": "#fbf9f4"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "2xl": "1rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "xs": "4px",
+                        "lg": "24px",
+                        "margin-mobile": "16px",
+                        "sm": "8px",
+                        "xl": "32px",
+                        "unit": "4px",
+                        "margin-desktop": "64px",
+                        "md": "16px",
+                        "gutter": "20px",
+                        "xxl": "48px"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["IBM Plex Sans Arabic"],
+                        "body-md": ["IBM Plex Sans Arabic"],
+                        "headline-md": ["IBM Plex Sans Arabic"],
+                        "body-lg": ["IBM Plex Sans Arabic"],
+                        "display-lg-mobile": ["IBM Plex Sans Arabic"],
+                        "label-md": ["IBM Plex Sans Arabic"],
+                        "display-lg": ["IBM Plex Sans Arabic"],
+                        "title-lg": ["IBM Plex Sans Arabic"],
+                        "price-display": ["IBM Plex Sans Arabic"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["32px", { "lineHeight": "40px", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "display-lg-mobile": ["32px", { "lineHeight": "40px", "fontWeight": "700" }],
+                        "label-md": ["14px", { "lineHeight": "20px", "fontWeight": "500" }],
+                        "display-lg": ["48px", { "lineHeight": "60px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "title-lg": ["20px", { "lineHeight": "28px", "fontWeight": "500" }],
+                        "price-display": ["22px", { "lineHeight": "28px", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background font-body-md text-body-md pb-[88px] antialiased">
+<!-- Announcement Strip -->
+<div class="bg-primary text-on-primary py-xs px-margin-mobile text-center font-label-md text-label-md w-full">
+        شحن مجاني للطلبات فوق 1000 درهم
+    </div>
+<!-- Mobile Header -->
+<header class="flex justify-between items-center px-margin-mobile py-sm bg-surface sticky top-0 z-40 shadow-sm border-b border-surface-variant/30">
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-primary cursor-pointer active:scale-95 transition-transform" data-icon="menu">menu</span>
+<span class="font-display-lg-mobile text-[24px] text-primary tracking-tight">Beldify</span>
+</div>
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-primary cursor-pointer active:scale-95 transition-transform" data-icon="search">search</span>
+<div class="relative cursor-pointer active:scale-95 transition-transform">
+<span class="material-symbols-outlined text-primary" data-icon="shopping_bag">shopping_bag</span>
+<span class="absolute -top-1 -right-1 bg-secondary-container text-on-secondary-container text-[10px] w-4 h-4 flex items-center justify-center rounded-full font-bold">2</span>
+</div>
+</div>
+</header>
+<!-- Hero Section -->
+<section class="relative h-[574px] w-full bg-surface-container overflow-hidden">
+<div class="absolute inset-0 bg-cover bg-center" data-alt="A stunning, high-quality mobile-optimized photograph capturing a traditional Moroccan archway leading into a sunlit courtyard. The setting features exquisite zellige tilework in rich indigo and parchment tones. Soft, warm morning light streams through, creating deep, elegant shadows. The mood is luxurious, cultural, and invites exploration, perfectly matching an editorial high-end aesthetic." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCH31wsUEqLuSqTTmmn32cau_gUnDwlShdRnmOTxI4x1B6CXjdaxddSv1Faz3yTsH0eOFSNZPnFNdUBy2_L2wAdfQzsuX4mg-8tLdrBy1mTWMZea9ejNoSLR0Uw8Is_BAeAoUnW__8hN_Qmg2dV3quFMzRPzS0vo7SEmPGr8zZIbfenidzGy7PXw0QzrJLbkELkWX1Dt7TSN3b0-Eo37hlsHCUBM_vmk-UPs86WnyAzoOXGEAGys7XrnUEiuWpk_d1eBszdP0SZrbBu');">
+</div>
+<div class="absolute inset-0 bg-gradient-to-t from-background via-background/60 to-transparent"></div>
+<div class="absolute bottom-0 w-full p-margin-mobile flex flex-col gap-md">
+<div class="flex flex-col gap-xs">
+<span class="font-label-md text-label-md text-secondary-container tracking-wider uppercase">مجموعة جديدة</span>
+<h1 class="font-display-lg-mobile text-display-lg-mobile text-primary leading-tight">أناقة مغربية<br/>أصيلة</h1>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-[90%]">اكتشف روعة الحرف اليدوية المغربية مع تشكيلتنا الحصرية من الأزياء والديكور.</p>
+</div>
+<div class="flex flex-col gap-sm w-full mt-2">
+<button class="w-full bg-primary text-on-primary font-title-lg text-title-lg py-sm rounded-full active:scale-95 transition-transform shadow-md">تسوق الآن</button>
+<button class="w-full bg-surface border-2 border-primary text-primary font-title-lg text-title-lg py-sm rounded-full active:scale-95 transition-transform">تصفح الفئات</button>
+</div>
+</div>
+</section>
+<!-- Categories (Horizontal Scroll) -->
+<section class="py-lg flex flex-col gap-sm">
+<div class="px-margin-mobile flex justify-between items-end">
+<h2 class="font-headline-md text-headline-md text-primary">تصفح حسب الفئة</h2>
+<a class="font-label-md text-label-md text-secondary underline decoration-1 underline-offset-4" href="#">عرض الكل</a>
+</div>
+<div class="flex overflow-x-auto snap-x snap-mandatory gap-md px-margin-mobile hide-scrollbar pb-xs">
+<a class="relative w-[140px] h-[180px] snap-start shrink-0 rounded-2xl overflow-hidden group" href="#">
+<img class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" data-alt="A close-up shot of a rich, intricately patterned Moroccan Beni Ourain rug draped over a minimalist white bench. The lighting is soft and ambient, highlighting the dense texture of the wool and the deep indigo geometric patterns against the natural parchment-colored background. The style is modern editorial, evoking warmth and premium craftsmanship." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDzmoAHUrPjElcPjj4EHQ0gRNc1AzixAHvRl4j-U3LN4W5BSoEIJrSmjSF35prveT8h_sXZh54BqSsSdJCZc4EPjH0M9DmFQAej1ppGeF-dAbzNg0c0ArhJqIBmxRhaOmdOyXhcXHAk78KXo92fgXu2ZT-y_8PhMpJ4RWY-BjMBHBVOJ9kxb7zJnfmNOTiQvBsfxKx3b6FBUzvKACCJSqviVY1YikkKCvJMMS17ngEFVFRnLSnrbAA26SbqBg19BKz5K74QiDZZoiaT"/>
+<div class="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent"></div>
+<span class="absolute bottom-sm right-sm font-title-lg text-title-lg text-surface">الزرابي</span>
+</a>
+<a class="relative w-[140px] h-[180px] snap-start shrink-0 rounded-2xl overflow-hidden group" href="#">
+<img class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" data-alt="An elegant editorial photo of a handcrafted brass Moroccan lantern hanging gracefully. The brass gleams softly under natural light, casting intricate geometric shadows on a smooth, parchment-colored wall behind it. The mood is serene, sophisticated, and highlights the fine metalwork and cultural heritage of the object." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCHjgCqZaew-vCeRy8z7Zpc8_PWiv8mi5zecW4KMAlpqcDI-Ac9N9ZXFsWUeWI746-dGvEXIw3NJlT4UCCRIvc8Jgw7EA1HZtZtAFmjH7ixQug0v-kOR_Nba3ENJ-0K-JW-ZG9NbU0VJc491HMoa51YHhRkR1G5jZdfwuaKpn0vrc_ByMK4mPLdxw3NayySJtQlm1jwMMo6jAWehgND-Lxz8syaKnDtKxgLc7ZunbYQMx-pdvlJ0LQEHz4MChOqT9YZ5CJUJw9VyaEx"/>
+<div class="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent"></div>
+<span class="absolute bottom-sm right-sm font-title-lg text-title-lg text-surface">النحاسيات</span>
+</a>
+<a class="relative w-[140px] h-[180px] snap-start shrink-0 rounded-2xl overflow-hidden group" href="#">
+<img class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" data-alt="A beautiful ceramic Tajine dish with vibrant, hand-painted traditional patterns in deep indigo and saffron amber, resting on a clean wooden table. The lighting mimics soft, natural daylight, creating a warm, inviting, and appetizing atmosphere. The background is slightly blurred to maintain focus on the premium artisanal quality of the pottery." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDFNXWkXemFzT_yce_vKgW76Qw9aNvj80jTr2UDKcmFxbVI5XdVBTt88A0JgIjswtTPSzcwLG6U04CPYrTpZUq5KsslEMKm5l14cmOd5lgLhrinq-SwaNT4bmq0LKTIwFqVV2YfOkuWM42iv5AtkZ-yBB5JWDqbhU5narUTu_ojAdxMgAPxPrq8dPgt-0BQTPVTb3AMSB3gEmfg6f6-wGxA1kyEAA55xrz8WAJIhC27ZkVtKd_s6IkMYo5KUApkL6xCRH60mVcZ07Iw"/>
+<div class="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent"></div>
+<span class="absolute bottom-sm right-sm font-title-lg text-title-lg text-surface">الفخار</span>
+</a>
+<a class="relative w-[140px] h-[180px] snap-start shrink-0 rounded-2xl overflow-hidden group" href="#">
+<img class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" data-alt="A stylish flat lay of traditional Moroccan leather babouche slippers in a warm saffron amber color. They are placed meticulously on a smooth, white surface. The lighting is bright and clean, casting soft, subtle shadows that emphasize the high-quality leather texture and fine stitching. The aesthetic is modern, minimalist, and premium." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCQ0rhaMv1TsUhMNY99r-eD8WNxW7BJEgmLRmU6eM_b0-iKK-mZzxqER5OVeMSrKBhlrXh1SNILvJRi439A1RKlcrOcV4MLBxO4QElmYHeS2D4dtPGdV_atTZP-8rMB1jdSm8tYKZ3EyYdfpv8lgsCoKLXEqZ5WnwxC91kmKukWiqYBvn-RSQxffx3RR9YePC4OSlsvjAtgZ6efe6zegYSP2scj9zQh6DsfwHxvhdKiUQtaqPnrFZ61nyKI8Vm1NcZsUrkPKS_TW97N"/>
+<div class="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent"></div>
+<span class="absolute bottom-sm right-sm font-title-lg text-title-lg text-surface">الجلود</span>
+</a>
+</div>
+</section>
+<!-- Products (2-Up Grid) -->
+<section class="py-lg bg-surface flex flex-col gap-md">
+<div class="px-margin-mobile">
+<h2 class="font-headline-md text-headline-md text-primary">وصل حديثاً</h2>
+</div>
+<div class="grid grid-cols-2 gap-md px-margin-mobile">
+<!-- Product Card 1 -->
+<div class="flex flex-col gap-xs group">
+<div class="relative aspect-[4/5] rounded-2xl overflow-hidden bg-surface-container-low shadow-sm">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="A model wearing a stunning indigo velvet Moroccan kaftan with intricate gold embroidery along the chest and sleeves. The shot is a medium close-up in a brightly lit studio setting against a soft parchment background. The lighting highlights the rich texture of the velvet and the shimmering details of the handcrafted embroidery." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB_K4h1KD1XxUqjdQw9Da-nBx_eHuP8YH70SiHiCwKg0XsUblO7SD85Ucu7Olhzm5ly3OdIUhCweGTxGLpfCOMHKLZ5evf3peDo-bloXbtI5nKKGZ2tF9QIbgIwWksNtu0BuuTehzc0vr_1Z0g2ZjfBC0ozU8CW0echYuBQJHqZFxYigij3wd709pIG4in6lD0nknN2o-AxQyjWG9sWIZ0RFqizzEc0sno5mfWydIhh8_m9uscou7Lz-gSjvbW4PsFHwHtArjE5docT"/>
+<div class="absolute top-xs right-xs bg-surface text-primary font-label-md text-[10px] px-2 py-1 rounded-full shadow-sm">جديد</div>
+<button class="absolute bottom-xs left-xs w-8 h-8 bg-surface/90 rounded-full flex items-center justify-center text-primary shadow-sm active:scale-90 transition-transform">
+<span class="material-symbols-outlined text-[18px]" data-icon="favorite">favorite</span>
+</button>
+</div>
+<div class="flex flex-col">
+<h3 class="font-title-lg text-title-lg text-on-surface truncate">قفطان مخملي مطرز</h3>
+<span class="font-price-display text-price-display text-secondary mt-1">1200 درهم</span>
+</div>
+</div>
+<!-- Product Card 2 -->
+<div class="flex flex-col gap-xs group">
+<div class="relative aspect-[4/5] rounded-2xl overflow-hidden bg-surface-container-low shadow-sm">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="A luxurious Beni Ourain rug laid flat on a pristine white floor. The rug features a thick, plush natural wool texture in an off-white parchment color, accented by classic dark indigo geometric diamond patterns. The lighting is top-down and diffused, perfect for showcasing the high-end home decor aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDRwWDxo6eL_RimEyMhVsLAIx3AQgrDEDWUUVw-f8pYhVATd4431wHIe7yY2ks3YT6v8b8rmKbt5ZJWW6CI2x9hbyLKvcBlkBcH5baY9wM6q1FJ2616xv4J2lzGdMqqsZ42wYSdqlc4CnclJB_YLWLwbR7mCTSs9J6bGzZXpeL6iMnc3vG6cN7sN3ift3OXwkA5elcXz7LB2SH8jkvTszjuOvkBR-rsME1G7TyVT81baE83rjYTtqdrBEzakJD2aTopjdWfJHWui2Bl"/>
+<button class="absolute bottom-xs left-xs w-8 h-8 bg-surface/90 rounded-full flex items-center justify-center text-primary shadow-sm active:scale-90 transition-transform">
+<span class="material-symbols-outlined text-[18px]" data-icon="favorite">favorite</span>
+</button>
+</div>
+<div class="flex flex-col">
+<h3 class="font-title-lg text-title-lg text-on-surface truncate">زربية بني وراين</h3>
+<span class="font-price-display text-price-display text-secondary mt-1">3500 درهم</span>
+</div>
+</div>
+<!-- Product Card 3 -->
+<div class="flex flex-col gap-xs group">
+<div class="relative aspect-[4/5] rounded-2xl overflow-hidden bg-surface-container-low shadow-sm">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="A beautifully crafted Moroccan brass lamp resting on a low wooden table. The lamp is intricately pierced with geometric star patterns, and a warm amber light glows from within, casting beautiful, complex shadows onto a clean, light-colored wall. The scene is intimate, warm, and highly decorative." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAPWE-AcC2m2UIQwBOcjQ329F6ke6VoOCohFskbZbAbuoqwmbEyLEl6_GkURxw5YXFebS1o-9y8jDwfOC_sPrIoAUlASDTYJQ1ffsSJQYZwd6QX944VFoUnGovpWlYRkNA9m2GkfqpkURNqCF-HSZONTTnpF1XSjEV87rDghXPz93qW5jw8EwVMu86KsjCveNtFIvM0siLXgBaHXGvyn7rysRIrAAAY3bjNY1if86wxqKT_-cjnBmpqq5NZUxTf-rmSof8rpZkYlMEM"/>
+<button class="absolute bottom-xs left-xs w-8 h-8 bg-surface/90 rounded-full flex items-center justify-center text-primary shadow-sm active:scale-90 transition-transform">
+<span class="material-symbols-outlined text-[18px]" data-icon="favorite">favorite</span>
+</button>
+</div>
+<div class="flex flex-col">
+<h3 class="font-title-lg text-title-lg text-on-surface truncate">فانوس نحاسي كبير</h3>
+<span class="font-price-display text-price-display text-secondary mt-1">800 درهم</span>
+</div>
+</div>
+<!-- Product Card 4 -->
+<div class="flex flex-col gap-xs group">
+<div class="relative aspect-[4/5] rounded-2xl overflow-hidden bg-surface-container-low shadow-sm">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="A pair of elegant leather babouche slippers in a rich saffron amber tone, presented on a minimalist white stone surface. The lighting is crisp and editorial, highlighting the smooth texture of the leather and the pointed toe design characteristic of traditional Moroccan footwear. The composition is clean and modern." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDjV3zcQInGfLMtqk-hkeLeoWGCNeXZM7Zn583JisPGKVXFEHkingcMNzyO6Rgwpl1nsfdzlGdn1hvpa9EWjRcgXqwYh1qkanhzO9qgKiEZla4wCV4HyEjYYGAogSjpaHwawF9KXqevTL-nHGU5Z85yhveJFjdFlulpylRdzzEC19QcM7UxOtQztLGzA00DaRzZwvb_I9h93MtJ5VT8INcALbXOXAV_4cxcRtLCmeDlwxC7PcUK4bxcps-k9yrmvLeDbMLRuMRZhXsG"/>
+<div class="absolute top-xs right-xs bg-secondary-container text-on-secondary-container font-label-md text-[10px] px-2 py-1 rounded-full shadow-sm">حصري</div>
+<button class="absolute bottom-xs left-xs w-8 h-8 bg-surface/90 rounded-full flex items-center justify-center text-primary shadow-sm active:scale-90 transition-transform">
+<span class="material-symbols-outlined text-[18px]" data-icon="favorite">favorite</span>
+</button>
+</div>
+<div class="flex flex-col">
+<h3 class="font-title-lg text-title-lg text-on-surface truncate">بلغة جلدية صفراء</h3>
+<span class="font-price-display text-price-display text-secondary mt-1">350 درهم</span>
+</div>
+</div>
+</div>
+<div class="px-margin-mobile mt-sm">
+<button class="w-full bg-surface border-2 border-primary text-primary font-title-lg text-title-lg py-sm rounded-full active:scale-95 transition-transform">عرض جميع المنتجات</button>
+</div>
+</section>
+<!-- Atelier / Craftsmanship (Horizontal Scroll Cards) -->
+<section class="py-lg flex flex-col gap-md">
+<div class="px-margin-mobile">
+<h2 class="font-headline-md text-headline-md text-primary">قصص الحرفيين</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">اكتشف الإبداع وراء كل قطعة.</p>
+</div>
+<div class="flex overflow-x-auto snap-x snap-mandatory gap-md px-margin-mobile hide-scrollbar pb-sm">
+<!-- Atelier Card -->
+<div class="w-[280px] snap-center shrink-0 flex flex-col bg-surface rounded-2xl shadow-sm overflow-hidden border border-surface-variant/50">
+<div class="h-[160px] relative">
+<img class="w-full h-full object-cover" data-alt="A focused Moroccan artisan weaving a traditional rug on a large wooden loom. His hands are deftly manipulating the colorful threads. The workshop is bathed in warm, dusty sunlight filtering through a small window. The scene captures the authentic, raw beauty of hand-craftsmanship and cultural heritage in a documentary editorial style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAxJuaYAWYqwd6d3WVzudi_tASG0aEaBGjOJQCUx99YEr6evjFnf5E02BerBSxFDy1rQvtHPJ-AhdN1fPg9yuhjvUSGyKowi1FeK51ZOc-J_L5rEAY7NopS2Kerf9C-d-9gWY4MJ9W6dlOgNl6E7KYgQfcwf40-g4SIUscMCNLyOIsFMwRjkg65bLspTAwtju95rqEM8K_Okry5um9Ehc038BGhFCmF0FTvvb8ctP-oH01qpzK8-nOLotqO6Km24EgxPCniC3UYWvLh"/>
+</div>
+<div class="p-md flex flex-col gap-xs">
+<h3 class="font-title-lg text-title-lg text-primary">حياكة الزرابي</h3>
+<p class="font-body-md text-body-md text-on-surface-variant line-clamp-2">فن متوارث عبر الأجيال، كل زربية تحكي قصة نساء الأطلس.</p>
+<a class="font-label-md text-label-md text-secondary mt-2 flex items-center gap-1 group w-fit" href="#">
+                        اقرأ المزيد <span class="material-symbols-outlined text-[16px] group-hover:-translate-x-1 transition-transform" data-icon="arrow_back">arrow_back</span>
+</a>
+</div>
+</div>
+<!-- Atelier Card -->
+<div class="w-[280px] snap-center shrink-0 flex flex-col bg-surface rounded-2xl shadow-sm overflow-hidden border border-surface-variant/50">
+<div class="h-[160px] relative">
+<img class="w-full h-full object-cover" data-alt="A close-up view of a craftsman's hands carefully engraving intricate geometric patterns onto a large brass tray. Tools of the trade surround the workspace. The lighting highlights the golden sheen of the brass and the fine details of the engraving process. The mood is industrial yet highly artisanal and precise." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBbSFZop3E4sM7Mmi42im3Q8j9jx5wZTmRRk-ndrK1Qxu_h5zUR9_aBNeTLL5KZkR6OH9K7D0T8j6XZnam4_mzom10ZD2R1ve3OwNHnlMwvA31suAcuMBZCMSR4FinI2Xf6hA-s6wo8pdjrEzBZS26eCHEZFY6h7BVD3CfxexcdQoPaKfSI7gNcqz7xpX2cEsWZRKBsMe5_ZNZcRhPIQAaKQWO0oBwta197ZYVxRJxrOzpyTsOy5N0ucOeLvhL_4LaQFScbnMbFvHJt"/>
+</div>
+<div class="p-md flex flex-col gap-xs">
+<h3 class="font-title-lg text-title-lg text-primary">نقش النحاس</h3>
+<p class="font-body-md text-body-md text-on-surface-variant line-clamp-2">دقة متناهية وإبداع في تحويل النحاس إلى تحف فنية تزين المنازل.</p>
+<a class="font-label-md text-label-md text-secondary mt-2 flex items-center gap-1 group w-fit" href="#">
+                        اقرأ المزيد <span class="material-symbols-outlined text-[16px] group-hover:-translate-x-1 transition-transform" data-icon="arrow_back">arrow_back</span>
+</a>
+</div>
+</div>
+</div>
+</section>
+<!-- BottomNavBar (Shared Component JSON) -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex flex-row-reverse justify-around items-center px-margin-mobile py-sm md:hidden bg-surface-container dark:bg-surface-container-highest shadow-[0_-4px_20px_0_rgba(37,37,85,0.05)] rounded-t-xl">
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-surface-variant p-2 hover:bg-surface-variant active:scale-90 transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-label-md text-label-md mt-1">لوحة التحكم</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-surface-variant p-2 hover:bg-surface-variant active:scale-90 transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+<span class="font-label-md text-label-md mt-1">المنتجات</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-surface-variant p-2 hover:bg-surface-variant active:scale-90 transition-all duration-200 relative" href="#">
+<span class="material-symbols-outlined" data-icon="shopping_cart">shopping_cart</span>
+<span class="font-label-md text-label-md mt-1">الطلبات</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-surface-variant p-2 hover:bg-surface-variant active:scale-90 transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+<span class="font-label-md text-label-md mt-1">التقارير</span>
+</a>
+<!-- Active Tab: Storefront maps closest to Homepage intent -->
+<a class="flex flex-col items-center justify-center bg-secondary-container text-on-secondary-container rounded-xl p-2 hover:bg-surface-variant active:scale-90 transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="storefront" data-weight="fill" style="font-variation-settings: 'FILL' 1;">storefront</span>
+<span class="font-label-md text-label-md mt-1 font-bold">المتجر</span>
+</a>
+</nav>
+</body></html>

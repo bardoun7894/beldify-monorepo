@@ -5,11 +5,14 @@ import { useTranslation } from 'react-i18next';
 import { Mail, Phone, MapPin } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import logger from '@/utils/consoleLogger';
+import { contactService } from '@/services/contactService';
 
 export default function ContactPage() {
   const { t } = useTranslation();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
+  const [submitError, setSubmitError] = useState('');
+  const [rateLimited, setRateLimited] = useState(false);
 
   const {
     register,
@@ -20,16 +23,34 @@ export default function ContactPage() {
 
   const onSubmit = async (data: Record<string, unknown>) => {
     setIsSubmitting(true);
+    setSubmitError('');
+    setRateLimited(false);
     try {
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      logger.log('Form submitted:', data);
+      // Combine first + last name into the `name` field expected by the API
+      const name = [data.firstName, data.lastName].filter(Boolean).join(' ').trim();
+      await contactService.send({
+        name: name || (data.name as string) || '',
+        email: data.email as string,
+        subject: (data.subject as string) || undefined,
+        message: data.message as string,
+      });
+      logger.log('Contact form submitted successfully');
       setSubmitSuccess(true);
       reset();
       setTimeout(() => {
         setSubmitSuccess(false);
-      }, 5000);
-    } catch (error) {
-      logger.error('Error submitting form:', error);
+      }, 6000);
+    } catch (error: unknown) {
+      logger.error('Error submitting contact form:', error);
+      const message = error instanceof Error ? error.message : '';
+      if (message === 'rate_limit') {
+        setRateLimited(true);
+      } else {
+        setSubmitError(
+          message ||
+            t('contact.form.error', 'Something went wrong. Please try again or email us directly.')
+        );
+      }
     } finally {
       setIsSubmitting(false);
     }
@@ -60,7 +81,7 @@ export default function ContactPage() {
   ];
 
   return (
-    <main className="min-h-screen bg-amber-50/40 text-gray-900">
+    <main className="min-h-screen bg-canvas text-gray-900">
       {/* Editorial hero strip — DESIGN.md §6.4 */}
       <section className="relative isolate overflow-hidden bg-indigo-900 text-white">
         <div
@@ -103,8 +124,29 @@ export default function ContactPage() {
                 ✓
               </span>
               <p className="text-sm font-medium text-amber-900">
-                {t('contact.form.thankYou', 'Thank you — we\'ll be in touch soon!')}
+                {t('contact.form.thankYou', "Thank you — we'll be in touch soon!")}
               </p>
+            </div>
+          )}
+
+          {rateLimited && (
+            <div
+              role="alert"
+              className="mb-6 rounded-2xl bg-amber-50 border border-gray-300 px-4 py-3 text-sm text-amber-800"
+            >
+              {t(
+                'contact.form.rate_limited',
+                "You've sent too many messages recently. Please wait a while before trying again."
+              )}
+            </div>
+          )}
+
+          {submitError && (
+            <div
+              role="alert"
+              className="mb-6 rounded-2xl bg-rose-50 border border-rose-200 px-4 py-3 text-sm text-rose-700"
+            >
+              {submitError}
             </div>
           )}
 
@@ -124,7 +166,7 @@ export default function ContactPage() {
                   id="firstName"
                   type="text"
                   autoComplete="given-name"
-                  className="block w-full rounded-2xl border border-amber-200 bg-white px-4 py-2.5 text-sm text-gray-900 placeholder-gray-400 shadow-sm transition focus:border-amber-500 focus:outline-none focus:ring-2 focus:ring-amber-500/20"
+                  className="block w-full rounded-2xl border border-gray-200 bg-white px-4 py-2.5 text-sm text-gray-900 placeholder-gray-400 shadow-sm transition focus:border-amber-500 focus:outline-none focus:ring-2 focus:ring-amber-500/20"
                 />
                 {errors.firstName && (
                   <p className="mt-1 text-xs text-rose-700">{errors.firstName.message as string}</p>
@@ -141,7 +183,7 @@ export default function ContactPage() {
                   id="lastName"
                   type="text"
                   autoComplete="family-name"
-                  className="block w-full rounded-2xl border border-amber-200 bg-white px-4 py-2.5 text-sm text-gray-900 placeholder-gray-400 shadow-sm transition focus:border-amber-500 focus:outline-none focus:ring-2 focus:ring-amber-500/20"
+                  className="block w-full rounded-2xl border border-gray-200 bg-white px-4 py-2.5 text-sm text-gray-900 placeholder-gray-400 shadow-sm transition focus:border-amber-500 focus:outline-none focus:ring-2 focus:ring-amber-500/20"
                 />
                 {errors.lastName && (
                   <p className="mt-1 text-xs text-rose-700">{errors.lastName.message as string}</p>
@@ -164,7 +206,7 @@ export default function ContactPage() {
                 id="email"
                 type="email"
                 autoComplete="email"
-                className="block w-full rounded-2xl border border-amber-200 bg-white px-4 py-2.5 text-sm text-gray-900 placeholder-gray-400 shadow-sm transition focus:border-amber-500 focus:outline-none focus:ring-2 focus:ring-amber-500/20"
+                className="block w-full rounded-2xl border border-gray-200 bg-white px-4 py-2.5 text-sm text-gray-900 placeholder-gray-400 shadow-sm transition focus:border-amber-500 focus:outline-none focus:ring-2 focus:ring-amber-500/20"
               />
               {errors.email && (
                 <p className="mt-1 text-xs text-rose-700">{errors.email.message as string}</p>
@@ -180,8 +222,8 @@ export default function ContactPage() {
                 id="phone"
                 type="tel"
                 autoComplete="tel"
-                placeholder="+212 (0) 7 XX XX XX XX"
-                className="block w-full rounded-2xl border border-amber-200 bg-white px-4 py-2.5 text-sm text-gray-900 placeholder-gray-400 shadow-sm transition focus:border-amber-500 focus:outline-none focus:ring-2 focus:ring-amber-500/20"
+                placeholder={t('contact.form.phonePlaceholder')}
+                className="block w-full rounded-2xl border border-gray-200 bg-white px-4 py-2.5 text-sm text-gray-900 placeholder-gray-400 shadow-sm transition focus:border-amber-500 focus:outline-none focus:ring-2 focus:ring-amber-500/20"
               />
             </div>
 
@@ -195,7 +237,7 @@ export default function ContactPage() {
                 })}
                 id="subject"
                 type="text"
-                className="block w-full rounded-2xl border border-amber-200 bg-white px-4 py-2.5 text-sm text-gray-900 placeholder-gray-400 shadow-sm transition focus:border-amber-500 focus:outline-none focus:ring-2 focus:ring-amber-500/20"
+                className="block w-full rounded-2xl border border-gray-200 bg-white px-4 py-2.5 text-sm text-gray-900 placeholder-gray-400 shadow-sm transition focus:border-amber-500 focus:outline-none focus:ring-2 focus:ring-amber-500/20"
               />
               {errors.subject && (
                 <p className="mt-1 text-xs text-rose-700">{errors.subject.message as string}</p>
@@ -219,7 +261,7 @@ export default function ContactPage() {
                 })}
                 id="message"
                 rows={5}
-                className="block w-full rounded-2xl border border-amber-200 bg-white px-4 py-2.5 text-sm text-gray-900 placeholder-gray-400 shadow-sm transition focus:border-amber-500 focus:outline-none focus:ring-2 focus:ring-amber-500/20 resize-none"
+                className="block w-full rounded-2xl border border-gray-200 bg-white px-4 py-2.5 text-sm text-gray-900 placeholder-gray-400 shadow-sm transition focus:border-amber-500 focus:outline-none focus:ring-2 focus:ring-amber-500/20 resize-none"
               />
               {errors.message && (
                 <p className="mt-1 text-xs text-rose-700">{errors.message.message as string}</p>
@@ -246,7 +288,7 @@ export default function ContactPage() {
               href={href}
               target={href.startsWith('http') ? '_blank' : undefined}
               rel={href.startsWith('http') ? 'noopener noreferrer' : undefined}
-              className="group flex items-start gap-4 rounded-2xl bg-white px-5 py-5 ring-1 ring-amber-200/60 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
+              className="group flex items-start gap-4 rounded-2xl bg-white px-5 py-5 ring-1 ring-gray-200 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
             >
               <span className="mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-amber-100 ring-1 ring-amber-200 text-amber-700 transition group-hover:bg-amber-200">
                 <Icon className="h-5 w-5" strokeWidth={1.8} />

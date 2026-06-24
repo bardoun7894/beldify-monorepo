@@ -2,7 +2,7 @@
 
 import { useTranslation } from 'react-i18next';
 import { FileText } from 'lucide-react';
-import { API_BASE_URL } from '@/config/constants';
+// API_BASE_URL import removed — Seller Terms now links to internal anchor
 
 export default function TermsOfServicePage() {
   const { t, i18n } = useTranslation();
@@ -30,7 +30,7 @@ export default function TermsOfServicePage() {
             {t('pages.termsOfService.title')}
           </h1>
           <p className="mt-4 text-indigo-300 text-sm">
-            {t('pages.termsOfService.lastUpdated')}: May 18, 2025
+            {t('pages.termsOfService.lastUpdated')}: {t('pages.termsOfService.lastUpdatedDate')}
           </p>
         </div>
       </div>
@@ -38,9 +38,9 @@ export default function TermsOfServicePage() {
       <div className="bg-white">
         <div className="mx-auto max-w-7xl py-12 px-6 lg:py-16 lg:px-8">
           <div className="mx-auto max-w-3xl">
-            <div className={`flex items-center mb-8 ${isRTL ? 'flex-row-reverse' : ''}`}>
+            <div className="flex items-center gap-4 mb-8">
               <FileText
-                className={`h-8 w-8 text-indigo-600 flex-shrink-0 ${isRTL ? 'ml-4' : 'mr-4'}`}
+                className="h-8 w-8 text-indigo-600 flex-shrink-0"
               />
               <h2
                 className="text-2xl font-bold text-indigo-900"
@@ -90,7 +90,7 @@ export default function TermsOfServicePage() {
                   t('content.termsOfService.conduct9', 'Collect or harvest user information without consent'),
                   t('content.termsOfService.conduct10', 'Use our Services for any illegal or unauthorized purpose'),
                 ].map((item, i) => (
-                  <li key={i} className={`relative ${isRTL ? 'pr-6' : 'pl-6'} before:absolute before:top-1/2 before:h-1.5 before:w-1.5 before:-translate-y-1/2 before:rounded-full before:bg-amber-500 ${isRTL ? 'before:right-2' : 'before:left-2'}`}>
+                  <li key={i} className="relative ps-6 before:absolute before:top-1/2 before:h-1.5 before:w-1.5 before:-translate-y-1/2 before:rounded-full before:bg-amber-500 before:start-2">
                     {item}
                   </li>
                 ))}
@@ -106,15 +106,20 @@ export default function TermsOfServicePage() {
                 {t('content.termsOfService.section3p2', 'When you place an order through our Services, you are making an offer to purchase the products in your cart. We reserve the right to accept or decline your offer for any reason, including product availability, errors in product information or pricing, or suspected fraudulent activity.')}
               </p>
 
-              <h3 className="mt-8 text-xl font-semibold text-indigo-900">
+              <h3
+                id="seller-terms"
+                className="mt-8 text-xl font-semibold text-indigo-900"
+              >
                 {t('content.termsOfService.section4Title', '4. Seller Marketplace')}
               </h3>
               <p className="text-gray-700 leading-relaxed">
                 {t('content.termsOfService.section4p1', 'Beldify provides a platform for sellers to offer their products to buyers. Sellers are independent third parties, and we are not responsible for their products, actions, or omissions. While we strive to ensure a safe and reliable marketplace, we cannot guarantee the quality, safety, or legality of products sold by third-party sellers.')}
               </p>
               <p className="text-gray-700 leading-relaxed">
-                {t('content.termsOfService.section4p2', 'For sellers using our platform, additional terms apply. Please refer to the Seller Terms available at')}{' '}
-                <a href={API_BASE_URL} className="text-indigo-600 hover:text-indigo-800 underline">{API_BASE_URL}</a>{' '}
+                {t('content.termsOfService.section4p2', 'For sellers using our platform, additional terms apply. Please refer to the')}{' '}
+                <a href="/terms-of-service#seller-terms" className="text-indigo-600 hover:text-indigo-800 underline">
+                  {t('content.termsOfService.sellerTermsLink', 'Seller Terms')}
+                </a>{' '}
                 {t('content.termsOfService.section4p2Suffix', 'for more information.')}
               </p>
 
@@ -211,16 +216,16 @@ export default function TermsOfServicePage() {
                 {t('content.termsOfService.section16Intro', 'If you have any questions about these Terms, please contact us at:')}
               </p>
               <address className="mt-4 not-italic text-gray-700 space-y-1">
-                <p>Email: legal@beldify.com</p>
-                <p>Phone: +212 (0) 7 08 15 03 51</p>
-                <p>Postal Address: 123 Medina Street, Tetouan, Morocco</p>
+                <p>{t('pages.termsOfService.contactEmail')}</p>
+                <p>{t('pages.termsOfService.contactPhone')}</p>
+                <p>{t('pages.termsOfService.contactAddress')}</p>
               </address>
             </div>
 
             {/* Atlas amber-50 callout panel */}
-            <div className="mt-12 rounded-2xl bg-amber-50 ring-1 ring-amber-200/60 p-6 sm:p-8">
-              <div className={`flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 ${isRTL ? 'sm:flex-row-reverse' : ''}`}>
-                <div className={`flex gap-4 ${isRTL ? 'flex-row-reverse' : ''}`}>
+            <div className="mt-12 rounded-2xl bg-amber-50 ring-1 ring-amber-200 p-6 sm:p-8">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                <div className="flex gap-4">
                   <FileText className="h-6 w-6 text-amber-600 flex-shrink-0 mt-0.5" />
                   <div>
                     <h3 className="text-base font-semibold text-indigo-900">
@@ -231,7 +236,7 @@ export default function TermsOfServicePage() {
                     </p>
                   </div>
                 </div>
-                <div className={`${isRTL ? 'sm:mr-auto' : 'sm:ml-auto'} flex-shrink-0`}>
+                <div className="sm:ms-auto flex-shrink-0">
                   <a
                     href="/contact"
                     className="inline-flex w-full sm:w-auto justify-center items-center rounded-full px-6 py-3 text-sm font-semibold text-white bg-indigo-700 hover:bg-indigo-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition"

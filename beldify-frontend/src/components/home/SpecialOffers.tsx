@@ -23,7 +23,7 @@ export default function SpecialOffers() {
     const loadOffers = async () => {
       try {
         const data = await fetchSpecialOffers();
-        setOffers(data);
+        setOffers(data as unknown as SpecialOffer[]);
         setLoading(false);
       } catch (err) {
         setError('Failed to load special offers');
@@ -38,7 +38,7 @@ export default function SpecialOffers() {
   if (error) return <div>{error}</div>;
 
   return (
-    <div className="bg-amber-50/40">
+    <div className="bg-gray-50">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-2xl py-16 sm:py-20 lg:max-w-none lg:py-20">
           <h2

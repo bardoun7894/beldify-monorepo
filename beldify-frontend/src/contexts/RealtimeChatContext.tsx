@@ -13,6 +13,7 @@ interface RealtimeChatContextType {
   leaveRoom: (roomId: string) => void;
   sendMessage: (roomId: string, message: any) => void;
   onMessageReceived: (callback: (message: any) => void) => void;
+  onNotificationReceived: (callback: (data: any) => void) => void;
   onUserTyping: (callback: (data: { userId: string; isTyping: boolean }) => void) => void;
   sendTypingIndicator: (roomId: string, isTyping: boolean) => void;
   activeRooms: string[];
@@ -26,6 +27,7 @@ const defaultContext: RealtimeChatContextType = {
   leaveRoom: () => {},
   sendMessage: () => {},
   onMessageReceived: () => {},
+  onNotificationReceived: () => {},
   onUserTyping: () => {},
   sendTypingIndicator: () => {},
   activeRooms: [],
@@ -45,6 +47,7 @@ export const RealtimeChatProvider: React.FC<{ children: React.ReactNode }> = ({ 
   // Refs for Pusher and callbacks
   const pusherRef = useRef<Pusher | null>(null);
   const messageCallbackRef = useRef<((message: any) => void) | null>(null);
+  const notificationCallbackRef = useRef<((data: any) => void) | null>(null);
   const typingCallbackRef = useRef<((data: { userId: string; isTyping: boolean }) => void) | null>(null);
   const channelsRef = useRef<Map<string, any>>(new Map());
   const reconnectTimeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -74,14 +77,27 @@ export const RealtimeChatProvider: React.FC<{ children: React.ReactNode }> = ({ 
         return;
       }
 
-      // Configure Pusher for Laravel Reverb
-      pusherRef.current = new Pusher(process.env.NEXT_PUBLIC_REVERB_APP_KEY || 'vbinspvcm2kgh78ka1wx', {
+      const reverbKey = process.env.NEXT_PUBLIC_REVERB_APP_KEY;
+      if (!reverbKey) {
+        logger.warn('RealtimeChat: NEXT_PUBLIC_REVERB_APP_KEY is not set; skipping realtime connection (polling fallback stays active)');
+        setConnectionStatus('disconnected');
+        return;
+      }
+
+      // TLS scheme drives both the wss/ws transport and forceTLS. Defaults to https.
+      const useTLS = (process.env.NEXT_PUBLIC_REVERB_SCHEME || 'https') !== 'http';
+
+      // Configure Pusher for Laravel Reverb.
+      // Auth goes DIRECTLY to the Laravel backend: pusher-js POSTs a
+      // application/x-www-form-urlencoded body which Laravel parses natively.
+      // (The Next proxy at /api/broadcasting/auth does req.json() and would 500
+      // on that body, so it is intentionally bypassed here.)
+      pusherRef.current = new Pusher(reverbKey, {
         wsHost: process.env.NEXT_PUBLIC_REVERB_HOST || new URL(API_BASE_URL).hostname,
         wsPort: parseInt(process.env.NEXT_PUBLIC_REVERB_PORT || '8082'),
         wssPort: parseInt(process.env.NEXT_PUBLIC_REVERB_PORT || '8082'),
-        forceTLS: true,
-        encrypted: true,
-        enabledTransports: ['wss'],
+        forceTLS: useTLS,
+        enabledTransports: useTLS ? ['wss'] : ['ws'],
         cluster: 'mt1', // Required for Pusher compatibility
         authEndpoint: `${process.env.NEXT_PUBLIC_API_URL}/broadcasting/auth`,
         auth: {
@@ -92,7 +108,6 @@ export const RealtimeChatProvider: React.FC<{ children: React.ReactNode }> = ({ 
         },
         // Additional options for better connection handling
         disableStats: true,
-        enableLogging: process.env.NODE_ENV === 'development',
       });
 
       // Connection event handlers
@@ -133,6 +148,13 @@ export const RealtimeChatProvider: React.FC<{ children: React.ReactNode }> = ({ 
         logger.log('RealtimeChat: New message received:', data);
         if (messageCallbackRef.current) {
           messageCallbackRef.current(data.message);
+        }
+      });
+
+      privateChannel.bind('notification-created', (data: any) => {
+        logger.log('RealtimeChat: Notification received:', data);
+        if (notificationCallbackRef.current) {
+          notificationCallbackRef.current(data);
         }
       });
 
@@ -248,6 +270,11 @@ export const RealtimeChatProvider: React.FC<{ children: React.ReactNode }> = ({ 
     messageCallbackRef.current = callback;
   }, []);
 
+  // Set notification received callback
+  const onNotificationReceived = useCallback((callback: (data: any) => void) => {
+    notificationCallbackRef.current = callback;
+  }, []);
+
   // Set typing indicator callback
   const onUserTyping = useCallback((callback: (data: { userId: string; isTyping: boolean }) => void) => {
     typingCallbackRef.current = callback;
@@ -273,6 +300,7 @@ export const RealtimeChatProvider: React.FC<{ children: React.ReactNode }> = ({ 
     leaveRoom,
     sendMessage,
     onMessageReceived,
+    onNotificationReceived,
     onUserTyping,
     sendTypingIndicator,
     activeRooms,

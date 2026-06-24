@@ -51,7 +51,7 @@ export default function FeaturedProducts() {
           <div className="mt-16 space-y-12 lg:grid lg:grid-cols-4 lg:gap-x-8 lg:space-y-0">
             {products.map((product) => (
               <Link key={product.id} href={product.href} className="group transition hover:-translate-y-0.5 hover:shadow-md duration-[220ms] ease-[cubic-bezier(0.33,1,0.68,1)] rounded-2xl overflow-hidden block">
-                <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-2xl bg-amber-50/40">
+                <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-2xl bg-gray-50">
                   <div className="h-full w-full object-cover object-center" />
                 </div>
                 <h3 className="mt-4 text-lg font-semibold text-gray-900 group-hover:text-indigo-700 transition-colors duration-[220ms]">{product.name}</h3>

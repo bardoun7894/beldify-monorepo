@@ -46,7 +46,7 @@ describe('PDP — a11y & RTL P0 fixes', () => {
 
   it('journal link ArrowRight has rtl:rotate-180 for RTL mirroring', () => {
     // ArrowRight in description tab should mirror in RTL
-    expect(pdp).toMatch(/ArrowRight[^/]{0,200}rtl:rotate-180|rtl:rotate-180[^/]{0,200}ArrowRight/s);
+    expect(pdp).toMatch(/ArrowRight[^/]{0,200}rtl:rotate-180|rtl:rotate-180[^/]{0,200}ArrowRight/);
   });
 
   it('bespoke CTA ArrowRight has rtl:rotate-180 for RTL mirroring', () => {
@@ -65,12 +65,12 @@ describe('PDP — a11y & RTL P0 fixes', () => {
 
   it('h1 product title adds font-arabic class when isRTL is true', () => {
     // Arabic names with Playfair Display have no Arabic glyphs; need conditional font-arabic
-    expect(pdp).toMatch(/isRTL.*font-arabic|font-arabic.*isRTL/s);
+    expect(pdp).toMatch(/isRTL[\s\S]{0,200}font-arabic|font-arabic[\s\S]{0,200}isRTL/);
   });
 
   it('h1 inline Playfair style is skipped when isRTL', () => {
     // The inline style for Playfair should be conditional so Arabic names use font-arabic
-    expect(pdp).toMatch(/isRTL.*fontFamily|fontFamily.*isRTL/s);
+    expect(pdp).toMatch(/isRTL[\s\S]{0,200}fontFamily|fontFamily[\s\S]{0,200}isRTL/);
   });
 });
 
@@ -86,7 +86,7 @@ describe('Cart — a11y P0 fixes', () => {
 
   it('free-shipping "Free" value uses text-[#855300] for WCAG AA on white', () => {
     // text-amber-600 (~3.1:1 on white) fails WCAG AA; #855300 (~4.7:1) passes
-    expect(cart).not.toMatch(/text-amber-600[^}]{0,50}Free|Free[^}]{0,50}text-amber-600/s);
+    expect(cart).not.toMatch(/text-amber-600[^}]{0,50}Free|Free[^}]{0,50}text-amber-600/);
     expect(cart).toMatch(/text-\[#855300\]/);
   });
 
@@ -105,12 +105,12 @@ describe('Cart — a11y P0 fixes', () => {
   it('cart item h3 product title skips Playfair inline style when isRTL (Arabic glyphs)', () => {
     // Arabic product names must not be forced into Playfair Display which has no Arabic glyphs
     // The h3 style should be conditional: style={isRTL ? undefined : playfair}
-    expect(cart).toMatch(/isRTL.*undefined.*playfair|isRTL.*playfair.*undefined/s);
+    expect(cart).toMatch(/isRTL[\s\S]{0,300}undefined[\s\S]{0,100}playfair|isRTL[\s\S]{0,300}playfair[\s\S]{0,100}undefined/);
   });
 
   it('cart item h3 adds font-arabic class when isRTL is true', () => {
     // Must apply font-arabic for Arabic names so they render with Arabic-capable font
-    expect(cart).toMatch(/isRTL.*font-arabic|font-arabic.*isRTL/s);
+    expect(cart).toMatch(/isRTL[\s\S]{0,200}font-arabic|font-arabic[\s\S]{0,200}isRTL/);
   });
 });
 
@@ -129,10 +129,17 @@ describe('ShippingCalculator — a11y P0 fixes', () => {
 
 describe('Tailoring page — a11y P0 fixes', () => {
 
-  it('gallery eyebrow text-amber-700 on parchment replaced with text-[#855300]', () => {
-    // text-amber-700 on bg-amber-50/40 parchment is ~3.4:1 (fails AA for small text)
+  it('no faint amber text (amber-600/700) on parchment surfaces', () => {
+    // text-amber-700 on bg-amber-50/40 parchment is ~3.4:1 (fails AA for small text).
+    // The reference-grade pass dropped the gallery/process eyebrows entirely
+    // (anti-slop: no tracked eyebrow above every section), removing the risk.
     expect(tailoring).not.toContain('text-amber-700');
-    expect(tailoring).toContain('text-[#855300]');
+    expect(tailoring).not.toContain('text-amber-600');
+  });
+
+  it('drops the slop section eyebrows (gallery "OUR ATELIERS" / "THE PROCESS")', () => {
+    expect(tailoring).not.toContain('OUR ATELIERS');
+    expect(tailoring).not.toContain('THE PROCESS');
   });
 });
 

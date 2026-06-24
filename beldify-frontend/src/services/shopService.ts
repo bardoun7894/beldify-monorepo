@@ -87,8 +87,12 @@ export const shopService = {
   async getShopByName(name: string) {
     try {
       const response = await axiosInstance.get<ApiResponse>(`/api/shops/${name}`);
+      // Backend wraps the payload as { status, message, data: { store } }.
+      // The page reads `.data.store`, so unwrap the envelope here. Fall back to
+      // the raw body if a caller ever returns the store at the top level.
+      const body = response.data as any;
       return {
-        data: response.data,
+        data: (body?.data ?? body) as ApiResponse,
         error: null,
       };
     } catch (error: any) {
@@ -209,6 +213,37 @@ export const shopService = {
         error: String(error.response?.data?.message || error.message || 'Error unfollowing shop'),
         isAuthenticated: true
       };
+    }
+  },
+
+  // Get products from shops the user follows
+  // Endpoint: GET /api/user/following/products?page=&per_page=
+  // Contract: { data: Product[], meta } — or empty { data: [], meta: null } on any error.
+  // Fail-safe: 401 (guest), 404 (no follows), network errors all return the empty shape.
+  async getFollowingProducts(page = 1, perPage = 12): Promise<{
+    data: Array<{
+      id: number;
+      name: string;
+      price: number;
+      main_image: string | null;
+      store_id: number;
+      store_name: string;
+      store_slug: string | null;
+      [key: string]: unknown;
+    }>;
+    meta: Record<string, unknown> | null;
+  }> {
+    try {
+      const response = await axiosInstance.get('/api/user/following/products', {
+        params: { page, per_page: perPage },
+      });
+      return {
+        data: response.data?.data ?? [],
+        meta: response.data?.meta ?? null,
+      };
+    } catch {
+      // Swallow 401/404/network — rail renders nothing
+      return { data: [], meta: null };
     }
   },
 

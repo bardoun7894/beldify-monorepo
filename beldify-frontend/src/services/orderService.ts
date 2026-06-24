@@ -3,7 +3,7 @@ import axios from 'axios';
 import api from '@/lib/api';
 import logger from '@/utils/consoleLogger';
 
-export interface OrderItem { 
+export interface OrderItem {
   id: string;
   product_name: string;
   product_image?: string;
@@ -16,6 +16,7 @@ export interface OrderItem {
     name: string;
     description?: string;
     image?: string;
+    image_url?: string;
   };
   variant?: {
     color?: string;
@@ -23,11 +24,45 @@ export interface OrderItem {
   };
 }
 
+/**
+ * A single per-seller order within a multi-seller checkout group.
+ * Returned inside `data.orders[]` when the cart spans multiple stores.
+ */
+export interface PerSellerOrder {
+  id: number | string;
+  order_number: string;
+  store_id: number;
+  /** Human-readable store name, if the backend includes it */
+  store_name?: string;
+  total_amount?: number;
+  items?: OrderItem[];
+}
+
+/**
+ * Per-seller breakdown from the quote endpoint when the cart spans
+ * multiple stores. Added alongside the existing flat totals.
+ *
+ * Plan.md FR-017 contract:
+ *   sellers: [{ store_id, store_name, subtotal, shipping_amount, tax_amount, discount_amount, items[] }]
+ */
+export interface PerSellerQuote {
+  store_id: number;
+  /** Human-readable store name */
+  store_name?: string;
+  subtotal: number;
+  shipping_amount: number;
+  tax_amount?: number;
+  discount_amount?: number;
+  item_count?: number;
+  items?: Array<{ stock_id?: number; quantity: number; unit_price?: number; product_name?: string }>;
+}
+
 export interface Order {
   id: string;
   order_number: string;
   status: 'pending' | 'processing' | 'shipped' | 'delivered' | 'cancelled';
-  payment_status: 'pending' | 'paid' | 'failed';
+  payment_method?: string;
+  payment_status: 'pending' | 'paid' | 'failed' | 'awaiting_payment' | 'pending_verification' | 'rejected';
   total_amount: number;
   created_at: string;
   items: OrderItem[];
@@ -43,7 +78,17 @@ export interface Order {
   };
   shipping_amount?: number;
   tax_amount?: number;
-  payment_method?: string;
+  /**
+   * NEW (multi-seller): shared reference across all per-seller orders
+   * created from a single cart checkout. Present when the backend ships
+   * the multi-seller split feature.
+   */
+  checkout_group_id?: string;
+  /**
+   * NEW (multi-seller): all per-seller orders from a split checkout.
+   * Length > 1 means the cart was split across multiple stores.
+   */
+  orders?: PerSellerOrder[];
 }
 
 export interface ShippingInfo {
@@ -52,6 +97,7 @@ export interface ShippingInfo {
   email: string;
   phone: string;
   address: string;
+  apartment?: string;
   city: string;
   state: string;
   zip_code?: string;
@@ -230,6 +276,87 @@ class OrderService {
     }
   }
 
+  /**
+   * Public quote endpoint — resolves authoritative totals + COD eligibility.
+   * No auth required (guest-safe). POST /api/orders/quote
+   */
+  async getCheckoutQuote(payload: {
+    items: Array<{ stock_id?: number; quantity: number }>;
+    country?: string;
+    coupon_code?: string | null;
+  }): Promise<{
+    subtotal: number;
+    tax_amount: number;
+    shipping_amount: number;
+    discount_amount: number;
+    total_amount: number;
+    cod_allowed: boolean;
+    cod_max: number;
+    currency: string;
+    /**
+     * NEW (plan.md FR-017): per-seller breakdown when cart spans >1 seller.
+     * Each entry: { store_id, store_name, subtotal, shipping_amount, tax_amount,
+     *   discount_amount, items[] }.
+     * Additive — backend may omit for single-seller carts.
+     */
+    sellers?: PerSellerQuote[];
+    /** Legacy alias kept for back-compat during transition. */
+    per_seller?: PerSellerQuote[];
+  }> {
+    const response = await api.post('/api/orders/quote', payload);
+    return response.data;
+  }
+
+  /**
+   * Payout account + how-to-pay instructions for an offline transfer method.
+   */
+  async getPaymentInstructions(
+    method: string
+  ): Promise<{ method: string; label: string; account: string; instructions: string } | null> {
+    try {
+      const response = await api.get(`/api/payment-methods/${method}/instructions`);
+      return response.data?.data ?? null;
+    } catch {
+      return null;
+    }
+  }
+
+  /**
+   * Upload an offline-transfer payment receipt for an order.
+   * Backend: POST /api/orders/{orderNumber}/payment-proof (multipart).
+   * Works for guests too — the shipping email proves ownership.
+   */
+  async uploadPaymentProof(
+    orderNumber: string,
+    file: File,
+    opts: { reference?: string; email?: string } = {}
+  ): Promise<void> {
+    try {
+      const formData = new FormData();
+      formData.append('file', file);
+      if (opts.reference) formData.append('reference', opts.reference);
+      if (opts.email) formData.append('email', opts.email);
+
+      const response = await api.post(
+        `/api/orders/${encodeURIComponent(orderNumber)}/payment-proof`,
+        formData,
+        { headers: { 'Content-Type': 'multipart/form-data' } }
+      );
+
+      if (response.data?.status === 'error') {
+        throw new Error(response.data?.message || 'Failed to upload payment proof');
+      }
+    } catch (error) {
+      logger.error('Error uploading payment proof:', error);
+      if (axios.isAxiosError(error)) {
+        throw new Error(
+          error.response?.data?.message || error.message || 'Failed to upload payment proof'
+        );
+      }
+      throw error;
+    }
+  }
+
   async createOrder(orderData: OrderData) {
     try {
       logger.log('Creating order with payload (raw):', orderData);
@@ -297,6 +424,58 @@ class OrderService {
     }
   }
 
+  /**
+   * Guest (unauthenticated) COD checkout.
+   * Posts to POST /api/orders/checkout — a public endpoint that requires no auth.
+   * Payload shape mirrors createOrder but without the auth-only fields (customer_id).
+   */
+  async createCheckoutOrder(payload: {
+    items: Array<{
+      stock_id?: number;
+      variant_id?: number;
+      quantity: number;
+      unit_price: number;
+      product_id?: number;
+      store_id?: number;
+    }>;
+    shipping_info: {
+      first_name?: string;
+      last_name?: string;
+      email?: string;
+      phone?: string;
+      address?: string;
+      apartment?: string;
+      city?: string;
+      state?: string;
+      zip_code?: string;
+      country?: string;
+    };
+    payment_method: string;
+    subtotal: number;
+    total_amount: number;
+    shipping_amount: number;
+    tax_amount: number;
+    discount_amount: number;
+    coupon_code?: string | null;
+  }) {
+    try {
+      logger.log('Creating guest checkout order:', payload);
+      const response = await api.post('/api/orders/checkout', payload);
+      logger.log('Guest checkout response:', response.data);
+      return response.data;
+    } catch (error: any) {
+      logger.error('Error creating guest checkout order:', {
+        status: error.response?.status,
+        data: error.response?.data,
+        message: error.message,
+      });
+      if (axios.isAxiosError(error)) {
+        throw new Error(error.response?.data?.message || error.message || 'Failed to create order');
+      }
+      throw error;
+    }
+  }
+
   async processPayment(
     amount: number,
     paymentInfo: PaymentInfo,
@@ -352,7 +531,7 @@ class OrderService {
     const taxRates: Record<TaxCountryCode, number> = {
       MA: 0.2,
       US: 0.08,
-      DEFAULT: 0.1, 
+      DEFAULT: 0.1,
     };
 
     const country = state.substring(0, 2).toUpperCase();
@@ -361,6 +540,66 @@ class OrderService {
     const taxRate = taxRates[countryCode] || taxRates.DEFAULT;
 
     return subtotal * taxRate;
+  }
+
+  /**
+   * Cancel an authenticated user's order.
+   *
+   * POST /api/orders/{orderNumber}/cancel
+   * Body: { reason?: string (≤500 chars) }
+   *
+   * Returns {success:true, order:{...}} on 200.
+   * Throws with API message on 403 (not owner), 404 (not found),
+   * or 422 (not cancellable — paid / shipped).
+   */
+  async cancel(
+    orderNumber: string,
+    reason?: string
+  ): Promise<{ success: true; order: Order }> {
+    try {
+      const body: Record<string, string> = {};
+      if (reason !== undefined) {
+        body.reason = reason;
+      }
+      const response = await api.post(`/api/orders/${orderNumber}/cancel`, body);
+      const data = response.data;
+      if (data?.success && data?.order) {
+        // Invalidate cached order so the next fetch picks up the new status.
+        this.clearCache(`order:${orderNumber}`);
+        return { success: true, order: data.order };
+      }
+      throw new Error(data?.message || 'cancel_failed');
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
+        throw new Error(
+          error.response?.data?.message || error.message || 'cancel_failed'
+        );
+      }
+      throw error;
+    }
+  }
+
+  /**
+   * Re-add all items from a past order into the authenticated user's cart
+   * at current prices and stock levels.
+   *
+   * POST /api/orders/{orderNumber}/reorder
+   *
+   * Returns a summary of what was added and what was skipped (with reasons).
+   * Skipped items are products that are out of stock or no longer available.
+   */
+  async reorder(orderNumber: string): Promise<{
+    items_added: number;
+    items_skipped: number;
+    skipped: Array<{ stock_id: number; reason: string }>;
+  }> {
+    const response = await api.post(`/api/orders/${orderNumber}/reorder`);
+    const isSuccess =
+      response.data?.status === 'success' || response.data?.success === true;
+    if (isSuccess && response.data?.data) {
+      return response.data.data;
+    }
+    throw new Error(response.data?.message || 'Reorder failed');
   }
 }
 

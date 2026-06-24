@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+
+<html dir="rtl" lang="ar"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>سلة التسوق - بيلديفاي</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary-container": "#6b2f00",
+                        "on-tertiary-fixed": "#321200",
+                        "secondary-fixed-dim": "#ffb95f",
+                        "error": "#ba1a1a",
+                        "on-secondary": "#ffffff",
+                        "on-primary-fixed": "#151546",
+                        "primary": "#252555",
+                        "tertiary-fixed": "#ffdbc9",
+                        "secondary-container": "#fea619",
+                        "outline-variant": "#c8c5d0",
+                        "secondary": "#855300",
+                        "on-tertiary-fixed-variant": "#753401",
+                        "on-primary-container": "#a8a7e1",
+                        "on-tertiary-container": "#f1965e",
+                        "primary-fixed": "#e2dfff",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary-container": "#684000",
+                        "on-secondary-fixed": "#2a1700",
+                        "surface-tint": "#59598d",
+                        "on-surface": "#1b1c19",
+                        "background": "#fbf9f4",
+                        "tertiary-fixed-dim": "#ffb68c",
+                        "surface-dim": "#dbdad5",
+                        "on-surface-variant": "#47464f",
+                        "surface-container-lowest": "#ffffff",
+                        "inverse-surface": "#30312e",
+                        "surface-container": "#f0eee9",
+                        "primary-fixed-dim": "#c2c1fc",
+                        "on-primary": "#ffffff",
+                        "surface-variant": "#e4e2dd",
+                        "on-background": "#1b1c19",
+                        "secondary-fixed": "#ffddb8",
+                        "surface-container-highest": "#e4e2dd",
+                        "tertiary": "#491e00",
+                        "on-primary-fixed-variant": "#414174",
+                        "surface-container-low": "#f5f3ee",
+                        "inverse-primary": "#c2c1fc",
+                        "on-error-container": "#93000a",
+                        "inverse-on-surface": "#f2f1ec",
+                        "on-error": "#ffffff",
+                        "surface-container-high": "#eae8e3",
+                        "surface-bright": "#fbf9f4",
+                        "error-container": "#ffdad6",
+                        "primary-container": "#3b3b6d",
+                        "surface": "#fbf9f4",
+                        "outline": "#777680",
+                        "on-secondary-fixed-variant": "#653e00"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "xxl": "48px",
+                        "margin-mobile": "16px",
+                        "sm": "8px",
+                        "gutter": "20px",
+                        "xl": "32px",
+                        "lg": "24px",
+                        "unit": "4px",
+                        "xs": "4px",
+                        "md": "16px",
+                        "margin-desktop": "64px"
+                    },
+                    "fontFamily": {
+                        "display-lg": ["IBM Plex Sans Arabic"],
+                        "headline-md": ["IBM Plex Sans Arabic"],
+                        "display-lg-mobile": ["IBM Plex Sans Arabic"],
+                        "body-lg": ["IBM Plex Sans Arabic"],
+                        "label-md": ["IBM Plex Sans Arabic"],
+                        "body-md": ["IBM Plex Sans Arabic"],
+                        "title-lg": ["IBM Plex Sans Arabic"],
+                        "headline-lg": ["IBM Plex Sans Arabic"],
+                        "price-display": ["IBM Plex Sans Arabic"]
+                    },
+                    "fontSize": {
+                        "display-lg": ["48px", { "lineHeight": "60px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "display-lg-mobile": ["32px", { "lineHeight": "40px", "fontWeight": "700" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "label-md": ["14px", { "lineHeight": "20px", "fontWeight": "500" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "title-lg": ["20px", { "lineHeight": "28px", "fontWeight": "500" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "fontWeight": "600" }],
+                        "price-display": ["22px", { "lineHeight": "28px", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { font-family: 'IBM Plex Sans Arabic', sans-serif; background-color: #FAF8F3; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .shadow-level-1 { box-shadow: 0px 4px 20px rgba(37,37,85,0.05); }
+        .shadow-level-2 { box-shadow: 0px 8px 30px rgba(37,37,85,0.08); }
+    </style>
+</head>
+<body class="bg-background text-on-surface antialiased">
+<!-- TopNavBar (Shared Component) -->
+<nav class="bg-surface dark:bg-surface-dim shadow-sm border-b border-outline-variant/20 docked full-width top-0 z-50 shadow-[0px_4px_20px_rgba(37,37,85,0.05)]">
+<div class="flex flex-row-reverse justify-between items-center px-margin-mobile md:px-margin-desktop h-24 w-full max-w-[1440px] mx-auto">
+<!-- Brand -->
+<a class="font-headline-lg text-headline-lg font-bold text-primary dark:text-primary-fixed-dim tracking-tight" href="#">
+                بيلديفاي
+            </a>
+<!-- Navigation Links (Hidden on mobile) -->
+<div class="hidden md:flex flex-row-reverse space-x-reverse space-x-lg">
+<!-- Search Intent -> "المنتجات" or generic fallback. Let's make no active tab since this is a cart, a transactional screen.
+                     Actually, requirement says: Transactional screens: Suppress the navigation shell.
+                     Wait, TopAppBar might be needed for Cart? The prompt asks for a Shopping Cart screen. Is it a top-level destination?
+                     "The 'Destination' Rule: You are only permitted to render the BottomNavBar or SideNav if the current screen represents a top-level destination... Automatic Suppression: You MUST exclude the navigation shell if the page intent is: Linear/Transactional: Login, Sign-up, Onboarding, Checkout..."
+                     A Cart is a pre-checkout state, often top-level but usually has a 'Back' or leads to checkout. We will keep a simplified header for the brand. 
+                     Wait, the instructions say "hide the shell to prioritize the Canvas." I will hide navigation links, just keep the brand and a back button.
+                -->
+</div>
+<!-- Actions -->
+<div class="flex items-center space-x-reverse space-x-md">
+<button class="text-on-surface-variant hover:bg-surface-container-low p-2 rounded-full transition-all">
+<span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</div>
+</div>
+</nav>
+<!-- Main Content -->
+<main class="max-w-[1440px] mx-auto px-margin-mobile md:px-margin-desktop py-xxl grid grid-cols-1 lg:grid-cols-12 gap-lg">
+<!-- Header -->
+<div class="lg:col-span-12 mb-lg">
+<h1 class="font-display-lg-mobile md:font-display-lg text-display-lg-mobile md:text-display-lg text-primary">سلة التسوق</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant mt-sm">لديك 2 عناصر في سلتك.</p>
+</div>
+<!-- Cart Items List -->
+<div class="lg:col-span-8 space-y-md">
+<!-- Item 1: Royal Kaftan -->
+<div class="bg-surface-container-lowest rounded-xl p-md flex flex-col sm:flex-row gap-lg shadow-level-1 relative transition-all hover:shadow-level-2">
+<div class="w-full sm:w-32 h-40 rounded-lg overflow-hidden shrink-0 bg-surface-container">
+<img alt="Royal Kaftan" class="w-full h-full object-cover" data-alt="A luxurious Moroccan Royal Kaftan displayed elegantly on a premium wooden hanger against a soft, pure white studio background. The fabric is a rich, deep indigo velvet, heavily embroidered with intricate golden Saffron thread patterns along the chest and sleeves. The lighting is high-key and soft, simulating natural Moroccan sunlight, highlighting the texture of the embroidery and the elegant drape of the garment. The overall aesthetic is editorial, modern, and high-end, fitting a curated boutique catalog." src="https://lh3.googleusercontent.com/aida-public/AB6AXuClZkKK-U24tI-0pPTbkkk3Z9OeSE6Ei4lJ5fEnRYDsI3SQX_yEg4OgoWhSyG_FleAIC63PR5Pkk1bVWLHoo8w8ddeyChD2UpG45zAWqET0Cj1fDdAJaqGbKq9Qs3Jg-P_GQSyxrqp_MPAFj8uPUNNcF5BUuXypauL85GK5fZ2Kccc-Zd6qBz8GE3xTCZboN2gfgmW2se-qcVZhw7T1EOwJnqI_eZJaxi4PUTpicvfYj84VYySOagnfN5TFWTB6jycL1xfFhwDrY1KR"/>
+</div>
+<div class="flex-1 flex flex-col justify-between">
+<div class="flex justify-between items-start">
+<div>
+<div class="flex items-center gap-sm mb-xs">
+<h3 class="font-title-lg text-title-lg text-primary font-bold">قفطان ملكي مطرز</h3>
+<span class="bg-secondary-container/20 text-secondary px-2 py-1 rounded-full font-label-md text-label-md flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">straighten</span> تفصيل مخصص
+                                </span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant">أزرق داكن • تطريز ذهبي</p>
+<p class="font-body-md text-body-md text-on-surface-variant mt-xs">المقاس: مخصص (القياسات محفوظة)</p>
+</div>
+<button class="text-error hover:bg-error-container/50 p-2 rounded-lg transition-colors">
+<span class="material-symbols-outlined">delete</span>
+</button>
+</div>
+<div class="flex justify-between items-center mt-md">
+<div class="flex items-center border border-outline-variant/50 rounded-lg bg-surface">
+<button class="p-2 text-on-surface hover:text-primary transition-colors"><span class="material-symbols-outlined text-[20px]">remove</span></button>
+<span class="font-label-md text-label-md w-8 text-center">1</span>
+<button class="p-2 text-on-surface hover:text-primary transition-colors"><span class="material-symbols-outlined text-[20px]">add</span></button>
+</div>
+<span class="font-price-display text-price-display text-primary">2,450 درهم</span>
+</div>
+</div>
+</div>
+<!-- Item 2: Lantern -->
+<div class="bg-surface-container-lowest rounded-xl p-md flex flex-col sm:flex-row gap-lg shadow-level-1 relative transition-all hover:shadow-level-2">
+<div class="w-full sm:w-32 h-40 rounded-lg overflow-hidden shrink-0 bg-surface-container">
+<img alt="Hand-carved Lantern" class="w-full h-full object-cover" data-alt="A stunning hand-carved Moroccan brass lantern placed on a minimalist white marble pedestal. The lantern features complex geometric openwork that casts subtle, beautiful shadows on the pristine white background. A warm, ambient glow emanates from within, contrasting with the soft, indigo-tinted natural daylight flooding the scene from the side. The image feels highly polished, editorial, and sophisticated, emphasizing the artisanal craftsmanship and modern luxury aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBtYnY3VuZRr0oWqw6f0xbJWFshQ2ApHtJlP2TvtDuZFW7KUDJV7UDYB0xGUNSrpE6M-S10roH_n5kL_rfLgmJlW8J34imtzoysyWnPXyDGshF2KfgArsgK4Logu7kGjwba8UNkrZpl_bVEkDP7_XKM1tniv_reb-RVMeCJs2AQW-8YpA1a1bt3OA9fUmoGTyEBvUrQ4Mq7YayAoIQ9hactZp4bZea6hXekmKq5CCVgzxn0TrnWwt_PrZTlo4DiBSsNn5MaV0wKV7Cm"/>
+</div>
+<div class="flex-1 flex flex-col justify-between">
+<div class="flex justify-between items-start">
+<div>
+<h3 class="font-title-lg text-title-lg text-primary font-bold">فانوس نحاسي منحوت يدوياً</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-xs">نحاس أصلي • إضاءة دافئة</p>
+</div>
+<button class="text-error hover:bg-error-container/50 p-2 rounded-lg transition-colors">
+<span class="material-symbols-outlined">delete</span>
+</button>
+</div>
+<div class="flex justify-between items-center mt-md">
+<div class="flex items-center border border-outline-variant/50 rounded-lg bg-surface">
+<button class="p-2 text-on-surface hover:text-primary transition-colors"><span class="material-symbols-outlined text-[20px]">remove</span></button>
+<span class="font-label-md text-label-md w-8 text-center">2</span>
+<button class="p-2 text-on-surface hover:text-primary transition-colors"><span class="material-symbols-outlined text-[20px]">add</span></button>
+</div>
+<span class="font-price-display text-price-display text-primary">850 درهم</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Order Summary Sidebar -->
+<div class="lg:col-span-4">
+<div class="bg-surface-container-lowest rounded-xl p-lg shadow-level-1 sticky top-32">
+<h2 class="font-headline-md text-headline-md text-primary mb-lg">ملخص الطلب</h2>
+<div class="space-y-sm mb-lg">
+<div class="flex justify-between font-body-lg text-body-lg text-on-surface-variant">
+<span>المجموع الفرعي</span>
+<span>4,150 درهم</span>
+</div>
+<div class="flex justify-between font-body-lg text-body-lg text-on-surface-variant">
+<span>الشحن (توصيل ممتاز)</span>
+<span>150 درهم</span>
+</div>
+<div class="flex justify-between font-body-lg text-body-lg text-secondary">
+<span>خصم حصري</span>
+<span>- 200 درهم</span>
+</div>
+</div>
+<div class="border-t border-outline-variant/20 pt-md mb-lg">
+<div class="flex justify-between items-end">
+<span class="font-title-lg text-title-lg text-primary">الإجمالي</span>
+<span class="font-display-lg-mobile text-display-lg-mobile text-primary">4,100 درهم</span>
+</div>
+<p class="font-label-md text-label-md text-on-surface-variant mt-xs text-left">شامل ضريبة القيمة المضافة</p>
+</div>
+<button class="w-full bg-secondary-container text-on-secondary-container hover:bg-secondary hover:text-on-secondary font-title-lg text-title-lg py-md rounded-lg flex items-center justify-center gap-sm transition-colors duration-300">
+                    متابعة الدفع
+                    <span class="material-symbols-outlined">lock</span>
+</button>
+<div class="mt-md flex justify-center items-center gap-sm text-outline font-label-md text-label-md">
+<span class="material-symbols-outlined text-[16px]">verified_user</span>
+                    تسوق آمن ومضمون 100%
+                </div>
+</div>
+</div>
+</main>
+</body></html>

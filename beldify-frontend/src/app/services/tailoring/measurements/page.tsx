@@ -1,60 +1,101 @@
 'use client';
 
-import React from 'react';
+import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import Link from 'next/link';
 import MeasurementForm from '@/components/tailoring/MeasurementForm';
+import toast from '@/utils/toast';
+
+const MEASUREMENTS_STORAGE_KEY = 'beldify:tailoring:measurements';
+
+// Mirror the MeasurementForm types without importing from the component module
+// (they are not exported). This keeps the type contract in sync.
+type MeasurementUnit = 'cm' | 'in';
+interface MeasurementValues {
+  chest: string;
+  waist: string;
+  hips: string;
+  length: string;
+  notes: string;
+}
 
 export default function MeasurementsPage() {
   const { t } = useTranslation();
 
+  // bug 11: the form's save/add-to-cart buttons were no-ops because the page passed
+  // no handlers. Bind them: persist the measurement set locally (no save endpoint
+  // exists yet) and confirm to the user.
+  const handleSave = useCallback(
+    (values: MeasurementValues, unit: MeasurementUnit) => {
+      try {
+        const payload = { values, unit, savedAt: new Date().toISOString() };
+        window.localStorage.setItem(MEASUREMENTS_STORAGE_KEY, JSON.stringify(payload));
+        toast.success(t('tailoring.measurements.saved', 'Measurements saved'));
+      } catch {
+        toast.error(t('tailoring.measurements.saveError', 'Could not save measurements'));
+      }
+    },
+    [t]
+  );
+
+  // No cart endpoint consumes measurements yet — saying "added to your order"
+  // would be dishonest. The saved set is applied at custom-order/tailoring time.
+  const handleAddToCart = useCallback(
+    (values: MeasurementValues, unit: MeasurementUnit) => {
+      handleSave(values, unit);
+      toast.success(
+        t(
+          'tailoring.measurements.savedForOrders',
+          'Measurements saved — they will be applied to your tailoring orders'
+        )
+      );
+    },
+    [handleSave, t]
+  );
+
   return (
-    <div className="min-h-screen bg-amber-50/40">
-      {/* ── Editorial hero strip — Atlas indigo pattern ── */}
-      <section className="relative isolate overflow-hidden bg-indigo-900 text-white">
+    <div className="min-h-screen bg-canvas">
+      {/* ── Editorial hero strip — Atlas indigo-950 dark surface ── */}
+      <section className="relative isolate overflow-hidden bg-indigo-950 text-white">
         <div
           aria-hidden
-          className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_15%_15%,_#f59e0b_0,_transparent_45%),radial-gradient(circle_at_85%_60%,_#3b3b6d_0,_transparent_50%)]"
+          className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_15%_15%,_#f59e0b_0,_transparent_45%),radial-gradient(circle_at_85%_60%,_#6366f1_0,_transparent_50%)]"
         />
         <div className="relative mx-auto max-w-7xl px-6 py-10 lg:py-14">
-          {/* Breadcrumbs */}
+          {/* Breadcrumbs — direction driven by the i18n locale on <html> */}
           <nav
-            dir="rtl"
-            aria-label={t('tailoring.measurements.breadcrumbLabel', 'مسار التنقل')}
-            className="mb-6 text-sm text-indigo-300 flex flex-wrap items-center gap-1.5"
+            aria-label={t('tailoring.measurements.breadcrumbLabel', 'Breadcrumb')}
+            className="mb-6 text-sm text-indigo-200 flex flex-wrap items-center gap-1.5"
           >
-            <Link
-              href="/"
-              className="hover:text-white transition-colors"
-            >
-              {t('tailoring.measurements.breadcrumbHome', 'الرئيسية')}
+            <Link href="/" className="hover:text-white transition-colors">
+              {t('tailoring.measurements.breadcrumbHome', 'Home')}
             </Link>
-            <span className="text-indigo-500" aria-hidden>/</span>
-            <Link
-              href="/services/tailoring"
-              className="hover:text-white transition-colors"
-            >
-              {t('tailoring.measurements.breadcrumbTailoring', 'التفصيل')}
+            <span className="text-indigo-400" aria-hidden>/</span>
+            <Link href="/services/tailoring" className="hover:text-white transition-colors">
+              {t('tailoring.measurements.breadcrumbTailoring', 'Tailoring')}
             </Link>
-            <span className="text-indigo-500" aria-hidden>/</span>
+            <span className="text-indigo-400" aria-hidden>/</span>
             <span className="text-white font-medium">
-              {t('tailoring.measurements.breadcrumb', 'أخذ المقاسات')}
+              {t('tailoring.measurements.breadcrumb', 'Measurements')}
             </span>
           </nav>
 
           {/* Page heading */}
-          <div dir="rtl" className="text-right max-w-2xl">
+          <div className="max-w-2xl">
             <p className="text-xs uppercase tracking-[0.18em] text-amber-300 font-medium mb-3">
-              {t('tailoring.measurements.eyebrow', 'مقاسات مخصصة')}
+              {t('tailoring.measurements.eyebrow', 'BESPOKE FIT')}
             </p>
             <h1
-              className="text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight"
-              style={{ fontFamily: '"IBM Plex Sans Arabic", ui-sans-serif, sans-serif' }}
+              className="text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight text-balance"
+              style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
             >
-              {t('tailoring.measurements.title', 'تفصيل القفطان المخصص')}
+              {t('tailoring.measurements.title', 'Custom kaftan measurements')}
             </h1>
             <p className="mt-4 text-indigo-200 text-base sm:text-lg leading-relaxed">
-              {t('tailoring.measurements.subtitle', 'أدخلي مقاساتك بدقة لضمان ملاءمة مثالية لقفطانك. يرجى اتباع الدليل المرئي لكل مقاس.')}
+              {t(
+                'tailoring.measurements.subtitle',
+                'Enter your measurements precisely for a perfect fit. Follow the visual guide for each measurement.'
+              )}
             </p>
           </div>
         </div>
@@ -63,8 +104,8 @@ export default function MeasurementsPage() {
       {/* ── Main content ── */}
       <main className="mx-auto max-w-7xl px-6 lg:px-8 py-10">
         {/* Wrapper card provides amber-200 border and rounded-2xl for page-level Atlas compliance */}
-        <div className="rounded-2xl ring-1 ring-amber-200/40 bg-white/60 p-1 shadow-[0px_4px_20px_rgba(37,37,85,0.05)]">
-          <MeasurementForm />
+        <div className="rounded-2xl ring-1 ring-gray-200 bg-white/60 p-1 shadow-atlas-sm">
+          <MeasurementForm onSave={handleSave} onAddToCart={handleAddToCart} />
         </div>
       </main>
     </div>

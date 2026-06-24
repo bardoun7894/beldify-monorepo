@@ -15,7 +15,7 @@ interface ReviewFormProps {
   onSubmitSuccess: (newReview: any) => void; // Callback after successful submission
   onCancel?: () => void;
   // Service to create review, could be mock or real
-  createReviewService: (productId: string, data: CreateReviewRequest) => Promise<any>; 
+  createReviewService: (productId: string, data: CreateReviewRequest, files?: File[]) => Promise<any>;
 }
 
 const MAX_IMAGES = 5;
@@ -99,26 +99,16 @@ export const ReviewForm: React.FC<ReviewFormProps> = ({
     setError(null);
 
     try {
-      // In a real app, you'd upload images to a service (e.g., Contabo S3)
-      // and get back URLs to send with the review data.
-      // For this mock, we'll just pass placeholder image paths.
-      // In a real app, 'images' (File[]) would be uploaded here, and 'uploadedImagePaths' (string[]) would be the URLs returned from the upload service.
-      // For mock, we'll simulate this by creating pseudo-URLs. This matches CreateReviewRequest.images as string[].
-      const uploadedImagePaths = images.map(file => `/mock/user_uploads/${productId}/${file.name}`);
-
+      // The real backend uploads the image File[] as multipart and derives the
+      // author from the authenticated session — so we pass the files through.
       const reviewData: CreateReviewRequest = {
-        productId, // Add the productId to fix the lint error
+        productId,
         rating,
         title,
         content,
-        images: uploadedImagePaths, // Or actual URLs from upload service
-        // Assuming userName and userAvatar would be sourced from auth context in a real app
-        userName: 'Current User', 
-        userAvatar: '/images/avatars/avatar-placeholder.jpg',
-        verified: true, // Mocking as verified for now
       };
 
-      const newReview = await createReviewService(productId, reviewData);
+      const newReview = await createReviewService(productId, reviewData, images);
       onSubmitSuccess(newReview);
       // Reset form
       setRating(0);
@@ -136,7 +126,7 @@ export const ReviewForm: React.FC<ReviewFormProps> = ({
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6 bg-white p-6 md:p-8 rounded-2xl shadow-sm ring-1 ring-amber-200 relative overflow-hidden">
+    <form onSubmit={handleSubmit} className="space-y-6 bg-white p-6 md:p-8 rounded-2xl shadow-sm ring-1 ring-gray-200 relative overflow-hidden">
       
       <div>
         <Label htmlFor="rating" className="block text-sm font-medium text-gray-700 mb-2">
@@ -203,6 +193,7 @@ export const ReviewForm: React.FC<ReviewFormProps> = ({
         <div className="mt-2 flex items-center flex-wrap gap-4">
           {imagePreviews.map((previewUrl, index) => (
             <div key={index} className="relative w-24 h-24 border border-gray-200 rounded-lg overflow-hidden group shadow-md transition-all duration-200 hover:shadow-lg">
+              {/* eslint-disable-next-line @next/next/no-img-element -- blob: objectURL from URL.createObjectURL; next/image cannot handle blob URLs */}
               <img src={previewUrl} alt={t('reviews.review_image')} className="w-full h-full object-cover" />
               <button
                 type="button"

@@ -4,22 +4,24 @@ import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from '@/lib/utils';
 
 const buttonVariants = cva(
-  'inline-flex items-center justify-center whitespace-nowrap rounded-lg text-sm font-medium ring-offset-background transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 active:scale-95',
+  'inline-flex items-center justify-center whitespace-nowrap rounded-[calc(1rem-4px)] text-sm font-semibold ring-offset-background transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 active:scale-95',
   {
     variants: {
       variant: {
-        // Primary: Amber for main CTAs (Add to Cart, Buy Now)
-        default: 'bg-gradient-to-r from-amber-500 to-amber-600 text-white hover:from-amber-600 hover:to-amber-700 shadow-lg hover:shadow-xl',
-        // Secondary: Indigo for secondary actions
-        secondary: 'bg-gradient-to-r from-secondary-500 to-secondary-600 text-white hover:from-secondary-600 hover:to-secondary-700 shadow-md hover:shadow-lg',
-        // Destructive: Red for dangerous actions
-        destructive: 'bg-gradient-to-r from-red-500 to-red-600 text-white hover:from-red-600 hover:to-red-700 shadow-lg hover:shadow-xl',
-        // Outline: Bordered style for tertiary actions
-        outline: 'border-2 border-secondary-500 bg-white text-secondary-600 hover:bg-secondary-50 hover:text-secondary-700 shadow-sm hover:shadow-md',
-        // Ghost: Subtle hover state
-        ghost: 'hover:bg-gray-100 hover:text-gray-900',
-        // Link: Text-only style
-        link: 'text-secondary-600 underline-offset-4 hover:underline hover:text-secondary-700',
+        // Primary (default): Atlas Indigo for main CTAs (primary brand action)
+        default: 'bg-indigo-700 text-white hover:bg-indigo-800 shadow-atlas-sm hover:shadow-atlas-md hover:-translate-y-0.5',
+        // Accent: Saffron Amber for add-to-cart, call-to-action highlights
+        accent: 'bg-amber-500 text-amber-950 hover:bg-amber-400 shadow-atlas-sm hover:shadow-atlas-md hover:-translate-y-0.5',
+        // Secondary: kept for backward compat — same as default (indigo), existing consumers unaffected
+        secondary: 'bg-indigo-700 text-white hover:bg-indigo-800 shadow-atlas-sm hover:shadow-atlas-md hover:-translate-y-0.5',
+        // Destructive: Rose-700 (Tetouani Garnet — error/sale states only)
+        destructive: 'bg-rose-700 text-white hover:bg-rose-800 shadow-sm hover:shadow-md',
+        // Outline: Bordered indigo for secondary actions
+        outline: 'border-2 border-indigo-700 bg-white text-indigo-700 hover:bg-indigo-50 hover:text-indigo-800 shadow-sm hover:shadow-md',
+        // Ghost: Subtle amber-tinted hover
+        ghost: 'hover:bg-amber-50 hover:text-indigo-700',
+        // Link: Text-only indigo
+        link: 'text-indigo-700 underline-offset-4 hover:underline hover:text-indigo-800',
       },
       size: {
         default: 'h-10 px-4 py-2',

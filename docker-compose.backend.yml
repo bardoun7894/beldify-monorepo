@@ -1,0 +1,69 @@
+services:
+  # PHP-FPM (Laravel app). Internal only — nginx fronts traffic on 7894.
+  app:
+    build:
+      context: ./beldify-backend
+      dockerfile: docker/php/Dockerfile
+    container_name: beldify-backend
+    expose:
+      - "9000"
+    volumes:
+      - ./beldify-backend:/var/www/html
+      # Mask the bind mount for vendor/ + bootstrap/cache so the image's
+      # composer-installed deps and Laravel cache aren't shadowed by an
+      # empty host directory.
+      - /var/www/html/vendor
+      - /var/www/html/bootstrap/cache
+    env_file:
+      - ./beldify-backend/.env
+    depends_on:
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    restart: unless-stopped
+
+  # Nginx — serves static + fastcgi_pass to app:9000. Replaces the bundled nginx
+  # that used to live inside the app image.
+  nginx:
+    build:
+      context: ./beldify-backend
+      dockerfile: docker/nginx/Dockerfile
+    container_name: beldify-nginx-backend
+    ports:
+      - "7894:80"
+    volumes:
+      - ./beldify-backend:/var/www/html
+      - /var/www/html/vendor
+    depends_on:
+      - app
+    restart: unless-stopped
+
+  mysql:
+    image: mysql:8.0
+    container_name: beldify-mysql
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_DATABASE: beldify
+      MYSQL_USER: beldify_user
+      MYSQL_PASSWORD: Beldify7894
+      MYSQL_ROOT_PASSWORD: BeldifyRoot7894
+    volumes:
+      - beldify_mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
+    restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+    container_name: beldify-redis
+    ports:
+      - "6381:6379"
+    command: redis-server --requirepass beldify_secure_password
+    restart: unless-stopped
+
+volumes:
+  beldify_mysql_data:

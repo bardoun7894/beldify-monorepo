@@ -16,10 +16,13 @@ const instance = axios.create({
 // Add a request interceptor
 instance.interceptors.request.use(
   async (config) => {
-    // Get token from localStorage
-    const token = localStorage.getItem('token');
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
+    // Get token from localStorage (browser only — this instance is sometimes
+    // imported by Next server route handlers where localStorage is undefined).
+    if (typeof window !== 'undefined') {
+      const token = localStorage.getItem('token');
+      if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+      }
     }
 
     return config;
@@ -35,10 +38,12 @@ instance.interceptors.response.use(
   async (error: AxiosError) => {
     // Handle 401 Unauthorized errors
     if (error.response?.status === 401) {
-      // Clear token and redirect to login
+      // Only redirect a genuinely-expired session; never bounce guests (no token)
+      // who hit 401 on auth-only endpoints from public pages.
+      const hadToken = typeof window !== 'undefined' && !!localStorage.getItem('token');
       localStorage.removeItem('token');
-      if (typeof window !== 'undefined') {
-        window.location.href = '/login';
+      if (hadToken && typeof window !== 'undefined' && window.location.pathname !== '/login') {
+        window.location.href = `/login?redirect=${encodeURIComponent(window.location.pathname)}`;
       }
     }
     return Promise.reject(error);

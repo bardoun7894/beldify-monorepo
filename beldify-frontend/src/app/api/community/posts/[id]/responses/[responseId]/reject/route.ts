@@ -5,20 +5,19 @@ import logger from '@/utils/consoleLogger';
 
 export async function POST(
   request: NextRequest,
-  { params }: { params: { id: string; responseId: string } }
+  { params }: { params: Promise<{ id: string; responseId: string }> }
 ) {
+  const { id: postId, responseId } = await params;
   try {
-    const postId = params.id;
-    const responseId = params.responseId;
     const authToken = await getAuthToken();
-    
+
     if (!authToken) {
       return NextResponse.json(
         { error: 'Authentication required' },
         { status: 401 }
       );
     }
-    
+
     const response = await fetch(`${API_URL}/api/v1/community/posts/${postId}/responses/${responseId}/reject`, {
       method: 'POST',
       headers: {
@@ -38,7 +37,7 @@ export async function POST(
     const data = await response.json();
     return NextResponse.json(data);
   } catch (error) {
-    logger.error(`Error in POST /api/community/posts/${params.id}/responses/${params.responseId}/reject:`, error);
+    logger.error(`Error in POST /api/community/posts/${postId}/responses/${responseId}/reject:`, error);
     return NextResponse.json(
       { error: 'An unexpected error occurred' },
       { status: 500 }

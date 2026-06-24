@@ -5,6 +5,11 @@ import ClientProvider from '@/providers/ClientProvider';
 import MobileBottomNav from '@/components/layout/MobileBottomNav';
 import FloatingSupportButton from '@/components/support/FloatingSupportButton';
 import PWAProviderWrapper from '@/providers/PWAProviderWrapper';
+import AnalyticsScripts from '@/components/analytics/AnalyticsScripts';
+import RouteAnalytics from '@/components/analytics/RouteAnalytics';
+
+// The AI shopping assistant now lives inside FloatingSupportButton's menu —
+// a single unified launcher replaces the previous two separate floating widgets.
 
 const poppins = Poppins({
   subsets: ['latin'],
@@ -52,13 +57,15 @@ const ibmPlexArabic = IBM_Plex_Sans_Arabic({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://www.beldify.com'),
   title: 'Beldify',
   description: 'Bringing Moroccan Traditional Fashion to the Modern World',
   manifest: '/manifest.json',
   appleWebApp: {
     capable: true,
-    statusBarStyle: 'default',
+    statusBarStyle: 'black-translucent',
     title: 'Beldify',
+    // iOS splash screens — fallback to the one icon we have
     startupImage: [
       '/icons/apple-icon-180.png',
     ],
@@ -79,13 +86,13 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [
-      { url: '/icons/manifest-icon-192.maskable.png', sizes: '32x32', type: 'image/png' },
-      { url: '/icons/manifest-icon-192.maskable.png', sizes: '16x16', type: 'image/png' },
+      { url: '/icons/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
+      { url: '/icons/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
     ],
     apple: [
       { url: '/icons/apple-icon-180.png', sizes: '180x180', type: 'image/png' },
     ],
-    shortcut: '/favicon.ico',
+    shortcut: '/icons/favicon-32x32.png',
   },
   other: {
     'application-name': 'Beldify',
@@ -100,8 +107,8 @@ export function generateViewport() {
     themeColor: '#6366f1',
     width: 'device-width',
     initialScale: 1,
-    maximumScale: 1,
-    userScalable: false,
+    // maximumScale and userScalable intentionally omitted — WCAG 1.4.4 requires
+    // users to be able to resize text up to 200% without loss of content.
     viewportFit: 'cover',
   }
 }
@@ -122,11 +129,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           Skip to main content
         </a>
         <ClientProvider>
+          <RouteAnalytics />
           <div id="main-content" className="min-h-screen pb-16 md:pb-0">{children}</div>
           <PWAProviderWrapper />
           <FloatingSupportButton />
           <MobileBottomNav />
         </ClientProvider>
+        <AnalyticsScripts />
       </body>
     </html>
   );

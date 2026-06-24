@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+
+<html dir="rtl" lang="ar"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>بيلديفاي - أخذ المقاسات</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary-container": "#6b2f00",
+                        "on-tertiary-fixed": "#321200",
+                        "secondary-fixed-dim": "#ffb95f",
+                        "error": "#ba1a1a",
+                        "on-secondary": "#ffffff",
+                        "on-primary-fixed": "#151546",
+                        "primary": "#252555",
+                        "tertiary-fixed": "#ffdbc9",
+                        "secondary-container": "#fea619",
+                        "outline-variant": "#c8c5d0",
+                        "secondary": "#855300",
+                        "on-tertiary-fixed-variant": "#753401",
+                        "on-primary-container": "#a8a7e1",
+                        "on-tertiary-container": "#f1965e",
+                        "primary-fixed": "#e2dfff",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary-container": "#684000",
+                        "on-secondary-fixed": "#2a1700",
+                        "surface-tint": "#59598d",
+                        "on-surface": "#1b1c19",
+                        "background": "#fbf9f4",
+                        "tertiary-fixed-dim": "#ffb68c",
+                        "surface-dim": "#dbdad5",
+                        "on-surface-variant": "#47464f",
+                        "surface-container-lowest": "#ffffff",
+                        "inverse-surface": "#30312e",
+                        "surface-container": "#f0eee9",
+                        "primary-fixed-dim": "#c2c1fc",
+                        "on-primary": "#ffffff",
+                        "surface-variant": "#e4e2dd",
+                        "on-background": "#1b1c19",
+                        "secondary-fixed": "#ffddb8",
+                        "surface-container-highest": "#e4e2dd",
+                        "tertiary": "#491e00",
+                        "on-primary-fixed-variant": "#414174",
+                        "surface-container-low": "#f5f3ee",
+                        "inverse-primary": "#c2c1fc",
+                        "on-error-container": "#93000a",
+                        "inverse-on-surface": "#f2f1ec",
+                        "on-error": "#ffffff",
+                        "surface-container-high": "#eae8e3",
+                        "surface-bright": "#fbf9f4",
+                        "error-container": "#ffdad6",
+                        "primary-container": "#3b3b6d",
+                        "surface": "#fbf9f4",
+                        "outline": "#777680",
+                        "on-secondary-fixed-variant": "#653e00"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "xxl": "48px",
+                        "margin-mobile": "16px",
+                        "sm": "8px",
+                        "gutter": "20px",
+                        "xl": "32px",
+                        "lg": "24px",
+                        "unit": "4px",
+                        "xs": "4px",
+                        "md": "16px",
+                        "margin-desktop": "64px"
+                    },
+                    "fontFamily": {
+                        "display-lg": ["IBM Plex Sans Arabic"],
+                        "headline-md": ["IBM Plex Sans Arabic"],
+                        "display-lg-mobile": ["IBM Plex Sans Arabic"],
+                        "body-lg": ["IBM Plex Sans Arabic"],
+                        "label-md": ["IBM Plex Sans Arabic"],
+                        "body-md": ["IBM Plex Sans Arabic"],
+                        "title-lg": ["IBM Plex Sans Arabic"],
+                        "headline-lg": ["IBM Plex Sans Arabic"],
+                        "price-display": ["IBM Plex Sans Arabic"]
+                    },
+                    "fontSize": {
+                        "display-lg": ["48px", { "lineHeight": "60px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "display-lg-mobile": ["32px", { "lineHeight": "40px", "fontWeight": "700" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "label-md": ["14px", { "lineHeight": "20px", "fontWeight": "500" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "title-lg": ["20px", { "lineHeight": "28px", "fontWeight": "500" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "fontWeight": "600" }],
+                        "price-display": ["22px", { "lineHeight": "28px", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            font-family: 'IBM Plex Sans Arabic', sans-serif;
+            background-color: theme('colors.background');
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        /* Custom scrollbar for webkit */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background-color: theme('colors.outline-variant');
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="text-on-background min-h-screen flex flex-col">
+<!-- TopNavBar (Shared Component) -->
+<header class="docked full-width top-0 z-50 bg-surface dark:bg-surface-dim shadow-[0px_4px_20px_rgba(37,37,85,0.05)] border-b border-outline-variant/20 sticky">
+<div class="flex flex-row-reverse justify-between items-center px-margin-mobile md:px-margin-desktop h-24 w-full max-w-7xl mx-auto">
+<!-- Brand Logo -->
+<a class="font-headline-lg text-headline-lg font-bold text-primary dark:text-primary-fixed-dim tracking-tight" href="#">
+                بيلديفاي
+            </a>
+<!-- Navigation Links (Web) -->
+<nav class="hidden md:flex flex-row-reverse gap-xl">
+<a class="text-on-surface-variant dark:text-outline hover:text-primary dark:hover:text-primary-fixed-dim font-medium transition-colors hover:bg-surface-container-low dark:hover:bg-surface-container-highest rounded-lg transition-all duration-300 px-4 py-2" href="#">لوحة التحكم</a>
+<!-- Active State -->
+<a class="text-primary dark:text-primary-fixed-dim border-b-2 border-secondary-container font-bold pb-2 transition-all px-4 py-2 cursor-pointer active:scale-95 transform transition-transform duration-200" href="#">المنتجات</a>
+<a class="text-on-surface-variant dark:text-outline hover:text-primary dark:hover:text-primary-fixed-dim font-medium transition-colors hover:bg-surface-container-low dark:hover:bg-surface-container-highest rounded-lg transition-all duration-300 px-4 py-2" href="#">الطلبات</a>
+<a class="text-on-surface-variant dark:text-outline hover:text-primary dark:hover:text-primary-fixed-dim font-medium transition-colors hover:bg-surface-container-low dark:hover:bg-surface-container-highest rounded-lg transition-all duration-300 px-4 py-2" href="#">التقارير</a>
+<a class="text-on-surface-variant dark:text-outline hover:text-primary dark:hover:text-primary-fixed-dim font-medium transition-colors hover:bg-surface-container-low dark:hover:bg-surface-container-highest rounded-lg transition-all duration-300 px-4 py-2" href="#">المتجر</a>
+</nav>
+<!-- Actions -->
+<div class="flex flex-row-reverse items-center gap-4">
+<button class="text-on-surface-variant hover:text-primary transition-colors cursor-pointer active:scale-95 transform duration-200">
+<span class="font-label-md text-label-md">العربية</span>
+</button>
+<div class="h-6 w-px bg-outline-variant/30"></div>
+<button class="text-on-surface-variant hover:text-primary transition-colors cursor-pointer active:scale-95 transform duration-200 p-2 rounded-full hover:bg-surface-container-low">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<div class="w-10 h-10 rounded-full overflow-hidden border border-outline-variant/20 ml-2">
+<img alt="صورة المتجر الشخصية" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAPsRlwsQgoq78sMROy5PicLPjv-QBo66CZSfrtU_XIVbhZsmEWFe8TDw77G1HOvbZrg4Dzkkye4EvzuMnJm2UZDH9-YYm2eY8YVAjOZjAmAQV_ix6vdEwE_HLYmrH01idiFm3Rd2dKFKPsoXmN4hscjxDM3kRUmHTc_ap3amD12IOUchyz20kjaprRiECkazRCZAVp-srPnLnHZRfEls0zahtOkQGtSzU0xKfMCzTZv-aUlQ8wgZ2rmQWv0VtyFCyO-r3rrAh3jZjl"/>
+</div>
+</div>
+</div>
+</header>
+<!-- Main Content -->
+<main class="flex-grow w-full max-w-7xl mx-auto px-margin-mobile md:px-margin-desktop py-xl">
+<!-- Header Section -->
+<div class="mb-xl text-right">
+<h1 class="font-display-lg text-display-lg text-primary mb-sm">تفصيل القفطان المخصص</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl ml-auto">أدخلي مقاساتك بدقة لضمان ملاءمة مثالية لقفطانك. يرجى اتباع الدليل المرئي لكل مقاس.</p>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-xl">
+<!-- Left Column: Visual Guide (Takes 5 cols on lg) -->
+<div class="lg:col-span-5 order-2 lg:order-1">
+<div class="bg-surface-container-lowest rounded-xl shadow-[0px_8px_30px_rgba(37,37,85,0.08)] p-lg h-full border border-outline-variant/10 sticky top-32">
+<h2 class="font-title-lg text-title-lg text-primary mb-md border-b border-outline-variant/20 pb-sm">دليل أخذ المقاسات</h2>
+<div class="relative w-full aspect-[3/4] bg-surface-container-low rounded-lg overflow-hidden mb-md flex items-center justify-center">
+<!-- Placeholder for Illustration -->
+<img alt="صورة توضيحية لعارضة أزياء ترتدي فستاناً مع خطوط قياس" class="object-cover w-full h-full opacity-80 mix-blend-multiply" data-alt="A professional fashion flat lay or mannequin shot in a brightly lit studio setting. The image shows a beautifully crafted Moroccan Kaftan with subtle, elegant overlay lines indicating measurement points: chest, waist, hips, and total length. The lighting is soft and natural, emphasizing the premium quality of the fabric in light indigo and parchment tones. The overall aesthetic is clean, modern, and highly editorial, fitting a luxury fashion brand." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAAQF1gGLtry3mfPz_H_BbkaBs11VbiHvyF2XXPrW1viPfXt2J0XgRtknkdjEwMLuq-QmNWuBr_8JQil1efrsdwygr-hwOX06JG22nntREDTX9Md4ImSoQIB2CghTyFb8n4ATRX5fdEWEqFoIvFU_pRFgMD5ew0Vi2u79DOWB9_0vFfcZE2SVTriDPXbMRZp4D1yjFFpbNjyYJ9G40cBL-d0Yz99wd80s3FRLA9Cnxtg_0deYWP9dlArKspR0Hb_jr6w3uN0cBKD_rJ"/>
+<!-- Interactive Nodes (Simplified overlay) -->
+<div class="absolute top-[25%] left-1/2 -translate-x-1/2 w-full flex items-center justify-center group cursor-pointer" onclick="highlightField('chest')">
+<div class="h-[2px] w-1/2 bg-secondary-container absolute z-10 transition-all group-hover:bg-primary"></div>
+<div class="w-4 h-4 rounded-full bg-secondary-container z-20 border-2 border-white shadow-md group-hover:scale-125 transition-transform"></div>
+<span class="absolute right-[10%] bg-white/90 px-2 py-1 rounded text-xs font-label-md text-primary shadow-sm backdrop-blur-sm">الصدر</span>
+</div>
+<div class="absolute top-[40%] left-1/2 -translate-x-1/2 w-full flex items-center justify-center group cursor-pointer" onclick="highlightField('waist')">
+<div class="h-[2px] w-2/5 bg-secondary-container absolute z-10 transition-all group-hover:bg-primary"></div>
+<div class="w-4 h-4 rounded-full bg-secondary-container z-20 border-2 border-white shadow-md group-hover:scale-125 transition-transform"></div>
+<span class="absolute right-[15%] bg-white/90 px-2 py-1 rounded text-xs font-label-md text-primary shadow-sm backdrop-blur-sm">الخصر</span>
+</div>
+</div>
+<div class="bg-primary/5 p-md rounded-lg border border-primary/10">
+<div class="flex items-start gap-sm">
+<span class="material-symbols-outlined text-primary mt-1">info</span>
+<p class="font-body-md text-body-md text-on-surface-variant">استخدمي شريط قياس مرن. تأكدي من أن الشريط مستقيم وموازي للأرض عند أخذ المقاسات المحيطية.</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: Form (Takes 7 cols on lg) -->
+<div class="lg:col-span-7 order-1 lg:order-2">
+<div class="bg-surface-container-lowest rounded-xl shadow-[0px_4px_20px_rgba(37,37,85,0.05)] p-lg lg:p-xl border border-outline-variant/10">
+<!-- Unit Toggle -->
+<div class="flex justify-between items-center mb-xl border-b border-outline-variant/20 pb-md">
+<h2 class="font-headline-md text-headline-md text-primary">المقاسات الشخصية</h2>
+<div class="flex bg-surface-container-low rounded-lg p-1 border border-outline-variant/20">
+<button class="px-4 py-1.5 rounded-md font-label-md text-label-md bg-white shadow-sm text-primary transition-all">سم</button>
+<button class="px-4 py-1.5 rounded-md font-label-md text-label-md text-on-surface-variant hover:text-primary transition-all">إنش</button>
+</div>
+</div>
+<form class="space-y-lg">
+<!-- Measurement Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-gutter">
+<!-- Chest -->
+<div class="group" id="field-chest">
+<label class="block font-label-md text-label-md text-on-surface mb-xs">محيط الصدر</label>
+<div class="relative">
+<input class="w-full bg-surface-bright border border-outline-variant/50 rounded-lg py-3 px-4 text-right focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors font-body-lg text-body-lg" placeholder="مثال: 90" type="number"/>
+<span class="absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant font-body-md">سم</span>
+</div>
+<p class="text-xs text-on-surface-variant mt-1 font-body-md">قيسي حول الجزء الأكثر امتلاءً من الصدر.</p>
+</div>
+<!-- Waist -->
+<div class="group" id="field-waist">
+<label class="block font-label-md text-label-md text-on-surface mb-xs">محيط الخصر</label>
+<div class="relative">
+<input class="w-full bg-surface-bright border border-outline-variant/50 rounded-lg py-3 px-4 text-right focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors font-body-lg text-body-lg" placeholder="مثال: 70" type="number"/>
+<span class="absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant font-body-md">سم</span>
+</div>
+<p class="text-xs text-on-surface-variant mt-1 font-body-md">قيسي حول أضيق جزء من خصرك.</p>
+</div>
+<!-- Hips -->
+<div class="group" id="field-hips">
+<label class="block font-label-md text-label-md text-on-surface mb-xs">محيط الأرداف</label>
+<div class="relative">
+<input class="w-full bg-surface-bright border border-outline-variant/50 rounded-lg py-3 px-4 text-right focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors font-body-lg text-body-lg" placeholder="مثال: 100" type="number"/>
+<span class="absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant font-body-md">سم</span>
+</div>
+<p class="text-xs text-on-surface-variant mt-1 font-body-md">قيسي حول الجزء الأكثر امتلاءً من الأرداف.</p>
+</div>
+<!-- Total Length -->
+<div class="group" id="field-length">
+<label class="block font-label-md text-label-md text-on-surface mb-xs">الطول الكلي</label>
+<div class="relative">
+<input class="w-full bg-surface-bright border border-outline-variant/50 rounded-lg py-3 px-4 text-right focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors font-body-lg text-body-lg" placeholder="مثال: 140" type="number"/>
+<span class="absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant font-body-md">سم</span>
+</div>
+<p class="text-xs text-on-surface-variant mt-1 font-body-md">من أعلى الكتف إلى الطول المطلوب (مع الحذاء).</p>
+</div>
+</div>
+<!-- Special Requests -->
+<div class="mt-lg pt-lg border-t border-outline-variant/20">
+<label class="block font-label-md text-label-md text-on-surface mb-xs">ملاحظات إضافية (اختياري)</label>
+<textarea class="w-full bg-surface-bright border border-outline-variant/50 rounded-lg py-3 px-4 text-right focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors font-body-md text-body-md resize-none" placeholder="هل هناك تفضيلات معينة بخصوص القصة أو المقاس؟" rows="3"></textarea>
+</div>
+<!-- Action Buttons -->
+<div class="flex flex-col sm:flex-row gap-md mt-xl pt-md">
+<button class="flex-1 bg-secondary-container hover:bg-secondary-container/90 text-on-secondary-container font-label-md text-label-md font-bold py-4 px-6 rounded-lg shadow-sm transition-all active:scale-[0.98] flex items-center justify-center gap-2" type="button">
+<span class="material-symbols-outlined">shopping_cart</span>
+                                إضافة إلى السلة
+                            </button>
+<button class="sm:flex-none bg-surface hover:bg-surface-container-low text-primary border border-primary/20 font-label-md text-label-md font-bold py-4 px-6 rounded-lg transition-all active:scale-[0.98] flex items-center justify-center gap-2" type="button">
+<span class="material-symbols-outlined">save</span>
+                                حفظ المقاسات
+                            </button>
+</div>
+</form>
+</div>
+</div>
+</div>
+</main>
+<script>
+        // Simple interaction to highlight field when clicking diagram
+        function highlightField(fieldId) {
+            const field = document.getElementById(`field-${fieldId}`);
+            if(field) {
+                const input = field.querySelector('input');
+                input.focus();
+                
+                // Add temporary highlight class
+                field.classList.add('bg-primary/5', 'rounded-lg', '-m-2', 'p-2', 'transition-all', 'duration-300');
+                setTimeout(() => {
+                    field.classList.remove('bg-primary/5', 'rounded-lg', '-m-2', 'p-2');
+                }, 1500);
+            }
+        }
+    </script>
+</body></html>

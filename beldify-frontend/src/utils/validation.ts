@@ -17,45 +17,41 @@ export const passwordSchema = z.string()
   .regex(/[0-9]/, 'Password must contain at least one number')
   .regex(/[^A-Za-z0-9]/, 'Password must contain at least one special character');
 
-// Registration schema — must mirror the actual register form payload
-// (first_name/last_name/username/contact_number) and the Laravel backend
-// contract (AuthController::register). Names allow non-ASCII (Arabic) input.
+// Registration schema — phone-first contract.
+// Required: full_name_en, phone, password, password_confirmation.
+// Optional: email (omitted when not provided by the user).
+// Legacy fields (first_name, last_name, username, contact_number) are still
+// accepted via passthrough() for Google-auth and backward-compat paths.
+// Username is generated server-side — never required from the client.
 export const registrationSchema = z.object({
-  first_name: z.string()
-    .min(1, 'First name is required')
-    .max(100, 'Name is too long')
+  full_name_en: z.string()
+    .min(1, 'Full name is required')
+    .max(255, 'Name is too long')
     .trim(),
-  last_name: z.string()
-    .min(1, 'Last name is required')
-    .max(100, 'Name is too long')
+  phone: z.string()
+    .min(6, 'Phone number is required')
+    .max(30, 'Phone number is too long')
     .trim(),
-  full_name_en: z.string().max(255, 'Name is too long').trim().optional(),
-  username: z.string()
-    .min(1, 'Username is required')
-    .max(255, 'Username is too long')
-    .trim(),
-  email: emailSchema,
   // Backend enforces Password::min(8) only; the form's strength meter is
   // advisory. Keep the proxy in sync so it never hard-blocks valid passwords.
   password: z.string()
     .min(8, 'Password must be at least 8 characters')
     .max(100, 'Password is too long'),
   password_confirmation: z.string(),
-  contact_number: z.string()
-    .max(20, 'Phone number is too long')
-    .refine((val) => !val || /^\+?[1-9]\d{1,14}$/.test(val), {
-      message: 'Invalid phone number format'
-    })
-    .optional(),
+  // Email is optional — omit key entirely if not provided (never send empty string)
+  email: z.string().email('Invalid email format').max(255).toLowerCase().trim().optional(),
 // Forward any extra/legacy keys to Laravel rather than silently stripping them.
 }).passthrough().refine((data) => data.password === data.password_confirmation, {
   message: "Passwords don't match",
   path: ["password_confirmation"],
 });
 
-// Login schema
+// Login schema — accepts phone OR email via `identifier` field.
+// Also keeps `email` for backward-compat (sent alongside identifier).
 export const loginSchema = z.object({
-  email: emailSchema,
+  identifier: z.string().min(1, 'Phone or email is required').trim(),
+  // Legacy field forwarded for older backend paths; mirrors identifier value.
+  email: z.string().optional(),
   password: z.string().min(1, 'Password is required'),
   remember: z.boolean().optional(),
 });

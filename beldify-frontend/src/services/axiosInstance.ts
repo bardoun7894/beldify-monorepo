@@ -1,6 +1,7 @@
 import axios from 'axios';
 import logger from '@/utils/consoleLogger';
 import { API_BASE_URL } from '@/config/constants';
+import i18nInstance from '@/i18n/config';
 
 const axiosInstance = axios.create({
   baseURL: API_BASE_URL,
@@ -38,6 +39,13 @@ axiosInstance.interceptors.request.use(
       logger.log('Added authorization header to request');
     } else {
       logger.log('No auth token found in localStorage');
+    }
+
+    // Set Accept-Language from current i18n language so the backend can
+    // serve translated product names / descriptions for every locale.
+    if (typeof window !== 'undefined') {
+      const lang = i18nInstance.language || 'ma';
+      config.headers['Accept-Language'] = lang;
     }
     
     // Add XSRF-TOKEN header if available for CSRF protection

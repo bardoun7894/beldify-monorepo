@@ -17,45 +17,43 @@ interface FilterChipsProps {
   className?: string;
 }
 
-export default function FilterChips({ 
-  chips, 
-  onRemove, 
+export default function FilterChips({
+  chips,
+  onRemove,
   onClearAll,
-  className = '' 
+  className = '',
 }: FilterChipsProps) {
   const { t } = useTranslation();
 
   if (chips.length === 0) return null;
 
-  const getChipColor = (_type: FilterChip['type']) => {
-    // Atlas §8: single-palette chips — amber for active filters
-    return 'bg-amber-50 text-amber-700 border-amber-200';
-  };
-
   return (
-    <div className={`flex flex-wrap items-center gap-2 ${className}`}>
+    <div className={`flex flex-wrap items-center gap-2 ${className}`} role="list" aria-label={t('filters.active_filters_label', 'Active filters')}>
       {chips.map((chip) => (
         <span
           key={chip.id}
-          className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm border ${getChipColor(chip.type)}`}
+          role="listitem"
+          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium bg-white text-amber-800 border border-gray-200 shadow-atlas-sm"
         >
-          <span className="font-medium">{chip.label}</span>
+          <span className={chip.type === 'price' ? 'currency-mad' : undefined}>{chip.label}</span>
           <button
+            type="button"
             onClick={() => onRemove(chip)}
-            className="hover:bg-black/10 rounded-full p-0.5 transition-colors"
-            aria-label={`Remove ${chip.label} filter`}
+            aria-label={t('filters.remove_filter_aria', `Remove {{label}} filter`, { label: chip.label })}
+            className="rounded-full hover:bg-amber-100 p-0.5 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30"
           >
-            <X className="h-3.5 w-3.5" />
+            <X className="h-3.5 w-3.5 text-amber-700" aria-hidden="true" />
           </button>
         </span>
       ))}
-      
+
       {chips.length > 1 && (
         <button
+          type="button"
           onClick={onClearAll}
-          className="text-sm text-indigo-700 hover:text-indigo-800 underline transition-colors ml-2"
+          className="text-sm font-medium text-indigo-700 hover:text-indigo-800 hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30 rounded transition-colors ms-1"
         >
-          {t('filters.clear_all')}
+          {t('filters.clear_all', 'Clear all')}
         </button>
       )}
     </div>

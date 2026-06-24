@@ -35,8 +35,20 @@ export interface Product {
   sku?: string;
   slug?: string;
   stock: number;
+  /** Alias used by lib/types.ts Product — optional for backward compat */
+  stock_quantity?: number;
+  stock_status?: 'in_stock' | 'low_stock' | 'out_of_stock';
+  store_id?: number;
   tailor_id?: number;
   styles?: TailoringStyle[];
+  /**
+   * Seller identity fields — additive from /products/all (P1-B).
+   * All optional: absent on legacy payloads, present when backend emits seller data.
+   */
+  store_name?: string;
+  store_slug?: string;
+  store_rating?: number;
+  store_is_verified?: boolean;
   created_at: string;
   updated_at: string;
 }

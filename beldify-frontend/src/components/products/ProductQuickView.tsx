@@ -5,11 +5,13 @@ import { Dialog, Transition } from '@headlessui/react';
 import { XMarkIcon, HeartIcon, ShoppingCartIcon, StarIcon, CheckIcon, CheckCircleIcon, XCircleIcon } from '@heroicons/react/24/outline';
 import { HeartIcon as HeartFilledIcon, StarIcon as StarFilledIcon } from '@heroicons/react/24/solid';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { Product } from '@/lib/types';
 import { useTranslation } from 'react-i18next';
 import { formatPrice } from '@/utils/formatters';
 import { getImageUrl, DEFAULT_PLACEHOLDER_IMAGE } from '@/utils/imageUtils';
 import { useDirection } from '@/hooks/useDirection';
+import { useCart } from '@/contexts/CartContext';
 import toast from '@/utils/toast';
 
 interface ProductQuickViewProps {
@@ -31,6 +33,8 @@ export default function ProductQuickView({
 }: ProductQuickViewProps) {
   const { t } = useTranslation();
   const { isRTL } = useDirection();
+  const router = useRouter();
+  const { addItem } = useCart();
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [isAddingToCart, setIsAddingToCart] = useState(false);
   const [isWishlisted, setIsWishlisted] = useState(isInWishlist);
@@ -79,23 +83,56 @@ export default function ProductQuickView({
     ? getImageUrl(productImages[selectedImageIndex], DEFAULT_PLACEHOLDER_IMAGE)
     : DEFAULT_PLACEHOLDER_IMAGE;
 
-  const handleAddToCart = async () => {
-    setIsAddingToCart(true);
-    
-    try {
-      if (onAddToCart) {
-        await onAddToCart(product);
-      }
-      
-      toast.success(t('product.addedToCart'), {
-        position: isRTL ? 'bottom-left' : 'bottom-right',
-        duration: 2000
-      });
-    } catch (error) {
-      toast.error(t('error.general'));
-    } finally {
-      setTimeout(() => setIsAddingToCart(false), 1000);
+  const handleAddToCart = () => {
+    // If a parent override is provided, delegate and let it handle toasts.
+    if (onAddToCart) {
+      setIsAddingToCart(true);
+      Promise.resolve(onAddToCart(product))
+        .then(() => {
+          toast.success(t('product.addedToCart'), {
+            position: isRTL ? 'bottom-left' : 'bottom-right',
+            duration: 2000,
+          });
+        })
+        .catch(() => {
+          toast.error(t('error.general'));
+        })
+        .finally(() => {
+          setTimeout(() => setIsAddingToCart(false), 1000);
+        });
+      return;
     }
+
+    // Resolve canonical stock_id (stocks table) — mirrors ProductCard logic.
+    // Product type doesn't declare stock_id (runtime-only field from catalog API).
+    const stockId: number | null = (product as any).stock_id
+      ? Number((product as any).stock_id)
+      : null;
+
+    if (stockId === null) {
+      // No resolvable stock_id — send user to PDP for authoritative stock selection.
+      router.push(`/products/${product.id}`);
+      onClose();
+      return;
+    }
+
+    setIsAddingToCart(true);
+    addItem(stockId, quantity, 'stock')
+      .then(() => {
+        toast.success(t('product.addedToCart'), {
+          position: isRTL ? 'bottom-left' : 'bottom-right',
+          duration: 2000,
+        });
+      })
+      .catch(() => {
+        toast.error(t('product.addToCartError', 'Could not add to cart. Please try again.'), {
+          position: isRTL ? 'bottom-left' : 'bottom-right',
+          duration: 3000,
+        });
+      })
+      .finally(() => {
+        setTimeout(() => setIsAddingToCart(false), 1000);
+      });
   };
 
   const handleWishlistToggle = () => {
@@ -110,7 +147,6 @@ export default function ProductQuickView({
       {
         position: isRTL ? 'bottom-left' : 'bottom-right',
         duration: 2000,
-        icon: isWishlisted ? '💔' : '❤️'
       }
     );
   };
@@ -226,7 +262,7 @@ export default function ProductQuickView({
                             <div className="flex">
                               {renderStars(rating)}
                             </div>
-                            <span className="text-sm text-gray-600 ml-1">
+                            <span className="text-sm text-gray-600 ms-1">
                               ({reviews_count || 0})
                             </span>
                           </div>

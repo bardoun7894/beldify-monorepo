@@ -7,11 +7,12 @@ export interface CartServiceResponse extends ApiResponse<any> {
 
 export interface StockResponse {
   status: 'in_stock' | 'out_of_stock' | 'no_stock' | 'low_stock' | 'variant_not_found' | 'error';
-  available_quantity: number;
+  available_quantity: number | null;
   message?: string;
   success?: boolean;
   stock_id?: number;
   variant_id?: number;
+  made_to_order?: boolean;
 }
 
 export interface CartService {

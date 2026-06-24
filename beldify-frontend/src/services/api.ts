@@ -47,12 +47,16 @@ api.interceptors.response.use(
   (response) => response,
   async (error) => {
     if (error.response?.status === 401) {
-      // Clear token if it's invalid or expired
+      // Only force a re-login when an actual auth session existed and is now
+      // invalid. Guests (no token) legitimately get 401 from auth-only endpoints
+      // on public pages (e.g. cart/related-products) — never hijack them to /login.
+      const hadToken = typeof window !== 'undefined' && !!localStorage.getItem('token');
       localStorage.removeItem('token');
-      // Redirect to login if needed
-      if (typeof window !== 'undefined') {
+      if (hadToken && typeof window !== 'undefined') {
         const currentPath = window.location.pathname;
-        window.location.href = `/login?redirect=${encodeURIComponent(currentPath)}`;
+        if (currentPath !== '/login') {
+          window.location.href = `/login?redirect=${encodeURIComponent(currentPath)}`;
+        }
       }
     }
     return Promise.reject(error);
@@ -133,9 +137,18 @@ export const productService = {
 interface StockResponse {
   available_quantity: number;
   status: string;
+  message?: string;
+  success?: boolean;
+  stock_id?: number;
+  variant_id?: number;
 }
 
 export const cartService = {
+  // TODO: Backend route /cart/merge-guest does not exist yet
+  async mergeGuestCart(): Promise<void> {
+    debugLog('mergeGuestCart called but backend route /cart/merge-guest does not exist yet');
+  },
+
   async getCartRelatedProducts(productId?: string, limit: number = 8) {
     try {
       const params: Record<string, any> = { limit };
@@ -350,9 +363,80 @@ export const orderService = {
 };
 
 export const reviewService = {
-  async createReview(reviewData: any) {
+  /**
+   * Fetch approved product reviews from the real backend and normalize the
+   * Laravel paginator + summary shape into the frontend ReviewsResponse.
+   */
+  async getProductReviews(
+    productId: string,
+    page: number = 1,
+    limit: number = 5,
+    filters?: Record<string, any>
+  ) {
+    const response = await api.get(`/products/${productId}/reviews`, {
+      params: { page, per_page: limit, ...(filters || {}) },
+    });
+
+    const payload = response.data?.data ?? {};
+    const paginator = payload.reviews ?? {};
+    const rows: any[] = paginator.data ?? [];
+    const summary = payload.summary ?? {};
+
+    const reviews = rows.map((r) => ({
+      id: String(r.id),
+      productId: String(r.stock_id ?? productId),
+      userId: String(r.user_id ?? ''),
+      userName: r.user?.name || r.user?.display_name || 'Customer',
+      userAvatar: r.user?.profile_image || undefined,
+      rating: Number(r.rating) || 0,
+      title: r.title || '',
+      content: r.comment || '',
+      images: Array.isArray(r.images) ? r.images : [],
+      createdAt: r.created_at,
+      verified: !!r.is_verified,
+      likes: Number(r.likes) || 0,
+      dislikes: Number(r.dislikes) || 0,
+      userReaction: null,
+    }));
+
+    const dist = summary.rating_counts || {};
+    return {
+      reviews,
+      summary: {
+        averageRating: Number(summary.average_rating) || 0,
+        totalReviews: Number(summary.total_reviews) || 0,
+        ratingDistribution: {
+          1: dist[1] ?? 0, 2: dist[2] ?? 0, 3: dist[3] ?? 0, 4: dist[4] ?? 0, 5: dist[5] ?? 0,
+        },
+        verifiedPurchases: reviews.filter((r) => r.verified).length,
+        withImages: reviews.filter((r) => r.images.length > 0).length,
+        withComments: reviews.filter((r) => r.content).length,
+      },
+      pagination: {
+        currentPage: Number(paginator.current_page) || page,
+        totalPages: Number(paginator.last_page) || 1,
+        totalItems: Number(paginator.total) || reviews.length,
+        hasMore: (Number(paginator.current_page) || 1) < (Number(paginator.last_page) || 1),
+      },
+    };
+  },
+
+  /**
+   * Submit a review (multipart so receipt images upload as real files).
+   * Backend stores it as status=pending until an admin approves it.
+   */
+  async createReview(productId: string, data: any, files?: File[]) {
     try {
-      const response = await api.post('/products/reviews', reviewData);
+      const form = new FormData();
+      form.append('stock_id', String(productId));
+      form.append('rating', String(data.rating));
+      if (data.title) form.append('title', data.title);
+      form.append('comment', data.content ?? data.comment ?? '');
+      (files || []).forEach((f, i) => form.append(`images[${i}]`, f));
+
+      const response = await api.post('/products/reviews', form, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      });
       return response.data;
     } catch (error) {
       debugError('Error creating review:', error);
@@ -390,14 +474,35 @@ export const reviewService = {
     }
   },
   
-  // TODO: Backend does not expose order-specific review endpoints. These need backend implementation.
-  async getOrderReviewStatus(_orderId: string) {
-    throw new Error('Order review status endpoint is not available on the backend.');
+  /**
+   * GET /api/orders/{orderId}/review-status (Bearer)
+   * Returns { success, reviewable, items: [{ order_item_id, stock_id, name, reviewed, review_id }] }
+   * Only reviewable for delivered/completed orders; 403 for non-owner.
+   */
+  async getOrderReviewStatus(orderId: string) {
+    try {
+      const response = await api.get(`/orders/${orderId}/review-status`);
+      return response.data;
+    } catch (error) {
+      debugError('Error fetching order review status:', error);
+      throw error;
+    }
   },
 
-  // TODO: Backend does not expose order-specific review endpoints. These need backend implementation.
-  async submitOrderReview(_orderReviewData: any) {
-    throw new Error('Order review submission endpoint is not available on the backend.');
+  /**
+   * POST /api/orders/{orderId}/reviews (Bearer)
+   * Body: { items: [{ order_item_id, rating: 1-5, comment? }] }
+   * Returns 201 { success, created }; 422 undelivered/validation, 409 duplicate item review.
+   * Reviews enter moderation as status=pending, verified_purchase=true.
+   */
+  async submitOrderReview(orderId: string, items: Array<{ order_item_id: number; rating: number; comment?: string }>) {
+    try {
+      const response = await api.post(`/orders/${orderId}/reviews`, { items });
+      return response.data;
+    } catch (error) {
+      debugError('Error submitting order review:', error);
+      throw error;
+    }
   }
 };
 

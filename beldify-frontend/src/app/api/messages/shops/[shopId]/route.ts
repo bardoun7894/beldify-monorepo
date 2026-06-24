@@ -6,8 +6,9 @@ const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL!;
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { shopId: string } }
+  { params }: { params: Promise<{ shopId: string }> }
 ) {
+  const { shopId } = await params;
   try {
     const token =
       request.cookies.get('token')?.value ||
@@ -21,8 +22,6 @@ export async function GET(
         { status: 401 }
       );
     }
-
-    const shopId = params.shopId;
 
     const { searchParams } = new URL(request.url);
     const postId = searchParams.get('postId');
@@ -51,8 +50,9 @@ export async function GET(
 
 export async function POST(
   request: NextRequest,
-  { params }: { params: { shopId: string } }
+  { params }: { params: Promise<{ shopId: string }> }
 ) {
+  const { shopId } = await params;
   try {
     const token =
       request.cookies.get('token')?.value ||
@@ -67,7 +67,6 @@ export async function POST(
       );
     }
 
-    const shopId = params.shopId;
     const body = await request.json();
 
     const response = await axios.post(

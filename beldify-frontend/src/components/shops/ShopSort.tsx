@@ -29,26 +29,26 @@ export default function ShopSort({ value, onChange }: ShopSortProps) {
 
   return (
     <div className="flex items-center gap-2">
-      <div className="p-1.5 rounded-full bg-indigo-700 shadow-sm">
+      <div className="p-1.5 rounded-full bg-indigo-700 shadow-atlas-sm">
         <ArrowsUpDownIcon className="h-3.5 w-3.5 text-white" />
       </div>
-      
-      {/* Premium styled select with indigo and amber accents */}
+
+      {/* Atlas-token styled select — indigo trigger, amber-500 checked accent */}
       <Select value={value} onValueChange={onChange}>
-        <SelectTrigger 
-          className="w-[180px] border-indigo-200 hover:border-indigo-300 focus:ring-2 focus:ring-indigo-200 focus:ring-opacity-50 bg-white hover:bg-indigo-50 transition-all duration-200 shadow-sm"
+        <SelectTrigger
+          className="w-[180px] rounded-2xl border-indigo-200 hover:border-indigo-700 focus:ring-2 focus:ring-indigo-700/40 bg-white hover:bg-indigo-50 transition-all duration-200 shadow-atlas-sm"
         >
           <SelectValue placeholder={t('shops.filters.sort.label')} />
         </SelectTrigger>
-        
-        <SelectContent 
-          className="border-indigo-200 bg-white shadow-lg rounded-lg overflow-hidden border-t-amber-300"
+
+        <SelectContent
+          className="border-indigo-200 bg-white shadow-atlas-md rounded-2xl overflow-hidden"
         >
           {sortOptions.map((option) => (
-            <SelectItem 
-              key={option.value} 
+            <SelectItem
+              key={option.value}
               value={option.value}
-              className="hover:bg-indigo-50 focus:bg-indigo-100 focus:text-indigo-900 data-[state=checked]:bg-indigo-100 data-[state=checked]:text-indigo-800 data-[state=checked]:font-medium data-[state=checked]:border-l-4 data-[state=checked]:border-amber-400"
+              className="rounded-xl hover:bg-indigo-50 focus:bg-indigo-100 focus:text-indigo-900 data-[state=checked]:bg-amber-50 data-[state=checked]:text-indigo-800 data-[state=checked]:font-semibold"
             >
               {option.label}
             </SelectItem>

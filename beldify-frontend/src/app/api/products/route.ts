@@ -1,5 +1,7 @@
 import { NextResponse } from 'next/server';
-import axios from '@/lib/axios';
+// Use plain axios on the server: the @/lib/axios instance has a browser-only
+// request interceptor (localStorage) that throws in this Node route handler.
+import axios from 'axios';
 import logger from '@/utils/consoleLogger';
 
 // Add fallback URL to ensure API calls work even if environment variable is not set

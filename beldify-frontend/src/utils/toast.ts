@@ -4,37 +4,16 @@ import { isDebuggingEnabled } from './debugMode';
 // Get the correct type for toast options
 type ToastOptions = Parameters<typeof hotToast>[1];
 
-// Create a wrapper for toast that respects debugging settings
+// User-facing toasts (success/error/loading/custom) always render — they are core
+// purchase-flow feedback (add-to-cart, checkout, wishlist). Only `debug` is gated.
 const toast = {
-  // Standard toasts are only shown when debugging is enabled
-  success: (message: string, options?: ToastOptions) => {
-    if (isDebuggingEnabled()) {
-      return hotToast.success(message, options);
-    }
-    return null;
-  },
-  
-  error: (message: string, options?: ToastOptions) => {
-    if (isDebuggingEnabled()) {
-      return hotToast.error(message, options);
-    }
-    return null;
-  },
-  
-  loading: (message: string, options?: ToastOptions) => {
-    if (isDebuggingEnabled()) {
-      return hotToast.loading(message, options);
-    }
-    return null;
-  },
-  
-  // Custom toasts should also respect debug mode
-  custom: (renderer: any, options?: any) => {
-    if (isDebuggingEnabled()) {
-      return hotToast.custom(renderer, options);
-    }
-    return null;
-  },
+  success: (message: string, options?: ToastOptions) => hotToast.success(message, options),
+
+  error: (message: string, options?: ToastOptions) => hotToast.error(message, options),
+
+  loading: (message: string, options?: ToastOptions) => hotToast.loading(message, options),
+
+  custom: (renderer: any, options?: any) => hotToast.custom(renderer, options),
   
   // Dismiss should always be allowed to clear any existing toasts
   dismiss: hotToast.dismiss,

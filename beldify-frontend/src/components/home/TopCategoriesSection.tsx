@@ -6,6 +6,8 @@ import { fetchCategories } from '@/lib/api';
 import SubcategoriesGrid from '@/components/home/SubcategoriesGrid';
 import { Category } from '@/types/category';
 
+type AnyCategory = Category & { sub_categories?: AnyCategory[] };
+
 const TopCategoriesSection: React.FC = () => {
   const [categories, setCategories] = useState<Category[]>([]);
   const [subcategories, setSubcategories] = useState<Category[]>([]);
@@ -20,13 +22,13 @@ const TopCategoriesSection: React.FC = () => {
         setCategories(data);
         
         // Extract all subcategories from main categories
-        const allSubcategories = data.flatMap(category => 
+        const allSubcategories = (data as AnyCategory[]).flatMap((category: AnyCategory) =>
           category.sub_categories || []
         );
-        
+
         // Get unique subcategories (in case there are duplicates)
-        const uniqueSubcategories = allSubcategories.filter((subcat, index, self) =>
-          index === self.findIndex((s) => s.id === subcat.id)
+        const uniqueSubcategories = allSubcategories.filter((subcat: AnyCategory, index: number, self: AnyCategory[]) =>
+          index === self.findIndex((s: AnyCategory) => s.id === subcat.id)
         );
         
         // Get top subcategories (limit to 16 for better UI)

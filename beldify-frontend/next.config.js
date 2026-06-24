@@ -3,6 +3,13 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
   enabled: process.env.ANALYZE === 'true',
 })
 
+const withSerwist = require('@serwist/next').default({
+  swSrc: 'src/app/sw.ts',
+  swDest: 'public/sw.js',
+  // Disable SW in development — avoids stale cache fighting hot-reload
+  disable: process.env.NODE_ENV === 'development',
+})
+
 const nextConfig = {
   // Next.js 15 dev-mode allowlist: prod domain serves the dev server through CF,
   // so the browser's origin is www.beldify.com, not localhost. Without this,
@@ -105,6 +112,14 @@ const nextConfig = {
           { key: 'Cache-Control', value: 'public, max-age=31536000, immutable' },
         ],
       },
+      {
+        // Service worker must never be cached immutably — browser needs fresh copy
+        source: '/sw.js',
+        headers: [
+          { key: 'Cache-Control', value: 'public, max-age=0, must-revalidate' },
+          { key: 'Service-Worker-Allowed', value: '/' },
+        ],
+      },
     ];
   },
 
@@ -114,9 +129,6 @@ const nextConfig = {
     optimizePackageImports: [
       'framer-motion',
       '@headlessui/react',
-      'firebase',
-      'firebase/app',
-      'firebase/messaging',
       'pusher-js',
       'lucide-react',
       'react-icons',
@@ -144,20 +156,13 @@ const nextConfig = {
     ];
   },
 
-  // Override Next.js's default `Cache-Control: immutable` on app-router chunks
-  // so Cloudflare doesn't pin a stale dev-mode chunk for a year. We run `next dev`
-  // in production hosting, which emits chunks with stable filenames (no content
-  // hash) so cache busting via query alone can't be relied on.
-  async headers() {
-    return [
-      {
-        source: '/_next/static/chunks/app/:path*',
-        headers: [
-          { key: 'Cache-Control', value: 'public, max-age=60, must-revalidate' },
-        ],
-      },
-    ];
-  },
+  // NOTE: A second `async headers()` used to live here and silently overrode the
+  // comprehensive one above (duplicate object key — last one wins), disabling the
+  // security headers, `/api` no-store, and `/_next/static` immutable caching. It
+  // also documented running `next dev` in production, which is what made every
+  // navigation re-download unminified, uncacheable chunks. Both are fixed: prod
+  // now runs a real `next build` + `next start` (content-hashed, immutable chunks),
+  // so the single headers() above is the source of truth.
 }
 
-module.exports = withBundleAnalyzer(nextConfig);
+module.exports = withBundleAnalyzer(withSerwist(nextConfig));

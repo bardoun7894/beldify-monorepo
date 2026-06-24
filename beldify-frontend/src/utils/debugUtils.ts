@@ -62,7 +62,7 @@ export function createDebugFetch(): typeof fetch {
   return function debugFetch(input: RequestInfo | URL, init?: RequestInit): Promise<Response> {
     if (!isDebugMode) return fetch(input, init);
     
-    const url = typeof input === 'string' ? input : input.url;
+    const url = typeof input === 'string' ? input : (input instanceof URL ? input.href : (input as Request).url);
     const method = init?.method || 'GET';
     const start = performance.now();
     
@@ -87,8 +87,8 @@ export const debugFetch = createDebugFetch();
 export function logMemoryUsage(): void {
   if (!isDebugMode || typeof window === 'undefined') return;
   
-  if (performance && performance.memory) {
-    const memory = (performance as any).memory;
+  if (performance && (performance as unknown as { memory: unknown }).memory) {
+    const memory = (performance as unknown as { memory: { usedJSHeapSize: number; jsHeapSizeLimit: number } }).memory;
     logger.debug(`📊 Memory: ${(memory.usedJSHeapSize / 1048576).toFixed(2)}MB / ${(memory.jsHeapSizeLimit / 1048576).toFixed(2)}MB`);
   }
 }

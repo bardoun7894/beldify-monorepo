@@ -1,0 +1,41 @@
+# Production frontend — real `next build` + `next start`.
+# Drop-in replacement for the live dev-mode container. Mirrors the root
+# docker-compose.yml networking EXACTLY so the k3s/Traefik front door keeps
+# resolving:
+#   - service name `frontend` + project `beldify-monorepo`
+#     -> container `beldify-monorepo-frontend-1` (same auto-name, no container_name)
+#   - published port 4987 -> container 3001 (same as live)
+#
+# Why this exists: the live container runs `npm run dev` (next dev), which ships
+# unminified, uncacheable chunks (Cache-Control: no-store) that the browser
+# re-downloads on every navigation -> slow card -> page clicks. A production
+# build emits content-hashed, immutable, minified chunks.
+#
+# IMPORTANT — build ON THE SERVER, from the live working tree:
+#   ssh MyContabo
+#   cd /var/local/beldify-monorepo
+#   docker compose -p beldify-monorepo -f docker-compose.prod.yml up -d --build frontend
+# Do NOT rsync --delete your local tree first: prod has untracked, hand-edited
+# files (e.g. beldify-frontend/src/components/home/HomeContent.tsx) that only
+# exist on the box. The Docker build context is the live tree, so those files
+# are included in the production build automatically.
+#
+# Local dev hot-reload is unchanged: keep using
+#   docker-compose -f docker-compose.dev.yml up -d
+services:
+  frontend:
+    build:
+      context: ./beldify-frontend
+      dockerfile: Dockerfile.prod
+      args:
+        # Baked into the client bundle at build time. Matches the live API host.
+        NEXT_PUBLIC_API_URL: https://pro.beldify.com
+    ports:
+      - "4987:3001"
+    environment:
+      - NODE_ENV=production
+      - PORT=3001
+    restart: unless-stopped
+    # NO source bind-mount on purpose: the built .next lives inside the image.
+    # Mounting ./beldify-frontend over /app would shadow the production build
+    # and re-introduce dev mode.

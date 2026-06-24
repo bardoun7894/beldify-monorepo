@@ -61,8 +61,11 @@ export async function GET() {
   try {
     logger.log('Fetching top categories for homepage...');
     
-    // Call the main backend API endpoint to get all categories
-    const response = await api.get<BackendApiResponse>('/api/categories/getAllCategories');
+    // Call the backend topCategories endpoint — top-level departments (parent_id=0)
+    // with nested subcategories. Using getAllCategories here was a misnomer: it
+    // returns only subcategories (parent_id != 0), which excludes top-level
+    // departments like Jewelry.
+    const response = await api.get<BackendApiResponse>('/api/categories/topCategories');
     
     if (!response.data || !Array.isArray(response.data.categories)) {
        logger.error('Invalid or missing categories array from backend:', response.data);

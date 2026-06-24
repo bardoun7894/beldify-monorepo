@@ -6,27 +6,26 @@ import ModernInstallPrompt from '@/components/pwa/ModernInstallPrompt';
 import PWAReminderBanner from '@/components/pwa/PWAReminderBanner';
 
 /**
- * PWA UI is disabled by default. The auto-show install banner was covering the
- * hero on first paint and re-appearing on scroll. To re-enable it, append
- * `?pwa=install` to any URL — that opts the user into the modal explicitly.
+ * PWA UI is mounted unconditionally so that the scoring engine in
+ * EnhancedPWAContext can surface the install modal after meaningful
+ * engagement events (post-purchase, checkout, cart threshold).
  *
- * The EnhancedPWAProvider context is still mounted so other UI (e.g. an
- * "Install app" button in the footer) can call promptInstall() programmatically.
+ * Guards that REMAIN in place:
+ *   - 24h dismiss guard (pwa-remind-later / installDismissed in context)
+ *   - Adaptive threshold raise on repeated dismiss
+ *   - isInstalled check (never prompt already-installed users)
+ *   - Platform / browser support check
+ *   - Scroll auto-show remains disabled in ModernInstallPrompt
+ *
+ * The ?pwa=install dev-gate was removed: it was gating a real re-engagement
+ * channel with no production value (Hooked audit P0, 2026-06-19).
  */
 export default function PWAProviderWrapper() {
-  const showPwaUI =
-    typeof window !== 'undefined' &&
-    new URLSearchParams(window.location.search).get('pwa') === 'install';
-
   return (
     <SilentErrorBoundary name="PWA">
       <EnhancedPWAProvider>
-        {showPwaUI ? (
-          <>
-            <ModernInstallPrompt />
-            <PWAReminderBanner />
-          </>
-        ) : null}
+        <ModernInstallPrompt />
+        <PWAReminderBanner />
       </EnhancedPWAProvider>
     </SilentErrorBoundary>
   );

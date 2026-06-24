@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Atelier Fassi - Beldify</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "outline-variant": "#c7c4d7",
+                        "primary-fixed-dim": "#c3c0ff",
+                        "on-error": "#ffffff",
+                        "on-tertiary-fixed": "#221b00",
+                        "error-container": "#ffdad6",
+                        "on-error-container": "#93000a",
+                        "on-tertiary-container": "#4b3f00",
+                        "surface-container-highest": "#e6e3d3",
+                        "on-tertiary": "#ffffff",
+                        "surface": "#fdf9e9",
+                        "surface-tint": "#5148d7",
+                        "on-primary-fixed-variant": "#372abf",
+                        "primary-fixed": "#e3dfff",
+                        "inverse-on-surface": "#f5f1e1",
+                        "on-background": "#1c1c13",
+                        "on-primary": "#ffffff",
+                        "surface-container": "#f2eede",
+                        "outline": "#777586",
+                        "on-secondary-container": "#684000",
+                        "on-secondary": "#ffffff",
+                        "tertiary": "#6e5e0d",
+                        "secondary": "#855300",
+                        "background": "#fdf9e9",
+                        "on-primary-fixed": "#100069",
+                        "surface-container-low": "#f8f4e4",
+                        "tertiary-container": "#bfab56",
+                        "on-secondary-fixed": "#2a1700",
+                        "secondary-fixed-dim": "#ffb95f",
+                        "on-secondary-fixed-variant": "#653e00",
+                        "surface-container-lowest": "#ffffff",
+                        "primary": "#2a14b4",
+                        "surface-dim": "#dedacb",
+                        "tertiary-fixed": "#f9e287",
+                        "error": "#ba1a1a",
+                        "on-primary-container": "#c1beff",
+                        "primary-container": "#4338ca",
+                        "on-surface": "#1c1c13",
+                        "secondary-fixed": "#ffddb8",
+                        "inverse-primary": "#c3c0ff",
+                        "on-surface-variant": "#464554",
+                        "tertiary-fixed-dim": "#dcc66e",
+                        "on-tertiary-fixed-variant": "#534600",
+                        "secondary-container": "#fea619",
+                        "surface-bright": "#fdf9e9",
+                        "inverse-surface": "#323126",
+                        "surface-container-high": "#ece8d9",
+                        "surface-variant": "#e6e3d3"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "2xl": "0.75rem", // Mapped to 12px based on style guidance
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-desktop": "64px",
+                        "container-max": "1280px",
+                        "gutter": "24px",
+                        "unit": "4px",
+                        "section-gap": "80px",
+                        "margin-mobile": "20px"
+                    },
+                    "fontFamily": {
+                        "display-lg": ["Playfair Display"],
+                        "body-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "label-md": ["Inter"],
+                        "headline-md": ["Playfair Display"],
+                        "display-lg-mobile": ["Playfair Display"],
+                        "headline-sm": ["Playfair Display"],
+                        "caption": ["Inter"]
+                    },
+                    "fontSize": {
+                        "display-lg": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-md": ["16px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "label-md": ["14px", { "lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "headline-md": ["32px", { "lineHeight": "1.2", "fontWeight": "600" }],
+                        "display-lg-mobile": ["36px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "headline-sm": ["24px", { "lineHeight": "1.3", "fontWeight": "600" }],
+                        "caption": ["12px", { "lineHeight": "1.4", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { background-color: #fdf9e9; color: #1c1c13; }
+        .amber-hairline { border: 1px solid #fea619; }
+        .indigo-border { border: 1px solid #2a14b4; }
+        .indigo-bg { background-color: #2a14b4; color: white; }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md antialiased">
+<!-- TopAppBar -->
+<header class="bg-surface border-b border-outline-variant flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto h-20 sticky top-0 z-50">
+<div class="flex items-center gap-8 w-full justify-between">
+<div class="flex items-center gap-8">
+<a class="font-display-lg text-primary text-[32px] tracking-tight" href="#">Beldify</a>
+<nav class="hidden md:flex gap-6 items-center">
+<a class="font-body-md text-on-surface-variant font-medium hover:text-primary transition-colors duration-200" href="#">Fashion</a>
+<a class="font-body-md text-on-surface-variant font-medium hover:text-primary transition-colors duration-200" href="#">Home &amp; Decor</a>
+<a class="font-body-md text-on-surface-variant font-medium hover:text-primary transition-colors duration-200" href="#">Jewelry</a>
+<a class="font-primary text-primary border-b-2 border-primary pb-1 font-bold" href="#">Tailoring</a>
+<a class="font-body-md text-on-surface-variant font-medium hover:text-primary transition-colors duration-200" href="#">Journal</a>
+</nav>
+</div>
+<div class="flex items-center gap-4 text-primary">
+<button class="hover:opacity-80 transition-opacity"><span class="material-symbols-outlined">language</span></button>
+<button class="hover:opacity-80 transition-opacity"><span class="material-symbols-outlined">shopping_bag</span></button>
+<button class="hover:opacity-80 transition-opacity"><span class="material-symbols-outlined">account_circle</span></button>
+</div>
+</div>
+</header>
+<main class="w-full">
+<!-- 1. Cover Hero -->
+<section class="relative w-full h-[60vh] min-h-[500px] flex items-end">
+<div class="absolute inset-0 z-0">
+<img alt="Atelier Fassi Hero" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBfcRKFg3ah1J0nkjOXT9rzyktVX4Q-h7eicD0yqMi7vGpPmWiGVhm-_rDrrz6yc2dDkV0-luXEdBaJd9qxMx0ikVhEffXG4y4XAJwc_WvszsTbBahlOlIE6ZhTR7usEgN8qHLSaMqK-z3LP2cxqeFO-7pyrtacFDz7f80bI0Y4-Z_sVnbZGMs2kQBKsAZ-pny8Q_Ub6hvk4OA7GMcO0wF-8ccI1Ej0qgs0iceoaxOI-5a-BIEQUGw_iI6FDwxddBxVs7FBsNHDLsY"/>
+<div class="absolute inset-0 bg-gradient-to-t from-primary/85 to-transparent"></div>
+</div>
+<div class="absolute top-8 right-margin-mobile md:right-margin-desktop z-10">
+<div class="bg-secondary-container text-on-secondary-container font-label-md px-4 py-2 rounded-full flex items-center gap-2 text-sm shadow-sm">
+                    VERIFIED BY BELDIFY <span class="material-symbols-outlined text-sm">check_circle</span>
+</div>
+</div>
+<div class="relative z-10 w-full max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop pb-24 md:pb-32">
+<span class="font-label-md text-secondary-container tracking-widest uppercase mb-4 block">ATELIER · FEZ</span>
+<h1 class="font-display-lg text-white mb-4">Atelier Fassi</h1>
+<p class="font-body-lg text-white/90 max-w-2xl">Hand-stitched caftans &amp; traditional men’s wear · Crafting since 1958</p>
+</div>
+</section>
+<!-- 2. Stats Strip -->
+<div class="w-full max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop relative z-20 -mt-16 mb-section-gap">
+<div class="bg-surface-container-lowest rounded-2xl amber-hairline p-6 md:p-8 shadow-sm">
+<div class="grid grid-cols-2 md:grid-cols-4 gap-8 divide-x divide-outline-variant/30">
+<div class="text-center px-4">
+<div class="font-headline-md text-primary mb-1">4.9 <span class="text-xl">★</span></div>
+<div class="font-label-md text-on-surface-variant">318 reviews</div>
+</div>
+<div class="text-center px-4">
+<div class="font-headline-md text-primary mb-1">187</div>
+<div class="font-label-md text-on-surface-variant">Products</div>
+</div>
+<div class="text-center px-4">
+<div class="font-headline-md text-primary mb-1">12</div>
+<div class="font-label-md text-on-surface-variant">years on Beldify</div>
+</div>
+<div class="text-center px-4">
+<div class="font-headline-md text-primary mb-1">24h</div>
+<div class="font-label-md text-on-surface-variant">Response time</div>
+</div>
+</div>
+</div>
+</div>
+<div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop">
+<!-- 3. About Section -->
+<section class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center mb-section-gap">
+<div>
+<h2 class="font-headline-md text-on-background mb-6">Four Generations of Fassi Brocade</h2>
+<p class="font-body-md text-on-surface-variant mb-6">
+                        Nestled in the heart of the ancient medina, Atelier Fassi has been weaving stories into fabric since 1958. Our heritage is rooted in the meticulous art of Fassi brocade, a technique passed down through four generations. Each caftan and djellaba is a testament to the patience and precision of our master artisans, who spend weeks hand-stitching intricate motifs that celebrate Moroccan elegance.
+                    </p>
+<p class="font-body-md text-on-surface-variant">
+                        We blend ancestral wisdom with contemporary refinement, sourcing only the finest silks and natural fibers. Our workshop remains a sanctuary of traditional craftsmanship in an ever-accelerating world, dedicated to preserving the soulful artistry of Fez for a discerning global clientele.
+                    </p>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<img alt="Artisan weaving rich Moroccan fabric on a traditional wooden loom, warm sunlight filtering through a medina window, editorial style" class="w-full h-48 md:h-64 object-cover rounded-2xl amber-hairline" data-alt="A close-up view of an artisan's hands working on a traditional wooden loom, weaving vibrant, intricate patterns into a rich fabric. The setting is a rustic workshop in the Fez medina, with warm, golden sunlight streaming through a carved wooden window, highlighting the dust motes and the texture of the silk threads. The aesthetic is high-end editorial, capturing the essence of Moroccan craftsmanship with a focus on heritage, precision, and rich, warm colors." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD8LCamlEOQMuB8PiSYepr2SpSdUhVc4zIADWusY1TTIM_-N8qqL5NB67PvpbyV1E__3Y01VnL52T11IZjmw_o2wJRfofSaETywqcbigCzYkOVk0CJffzeY19gWHbDoiHG1y8i9ZLDTrb2B9S0XucEhiyH406KiOjZ-fuF1VUpAFyDTE8WfVFeaw1-PoY2c3nynW8OiTzjZfg49NjcJ46UCrkRl5JrDAuXvjxQwkfLTOYLolD2NISSonbfpci1bfDCi1Owjdzoaz7Y"/>
+<img alt="Detailed close-up of gold embroidery on a deep blue silk caftan, luxurious texture, soft lighting" class="w-full h-48 md:h-64 object-cover rounded-2xl amber-hairline mt-8" data-alt="A macro shot of exquisite gold thread embroidery on deep indigo blue silk, characteristic of a traditional Moroccan caftan. The intricate, swirling motifs are sharply in focus against the soft, lustrous background. The lighting is soft and diffused, emphasizing the luxurious texture of the materials and the meticulous hand-stitching. The mood is sophisticated and elegant, reflecting the high-end editorial style of ancestral craftsmanship." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDCCAhrt7gbrWV1TIhPVq7p00rJSSXyqsaq9I7FJOHnofTHc3EoyvFEottplTvEOIN9WePCOKrKRCtSV87vYqaOsZxKA5QudwKMYsyEpOpj4EO7y9HtmNnAWip7CPZE21iW90qrC58JMzLZ3QVqXPMEtT7iHOcvyMHJRZiTYb8CGQhDj8xweA23WkqQwv1ep6nDfx0-KnEvZYfz_iBeVUo1-o18IcYaTg36rP9XYGtPn_9zb0qB1lgdL_tf7r-3MBLO6M6pBVG4EmM"/>
+<img alt="Spools of colorful silk threads neatly arranged on a wooden shelf in an artisan workshop" class="w-full h-48 md:h-64 object-cover rounded-2xl amber-hairline -mt-8" data-alt="Rows of vibrantly colored silk thread spools meticulously arranged on a rustic, aged wooden shelf inside a traditional tailoring workshop. The colors range from deep saffron amber to rich indigo and emerald greens. The lighting is natural and slightly moody, casting soft shadows that enhance the tangible, artisanal atmosphere of the space. The composition is structured and editorial, highlighting the raw materials of heritage craft." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBCEObLKe3LACAkdjXwuNKnCdqyLTrXZpiWHf406579YO0MMHHbvhlKWsfGW3SIiGOvhMXoYIwVkY-FvRd9w0abjxeiTiRXgOrmrwymZTUm55Z8N2jQWhSsg5740WeVKz0XYqkRr3TMyUHS0sRV0lp-wHRPCY8jakTNAb0fn2ms-sLjK_QPB9EBuzZI_uApkX8sQpkdHnawuxTBFqQR8bmWWnTp_XHH3-sLJvqWmdgRntsFW6tzUzb-C4rxAXoydNR0llP-bJPXFgU"/>
+<img alt="Finished bespoke caftans hanging gracefully on a vintage brass rack in a sunlit atelier" class="w-full h-48 md:h-64 object-cover rounded-2xl amber-hairline" data-alt="Several beautifully finished, hand-stitched caftans hanging gracefully on a vintage, tarnished brass clothing rack within a sun-drenched atelier. The garments feature flowing silhouettes and delicate embroidery. The room has textured plaster walls and a timeless, serene ambiance. The overall aesthetic is minimalist yet deeply rooted in heritage, utilizing natural light to showcase the elegant drape and quality of the textiles." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAytHBGPZgOGgvtdBPUHxJzEZG-3L7_Mum1F2sghLBW9Y1Z4YvbYTmZQnIAJW8QSc08WM3ZF9-ilCMgfvOIaXJaHTL_RbCZ5TPmCb2xPwZFb109_tBU80oVFBHz-H6cXAL2qohcpksLhlocNSOM7ij1fAecAQ6bR1G6Y9N_DMmHA31MI0vPfLoNN_ua9wGG8Y6gEO7XQI3o8FA3gLoiP0IZMGcJY4kvQ9BSkUn1IY3_MWJe1OeKo7GuIIAVq8Tk9d6L36Jv13Fad98"/>
+</div>
+</section>
+<!-- 4. Tabs & 5. Filters -->
+<div class="mb-12">
+<div class="flex border-b border-outline-variant overflow-x-auto no-scrollbar mb-6">
+<button class="font-label-md text-primary border-b-2 border-primary pb-3 px-4 whitespace-nowrap">All Products</button>
+<button class="font-label-md text-on-surface-variant hover:text-primary pb-3 px-4 whitespace-nowrap transition-colors">Caftans</button>
+<button class="font-label-md text-on-surface-variant hover:text-primary pb-3 px-4 whitespace-nowrap transition-colors">Men's</button>
+<button class="font-label-md text-on-surface-variant hover:text-primary pb-3 px-4 whitespace-nowrap transition-colors">Bespoke</button>
+<button class="font-label-md text-on-surface-variant hover:text-primary pb-3 px-4 whitespace-nowrap transition-colors">Reviews</button>
+</div>
+<div class="flex gap-3 overflow-x-auto no-scrollbar pb-2">
+<button class="bg-surface-container hover:bg-surface-container-high text-on-surface font-caption px-4 py-2 rounded-full transition-colors border border-outline-variant/50">Festival ready</button>
+<button class="bg-surface-container hover:bg-surface-container-high text-on-surface font-caption px-4 py-2 rounded-full transition-colors border border-outline-variant/50">New</button>
+<button class="bg-surface-container hover:bg-surface-container-high text-on-surface font-caption px-4 py-2 rounded-full transition-colors border border-outline-variant/50">On sale</button>
+<button class="bg-surface-container hover:bg-surface-container-high text-on-surface font-caption px-4 py-2 rounded-full transition-colors border border-outline-variant/50">Bespoke only</button>
+</div>
+</div>
+<!-- 6. Products Grid -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-12 mb-12">
+<!-- Product 1 (Bestseller) -->
+<a class="group block" href="#">
+<div class="relative w-full aspect-square mb-4 bg-surface-container overflow-hidden rounded-2xl amber-hairline">
+<img alt="Elegant white Moroccan caftan with delicate silver embroidery, editorial flat lay" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A pristine, elegant white Moroccan caftan laid out perfectly flat on a textured, light sand-colored surface. The garment features incredibly delicate, intricate silver embroidery around the neckline and cuffs. The lighting is soft, even, and high-key, creating a clean, minimalist editorial aesthetic. The image emphasizes the pure white fabric and the subtle shimmer of the metallic threads, conveying luxury and sophisticated craftsmanship." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA4_wGQuh22BiLvlfhyzS7ScSRLpgXaX1AN0xm5RKz7rrPhp7ZPK3GJpW53yhm795AyvkZodP6UGJZXAxvQhQ_XJ2hFd3El2i6AcYYavFCPARHCyWbiGT3mYwvgfsNWQxfB_G6Cy66XAWNVZo1u2gWZjSO-Hx4p00CscEl9RTStSTY2Ef8lVGsMbmdwRSss7xRjj0ojkVC4dewAl9se0NzGXNEhjZZiyvp7KLy_c8V-GtaXm_HLkqOm9tgpAxFZii8dITcS2Duizk0"/>
+<div class="absolute top-3 left-3 bg-secondary-container text-on-secondary-container font-caption px-2 py-1 rounded-sm text-[10px] tracking-wider uppercase font-bold">Bestseller</div>
+</div>
+<h3 class="font-headline-sm text-on-background text-lg mb-1 group-hover:text-primary transition-colors">Royal Pearl Caftan</h3>
+<p class="font-body-md text-primary font-medium">$850</p>
+</a>
+<!-- Product 2 -->
+<a class="group block" href="#">
+<div class="relative w-full aspect-square mb-4 bg-surface-container overflow-hidden rounded-2xl amber-hairline">
+<img alt="Traditional men's indigo djellaba with intricate hood detailing, studio shot" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A traditional men's djellaba in a rich, deep indigo color, displayed on a minimalist wooden hanger against a clean, off-white background. The focus is on the intricate, contrasting saffron embroidery along the chest and the pointed hood. The lighting is controlled studio lighting, highlighting the texture of the woven wool blend fabric. The overall style is clean, modern editorial, focusing on the garment's strong silhouette and craftsmanship." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAuJ1YZ9qU0eYh6lreoX3P8IZ8NG00Fj3HZptxweNaXtd3xUNG9vBl7MO_arhIiUwQhBLQRjh7tjLKaEtO9mFj_KPw9hdx2dx8vTDfCq1z6L4bhrKerMfGYOPrnYZ_vxw2T0Tn76xv1xFX5BpBDDIvxEdhIHk2_l_FwyMZuBXsBQ-l3jTaJghGadG3bBCBX9PRObRBzIhYoUATK9GTPZAnZnwccMGif5Mmelzq0pPpVcpFr0lU4OEjbDGX_Ikgej0OEXAmZ5NL28Hc"/>
+</div>
+<h3 class="font-headline-sm text-on-background text-lg mb-1 group-hover:text-primary transition-colors">Atlas Indigo Djellaba</h3>
+<p class="font-body-md text-primary font-medium">$420</p>
+</a>
+<!-- Product 3 -->
+<a class="group block" href="#">
+<div class="relative w-full aspect-square mb-4 bg-surface-container overflow-hidden rounded-2xl amber-hairline">
+<img alt="Emerald green silk tunic with ornate gold sfifa braid, close up" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A close-up, detailed shot of an emerald green silk tunic, focusing heavily on the ornate gold 'sfifa' braid running down the center placket. The silk has a subtle sheen, and the gold braid is intricately woven with high precision. The lighting is soft and directional, creating gentle highlights on the silk and emphasizing the metallic texture of the trim. The composition is tight, cropped to highlight the opulent details of Moroccan tailoring." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAk7UVigl9DF86w9Qf4fmo2npK-uSRQUYsYX-5dnRXsEDfPecNEsFQRlY1lrlKVsNvscvHxB0dZmzRESt964D5Z6ZtDt5LXXyW9hLPc25oHE79BkK2PMadTwyhyP987hDbvdmsqNRYxZDBBFAVDgwvMz5hHd45Tjzy5S3AqgOQFPP9T5liea7-SUJwfBrJdgqwGjh_dEd6dvnRYIiRJPaFFbBiWlMzCPmIdzguQbE06yzuR3Efap5AzrITZV1JU71XSTxNHULdesvo"/>
+</div>
+<h3 class="font-headline-sm text-on-background text-lg mb-1 group-hover:text-primary transition-colors">Emerald Silk Tunic</h3>
+<p class="font-body-md text-primary font-medium">$310</p>
+</a>
+<!-- Product 4 (Bestseller) -->
+<a class="group block" href="#">
+<div class="relative w-full aspect-square mb-4 bg-surface-container overflow-hidden rounded-2xl amber-hairline">
+<img alt="Two-piece velvet takchita in deep burgundy with elaborate beading, fashion editorial" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A stunning two-piece 'takchita' dress in deep, luxurious burgundy velvet, heavily embellished with elaborate, sparkling beading and gold thread work. The garment is styled on a dress form against a minimalist, warm sand-toned wall. Soft, natural light cascades across the velvet, highlighting its rich, plush texture and the intricate details of the craftsmanship. The aesthetic is high-end luxury editorial, conveying opulence and ancestral elegance." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA0W5_4Ge5KDLBece7baVW3kZ4hdreYGfeqY8_PUdxHGA475vjhKaiEXYUs2a8NNeA_GCHsCrn9wgGlDl-k6_tPG0puFbtSLyfP8jvUZkfJK1wZL9jJu3mqQQEgUjups5NPWuhUilcIa9BqTMppEi0xbqyUag2sxZV6TAwEMhWD1kpdsaUHt5p_7sqkZbjIZJOTGSvrx2ucmfa29Ki6plckaJuizgtOPf5LalbmQaycXMW4LF_UlMaH9eq_HX8xpwObEiIbfyD3qT0"/>
+<div class="absolute top-3 left-3 bg-secondary-container text-on-secondary-container font-caption px-2 py-1 rounded-sm text-[10px] tracking-wider uppercase font-bold">Bestseller</div>
+</div>
+<h3 class="font-headline-sm text-on-background text-lg mb-1 group-hover:text-primary transition-colors">Burgundy Velvet Takchita</h3>
+<p class="font-body-md text-primary font-medium">$1,200</p>
+</a>
+</div>
+<!-- 7. Pagination -->
+<div class="flex justify-center mb-section-gap">
+<button class="px-8 py-3 rounded-full font-label-md text-primary border border-primary hover:bg-primary/5 transition-colors">Load more</button>
+</div>
+<!-- 8. Reviews -->
+<section class="mb-section-gap">
+<h2 class="font-headline-md text-on-background mb-8 text-center">Voices from our shoppers</h2>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<!-- Review 1 -->
+<div class="bg-surface-container-lowest p-6 rounded-2xl amber-hairline">
+<div class="flex items-center gap-4 mb-4">
+<div class="w-12 h-12 rounded-full bg-surface-dim flex items-center justify-center font-headline-sm text-primary">S</div>
+<div>
+<div class="font-label-md text-on-background">Sarah M.</div>
+<div class="text-secondary-container text-sm">★★★★★</div>
+</div>
+</div>
+<p class="font-body-md text-on-surface-variant italic">"The craftsmanship is breathtaking. I ordered the Royal Pearl Caftan for my wedding, and the hand-stitching is flawless. Truly a piece of art."</p>
+</div>
+<!-- Review 2 -->
+<div class="bg-surface-container-lowest p-6 rounded-2xl amber-hairline">
+<div class="flex items-center gap-4 mb-4">
+<div class="w-12 h-12 rounded-full bg-surface-dim flex items-center justify-center font-headline-sm text-primary">J</div>
+<div>
+<div class="font-label-md text-on-background">James L.</div>
+<div class="text-secondary-container text-sm">★★★★★</div>
+</div>
+</div>
+<p class="font-body-md text-on-surface-variant italic">"Incredible quality on the djellaba. The wool is soft yet structured, and the details are impeccable. Atelier Fassi's reputation is well-deserved."</p>
+</div>
+<!-- Review 3 -->
+<div class="bg-surface-container-lowest p-6 rounded-2xl amber-hairline">
+<div class="flex items-center gap-4 mb-4">
+<div class="w-12 h-12 rounded-full bg-surface-dim flex items-center justify-center font-headline-sm text-primary">A</div>
+<div>
+<div class="font-label-md text-on-background">Amina R.</div>
+<div class="text-secondary-container text-sm">★★★★★</div>
+</div>
+</div>
+<p class="font-body-md text-on-surface-variant italic">"Their bespoke service was a dream. They guided me through fabric choices and measurements via message, and the final piece fits perfectly."</p>
+</div>
+</div>
+</section>
+</div>
+<!-- 9. Bespoke Strip -->
+<section class="w-full bg-[#1e1450] relative overflow-hidden py-16 mb-section-gap">
+<!-- Subtle radial overlay -->
+<div class="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-[#fea619]/10 via-transparent to-transparent pointer-events-none"></div>
+<div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop relative z-10 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+<div>
+<h2 class="font-display-lg text-white mb-4 text-[36px]">Have something specific in mind?</h2>
+<p class="font-body-md text-white/80 mb-8 max-w-md">Commission a custom piece tailored exactly to your measurements and vision, crafted with our ancestral techniques.</p>
+<button class="bg-secondary-container hover:bg-secondary-fixed text-on-secondary-container font-label-md px-8 py-4 rounded-full transition-colors inline-flex items-center gap-2">
+                        Message the atelier <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+<div class="grid grid-cols-1 gap-6 border-l border-white/20 pl-0 md:pl-12 pt-8 md:pt-0 border-t md:border-t-0 mt-8 md:mt-0">
+<div class="flex gap-4">
+<div class="font-headline-md text-secondary-container opacity-50">01</div>
+<div>
+<h4 class="font-label-md text-white mb-1">Consultation</h4>
+<p class="font-caption text-white/70">Discuss design, fabric, and styling via direct message.</p>
+</div>
+</div>
+<div class="flex gap-4">
+<div class="font-headline-md text-secondary-container opacity-50">02</div>
+<div>
+<h4 class="font-label-md text-white mb-1">Measurements</h4>
+<p class="font-caption text-white/70">Follow our simple guide to provide your exact dimensions.</p>
+</div>
+</div>
+<div class="flex gap-4">
+<div class="font-headline-md text-secondary-container opacity-50">03</div>
+<div>
+<h4 class="font-label-md text-white mb-1">Crafting</h4>
+<p class="font-caption text-white/70">Allow 3-4 weeks for hand-stitching and final quality checks.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- 10. Recommendations -->
+<div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop mb-24">
+<h2 class="font-headline-md text-on-background mb-8">You might also love</h2>
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+<!-- Rec 1 -->
+<a class="group block bg-surface-container-lowest rounded-2xl amber-hairline p-4 hover:shadow-md transition-shadow" href="#">
+<div class="w-16 h-16 rounded-full bg-surface-container overflow-hidden mb-4 mx-auto">
+<img alt="Maison Marrakech Atelier Logo" class="w-full h-full object-cover" data-alt="A clean, minimalist logo mark for a fashion atelier named Maison Marrakech, featuring elegant typography and a subtle geometric Moroccan tile motif, displayed against a soft sand-colored background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDSWcL2-vKeR6A9YMUCuTzDjaT5yTK7Tgir_pyuxgmzjDA4Y1KB93uLXS6i17v9otSWUORLK7_CX4IZezKt3zNCjZNNMusXKiILlqigIOhgV_6Unlcn7uGH-vOBIr9lRAeO4te5ER92DwF3arEskr9EV7wtZNwNQu5fT41ivlCaHD7G3m9AdwwG356waP3HW87f2Z9J1knc8SPNJMGXn-X_odNmbGQuZVDwTbsnU2nz3vfLSrjjlJDPhAyqtipYB92I8D6bSgYtXqw"/>
+</div>
+<h4 class="font-headline-sm text-center text-lg mb-1 group-hover:text-primary transition-colors">Maison Marrakech</h4>
+<p class="font-caption text-center text-on-surface-variant">Contemporary Kaftans · Marrakech</p>
+</a>
+<!-- Rec 2 -->
+<a class="group block bg-surface-container-lowest rounded-2xl amber-hairline p-4 hover:shadow-md transition-shadow" href="#">
+<div class="w-16 h-16 rounded-full bg-surface-container overflow-hidden mb-4 mx-auto">
+<img alt="L'Artisan du Cuir Atelier Logo" class="w-full h-full object-cover" data-alt="A sophisticated emblem for a leather goods artisan, showing a stylized leather working tool intersected with an elegant script font, set against a muted white backdrop with high contrast." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDEO2vdI-N_8MJVLYvWKqQQ3PboUDzp-BCWivaEl4cVXd0ye5SiK3yMT5siwtcAMnCwC8ZSfCFhHq3K27AYzNEo1vXvxtX8TnIYrEWJlg9ogirtgzFs6_fdzEB_rLj8ND6Lip6UWEnerEcRtOvHlbLP6wm62hMFJJ6IA9tix5qwW0MOtz7qXKKLPAKJFvJsVc5FU4IdplB3xj-o11aYtUoAc4CNIIDrzMrRZnkl7omIxUayQcrK_VQYRjW71bFw4lrJ9EmXqBZancE"/>
+</div>
+<h4 class="font-headline-sm text-center text-lg mb-1 group-hover:text-primary transition-colors">L'Artisan du Cuir</h4>
+<p class="font-caption text-center text-on-surface-variant">Fine Leather Goods · Fez</p>
+</a>
+<!-- Rec 3 -->
+<a class="group block bg-surface-container-lowest rounded-2xl amber-hairline p-4 hover:shadow-md transition-shadow" href="#">
+<div class="w-16 h-16 rounded-full bg-surface-container overflow-hidden mb-4 mx-auto">
+<img alt="Zellige Studio Atelier Logo" class="w-full h-full object-cover" data-alt="A modern, abstract logo design for a jewelry studio, incorporating delicate golden line art of a geometric star pattern typical of Moroccan design, presented on a clean, light surface." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAnj5bEzywpOzHOrbpZj6y4opPc8hS0ZPlqIBOu5XFxKwmYSC0-iQh_RIqFOTA6oLSnxio9YjZH1zpKCPCt9i8hj4fI9SE_9d0VVYIedBYxnFs9fDmB9HbCJuBUmTNa9xI7Ve93GZWVP7qcJ57v4JnZvMkylpj-v3_XhLSpRXgdDZYjv3NuBOJWJ_-l67628Msq21sa4xFwByszxEHvEYglK6DhEVZ3d3ytk7eMXrLPw2bl80uU-bJZMljllUWARaa6Yjo0aw-8k9c"/>
+</div>
+<h4 class="font-headline-sm text-center text-lg mb-1 group-hover:text-primary transition-colors">Zellige Studio</h4>
+<p class="font-caption text-center text-on-surface-variant">Handcrafted Silver · Essaouira</p>
+</a>
+<!-- Rec 4 -->
+<a class="group block bg-surface-container-lowest rounded-2xl amber-hairline p-4 hover:shadow-md transition-shadow" href="#">
+<div class="w-16 h-16 rounded-full bg-surface-container overflow-hidden mb-4 mx-auto">
+<img alt="Atlas Weavers Atelier Logo" class="w-full h-full object-cover" data-alt="A rustic yet refined logo for a rug weaving collective, featuring a stylized loom icon intertwined with a simple serif typography, displayed in dark indigo ink on a textured paper background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBEPUXlI-SmpK9CMKs3YWZdSUYPZS0gA19Fh-1291HQUpLdB4cQSb3meDf5GoizE4vLAb4yVZc-ZcUgpdFjsVnq6-4FfjDGjMcXTA_4Xu-_hqaQ3xPpYZliMOaZlwpZNQhHZwJ9ozp9-hTRSi8RZPs55XKA0IblEOdfJyxa74FowFjC1pzxcGM4l61W7Zc9o6r_Dzm_g3DtDilM6YZ6Z4raPIfi4H0DV1knLXD6TpGFVBdOqlolfJf9jCqzvU8lr4VHLd1U84JKWlg"/>
+</div>
+<h4 class="font-headline-sm text-center text-lg mb-1 group-hover:text-primary transition-colors">Atlas Weavers</h4>
+<p class="font-caption text-center text-on-surface-variant">Berber Textiles · Atlas Mts</p>
+</a>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="bg-surface-container dark:bg-surface-container-highest border-t border-outline-variant dark:border-outline flex flex-col md:flex-row justify-between items-center w-full px-margin-desktop py-section-gap max-w-container-max mx-auto">
+<div class="mb-8 md:mb-0">
+<span class="font-headline-sm text-headline-sm text-primary dark:text-primary-fixed-dim">Beldify</span>
+<p class="font-body-md text-body-md text-on-surface-variant dark:text-on-surface-variant mt-2">© 2024 Beldify. Artisanal Heritage, Globally Delivered.</p>
+</div>
+<nav class="flex flex-wrap gap-6 justify-center md:justify-end">
+<a class="font-body-md text-body-md text-on-surface-variant dark:text-on-surface-variant hover:text-secondary dark:hover:text-secondary-fixed-dim transition-colors duration-200" href="#">About Us</a>
+<a class="font-body-md text-body-md text-on-surface-variant dark:text-on-surface-variant hover:text-secondary dark:hover:text-secondary-fixed-dim transition-colors duration-200" href="#">Shipping &amp; Returns</a>
+<a class="font-body-md text-body-md text-on-surface-variant dark:text-on-surface-variant hover:text-secondary dark:hover:text-secondary-fixed-dim transition-colors duration-200" href="#">Artisans</a>
+<a class="font-body-md text-body-md text-on-surface-variant dark:text-on-surface-variant hover:text-secondary dark:hover:text-secondary-fixed-dim transition-colors duration-200" href="#">Contact</a>
+<a class="font-body-md text-body-md text-on-surface-variant dark:text-on-surface-variant hover:text-secondary dark:hover:text-secondary-fixed-dim transition-colors duration-200" href="#">Privacy Policy</a>
+</nav>
+</footer>
+</body></html>

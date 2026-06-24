@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Your bag - Beldify</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&amp;family=Playfair+Display:wght@700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#0E5C9B",
+                        secondary: "#C9A14A",
+                        tertiary: "#9C2A2A",
+                        surface: "#F7F3EE",
+                        text: "#1A1A1A",
+                        
+                        indigo: {
+                            700: '#4338ca',
+                            900: '#312e81'
+                        },
+                        amber: {
+                            50: '#fffbeb',
+                            200: '#fde68a',
+                            500: '#f59e0b'
+                        },
+                        sand: {
+                            50: '#fffbeb',
+                            DEFAULT: '#fffbeb'
+                        }
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.75rem", // 12px
+                        "lg": "1rem", // 16px
+                        "xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                    fontFamily: {
+                        headline: ["Playfair Display", "serif"],
+                        display: ["Playfair Display", "serif"],
+                        body: ["Inter", "sans-serif"],
+                        label: ["Inter", "sans-serif"]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-surface text-text font-body antialiased">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 shadow-sm border-b border-primary/10 bg-surface">
+<div class="flex items-center justify-between px-6 py-4 max-w-screen-2xl mx-auto">
+<div class="flex items-center gap-8">
+<a class="font-display text-2xl font-bold text-primary" href="#">Beldify</a>
+<div class="hidden md:flex items-center gap-6">
+<a class="text-text hover:text-primary transition-colors text-sm font-medium" href="#">Fashion</a>
+<a class="text-text hover:text-primary transition-colors text-sm font-medium" href="#">Home &amp; Decor</a>
+<a class="text-text hover:text-primary transition-colors text-sm font-medium" href="#">Jewelry</a>
+<a class="text-text hover:text-primary transition-colors text-sm font-medium" href="#">Tailoring</a>
+<a class="text-text hover:text-primary transition-colors text-sm font-medium" href="#">Journal</a>
+</div>
+</div>
+<div class="flex-1 max-w-md mx-8 hidden lg:block">
+<div class="relative w-full">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-text/50">search</span>
+<input class="w-full pl-12 pr-4 py-2.5 bg-white border border-secondary/20 rounded-full text-sm focus:outline-none focus:border-secondary focus:ring-1 focus:ring-secondary transition-all" placeholder="Search authentic crafts..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 text-text hover:bg-secondary/10 rounded-full transition-all duration-300 scale-95 active:opacity-80">
+<span class="material-symbols-outlined" data-icon="language">language</span>
+</button>
+<button class="p-2 text-primary border-b-2 border-secondary pb-1 font-medium hover:bg-secondary/10 rounded-full transition-all duration-300 scale-95 active:opacity-80 relative">
+<span class="material-symbols-outlined" data-icon="shopping_cart">shopping_cart</span>
+<span class="absolute top-1 right-1 w-2 h-2 bg-tertiary rounded-full"></span>
+</button>
+<button class="p-2 text-text hover:bg-secondary/10 rounded-full transition-all duration-300 scale-95 active:opacity-80">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+</button>
+</div>
+</div>
+</nav>
+<!-- Page Header -->
+<header class="pt-32 pb-12 px-6 max-w-screen-2xl mx-auto bg-sand">
+<nav class="text-sm text-text/60 mb-6 flex items-center gap-2">
+<a class="hover:text-primary transition-colors" href="#">Home</a>
+<span>/</span>
+<span class="text-text font-medium">Cart</span>
+</nav>
+<h1 class="font-headline text-5xl text-text mb-3">Your bag</h1>
+<p class="text-text/70 text-lg">3 items · ready when you are</p>
+</header>
+<!-- Main Content -->
+<main class="max-w-screen-2xl mx-auto px-6 pb-24 grid grid-cols-1 lg:grid-cols-12 gap-12 relative z-10">
+<!-- Left Column: Cart Items -->
+<div class="lg:col-span-7 xl:col-span-8 flex flex-col gap-6">
+<!-- Item 1 -->
+<div class="flex flex-col sm:flex-row gap-6 p-6 bg-white rounded ring-1 ring-amber-200 hover:shadow-md transition-shadow">
+<div class="w-24 h-24 shrink-0 rounded overflow-hidden bg-surface relative">
+<img alt="Royal Brocade Caftan" class="w-full h-full object-cover" data-alt="A luxurious Moroccan caftan made of royal blue brocade fabric with intricate gold embroidery. The garment is draped elegantly on a mannequin in a softly lit, high-end boutique setting. Warm lighting highlights the shimmering gold threads against the deep blue fabric. The aesthetic is elevated, culturally rich, and editorial, capturing the essence of authentic craftsmanship." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBrk8ZdBwGYPj-uOXpw5vaN5UCN5iHopwt5apv8FEBi463ezV51i4EorLOe0x0GHxVSoUswgpu50lPbgAMFv_dtJh8U8e-Zl2r91CJ20VKWk8MEpcshvtgcd_XTzxleHz6-tpWAQatyXpRN7o_w1ZxniJnCDShViu48swjR8UUEzdXNHEqf9B-lQ4_R00h9VvoaXRdRRVajxKSNwKo8sDVW-AP7MPVEz0kvxko3uzUxvHJGplxphY7Vifx9fWbNkeydCGCKewHePbs"/>
+</div>
+<div class="flex-1 flex flex-col justify-between">
+<div class="flex justify-between items-start gap-4">
+<div>
+<h3 class="font-headline text-xl text-text mb-1">Royal Brocade Caftan</h3>
+<p class="text-sm text-text/60 mb-3">Midnight Blue · Size M</p>
+<span class="inline-flex items-center gap-1 px-3 py-1 bg-amber-50 text-secondary text-xs font-medium rounded-full border border-secondary/20">
+                                Atelier Fassi · Fez
+                                <span class="material-symbols-outlined text-[14px]">check_circle</span>
+</span>
+</div>
+<div class="text-right">
+<p class="text-lg font-bold text-indigo-700">د.م. 3,450</p>
+</div>
+</div>
+<div class="flex items-center justify-between mt-6">
+<div class="flex items-center gap-4 bg-amber-50 rounded-full px-4 py-1 border border-secondary/10">
+<button class="text-text/60 hover:text-primary transition-colors py-1"><span class="material-symbols-outlined text-sm">remove</span></button>
+<span class="w-8 text-center text-sm font-medium">1</span>
+<button class="text-text/60 hover:text-primary transition-colors py-1"><span class="material-symbols-outlined text-sm">add</span></button>
+</div>
+<button class="text-text/40 hover:text-tertiary transition-colors flex items-center gap-1 text-sm">
+<span class="material-symbols-outlined text-[20px]">delete</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Item 2 -->
+<div class="flex flex-col sm:flex-row gap-6 p-6 bg-white rounded ring-1 ring-amber-200 hover:shadow-md transition-shadow">
+<div class="w-24 h-24 shrink-0 rounded overflow-hidden bg-surface relative">
+<img alt="Leather Babouches" class="w-full h-full object-cover" data-alt="Authentic Moroccan leather babouches in a rich saffron yellow color, arranged neatly on a textured sandstone surface. The shoes feature delicate pointed toes and fine stitching detail. The lighting is bright and natural, casting soft shadows that emphasize the premium quality of the leather. The mood is warm, artisanal, and culturally grounded." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCGke5D9PhOivdM5UzaELCF-XRNTAwqBze-6X0bnZE45DJtk1e9tzhmlABjLcepWQQR6JOOdM1Lwf9ZRMju0A-FCkCUPBdlojmb6Il0XdRKzCxqADbzIuvLh6p4RXA__UNiUqWEq3KmZeLeTSIuez-8ZU_vj5pGSj2TDWPro1KjegXarUSO8tYboICehI4UOXFV8McIZtg1NFdNUEV-OkOS00Frg8B6NjL-b-krc1MRtLBl55PAyHMNPENd0QABuxmYmTxH6hMMxts"/>
+</div>
+<div class="flex-1 flex flex-col justify-between">
+<div class="flex justify-between items-start gap-4">
+<div>
+<h3 class="font-headline text-xl text-text mb-1">Leather Babouches</h3>
+<p class="text-sm text-text/60 mb-3">Saffron Yellow · Size 42</p>
+<span class="inline-flex items-center gap-1 px-3 py-1 bg-amber-50 text-secondary text-xs font-medium rounded-full border border-secondary/20">
+                                Medina Crafts · Marrakech
+                                <span class="material-symbols-outlined text-[14px]">check_circle</span>
+</span>
+</div>
+<div class="text-right">
+<p class="text-sm text-text/40 line-through mb-1">د.م. 450</p>
+<p class="text-lg font-bold text-tertiary">د.م. 380</p>
+</div>
+</div>
+<div class="flex items-center justify-between mt-6">
+<div class="flex items-center gap-4 bg-amber-50 rounded-full px-4 py-1 border border-secondary/10">
+<button class="text-text/60 hover:text-primary transition-colors py-1"><span class="material-symbols-outlined text-sm">remove</span></button>
+<span class="w-8 text-center text-sm font-medium">1</span>
+<button class="text-text/60 hover:text-primary transition-colors py-1"><span class="material-symbols-outlined text-sm">add</span></button>
+</div>
+<button class="text-text/40 hover:text-tertiary transition-colors flex items-center gap-1 text-sm">
+<span class="material-symbols-outlined text-[20px]">delete</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Item 3 -->
+<div class="flex flex-col sm:flex-row gap-6 p-6 bg-white rounded ring-1 ring-amber-200 hover:shadow-md transition-shadow">
+<div class="w-24 h-24 shrink-0 rounded overflow-hidden bg-surface relative">
+<img alt="Amber Necklace" class="w-full h-full object-cover" data-alt="A chunky, traditional Moroccan amber necklace featuring large, irregularly shaped resin beads interspersed with ornate silver spacers. The jewelry rests elegantly on a folded piece of raw linen fabric. The lighting is soft and warm, highlighting the translucent honey tones of the amber and the dark patina of the silver. The aesthetic is organic, heritage-focused, and premium." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAgzryjz52VIC5zKujtAOOzjP0aM_15Jn4Ybca0LR5jU8Ja512neFcyYh44lEqx-btSbcykyvqV1fWRYOB3H-OHFkwuIKfNbaI6ibcaJIm8XSm8z1hWmuz0Y2niV81gAdD0-9AitzEn_jWfwVGzl5VjdU-ChO4zcA80oYVYEaPVZOdqYp3vWJYdwqIP4WO1H6CpVHs7W03lAZaaZ65iX2_jZp1YYY-teu6nF6YnniINLdPDWOhmmQp_1Un60FQpd1ydgjAM27_bnTQ"/>
+</div>
+<div class="flex-1 flex flex-col justify-between">
+<div class="flex justify-between items-start gap-4">
+<div>
+<h3 class="font-headline text-xl text-text mb-1">Antique Amber Necklace</h3>
+<p class="text-sm text-text/60 mb-3">Silver Accents · One Size</p>
+<span class="inline-flex items-center gap-1 px-3 py-1 bg-amber-50 text-secondary text-xs font-medium rounded-full border border-secondary/20">
+                                Silver Souk · Tiznit
+                                <span class="material-symbols-outlined text-[14px]">check_circle</span>
+</span>
+</div>
+<div class="text-right">
+<p class="text-lg font-bold text-indigo-700">د.م. 1,200</p>
+</div>
+</div>
+<div class="flex items-center justify-between mt-6">
+<div class="flex items-center gap-4 bg-amber-50 rounded-full px-4 py-1 border border-secondary/10">
+<button class="text-text/60 hover:text-primary transition-colors py-1"><span class="material-symbols-outlined text-sm">remove</span></button>
+<span class="w-8 text-center text-sm font-medium">1</span>
+<button class="text-text/60 hover:text-primary transition-colors py-1"><span class="material-symbols-outlined text-sm">add</span></button>
+</div>
+<button class="text-text/40 hover:text-tertiary transition-colors flex items-center gap-1 text-sm">
+<span class="material-symbols-outlined text-[20px]">delete</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Saved for later -->
+<div class="mt-12">
+<h2 class="font-headline text-2xl text-text mb-6">Saved for later (2)</h2>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+<div class="flex gap-4 p-4 bg-white rounded border border-surface hover:border-amber-200 transition-colors">
+<div class="w-16 h-16 rounded bg-surface overflow-hidden shrink-0">
+<img alt="Ceramic Plate" class="w-full h-full object-cover" data-alt="A hand-painted Moroccan ceramic plate featuring intricate geometric patterns in blue, green, and white. The plate is displayed on a minimalist wooden stand against a bright, neutral background. The lighting is crisp and natural, emphasizing the glossy glaze and precise brushstrokes of the artisan. The mood is clean, modern, yet deeply traditional." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC_kan4fIm6b_ZGCB4DuiLicZWiT6yARTGm2BNvFUVa2mDqAtUUYgNULidXjVGSDgXOwAFTZQP3cnOlhub9vFp2T7mOXR-JMXNwfSIUMvX1Ts_aRucgJ1KfzhuPCHorZQzxlPBrgayNdQ4lNHfH4C5IZ8vrk6d6gu4pLH7suiMlikZFORm4FQIkXk6vGSKIX5ASAAe6mmXBoZ0hgozCfVzuTVzynXFRrQbM1A4_puM8i-oCXUFFt_KoLarUSso9t7j106vKnRxVFNQ"/>
+</div>
+<div class="flex flex-col justify-center">
+<h4 class="text-sm font-medium text-text truncate">Fez Ceramic Plate</h4>
+<p class="text-xs text-text/60 mt-1 mb-2">د.م. 250</p>
+<button class="text-xs font-medium text-primary hover:text-secondary self-start">Move to cart</button>
+</div>
+</div>
+<div class="flex gap-4 p-4 bg-white rounded border border-surface hover:border-amber-200 transition-colors">
+<div class="w-16 h-16 rounded bg-surface overflow-hidden shrink-0">
+<img alt="Woven Basket" class="w-full h-full object-cover" data-alt="A beautifully woven Moroccan storage basket made from natural palm leaves, featuring subtle leather handles. The basket sits empty on a light oak floor, with soft, diffused sunlight streaming from a nearby window. The aesthetic is minimalist, organic, and highly textural, emphasizing natural materials and slow living." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCghoSx2vZdp96ySYpZ9cIig4CQ2KV6Od8YX3ZPdc1-t9MmkIAJ4ayOp0AzzGBBr3EXDdvH8sgMgGMmnpatX0yvjnIW5btzORmhW1FPKYgzY-nnNziATM1GGspCEvqFzRzash1TLAMvFBA6BY5ekiigXFQQQ48xdpaSd9NUIHqv9c27Zt4KMQq5HVfOGCB33Mt6wxYuiamEAMH74VG3vdc8AkNWyFcD1CBmo9G4uJ3g421QxdRBuI4ITyyYQbUtehSbj1vCWI0ijGE"/>
+</div>
+<div class="flex flex-col justify-center">
+<h4 class="text-sm font-medium text-text truncate">Palm Woven Basket</h4>
+<p class="text-xs text-text/60 mt-1 mb-2">د.م. 180</p>
+<button class="text-xs font-medium text-primary hover:text-secondary self-start">Move to cart</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Continue Shopping -->
+<div class="mt-8">
+<a class="inline-flex items-center gap-2 text-primary hover:text-secondary font-medium transition-colors group" href="#">
+<span class="material-symbols-outlined transform group-hover:-translate-x-1 transition-transform">arrow_back</span>
+                    Continue shopping
+                </a>
+</div>
+</div>
+<!-- Right Column: Summary Card -->
+<div class="lg:col-span-5 xl:col-span-4">
+<div class="sticky top-32 bg-sand-50 rounded-lg p-8 ring-1 ring-amber-200 shadow-sm flex flex-col gap-6">
+<h2 class="font-headline text-2xl text-text">Order summary</h2>
+<div class="flex flex-col gap-4 text-sm">
+<div class="flex justify-between text-text/80">
+<span>Subtotal (3 items)</span>
+<span>د.م. 5,030</span>
+</div>
+<div class="flex justify-between text-text/80">
+<span>Shipping</span>
+<span class="text-green-600 font-medium">Free</span>
+</div>
+<div class="flex justify-between text-text/80">
+<span>Estimated Tax</span>
+<span>Calculated at checkout</span>
+</div>
+</div>
+<hr class="border-secondary/20"/>
+<div class="flex justify-between items-baseline">
+<span class="text-text font-medium">Total</span>
+<span class="font-headline text-3xl font-bold text-text">د.م. 5,030</span>
+</div>
+<div class="flex gap-2">
+<input class="flex-1 bg-white border border-secondary/20 rounded px-4 py-2 text-sm focus:outline-none focus:border-secondary focus:ring-1 focus:ring-secondary transition-all" placeholder="Promo code" type="text"/>
+<button class="px-4 py-2 text-sm font-medium text-secondary border border-secondary rounded hover:bg-secondary/5 transition-colors">Apply</button>
+</div>
+<button class="w-full bg-indigo-700 hover:bg-indigo-900 text-white font-medium py-4 rounded-full transition-colors mt-2">
+                    Checkout
+                </button>
+<div class="flex justify-center gap-4 mt-2">
+<span class="inline-flex items-center gap-1.5 text-xs text-text/70 bg-white px-3 py-1.5 rounded-full border border-surface">
+<span class="material-symbols-outlined text-[16px]">lock</span>
+                        Secure payments
+                    </span>
+<span class="inline-flex items-center gap-1.5 text-xs text-text/70 bg-white px-3 py-1.5 rounded-full border border-surface">
+<span class="material-symbols-outlined text-[16px]">refresh</span>
+                        Free 14-day returns
+                    </span>
+</div>
+<p class="text-center text-xs text-text/50 mt-2">
+                    We accept Visa · Mastercard · Cash on Delivery
+                </p>
+</div>
+</div>
+</main>
+<!-- Reassurance Strip -->
+<section class="bg-sand border-y border-amber-200/50 py-12 px-6">
+<div class="max-w-screen-2xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8">
+<div class="flex flex-col items-center text-center gap-3">
+<span class="material-symbols-outlined text-4xl text-secondary">verified</span>
+<h4 class="font-medium text-text text-sm">Verified Sellers</h4>
+</div>
+<div class="flex flex-col items-center text-center gap-3">
+<span class="material-symbols-outlined text-4xl text-secondary">local_shipping</span>
+<h4 class="font-medium text-text text-sm">Free returns</h4>
+</div>
+<div class="flex flex-col items-center text-center gap-3">
+<span class="material-symbols-outlined text-4xl text-secondary">workspace_premium</span>
+<h4 class="font-medium text-text text-sm">Authentic Moroccan craft</h4>
+</div>
+<div class="flex flex-col items-center text-center gap-3">
+<span class="material-symbols-outlined text-4xl text-secondary">support_agent</span>
+<h4 class="font-medium text-text text-sm">Support AR/FR/EN</h4>
+</div>
+</div>
+</section>
+<!-- You might also like -->
+<section class="py-24 px-6 max-w-screen-2xl mx-auto">
+<h2 class="font-headline text-3xl text-text mb-12">You might also like</h2>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+<!-- Product 1 -->
+<div class="group cursor-pointer">
+<div class="aspect-square bg-surface rounded mb-4 overflow-hidden relative">
+<img alt="Argan Oil" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A small, elegant glass bottle of pure Moroccan Argan oil with a minimalist label. The bottle rests on a smooth stone surface alongside a few raw Argan nuts and green leaves. The lighting is soft and organic, highlighting the golden hue of the oil within the clear glass. The mood is natural, luxurious, and deeply rooted in wellness." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAGuNB_Zj3e7yIZ2NYSJgXzrXJjN-EedzTGwfD2iIfABLutTnSpniz_p-FJy1lzUApjas4sxDRqTruedDgg9r5oDFc66nuOmbTq_197_sI5v39csKXBNlSRqvFdQh4IMondfyd2qNdM8Tg7VueeJl_DC8Xb39W6nXWbfCwZ4ZxrJ1IK9PQ-jSqZ3ZuZ5dqXPlCzilYj8lM5nlhX0uWT5IZo_7LG81wjthV1zCXqduhCgptJby8bOttH7SlNpBKc7WOnaoXFrbdo_NA"/>
+<button class="absolute top-3 right-3 p-2 bg-white/80 backdrop-blur rounded-full text-text hover:text-tertiary transition-colors opacity-0 group-hover:opacity-100">
+<span class="material-symbols-outlined text-[20px]">favorite</span>
+</button>
+<span class="absolute top-3 left-3 bg-white/90 backdrop-blur px-2.5 py-1 text-[10px] font-bold tracking-wider uppercase rounded-full shadow-sm text-text">Best Seller</span>
+</div>
+<h3 class="font-medium text-text mb-1">Pure Organic Argan Oil</h3>
+<p class="text-sm text-text/60 mb-2">Souss Valley Cooperative</p>
+<p class="text-indigo-700 font-bold">د.م. 150</p>
+</div>
+<!-- Product 2 -->
+<div class="group cursor-pointer">
+<div class="aspect-square bg-surface rounded mb-4 overflow-hidden relative">
+<img alt="Silver Teapot" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A classic Moroccan silver teapot featuring intricate, hand-engraved arabesque motifs. It sits on a round silver tray alongside two small, gold-rimmed tea glasses filled with fresh mint tea. The background is slightly blurred, showing hints of a vibrant, tiled courtyard. The lighting reflects brightly off the polished silver, conveying hospitality, tradition, and premium craftsmanship." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCPirwzxR6r21GNnIHXtI-T5wSfYVjZcLQWBA0qNu0hxmYOPGBswyxhStZduJprZI5JK8pMcYSRsOMYAapcdK0CWM6g0J2w6ylk0s2OX1QjEuFXuWjDO3Ix_FuCseHmmQhfq60JCa2fSUguVETa3QkqZPne7NYL6l8lgoupqAcCdkMLorZkYhbL2HGmS4vs7KEvY6aYvMsS23Rj8W6blR_7lAI98QfOSXprX1Og0sGcbbNAz54Gnr1V6xm1V9PLh3AclKn7N7KpzK4"/>
+<button class="absolute top-3 right-3 p-2 bg-white/80 backdrop-blur rounded-full text-text hover:text-tertiary transition-colors opacity-0 group-hover:opacity-100">
+<span class="material-symbols-outlined text-[20px]">favorite</span>
+</button>
+</div>
+<h3 class="font-medium text-text mb-1">Engraved Silver Teapot</h3>
+<p class="text-sm text-text/60 mb-2">Fez Metalworks</p>
+<p class="text-indigo-700 font-bold">د.م. 550</p>
+</div>
+<!-- Product 3 -->
+<div class="group cursor-pointer">
+<div class="aspect-square bg-surface rounded mb-4 overflow-hidden relative">
+<img alt="Berber Rug" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A portion of a plush, authentic Beni Ourain Berber rug, showing thick cream-colored wool with bold, asymmetrical dark brown geometric lines. The rug is draped casually over a low modern chair in a bright, airy living space. The lighting emphasizes the deep, soft texture of the pile and the handmade, slightly imperfect nature of the design. The aesthetic is bohemian yet refined." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCDtmG0dIthhwPB6RSVVEukoG3DB2ES7-DQrvx0GXEt5y41FYACvpgPEDk_l-2rqS3QC3KXRcv9X4QZwnU935FXWaQRl893VoHiPcNckL0baP9tTFWUyv9DIA9PIYW9vI2pI1KSTmssLMoq1AqCjw5ntWBCbyyYJfh9qfLZIKBKr35va1_XSMDxGUHgxg19BGZKY6FlZq7iF4N3_nPHa46Ve-pKA6Sp8LarkTMbtiPB1PMBOQvoSzIG_08bUZa0pNloMTUXErvWWq0"/>
+<button class="absolute top-3 right-3 p-2 bg-white/80 backdrop-blur rounded-full text-text hover:text-tertiary transition-colors opacity-0 group-hover:opacity-100">
+<span class="material-symbols-outlined text-[20px]">favorite</span>
+</button>
+</div>
+<h3 class="font-medium text-text mb-1">Beni Ourain Wool Rug</h3>
+<p class="text-sm text-text/60 mb-2">Atlas Weavers</p>
+<p class="text-indigo-700 font-bold">د.م. 4,200</p>
+</div>
+<!-- Product 4 -->
+<div class="group cursor-pointer">
+<div class="aspect-square bg-surface rounded mb-4 overflow-hidden relative">
+<img alt="Leather Pouf" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A rich, tan-colored Moroccan leather pouf resting on a pale wooden floor. The pouf features intricate radial stitching and embroidered details on its top surface. Soft, indirect sunlight hits the leather, showcasing its high-quality grain and warm, earthy tone. The setting is minimalist, allowing the artisanal piece to stand out as a premium decor element." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC92yK2XHCpDpVl-oMI03hB2pb77LfFZqZLPQgNDnN8voUH5-5l0z6xr5qKYrSuwUFAWBH-0w2ktLHiAV7LoWxrjxjXCKOgXl1aejzxtnfEtvAkDR0u5iZC0zDA1z65wBUaAITAHwcg31GbLul_togVLLNdJc7L-IDv1Jmthjub4bfu_CnpHN-9gQqDDi4AFvhLPmBAQbZsZmU-741Cl61fISV61Hpgf2obijq3C1VPl5ZW635AbQSInLVUPLxOqf8Pv8GxAlWDvYU"/>
+<button class="absolute top-3 right-3 p-2 bg-white/80 backdrop-blur rounded-full text-text hover:text-tertiary transition-colors opacity-0 group-hover:opacity-100">
+<span class="material-symbols-outlined text-[20px]">favorite</span>
+</button>
+</div>
+<h3 class="font-medium text-text mb-1">Hand-stitched Leather Pouf</h3>
+<p class="text-sm text-text/60 mb-2">Marrakech Artisans</p>
+<p class="text-indigo-700 font-bold">د.م. 850</p>
+</div>
+</div>
+</section>
+<!-- Bespoke Strip -->
+<section class="bg-indigo-900 py-16 relative overflow-hidden">
+<div class="absolute inset-0 bg-gradient-to-r from-transparent via-amber-500/10 to-transparent"></div>
+<div class="max-w-screen-xl mx-auto px-6 relative z-10 text-center flex flex-col md:flex-row items-center justify-center gap-8">
+<h2 class="font-headline text-3xl md:text-4xl text-white">Want it tailored to you?</h2>
+<a class="inline-flex items-center justify-center px-8 py-3 bg-amber-500 hover:bg-amber-400 text-indigo-900 font-bold rounded-full transition-colors" href="#">
+                Book a consultation
+            </a>
+</div>
+</section>
+<!-- Footer -->
+<footer class="bg-[#1A1A1A] w-full rounded-t-xl mt-auto border-t border-[#C9A14A]/20">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-8 px-8 py-12 max-w-screen-2xl mx-auto">
+<div class="flex flex-col gap-4">
+<a class="font-display text-xl font-bold text-[#F7F3EE]" href="#">Beldify</a>
+<p class="font-body text-sm leading-relaxed text-[#F7F3EE]/80 mt-2">
+                    © 2024 Beldify. Handcrafted in Morocco.
+                </p>
+</div>
+<div class="flex flex-col gap-3">
+<a class="font-body text-sm leading-relaxed text-[#F7F3EE]/80 hover:text-[#C9A14A] hover:translate-x-1 transition-transform duration-200 opacity-90 hover:opacity-100" href="#">About Our Artisans</a>
+<a class="font-body text-sm leading-relaxed text-[#F7F3EE]/80 hover:text-[#C9A14A] hover:translate-x-1 transition-transform duration-200 opacity-90 hover:opacity-100" href="#">Sellers Portal</a>
+</div>
+<div class="flex flex-col gap-3">
+<a class="font-body text-sm leading-relaxed text-[#F7F3EE]/80 hover:text-[#C9A14A] hover:translate-x-1 transition-transform duration-200 opacity-90 hover:opacity-100" href="#">Shipping &amp; Returns</a>
+<a class="font-body text-sm leading-relaxed text-[#F7F3EE]/80 hover:text-[#C9A14A] hover:translate-x-1 transition-transform duration-200 opacity-90 hover:opacity-100" href="#">Authenticity Guarantee</a>
+</div>
+<div class="flex flex-col gap-3">
+<a class="font-body text-sm leading-relaxed text-[#F7F3EE]/80 hover:text-[#C9A14A] hover:translate-x-1 transition-transform duration-200 opacity-90 hover:opacity-100" href="#">Contact Us</a>
+<a class="font-body text-sm leading-relaxed text-[#F7F3EE]/80 hover:text-[#C9A14A] hover:translate-x-1 transition-transform duration-200 opacity-90 hover:opacity-100" href="#">Privacy Policy</a>
+</div>
+</div>
+</footer>
+</body></html>

@@ -1,0 +1,43 @@
+# Production image — runs a real `next build` + `next start` (NOT `next dev`).
+# This is the fix for slow navigation: dev mode shipped unminified, uncacheable
+# chunks (Cache-Control: no-store) that the browser re-downloaded on every click.
+# A production build emits content-hashed, immutable, minified chunks.
+#
+# Build:  docker build -f Dockerfile.prod --build-arg NEXT_PUBLIC_API_URL=https://pro.beldify.com -t beldify-frontend:prod .
+# NOTE:   NEXT_PUBLIC_* vars are baked at BUILD time into the client bundle, so the
+#         API URL must be passed as a build arg (env at runtime is too late).
+
+# ---- deps: install node_modules once ----
+FROM node:20-alpine AS deps
+WORKDIR /app
+RUN apk add --no-cache libc6-compat
+COPY package.json package-lock.json* ./
+RUN npm ci || npm install
+
+# ---- builder: compile the production bundle ----
+FROM node:20-alpine AS builder
+WORKDIR /app
+# Default matches the currently-live API host; override via --build-arg if needed.
+ARG NEXT_PUBLIC_API_URL=https://pro.beldify.com
+ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
+ENV NODE_ENV=production
+ENV NEXT_TELEMETRY_DISABLED=1
+COPY --from=deps /app/node_modules ./node_modules
+COPY . .
+RUN node --max-old-space-size=4096 node_modules/.bin/next build
+
+# ---- runner: serve with `next start` ----
+FROM node:20-alpine AS runner
+WORKDIR /app
+ENV NODE_ENV=production
+ENV NEXT_TELEMETRY_DISABLED=1
+# Port 3001 matches the live container's internal port (host 4987 -> 3001).
+ENV PORT=3001
+RUN apk add --no-cache libc6-compat
+COPY --from=builder /app/public ./public
+COPY --from=builder /app/.next ./.next
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/package.json ./package.json
+COPY --from=builder /app/next.config.js ./next.config.js
+EXPOSE 3001
+CMD ["node_modules/.bin/next", "start", "-H", "0.0.0.0", "-p", "3001"]

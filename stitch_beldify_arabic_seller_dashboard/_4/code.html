@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+
+<html dir="rtl" lang="ar"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Beldify - Marketplace</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&amp;family=Rubik:ital,wght@0,300..900;1,300..900&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary": "#4338ca", /* Atlas Indigo */
+                        "secondary": "#f59e0b", /* Saffron Amber */
+                        "surface": "#fffbeb", /* Amber-50 */
+                        "surface-container": "#ffffff", /* pure white cards */
+                        "on-surface": "#111827",
+                        "on-surface-variant": "#4b5563",
+                        "outline": "#d1d5db",
+                        "primary-container": "#1e1b4b", /* Indigo-900 */
+                        "on-primary-container": "#ffffff",
+                        "secondary-container": "#fef3c7",
+                        "on-secondary-container": "#92400e"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "md": "0.375rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "2xl": "16px",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-desktop": "64px",
+                        "margin-mobile": "16px",
+                        "sm": "8px",
+                        "md": "16px",
+                        "lg": "24px",
+                        "xl": "32px",
+                        "xxl": "48px",
+                        "xs": "4px",
+                        "gutter": "20px"
+                    },
+                    "fontFamily": {
+                        "display": ["Playfair Display", "serif"],
+                        "body": ["Rubik", "sans-serif"]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { font-family: 'Rubik', sans-serif; }
+        h1, h2, h3, h4, h5, h6, .font-display { font-family: 'Playfair Display', serif; }
+    </style>
+</head>
+<body class="bg-surface text-on-surface antialiased selection:bg-secondary selection:text-white">
+<!-- 1. ANNOUNCEMENT STRIP -->
+<div class="bg-[#111827] text-secondary text-center py-2 text-sm font-medium">
+        شحن مجاني داخل المغرب للطلبات فوق 500 درهم — إرجاع مجاني خلال 14 يوماً
+    </div>
+<!-- TopNavBar (Shared Component) -->
+<nav class="bg-white shadow-[0px_4px_20px_rgba(67,56,202,0.05)] border-b border-outline/20 sticky top-0 z-50 w-full transition-all duration-300">
+<div class="flex flex-row-reverse justify-between items-center px-margin-mobile md:px-margin-desktop h-20 w-full max-w-7xl mx-auto">
+<!-- Brand Logo -->
+<div class="font-display text-2xl font-bold text-primary tracking-tight flex items-center gap-1">
+                بلدي <span class="text-secondary">×</span> ify
+            </div>
+<!-- Navigation Links (Desktop) -->
+<div class="hidden md:flex gap-lg items-center font-body">
+<a class="text-on-surface-variant hover:text-primary font-medium transition-colors hover:bg-gray-50 rounded-lg px-3 py-2" href="#">الرئيسية</a>
+<a class="text-primary border-b-2 border-secondary font-bold pb-1 transition-all px-3 py-2" href="#">السوق</a>
+<a class="text-on-surface-variant hover:text-primary font-medium transition-colors hover:bg-gray-50 rounded-lg px-3 py-2" href="#">الحرفيين</a>
+<a class="text-on-surface-variant hover:text-primary font-medium transition-colors hover:bg-gray-50 rounded-lg px-3 py-2" href="#">المجلة</a>
+</div>
+<!-- Trailing Actions -->
+<div class="flex items-center gap-md">
+<span class="hidden md:inline text-sm text-on-surface-variant cursor-pointer hover:text-primary transition-colors">العربية</span>
+<button class="p-2 rounded-full hover:bg-gray-50 transition-colors cursor-pointer">
+<span class="material-symbols-outlined text-primary">notifications</span>
+</button>
+<button class="p-2 rounded-full hover:bg-gray-50 transition-colors cursor-pointer md:hidden">
+<span class="material-symbols-outlined text-primary">menu</span>
+</button>
+</div>
+</div>
+</nav>
+<main>
+<!-- 2. HERO -->
+<section class="relative w-full h-[600px] md:h-[700px] flex items-center overflow-hidden">
+<div class="absolute inset-0 z-0">
+<img alt="Artisan making leather goods in Morocco" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC3HnuCWjAD7VAmYy8D-akURjYYgIcABgbL8B6uLIEoCc_D5oqTYwMdAnDNc1XZg9VzQBpEsffdJGbdhNjFX3hDFqypsf-Sxw0Q71MzmtMWphhntQZekpy1IUcN3tVr11u04nJvtWmJw_CnA_-XnSbeNoxlRtJbiHGyj7-U4IZDLf7q-bfD4BhpVUf1QsU80bOvKljOgChJ00aJv02aZHK78jlLzzummVTg6HuJHWMof3Zu4HXwVQDO3nkGBULCpISXre1-5BlJW8tw"/>
+<div class="absolute inset-0 bg-gradient-to-r from-primary/90 via-primary/60 to-transparent"></div>
+</div>
+<div class="relative z-10 w-full max-w-7xl mx-auto px-margin-mobile md:px-margin-desktop flex flex-col items-start text-white">
+<h1 class="font-display text-4xl md:text-6xl max-w-2xl mb-6 leading-tight drop-shadow-lg font-bold">
+                    تُلبَس منذ قرون. مصنوعة لليوم.
+                </h1>
+<div class="flex flex-col sm:flex-row gap-4 mt-4">
+<button class="bg-secondary text-white px-8 py-3 rounded-full text-base font-bold hover:bg-amber-600 transition-colors flex items-center justify-center gap-2 shadow-lg">
+                        تسوّق السوق
+                        <span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+</button>
+<button class="border-2 border-white text-white px-8 py-3 rounded-full text-base font-medium hover:bg-white/10 transition-colors flex items-center justify-center gap-2 backdrop-blur-sm">
+                        تعرّف على الحياطين
+                    </button>
+</div>
+</div>
+</section>
+<!-- 3. AI CHIP -->
+<div class="w-full max-w-7xl mx-auto px-margin-mobile md:px-margin-desktop mt-8 flex justify-center md:justify-start">
+<div class="inline-flex items-center gap-2 bg-indigo-50 border border-indigo-100 text-indigo-700 px-4 py-2 rounded-full text-sm font-medium shadow-sm">
+<span class="material-symbols-outlined text-lg">auto_awesome</span>
+                مُنسّق لك بالذكاء الاصطناعي
+            </div>
+</div>
+<!-- 4. TRUST STRIP -->
+<section class="max-w-7xl mx-auto px-margin-mobile md:px-margin-desktop py-12">
+<div class="bg-white border border-outline/30 rounded-2xl p-6 md:p-8 shadow-sm">
+<div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+<div class="flex flex-col items-center gap-3">
+<div class="w-12 h-12 rounded-full bg-indigo-50 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-2xl">verified</span>
+</div>
+<span class="font-medium text-sm md:text-base">بائعون موثوقون</span>
+</div>
+<div class="flex flex-col items-center gap-3">
+<div class="w-12 h-12 rounded-full bg-indigo-50 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-2xl">lock</span>
+</div>
+<span class="font-medium text-sm md:text-base">دفع آمن</span>
+</div>
+<div class="flex flex-col items-center gap-3">
+<div class="w-12 h-12 rounded-full bg-indigo-50 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-2xl">cycle</span>
+</div>
+<span class="font-medium text-sm md:text-base">إرجاع مجاني 14 يوم</span>
+</div>
+<div class="flex flex-col items-center gap-3">
+<div class="w-12 h-12 rounded-full bg-indigo-50 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-2xl">headset_mic</span>
+</div>
+<span class="font-medium text-sm md:text-base text-gray-700">دعم بالعربية/الفرنسية/الإنجليزية</span>
+</div>
+</div>
+</div>
+</section>
+<!-- 5. BROWSE THE SOUK -->
+<section class="max-w-7xl mx-auto px-margin-mobile md:px-margin-desktop py-12">
+<div class="flex justify-between items-end mb-8">
+<h2 class="font-display text-3xl font-bold text-gray-900">السوق</h2>
+<a class="text-primary font-medium hover:underline flex items-center gap-1" href="#">عرض الكل <span class="material-symbols-outlined text-sm">arrow_back</span></a>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+<!-- Card 1 -->
+<a class="group relative h-48 md:h-64 rounded-2xl overflow-hidden shadow-sm" href="#">
+<img alt="قفطان" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD-GsW6qcGL56UkaWItGpoNRfadv0SB10z8ROfAWruTwpgApV4zZNe2PRWitNeiVpBeOWAVr5U36_Dz6ust4AM0I4Nht69eLi9Zy7XPFcztcUDdsQLm_CAoUh5vcy7EE3H5DCyYdzlCjqd0Sx4s8H3sUFnn4ZGZdVk2-eQ32LFIqDcoOBcHE9bQEgJ6kI16blww91fdh5ga496WueIG0539KlPKlH9RvrSoef2OWL94fHtu3R-3ou2dx-9ZYe31CvvZFGU1Vt1HGyPv"/>
+<div class="absolute inset-0 bg-black/30 group-hover:bg-black/40 transition-colors"></div>
+<div class="absolute bottom-4 right-4 left-4 text-center">
+<h3 class="text-white font-display text-xl md:text-2xl font-bold">قفطان</h3>
+</div>
+</a>
+<!-- Card 2 -->
+<a class="group relative h-48 md:h-64 rounded-2xl overflow-hidden shadow-sm" href="#">
+<img alt="زربية" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCZM2aK2RwdhJAqOJC_413h0CsrtA8oPtM7cHRmlolVfNSJYbPKYCXoc06ZJgbhr_cj_jrofmhpqEC9GkC7JV9cjvo-hLgQgbEf3Jj9Kr9tfodM4V3Rz7rg2W_bKOORTA24cwm-9_tb08SQJhCsaLTIldOeTXvKhMzkzHipE3r-4WMcd9pzhmPMncaX0kQim9JUfHA0dHkhOSCtrI4JFOVKFeEcrT3lulCUnEewRtteB-Vmq1YP64kEfOqSnYCXUE1hobQm16ZjUPPj"/>
+<div class="absolute inset-0 bg-black/30 group-hover:bg-black/40 transition-colors"></div>
+<div class="absolute bottom-4 right-4 left-4 text-center">
+<h3 class="text-white font-display text-xl md:text-2xl font-bold">زربية</h3>
+</div>
+</a>
+<!-- Card 3 -->
+<a class="group relative h-48 md:h-64 rounded-2xl overflow-hidden shadow-sm" href="#">
+<img alt="نحاسيات" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuASBYUcLut0mCAN56WmBE_kis7bqM7CeSm89NMWJTAS9oNsXKM_Pzz2NLh32YM_dQ5YA0bHzPqQtuRNIH7LFXgwR0Khmby36f9txjjPC0tf_aZEqb2GQIHr7imCD0Snsp3VOhK5BybqP-6xaz-OF1QfCg2DghptNCuJTLa8Nj69q__V0q7SVOjGJc2R8ZSj4m_ETll_TNcf90gy51vCVjcloM0SBBXLbTpNtgNtqBkzDpicNXxT6H1Aq-9eHwI8dXY3GqYoreoxk8pP"/>
+<div class="absolute inset-0 bg-black/30 group-hover:bg-black/40 transition-colors"></div>
+<div class="absolute bottom-4 right-4 left-4 text-center">
+<h3 class="text-white font-display text-xl md:text-2xl font-bold">نحاسيات</h3>
+</div>
+</a>
+<!-- Card 4 -->
+<a class="group relative h-48 md:h-64 rounded-2xl overflow-hidden shadow-sm" href="#">
+<img alt="فخار" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBQSKjXMZxTcxSt9-0_lsmjYOcpvao1Sh3p_fY4A9nIpqE00YO4FpEcdbpw8OXAHIZZg91qO4clfThf5_HoNq8qpn1BQg1EgUBQFbqPiKeMoHtY1f9qwgxTtWXJQ9NfCTrdNprP8OFlVlbxaND4BoYwsrw2KpxFRFFkbneQXcXT1VEAmm0sx7XaiZqsTh6OI4Zw9p7dJ9TsLunXw-wxST_I-EPmWCpIUB98zF_Herrf7-8Bqh07vBckuWSFohy0gtrW9L-ez3WVQ1rO"/>
+<div class="absolute inset-0 bg-black/30 group-hover:bg-black/40 transition-colors"></div>
+<div class="absolute bottom-4 right-4 left-4 text-center">
+<h3 class="text-white font-display text-xl md:text-2xl font-bold">فخار</h3>
+</div>
+</a>
+<!-- Card 5 -->
+<a class="group relative h-48 md:h-64 rounded-2xl overflow-hidden shadow-sm" href="#">
+<img alt="مجوهرات" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCcow4plSZQjCeQjzL-sBE_1ZPoeWXKqYKfiZMdalxEuhDyylQhZ-wPFp4LSArYsX3SL_9WestsEYqEubHlZtVWSGB9fw91TCwBQ8yHZEQk739XjYkWu1zs0Snh2iqyuILJ3XsEALts8BnctBDIEx8yWHYPhA00w6uyW8-4bY-2xQK7UvpnfPxQQrvlluw9Bmyr-SnhUUTDIIXjEun8qAQChkVpGYADYA_AzsJ0KtzGGoRArtkxKEss7RFKwizlJduOAKrBr361Gc1-"/>
+<div class="absolute inset-0 bg-black/30 group-hover:bg-black/40 transition-colors"></div>
+<div class="absolute bottom-4 right-4 left-4 text-center">
+<h3 class="text-white font-display text-xl md:text-2xl font-bold">مجوهرات</h3>
+</div>
+</a>
+<!-- Card 6 -->
+<a class="group relative h-48 md:h-64 rounded-2xl overflow-hidden shadow-sm" href="#">
+<img alt="جلود" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDUEHh7fdIFuBwTzeLRITqT3UBFkRAFllw0XmdfNaE--OgeUX1U4uk4igRyztvG-30Fxo-DlmdxiOfWddZ3CDbJTK-uYQ-_WhoD0dv_UxaH3nKWNaScsPbvL1_SOEUQiMZsbKfDPY6Bc3FFWwbt2rMSQRa08_A_Xh_ihdvPMj1k8FjIuHuK2yzHQToCcTk0vQeXGspbwa0oiFJ8hEPYXGHUpAbF4Qz7Lcrd_taW0VVlXBegOBsSqjrr83uATnIodnFzWvVs2RasDDGt"/>
+<div class="absolute inset-0 bg-black/30 group-hover:bg-black/40 transition-colors"></div>
+<div class="absolute bottom-4 right-4 left-4 text-center">
+<h3 class="text-white font-display text-xl md:text-2xl font-bold">جلود</h3>
+</div>
+</a>
+<!-- Card 7 -->
+<a class="group relative h-48 md:h-64 rounded-2xl overflow-hidden shadow-sm" href="#">
+<img alt="عطور" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDplDsbEO7J1gl0wqtsuGATflz6_Mtuh_96K77VqzCgULDl834DW82AijjcQwXoJFD5EfoV6MSqKMsPG62DcZx5-5yIUTYEAGnOx1egeh1o88ur4YS2txU7M7Xq6ZA_Z79g9VgMXDwT8T3U_3TbYWZctkwJ7mQSRJblYo0b9SCcAyawXIu2lDtoXMtFh4eLZwzDXz_f08il_T1InakrUgsWMwKdTP_-ErFEfgTqmPkrSnl65XEiNNdl33TQZ0F8vTnjmi35f2eRp2os"/>
+<div class="absolute inset-0 bg-black/30 group-hover:bg-black/40 transition-colors"></div>
+<div class="absolute bottom-4 right-4 left-4 text-center">
+<h3 class="text-white font-display text-xl md:text-2xl font-bold">عطور</h3>
+</div>
+</a>
+<!-- Card 8 -->
+<a class="group relative h-48 md:h-64 rounded-2xl overflow-hidden shadow-sm" href="#">
+<img alt="ديكور" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDFKEIhQouullR6x7wCRuG-6xmIC-Tsjot7n5S7s3SIK0HPshZGlU7EgWlK_9dRQmTYDBmm_uKckxlMnA1KSn51gTcyPH8igOnWuuv2uenXklIHaLeHHvRmWDjjbqEYBPCloONI-_vM9EfJ__GpLY9xvy6LV1yHugUD4j_l4E33Fk7999VzLELJvEhGHvlsD879omdpGzplzXObv3JkJtT6IpH-KytLZ7ijjq4nLmxRyD5po6h8sM1DLXRX1wIbwt8X1SRKe5pj1Gmv"/>
+<div class="absolute inset-0 bg-black/30 group-hover:bg-black/40 transition-colors"></div>
+<div class="absolute bottom-4 right-4 left-4 text-center">
+<h3 class="text-white font-display text-xl md:text-2xl font-bold">ديكور</h3>
+</div>
+</a>
+</div>
+</section>
+<!-- 6. TAILORING CTA -->
+<section class="max-w-7xl mx-auto px-margin-mobile md:px-margin-desktop py-12">
+<div class="bg-primary-container rounded-2xl overflow-hidden flex flex-col md:flex-row relative">
+<div class="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/arabesque.png')]"></div>
+<div class="p-8 md:p-12 md:w-1/2 flex flex-col justify-center relative z-10">
+<h2 class="font-display text-3xl md:text-4xl font-bold text-white mb-6">تريدها مفصّلة على مقاسك؟</h2>
+<ul class="space-y-4 mb-8">
+<li class="flex items-center gap-3 text-white/90">
+<span class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center font-bold">1</span>
+<span>اختر التصميم والقماش</span>
+</li>
+<li class="flex items-center gap-3 text-white/90">
+<span class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center font-bold">2</span>
+<span>أدخل مقاساتك بدقة</span>
+</li>
+<li class="flex items-center gap-3 text-white/90">
+<span class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center font-bold">3</span>
+<span>استلم قطعتك الفريدة خلال 10 أيام</span>
+</li>
+</ul>
+<button class="bg-secondary text-white px-8 py-3 rounded-full text-base font-bold w-fit hover:bg-amber-600 transition-colors shadow-lg">
+                        اطلب تفصيل خاص
+                    </button>
+</div>
+<div class="md:w-1/2 h-64 md:h-auto">
+<img alt="Tailoring" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAoio4wlNfAyqbPLUT00iukHAc0-NX3bjuyTisNnbDqdhtXbAWDE21rHV3NZ9Cqey4c9ROAX2Os4soi50mHkbiawHD9Nou5IrN2mo0VgC6XsMWqmz8G1Nj8U4iKH9pm7XJhd0W20auHqRKKGsfGu72w6E6vHrFNPzrxo4BS3o-RLgSdLqFFAmvo9yuEa5HvT-lFalLfahxMN3n4RNnDTfD9ani0JWTU66dIHwEZ3lJIbxEsa-z4DiChok3S8wEv_yDpbk8u9KxJiw8G"/>
+</div>
+</div>
+</section>
+<!-- 7. MEGA OFFERS -->
+<section class="max-w-7xl mx-auto px-margin-mobile md:px-margin-desktop py-12">
+<h2 class="font-display text-3xl font-bold text-gray-900 mb-8">عروض كبرى حتى 70%</h2>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="relative h-80 rounded-2xl overflow-hidden group cursor-pointer">
+<img alt="Summer Collection" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDXLA4DZai57aBM0YAZ6xBMsmsVT2uRZejcbwEWTy0ZYu88fOP1_VBhBeH5TKqBMrNDoY6OL68vhXC6xx6gM1Nv-YltkcOVpULiGn4v4itH7AQcHwq8JTmHTdEqHb8ALtIVo2l2ShYmgMCK6quPr7F2Qxiq5XXQwyLb8FVv2mKbmM8QBIgLdOfJd6rMEFD3672syKvgzBY6uP2zMOZdcgqNtoBHfTG8bVXlut4C_METaGg3d-NcbFp1Z-B2G-PIwbplr2zgeJQvXGEd"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+<div class="absolute bottom-8 right-8 left-8">
+<span class="inline-block bg-secondary text-white text-xs font-bold px-3 py-1 rounded-full mb-3">خصم 50%</span>
+<h3 class="text-white font-display text-2xl font-bold mb-2">التشكيلة الصيفية</h3>
+<p class="text-white/80">قفاطين خفيفة وألوان زاهية</p>
+</div>
+</div>
+<div class="relative h-80 rounded-2xl overflow-hidden group cursor-pointer">
+<img alt="Eid Collection" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDqzrOI1saX1QCLV5HnK-Ia78U4WaDs-5ru03i8viJhmxflyfrJEzQ4vEjIM5CDXUxaGLaEUTyZuXQNrpX4rCAjAlOKxAbkDeW_1V7__fV_U0xfjYtwZSsrJcbu9kfIswTW2E9ZKXNanLmscNr309fNoyw9H_ViDWB5vrhnatn-FeW78VDgd7nt120KFWImbOWu_lbcY-2Gjzljbg-kZcEVEyBYef2vsIpLxx_I4vaHWrMd180STLl-dFyWDTPAqPzB1VjVwiQbIFo9"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+<div class="absolute bottom-8 right-8 left-8">
+<span class="inline-block bg-primary text-white text-xs font-bold px-3 py-1 rounded-full mb-3">حصري</span>
+<h3 class="text-white font-display text-2xl font-bold mb-2">تشكيلة العيد</h3>
+<p class="text-white/80">أناقة تقليدية لمناسباتكم السعيدة</p>
+</div>
+</div>
+</div>
+</section>
+<!-- 8. BEST SELLERS -->
+<section class="max-w-7xl mx-auto px-margin-mobile md:px-margin-desktop py-12">
+<div class="flex justify-between items-end mb-8">
+<h2 class="font-display text-3xl font-bold text-gray-900">الأكثر مبيعاً</h2>
+<a class="text-primary font-medium hover:underline flex items-center gap-1" href="#">عرض الكل <span class="material-symbols-outlined text-sm">arrow_back</span></a>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+<!-- Product 1 -->
+<div class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow group">
+<div class="relative h-64 overflow-hidden">
+<img alt="طاجين" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDpgG_HXROZ_bGWts3KfVPyoQ_L1jCrJa2LLdoR0_-cLmr6ujqGMbruL_56Ctq8sLBloyhIGfsttoFgN044mZ6veAulmb5GkcqDgUU8Px8lx5u9UZpoRd1ljOc8NCsW3DOmXwfUSJbWCQ8v3aeDz5jD_osy_ZtbnfyPrs9t78nF_1u1EGS3CgUZYCjwudRsMVUDnWOWfnpy5ukbsok_87IcreeNASNYPewII8QeFWJiEpvpZdeNHepQeH2Rz5VkQhMSa5SmF1Z3tqzQ"/>
+<button class="absolute top-3 left-3 w-8 h-8 bg-white/90 rounded-full flex items-center justify-center text-gray-400 hover:text-red-500 transition-colors">
+<span class="material-symbols-outlined text-[18px]">favorite</span>
+</button>
+</div>
+<div class="p-4">
+<h3 class="font-medium text-gray-900 mb-1 truncate">طاجين فخار تقليدي مزخرف</h3>
+<p class="text-sm text-gray-500 mb-2">تعاونية الفخار - آسفي</p>
+<div class="font-bold text-lg text-primary">250 درهم</div>
+</div>
+</div>
+<!-- Product 2 -->
+<div class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow group">
+<div class="relative h-64 overflow-hidden">
+<img alt="زربية" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuATCe-A0l9WsNYGMLx__1_Cuf6j6vmp14QrPCLLqEEEVexz6VODlzKtT2ePy8OXWRU2SY1e0I5KtUltJLI2Qa6tKhfHrleVdTrWfTRdi1t8VI6yGsqvhAXeNMeCCJYzfVBgcX_ZfbYZ-Zwk09CLUzIsl7LTqEG6i30TIK6q6peOkcOH91-h-WyGlhfkciTLlDWWmzyfofTgYenPYdmxFaycX0O-3iTAgWePH4eVj_zjmE59otipysabow1PmL71xtEqCdF3yJpJqKPW"/>
+<button class="absolute top-3 left-3 w-8 h-8 bg-white/90 rounded-full flex items-center justify-center text-gray-400 hover:text-red-500 transition-colors">
+<span class="material-symbols-outlined text-[18px]">favorite</span>
+</button>
+</div>
+<div class="p-4">
+<h3 class="font-medium text-gray-900 mb-1 truncate">زربية بني ملال يدوية الصنع</h3>
+<p class="text-sm text-gray-500 mb-2">نساجات الأطلس</p>
+<div class="font-bold text-lg text-primary">1,200 درهم</div>
+</div>
+</div>
+<!-- Product 3 -->
+<div class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow group">
+<div class="relative h-64 overflow-hidden">
+<img alt="قفطان" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDERWM2amK54psSS0NG_GXTGgu7ueFONpr_F2x93weR6rd_IBLDp2tTe1r8kosKK8EoAQmPbvOkzyrTsDPdqsi-MvnGVgnHbAFlTffxmBK464snl87AntCxkumCt2JlEWFbPYHLNXiv_rwZ6T-ONu1oDxPQv0I5Au0CO7fXSvifleFX1UQqSBuRgwLJ3FXEZMNhRrj6eZXaTFghvIeznKEtPFK5NwNCpAjlZWVaB7psVA84d_dFHibzXQr5UxX9HVeAq6g4EALKOR8i"/>
+<button class="absolute top-3 left-3 w-8 h-8 bg-white/90 rounded-full flex items-center justify-center text-gray-400 hover:text-red-500 transition-colors">
+<span class="material-symbols-outlined text-[18px]">favorite</span>
+</button>
+</div>
+<div class="p-4">
+<h3 class="font-medium text-gray-900 mb-1 truncate">قفطان مخملي مطرز بالصقلي</h3>
+<p class="text-sm text-gray-500 mb-2">دار الأناقة - فاس</p>
+<div class="font-bold text-lg text-primary">3,500 درهم</div>
+</div>
+</div>
+<!-- Product 4 -->
+<div class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow group">
+<div class="relative h-64 overflow-hidden">
+<img alt="مصباح" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAhBbggxYaPqb7CJizSVakUpCZkOCrL-Y4PD3ekMftvzu1eD2U59xeVBkPI2p75ZwMMv_XywG8BT9nj0fzBIaWfAVF-BO3SWW8mW0mGSJ14jUfoP3QJtE8M2GQDpwnab-KtYKQo7MVaYMgGxwbNNdbB8oeDOQzNYzkRyWEPy8ZexnYVUfpcgni7X_yz_4hw7_c-v-bdUSV4NqnTpewUUcwbq24E308ZnN5GtjuwiswlELj5PcPcTp3dGZ65xm5q_JWQqNugMH33attY"/>
+<button class="absolute top-3 left-3 w-8 h-8 bg-white/90 rounded-full flex items-center justify-center text-gray-400 hover:text-red-500 transition-colors">
+<span class="material-symbols-outlined text-[18px]">favorite</span>
+</button>
+</div>
+<div class="p-4">
+<h3 class="font-medium text-gray-900 mb-1 truncate">مصباح نحاسي معلق</h3>
+<p class="text-sm text-gray-500 mb-2">ورشة النحاسيات - مراكش</p>
+<div class="font-bold text-lg text-primary">850 درهم</div>
+</div>
+</div>
+</div>
+</section>
+<!-- 9. NEW ARRIVALS -->
+<section class="max-w-7xl mx-auto px-margin-mobile md:px-margin-desktop py-12">
+<div class="flex justify-between items-end mb-8">
+<h2 class="font-display text-3xl font-bold text-gray-900">وصل حديثاً</h2>
+<a class="text-primary font-medium hover:underline flex items-center gap-1" href="#">تسوق الأحدث <span class="material-symbols-outlined text-sm">arrow_back</span></a>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+<!-- Product 1 -->
+<div class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow group relative">
+<span class="absolute top-3 right-3 bg-secondary text-white text-xs font-bold px-2 py-1 rounded z-10">جديد</span>
+<div class="relative h-64 overflow-hidden">
+<img alt="حقيبة جلدية" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAwK1lulISTkfDSwn9D89ytAfiTJEz7tiIg7dgbFE9YlON6It-aB7kH2a82cLUk-kQ0B0X7jimAPipfcZfSQC-WR-2wuCbwmZ4TaJ3xZdfojnKFQd_TDhRzHTOLLMOStTnDxfoXrjHC6eqe6Y-595qMch351G1148aXnHeHdmsCCGHn4u_I4rWiNZgNhNpkWZvV4tECCpzyfv-8-jbCGvChRAE3BHhOaYc8Jhg42uw-EPA9XG_kT-QkuAZ5NUweT5lag_Vxu5-IPZOL"/>
+<button class="absolute top-3 left-3 w-8 h-8 bg-white/90 rounded-full flex items-center justify-center text-gray-400 hover:text-red-500 transition-colors">
+<span class="material-symbols-outlined text-[18px]">favorite</span>
+</button>
+</div>
+<div class="p-4">
+<h3 class="font-medium text-gray-900 mb-1 truncate">حقيبة سفر جلدية أصيلة</h3>
+<p class="text-sm text-gray-500 mb-2">دباغة فاس</p>
+<div class="font-bold text-lg text-primary">650 درهم</div>
+</div>
+</div>
+<!-- Add 3 more similar products for layout -->
+<!-- Product 2 -->
+<div class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow group relative">
+<span class="absolute top-3 right-3 bg-secondary text-white text-xs font-bold px-2 py-1 rounded z-10">جديد</span>
+<div class="relative h-64 overflow-hidden">
+<img alt="بلدغة" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCzE-Qq6ajnTz2zMmmIv0T8ECl4vqZR6lLhxrFxAjDLHfrTObRkEoVplXZr9DAh-wDmDlpdA9G2cwsZ77LoxhmgI-NQmvn08rmU3BaKSBBdQQVFoPJIRsIf7NPLIuT2aCBkcvh413qJxJ9y5mTZ99Aal1wmO-hHu7RP6tLq3X7qVz1uzIZCEJWmD0qoGLgvUBaJcQB9ZpK7OyJgmCGD107-Od4yUFk1org6SX1FnYb7HP_kY1JnHAKrip7sH5ieDCDIhTkcyEJzYXxR"/>
+<button class="absolute top-3 left-3 w-8 h-8 bg-white/90 rounded-full flex items-center justify-center text-gray-400 hover:text-red-500 transition-colors">
+<span class="material-symbols-outlined text-[18px]">favorite</span>
+</button>
+</div>
+<div class="p-4">
+<h3 class="font-medium text-gray-900 mb-1 truncate">بلغة رجالية صفراء فاخرة</h3>
+<p class="text-sm text-gray-500 mb-2">صناع الجلد - مراكش</p>
+<div class="font-bold text-lg text-primary">350 درهم</div>
+</div>
+</div>
+<!-- Product 3 -->
+<div class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow group relative">
+<span class="absolute top-3 right-3 bg-secondary text-white text-xs font-bold px-2 py-1 rounded z-10">جديد</span>
+<div class="relative h-64 overflow-hidden">
+<img alt="مجوهرات" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC91-97O_FUD8pg2g7a11v-mC1u6sYvwrvEkc_TFD7SpXkU2obqhYsap4OeHT7be-BT1N3OiMEMeedH-9PrP_84NloZDClZDYFe1I5MzcsaVDtDeAtq8wmok9o7CmSyus6UtwrtAe0HW5VMcVJykie2savXWW-UFpSfmecwdsqzLuk0zOFl5Kbrx_TFSvK_Bp-gDOvGcnUBsRA-Yd0A8nQO7taXbQPbrQ2RbXUfRQ7LzbKC_tpD6pGHzFs2hL91tidp5L66EbarpUll"/>
+<button class="absolute top-3 left-3 w-8 h-8 bg-white/90 rounded-full flex items-center justify-center text-gray-400 hover:text-red-500 transition-colors">
+<span class="material-symbols-outlined text-[18px]">favorite</span>
+</button>
+</div>
+<div class="p-4">
+<h3 class="font-medium text-gray-900 mb-1 truncate">قلادة فضية بتصميم أمازيغي</h3>
+<p class="text-sm text-gray-500 mb-2">فضيات تيزنيت</p>
+<div class="font-bold text-lg text-primary">950 درهم</div>
+</div>
+</div>
+<!-- Product 4 -->
+<div class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow group relative">
+<span class="absolute top-3 right-3 bg-secondary text-white text-xs font-bold px-2 py-1 rounded z-10">جديد</span>
+<div class="relative h-64 overflow-hidden">
+<img alt="شاي" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBUNxOZgiAN0UWcN52-pxjHYm6c7lwuaiP5B92mF7o9nOmEN78XxQla9S9G7AVza2QlwfR9myVRw3HUABUk8Zd8JeQ_Jxm-9FMnOFkBcI5e-5_Kp31aghwwFwNICMPJ3PussNyLb7HEvvi5CsLRo3PzeMohng9NvJXSWyXHtGYbDUIqBunLnG-5wW-sGPolVnybyO2UlBSVmQZnIE_C9AVMIlyc-Jk_nrO6Oe6VnDT-HWVuBzTroRurKLENKx-4XSJjKIh1YausrbKV"/>
+<button class="absolute top-3 left-3 w-8 h-8 bg-white/90 rounded-full flex items-center justify-center text-gray-400 hover:text-red-500 transition-colors">
+<span class="material-symbols-outlined text-[18px]">favorite</span>
+</button>
+</div>
+<div class="p-4">
+<h3 class="font-medium text-gray-900 mb-1 truncate">طقم شاي نحاسي كامل 6 قطع</h3>
+<p class="text-sm text-gray-500 mb-2">روائع النحاس</p>
+<div class="font-bold text-lg text-primary">1,450 درهم</div>
+</div>
+</div>
+</div>
+</section>
+<!-- 10. SPECIAL OFFERS -->
+<section class="max-w-7xl mx-auto px-margin-mobile md:px-margin-desktop py-12">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<!-- Indigo Card -->
+<div class="bg-primary text-white rounded-2xl p-8 md:p-12 flex flex-col justify-center relative overflow-hidden h-80">
+<div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1549488344-c6899b24479e?q=80&amp;w=2000&amp;auto=format&amp;fit=crop')] opacity-20 mix-blend-overlay bg-cover bg-center"></div>
+<div class="relative z-10">
+<h3 class="font-display text-3xl font-bold mb-4">فن الزربية المغربية</h3>
+<p class="mb-6 max-w-md text-white/90 leading-relaxed">اكتشف تشكيلتنا الجديدة من الزرابي الأمازيغية، المنسوجة يدوياً بكل حب ودقة لتضفي دفئاً على منزلك.</p>
+<a class="inline-flex items-center gap-2 font-bold hover:underline" href="#">
+                            تسوق الزرابي <span class="material-symbols-outlined text-sm">arrow_back</span>
+</a>
+</div>
+</div>
+<!-- Amber Card -->
+<div class="bg-secondary text-white rounded-2xl p-8 md:p-12 flex flex-col justify-center relative overflow-hidden h-80">
+<div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1616422285623-13ff0162193c?q=80&amp;w=2000&amp;auto=format&amp;fit=crop')] opacity-20 mix-blend-overlay bg-cover bg-center"></div>
+<div class="relative z-10">
+<h3 class="font-display text-3xl font-bold mb-4">عطور أصيلة</h3>
+<p class="mb-6 max-w-md text-white/90 leading-relaxed">مجموعة حصرية من العطور المستوحاة من روائح المدن العتيقة والطبيعة المغربية الخلابة.</p>
+<a class="inline-flex items-center gap-2 font-bold hover:underline text-primary-container" href="#">
+                            اكتشف الروائح <span class="material-symbols-outlined text-sm">arrow_back</span>
+</a>
+</div>
+</div>
+</div>
+</section>
+<!-- 11. HAND-PICKED ATELIERS -->
+<section class="max-w-7xl mx-auto px-margin-mobile md:px-margin-desktop py-12">
+<h2 class="font-display text-3xl font-bold text-gray-900 mb-8 text-center">حرفيون مختارون</h2>
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+<!-- Tetouan -->
+<div class="text-center group cursor-pointer">
+<div class="w-32 h-32 md:w-40 md:h-40 mx-auto rounded-full overflow-hidden mb-4 border-4 border-white shadow-md">
+<img alt="Tetouan" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAFQmW3p0GxRsVmQnpL9CIr7orso9ayOAoVm4wvfGSe-cEFOocPgkqCnDLt8jNbqqAMiaXH2gD2Ej1CLvKz8RwCCXarVAOR605edcnbJzaI6J4UnvvIdk4O-4j1h3mbqYTePW9xMSAEp69nJ1oPKMFCzl_dFRJaZ_GLe69VsmwA94s3kAdOTUvmZTX6Ejy5MAA__Iw_cZ8b7x4jCDo25FDNc9HcR6WXBXNRJpzhHVhFSpIvz7yJ_iDgDyqKdzl9WRgvUtapFQqf-YGD"/>
+</div>
+<h3 class="font-bold text-lg text-gray-900 mb-1">تعاونية النور</h3>
+<p class="text-sm text-gray-500 font-medium">تطوان</p>
+</div>
+<!-- Fez -->
+<div class="text-center group cursor-pointer">
+<div class="w-32 h-32 md:w-40 md:h-40 mx-auto rounded-full overflow-hidden mb-4 border-4 border-white shadow-md">
+<img alt="Fez" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDUdHClpj6hFY15dKZtLKdhBuDBrRJm6HS1NrQE5eq5K-AvUzdpC4YPOFGboz3J_08X7zXAIURxGvBHF9tlPTUWBXGpKkbwuwxorb-OG1VH6u8o8P7XJJ5ZDO_lDPWdeno3GFkEIGdPZx9OYiKwjuM-7pZaujhBsX1P9Fu0QyEg0zJBznxLWYCNXPWvUOFbZ0tzgiCUrb6GcxnwpNoiyhXBcB8MENaWdzZWpL8d7rDR_LvVyB3KiLl6fx7CW6RKwBEWd7d9O9cuvS2B"/>
+</div>
+<h3 class="font-bold text-lg text-gray-900 mb-1">دار الصنعة</h3>
+<p class="text-sm text-gray-500 font-medium">فاس</p>
+</div>
+<!-- Casablanca -->
+<div class="text-center group cursor-pointer">
+<div class="w-32 h-32 md:w-40 md:h-40 mx-auto rounded-full overflow-hidden mb-4 border-4 border-white shadow-md">
+<img alt="Casablanca" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBo0QmiVCiGT4UbdoPSVwEqOZ51iCCpm-v9TNHEpSwL9UiQ4JU6G7_EL2H-hNcIFIY_CKOb15PabnI6EDlYKKU3HF0tOcXT5dATV0gQUO8yavIfPdeVMPDJ_mffr-RrvCjXO0Yjs0LX72eIjxWsvlHdN4J7t-FN5pLOuRgztb8KHTKJXXPWj-cljUOJb7Q6gQsFaWPM4WQ69--rH9juAg9AIWGtLrkUlHgAiQjbv5CnyqJHq1XfbqDGzADzHUv2yms1B8juFhQ6cHws"/>
+</div>
+<h3 class="font-bold text-lg text-gray-900 mb-1">أتيلييه الجلد</h3>
+<p class="text-sm text-gray-500 font-medium">الدار البيضاء</p>
+</div>
+<!-- Marrakesh -->
+<div class="text-center group cursor-pointer">
+<div class="w-32 h-32 md:w-40 md:h-40 mx-auto rounded-full overflow-hidden mb-4 border-4 border-white shadow-md">
+<img alt="Marrakesh" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCgmQdqtN2fw4607QFlymSYFvJxtgWquS2x1cnThwTy7wnLpXOBh2zmfsa3I7Nur9_6FXTy5YtiCIBdcYJrCTngJ6biigMyZQRayrEzu0hYxgr2yKHs71nzVKojrdUZfDsvflmRyGbumwF89L31Jhr_1W9WNoaHHK4vzjT8xKzeXB8KzpNJxSh9xFeYnxE-Hi3SWN9QbjyGx_T6oQlPfzDoPthRT9QfXVQ-ODq7HUR1LM004t8hZY36rZpfVKzum3VauFsyrjGPEJe4"/>
+</div>
+<h3 class="font-bold text-lg text-gray-900 mb-1">ورشة الطين</h3>
+<p class="text-sm text-gray-500 font-medium">مراكش</p>
+</div>
+</div>
+</section>
+<!-- 12. THE JOURNAL -->
+<section class="max-w-7xl mx-auto px-margin-mobile md:px-margin-desktop py-12">
+<div class="flex justify-between items-end mb-8">
+<h2 class="font-display text-3xl font-bold text-gray-900">المجلة</h2>
+<a class="text-primary font-medium hover:underline flex items-center gap-1" href="#">قراءة المزيد <span class="material-symbols-outlined text-sm">arrow_back</span></a>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<!-- Article 1 -->
+<article class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+<img alt="Article 1" class="w-full h-48 object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAobqY5QM6uVblzaHxC_JglOsr6u8S6Q_uG7la8a2lgRiHm4ljqDt47AzPpK5ThaOEpj6T_uRfL5eW9DUQazIyB4zJ-_HklopXam4VjA9ojtwOQgwvzXKSdqlmAUlhoYpD1eaEPvdwABd0G48jzeBVVQT6QQycCRJToFvafdD88CYlUltaGtxyeLvliEpincAjd6HbCI9kdOe1YtumEHtx0260dAGCydQR7x-Zo6iLZz92Z0UqUyaTX-qXfA3y17OUWR-BuX9Yh3-bk"/>
+<div class="p-6">
+<span class="text-xs font-bold text-secondary uppercase tracking-wider mb-2 block">حرف ومهن</span>
+<h3 class="font-display text-xl font-bold text-gray-900 mb-3">تاريخ الدباغة في فاس: رحلة عبر الزمن</h3>
+<p class="text-gray-600 text-sm mb-4 line-clamp-3">تعرف على أسرار واحدة من أقدم الحرف في المغرب، وكيف يحافظ الحرفيون على الطرق التقليدية في دباغة الجلود منذ قرون.</p>
+<a class="text-primary font-medium text-sm hover:underline" href="#">اقرأ المقال</a>
+</div>
+</article>
+<!-- Article 2 -->
+<article class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+<img alt="Article 2" class="w-full h-48 object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCPt1Vom2ygVng0qzkvjGdmM3T3PfgxWppwPY7IgV3P1Vv5ygr0nwDlDED1OLGQa8upIZzp8f9C8MBCwENV3R6Zfm0VtHF5EbpF0f8ZCetB-hUBm4MMfQeg3Y82IsctbdGwTQP5USxTO26NG4dN12zDXgCJYcm5UMapnlLs_qRelPoCD_rp_VeLzzendzKXJpzmfMQUJBiZ5DQ4FEmA_3HZ6II-MltoYq1HS0yunrVwcu54l9tzg4TfrKEpH23plYWASl1SDaZpfswY"/>
+<div class="p-6">
+<span class="text-xs font-bold text-secondary uppercase tracking-wider mb-2 block">أزياء وموضة</span>
+<h3 class="font-display text-xl font-bold text-gray-900 mb-3">دليلك لاختيار القفطان المناسب لمناسبتك</h3>
+<p class="text-gray-600 text-sm mb-4 line-clamp-3">نصائح وإرشادات من أشهر المصممين حول كيفية اختيار قصة ولون ونوع القماش الأنسب لقفطان يعكس شخصيتك.</p>
+<a class="text-primary font-medium text-sm hover:underline" href="#">اقرأ المقال</a>
+</div>
+</article>
+<!-- Article 3 -->
+<article class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+<img alt="Article 3" class="w-full h-48 object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBLEbb64TvsOKxpNvsJLz1ecUt9li0xmz_IrEspkMXnsoaPjZq0bVa8MeUFqeKBD39OiKlhuk8LV0NeGCJ0YX2UccByFn-d7xtWUHtuMEHWUPIT_jYaB9qHKO0lRCAlD8sgPtFBFV2ngCkOSo73eycgmKlUQrhAK9UcN8qtPPdYZPU47IxUsLFv10nLvxCelKtODa8KL7btvXseZF1yz6AOGcq2m9ZDL-TldCIYBNIw3OouL_GrD1gznJcGUXGgAZ9UjYoBUC3_l5-R"/>
+<div class="p-6">
+<span class="text-xs font-bold text-secondary uppercase tracking-wider mb-2 block">ديكور وتصميم</span>
+<h3 class="font-display text-xl font-bold text-gray-900 mb-3">كيف تدمج اللمسة المغربية في ديكور منزلك الحديث</h3>
+<p class="text-gray-600 text-sm mb-4 line-clamp-3">أفكار مبتكرة لتوظيف الزرابي، والنحاسيات، والزليج في المساحات العصرية لخلق توازن بين الأصالة والمعاصرة.</p>
+<a class="text-primary font-medium text-sm hover:underline" href="#">اقرأ المقال</a>
+</div>
+</article>
+</div>
+</section>
+<!-- 13. SELLER CTA -->
+<section class="w-full bg-primary-container text-white py-16">
+<div class="max-w-7xl mx-auto px-margin-mobile md:px-margin-desktop text-center flex flex-col items-center">
+<h2 class="font-display text-3xl md:text-4xl font-bold mb-6">بِع حرفتك. صِل إلى المغرب والعالم.</h2>
+<p class="text-white/80 max-w-2xl mb-8 text-lg">انضم إلى مجتمع بيلديفاي واعرض إبداعاتك لآلاف المتسوقين المهتمين بالحرف اليدوية الأصيلة.</p>
+<button class="bg-secondary text-white px-8 py-3 rounded-full text-base font-bold hover:bg-amber-600 transition-colors shadow-lg">
+                    سجل كبائع الآن
+                </button>
+</div>
+</section>
+<!-- 14. NEWSLETTER -->
+<section class="max-w-4xl mx-auto px-margin-mobile md:px-margin-desktop py-16 text-center">
+<div class="bg-surface p-8 md:p-12 rounded-2xl border border-secondary/20 shadow-sm">
+<h2 class="font-display text-2xl font-bold text-gray-900 mb-3">انضم إلى نشرتنا الإخبارية</h2>
+<p class="text-gray-600 mb-6">احصل على تحديثات حول أحدث التشكيلات، وعروض حصرية، وقصص ملهمة من حرفيينا.</p>
+<form class="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
+<input class="flex-1 px-4 py-3 rounded-2xl border border-outline focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="بريدك الإلكتروني" required="" type="email"/>
+<button class="bg-secondary text-white px-6 py-3 rounded-2xl font-bold hover:bg-amber-600 transition-colors" type="submit">
+                        اشترك
+                    </button>
+</form>
+</div>
+</section>
+</main>
+<!-- FOOTER -->
+<footer class="bg-[#1e1b4b] text-white/70 pt-16 pb-8 border-t border-white/10">
+<div class="max-w-7xl mx-auto px-margin-mobile md:px-margin-desktop">
+<div class="grid grid-cols-1 md:grid-cols-5 gap-10 mb-12">
+<!-- Brand Column -->
+<div class="md:col-span-1">
+<div class="font-display text-2xl font-bold text-white tracking-tight mb-4 flex items-center gap-1">
+                        بلدي <span class="text-secondary">×</span> ify
+                    </div>
+<p class="text-sm leading-relaxed mb-6">المنصة الأولى للحرف اليدوية المغربية الأصيلة، حيث يلتقي التراث بالابتكار.</p>
+<div class="flex gap-4">
+<a class="text-white/70 hover:text-white transition-colors" href="#"><span class="material-symbols-outlined">camera_alt</span></a>
+<a class="text-white/70 hover:text-white transition-colors" href="#"><span class="material-symbols-outlined">ondemand_video</span></a>
+<a class="text-white/70 hover:text-white transition-colors" href="#"><span class="material-symbols-outlined">forum</span></a>
+</div>
+</div>
+<!-- Links Columns -->
+<div>
+<h4 class="text-white font-bold mb-4 font-display">التسوق</h4>
+<ul class="space-y-3 text-sm">
+<li><a class="hover:text-white transition-colors" href="#">السوق</a></li>
+<li><a class="hover:text-white transition-colors" href="#">التفصيل الخاص</a></li>
+<li><a class="hover:text-white transition-colors" href="#">عروض كبرى</a></li>
+<li><a class="hover:text-white transition-colors" href="#">بطاقات الهدايا</a></li>
+</ul>
+</div>
+<div>
+<h4 class="text-white font-bold mb-4 font-display">عن بيلديفاي</h4>
+<ul class="space-y-3 text-sm">
+<li><a class="hover:text-white transition-colors" href="#">قصتنا</a></li>
+<li><a class="hover:text-white transition-colors" href="#">الحرفيون</a></li>
+<li><a class="hover:text-white transition-colors" href="#">المجلة</a></li>
+<li><a class="hover:text-white transition-colors" href="#">وظائف</a></li>
+</ul>
+</div>
+<div>
+<h4 class="text-white font-bold mb-4 font-display">المساعدة</h4>
+<ul class="space-y-3 text-sm">
+<li><a class="hover:text-white transition-colors" href="#">مركز المساعدة</a></li>
+<li><a class="hover:text-white transition-colors" href="#">تتبع الطلب</a></li>
+<li><a class="hover:text-white transition-colors" href="#">سياسة الإرجاع</a></li>
+<li><a class="hover:text-white transition-colors" href="#">اتصل بنا</a></li>
+</ul>
+</div>
+<div>
+<h4 class="text-white font-bold mb-4 font-display">للبائعين</h4>
+<ul class="space-y-3 text-sm">
+<li><a class="hover:text-white transition-colors" href="#">افتح متجراً</a></li>
+<li><a class="hover:text-white transition-colors" href="#">دليل البائع</a></li>
+<li><a class="hover:text-white transition-colors" href="#">الرسوم والتسعير</a></li>
+</ul>
+</div>
+</div>
+<div class="pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4 text-sm">
+<p>© 2023 بيلديفاي. جميع الحقوق محفوظة.</p>
+<div class="flex gap-4">
+<a class="hover:text-white transition-colors" href="#">الشروط والأحكام</a>
+<a class="hover:text-white transition-colors" href="#">سياسة الخصوصية</a>
+</div>
+</div>
+</div>
+</footer>
+</body></html>

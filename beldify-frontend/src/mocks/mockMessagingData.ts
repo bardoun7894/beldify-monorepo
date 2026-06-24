@@ -252,7 +252,8 @@ export const getMockShop = (shopId: string): Shop | null => {
       review_count: 42,
       storeUrl: `/shops/shop-${shopId}`,
       created_at: new Date(Date.now() - Math.floor(Math.random() * 31536000000)).toISOString(),
-      phone: "+212 555-123-456"
+      phone: "+212 555-123-456",
+      banner: null
     }
   };
 };

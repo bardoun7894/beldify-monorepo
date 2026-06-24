@@ -5,10 +5,10 @@ import logger from '@/utils/consoleLogger';
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
+  const { id: postId } = await params;
   try {
-    const postId = params.id;
     const authToken = await getAuthToken();
 
     const response = await fetch(`${API_URL}/api/v1/community/posts/${postId}/responses`, {
@@ -29,7 +29,7 @@ export async function GET(
     const data = await response.json();
     return NextResponse.json(data);
   } catch (error) {
-    logger.error(`Error in GET /api/community/posts/${params.id}/responses:`, error);
+    logger.error(`Error in GET /api/community/posts/${postId}/responses:`, error);
     return NextResponse.json(
       { error: 'An unexpected error occurred' },
       { status: 500 }
@@ -39,12 +39,12 @@ export async function GET(
 
 export async function POST(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
+  const { id: postId } = await params;
   try {
-    const postId = params.id;
     const authToken = await getAuthToken();
-    
+
     if (!authToken) {
       return NextResponse.json(
         { error: 'Authentication required' },
@@ -53,7 +53,7 @@ export async function POST(
     }
 
     const formData = await request.formData();
-    
+
     const response = await fetch(`${API_URL}/api/v1/community/posts/${postId}/responses`, {
       method: 'POST',
       headers: {
@@ -73,7 +73,7 @@ export async function POST(
     const data = await response.json();
     return NextResponse.json(data);
   } catch (error) {
-    logger.error(`Error in POST /api/community/posts/${params.id}/responses:`, error);
+    logger.error(`Error in POST /api/community/posts/${postId}/responses:`, error);
     return NextResponse.json(
       { error: 'An unexpected error occurred' },
       { status: 500 }

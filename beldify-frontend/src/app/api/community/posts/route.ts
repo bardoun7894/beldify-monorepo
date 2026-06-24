@@ -12,6 +12,14 @@ export async function GET(request: NextRequest) {
     const search = searchParams.get('search') || '';
     const color = searchParams.get('color') || '';
     const style = searchParams.get('style') || '';
+    // Open Souk new params
+    const q = searchParams.get('q') || '';
+    const budget_min = searchParams.get('budget_min') || '';
+    const budget_max = searchParams.get('budget_max') || '';
+    const sort = searchParams.get('sort') || '';
+    const limit = searchParams.get('limit') || '';
+    // skills can be repeated: skills[]=a&skills[]=b
+    const skills = searchParams.getAll('skills[]');
 
     const queryParams = new URLSearchParams();
     queryParams.append('page', page);
@@ -21,6 +29,13 @@ export async function GET(request: NextRequest) {
     if (search) queryParams.append('search', search);
     if (color) queryParams.append('color', color);
     if (style) queryParams.append('style', style);
+    // New Open Souk params
+    if (q) queryParams.append('q', q);
+    if (budget_min) queryParams.append('budget_min', budget_min);
+    if (budget_max) queryParams.append('budget_max', budget_max);
+    if (sort) queryParams.append('sort', sort);
+    if (limit) queryParams.append('limit', limit);
+    skills.forEach(skill => queryParams.append('skills[]', skill));
 
     const authToken = await getAuthToken();
     const response = await fetch(`${API_URL}/api/v1/community/posts?${queryParams.toString()}`, {

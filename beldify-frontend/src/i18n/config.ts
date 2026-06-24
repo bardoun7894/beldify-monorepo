@@ -15,6 +15,8 @@ import ar from './locales/ar.json';
 import fr from './locales/fr.json';
 import es from './locales/es.json';
 import ma from './locales/ma.json';
+import nl from './locales/nl.json';
+import de from './locales/de.json';
 
 // Type assertions for imported JSON
 const enLocale = en as LocaleType;
@@ -22,6 +24,8 @@ const arLocale = ar as LocaleType;
 const frLocale = fr as LocaleType;
 const esLocale = es as LocaleType;
 const maLocale = ma as LocaleType;
+const nlLocale = nl as LocaleType;
+const deLocale = de as LocaleType;
 
 export const RTL_LANGUAGES = ['ar', 'ma'];
 
@@ -54,13 +58,37 @@ const createI18n = () => {
           common: maLocale,
           profile: maLocale.profile || {},
         },
+        nl: {
+          common: nlLocale,
+          profile: nlLocale.profile || {},
+        },
+        de: {
+          common: deLocale,
+          profile: deLocale.profile || {},
+        },
       },
       defaultNS: 'common',
-      lng: 'ma', // Set default language to Moroccan Arabic
-      fallbackLng: ['ma', 'ar', 'fr', 'en'],
+      lng: 'ma', // Set default language to Moroccan Arabic (Darija)
+      // Object-form fallbackLng: Latin-script locales fall back to English;
+      // English falls back to Darija (ma); default path covers RTL locales.
+      fallbackLng: {
+        nl: ['en'],
+        de: ['en'],
+        fr: ['en'],
+        es: ['en'],
+        en: ['ma'],
+        default: ['ma', 'ar', 'fr', 'en'],
+      },
+      // Detection order is intentionally narrow: an explicit ?locale= query wins,
+      // then the cookie the LanguageSwitcher writes (NEXT_LOCALE), then localStorage.
+      // We deliberately DROP 'navigator' and 'htmlTag' so a first-time visitor with a
+      // non-Moroccan browser does NOT override the Darija ('ma') default — first visit
+      // falls through detection and lands on fallbackLng[0] = 'ma'.
       detection: {
-        order: ['path', 'htmlTag', 'cookie', 'localStorage', 'navigator'],
-        lookupFromPathIndex: 0,
+        order: ['querystring', 'cookie', 'localStorage'],
+        lookupQuerystring: 'locale',
+        lookupCookie: 'NEXT_LOCALE',
+        lookupLocalStorage: 'i18nextLng',
         caches: ['cookie', 'localStorage'],
       },
       interpolation: {

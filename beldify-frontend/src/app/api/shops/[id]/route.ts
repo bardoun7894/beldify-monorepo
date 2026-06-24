@@ -10,14 +10,12 @@ const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL!;
  */
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
+  const { id: shopId } = await params;
   try {
     // Get authorization header from the incoming request
     const authorization = request.headers.get('authorization');
-    
-    // Get the shop ID from the URL params
-    const shopId = params.id;
     
     // Make a request to the backend API
     const response = await axios.get(

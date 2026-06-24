@@ -77,7 +77,7 @@ export default function CategoryDropdown({ categories, isMobile = false }: Categ
   // --- Mobile Layout ---
   if (isMobile) {
     return (
-      <div className="space-y-1 border-b border-amber-200/60 pb-4 mb-4">
+      <div className="space-y-1 border-b border-gray-200 pb-4 mb-4">
         <h3 className="px-3 text-xs font-semibold uppercase text-gray-500 tracking-wider mb-2">
           {t('navigation.categories')}
         </h3>
@@ -90,12 +90,12 @@ export default function CategoryDropdown({ categories, isMobile = false }: Categ
               <span className="flex items-center gap-3">
                  <Image
                     src={category.image}
-                    alt={i18n.language === 'ar' ? category.name_ar : category.name_en}
+                    alt={(i18n.language === 'ar' || i18n.language === 'ma') ? category.name_ar : category.name_en}
                     width={24} // Keep smaller for mobile list
                     height={24}
                     className="rounded object-cover flex-shrink-0"
                   />
-                 {i18n.language === 'ar' ? category.name_ar : category.name_en}
+                 {(i18n.language === 'ar' || i18n.language === 'ma') ? category.name_ar : category.name_en}
               </span>
               <svg
                 className={`w-5 h-5 text-gray-400 transition-transform ${
@@ -114,7 +114,7 @@ export default function CategoryDropdown({ categories, isMobile = false }: Categ
                   animate={{ height: 'auto', opacity: 1 }}
                   exit={{ height: 0, opacity: 0 }}
                   transition={{ duration: 0.2 }}
-                  className="overflow-hidden ps-6 ms-3 border-s border-amber-200/60"
+                  className="overflow-hidden ps-6 ms-3 border-s border-gray-200"
                 >
                   <ul className="py-2 space-y-1">
                      {category.subCategories?.map((subcat) => (
@@ -124,7 +124,7 @@ export default function CategoryDropdown({ categories, isMobile = false }: Categ
                            className="block rounded-md py-1 px-2 text-sm text-gray-700 hover:bg-amber-50"
                            // Consider adding onClick to close the main mobile menu here if needed
                          >
-                           {i18n.language === 'ar' ? subcat.name_ar : subcat.name_en}
+                           {(i18n.language === 'ar' || i18n.language === 'ma') ? subcat.name_ar : subcat.name_en}
                          </Link>
                        </li>
                      ))}
@@ -135,13 +135,13 @@ export default function CategoryDropdown({ categories, isMobile = false }: Categ
                            href={`/categories/${category.slug}`}
                            className="block rounded-md py-1 px-2 text-sm font-medium text-indigo-700 hover:bg-indigo-50"
                          >
-                           {t('common.viewAll')} {i18n.language === 'ar' ? category.name_ar : category.name_en}
+                           {t('common.viewAll')} {(i18n.language === 'ar' || i18n.language === 'ma') ? category.name_ar : category.name_en}
                          </Link>
                      </li>
                   </ul>
                   {/* Add Featured Products to Mobile Accordion */}
                   {category.featuredProducts && category.featuredProducts.length > 0 && (
-                    <div className="mt-4 pt-3 border-t border-amber-200/60">
+                    <div className="mt-4 pt-3 border-t border-gray-200">
                        <h4 className="px-2 text-xs font-semibold text-amber-700 mb-2">
                         {t('navigation.featuredProducts')}
                       </h4>
@@ -155,14 +155,14 @@ export default function CategoryDropdown({ categories, isMobile = false }: Categ
                             <div className="aspect-square w-full bg-gray-100 rounded-md overflow-hidden mb-1 shadow-sm">
                               <Image
                                 src={product.image}
-                                alt={i18n.language === 'ar' ? (product.name_ar || product.name_en) : product.name_en}
+                                alt={(i18n.language === 'ar' || i18n.language === 'ma') ? (product.name_ar || product.name_en) : product.name_en}
                                 width={80}
                                 height={80}
                                 className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300"
                               />
                             </div>
                             <span className="text-xs font-medium text-gray-700 group-hover:text-amber-700 transition-colors truncate block">
-                              {i18n.language === 'ar' ? (product.name_ar || product.name_en) : product.name_en}
+                              {(i18n.language === 'ar' || i18n.language === 'ma') ? (product.name_ar || product.name_en) : product.name_en}
                             </span>
                           </Link>
                         ))}
@@ -207,12 +207,12 @@ export default function CategoryDropdown({ categories, isMobile = false }: Categ
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -5 }}
             transition={{ duration: 0.15 }} // Faster transition
-            className="absolute top-full start-0 mt-1 w-auto max-w-[calc(100vw-2rem)] sm:max-w-3xl md:max-w-4xl lg:max-w-6xl bg-white shadow-lg rounded-b-2xl z-50 border-t border-amber-200/60 overflow-hidden"
+            className="absolute top-full start-0 mt-1 w-auto max-w-[calc(100vw-2rem)] sm:max-w-3xl md:max-w-4xl lg:max-w-6xl bg-white shadow-lg rounded-b-2xl z-50 border-t border-gray-200 overflow-hidden"
           >
             {/* Panel Content */}
             <div className="flex p-6 gap-6 md:gap-8">
               {/* Categories List */}
-              <div className="w-full sm:w-1/3 lg:w-1/4 border-e border-amber-200/60 pe-4 lg:pe-6 flex-shrink-0">
+              <div className="w-full sm:w-1/3 lg:w-1/4 border-e border-gray-200 pe-4 lg:pe-6 flex-shrink-0">
             <ul className="space-y-1">
               {categories.map((category) => (
                 <li key={category.id}>
@@ -226,13 +226,13 @@ export default function CategoryDropdown({ categories, isMobile = false }: Categ
                   >
                     <Image
                       src={category.image}
-                      alt={i18n.language === 'ar' ? category.name_ar : category.name_en}
+                      alt={(i18n.language === 'ar' || i18n.language === 'ma') ? category.name_ar : category.name_en}
                       width={32} // Increased size from 24
                       height={32} // Increased size from 24
                       className="rounded object-cover flex-shrink-0"
                     />
                     <span className="truncate flex-1"> {/* Added flex-1 to allow truncation */}
-                      {i18n.language === 'ar' ? category.name_ar : category.name_en}
+                      {(i18n.language === 'ar' || i18n.language === 'ma') ? category.name_ar : category.name_en}
                     </span>
                   </button>
                 </li>
@@ -268,7 +268,7 @@ export default function CategoryDropdown({ categories, isMobile = false }: Categ
                               href={`/category/${subcat.slug}`} // Assuming subcategories link to /category/slug
                               className="block p-2 rounded-md hover:bg-amber-50 transition-colors text-sm text-gray-700 hover:text-indigo-700"
                             >
-                              {i18n.language === 'ar' ? subcat.name_ar : subcat.name_en}
+                              {(i18n.language === 'ar' || i18n.language === 'ma') ? subcat.name_ar : subcat.name_en}
                             </Link>
                           </li>
                         ))}
@@ -291,14 +291,14 @@ export default function CategoryDropdown({ categories, isMobile = false }: Categ
                             <div className="aspect-square w-full bg-gray-100 rounded-md overflow-hidden mb-1.5 shadow-sm">
                               <Image
                                 src={product.image}
-                                alt={i18n.language === 'ar' ? (product.name_ar || product.name_en || 'Product image') : (product.name_en || 'Product image')}
+                                alt={(i18n.language === 'ar' || i18n.language === 'ma') ? (product.name_ar || product.name_en || 'Product image') : (product.name_en || 'Product image')}
                                 width={100}
                                 height={100}
                                 className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300"
                               />
                             </div>
                             <span className="text-xs font-medium text-gray-700 group-hover:text-amber-700 transition-colors truncate block">
-                              {i18n.language === 'ar' ? (product.name_ar || product.name_en) : product.name_en}
+                              {(i18n.language === 'ar' || i18n.language === 'ma') ? (product.name_ar || product.name_en) : product.name_en}
                             </span>
                           </Link>
                         ))}
@@ -313,7 +313,7 @@ export default function CategoryDropdown({ categories, isMobile = false }: Categ
         </div>
 
         {/* Footer Area */}
-        <div className="bg-gradient-to-r from-indigo-50 to-amber-50 p-4 rounded-b-2xl border-t border-amber-200/60">
+        <div className="bg-gradient-to-r from-indigo-50 to-gray-50 p-4 rounded-b-2xl border-t border-gray-200">
           <div className="flex items-center justify-end">
             <Link
               href="/categories"

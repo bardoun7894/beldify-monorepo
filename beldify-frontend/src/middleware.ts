@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import logger from '@/utils/consoleLogger';
 
-export const LOCALES = ['en', 'ar', 'fr', 'es', 'ma'] as const;
+export const LOCALES = ['en', 'ar', 'fr', 'es', 'ma', 'nl', 'de'] as const;
 export type Locale = (typeof LOCALES)[number];
 export const DEFAULT_LOCALE: Locale = 'en';
 

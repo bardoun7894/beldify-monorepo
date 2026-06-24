@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Beldify | Worn for centuries. Made for today.</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&amp;family=Inter:wght@400;500;600&amp;family=Rubik:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#0E5C9B", // Atlas Blue
+                        secondary: "#C9A14A", // Saffron Gold
+                        accent: "#9C2A2A", // Marrakech Red
+                        surface: "#F7F3EE", // Sand
+                        ink: "#1A1A1A", // Ink
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "0.75rem", // 12px
+                        "xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                    fontFamily: {
+                        headline: ["Playfair Display", "serif"],
+                        display: ["Playfair Display", "serif"],
+                        body: ["Inter", "sans-serif"],
+                        label: ["Inter", "sans-serif"],
+                        arabic: ["Rubik", "sans-serif"]
+                    },
+                    backgroundImage: {
+                        'zellige': "url('data:image/svg+xml,%3Csvg width=\\'40\\' height=\\'40\\' viewBox=\\'0 0 40 40\\' xmlns=\\'http://www.w3.org/2000/svg\\'%3E%3Cpath d=\\'M20 20.5V18H0v-2h20v-2H0v-2h20v-2H0V8h20V6H0V4h20V2H0V0h22v20h2V0h2v20h2V0h2v20h2V0h2v20h2V0h2v20h2v2H20v-1.5zM0 20h2v20H0V20zm4 0h2v20H4V20zm4 0h2v20H8V20zm4 0h2v20h-2V20zm4 0h2v20h-2V20zm4 4h20v2H20v-2zm0 4h20v2H20v-2zm0 4h20v2H20v-2zm0 4h20v2H20v-2z\\' fill=\\'%231A1A1A\\' fill-opacity=\\'0.04\\' fill-rule=\\'evenodd\\'/%3E%3C/svg%3E')"
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .font-headline, .font-display { font-family: 'Playfair Display', serif; }
+        .font-body, .font-label { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-surface text-ink font-body antialiased selection:bg-secondary/30 selection:text-ink">
+<!-- Announcement Strip -->
+<div class="bg-ink text-surface py-2 text-center text-xs font-medium tracking-wide">
+        Free shipping across Morocco on orders over 500 MAD — Free returns within 14 days
+    </div>
+<!-- Sticky TopNavBar (JSON applied) -->
+<nav class="bg-[#F7F3EE] dark:bg-[#1A1A1A] text-[#0E5C9B] dark:text-[#C9A14A] font-display font-bold text-headline-sm tracking-tight fixed top-0 w-full z-50 border-b border-[#0E5C9B]/10 dark:border-[#C9A14A]/10 shadow-sm mt-8 transition-all">
+<div class="flex items-center justify-between px-6 py-4 max-w-screen-2xl mx-auto">
+<!-- Brand -->
+<a class="font-display text-2xl font-bold text-[#0E5C9B] dark:text-[#C9A14A]" href="#">
+                Beldify
+            </a>
+<!-- Search Bar (Pill) -->
+<div class="hidden md:flex flex-1 max-w-md mx-8">
+<div class="relative w-full">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-ink/50" style="font-variation-settings: 'FILL' 0;">search</span>
+<input class="w-full bg-white/50 border border-ink/10 rounded-full py-2.5 pl-12 pr-4 text-sm font-body text-ink placeholder-ink/50 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all" placeholder="Search caftans, djellabas, tailors..." type="text"/>
+</div>
+</div>
+<!-- Navigation Links & Icons -->
+<div class="flex items-center space-x-6">
+<!-- Desktop Links -->
+<div class="hidden lg:flex items-center space-x-6 mr-4">
+<a class="text-[#1A1A1A] dark:text-[#F7F3EE] hover:text-[#0E5C9B] transition-colors hover:bg-[#C9A14A]/10 transition-all duration-300 px-3 py-1.5 rounded-lg text-sm font-body" href="#">Fashion</a>
+<a class="text-[#1A1A1A] dark:text-[#F7F3EE] hover:text-[#0E5C9B] transition-colors hover:bg-[#C9A14A]/10 transition-all duration-300 px-3 py-1.5 rounded-lg text-sm font-body" href="#">Home &amp; Decor</a>
+<a class="text-[#1A1A1A] dark:text-[#F7F3EE] hover:text-[#0E5C9B] transition-colors hover:bg-[#C9A14A]/10 transition-all duration-300 px-3 py-1.5 rounded-lg text-sm font-body" href="#">Jewelry</a>
+<a class="text-[#1A1A1A] dark:text-[#F7F3EE] hover:text-[#0E5C9B] transition-colors hover:bg-[#C9A14A]/10 transition-all duration-300 px-3 py-1.5 rounded-lg text-sm font-body" href="#">Tailoring</a>
+<a class="text-[#1A1A1A] dark:text-[#F7F3EE] hover:text-[#0E5C9B] transition-colors hover:bg-[#C9A14A]/10 transition-all duration-300 px-3 py-1.5 rounded-lg text-sm font-body" href="#">Journal</a>
+</div>
+<!-- Trailing Icons -->
+<div class="flex items-center space-x-4">
+<button class="flex items-center space-x-1 text-ink hover:text-primary transition-colors scale-95 active:opacity-80 transition-transform font-body text-sm font-medium">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">language</span>
+<span class="hidden sm:inline">EN | <span class="font-arabic">عربي</span></span>
+</button>
+<button class="text-ink hover:text-primary transition-colors scale-95 active:opacity-80 transition-transform">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">favorite</span>
+</button>
+<button class="relative text-ink hover:text-primary transition-colors scale-95 active:opacity-80 transition-transform">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">shopping_cart</span>
+<span class="absolute -top-1 -right-1 bg-accent text-white text-[10px] font-bold w-4 h-4 flex items-center justify-center rounded-full">2</span>
+</button>
+<button class="text-ink hover:text-primary transition-colors scale-95 active:opacity-80 transition-transform">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">person</span>
+</button>
+</div>
+</div>
+</div>
+</nav>
+<!-- Content Spacer for Fixed Nav -->
+<div class="h-28"></div>
+<!-- Hero Section -->
+<section class="relative min-h-[819px] flex items-center justify-start overflow-hidden bg-white mx-4 lg:mx-8 rounded-lg mb-16 shadow-sm">
+<!-- Background Image -->
+<div class="absolute inset-0 w-full h-full">
+<img alt="Editorial Moroccan tailor atelier" class="w-full h-full object-cover object-center" data-alt="A cinematic, editorial-style photograph of a traditional Moroccan tailor's atelier. The scene is bathed in warm, golden hour sunlight streaming through a window, illuminating rich brocade fabrics and intricate embroidery tools scattered on a dark wooden table. The aesthetic is high-end, celebrating craftsmanship with a sophisticated palette of warm golds, deep blues, and rich textures." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBP_D_t9XgW9YFTjWxcd6k7mnaAw7CzEKqs2unsah8IOrKN7QhxNZyWaCf8s7YXvFucGBdlVJ_D33MYuvm09lFdzmHDLO4_iLQysN_FtG0EO_6JbDPA9kasl0AYC-sobQAZCwMdX9gnobWy-N3iq7zrx_pzQnEjHuoGd97XS9AkgmVHmxmr9YoCo8O4V8wYCAah6PcKxnc0NVHKRYBeNMlTTmvUf3t8YthfBKWhG6K4NjV7r_LlvPQF0NXJi9dFjGBSotCgHm0IRPw"/>
+<!-- Overlay to ensure text legibility -->
+<div class="absolute inset-0 bg-gradient-to-r from-surface/90 via-surface/60 to-transparent"></div>
+</div>
+<!-- Zellige Pattern Overlay (Corners) -->
+<div class="absolute top-0 left-0 w-64 h-64 bg-zellige pointer-events-none"></div>
+<div class="absolute bottom-0 right-0 w-64 h-64 bg-zellige pointer-events-none rotate-180"></div>
+<div class="relative z-10 max-w-2xl px-8 lg:px-16 py-20">
+<h1 class="font-headline text-5xl md:text-7xl font-bold text-ink leading-tight mb-6">
+                Worn for centuries.<br/>Made for today.
+            </h1>
+<p class="font-body text-lg text-ink/80 mb-10 max-w-xl leading-relaxed">
+                Discover authentic Moroccan caftans, meticulously crafted by master tailors in local ateliers. Fast shipping, guaranteed authenticity.
+            </p>
+<div class="flex flex-wrap gap-4">
+<a class="bg-primary text-white font-body font-medium px-8 py-4 rounded-full hover:bg-primary/90 transition-colors shadow-sm" href="#">
+                    Shop the marketplace
+                </a>
+<a class="bg-transparent text-ink border border-ink/20 font-body font-medium px-8 py-4 rounded-full hover:bg-ink/5 transition-colors" href="#">
+                    Meet the tailors
+                </a>
+</div>
+</div>
+</section>
+<!-- Category Grid -->
+<section class="max-w-screen-2xl mx-auto px-6 lg:px-8 py-16">
+<div class="flex items-end justify-between mb-10">
+<h2 class="font-headline text-3xl font-bold text-ink">Browse the souk</h2>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
+<!-- Category 1 -->
+<a class="group relative aspect-[4/5] rounded-lg overflow-hidden bg-white shadow-sm hover:-translate-y-1 transition-transform duration-300" href="#">
+<img alt="Caftan category" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="A high-fashion editorial photograph of a luxurious Moroccan Caftan. The garment features intricate gold embroidery on deep blue silk fabric. Shot in a bright, modern studio setting with soft white lighting that highlights the rich texture and craftsmanship. The aesthetic is elegant and premium." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB7bZ-GQ-JzwI0qv7itHl8A-XYhuysd_N0LaZeF3FklXcmHw6OaYxgKARnaLlTypqi4N0Cum7TlS_zm6LiduaHX5ar7XNQQoJrwQFdENlxXSUor9DzFhIO5V9bAqzxcQLPKqj2vDbZZCtT4QzLuHgOyHbR_aafMgvXPFglpP7-j9Fz8COEjd7yCMmdjjol-_YF63HtCpFANnX2IN7_7L2BVyx2P0ElQ42EGNWKFrwngd_7V4uBvEtnEzwmIq_it4N-J0HsWPN7mq28"/>
+<div class="absolute inset-0 bg-gradient-to-t from-ink/80 via-transparent to-transparent"></div>
+<div class="absolute top-3 right-3 bg-white/90 backdrop-blur text-ink text-xs font-medium px-2.5 py-1 rounded-full">
+                    128 items
+                </div>
+<h3 class="absolute bottom-4 left-4 font-headline text-xl text-white">Caftan</h3>
+</a>
+<!-- Category 2 -->
+<a class="group relative aspect-[4/5] rounded-lg overflow-hidden bg-white shadow-sm hover:-translate-y-1 transition-transform duration-300" href="#">
+<img alt="Women's Djellaba" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="A lifestyle photograph of a modern Women's Djellaba being worn in a contemporary urban setting. The garment is made of light beige fabric with subtle tonal stitching. The lighting is bright and natural, creating a soft, elegant light-mode aesthetic. High-end fashion editorial style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAAa7Q9dOddWnWyeamQI8HsX29IvDzkJBsIgRl3EkMG8qDvufoB0Jdrvtm1JSXLDxdA4iYSVJry_7OYxP2_Z8BMqdYrmBI_hAiNhiCdlJPqNs3Y6Ak6JuK1QanoaBGeZh_WjqpRaoGYGIdZlHubAxXASSYlYAiPN7AvZp1f0twkYA3ci73lTmQwDJI14lgpEwVPJgyLT19hRQ4b605spGVfuKBBgvfjog_nZGFJsgShOrp_U66_QyH8LLTRLsDVPf7PXtypPJV1WXI"/>
+<div class="absolute inset-0 bg-gradient-to-t from-ink/80 via-transparent to-transparent"></div>
+<div class="absolute top-3 right-3 bg-white/90 backdrop-blur text-ink text-xs font-medium px-2.5 py-1 rounded-full">
+                    94 items
+                </div>
+<h3 class="absolute bottom-4 left-4 font-headline text-xl text-white">Women's Djellaba</h3>
+</a>
+<!-- Category 3 -->
+<a class="group relative aspect-[4/5] rounded-lg overflow-hidden bg-white shadow-sm hover:-translate-y-1 transition-transform duration-300" href="#">
+<img alt="Takchita" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="A striking portrait of a model wearing a glamorous two-piece Moroccan Takchita. The dress is a rich emerald green with heavy gold beadwork. The lighting is dramatic yet soft, highlighting the layers of delicate chiffon and silk. The mood is celebratory and luxurious, set against a clean, neutral background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAE3dvDygpSXXeUZDej8Uyc59Fd_IMHO7adplSZIhnPUTRpOrD8myEqAkzhRD77FpWrqkMVXdjdf7KXs-yUbyKlFDUPNjI1eGWWPbA46-iE26lmRlh4Mw2S4OkxA2oquQKUrMo8_cLywmRYhhLOctbvKeCnCX7c_kaF6I8HW0nZ-R3kGzhySATi-GEd7AFNRyLVwdAxItkuqiHDLf85YgOKb0SvGd2wUgmpdxUnb3iTE5kqNoqQm0r8m_aUXymho8KtrfRVc9CvCEw"/>
+<div class="absolute inset-0 bg-gradient-to-t from-ink/80 via-transparent to-transparent"></div>
+<div class="absolute top-3 right-3 bg-white/90 backdrop-blur text-ink text-xs font-medium px-2.5 py-1 rounded-full">
+                    65 items
+                </div>
+<h3 class="absolute bottom-4 left-4 font-headline text-xl text-white">Takchita</h3>
+</a>
+<!-- Category 4 -->
+<a class="group relative aspect-[4/5] rounded-lg overflow-hidden bg-white shadow-sm hover:-translate-y-1 transition-transform duration-300" href="#">
+<img alt="Men's Kandora" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="A clean, minimalist fashion photograph featuring a Men's Kandora. The garment is crisp white linen, hanging elegantly. Shot against a warm sand-colored background with sharp, natural sunlight casting subtle shadows. The aesthetic is modern, relaxed, and distinctly high-end resort wear." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAS2_AleR27-Z_3dJnGLeqKPoCSq4p5cj_ZwYZ48fNBrzJHhyekEKr4krULYF9NXwghMFwGD-cixSXf2DCzCgJMeZwihncyNFwu1Mtk7Rw4ks0z8Y9goW1ouO3IM5fwdIqne9_yhgAj3D5styEmay_3o3sNDEgsbeEOb85tJ2D9RBnWCCYzk1QK9hDmV8SWb2-eopbHq8uSzFxbEhJ2ei6k6RDlHWa8vNRO0HnV8NFo1eSCY5pBeOZ8AmJik3R6nI5u-O0mlYWvPwQ"/>
+<div class="absolute inset-0 bg-gradient-to-t from-ink/80 via-transparent to-transparent"></div>
+<div class="absolute top-3 right-3 bg-white/90 backdrop-blur text-ink text-xs font-medium px-2.5 py-1 rounded-full">
+                    112 items
+                </div>
+<h3 class="absolute bottom-4 left-4 font-headline text-xl text-white">Men's Kandora</h3>
+</a>
+<!-- Category 5 -->
+<a class="group relative aspect-[4/5] rounded-lg overflow-hidden bg-white shadow-sm hover:-translate-y-1 transition-transform duration-300" href="#">
+<img alt="Wedding Dresses" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="A breathtaking editorial shot of a Moroccan wedding dress (Lebsa). Intricate silver threading on pristine white satin. The lighting is soft and ethereal, creating a romantic, luminous atmosphere. The image focuses closely on the craftsmanship of the bodice and belt, exuding pure luxury." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAEoA3nHK6Umll_VpSb4z4SSMJ1fGqUQuP2FFGDfGToFEIowG_jNzz7tm5-DLjDcbHZCj7g0GbrBUR9_wsMHpb44nly1XfCbJgsae5oWA0lCF3xsvOXm3pWEhGTfTE5a5BkC8eULvCcxzV4aIx2DufqhDPo6cvQhpFqGqmt7KSed3kfzltqPePW5fRisIZhvMuWmjeTYRBwhfywjFiLnlpCCnBuaAWmYzj4eiW6nr9gRvr22f7Y9IQTvfNzYUmV5p9cO5DtVEQOqeY"/>
+<div class="absolute inset-0 bg-gradient-to-t from-ink/80 via-transparent to-transparent"></div>
+<div class="absolute top-3 right-3 bg-white/90 backdrop-blur text-ink text-xs font-medium px-2.5 py-1 rounded-full">
+                    43 items
+                </div>
+<h3 class="absolute bottom-4 left-4 font-headline text-xl text-white">Wedding Dresses</h3>
+</a>
+<!-- Category 6 -->
+<a class="group relative aspect-[4/5] rounded-lg overflow-hidden bg-white shadow-sm hover:-translate-y-1 transition-transform duration-300" href="#">
+<img alt="Tailoring" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="A detailed macro photograph of tailoring tools. A vintage measuring tape, sharp silver fabric scissors, and a spool of golden thread rest on a piece of raw silk. The lighting is crisp and modern, emphasizing texture and precision. The aesthetic speaks to bespoke, high-quality artisanal craftsmanship." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAc1AbwtO5MYkvQev6cGk8RerTroWyuKIQHAcIp7GRxCgwxlGeuKkCwqA4gfFUEXeE1jw_qtpe2arUUOWzWrx9vlsSlOBFYA8uuS1WE0WCmQNxEpWPGZNaAPLJqOtL4n85ng1EZ0hywC00sRX7t5qoffkEF5tGk0Y3RA284G5iVVuNgiNGy2ahKfJOXR6e7c6xzjAahz_JFmC1ZlCgISx2lgIBnzx803l0S0EGvFRY3km1SYZHT34qyRoeieZ5G7iBvd3BCXb4qiTI"/>
+<div class="absolute inset-0 bg-gradient-to-t from-ink/80 via-transparent to-transparent"></div>
+<div class="absolute top-3 right-3 bg-white/90 backdrop-blur text-ink text-xs font-medium px-2.5 py-1 rounded-full">
+                    Bespoke
+                </div>
+<h3 class="absolute bottom-4 left-4 font-headline text-xl text-white">Tailoring</h3>
+</a>
+</div>
+</section>
+<!-- Footer (JSON applied) -->
+<footer class="bg-[#1A1A1A] dark:bg-[#0E5C9B] text-[#C9A14A] font-body text-sm leading-relaxed w-full rounded-t-xl bg-[#1A1A1A] border-t border-[#C9A14A]/20 mt-24">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-8 px-8 py-12 max-w-screen-2xl mx-auto">
+<!-- Brand Column -->
+<div class="space-y-4">
+<h4 class="font-display text-xl font-bold text-[#F7F3EE]">Beldify</h4>
+<p class="text-[#F7F3EE]/80 pr-4">The premier marketplace for authentic Moroccan fashion, tailoring, and crafts.</p>
+<div class="flex space-x-4 pt-2">
+<!-- Social placeholders -->
+<a class="text-[#F7F3EE]/80 hover:text-[#C9A14A] hover:translate-x-1 transition-transform duration-200 opacity-90 hover:opacity-100" href="#">IG</a>
+<a class="text-[#F7F3EE]/80 hover:text-[#C9A14A] hover:translate-x-1 transition-transform duration-200 opacity-90 hover:opacity-100" href="#">FB</a>
+<a class="text-[#F7F3EE]/80 hover:text-[#C9A14A] hover:translate-x-1 transition-transform duration-200 opacity-90 hover:opacity-100" href="#">PT</a>
+</div>
+</div>
+<!-- Links Columns -->
+<div class="space-y-4">
+<h5 class="text-[#C9A14A] font-semibold mb-4">Shop</h5>
+<ul class="space-y-3">
+<li><a class="text-[#F7F3EE]/80 hover:text-[#C9A14A] hover:translate-x-1 transition-transform duration-200 inline-block opacity-90 hover:opacity-100" href="#">Women</a></li>
+<li><a class="text-[#F7F3EE]/80 hover:text-[#C9A14A] hover:translate-x-1 transition-transform duration-200 inline-block opacity-90 hover:opacity-100" href="#">Men</a></li>
+<li><a class="text-[#F7F3EE]/80 hover:text-[#C9A14A] hover:translate-x-1 transition-transform duration-200 inline-block opacity-90 hover:opacity-100" href="#">Home &amp; Decor</a></li>
+<li><a class="text-[#F7F3EE]/80 hover:text-[#C9A14A] hover:translate-x-1 transition-transform duration-200 inline-block opacity-90 hover:opacity-100" href="#">Authenticity Guarantee</a></li>
+</ul>
+</div>
+<div class="space-y-4">
+<h5 class="text-[#C9A14A] font-semibold mb-4">Company</h5>
+<ul class="space-y-3">
+<li><a class="text-[#F7F3EE]/80 hover:text-[#C9A14A] hover:translate-x-1 transition-transform duration-200 inline-block opacity-90 hover:opacity-100" href="#">About Our Artisans</a></li>
+<li><a class="text-[#F7F3EE]/80 hover:text-[#C9A14A] hover:translate-x-1 transition-transform duration-200 inline-block opacity-90 hover:opacity-100" href="#">Sellers Portal</a></li>
+<li><a class="text-[#F7F3EE]/80 hover:text-[#C9A14A] hover:translate-x-1 transition-transform duration-200 inline-block opacity-90 hover:opacity-100" href="#">Privacy Policy</a></li>
+</ul>
+</div>
+<div class="space-y-4">
+<h5 class="text-[#C9A14A] font-semibold mb-4">Help</h5>
+<ul class="space-y-3">
+<li><a class="text-[#F7F3EE]/80 hover:text-[#C9A14A] hover:translate-x-1 transition-transform duration-200 inline-block opacity-90 hover:opacity-100" href="#">Shipping &amp; Returns</a></li>
+<li><a class="text-[#F7F3EE]/80 hover:text-[#C9A14A] hover:translate-x-1 transition-transform duration-200 inline-block opacity-90 hover:opacity-100" href="#">Contact Us</a></li>
+<li><a class="text-[#F7F3EE]/80 hover:text-[#C9A14A] hover:translate-x-1 transition-transform duration-200 inline-block opacity-90 hover:opacity-100" href="#">FAQ</a></li>
+</ul>
+</div>
+</div>
+<div class="border-t border-[#C9A14A]/20 px-8 py-6 max-w-screen-2xl mx-auto flex flex-col md:flex-row items-center justify-between">
+<p class="text-[#F7F3EE]/60 text-xs">© 2024 Beldify. Handcrafted in Morocco.</p>
+<div class="flex items-center space-x-4 mt-4 md:mt-0">
+<span class="text-[#F7F3EE]/60 text-xs">MAD (DH) / EN</span>
+</div>
+</div>
+</footer>
+</body></html>

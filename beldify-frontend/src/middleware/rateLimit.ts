@@ -109,10 +109,9 @@ function getClientId(request: NextRequest): string {
   const realIp = request.headers.get('x-real-ip');
   const cfConnectingIp = request.headers.get('cf-connecting-ip'); // Cloudflare
   
-  const ip = forwardedFor?.split(',')[0] || 
-             realIp || 
-             cfConnectingIp || 
-             request.ip || 
+  const ip = forwardedFor?.split(',')[0] ||
+             realIp ||
+             cfConnectingIp ||
              'unknown';
 
   // For authenticated requests, we could also use user ID

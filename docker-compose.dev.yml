@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  frontend:
+    container_name: beldify-frontend
+    build:
+      context: ./beldify-frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3001:3000"
+    environment:
+      - NODE_ENV=development
+      - PORT=3000
+      - NEXT_PUBLIC_API_URL=https://pro.beldify.com
+    # env_file:
+    #   - ./beldify-frontend/.env.development
+    restart: unless-stopped
+    volumes:
+      - ./beldify-frontend:/app
+      - /app/node_modules
+    command: npm run dev
+
+  backend:
+    container_name: beldify-backend
+    build:
+      context: ./beldify-backend
+      dockerfile: Dockerfile
+    ports:
+      - "8000:80"
+    environment:
+      - APP_ENV=local
+      - APP_DEBUG=true
+    restart: unless-stopped
+    volumes:
+      - ./beldify-backend:/var/www/html

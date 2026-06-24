@@ -10,16 +10,14 @@ import { getImageUrl, DEFAULT_PLACEHOLDER_IMAGE } from '@/utils/imageUtils';
 import { useDirection } from '@/hooks/useDirection';
 import toast from '@/utils/toast';
 import {
-  ShoppingCartIcon,
-  BoltIcon,
-  PhotoIcon,
-  EyeIcon,
-  HeartIcon,
-  HeartIcon as HeartSolidIcon,
-  CheckIcon,
-  ArrowsPointingOutIcon,
-} from '@heroicons/react/24/outline';
-import { HeartIcon as HeartFilledIcon } from '@heroicons/react/24/solid';
+  ShoppingCart,
+  Zap,
+  ImageIcon,
+  Heart,
+  Check,
+  Maximize2,
+  XCircle,
+} from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
 interface TraditionalProductCardProps {
@@ -67,8 +65,10 @@ export default function TraditionalProductCard({
     category,
     category_ar,
     stock_status,
-    stock,
+    stock: stockRaw,
   } = product;
+
+  const stock = stockRaw ?? 0;
 
   const displayName = isRTL ? name_ar || name : name;
   const displayCategory = isRTL ? category_ar || category : category;
@@ -126,13 +126,12 @@ export default function TraditionalProductCard({
       onAddToWishlist(product as Product);
     } else {
       toast.success(
-        isWishlisted 
-          ? t('wishlist.removed') 
-          : t('wishlist.added'), 
+        isWishlisted
+          ? t('wishlist.removed')
+          : t('wishlist.added'),
         {
           position: isRTL ? 'bottom-left' : 'bottom-right',
           duration: 2000,
-          icon: isWishlisted ? '💔' : '❤️'
         }
       );
     }
@@ -151,28 +150,28 @@ export default function TraditionalProductCard({
   };
 
   return (
-    <div 
-      className={`group relative bg-white border-0 rounded-2xl shadow-md hover:shadow-2xl transition-all duration-500 overflow-hidden backdrop-blur-sm bg-gradient-to-br from-white to-gray-50/50 hover:from-white hover:to-indigo-50/30 w-full ${className}`}
+    <div
+      className={`group relative bg-white rounded-2xl shadow-atlas-sm hover:shadow-atlas-md transition-all duration-200 overflow-hidden hover:-translate-y-0.5 w-full ${className}`}
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
     >
       {/* Product Image Container */}
       <Link href={`/products/${id}`} className="block">
         <div className="relative w-full pt-[100%]">
-          {/* Express Delivery Badge - Only show if enabled */}
+          {/* Express Delivery Badge — Atlas: indigo-700 */}
           {showExpressDelivery && (
-            <div className="absolute top-3 left-3 z-10">
-              <div className="bg-gradient-to-r from-emerald-500 to-emerald-600 text-white px-2 py-1 rounded-full text-[9px] font-bold shadow-lg backdrop-blur-sm border border-emerald-400/20 flex items-center gap-1">
-                <BoltIcon className="h-2.5 w-2.5" />
+            <div className="absolute top-3 start-3 z-10">
+              <div className="badge-express flex items-center gap-1">
+                <Zap className="h-2.5 w-2.5" aria-hidden="true" />
                 {t('product.express')}
               </div>
             </div>
           )}
 
-          {/* Discount Badge */}
+          {/* Discount Badge — Atlas: rose-700 (Tetouani Garnet) */}
           {hasDiscount && (
-            <div className="absolute top-3 right-3 z-10">
-              <div className="bg-gradient-to-r from-red-500 to-pink-500 text-white px-2 py-1 rounded-full text-[9px] font-bold shadow-lg backdrop-blur-sm border border-red-400/20 animate-pulse">
+            <div className="absolute top-3 end-3 z-10">
+              <div className="badge-discount">
                 -{discountPercentage}%
               </div>
             </div>
@@ -185,8 +184,8 @@ export default function TraditionalProductCard({
                 {imageSrc === '/placeholder-product.svg' ? (
                   <div className="flex items-center justify-center w-full h-full">
                     <div className="text-center">
-                      <div className="w-16 h-16 mx-auto mb-2 bg-white/80 rounded-2xl flex items-center justify-center shadow-lg backdrop-blur-sm">
-                        <PhotoIcon className="h-8 w-8 text-gray-400" />
+                      <div className="image-placeholder">
+                        <ImageIcon className="h-8 w-8 text-amber-400" aria-hidden="true" />
                       </div>
                       <span className="text-sm text-gray-500 mt-2 block font-medium">
                         {t('product.no_image')}
@@ -212,32 +211,30 @@ export default function TraditionalProductCard({
             </div>
           </div>
 
-          {/* Quick Action Buttons */}
-          <div className="absolute top-3 right-3 z-10 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-x-2 group-hover:translate-x-0">
-            <button 
+          {/* Quick Action Buttons — float from end edge */}
+          <div className="absolute top-3 end-3 z-10 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-all duration-200 translate-x-2 group-hover:translate-x-0">
+            <button
               onClick={handleWishlistToggle}
-              className={`p-2 ${isWishlisted ? 'bg-red-500/90 text-white' : 'bg-white/80 text-gray-700'} backdrop-blur-md shadow-lg hover:shadow-xl rounded-xl active:scale-95 hover:scale-110 transition-all duration-300 border border-white/20`}
+              className={`btn-action ${isWishlisted ? 'btn-action-active' : 'btn-action-default'}`}
+              aria-pressed={isWishlisted}
               aria-label={isWishlisted ? t('wishlist.remove') : t('wishlist.add')}
             >
-              {isWishlisted ? (
-                <HeartFilledIcon className="h-3.5 w-3.5" />
-              ) : (
-                <HeartIcon className="h-3.5 w-3.5" />
-              )}
+              <Heart className={`h-3.5 w-3.5 ${isWishlisted ? 'fill-current' : ''}`} aria-hidden="true" />
             </button>
-            <button 
+            <button
               onClick={handleQuickView}
-              className="p-2 bg-white/80 backdrop-blur-md shadow-lg hover:shadow-xl rounded-xl active:scale-95 hover:scale-110 transition-all duration-300 border border-white/20"
+              className="btn-action btn-action-default"
               aria-label={t('product.quickView')}
             >
-              <ArrowsPointingOutIcon className="h-3.5 w-3.5 text-gray-700 hover:text-indigo-600 transition-colors duration-300" />
+              <Maximize2 className="h-3.5 w-3.5" aria-hidden="true" />
             </button>
           </div>
 
           {/* Stock Status Indicator - Only show for out of stock */}
           {stock <= 0 && (
-            <div className="absolute bottom-3 left-3 z-10">
-              <div className={`px-2.5 py-1 rounded-full text-[10px] font-medium text-white flex items-center gap-1 ${getStockStatusColor()}`}>
+            <div className="absolute bottom-3 start-3 z-10">
+              <div className="badge-stock badge-stock-out flex items-center gap-1">
+                <XCircle className="h-3 w-3" aria-hidden="true" />
                 {getStockStatusText()}
               </div>
             </div>
@@ -249,16 +246,16 @@ export default function TraditionalProductCard({
 
       {/* Product Details */}
       <div className="p-2.5">
-        {/* Brand & Rating */}
+        {/* Category & Rating */}
         <div className="flex items-center justify-between mb-1.5">
-          <span className="text-[10px] font-bold text-indigo-600 truncate max-w-[80px] uppercase tracking-wider bg-indigo-50/50 px-2 py-0.5 rounded-full">
+          <span className="text-[10px] font-semibold text-indigo-700 truncate max-w-[80px] uppercase tracking-wider bg-indigo-50 px-2 py-0.5 rounded-full">
             {displayCategory}
           </span>
           {rating > 0 && (
-            <div className="flex items-center shrink-0 bg-gradient-to-r from-amber-50 to-yellow-50 px-2 py-0.5 rounded-full border border-amber-200/30">
-              <span className="text-amber-600 text-[10px] font-bold">{rating.toFixed(1)} ★</span>
+            <div className="badge-rating">
+              <span className="text-amber-700 text-[10px] font-semibold">{rating.toFixed(1)} ★</span>
               {reviews_count > 0 && (
-                <span className="ml-1 text-[9px] text-amber-500/70">({reviews_count})</span>
+                <span className="ms-1 text-[9px] text-amber-600/70">({reviews_count})</span>
               )}
             </div>
           )}
@@ -266,40 +263,37 @@ export default function TraditionalProductCard({
 
         {/* Product Name */}
         <Link href={`/products/${id}`}>
-          <h3 className="text-xs font-bold text-gray-900 line-clamp-2 min-h-[2rem] mb-2 hover:text-indigo-600 transition-all duration-300 group-hover:text-indigo-600 leading-tight hover:scale-[1.02] transform">
+          <h3 className="product-name text-xs min-h-[2rem]">
             {displayName}
           </h3>
         </Link>
-
-
 
         {/* Price Section */}
         <div className="flex items-center justify-between gap-2">
           <div className="flex flex-col flex-1">
             <div className="flex items-center gap-1.5">
-              <span className="text-sm font-bold bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent">{formatPrice(displayPrice)}</span>
+              <span className="price-current text-sm currency-mad">{formatPrice(displayPrice)}</span>
               {hasDiscount && (
-                <span className="text-[10px] text-gray-400 line-through bg-gray-100/50 px-1 py-0.5 rounded">{formatPrice(price)}</span>
+                <span className="price-original text-[10px] currency-mad">{formatPrice(price)}</span>
               )}
             </div>
-             {/* Stock Text - Only show "Out of Stock" when quantity is 0 or less */}
-             {stock <= 0 && (
-               <span className="text-[10px] text-red-500 font-bold mt-0.5 bg-red-50/50 px-1 py-0.5 rounded">{t('stock.out_of_stock')}</span>
-             )}
+            {stock <= 0 && (
+              <span className="text-[10px] text-rose-700 font-semibold mt-0.5">{t('stock.out_of_stock')}</span>
+            )}
           </div>
 
-          {/* Add to Cart Quick Button - Only show if in stock */}
+          {/* Add to Cart Quick Button — Atlas amber accent for add-to-cart */}
           {stock > 0 && (
-            <button 
+            <button
               onClick={handleAddToCart}
               disabled={isAddingToCart}
-              className={`p-2 rounded-2xl ${isAddingToCart ? 'bg-emerald-600 text-white' : 'bg-indigo-700 text-white hover:bg-indigo-800'} transition active:scale-95 relative overflow-hidden shadow-sm hover:shadow-md`}
+              className="p-2 rounded-2xl bg-amber-500 text-amber-950 hover:bg-amber-400 transition-all duration-200 active:scale-95 relative overflow-hidden shadow-sm hover:shadow-md"
               aria-label={t('product.addToCart')}
             >
-              <div className={`absolute inset-0 flex items-center justify-center bg-gradient-to-r from-green-500 to-emerald-500 transition-transform duration-500 ${isAddingToCart ? 'translate-y-0' : 'translate-y-full'}`}>
-                <CheckIcon className="h-3.5 w-3.5 text-white" />
+              <div className={`absolute inset-0 flex items-center justify-center bg-indigo-700 transition-transform duration-500 ${isAddingToCart ? 'translate-y-0' : 'translate-y-full'}`}>
+                <Check className="h-3.5 w-3.5 text-white" aria-hidden="true" />
               </div>
-              <ShoppingCartIcon className={`h-3.5 w-3.5 transition-all duration-300 ${isAddingToCart ? 'opacity-0 scale-75' : 'opacity-100 scale-100'}`} />
+              <ShoppingCart className={`h-3.5 w-3.5 transition-all duration-300 ${isAddingToCart ? 'opacity-0 scale-75' : 'opacity-100 scale-100'}`} aria-hidden="true" />
             </button>
           )}
         </div>

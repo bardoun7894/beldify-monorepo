@@ -7,7 +7,7 @@ export default function Offline() {
   const { t } = useTranslation('common');
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-amber-50/40">
+    <div className="min-h-screen flex items-center justify-center bg-canvas">
       <div className="max-w-md w-full text-center px-6">
         <div className="mb-8">
           <svg

@@ -5,9 +5,10 @@ import logger from '@/utils/consoleLogger';
 // Add fallback URL to ensure API calls work even if environment variable is not set
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL!;
 
-export async function GET(request: Request, { params }: { params: { id: string } }) {
+export async function GET(request: Request, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
   try {
-    const response = await axios.get(`${API_BASE_URL}/api/products/${params.id}`);
+    const response = await axios.get(`${API_BASE_URL}/api/products/${id}`);
     return NextResponse.json(response.data);
   } catch (error) {
     logger.error('Error in product details API:', error);

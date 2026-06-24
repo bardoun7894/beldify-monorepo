@@ -1,0 +1,14 @@
+services:
+  backend:
+    build: ./beldify-backend
+    ports:
+      - "7894:80"
+    volumes:
+      - ./beldify-backend:/var/www/html
+
+  frontend:
+    build: ./beldify-frontend
+    ports:
+      - "4987:3001"
+    volumes:
+      - ./beldify-frontend:/app

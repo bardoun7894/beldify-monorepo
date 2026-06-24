@@ -3,51 +3,45 @@
 import { useTranslation } from 'react-i18next';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Star, MapPin, Briefcase, ArrowRight, Search, SlidersHorizontal } from 'lucide-react';
+import { useEffect, useState, useMemo, useCallback } from 'react';
+import { Star, MapPin, Briefcase, ArrowRight, Search, SlidersHorizontal, ChevronLeft, ChevronRight } from 'lucide-react';
+import tailorService, { Tailor } from '@/services/tailorService';
 
-// Placeholder data — replace with API fetch when backend is ready
-const placeholderTailors = [
-  {
-    id: '1',
-    name: 'Ahmed Tailoring',
-    specialty: 'Kaftans & Djellabas',
-    location: 'Marrakech',
-    imageUrl: '/placeholder.png',
-    rating: 4.9,
-    reviews: 124,
-    featured: true,
-  },
-  {
-    id: '2',
-    name: 'Fatima Couture',
-    specialty: 'Wedding Dresses',
-    location: 'Casablanca',
-    imageUrl: '/placeholder.png',
-    rating: 4.7,
-    reviews: 87,
-    featured: false,
-  },
-  {
-    id: '3',
-    name: 'Youssef Stitches',
-    specialty: "Men's Suits",
-    location: 'Rabat',
-    imageUrl: '/placeholder.png',
-    rating: 4.8,
-    reviews: 56,
-    featured: true,
-  },
-  {
-    id: '4',
-    name: 'Moroccan Fashion',
-    specialty: 'Traditional Wear',
-    location: 'Fes',
-    imageUrl: '/placeholder.png',
-    rating: 4.6,
-    reviews: 42,
-    featured: false,
-  },
-];
+/**
+ * bug 10: this listing was 100% hardcoded mock data despite a working API + service.
+ * It now fetches real tailors from /api/tailors and maps the PII-safe Resource fields
+ * onto the existing Atlas card layout.
+ *
+ * Fix 2: filter pills, search input, pagination, and Clear Filters are now all wired.
+ * The backend /api/tailors does not expose server-side filter/search params so all
+ * filtering, searching, and pagination are implemented client-side over the fetched list.
+ */
+
+const PAGE_SIZE = 9;
+
+interface TailorCard {
+  id: number;
+  name: string;
+  specialty: string;
+  location: string;
+  imageUrl: string;
+  rating: number;
+  reviews: number;
+  featured: boolean;
+}
+
+function toCard(tailor: Tailor): TailorCard {
+  return {
+    id: tailor.id,
+    name: tailor.business_name,
+    specialty: tailor.specializations?.[0] ?? '',
+    location: tailor.owner_name ?? '',
+    imageUrl: tailor.profile_image || '/placeholder.png',
+    rating: Number(tailor.rating) || 0,
+    reviews: tailor.total_reviews ?? 0,
+    featured: Boolean(tailor.is_verified),
+  };
+}
 
 function StarRating({ rating }: { rating: number }) {
   return (
@@ -65,26 +59,93 @@ function StarRating({ rating }: { rating: number }) {
 export default function TailorsPage() {
   const { t } = useTranslation();
 
-  const tailors = placeholderTailors;
-  const featuredTailors = tailors.filter((tailor) => tailor.featured);
+  const [tailors, setTailors] = useState<TailorCard[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const filterLabels = [
-    t('content.tailors.filterAll', 'All Tailors'),
-    t('content.tailors.filterTraditional', 'Traditional'),
-    t('content.tailors.filterModern', 'Modern'),
-    t('content.tailors.filterWedding', 'Wedding'),
+  // Filter + search + pagination state (Fix 2)
+  const [activeFilter, setActiveFilter] = useState<string>('all');
+  const [searchQuery, setSearchQuery] = useState<string>('');
+  const [currentPage, setCurrentPage] = useState<number>(1);
+
+  useEffect(() => {
+    let active = true;
+    (async () => {
+      try {
+        const response = await tailorService.getTailors();
+        const list: Tailor[] = response?.data ?? [];
+        if (active) setTailors(list.map(toCard));
+      } catch {
+        if (active) setTailors([]);
+      } finally {
+        if (active) setLoading(false);
+      }
+    })();
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  // Reset to page 1 whenever filter or search changes
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [activeFilter, searchQuery]);
+
+  const filterOptions: Array<{ key: string; label: string }> = [
+    { key: 'all', label: t('content.tailors.filterAll', 'All Tailors') },
+    { key: 'traditional', label: t('content.tailors.filterTraditional', 'Traditional') },
+    { key: 'modern', label: t('content.tailors.filterModern', 'Modern') },
+    { key: 'wedding', label: t('content.tailors.filterWedding', 'Wedding') },
   ];
+
+  // Client-side filtering by specialty / name
+  const filteredByCategory = useMemo(() => {
+    if (activeFilter === 'all') return tailors;
+    return tailors.filter(
+      (tailor) =>
+        tailor.specialty.toLowerCase().includes(activeFilter.toLowerCase()) ||
+        tailor.name.toLowerCase().includes(activeFilter.toLowerCase()),
+    );
+  }, [tailors, activeFilter]);
+
+  // Client-side search over name, specialty, location
+  const filteredBySearch = useMemo(() => {
+    const q = searchQuery.trim().toLowerCase();
+    if (!q) return filteredByCategory;
+    return filteredByCategory.filter(
+      (tailor) =>
+        tailor.name.toLowerCase().includes(q) ||
+        tailor.specialty.toLowerCase().includes(q) ||
+        tailor.location.toLowerCase().includes(q),
+    );
+  }, [filteredByCategory, searchQuery]);
+
+  // Client-side pagination
+  const totalPages = Math.max(1, Math.ceil(filteredBySearch.length / PAGE_SIZE));
+  const paginatedTailors = useMemo(() => {
+    const start = (currentPage - 1) * PAGE_SIZE;
+    return filteredBySearch.slice(start, start + PAGE_SIZE);
+  }, [filteredBySearch, currentPage]);
+
+  const featuredTailors = useMemo(
+    () => paginatedTailors.filter((tailor) => tailor.featured),
+    [paginatedTailors],
+  );
+
+  const hasActiveFilters = activeFilter !== 'all' || searchQuery.trim().length > 0;
+
+  const handleClearFilters = useCallback(() => {
+    setActiveFilter('all');
+    setSearchQuery('');
+    setCurrentPage(1);
+  }, []);
 
   return (
     <div className="min-h-screen bg-white">
       {/* Atlas editorial hero strip */}
-      <div className="relative bg-indigo-900 overflow-hidden">
+      <div className="relative bg-indigo-950 overflow-hidden">
         <div
-          className="absolute inset-0 opacity-25"
-          style={{
-            backgroundImage:
-              'radial-gradient(circle at 15% 15%, #f59e0b 0, transparent 45%), radial-gradient(circle at 85% 60%, #6366f1 0, transparent 50%)',
-          }}
+          aria-hidden
+          className="absolute inset-0 opacity-25 bg-[radial-gradient(circle_at_15%_15%,_#f59e0b_0,_transparent_45%),radial-gradient(circle_at_85%_60%,_#6366f1_0,_transparent_50%)]"
         />
         <div className="relative mx-auto max-w-7xl px-6 py-16 sm:py-20 text-center">
           <p className="text-xs uppercase tracking-[0.18em] text-amber-400 font-medium mb-3">
@@ -104,32 +165,37 @@ export default function TailorsPage() {
 
       <div className="mx-auto max-w-7xl px-6 lg:px-8 py-12">
         {/* Filter / Search bar */}
-        <div className="mb-12 rounded-2xl ring-1 ring-amber-200/60 bg-white shadow-sm p-5">
+        <div className="mb-12 rounded-2xl ring-1 ring-gray-200 bg-white shadow-atlas-sm p-5">
           <div className="flex flex-col md:flex-row md:items-center gap-4">
             <div className="flex items-center gap-2 text-indigo-900 font-medium text-sm">
               <SlidersHorizontal className="h-4 w-4 text-amber-600" />
               {t('content.tailors.filterBy', 'Filter by:')}
             </div>
             <div className="flex flex-wrap gap-2">
-              {filterLabels.map((label, i) => (
+              {filterOptions.map((item) => (
                 <button
-                  key={label}
-                  className={`px-4 py-2 rounded-full text-sm font-medium transition ${
-                    i === 0
-                      ? 'bg-indigo-700 text-white shadow-sm'
+                  key={item.key}
+                  onClick={() => setActiveFilter(item.key)}
+                  aria-pressed={activeFilter === item.key}
+                  className={`px-4 py-2 rounded-full text-sm font-medium transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/40 ${
+                    activeFilter === item.key
+                      ? 'bg-indigo-700 text-white shadow-atlas-sm'
                       : 'bg-white text-indigo-700 ring-1 ring-indigo-200 hover:ring-indigo-400'
                   }`}
                 >
-                  {label}
+                  {item.label}
                 </button>
               ))}
             </div>
-            <div className="relative md:ml-auto">
-              <Search className="h-4 w-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" />
+            <div className="relative md:ms-auto">
+              <Search className="h-4 w-4 text-gray-400 absolute start-3 top-1/2 -translate-y-1/2 pointer-events-none" aria-hidden="true" />
               <input
                 type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder={t('content.tailors.searchPlaceholder', 'Search tailors...')}
-                className="pl-9 pr-4 py-2.5 rounded-full text-sm text-gray-800 bg-amber-50 ring-1 ring-amber-200 focus:ring-indigo-400 focus:outline-none w-full md:w-64"
+                aria-label={t('content.tailors.searchPlaceholder', 'Search tailors...')}
+                className="ps-9 pe-4 py-2.5 rounded-full text-sm text-gray-800 bg-amber-50 ring-1 ring-amber-200 focus:ring-2 focus:ring-indigo-700/30 focus:border-indigo-700 focus:outline-none w-full md:w-64"
               />
             </div>
           </div>
@@ -139,7 +205,7 @@ export default function TailorsPage() {
         {featuredTailors.length > 0 && (
           <div className="mb-16">
             <div className="flex items-center gap-3 mb-8">
-              <span className="inline-flex items-center gap-1.5 rounded-full bg-amber-50 px-3 py-1.5 text-xs font-semibold text-amber-700 ring-1 ring-amber-200/60">
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-amber-50 px-3 py-1.5 text-xs font-semibold text-amber-700 ring-1 ring-amber-200">
                 <Star className="h-3.5 w-3.5 fill-amber-500 text-amber-500" />
                 {t('content.tailors.featured', 'Featured')}
               </span>
@@ -154,7 +220,7 @@ export default function TailorsPage() {
               {featuredTailors.map((tailor) => (
                 <div
                   key={tailor.id}
-                  className="rounded-2xl ring-1 ring-amber-200/60 bg-white shadow-sm overflow-hidden transition hover:-translate-y-0.5 hover:shadow-md group flex flex-col md:flex-row"
+                  className="rounded-2xl ring-1 ring-gray-200 bg-white shadow-atlas-sm overflow-hidden transition hover:-translate-y-0.5 hover:shadow-atlas-md group flex flex-col md:flex-row"
                 >
                   <div className="md:w-2/5 relative overflow-hidden">
                     <Image
@@ -164,7 +230,7 @@ export default function TailorsPage() {
                       height={280}
                       className="w-full h-56 md:h-full object-cover transition-transform duration-500 group-hover:scale-105"
                     />
-                    <span className="absolute top-3 left-3 rounded-full bg-amber-500 text-white text-xs font-bold px-2.5 py-1">
+                    <span className="absolute top-3 start-3 rounded-full bg-amber-500 text-amber-950 text-xs font-bold px-2.5 py-1">
                       {t('content.tailors.featuredBadge', 'Featured')}
                     </span>
                   </div>
@@ -187,7 +253,7 @@ export default function TailorsPage() {
                       </p>
                     </div>
                     <Link
-                      href={`/services/tailoring/tailors/${tailor.id}`}
+                      href={`/services/tailoring/${tailor.id}`}
                       className="mt-6 inline-flex items-center justify-center gap-2 rounded-full bg-indigo-700 hover:bg-indigo-800 text-white text-sm font-semibold px-5 py-2.5 transition"
                     >
                       {t('content.tailors.viewProfile', 'View Profile')}
@@ -202,30 +268,47 @@ export default function TailorsPage() {
 
         {/* All Tailors */}
         <div>
-          <div className="flex items-center gap-3 mb-8">
-            <div className="h-px w-6 bg-amber-400" />
-            <h2
-              className="text-2xl font-bold text-indigo-900"
-              style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
-            >
-              {t('content.tailors.allTailors', 'All Expert Tailors')}
-            </h2>
-            <div className="h-px flex-grow bg-amber-100" />
+          <div className="mb-8">
+            <div className="flex items-baseline gap-3">
+              <h2
+                className="text-2xl font-bold text-indigo-950"
+                style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
+              >
+                {t('content.tailors.allTailors', 'All Expert Tailors')}
+              </h2>
+              {!loading && (
+                <span className="text-sm text-gray-500">
+                  ({filteredBySearch.length})
+                </span>
+              )}
+            </div>
+            <div className="mt-3 h-px w-full bg-amber-200/70" aria-hidden />
           </div>
 
-          {tailors.length === 0 ? (
-            <div className="text-center py-16 rounded-2xl ring-1 ring-amber-200/60 bg-white">
+          {loading ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {[1, 2, 3].map((i) => (
+                <div key={i} className="h-80 rounded-2xl bg-amber-50 ring-1 ring-amber-200 animate-pulse" />
+              ))}
+            </div>
+          ) : paginatedTailors.length === 0 ? (
+            <div className="text-center py-16 rounded-2xl ring-1 ring-gray-200 bg-white">
               <p className="text-gray-500 text-base">{t('content.tailors.noResults', 'No tailors found matching your criteria.')}</p>
-              <button className="mt-4 rounded-full px-5 py-2.5 text-sm font-medium bg-amber-50 text-amber-800 ring-1 ring-amber-200 hover:ring-amber-400 transition">
-                {t('content.tailors.clearFilters', 'Clear Filters')}
-              </button>
+              {hasActiveFilters && (
+                <button
+                  onClick={handleClearFilters}
+                  className="mt-4 rounded-full px-5 py-2.5 text-sm font-medium bg-amber-50 text-amber-800 ring-1 ring-amber-200 hover:ring-amber-400 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500"
+                >
+                  {t('content.tailors.clearFilters', 'Clear Filters')}
+                </button>
+              )}
             </div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {tailors.map((tailor) => (
+              {paginatedTailors.map((tailor) => (
                 <div
                   key={tailor.id}
-                  className="rounded-2xl ring-1 ring-amber-200/60 bg-white shadow-sm overflow-hidden transition hover:-translate-y-0.5 hover:shadow-md group flex flex-col"
+                  className="rounded-2xl ring-1 ring-gray-200 bg-white shadow-atlas-sm overflow-hidden transition hover:-translate-y-0.5 hover:shadow-atlas-md group flex flex-col"
                 >
                   <div className="relative overflow-hidden">
                     <Image
@@ -236,15 +319,15 @@ export default function TailorsPage() {
                       className="w-full h-56 object-cover transition-transform duration-500 group-hover:scale-105"
                     />
                     {tailor.featured && (
-                      <span className="absolute top-3 right-3 rounded-full bg-amber-500 text-white text-xs font-bold px-2.5 py-1">
+                      <span className="absolute top-3 end-3 rounded-full bg-amber-500 text-amber-950 text-xs font-bold px-2.5 py-1">
                         {t('content.tailors.featuredBadge', 'Featured')}
                       </span>
                     )}
                     {/* Hover reveal CTA */}
                     <div className="absolute bottom-4 inset-x-0 flex justify-center opacity-0 translate-y-3 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
                       <Link
-                        href={`/services/tailoring/tailors/${tailor.id}`}
-                        className="bg-white/90 backdrop-blur-sm text-indigo-700 text-sm font-semibold px-4 py-2 rounded-full shadow-md hover:bg-white transition"
+                        href={`/services/tailoring/${tailor.id}`}
+                        className="bg-white/90 backdrop-blur-sm text-indigo-700 text-sm font-semibold px-4 py-2 rounded-full shadow-atlas-md hover:bg-white transition"
                       >
                         {t('content.tailors.viewDetails', 'View Details')}
                       </Link>
@@ -268,9 +351,9 @@ export default function TailorsPage() {
                         {tailor.location}
                       </p>
                     </div>
-                    <div className="mt-auto pt-3 border-t border-amber-50">
+                    <div className="mt-auto pt-3 border-t border-gray-100">
                       <Link
-                        href={`/services/tailoring/tailors/${tailor.id}`}
+                        href={`/services/tailoring/${tailor.id}`}
                         className="inline-flex items-center justify-center w-full gap-2 rounded-full ring-1 ring-indigo-200 text-indigo-700 text-sm font-medium py-2.5 hover:ring-indigo-400 hover:bg-indigo-50 transition"
                       >
                         {t('content.tailors.viewProfile', 'View Profile')}
@@ -284,29 +367,41 @@ export default function TailorsPage() {
           )}
         </div>
 
-        {/* Pagination */}
-        <div className="mt-16 flex items-center justify-center gap-1">
-          <a href="#" className="flex items-center justify-center h-9 w-9 rounded-full ring-1 ring-amber-200 text-indigo-700 hover:bg-amber-50 transition text-sm">
-            &lsaquo;
-          </a>
-          {[1, 2, 3].map((page) => (
-            <a
-              key={page}
-              href="#"
-              className={`flex items-center justify-center h-9 w-9 rounded-full text-sm font-medium transition ${
-                page === 1
-                  ? 'bg-indigo-700 text-white'
-                  : 'ring-1 ring-amber-200 text-indigo-700 hover:bg-amber-50'
-              }`}
+        {/* Pagination — real page state, button-driven (Fix 2) */}
+        {!loading && totalPages > 1 && (
+          <div className="mt-16 flex items-center justify-center gap-1" role="navigation" aria-label={t('pagination.label', 'Pagination')}>
+            <button
+              onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+              disabled={currentPage === 1}
+              aria-label={t('pagination.previous', 'Previous page')}
+              className="flex items-center justify-center h-9 w-9 rounded-full ring-1 ring-amber-200 text-indigo-700 hover:bg-amber-50 transition text-sm disabled:opacity-40 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/40"
             >
-              {page}
-            </a>
-          ))}
-          <span className="text-gray-400 px-1">…</span>
-          <a href="#" className="flex items-center justify-center h-9 w-9 rounded-full ring-1 ring-amber-200 text-indigo-700 hover:bg-amber-50 transition text-sm">
-            &rsaquo;
-          </a>
-        </div>
+              <ChevronLeft className="h-4 w-4" aria-hidden="true" />
+            </button>
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+              <button
+                key={page}
+                onClick={() => setCurrentPage(page)}
+                aria-current={page === currentPage ? 'page' : undefined}
+                className={`flex items-center justify-center h-9 w-9 rounded-full text-sm font-medium transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/40 ${
+                  page === currentPage
+                    ? 'bg-indigo-700 text-white'
+                    : 'ring-1 ring-amber-200 text-indigo-700 hover:bg-amber-50'
+                }`}
+              >
+                {page}
+              </button>
+            ))}
+            <button
+              onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+              disabled={currentPage === totalPages}
+              aria-label={t('pagination.next', 'Next page')}
+              className="flex items-center justify-center h-9 w-9 rounded-full ring-1 ring-amber-200 text-indigo-700 hover:bg-amber-50 transition text-sm disabled:opacity-40 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/40"
+            >
+              <ChevronRight className="h-4 w-4" aria-hidden="true" />
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );

@@ -71,10 +71,10 @@ const deals = [
 
 export default function Hero() {
   const { t, i18n } = useTranslation();
-  const isRTL = i18n.language === 'ar';
+  const isRTL = i18n.language === 'ar' || i18n.language === 'ma';
 
   return (
-    <div className="bg-amber-50/40 py-6">
+    <div className="bg-gray-50 py-6">
       <div className="container mx-auto px-4">
         {/* Main Banner */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-6">
@@ -82,7 +82,7 @@ export default function Hero() {
             <div className="relative aspect-[21/9] rounded-2xl overflow-hidden">
               <Image
                 src="/images/banners/main-banner.jpg"
-                alt="Caftan Collection"
+                alt={t('hero.banner_alt', 'Caftan Collection')}
                 fill
                 className="object-cover"
               />

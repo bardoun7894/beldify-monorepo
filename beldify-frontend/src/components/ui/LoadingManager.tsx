@@ -47,9 +47,9 @@ const LoadingManager: React.FC<LoadingManagerProps> = ({
       },
       product: {
         gradient: 'from-amber-600 to-orange-600',
-        bgGradient: 'from-amber-50 to-white',
-        border: 'border-amber-100',
-        spinner: 'border-amber-100 border-t-amber-600',
+        bgGradient: 'from-gray-50 to-white',
+        border: 'border-gray-100',
+        spinner: 'border-gray-100 border-t-amber-600',
         text: 'from-amber-600 to-orange-600',
       },
     };
@@ -114,7 +114,7 @@ const LoadingManager: React.FC<LoadingManagerProps> = ({
     >
       <SpinnerVariant />
       {title && (
-        <h2 className={`${sizeClasses.text} font-semibold text-transparent bg-clip-text bg-gradient-to-r ${colors.text} mt-6 mb-2`}>
+        <h2 className={`${sizeClasses.text} font-semibold text-indigo-700 mt-6 mb-2`}>
           {title}
         </h2>
       )}
@@ -152,7 +152,7 @@ const LoadingManager: React.FC<LoadingManagerProps> = ({
           <div className={`${sizeClasses.container}`}>
             {renderVariant()}
             {title && (
-              <h2 className={`${sizeClasses.text} font-semibold text-transparent bg-clip-text bg-gradient-to-r ${colors.text} mt-6 mb-2 text-center`}>
+              <h2 className={`${sizeClasses.text} font-semibold text-indigo-700 mt-6 mb-2 text-center`}>
                 {title}
               </h2>
             )}

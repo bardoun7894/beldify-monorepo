@@ -8,42 +8,68 @@ import { useDirection } from '@/hooks/useDirection';
 import { LOCALES, type Locale } from '@/middleware';
 import { cn } from '@/lib/utils';
 import Cookies from 'js-cookie';
-import Image from 'next/image';
 import { RTL_LANGUAGES } from '@/i18n/config';
 
-const DEFAULT_CONFIG = {
-  name: 'English',
-  flag: '/images/flags/us.svg',
-  label: 'English - EN',
-};
-
-const LANGUAGE_CONFIG = {
+/**
+ * Language configuration — flags removed (SVG assets not bundled).
+ * The trigger button shows a typographic chip with the 2-letter code
+ * styled using Atlas secondary (indigo) tokens.
+ */
+const LANGUAGE_CONFIG: Record<
+  string,
+  { name: string; label: string }
+> = {
   ma: {
     name: 'الدارجة المغربية',
-    flag: '/images/flags/ma.svg',
     label: 'الدارجة المغربية - MA',
   },
   en: {
     name: 'English',
-    flag: '/images/flags/us.svg',
     label: 'English - EN',
   },
   ar: {
     name: 'العربية',
-    flag: '/images/flags/sa.svg',
     label: 'العربية - AR',
   },
   fr: {
     name: 'Français',
-    flag: '/images/flags/fr.svg',
     label: 'Français - FR',
   },
   es: {
     name: 'Español',
-    flag: '/images/flags/es.svg',
     label: 'Español - ES',
   },
+  nl: {
+    name: 'Nederlands',
+    label: 'Nederlands - NL',
+  },
+  de: {
+    name: 'Deutsch',
+    label: 'Deutsch - DE',
+  },
 };
+
+const DEFAULT_CONFIG = {
+  name: 'English',
+  label: 'English - EN',
+};
+
+/** Typographic chip showing the 2-letter locale code, styled with Atlas indigo tint. */
+function LocaleChip({ code }: { code: string }) {
+  return (
+    <span
+      aria-hidden="true"
+      className="inline-flex items-center justify-center w-7 h-5 rounded text-[10px] font-bold tracking-wider leading-none select-none"
+      style={{
+        background: 'hsl(var(--secondary) / 0.12)',
+        color: 'hsl(var(--primary))',
+        border: '1px solid hsl(var(--secondary) / 0.25)',
+      }}
+    >
+      {code.toUpperCase()}
+    </span>
+  );
+}
 
 const LanguageSwitcher = () => {
   const { i18n } = useTranslation();
@@ -56,10 +82,10 @@ const LanguageSwitcher = () => {
     const params = new URLSearchParams(searchParams.toString());
     params.set('locale', newLanguage);
 
-    // Update cookie
+    // Update cookie — 365-day persistence
     Cookies.set('NEXT_LOCALE', newLanguage, {
       path: '/',
-      expires: 365, // 1 year
+      expires: 365,
     });
 
     // Change language and direction
@@ -75,6 +101,8 @@ const LanguageSwitcher = () => {
   };
 
   const isRTL = RTL_LANGUAGES.includes(i18n.language);
+  const currentCode = i18n.language in LANGUAGE_CONFIG ? i18n.language : 'en';
+  const currentConfig = LANGUAGE_CONFIG[currentCode] ?? DEFAULT_CONFIG;
 
   return (
     <Menu as="div" className="relative inline-block text-left">
@@ -82,14 +110,8 @@ const LanguageSwitcher = () => {
         <>
           <div className="relative z-[100]">
             <Menu.Button className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 transition-colors duration-200 hover:bg-gray-50 rounded-md border border-gray-200">
-              <Image
-                src={LANGUAGE_CONFIG[i18n.language as Locale]?.flag ?? DEFAULT_CONFIG.flag}
-                alt={LANGUAGE_CONFIG[i18n.language as Locale]?.name ?? DEFAULT_CONFIG.name}
-                width={20}
-                height={15}
-                className="rounded-sm w-5 h-auto" // Fixed size with proper aspect ratio
-              />
-              <span>{LANGUAGE_CONFIG[i18n.language as Locale]?.label ?? DEFAULT_CONFIG.label}</span>
+              <LocaleChip code={currentCode} />
+              <span>{currentConfig.label}</span>
               <svg
                 className={`h-5 w-5 ${isRTL ? 'transform rotate-180' : ''} ${
                   open ? 'rotate-180' : ''
@@ -120,13 +142,7 @@ const LanguageSwitcher = () => {
                         i18n.language === code ? 'bg-indigo-50 text-indigo-600' : ''
                       )}
                     >
-                      <Image
-                        src={config.flag}
-                        alt={config.name}
-                        width={20}
-                        height={20}
-                        className="rounded-sm"
-                      />
+                      <LocaleChip code={code} />
                       <span>{config.name}</span>
                     </button>
                   )}

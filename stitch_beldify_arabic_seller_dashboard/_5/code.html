@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+
+<html dir="rtl" lang="ar"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Beldify - تُلبَس منذ قرون. مصنوعة لليوم.</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "surface-container": "#f0eee9",
+                        "surface-tint": "#59598d",
+                        "on-error": "#ffffff",
+                        "surface-variant": "#e4e2dd",
+                        "secondary-fixed": "#ffddb8",
+                        "tertiary": "#491e00",
+                        "primary-container": "#3b3b6d",
+                        "surface-container-high": "#eae8e3",
+                        "on-tertiary-fixed-variant": "#753401",
+                        "inverse-on-surface": "#f2f1ec",
+                        "error": "#ba1a1a",
+                        "primary-fixed": "#e2dfff",
+                        "on-surface-variant": "#47464f",
+                        "primary-fixed-dim": "#c2c1fc",
+                        "on-error-container": "#93000a",
+                        "surface-container-lowest": "#ffffff",
+                        "on-primary-container": "#a8a7e1",
+                        "on-primary-fixed-variant": "#414174",
+                        "tertiary-fixed-dim": "#ffb68c",
+                        "inverse-primary": "#c2c1fc",
+                        "secondary-fixed-dim": "#ffb95f",
+                        "on-secondary-container": "#684000",
+                        "on-tertiary": "#ffffff",
+                        "on-primary": "#ffffff",
+                        "surface-container-highest": "#e4e2dd",
+                        "on-tertiary-container": "#f1965e",
+                        "on-secondary-fixed": "#2a1700",
+                        "on-background": "#1b1c19",
+                        "secondary": "#855300",
+                        "on-secondary": "#ffffff",
+                        "on-primary-fixed": "#151546",
+                        "surface-bright": "#fbf9f4",
+                        "on-secondary-fixed-variant": "#653e00",
+                        "primary": "#252555",
+                        "outline-variant": "#c8c5d0",
+                        "inverse-surface": "#30312e",
+                        "on-tertiary-fixed": "#321200",
+                        "surface-dim": "#dbdad5",
+                        "tertiary-fixed": "#ffdbc9",
+                        "tertiary-container": "#6b2f00",
+                        "surface-container-low": "#f5f3ee",
+                        "surface": "#fbf9f4",
+                        "secondary-container": "#fea619",
+                        "outline": "#777680",
+                        "error-container": "#ffdad6",
+                        "on-surface": "#1b1c19",
+                        "background": "#fbf9f4"
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    spacing: {
+                        "xs": "4px",
+                        "lg": "24px",
+                        "margin-mobile": "16px",
+                        "sm": "8px",
+                        "xl": "32px",
+                        "unit": "4px",
+                        "margin-desktop": "64px",
+                        "md": "16px",
+                        "gutter": "20px",
+                        "xxl": "48px"
+                    },
+                    fontFamily: {
+                        "headline-lg": ["IBM Plex Sans Arabic"],
+                        "body-md": ["IBM Plex Sans Arabic"],
+                        "headline-md": ["IBM Plex Sans Arabic"],
+                        "body-lg": ["IBM Plex Sans Arabic"],
+                        "display-lg-mobile": ["IBM Plex Sans Arabic"],
+                        "label-md": ["IBM Plex Sans Arabic"],
+                        "display-lg": ["IBM Plex Sans Arabic"],
+                        "title-lg": ["IBM Plex Sans Arabic"],
+                        "price-display": ["IBM Plex Sans Arabic"]
+                    },
+                    fontSize: {
+                        "headline-lg": ["32px", { "lineHeight": "40px", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "display-lg-mobile": ["32px", { "lineHeight": "40px", "fontWeight": "700" }],
+                        "label-md": ["14px", { "lineHeight": "20px", "fontWeight": "500" }],
+                        "display-lg": ["48px", { "lineHeight": "60px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "title-lg": ["20px", { "lineHeight": "28px", "fontWeight": "500" }],
+                        "price-display": ["22px", { "lineHeight": "28px", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body-md text-body-md antialiased overflow-x-hidden selection:bg-primary-container selection:text-on-primary-container">
+<!-- Announcement Strip -->
+<div class="bg-primary text-on-primary text-center py-sm font-label-md text-label-md w-full relative z-50">
+        شحن مجاني داخل المغرب للطلبات فوق 500 درهم — إرجاع مجاني خلال 14 يوماً
+    </div>
+<!-- Top Navigation (JSON Mapped) -->
+<nav class="bg-surface dark:bg-surface-dim docked full-width top-0 shadow-sm flex flex-row-reverse justify-between items-center w-full px-margin-desktop py-md max-w-full relative z-40">
+<div class="flex items-center gap-md">
+<span class="font-display-lg text-display-lg text-primary dark:text-primary-fixed tracking-tight">Beldify</span>
+</div>
+<div class="hidden md:flex flex-row-reverse items-center gap-xl">
+<a class="text-primary font-bold border-b-2 border-primary pb-1" href="#">Dashboard</a>
+<a class="text-on-surface-variant dark:text-surface-variant hover:text-secondary dark:hover:text-secondary-fixed-dim transition-colors" href="#">Products</a>
+<a class="text-on-surface-variant dark:text-surface-variant hover:text-secondary dark:hover:text-secondary-fixed-dim transition-colors" href="#">Orders</a>
+<a class="text-on-surface-variant dark:text-surface-variant hover:text-secondary dark:hover:text-secondary-fixed-dim transition-colors" href="#">Reports</a>
+<a class="text-on-surface-variant dark:text-surface-variant hover:text-secondary dark:hover:text-secondary-fixed-dim transition-colors" href="#">Storefront</a>
+</div>
+<div class="flex flex-row-reverse items-center gap-md">
+<button class="text-primary hover:text-secondary transition-colors p-sm rounded-full hover:bg-surface-variant active:scale-95 transition-transform">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="text-primary hover:text-secondary transition-colors p-sm rounded-full hover:bg-surface-variant active:scale-95 transition-transform">
+<span class="material-symbols-outlined" data-icon="language">language</span>
+</button>
+<div class="w-10 h-10 rounded-full bg-surface-variant overflow-hidden border border-outline-variant cursor-pointer ml-sm shadow-sm">
+<img alt="Seller Avatar" class="w-full h-full object-cover" data-alt="A small circular avatar portrait of a Moroccan artisan or seller, warmly lit, wearing traditional subtle clothing against a neutral studio background, conveying professionalism and approachability in an e-commerce context." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDIBFODG_ItmQbo5J6uxg0yDQG19PyuriwCJ3r_9Wa73zmpvbxxyyGLDw2k_bTF2suqPHQQm4Vj2o1BNClUavaGOBsxlWCcHE4JC-gJkyJzU8Mo24pC2-4eonFFhYCoG2ZfTPLx7Y3Oun3if3bEJVWgUUjkmestUMEZZDp11iDNhTJUu4i8VJAyj6rw5jMmPnyxl-pbtmP0QE7Ew5qYtnyP8wOmgm7ivFCWowLQg0SKcZ64iVvFEjVNSz7-FsaoknqbSy74q17i278m"/>
+</div>
+</div>
+</nav>
+<main>
+<!-- Hero Section -->
+<section class="relative w-full h-[819px] min-h-[600px] flex items-center justify-center overflow-hidden">
+<div class="absolute inset-0 z-0">
+<img alt="Moroccan Fashion Lifestyle" class="w-full h-full object-cover" data-alt="A high-end editorial fashion photograph of a Moroccan model wearing a modern, exquisitely embroidered Kaftan, standing in an elegant riad courtyard with softly dappled sunlight hitting traditional zellige tiles, creating a premium and cultural aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA94xKYr7snpRDMN_l11zFPVVouRG2MBXHdDetMxUr2zxc7c-QJBZSDQYh69DEC_8u_yswYRf5JMTS44FzLzjc_cWdTqJnG9mMc8VEgMnr1s_ddGZ4cYfEUzZ5PwCUaG_Ii5mBLVYhKuQ-HLbGFmokeMiiLUANWL6V6ibx2aIqlx9y4f1KUv_dx4gVoTFvajWs8xb-xgxD2v98uYUPIPHSgame3kSqr2gAoBTobkHZOGnJr0dfHob6lSzkUyA92OlCUvfrYGhtV911z"/>
+<div class="absolute inset-0 bg-gradient-to-r from-primary/90 via-primary/50 to-transparent"></div>
+</div>
+<div class="relative z-10 w-full max-w-7xl mx-auto px-margin-desktop flex flex-col items-start gap-lg text-on-primary">
+<div class="inline-flex items-center gap-xs px-sm py-xs bg-surface-container/20 backdrop-blur-md rounded-full border border-white/20 font-label-md text-label-md">
+<span class="material-symbols-outlined text-[16px]">auto_awesome</span>
+<span>مُنسّق لك بالذكاء الاصطناعي</span>
+</div>
+<h1 class="font-display-lg text-display-lg max-w-2xl leading-tight">
+                    تُلبَس منذ قرون.<br/>مصنوعة لليوم.
+                </h1>
+<div class="flex flex-wrap gap-md mt-sm">
+<button class="bg-secondary-container text-on-secondary-container px-lg py-md rounded-full font-title-lg text-title-lg hover:bg-secondary-fixed transition-colors shadow-lg active:scale-95">
+                        تسوّق السوق
+                    </button>
+<button class="bg-transparent border-2 border-primary-fixed text-primary-fixed px-lg py-md rounded-full font-title-lg text-title-lg hover:bg-primary-fixed/10 transition-colors active:scale-95">
+                        تعرّف على الخياطين
+                    </button>
+</div>
+</div>
+</section>
+<!-- Trust Strip -->
+<section class="bg-surface-container py-md border-b border-secondary-container/30 shadow-sm relative z-20">
+<div class="max-w-7xl mx-auto px-margin-desktop flex flex-wrap justify-center gap-xl md:gap-xxl">
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-secondary text-2xl">verified</span>
+<span class="font-label-md text-label-md text-on-surface-variant">بائعون موثوقون</span>
+</div>
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-secondary text-2xl">lock</span>
+<span class="font-label-md text-label-md text-on-surface-variant">دفع آمن</span>
+</div>
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-secondary text-2xl">assignment_return</span>
+<span class="font-label-md text-label-md text-on-surface-variant">إرجاع خلال 14 يوماً</span>
+</div>
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-secondary text-2xl">translate</span>
+<span class="font-label-md text-label-md text-on-surface-variant">دعم بثلاث لغات</span>
+</div>
+</div>
+</section>
+</main>
+<!-- Bottom Navigation (Mobile - JSON Mapped, logically hidden on desktop) -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex flex-row-reverse justify-around items-center px-margin-mobile py-sm md:hidden bg-surface-container dark:bg-surface-container-highest shadow-[0_-4px_20px_0_rgba(37,37,85,0.05)] rounded-t-xl">
+<a class="flex flex-col items-center justify-center bg-secondary-container text-on-secondary-container rounded-xl p-2 active:scale-90 transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-label-md text-label-md mt-1">لوحة التحكم</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-surface-variant p-2 hover:bg-surface-variant rounded-xl active:scale-90 transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+<span class="font-label-md text-label-md mt-1">المنتجات</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-surface-variant p-2 hover:bg-surface-variant rounded-xl active:scale-90 transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="shopping_cart">shopping_cart</span>
+<span class="font-label-md text-label-md mt-1">الطلبات</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-surface-variant p-2 hover:bg-surface-variant rounded-xl active:scale-90 transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+<span class="font-label-md text-label-md mt-1">التقارير</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-surface-variant p-2 hover:bg-surface-variant rounded-xl active:scale-90 transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="storefront">storefront</span>
+<span class="font-label-md text-label-md mt-1">المتجر</span>
+</a>
+</nav>
+</body></html>

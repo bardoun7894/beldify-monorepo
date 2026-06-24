@@ -47,7 +47,7 @@ export default function ShippingCalculator({ subtotal, onCalculate }: ShippingCa
         className="flex items-center gap-2 text-sm text-indigo-600 hover:text-indigo-800 font-medium transition-colors"
       >
         <Truck className="h-4 w-4" strokeWidth={1.5} />
-        {t('cart.shipping.calculate')}
+        {t('cart.shipping.calculate', 'Estimate shipping')}
       </button>
     );
   }
@@ -57,7 +57,7 @@ export default function ShippingCalculator({ subtotal, onCalculate }: ShippingCa
       <div className="flex items-center gap-2 mb-3">
         <MapPin className="h-4 w-4 text-indigo-600" strokeWidth={1.5} />
         <span className="text-sm font-medium text-indigo-950">
-          {t('cart.shipping.enter_location')}
+          {t('cart.shipping.enter_location', 'Enter your location')}
         </span>
       </div>
 
@@ -69,7 +69,7 @@ export default function ShippingCalculator({ subtotal, onCalculate }: ShippingCa
         }}
         className="w-full rounded-2xl bg-white ring-1 ring-indigo-100 text-sm focus:ring-2 focus:ring-indigo-400 focus:outline-none px-3 py-2 mb-3 text-indigo-950"
       >
-        <option value="">{t('cart.shipping.select_city')}</option>
+        <option value="">{t('cart.shipping.select_city', 'Select a city')}</option>
         {CITIES.map((city) => (
           <option key={city.name} value={city.name}>
             {city.name} - {subtotal >= 500 ? t('cart.shipping.free', 'Free') : `${city.rate} MAD`}
@@ -82,12 +82,12 @@ export default function ShippingCalculator({ subtotal, onCalculate }: ShippingCa
           {subtotal >= 500 ? (
             <div className="flex items-center gap-2 text-[#855300]">
               <Truck className="h-4 w-4" strokeWidth={1.5} />
-              <span className="font-medium">{t('cart.shipping.free')}</span>
+              <span className="font-medium">{t('cart.shipping.free', 'Free')}</span>
             </div>
           ) : (
             <div className="flex items-center justify-between">
-              <span className="text-indigo-500">{t('cart.shipping.cost')}:</span>
-              <span className="font-medium text-indigo-950">{shipping} MAD</span>
+              <span className="text-indigo-500">{t('cart.shipping.cost', 'Shipping cost')}:</span>
+              <span className="font-medium text-indigo-950 currency-mad">{shipping} MAD</span>
             </div>
           )}
         </div>
@@ -95,9 +95,9 @@ export default function ShippingCalculator({ subtotal, onCalculate }: ShippingCa
 
       <button
         onClick={() => setShowCalculator(false)}
-        className="mt-3 text-xs text-indigo-400 hover:text-indigo-600 transition-colors"
+        className="mt-3 text-xs text-indigo-500 hover:text-indigo-700 transition-colors"
       >
-        {t('common.hide')}
+        {t('common.hide', 'Hide')}
       </button>
     </div>
   );

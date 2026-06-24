@@ -20,44 +20,45 @@ export function NavigationProvider({ children }: { children: ReactNode }) {
   const pathname = usePathname();
   const pendingRef = useRef(false);
   
-  // Prefetch all links in viewport for faster navigation
-  const prefetchVisibleLinks = () => {
-    if (typeof window === 'undefined' || !window.IntersectionObserver) return;
-    
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          const link = entry.target as HTMLAnchorElement;
-          const href = link.getAttribute('href');
-          if (href && !href.startsWith('#') && !href.startsWith('http')) {
-            router.prefetch(href);
-          }
-          // Unobserve after prefetching
-          observer.unobserve(link);
-        }
-      });
-    });
-    
-    // Observe all links in the viewport
-    setTimeout(() => {
-      document.querySelectorAll('a[href]').forEach(link => {
-        observer.observe(link);
-      });
-    }, 1000);
-  };
-  
   // Custom navigation function that prevents the delay without breaking state
   const navigateTo = (path: string) => {
     // Visual feedback only
     document.body.style.cursor = 'wait';
     pendingRef.current = true;
-    
+
     // Use standard Next.js router
     router.push(path);
   };
-  
+
   // Apply optimizations on mount
   useEffect(() => {
+    // Prefetch all links in viewport for faster navigation (defined inline to
+    // avoid a stale-closure dep on the outer `router` reference).
+    const prefetchVisibleLinks = () => {
+      if (typeof window === 'undefined' || !window.IntersectionObserver) return;
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const link = entry.target as HTMLAnchorElement;
+            const href = link.getAttribute('href');
+            if (href && !href.startsWith('#') && !href.startsWith('http')) {
+              router.prefetch(href);
+            }
+            // Unobserve after prefetching
+            observer.unobserve(link);
+          }
+        });
+      });
+
+      // Observe all links in the viewport
+      setTimeout(() => {
+        document.querySelectorAll('a[href]').forEach(link => {
+          observer.observe(link);
+        });
+      }, 1000);
+    };
+
     // Prefetch links for faster navigation
     prefetchVisibleLinks();
     

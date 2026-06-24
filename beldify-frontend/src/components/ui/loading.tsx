@@ -16,8 +16,8 @@ const sizeClasses = {
 export function Loading({ size = 'md', className = '', showText = false }: LoadingProps) {
   const { t, i18n } = useTranslation();
 
-  // Use a key to force re-render when language changes
-  const loadingText = React.useMemo(() => t('common.loading'), [t, i18n.language]);
+  // t already changes identity when the language changes — no need to list i18n.language separately.
+  const loadingText = React.useMemo(() => t('common.loading'), [t]);
 
   return (
     <div className="flex flex-col items-center justify-center relative gap-2">
@@ -33,11 +33,11 @@ export function Loading({ size = 'md', className = '', showText = false }: Loadi
         </div>
 
         {/* Center dot with gradient */}
-        <div className="absolute inset-0 m-auto w-2.5 h-2.5 bg-gradient-to-br from-amber-500 to-indigo-600 rounded-full animate-pulse shadow-lg shadow-amber-500/20" />
+        <div className="absolute inset-0 m-auto w-2.5 h-2.5 bg-indigo-700 rounded-full animate-pulse shadow-sm" />
       </div>
 
       {showText && (
-        <p className="text-sm font-medium bg-gradient-to-r from-amber-500 to-indigo-600 bg-clip-text text-transparent animate-pulse">
+        <p className="text-sm font-medium text-indigo-700 animate-pulse">
           {loadingText}
         </p>
       )}
@@ -51,8 +51,8 @@ export function LoadingOverlay({ showOnlyOnce = false }) {
   const { t, i18n } = useTranslation();
   const [showLoader, setShowLoader] = React.useState(true);
   
-  // Use a key to force re-render when language changes - moved outside conditional
-  const loadingExperience = React.useMemo(() => t('common.loading_experience'), [t, i18n.language]);
+  // t already changes identity when the language changes — no need to list i18n.language separately.
+  const loadingExperience = React.useMemo(() => t('common.loading_experience'), [t]);
 
   React.useEffect(() => {
     if (showOnlyOnce) {
@@ -70,17 +70,17 @@ export function LoadingOverlay({ showOnlyOnce = false }) {
   if (!showLoader) return null;
 
   return (
-    <div className="fixed inset-0 bg-gradient-to-br from-white via-amber-50/90 to-indigo-50/90 backdrop-blur-sm flex flex-col items-center justify-center gap-6 z-50">
+    <div className="fixed inset-0 bg-gray-50 backdrop-blur-sm flex flex-col items-center justify-center gap-6 z-50">
       <div className="relative">
-        <div className="absolute -inset-4 bg-gradient-to-r from-amber-500/10 to-indigo-600/10 rounded-full blur-xl animate-pulse" />
+        <div className="absolute -inset-4 bg-indigo-700/5 rounded-full blur-xl" />
         <Loading size="lg" showText />
       </div>
 
       <div className="flex flex-col items-center gap-3">
-        <div className="h-1.5 w-44 bg-gradient-to-r from-amber-100 to-indigo-100 rounded-full overflow-hidden shadow-inner">
-          <div className="h-full w-1/2 bg-gradient-to-r from-amber-500 to-indigo-600 rounded-full animate-progress shadow-lg" />
+        <div className="h-1.5 w-44 bg-amber-200 rounded-full overflow-hidden">
+          <div className="h-full w-1/2 bg-indigo-700 rounded-full animate-progress" />
         </div>
-        <p className="text-sm font-medium bg-gradient-to-r from-amber-600 to-indigo-600 bg-clip-text text-transparent animate-pulse">
+        <p className="text-sm font-medium text-indigo-700 animate-pulse">
           {loadingExperience}
         </p>
       </div>
@@ -103,8 +103,8 @@ export function LoadingButton({
         ${isLoading ? 'text-transparent' : ''}
         ${
           disabled || isLoading
-            ? 'bg-gray-100 cursor-not-allowed'
-            : 'bg-gradient-to-r from-amber-500 to-indigo-600 text-white hover:shadow-md hover:shadow-amber-500/20 active:scale-[0.98]'
+            ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+            : 'bg-indigo-700 text-white hover:bg-indigo-800 hover:shadow-atlas-sm active:scale-[0.98]'
         }
         ${className}`}
       {...props}
@@ -125,7 +125,7 @@ export function LoadingSkeleton({ className = '' }: { className?: string }) {
 
   return (
     <div
-      className={`animate-pulse bg-gradient-to-r from-amber-100/50 to-indigo-100/50 rounded ${className}`}
+      className={`animate-pulse bg-gray-100 rounded-2xl ${className}`}
       role="status"
       aria-label={t('common.loading')}
     />

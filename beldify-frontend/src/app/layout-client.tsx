@@ -1,9 +1,9 @@
 'use client';
 
 import { Toaster } from 'react-hot-toast';
-import { isDebuggingEnabled } from '@/utils/debugMode';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
+import LanguageSuggestionBanner from '@/components/common/LanguageSuggestionBanner';
 
 import '@/i18n/config';
 import { useDirection } from '@/hooks/useDirection';
@@ -22,6 +22,9 @@ export default function RootLayoutClient({ children }: RootLayoutClientProps) {
   const [isClient, setIsClient] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
+  // Mount-only language bootstrap — including i18n in the dep array would cause
+  // initializeApp to re-run on every language change, creating an infinite loop.
+  /* eslint-disable react-hooks/exhaustive-deps */
   useEffect(() => {
     const initializeApp = async () => {
       setIsClient(true);
@@ -42,6 +45,7 @@ export default function RootLayoutClient({ children }: RootLayoutClientProps) {
 
     initializeApp();
   }, []);
+  /* eslint-enable react-hooks/exhaustive-deps */
 
   if (isLoading) {
     // Only show loading overlay on first homepage visit
@@ -51,23 +55,25 @@ export default function RootLayoutClient({ children }: RootLayoutClientProps) {
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-50">
+      <LanguageSuggestionBanner />
       <Navbar />
-      {/* Add top padding to account for fixed navbar and bottom padding for mobile navigation */}
-      <main className="flex-grow pt-16 mt-0">{children}</main>
+      {/* Navbar is position:sticky (occupies flow space) — no top padding needed */}
+      <main className="flex-grow">{children}</main>
       <Footer />
-      {isDebuggingEnabled() && (
-        <Toaster
-          position={isRTL ? 'top-left' : 'top-right'}
-          containerStyle={{ direction: isRTL ? 'rtl' : 'ltr' }}
-          toastOptions={{
-            duration: 3000,
-            style: {
-              background: '#333',
-              color: '#fff',
-            },
-          }}
-        />
-      )}
+      {/* Toaster always rendered — buyer feedback must be visible in production.
+          Previously gated behind a debug flag, toasts were invisible for real
+          users. RTL-aware position is preserved. */}
+      <Toaster
+        position={isRTL ? 'top-left' : 'top-right'}
+        containerStyle={{ direction: isRTL ? 'rtl' : 'ltr' }}
+        toastOptions={{
+          duration: 3000,
+          style: {
+            background: '#333',
+            color: '#fff',
+          },
+        }}
+      />
     </div>
   );
 }

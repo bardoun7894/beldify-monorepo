@@ -37,7 +37,6 @@ export const useCartPWATrigger = () => {
   // Call this when user adds item to cart
   const addToCartWithPWAPrompt = (productData: any) => {
     // Your existing add to cart logic here
-    console.log('Adding to cart:', productData);
     
     // Trigger PWA prompt based on user engagement
     triggerOnCartAdd();
@@ -52,7 +51,6 @@ export const useCheckoutPWATrigger = () => {
   // Call this when user goes to checkout
   const proceedToCheckoutWithPWAPrompt = () => {
     // Your existing checkout logic here
-    console.log('Proceeding to checkout');
     
     // Trigger PWA prompt for engaged users
     triggerOnCheckout();
@@ -67,7 +65,6 @@ export const useOrderCompletePWATrigger = () => {
   // Call this when order is completed successfully
   const completeOrderWithPWAPrompt = (orderData: any) => {
     // Your existing order completion logic here
-    console.log('Order completed:', orderData);
     
     // This is the best time to show PWA prompt (high conversion)
     triggerOnOrderComplete();

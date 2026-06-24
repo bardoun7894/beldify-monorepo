@@ -6,7 +6,8 @@ import ReviewCard from './ReviewCard';
 import { ReviewForm } from './ReviewForm'; 
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { mockReviewService } from '@/services/mockReviewService'; // Using mock service
+import { reviewService } from '@/services/api'; // Real backend reviews
+import toast from '@/utils/toast';
 import { PlusCircleIcon, AdjustmentsHorizontalIcon, StarIcon } from '@heroicons/react/24/outline';
 import { cn } from '@/utils/classNames';
 
@@ -38,7 +39,7 @@ const ReviewsSection: React.FC<ReviewsSectionProps> = ({ productId, productName 
     setIsLoading(true);
     setError(null);
     try {
-      const response: ReviewsResponse = await mockReviewService.getProductReviews(
+      const response: ReviewsResponse = await reviewService.getProductReviews(
         productId,
         page,
         ITEMS_PER_PAGE,
@@ -85,18 +86,20 @@ const ReviewsSection: React.FC<ReviewsSectionProps> = ({ productId, productName 
     handleFilterChange('rating', rating);
   };
 
-  const handleReviewSubmitted = (newReview: Review) => {
+  const handleReviewSubmitted = (_newReview: Review) => {
     setShowReviewForm(false);
-    // Optimistically update or refetch
-    // For mock, refetching page 1 with current filters to see the new review (if it matches filters)
+    // New reviews are created with status=pending and only appear after an admin
+    // approves them, so we don't optimistically insert (it isn't visible yet).
+    toast.success(
+      t('reviews.submitted_pending', 'Thanks! Your review was submitted and will appear once approved.')
+    );
     fetchReviewsAndSummary(1, activeFilters);
-    // Potentially scroll to reviews section or new review
   };
 
   // This function is passed to ReviewCard, which expects (reviewId: string, updatedReview: Review) => void
   // We need to adapt or ensure ReviewCard is flexible. For now, let's assume ReviewCard calls a service directly
   // or this handler is for internal state update after ReviewCard's own service call.
-  // The current ReviewCard calls mockReviewService.reactToReview itself and then calls onReactionUpdate.
+  // ReviewCard calls reviewService.reactToReview itself, then calls onReactionUpdate.
   // So, onReactionUpdate in ReviewsSection should expect the updated review object.
   const handleReviewCardReactionUpdate = (reviewId: string, updatedReview: Review) => {
     try {
@@ -113,7 +116,7 @@ const ReviewsSection: React.FC<ReviewsSectionProps> = ({ productId, productName 
   };
 
   return (
-    <section id="product-reviews" className="py-12 md:py-16 bg-amber-50/40 relative overflow-hidden">
+    <section id="product-reviews" className="py-12 md:py-16 bg-gray-50 relative overflow-hidden">
       
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-10">
@@ -135,14 +138,14 @@ const ReviewsSection: React.FC<ReviewsSectionProps> = ({ productId, productName 
           >
             {showReviewForm ? (
               <>
-                <svg className="h-5 w-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="h-5 w-5 me-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                 </svg>
                 {t('common.cancel')}
               </>
             ) : (
               <>
-                <PlusCircleIcon className="h-5 w-5 mr-2" />
+                <PlusCircleIcon className="h-5 w-5 me-2" />
                 {t('reviews.write_review_button')}
               </>
             )}
@@ -150,18 +153,18 @@ const ReviewsSection: React.FC<ReviewsSectionProps> = ({ productId, productName 
         </div>
 
         {showReviewForm && (
-          <div className="mb-10 bg-white rounded-2xl shadow-sm ring-1 ring-amber-200 p-6">
+          <div className="mb-10 bg-white rounded-2xl shadow-sm ring-1 ring-gray-200 p-6">
             <ReviewForm
               productId={productId}
               onSubmitSuccess={handleReviewSubmitted}
               onCancel={() => setShowReviewForm(false)}
-              createReviewService={mockReviewService.createReview} 
+              createReviewService={reviewService.createReview}
             />
           </div>
         )}
 
         {summary && (
-          <div className="mb-8 bg-white rounded-2xl shadow-sm ring-1 ring-amber-200 p-6 transition-all duration-200 hover:shadow-md">
+          <div className="mb-8 bg-white rounded-2xl shadow-sm ring-1 ring-gray-200 p-6 transition-all duration-200 hover:shadow-md">
             <h3
               className="text-xl font-semibold mb-4 text-gray-900"
               style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
@@ -188,7 +191,7 @@ const ReviewsSection: React.FC<ReviewsSectionProps> = ({ productId, productName 
               onClick={() => setShowFilters(prev => !prev)} 
               className="md:hidden bg-white border border-gray-200 text-gray-700 hover:bg-gray-50 shadow-sm"
             >
-              <AdjustmentsHorizontalIcon className="h-5 w-5 mr-2" />
+              <AdjustmentsHorizontalIcon className="h-5 w-5 me-2" />
               {t('common.actions.filters')}
             </Button>
             <Select value={activeFilters.sort} onValueChange={handleSortChange}>
@@ -218,13 +221,14 @@ const ReviewsSection: React.FC<ReviewsSectionProps> = ({ productId, productName 
                             "transition-all duration-200",
                             activeFilters.rating === r
                               ? "bg-indigo-700 text-white shadow-sm"
-                              : "bg-white ring-1 ring-amber-200 text-gray-700 hover:ring-amber-300 rounded-full"
+                              : "bg-white ring-1 ring-gray-200 text-gray-700 hover:ring-gray-300 rounded-full"
                           )}
                           onClick={() => handleRatingFilterChange(activeFilters.rating === r ? null : r)}
                         >
-                          <div className="flex items-center">
+                          {/* dir=ltr keeps the "n ★" order and gap stable under RTL locales */}
+                          <div className="flex items-center" dir="ltr">
                             <span>{r}</span>
-                            <StarIcon className="h-4 w-4 ml-1 inline-block" />
+                            <StarIcon className="h-4 w-4 ms-1 inline-block" />
                           </div>
                         </Button>
                     ))}
@@ -278,7 +282,7 @@ const ReviewsSection: React.FC<ReviewsSectionProps> = ({ productId, productName 
               className="mt-6 bg-indigo-700 hover:bg-indigo-800 text-white shadow-sm"
               size="lg"
             >
-              <PlusCircleIcon className="h-5 w-5 mr-2" />
+              <PlusCircleIcon className="h-5 w-5 me-2" />
               {t('reviews.write_review_button')}
             </Button>
           </div>
@@ -300,7 +304,7 @@ const ReviewsSection: React.FC<ReviewsSectionProps> = ({ productId, productName 
               size="lg"
             >
               {t('reviews.load_more_reviews')}
-              <svg className="ml-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="ms-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
               </svg>
             </Button>
