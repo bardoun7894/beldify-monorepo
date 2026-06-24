@@ -49,6 +49,7 @@ import { TryOnButton } from '@/components/buyer-ai/TryOnButton';
 import { TryOnModal } from '@/components/buyer-ai/TryOnModal';
 import { fetchTryonConfig, type TryonConfig } from '@/services/tryonService';
 import { track } from '@/lib/analytics';
+import { useAiFeatures } from '@/hooks/useAiFeatures';
 
 interface ProductImage {
   id: string;
@@ -220,6 +221,8 @@ export default function ProductDetailsPage() {
   const { isInWishlist, addToWishlist, removeFromWishlist } = useWishlist();
   const { t, i18n } = useTranslation();
   const { isRTL } = useDirection();
+  // AI feature flags — defaults to all-false; hides AI UI until backend confirms enabled
+  const { tryon: tryonEnabled, buyer_ai: buyerAiEnabled } = useAiFeatures();
   const router = useRouter();
 
   // Transform image URLs to fetch from the correct source
@@ -1893,8 +1896,8 @@ export default function ProductDetailsPage() {
             </fieldset>
           )}
 
-          {/* AI size advisor — only shown for clothing products with size variants */}
-          {!isJewelry && availableSizes.length > 0 && (
+          {/* AI size advisor — only shown when buyer_ai flag is ON, clothing products with size variants */}
+          {buyerAiEnabled && !isJewelry && availableSizes.length > 0 && (
             <SizeAdvisorSheet
               productId={product.id}
               hasSizes={availableSizes.length > 0}
@@ -2040,8 +2043,8 @@ export default function ProductDetailsPage() {
               <ArrowRight className="h-4 w-4 rtl:rotate-180" aria-hidden />
             </button>
 
-            {/* Virtual try-on — clothing only, hidden when disabled or 403 */}
-            {!tryOnHidden && (
+            {/* Virtual try-on — clothing only, hidden when disabled, 403, or feature flag OFF */}
+            {!tryOnHidden && tryonEnabled && (
               <TryOnButton
                 isJewelry={isJewelry}
                 productId={String(id ?? '')}
@@ -2300,8 +2303,8 @@ export default function ProductDetailsPage() {
             aria-labelledby="tab-reviews"
             className={activeTab === 'reviews' ? '' : 'hidden'}
           >
-            {/* AI review summary card — lazy-fetched; renders only on 200 (spec) */}
-            <AiReviewSummaryCard data={aiReviewSummary} />
+            {/* AI review summary card — lazy-fetched; renders only when buyer_ai is ON and data is 200 */}
+            {buyerAiEnabled && <AiReviewSummaryCard data={aiReviewSummary} />}
             <ReviewsSection productId={product.id} productName={product.name} />
           </div>
         </div>
@@ -2462,8 +2465,8 @@ export default function ProductDetailsPage() {
         onClose={() => setIsHowToBuyOpen(false)}
       />
 
-      {/* Virtual try-on modal — clothing products only */}
-      {!isJewelry && (
+      {/* Virtual try-on modal — clothing products only, and only when feature flag is ON */}
+      {!isJewelry && tryonEnabled && (
         <TryOnModal
           open={isTryOnOpen}
           onClose={() => setIsTryOnOpen(false)}

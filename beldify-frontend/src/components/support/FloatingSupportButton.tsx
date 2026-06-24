@@ -23,6 +23,7 @@ import {
 } from '@heroicons/react/24/outline';
 import { useTranslation } from 'react-i18next';
 import { useDirection } from '@/hooks/useDirection';
+import { useAiFeatures } from '@/hooks/useAiFeatures';
 
 // Lazy-load the AI shopping assistant panel (heavy, browser-only) on first open.
 const AssistantPanel = dynamic(
@@ -33,6 +34,7 @@ const AssistantPanel = dynamic(
 export default function FloatingSupportButton() {
   const { t } = useTranslation();
   const { isRTL } = useDirection();
+  const { buyer_assistant } = useAiFeatures();
   const [isOpen, setIsOpen] = useState(false); // contact menu
   const [assistantOpen, setAssistantOpen] = useState(false); // AI chat panel
   const fabRef = useRef<HTMLButtonElement>(null);
@@ -74,20 +76,23 @@ export default function FloatingSupportButton() {
                 </h3>
               </div>
               <div className="p-2">
-                {/* AI shopping assistant — primary action */}
-                <button
-                  onClick={openAssistant}
-                  className="w-full flex items-center gap-3 p-3 rounded-xl bg-indigo-50 hover:bg-indigo-100 text-indigo-900 transition-colors"
-                >
-                  <span className="flex h-9 w-9 items-center justify-center rounded-full bg-indigo-700 text-white flex-shrink-0">
-                    <SparklesIcon className="h-5 w-5" aria-hidden="true" />
-                  </span>
-                  <span className="text-sm font-semibold text-start">
-                    {t('assistant.launcher_label', 'Shop with AI')}
-                  </span>
-                </button>
-
-                <div className="my-1.5 border-t border-gray-100" />
+                {/* AI shopping assistant — primary action, only when feature is enabled */}
+                {buyer_assistant && (
+                  <>
+                    <button
+                      onClick={openAssistant}
+                      className="w-full flex items-center gap-3 p-3 rounded-xl bg-indigo-50 hover:bg-indigo-100 text-indigo-900 transition-colors"
+                    >
+                      <span className="flex h-9 w-9 items-center justify-center rounded-full bg-indigo-700 text-white flex-shrink-0">
+                        <SparklesIcon className="h-5 w-5" aria-hidden="true" />
+                      </span>
+                      <span className="text-sm font-semibold text-start">
+                        {t('assistant.launcher_label', 'Shop with AI')}
+                      </span>
+                    </button>
+                    <div className="my-1.5 border-t border-gray-100" />
+                  </>
+                )}
 
                 {/* Call us */}
                 <a

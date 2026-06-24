@@ -18,6 +18,7 @@ import { Button } from '@/components/ui/button';
 import { SearchAssistBar } from '@/components/buyer-ai/SearchAssistBar';
 import type { AssistFilters } from '@/services/buyerAiService';
 import { sortOptionsForQuery, resolveSort, defaultSortForQuery } from './sortConfig';
+import { useAiFeatures } from '@/hooks/useAiFeatures';
 
 interface ProductFiltersState {
   category?: string;
@@ -87,6 +88,8 @@ function ErrorState({ message, onRetry }: { message: string; onRetry: () => void
 export default function ProductsPage() {
   const { t, i18n } = useTranslation();
   const shouldReduceMotion = useReducedMotion();
+  // AI feature flags — defaults to all-false; hides AI search assist until backend confirms enabled
+  const { buyer_ai: buyerAiEnabled } = useAiFeatures();
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -473,14 +476,16 @@ export default function ProductsPage() {
                 ? t('catalog.search.subheading', 'Browsing results across all verified ateliers.')
                 : t('catalog.products.subheading', 'Caftans, djellabas, hand-tailored pieces — sourced directly from verified Moroccan ateliers.')}
             </p>
-            {/* AI search assist bar */}
-            <div className="mt-6 max-w-lg">
-              <SearchAssistBar
-                onSearch={handleAssistSearch}
-                onAssistFilters={handleAssistFilters}
-                initialValue={searchQuery ?? ''}
-              />
-            </div>
+            {/* AI search assist bar — only when buyer_ai feature flag is ON */}
+            {buyerAiEnabled && (
+              <div className="mt-6 max-w-lg">
+                <SearchAssistBar
+                  onSearch={handleAssistSearch}
+                  onAssistFilters={handleAssistFilters}
+                  initialValue={searchQuery ?? ''}
+                />
+              </div>
+            )}
           </motion.div>
         </div>
       </section>
