@@ -5482,5 +5482,36 @@
     "view_proposal": "View proposal",
     "view_proposal_aria": "View proposal #{{id}}",
     "rank_unavailable": "AI ranking is currently unavailable."
+  },
+  "compare": {
+    "title": "Compare Products",
+    "products": "products",
+    "back_to_products": "Back to Products",
+    "view_product": "View Product",
+    "remove": "Remove from comparison",
+    "add_more": "Add more products to compare",
+    "empty": {
+      "title": "Compare Products",
+      "description": "Select at least {{min}} products to compare them side by side. Browse our catalog and add items to compare.",
+      "browse": "Browse Products"
+    },
+    "error": {
+      "title": "Comparison Error",
+      "fetch": "Failed to load products for comparison.",
+      "not_enough": "Need at least {{min}} products to compare.",
+      "some_failed": "{{count}} product(s) could not be loaded"
+    },
+    "attributes": {
+      "price": "Price",
+      "rating": "Rating",
+      "category": "Category",
+      "store": "Store",
+      "availability": "Availability",
+      "color": "Color",
+      "size": "Size",
+      "description": "Description",
+      "unknown_store": "Unknown",
+      "not_applicable": "—"
+    }
   }
 }

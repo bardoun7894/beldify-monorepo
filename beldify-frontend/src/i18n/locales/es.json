@@ -5471,5 +5471,36 @@
     "view_proposal": "Ver propuesta",
     "view_proposal_aria": "Ver propuesta #{{id}}",
     "rank_unavailable": "La clasificación con IA no está disponible actualmente."
+  },
+  "compare": {
+    "title": "Comparar productos",
+    "products": "productos",
+    "back_to_products": "Volver a productos",
+    "view_product": "Ver producto",
+    "remove": "Eliminar de la comparación",
+    "add_more": "Añadir más productos para comparar",
+    "empty": {
+      "title": "Comparar productos",
+      "description": "Selecciona al menos {{min}} productos para compararlos lado a lado. Explora nuestro catálogo y añade artículos para comparar.",
+      "browse": "Explorar productos"
+    },
+    "error": {
+      "title": "Error de comparación",
+      "fetch": "Error al cargar los productos para la comparación.",
+      "not_enough": "Debes seleccionar al menos {{min}} productos para comparar.",
+      "some_failed": "{{count}} producto(s) no pudieron cargarse"
+    },
+    "attributes": {
+      "price": "Precio",
+      "rating": "Valoración",
+      "category": "Categoría",
+      "store": "Tienda",
+      "availability": "Disponibilidad",
+      "color": "Color",
+      "size": "Talla",
+      "description": "Descripción",
+      "unknown_store": "Desconocido",
+      "not_applicable": "—"
+    }
   }
 }

@@ -5426,5 +5426,36 @@
     "view_proposal": "Voorstel bekijken",
     "view_proposal_aria": "Voorstel bekijken #{{id}}",
     "rank_unavailable": "AI-rangschikking is momenteel niet beschikbaar."
+  },
+  "compare": {
+    "title": "Producten vergelijken",
+    "products": "producten",
+    "back_to_products": "Terug naar producten",
+    "view_product": "Bekijk product",
+    "remove": "Verwijder uit vergelijking",
+    "add_more": "Voeg meer producten toe om te vergelijken",
+    "empty": {
+      "title": "Producten vergelijken",
+      "description": "Selecteer minimaal {{min}} producten om ze naast elkaar te vergelijken. Blader door onze catalogus en voeg items toe om te vergelijken.",
+      "browse": "Producten bekijken"
+    },
+    "error": {
+      "title": "Vergelijkingsfout",
+      "fetch": "Producten laden voor vergelijking mislukt.",
+      "not_enough": "Selecteer minimaal {{min}} producten om te vergelijken.",
+      "some_failed": "{{count}} product(en) konden niet worden geladen"
+    },
+    "attributes": {
+      "price": "Prijs",
+      "rating": "Beoordeling",
+      "category": "Categorie",
+      "store": "Winkel",
+      "availability": "Beschikbaarheid",
+      "color": "Kleur",
+      "size": "Maat",
+      "description": "Beschrijving",
+      "unknown_store": "Onbekend",
+      "not_applicable": "—"
+    }
   }
 }
