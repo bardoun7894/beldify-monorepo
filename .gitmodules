@@ -1,0 +1,3 @@
+[submodule "beldify-backend"]
+	path = beldify-backend
+	url = https://github.com/bardoun7894/beldify-backend.git
