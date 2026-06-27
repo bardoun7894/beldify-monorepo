@@ -29,11 +29,15 @@ export async function GET() {
       isProduction: !isDevelopment,
     });
   } catch (error) {
+    const errCause = error instanceof Error ? error.cause : undefined;
+    const causeMsg = errCause instanceof Error ? errCause.message : String(errCause ?? '');
     return NextResponse.json(
       {
         status: 'unhealthy',
         timestamp: new Date().toISOString(),
         error: error instanceof Error ? error.message : 'Unknown error',
+        cause: causeMsg || undefined,
+        stack: error instanceof Error ? error.stack?.split('\n').slice(0, 3) : undefined,
         environment: process.env.NODE_ENV,
         isProduction: !isDevelopment,
       },
