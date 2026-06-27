@@ -1,21 +1,50 @@
 import { NextResponse } from 'next/server';
+import https from 'node:https';
 
 const isDevelopment = process.env.NODE_ENV === 'development';
 
+function fetchBackendHealth(url: string): Promise<Record<string, unknown>> {
+  return new Promise((resolve, reject) => {
+    let parsedUrl: URL;
+    try {
+      parsedUrl = new URL(url);
+    } catch {
+      reject(new Error(`Invalid URL: ${url}`));
+      return;
+    }
+    const options: https.RequestOptions = {
+      hostname: parsedUrl.hostname,
+      port: parsedUrl.port || 443,
+      path: parsedUrl.pathname + parsedUrl.search,
+      method: 'GET',
+      headers: { Accept: 'application/json' },
+      timeout: 10000,
+    };
+
+    const req = https.request(options, (res) => {
+      let data = '';
+      res.on('data', (chunk: Buffer) => { data += chunk.toString(); });
+      res.on('end', () => {
+        try {
+          resolve(JSON.parse(data));
+        } catch {
+          reject(new Error(`Invalid JSON response: ${data.slice(0, 200)}`));
+        }
+      });
+    });
+
+    req.on('error', reject);
+    req.on('timeout', () => {
+      req.destroy();
+      reject(new Error('Request timeout'));
+    });
+  });
+}
+
 export async function GET() {
   try {
-    // Check if we can connect to the backend API
     const backendUrl = process.env.NEXT_PUBLIC_API_URL || 'http://18.100.117.252';
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 10000);
-    const backendHealth = await fetch(`${backendUrl}/api/health`, {
-      headers: {
-        Accept: 'application/json',
-      },
-      signal: controller.signal,
-    });
-    clearTimeout(timeoutId);
-    const backendStatus = await backendHealth.json();
+    const backendStatus = await fetchBackendHealth(`${backendUrl}/api/health`);
 
     return NextResponse.json({
       status: 'healthy',
