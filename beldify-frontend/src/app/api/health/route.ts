@@ -6,12 +6,15 @@ export async function GET() {
   try {
     // Check if we can connect to the backend API
     const backendUrl = process.env.NEXT_PUBLIC_API_URL || 'http://18.100.117.252';
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 10000);
     const backendHealth = await fetch(`${backendUrl}/api/health`, {
       headers: {
         Accept: 'application/json',
       },
-      next: { revalidate: isDevelopment ? 0 : 30 }, // No cache in dev, 30s cache in prod
+      signal: controller.signal,
     });
+    clearTimeout(timeoutId);
     const backendStatus = await backendHealth.json();
 
     return NextResponse.json({
