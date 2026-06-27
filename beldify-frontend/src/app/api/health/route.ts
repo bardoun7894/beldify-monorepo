@@ -39,6 +39,7 @@ function fetchBackendHealth(url: string): Promise<Record<string, unknown>> {
       req.destroy();
       reject(new Error('Request timeout'));
     });
+    req.end();
   });
 }
 
