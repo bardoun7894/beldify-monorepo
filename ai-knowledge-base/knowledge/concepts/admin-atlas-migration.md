@@ -2,11 +2,17 @@
 name: Admin Backend Atlas Migration
 description: Quantified scope and priority roadmap for migrating the Beldify Laravel admin from Bootstrap 4/PixInvent to Atlas Tailwind-only
 type: concept
-sources: [daily/2026-05-21.md, daily/2026-05-23.md, daily/2026-05-24.md, daily/2026-05-28.md, daily/2026-05-29.md, daily/2026-05-31.md]
-created: 2026-05-21
-updated: 2026-05-31
+tags: [laravel, php, eloquent, blade, artisan, middleware, migration, notification, request, route]
+sources:
+  - daily/2026-05-21.md
+  - daily/2026-05-23.md
+  - daily/2026-05-24.md
+  - daily/2026-05-28.md
+  - daily/2026-05-29.md
+  - daily/2026-05-31.md
+created: "2026-05-21"
+updated: "2026-05-31"
 ---
-
 # Admin Backend Atlas Migration
 
 ## Overview

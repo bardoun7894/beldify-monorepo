@@ -381,7 +381,8 @@
     "messages": "Berichten",
     "register": "Registreren",
     "login_short": "Aanmelden",
-    "openSouk": "Open Souk"
+    "openSouk": "Open Souk",
+    "seller_dashboard": "Verkopersdashboard"
   },
   "category": {
     "popularCategories": "Populaire categorieën",
@@ -3681,6 +3682,9 @@
     "typing_aria": "De ander is aan het typen"
   },
   "seller": {
+    "shortcut_title": "Verkopersdashboard",
+    "shortcut_body": "Beheer je winkel, producten en bestellingen",
+    "shortcut_cta": "Dashboard openen",
     "register": {
       "title": "Word verkoper",
       "subtitle": "Meld je aan om Beldify te sluiten en verkoop je Marokkaanse handwerken wereldwijd.",

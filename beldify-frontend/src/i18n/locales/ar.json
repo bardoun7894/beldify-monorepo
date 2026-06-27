@@ -381,7 +381,8 @@
     "register": "إنشاء حساب",
     "login": "تسجيل الدخول",
     "login_short": "دخول",
-    "openSouk": "السوق المفتوح"
+    "openSouk": "السوق المفتوح",
+    "seller_dashboard": "لوحة تحكم البائع"
   },
   "category": {
     "popularCategories": "الفئات الشائعة",
@@ -3919,6 +3920,9 @@
     "typing_aria": "الطرف الآخر يكتب"
   },
   "seller": {
+    "shortcut_title": "لوحة تحكم البائع",
+    "shortcut_body": "أدر متجرك ومنتجاتك وطلباتك",
+    "shortcut_cta": "فتح اللوحة",
     "register": {
       "title": "كن بائعاً",
       "subtitle": "قدّم طلبك للانضمام إلى بيلديفاي وبيع منتجاتك التقليدية المغربية لمشترين حول العالم.",

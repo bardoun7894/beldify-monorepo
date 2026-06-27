@@ -2,11 +2,11 @@
 name: Homzmart
 description: Egyptian online furniture marketplace (homzmart.com) used as a competitive design reference for Beldify's home page merchandising
 type: entity
+tags: [model, shop, product, category, rtl, arabic, color, search]
 sources: [sources/2026-06-10-homzmart-vs-beldify-home-analysis]
-created: 2026-06-10
-updated: 2026-06-10
+created: "2026-06-10"
+updated: "2026-06-10"
 ---
-
 # Homzmart
 
 ## What it is

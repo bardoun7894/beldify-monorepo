@@ -2,11 +2,11 @@
 name: Laravel
 description: PHP framework for building web applications and APIs
 type: entity
+tags: [laravel, php, artisan, nextjs, mysql, redis, sanctum]
 sources: [sources/beldify-claude]
-created: 2026-05-08
-updated: 2026-05-08
+created: "2026-05-08"
+updated: "2026-05-08"
 ---
-
 # Laravel
 
 ## What it is

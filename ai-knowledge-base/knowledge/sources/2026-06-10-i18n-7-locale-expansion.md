@@ -1,12 +1,12 @@
 ---
 name: i18n expansion to 7 locales + content-locale rule (2026-06-10)
-description: Dutch + German added with exact 3628-key parity across 7 locales via a Haiku-agent translation pipeline; backend content-locale rule (ar content for ar+ma, en otherwise) via LanguageService::contentLocale + ApiLocaleMiddleware
+description: "Dutch + German added with exact 3628-key parity across 7 locales via a Haiku-agent translation pipeline; backend content-locale rule (ar content for ar+ma, en otherwise) via LanguageService::contentLocale + ApiLocaleMiddleware"
 type: source
+tags: [laravel, blade, gate, validation, nextjs, state, axios, seller, shop, order]
 sources: [raw/2026-06-10-i18n-7-locale-expansion.md]
-created: 2026-06-10
-updated: 2026-06-10
+created: "2026-06-10"
+updated: "2026-06-10"
 ---
-
 # i18n expansion to 7 locales + content-locale rule (2026-06-10)
 
 ## Summary

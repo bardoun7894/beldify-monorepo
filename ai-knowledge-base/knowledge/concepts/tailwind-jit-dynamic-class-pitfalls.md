@@ -1,12 +1,12 @@
 ---
 name: Tailwind JIT Dynamic Class Pitfalls
-description: Production correctness bugs caused by phantom tokens, dynamic class construction, and @apply in Blade templates — classes that appear to work in dev but vanish in production
+description: "Production correctness bugs caused by phantom tokens, dynamic class construction, and @apply in Blade templates — classes that appear to work in dev but vanish in production"
 type: concept
+tags: [php, blade, migration, nextjs, tailwind, css, scss, html, component, ci]
 sources: [daily/2026-05-21.md, daily/2026-05-29.md]
-created: 2026-05-21
-updated: 2026-05-29
+created: "2026-05-21"
+updated: "2026-05-29"
 ---
-
 # Tailwind JIT Dynamic Class Pitfalls
 
 ## Overview

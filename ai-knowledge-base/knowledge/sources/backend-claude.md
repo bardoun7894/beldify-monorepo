@@ -1,12 +1,12 @@
 ---
 name: Beldify Backend CLAUDE.md
-description: Laravel 10 backend with multi-seller e-commerce, tailoring, and community features
+description: "Laravel 10 backend with multi-seller e-commerce, tailoring, and community features"
 type: source
+tags: [laravel, php, middleware, mysql, redis, seller, cart, order, product, firebase]
 sources: [raw/backend-claude.md]
-created: 2026-05-08
-updated: 2026-05-08
+created: "2026-05-08"
+updated: "2026-05-08"
 ---
-
 # Beldify Backend CLAUDE.md
 
 ## Summary

@@ -1,0 +1,182 @@
+description: "Full-stack feature pipeline: plan → frontend → backend → verify → review"
+maxTransitions: 15
+
+phases:
+  - id: plan
+    thinking: high
+    tools:
+      - read
+      - find
+      - ls
+      - grep
+    output:
+      type: text
+      description: "Markdown implementation plan covering frontend (Next.js 15, App Router) and backend (Laravel 10) changes."
+    prompt: |
+      Task:
+      {{input}}
+
+      You are the planning phase for a full-stack feature in the Beldify monorepo.
+      - Frontend: beldify-frontend/ (Next.js 15, App Router, TypeScript, Tailwind CSS)
+      - Backend: beldify-backend/ (Laravel 10, PHP 8.1+, MySQL, Redis)
+      - Server deploy: ssh MyContabo → /var/local/beldify-auto/ and /var/local/beldify-backend-auto/
+
+      Read the relevant source files first, then produce a detailed step-by-step implementation plan.
+
+  - id: frontend
+    thinking: medium
+    tools:
+      - read
+      - edit
+      - write
+      - bash
+      - grep
+      - find
+      - ls
+    output:
+      type: text
+      description: "Frontend implementation summary listing files changed and any issues."
+    prompt: |
+      Original task:
+      {{input}}
+
+      Plan:
+      {{phase.plan.output}}
+
+      Implement the frontend portion in beldify-frontend/. Follow Next.js 15 App Router patterns, TypeScript strict mode, and Tailwind CSS. Use React Context for state, NextAuth for auth. Support i18n (Arabic, French, English).
+
+      After implementation, run lint checks:
+      cd beldify-frontend && npm run lint
+
+  - id: backend
+    thinking: medium
+    tools:
+      - read
+      - edit
+      - write
+      - bash
+      - grep
+      - find
+      - ls
+    output:
+      type: text
+      description: "Backend implementation summary listing files changed, routes added, and migration status."
+    prompt: |
+      Original task:
+      {{input}}
+
+      Plan:
+      {{phase.plan.output}}
+
+      Implement the backend portion in beldify-backend/. Follow Laravel 10 conventions (PSR-12, snake_case tables/columns, PascalCase classes). Create models, controllers, routes, migrations, and services as needed.
+
+      After implementation, check syntax:
+      cd beldify-backend && php artisan route:list 2>/dev/null | head -10
+      php artisan migrate --pretend 2>/dev/null | head -20
+
+  - id: verify
+    thinking: medium
+    tools:
+      - read
+      - bash
+      - grep
+      - find
+      - ls
+    output:
+      type: text
+      description: "Verification report with test/lint/build results."
+    prompt: |
+      Original task:
+      {{input}}
+
+      Plan:
+      {{phase.plan.output}}
+
+      Frontend summary:
+      {{phase.frontend.output}}
+
+      Backend summary:
+      {{phase.backend.output}}
+
+      Verify both sides work:
+      1. cd beldify-frontend && npm run lint
+      2. cd beldify-frontend && npm run build:dev 2>&1 | tail -30
+      3. cd beldify-backend && php artisan test 2>&1 | tail -20
+      4. Check for any missing env vars, config changes, or migration issues.
+
+      Report results with PASS/FAIL for each check.
+
+  - id: review
+    thinking: high
+    tools:
+      - read
+      - bash
+      - grep
+      - find
+      - ls
+    output:
+      type: structured
+      status:
+        enum: [APPROVED, CHANGES_REQUESTED]
+        description: "APPROVED when all checks pass and implementation is clean; CHANGES_REQUESTED when issues remain."
+      report: "Complete code review report."
+      data:
+        description: "Review metrics."
+        fields:
+          hasComments:
+            type: boolean
+            description: "True when there are actionable review comments."
+    next:
+      - if:
+          status: CHANGES_REQUESTED
+        goto: frontend
+      - if:
+          status: APPROVED
+        goto: docs
+      - end: true
+    prompt: |
+      Original task:
+      {{input}}
+
+      Plan:
+      {{phase.plan.output}}
+
+      Frontend summary:
+      {{phase.frontend.output}}
+
+      Backend summary:
+      {{phase.backend.output}}
+
+      Verification report:
+      {{phase.verify.output}}
+
+      Review the full implementation:
+      1. Does it match the plan?
+      2. Are there edge cases missing?
+      3. Is the code consistent with existing patterns?
+      4. Are there security concerns?
+
+  - id: docs
+    thinking: low
+    tools:
+      - read
+      - edit
+      - write
+      - bash
+      - grep
+      - find
+      - ls
+    prompt: |
+      Original task:
+      {{input}}
+
+      Review output:
+      {{phase.review.output}}
+
+      Check if documentation updates are needed:
+      1. If new API endpoints were added → docs/api/
+      2. If env vars changed → update .env.example
+      3. If DB schema changed → docs/architecture/database.md
+      4. If new commands/scripts → update relevant README
+
+      Create or update docs in docs/ as needed. Summarize what was documented.

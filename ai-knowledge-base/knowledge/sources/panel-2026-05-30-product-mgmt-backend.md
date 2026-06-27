@@ -1,12 +1,12 @@
 ---
 name: Panel review — product-management backend
-description: 3-reviewer panel on the variant split-brain, stale stock cache, description drift, and variant-edit 422
+description: "3-reviewer panel on the variant split-brain, stale stock cache, description drift, and variant-edit 422"
 type: source
+tags: [migration, route, deploy, seller, product, cache, color, multi-seller]
 sources: [raw/panel/2026-05-30-product-mgmt-backend.md]
-created: 2026-06-03
-updated: 2026-06-03
+created: "2026-06-03"
+updated: "2026-06-03"
 ---
-
 # Panel review — product-management backend
 
 ## Summary

@@ -1,12 +1,12 @@
 ---
 name: Laravel optional() Type-Hint Pitfall
-description: optional($model) returns Illuminate\Support\Optional, not null — rejected by ?Model strict type hints; fix is to drop optional() since the service already null-guards internally
+description: "optional($model) returns Illuminate\\Support\\Optional, not null — rejected by ?Model strict type hints; fix is to drop optional() since the service already null-guards internally"
 type: concept
+tags: [php, blade, model, category]
 sources: [daily/2026-05-24.md]
-created: 2026-05-24
-updated: 2026-05-24
+created: "2026-05-24"
+updated: "2026-05-24"
 ---
-
 # Laravel optional() Type-Hint Pitfall
 
 ## The Bug

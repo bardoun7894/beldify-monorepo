@@ -24,3 +24,6 @@
 session-ses_*.md
 *.mxd
 .claude/scheduled_tasks.lock
+
+# OKF — auto-generated projection layer
+okf/

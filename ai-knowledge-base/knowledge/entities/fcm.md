@@ -2,11 +2,11 @@
 name: Firebase Cloud Messaging
 description: Push notification service used for mobile notifications in Beldify
 type: entity
+tags: [notification, fcm, integration]
 sources: [sources/backend-claude]
-created: 2026-05-08
-updated: 2026-05-08
+created: "2026-05-08"
+updated: "2026-05-08"
 ---
-
 # Firebase Cloud Messaging (FCM)
 
 ## What it is

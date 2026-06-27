@@ -1,12 +1,12 @@
 ---
 name: Buyer–Seller Messaging Contract Fix
-description: Next.js proxy sent recipient_id but Laravel BuyerMessageController validated shop_id — every customer→seller send returned 422; conversation detail page [shopId]/page.tsx was also missing entirely
+description: "Next.js proxy sent recipient_id but Laravel BuyerMessageController validated shop_id — every customer→seller send returned 422; conversation detail page [shopId]/page.tsx was also missing entirely"
 type: concept
+tags: [laravel, php, migration, event, listener, validation, request, response, route, css]
 sources: [daily/2026-06-01.md, daily/2026-06-02.md]
-created: 2026-06-01
-updated: 2026-06-02
+created: "2026-06-01"
+updated: "2026-06-02"
 ---
-
 # Buyer–Seller Messaging Contract Fix
 
 ## Overview

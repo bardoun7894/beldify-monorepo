@@ -1,12 +1,12 @@
 ---
 name: Admin Dashboard Atlas Polish (2026-05-31)
-description: Impeccable pass on the Beldify admin dashboard — i18n eyebrow/subtitle, MAD currency, Atlas chart palette, leaking placeholder keys fixed; seller blank icons fixed simultaneously
+description: "Impeccable pass on the Beldify admin dashboard — i18n eyebrow/subtitle, MAD currency, Atlas chart palette, leaking placeholder keys fixed; seller blank icons fixed simultaneously"
 type: concept
+tags: [php, blade, artisan, migration, response, component, docker, volume, seller, order]
 sources: [daily/2026-05-31.md]
-created: 2026-05-31
-updated: 2026-05-31
+created: "2026-05-31"
+updated: "2026-05-31"
 ---
-
 # Admin Dashboard Atlas Polish (2026-05-31)
 
 ## Overview

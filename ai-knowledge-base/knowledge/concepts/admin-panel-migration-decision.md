@@ -1,12 +1,12 @@
 ---
 name: Admin Panel Migration Decision (Atlas vs Filament)
-description: Three-reviewer panel verdict to finish the Atlas migration rather than pivot to Filament — Codex decisive evidence, Gemini dissent, and agreed first-action backlog
+description: "Three-reviewer panel verdict to finish the Atlas migration rather than pivot to Filament — Codex decisive evidence, Gemini dissent, and agreed first-action backlog"
 type: concept
+tags: [laravel, blade, migration, model, filament, tailwind, css, component, state, atlas]
 sources: [daily/2026-05-21.md]
-created: 2026-05-21
-updated: 2026-05-21
+created: "2026-05-21"
+updated: "2026-05-21"
 ---
-
 # Admin Panel Migration Decision (Atlas vs Filament)
 
 ## Overview

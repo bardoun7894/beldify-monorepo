@@ -2,11 +2,11 @@
 name: MySQL
 description: Relational database used by Beldify backend
 type: entity
+tags: [laravel, migration]
 sources: [sources/backend-claude]
-created: 2026-05-08
-updated: 2026-05-08
+created: "2026-05-08"
+updated: "2026-05-08"
 ---
-
 # MySQL
 
 ## What it is

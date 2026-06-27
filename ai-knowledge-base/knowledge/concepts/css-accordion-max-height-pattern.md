@@ -2,11 +2,11 @@
 name: CSS Accordion Max-Height Pattern
 description: The grid-template-rows 0fr trick only works with a single direct child — use max-height for accordions with multiple children
 type: concept
+tags: [migration, tailwind, javascript, css, html, pattern, atlas]
 sources: [daily/2026-05-23.md]
-created: 2026-05-23
-updated: 2026-05-23
+created: "2026-05-23"
+updated: "2026-05-23"
 ---
-
 # CSS Accordion Max-Height Pattern
 
 ## Overview

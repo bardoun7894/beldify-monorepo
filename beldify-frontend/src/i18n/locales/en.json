@@ -381,7 +381,8 @@
     "messages": "Messages",
     "register": "Sign up",
     "login_short": "Sign in",
-    "openSouk": "Open Souk"
+    "openSouk": "Open Souk",
+    "seller_dashboard": "Seller Dashboard"
   },
   "category": {
     "popularCategories": "Popular Categories",
@@ -3689,6 +3690,9 @@
     "typing_aria": "The other person is typing"
   },
   "seller": {
+    "shortcut_title": "Seller Dashboard",
+    "shortcut_body": "Manage your store, products and orders",
+    "shortcut_cta": "Open dashboard",
     "register": {
       "title": "Become a Seller",
       "subtitle": "Apply to join Beldify and sell your Moroccan crafts to buyers worldwide.",

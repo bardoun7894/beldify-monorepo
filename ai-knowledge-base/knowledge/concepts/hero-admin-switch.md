@@ -1,12 +1,14 @@
 ---
 name: Hero Admin Switch
-description: The Beldify home hero is admin-switchable between the static brand hero and a hybrid campaign carousel, driven by a hero.mode setting and the pre-existing banner system
+description: "The Beldify home hero is admin-switchable between the static brand hero and a hybrid campaign carousel, driven by a hero.mode setting and the pre-existing banner system"
 type: concept
-sources: [sources/2026-06-10-hero-admin-switch, raw/2026-06-10-admin-audit-sellers-jewelry-deploy.md]
-created: 2026-06-10
-updated: 2026-06-10
+tags: [migration, model, deploy, category, pattern, cache, atlas, design-system, search]
+sources:
+  - sources/2026-06-10-hero-admin-switch
+  - raw/2026-06-10-admin-audit-sellers-jewelry-deploy.md
+created: "2026-06-10"
+updated: "2026-06-10"
 ---
-
 # Hero Admin Switch
 
 The Beldify storefront home hero supports two admin-selectable modes. `brand` (default) renders the static editorial hero — Darija headline, search bar, CTAs — exactly as designed in the marketplace overhaul. `campaign` renders a hybrid Swiper carousel whose first slide is that same brand hero and whose subsequent slides are admin-managed banners (full-bleed image, localized title/subtitle, amber CTA chip honoring `text_position`). The mode lives in a `hero_settings` key/value table behind the `HeroSetting` model, a clone of the `AiSetting` DB-backed settings pattern without encryption, and is toggled from a card on the existing `/admin/banners` page.

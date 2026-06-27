@@ -381,7 +381,8 @@
     "messages": "Nachrichten",
     "register": "Registrieren",
     "login_short": "Anmelden",
-    "openSouk": "Open Souk"
+    "openSouk": "Open Souk",
+    "seller_dashboard": "Verkäufer-Dashboard"
   },
   "category": {
     "popularCategories": "Beliebte Kategorien",
@@ -3681,6 +3682,9 @@
     "typing_aria": "Die andere Person schreibt"
   },
   "seller": {
+    "shortcut_title": "Verkäufer-Dashboard",
+    "shortcut_body": "Verwalten Sie Ihren Shop, Ihre Produkte und Bestellungen",
+    "shortcut_cta": "Dashboard öffnen",
     "register": {
       "title": "Werde ein Verkäufer",
       "subtitle": "Bewirb dich, um Beldify beizutreten und dein marokkanisches Handwerk weltweit zu verkaufen.",

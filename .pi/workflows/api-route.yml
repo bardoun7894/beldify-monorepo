@@ -1,0 +1,123 @@
+description: "Backend API route/controller pipeline: plan → implement → test → docs"
+maxTransitions: 8
+
+phases:
+  - id: plan
+    thinking: high
+    tools:
+      - read
+      - find
+      - ls
+      - grep
+    output:
+      type: text
+      description: "API route plan with endpoint spec, request/response shapes, and model mapping."
+    prompt: |
+      Task:
+      {{input}}
+
+      You are building a Laravel 10 API endpoint in the Beldify backend (beldify-backend/).
+      Read the existing routes (routes/api.php), models, and controllers to match patterns.
+      Plan:
+      - Route path + HTTP method
+      - Controller action
+      - Request validation rules
+      - Response format
+      - Model/relationships involved
+      - Authorization (Sanctum / policies)
+
+  - id: implement
+    thinking: medium
+    tools:
+      - read
+      - edit
+      - write
+      - bash
+      - grep
+      - find
+      - ls
+    output:
+      type: text
+      description: "Implementation summary listing new/modified files."
+    prompt: |
+      Original task:
+      {{input}}
+
+      Plan:
+      {{phase.plan.output}}
+
+      Implement the API endpoint:
+      1. Create/modify controller in beldify-backend/app/Http/Controllers/
+      2. Create/modify model in beldify-backend/app/Models/
+      3. Add route in beldify-backend/routes/api.php
+      4. Create form request in beldify-backend/app/Http/Requests/
+      5. Create resource/transformer if needed in beldify-backend/app/Http/Resources/
+      6. Update API docs in docs/api/
+
+      Run: cd beldify-backend && php artisan route:list 2>&1 | grep -i "your-route-pattern"
+
+  - id: test
+    thinking: medium
+    tools:
+      - read
+      - edit
+      - write
+      - bash
+      - grep
+      - find
+      - ls
+    output:
+      type: structured
+      status:
+        enum: [PASS, FAIL]
+        description: "PASS when all tests pass; FAIL when tests fail or are missing."
+      report: "Test results."
+    next:
+      - if:
+          status: FAIL
+        goto: implement
+      - if:
+          status: PASS
+        goto: docs
+      - end: true
+    prompt: |
+      Original task:
+      {{input}}
+
+      Plan:
+      {{phase.plan.output}}
+
+      Implementation:
+      {{phase.implement.output}}
+
+      Write and run tests:
+      1. Create Feature test in beldify-backend/tests/Feature/
+      2. Run: cd beldify-backend && php artisan test --filter="YourTestName" 2>&1 | tail -30
+      3. If tests fail, fix the implementation or tests
+
+  - id: docs
+    thinking: low
+    tools:
+      - read
+      - edit
+      - write
+      - bash
+      - grep
+      - find
+      - ls
+    prompt: |
+      Original task:
+      {{input}}
+
+      Implementation:
+      {{phase.implement.output}}
+
+      Test results:
+      {{phase.test.output}}
+
+      Update API documentation in docs/api/:
+      - Endpoint URL, method, auth requirements
+      - Request body schema (JSON example)
+      - Response schema (JSON example)
+      - Error codes
+      - cURL example

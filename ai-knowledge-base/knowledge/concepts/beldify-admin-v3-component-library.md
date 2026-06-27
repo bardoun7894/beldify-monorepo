@@ -1,12 +1,12 @@
 ---
 name: Beldify Admin V3 Component Library
-description: Reusable Blade components for the Beldify admin V3 design — page-header, kpi-tile, badge, avatar, btn, data-table, empty-row, section-card, form-row, input, toggle, search-input; 128 pages ported across 3 waves
+description: "Reusable Blade components for the Beldify admin V3 design — page-header, kpi-tile, badge, avatar, btn, data-table, empty-row, section-card, form-row, input, toggle, search-input; 128 pages ported across 3 waves"
 type: concept
+tags: [php, blade, migration, request, route, tailwind, component, cart, order, pattern]
 sources: [daily/2026-05-23.md, daily/2026-05-24.md, daily/2026-05-28.md]
-created: 2026-05-23
-updated: 2026-05-28
+created: "2026-05-23"
+updated: "2026-05-28"
 ---
-
 # Beldify Admin V3 Component Library
 
 ## Overview

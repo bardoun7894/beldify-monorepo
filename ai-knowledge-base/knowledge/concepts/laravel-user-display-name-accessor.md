@@ -1,12 +1,12 @@
 ---
 name: Laravel User Display Name Accessor (Beldify)
-description: Beldify users table has no name column — $user->name is always null; locale-aware display_name accessor with mb_ multibyte safety for Arabic initials is the correct pattern
+description: "Beldify users table has no name column — $user->name is always null; locale-aware display_name accessor with mb_ multibyte safety for Arabic initials is the correct pattern"
 type: concept
+tags: [laravel, php, eloquent, blade, migration, controller, model, html, component, query]
 sources: [daily/2026-05-29.md]
-created: 2026-05-29
-updated: 2026-05-29
+created: "2026-05-29"
+updated: "2026-05-29"
 ---
-
 # Laravel User Display Name Accessor (Beldify)
 
 ## Overview

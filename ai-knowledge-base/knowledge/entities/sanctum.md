@@ -2,11 +2,11 @@
 name: Laravel Sanctum
 description: Laravel package for API authentication and token management
 type: entity
+tags: [laravel]
 sources: [sources/backend-claude]
-created: 2026-05-08
-updated: 2026-05-08
+created: "2026-05-08"
+updated: "2026-05-08"
 ---
-
 # Laravel Sanctum
 
 ## What it is

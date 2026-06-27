@@ -1,12 +1,12 @@
 ---
 name: i18n t() Fallback vs Locale Value
-description: t('key','fallback') only uses the fallback when the key is absent from locale files — if the key exists with an old English value, t() returns the locale value, silently ignoring the fallback
+description: "t('key','fallback') only uses the fallback when the key is absent from locale files — if the key exists with an old English value, t() returns the locale value, silently ignoring the fallback"
 type: concept
+tags: [migration, cd, atlas, i18n]
 sources: [daily/2026-05-24.md]
-created: 2026-05-24
-updated: 2026-05-24
+created: "2026-05-24"
+updated: "2026-05-24"
 ---
-
 # i18n t() Fallback vs Locale Value
 
 ## The Misconception

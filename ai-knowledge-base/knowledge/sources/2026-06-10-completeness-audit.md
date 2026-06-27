@@ -1,12 +1,12 @@
 ---
 name: Beldify completeness audit (overnight 2026-06-10)
-description: 38-section feature-completeness matrix benchmarked against multi-vendor checklists and Moroccan competitors, plus prod health snapshot, six overnight fix packets, and a 12-item roadmap to #1 Moroccan marketplace
+description: "38-section feature-completeness matrix benchmarked against multi-vendor checklists and Moroccan competitors, plus prod health snapshot, six overnight fix packets, and a 12-item roadmap to #1 Moroccan marketplace"
 type: source
+tags: [notification, request, route, controller, model, cloudflare, containers, seller, buyer, cart]
 sources: [raw/2026-06-10-completeness-audit.md]
-created: 2026-06-10
-updated: 2026-06-10
+created: "2026-06-10"
+updated: "2026-06-10"
 ---
-
 # Beldify completeness audit (overnight 2026-06-10)
 
 ## Summary

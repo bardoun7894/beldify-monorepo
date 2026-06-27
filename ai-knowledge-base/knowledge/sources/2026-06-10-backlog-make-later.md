@@ -1,12 +1,12 @@
 ---
 name: Beldify backlog — "make later" (2026-06-10)
-description: Post-overnight-session backlog — activation steps for dormant built features (Stripe, CMI, SMS OTP, Google, shipping methods), features not built, QA-2 prod-code bugs, and the Open Souk UX roadmap
+description: "Post-overnight-session backlog — activation steps for dormant built features (Stripe, CMI, SMS OTP, Google, shipping methods), features not built, QA-2 prod-code bugs, and the Open Souk UX roadmap"
 type: source
+tags: [laravel, blade, migration, seeder, request, route, model, html, mysql, seller]
 sources: [raw/2026-06-10-backlog-make-later.md]
-created: 2026-06-10
-updated: 2026-06-10
+created: "2026-06-10"
+updated: "2026-06-10"
 ---
-
 # Beldify backlog — "make later" (2026-06-10)
 
 ## Summary

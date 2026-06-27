@@ -1,12 +1,12 @@
 ---
 name: CSS RTL Override with Physical Properties
-description: When overriding RTL-aware third-party CSS (e.g. PixInvent), logical properties (margin-inline-*) lose the cascade — use matching physical properties to win cleanly
+description: "When overriding RTL-aware third-party CSS (e.g. PixInvent), logical properties (margin-inline-*) lose the cascade — use matching physical properties to win cleanly"
 type: concept
+tags: [migration, tailwind, css, html, effect, atlas, rtl, arabic]
 sources: [daily/2026-05-23.md, daily/2026-05-28.md]
-created: 2026-05-23
-updated: 2026-05-28
+created: "2026-05-23"
+updated: "2026-05-28"
 ---
-
 # CSS RTL Override with Physical Properties
 
 ## Overview

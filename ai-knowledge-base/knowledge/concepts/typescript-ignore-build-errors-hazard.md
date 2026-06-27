@@ -1,12 +1,15 @@
 ---
 name: typescript.ignoreBuildErrors Production Hazard
-description: Next.js typescript.ignoreBuildErrors true let at least three type-detectable bugs ship to Beldify prod in one day — wrong-package import, string SW handlers, and destructuring nonexistent context fields
+description: "Next.js typescript.ignoreBuildErrors true let at least three type-detectable bugs ship to Beldify prod in one day — wrong-package import, string SW handlers, and destructuring nonexistent context fields"
 type: concept
-sources: [raw/2026-06-10-prod-console-errors-images-sw.md, raw/2026-06-10-home-marketplace-overhaul.md, raw/2026-06-10-frontend-completeness-audit.md]
-created: 2026-06-10
-updated: 2026-06-10
+tags: [gate, typescript, state, fetch, ci, cart, pattern, ui]
+sources:
+  - raw/2026-06-10-prod-console-errors-images-sw.md
+  - raw/2026-06-10-home-marketplace-overhaul.md
+  - raw/2026-06-10-frontend-completeness-audit.md
+created: "2026-06-10"
+updated: "2026-06-10"
 ---
-
 # typescript.ignoreBuildErrors Production Hazard
 
 ## Overview

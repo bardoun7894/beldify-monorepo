@@ -1,12 +1,12 @@
 ---
 name: SQLite Migration Driver Guard
-description: Pattern for making Laravel migrations compatible with both SQLite test and MySQL production environments by wrapping DDL operations in DB::getDriverName() checks
+description: "Pattern for making Laravel migrations compatible with both SQLite test and MySQL production environments by wrapping DDL operations in DB::getDriverName() checks"
 type: concept
+tags: [laravel, php, migration, seeder, mysql, service-repository, repository, pattern, atlas]
 sources: [daily/2026-05-24.md]
-created: 2026-05-25
-updated: 2026-05-25
+created: "2026-05-25"
+updated: "2026-05-25"
 ---
-
 # SQLite Migration Driver Guard
 
 Laravel's `Schema` builder silently delegates DDL to the underlying driver. SQLite does not support dropping foreign keys or named indexes — attempting these operations throws a fatal error and halts the entire test suite before a single test runs.

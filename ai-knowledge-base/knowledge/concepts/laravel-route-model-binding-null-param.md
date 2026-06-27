@@ -1,12 +1,12 @@
 ---
 name: Laravel Route Model Binding — No URL Segment Injects Empty Model
-description: When a controller type-hints Store $store but the route has no {store} segment, Laravel injects an unsaved empty model (exists=false, id=null), not null — any route() call using $store->id throws UrlGenerationException
+description: "When a controller type-hints Store $store but the route has no {store} segment, Laravel injects an unsaved empty model (exists=false, id=null), not null — any route() call using $store->id throws UrlGenerationException"
 type: concept
+tags: [laravel, php, blade, artisan, middleware, route, controller, model, component, seller]
 sources: [daily/2026-06-01.md]
-created: 2026-06-01
-updated: 2026-06-01
+created: "2026-06-01"
+updated: "2026-06-01"
 ---
-
 # Laravel Route Model Binding — No URL Segment Injects Empty Model
 
 ## Overview

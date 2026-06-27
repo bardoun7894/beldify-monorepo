@@ -1,12 +1,12 @@
 ---
 name: Beldify Local Named-Volume Sync Pattern
-description: The local Docker stack at :7895 serves code from a named volume (beldify_local_code), not a bind mount — host edits require explicit sync via sync-local.sh + opcache-aware restart to appear
+description: "The local Docker stack at :7895 serves code from a named volume (beldify_local_code), not a bind mount — host edits require explicit sync via sync-local.sh + opcache-aware restart to appear"
 type: concept
+tags: [laravel, php, blade, middleware, migration, route, tailwind, css, html, docker]
 sources: [daily/2026-05-31.md, daily/2026-06-01.md, daily/2026-06-02.md]
-created: 2026-05-31
-updated: 2026-06-02
+created: "2026-05-31"
+updated: "2026-06-02"
 ---
-
 # Beldify Local Named-Volume Sync Pattern
 
 ## Overview

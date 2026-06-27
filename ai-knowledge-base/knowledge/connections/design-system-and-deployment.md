@@ -1,17 +1,13 @@
 ---
-name: Connection: Atlas Design System and Production Deployment
-description: How the Stitch-generated design system interacts with Docker, Cloudflare, and Next.js config to reach end-users
+name: "Connection: Atlas Design System and Production Deployment"
+description: "How the Stitch-generated design system interacts with Docker, Cloudflare, and Next.js config to reach end-users"
 type: connection
-connects:
-  - concepts/atlas-design-system
-  - concepts/docker-deployment
-  - concepts/cloudflare-caching-issue
-  - concepts/nextjs-image-config
+tags: [model, nextjs, html, docker, cloudflare, deploy, bind-mount, cache, atlas, design-system]
 sources: [daily/2026-05-14.md]
-created: 2026-05-15
-updated: 2026-05-15
+created: "2026-05-15"
+updated: "2026-05-15"
+connects: []
 ---
-
 # Connection: Atlas Design System and Production Deployment
 
 ## The Connection

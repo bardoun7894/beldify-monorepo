@@ -1,12 +1,12 @@
 ---
-name: Marketplace Frontend + AI Review & P0 Backlog
-description: The 2026-06-19 multi-agent storefront+AI review, its 8 P0 findings, and the shipped fixes (PRs monorepo #7/#8, backend #11)
+name: "Marketplace Frontend + AI Review & P0 Backlog"
+description: "The 2026-06-19 multi-agent storefront+AI review, its 8 P0 findings, and the shipped fixes (PRs monorepo #7/#8, backend #11)"
 type: concept
+tags: [fetch, seller, buyer, shop, payment, order, product, category, shipping, whatsapp]
 sources: [sources/marketplace-frontend-ai-review-2026-06-19]
-created: 2026-06-19
-updated: 2026-06-19
+created: "2026-06-19"
+updated: "2026-06-19"
 ---
-
 # Marketplace Frontend + AI Review & P0 Backlog
 
 A whole-storefront buyer-experience and AI-product review of Beldify, distinct from the conversion-only [[concepts/marketplace-completeness-roadmap]] in that it adds a dedicated AI-product-reviewer lens and adversarial verification of every high-severity finding. The review was run as a deterministic workflow — eight parallel review slices feeding one adversarial verifier per Critical/High finding — which both sharpened severities and refuted four plausible-but-wrong claims before they reached the report.

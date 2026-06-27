@@ -1,12 +1,15 @@
 ---
 name: Serwist Service Worker Pitfalls
-description: Three prod-breaking serwist source bugs — defaultCache imported from 'serwist' instead of '@serwist/next/worker', string handler names instead of strategy instances in runtimeCaching, and defaultCache trailing catch-alls that turn blocked third-party beacons into SW no-response errors — plus the diagnostic signatures for each
+description: "Three prod-breaking serwist source bugs — defaultCache imported from 'serwist' instead of '@serwist/next/worker', string handler names instead of strategy instances in runtimeCaching, and defaultCache trailing catch-alls that turn blocked third-party beacons into SW no-response errors — plus the diagnostic signatures for each"
 type: concept
-sources: [raw/2026-06-10-prod-console-errors-images-sw.md, raw/2026-06-10-home-marketplace-overhaul.md, raw/2026-06-11-prod-console-errors-fix.md]
-created: 2026-06-10
-updated: 2026-06-11
+tags: [notification, request, response, route, typescript, fetch, docker, docker-compose, cloudflare, deploy]
+sources:
+  - raw/2026-06-10-prod-console-errors-images-sw.md
+  - raw/2026-06-10-home-marketplace-overhaul.md
+  - raw/2026-06-11-prod-console-errors-fix.md
+created: "2026-06-10"
+updated: "2026-06-11"
 ---
-
 # Serwist Service Worker Pitfalls
 
 ## Overview

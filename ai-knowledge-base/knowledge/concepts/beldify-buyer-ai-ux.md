@@ -1,12 +1,12 @@
 ---
 name: Beldify Buyer AI UX — real but under-reached
-description: The buyer-facing AI suite (NL search, review summaries, size advisor, try-on, recommendations) is ethically built and genuinely mounted; its weakness is discoverability/placement, not gimmickry
+description: "The buyer-facing AI suite (NL search, review summaries, size advisor, try-on, recommendations) is ethically built and genuinely mounted; its weakness is discoverability/placement, not gimmickry"
 type: concept
+tags: [buyer, product, arabic, ai, search, personalization]
 sources: [sources/marketplace-frontend-ai-review-2026-06-19]
-created: 2026-06-19
-updated: 2026-06-19
+created: "2026-06-19"
+updated: "2026-06-19"
 ---
-
 # Beldify Buyer AI UX — real but under-reached
 
 The 2026-06-19 AI-product-reviewer pass found something unusual for a marketplace: every buyer AI surface is real, actually rendered in a page (none orphaned), and built with restraint. The size advisor never auto-selects, shows a confidence level, hedges on low confidence, and only highlights in-stock sizes; review summaries return null below the three-review threshold so no fabricated social proof appears; NL search is fallback-safe; the try-on never stores the user photo. All are labeled as AI in Arabic, consistent with the project's no-fake-urgency ethics rule.

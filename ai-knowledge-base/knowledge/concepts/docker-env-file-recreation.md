@@ -1,12 +1,12 @@
 ---
 name: Docker env_file Recreation Requirement
-description: Docker reads env_file only at container creation — .env changes require --force-recreate, not docker restart, to take effect
+description: "Docker reads env_file only at container creation — .env changes require --force-recreate, not docker restart, to take effect"
 type: concept
+tags: [php, docker, docker-compose, deploy, bind-mount, cache, source-code]
 sources: [daily/2026-05-23.md]
-created: 2026-05-23
-updated: 2026-05-23
+created: "2026-05-23"
+updated: "2026-05-23"
 ---
-
 # Docker env_file Recreation Requirement
 
 ## Overview

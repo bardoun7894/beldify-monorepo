@@ -1,12 +1,12 @@
 ---
 name: Marketplace Frontend + AI Review (2026-06-19)
-description: 36-agent code-grounded review of the Beldify buyer storefront + AI suite — 11-section report, 8 P0s, adversarially verified, 4 findings refuted
+description: "36-agent code-grounded review of the Beldify buyer storefront + AI suite — 11-section report, 8 P0s, adversarially verified, 4 findings refuted"
 type: source
+tags: [seller, buyer, cart, category, shipping, arabic, ui, ux, ai, search]
 sources: [raw/marketplace-frontend-ai-review/2026-06-19-full-frontend-ai-review.md]
-created: 2026-06-19
-updated: 2026-06-19
+created: "2026-06-19"
+updated: "2026-06-19"
 ---
-
 # Marketplace Frontend + AI Review (2026-06-19)
 
 ## Summary

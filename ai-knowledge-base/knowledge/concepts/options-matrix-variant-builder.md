@@ -1,12 +1,12 @@
 ---
 name: Options→Matrix Variant Builder (Beldify Seller)
-description: Seller product form UX where the seller declares options once (Color, Size) and the system auto-generates the full combination matrix at the same base price — the Shopify-style pattern
+description: "Seller product form UX where the seller declares options once (Color, Size) and the system auto-generates the full combination matrix at the same base price — the Shopify-style pattern"
 type: concept
+tags: [php, blade, migration, javascript, mysql, seller, product, refactor, i18n, color]
 sources: [daily/2026-05-31.md]
-created: 2026-05-31
-updated: 2026-05-31
+created: "2026-05-31"
+updated: "2026-05-31"
 ---
-
 # Options→Matrix Variant Builder (Beldify Seller)
 
 ## Overview

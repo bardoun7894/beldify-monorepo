@@ -1,12 +1,12 @@
 ---
 name: Home marketplace overhaul + second SW P0 + products infinite scroll
-description: 2026-06-10 wave 2 — serwist string-handler P0 killed all API/image fetches; 4-agent home/products/nav overhaul (AliExpress-style); backend product-feed findings; three prod builds deployed
+description: "2026-06-10 wave 2 — serwist string-handler P0 killed all API/image fetches; 4-agent home/products/nav overhaul (AliExpress-style); backend product-feed findings; three prod builds deployed"
 type: source
+tags: [route, factory, typescript, state, fetch, docker, docker-compose, deploy, cart, checkout]
 sources: [raw/2026-06-10-home-marketplace-overhaul.md]
-created: 2026-06-10
-updated: 2026-06-10
+created: "2026-06-10"
+updated: "2026-06-10"
 ---
-
 # Home marketplace overhaul + second SW P0 + products infinite scroll
 
 ## Summary

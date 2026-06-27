@@ -2,11 +2,11 @@
 name: PHP Opcache Deployment Pitfall
 description: PHP-FPM opcache pins the old autoload classmap in memory even after composer dump-autoload — container restart (not docker restart) required to flush
 type: concept
+tags: [php, request, state, docker, docker-compose, pattern, cache]
 sources: [daily/2026-05-23.md]
-created: 2026-05-23
-updated: 2026-05-23
+created: "2026-05-23"
+updated: "2026-05-23"
 ---
-
 # PHP Opcache Deployment Pitfall
 
 ## Overview

@@ -1,12 +1,12 @@
 ---
 name: VariantWriteService (Beldify)
-description: Canonical single-normalizer for all variant writes in Beldify — admin, seller, and manage controllers all route through one service, ending split-brain variant persistence
+description: "Canonical single-normalizer for all variant writes in Beldify — admin, seller, and manage controllers all route through one service, ending split-brain variant persistence"
 type: concept
+tags: [laravel, php, eloquent, artisan, migration, queue, model, deploy, seller, product]
 sources: [daily/2026-05-31.md]
-created: 2026-05-31
-updated: 2026-05-31
+created: "2026-05-31"
+updated: "2026-05-31"
 ---
-
 # VariantWriteService (Beldify)
 
 ## Overview

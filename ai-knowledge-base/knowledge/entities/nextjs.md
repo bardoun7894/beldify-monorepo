@@ -2,11 +2,11 @@
 name: Next.js
 description: React-based full-stack framework for web applications
 type: entity
+tags: [laravel, react, architecture]
 sources: [sources/beldify-claude]
-created: 2026-05-08
-updated: 2026-05-08
+created: "2026-05-08"
+updated: "2026-05-08"
 ---
-
 # Next.js
 
 ## What it is

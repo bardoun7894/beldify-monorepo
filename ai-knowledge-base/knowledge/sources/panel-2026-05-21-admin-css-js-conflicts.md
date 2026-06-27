@@ -1,12 +1,12 @@
 ---
 name: Panel decision — admin CSS/JS conflicts (Atlas vs Filament)
-description: Strategic panel; decided finish Atlas migration (not Filament), commissions-cluster-first + CI freeze rules
+description: "Strategic panel; decided finish Atlas migration (not Filament), commissions-cluster-first + CI freeze rules"
 type: source
+tags: [php, migration, filament, tailwind, css, ci, atlas]
 sources: [raw/panel/2026-05-21-admin-css-js-conflicts.md]
-created: 2026-06-03
-updated: 2026-06-03
+created: "2026-06-03"
+updated: "2026-06-03"
 ---
-
 # Panel decision — admin CSS/JS conflicts (Atlas vs Filament)
 
 ## Summary

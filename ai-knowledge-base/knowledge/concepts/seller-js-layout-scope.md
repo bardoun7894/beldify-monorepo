@@ -1,12 +1,12 @@
 ---
 name: Seller JS Layout Scope — Scripts in Page Templates vs Shell
-description: Including seller-dashboard.js only in dashboard.blade.php meant the Simple/Advanced toggle was absent on all other seller pages — fix is to include shared JS in the shell layout, not individual page templates
+description: "Including seller-dashboard.js only in dashboard.blade.php meant the Simple/Advanced toggle was absent on all other seller pages — fix is to include shared JS in the shell layout, not individual page templates"
 type: concept
+tags: [php, blade, seller, ui, search]
 sources: [daily/2026-06-01.md]
-created: 2026-06-01
-updated: 2026-06-01
+created: "2026-06-01"
+updated: "2026-06-01"
 ---
-
 # Seller JS Layout Scope — Scripts in Page Templates vs Shell
 
 ## Overview

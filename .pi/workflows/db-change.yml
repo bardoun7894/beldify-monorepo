@@ -1,0 +1,119 @@
+description: "Database migration pipeline: plan → create → test → apply"
+maxTransitions: 6
+
+phases:
+  - id: plan
+    thinking: high
+    tools:
+      - read
+      - find
+      - ls
+      - grep
+    output:
+      type: text
+      description: "Migration plan with schema changes, rollback strategy, and data mapping."
+    prompt: |
+      Task:
+      {{input}}
+
+      Plan a database change for Beldify (Laravel 10, MySQL).
+      Read existing migrations in beldify-backend/database/migrations/ and models in beldify-backend/app/Models/.
+
+      Plan:
+      - Table(s) affected
+      - Columns to add/modify/drop with types and constraints
+      - Foreign keys and indexes
+      - Default data migration (if any)
+      - Rollback strategy
+      - Model updates needed
+
+  - id: migrate
+    thinking: medium
+    tools:
+      - read
+      - edit
+      - write
+      - bash
+      - grep
+      - find
+      - ls
+    output:
+      type: text
+      description: "Migration creation summary."
+    prompt: |
+      Original task:
+      {{input}}
+
+      Plan:
+      {{phase.plan.output}}
+
+      Create the migration:
+      1. Run: cd beldify-backend && php artisan make:migration description_of_change
+      2. Edit the generated migration file in beldify-backend/database/migrations/
+      3. Update the related Model in beldify-backend/app/Models/
+      4. Add fillable/casts/relationships to the model
+      5. If the change is breaking, create a seeder for data migration
+
+      Show the migration file path and content summary.
+
+  - id: test
+    thinking: medium
+    tools:
+      - read
+      - bash
+      - grep
+      - find
+      - ls
+    output:
+      type: structured
+      status:
+        enum: [PASS, FAIL]
+        description: "PASS when migration is valid; FAIL when validation fails."
+      report: "Migration validation results."
+    next:
+      - if:
+          status: FAIL
+        goto: migrate
+      - if:
+          status: PASS
+        goto: docs
+      - end: true
+    prompt: |
+      Original task:
+      {{input}}
+
+      Plan:
+      {{phase.plan.output}}
+
+      Migration:
+      {{phase.migrate.output}}
+
+      Validate the migration:
+      1. Run: cd beldify-backend && php artisan migrate --pretend 2>&1
+      2. Run: cd beldify-backend && php artisan migrate:rollback --pretend 2>&1
+      3. Check for SQL syntax errors
+      4. Verify rollback reverses the change cleanly
+      5. Run: cd beldify-backend && php artisan test --filter="Migration" 2>&1 | tail -15
+
+  - id: docs
+    thinking: low
+    tools:
+      - read
+      - edit
+      - write
+      - bash
+      - grep
+      - find
+      - ls
+    prompt: |
+      Original task:
+      {{input}}
+
+      Migration:
+      {{phase.migrate.output}}
+
+      Validation:
+      {{phase.test.output}}
+
+      Update docs/architecture/database.md with the schema change.
+      Note any backwards compatibility concerns in docs/guides/migration-guide.md if needed.

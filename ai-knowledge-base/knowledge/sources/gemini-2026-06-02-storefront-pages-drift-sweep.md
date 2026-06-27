@@ -1,12 +1,12 @@
 ---
 name: Gemini drift sweep — storefront pages
-description: ~30 Atlas design-system drift findings across storefront pages (contrast, currency-mad, JIT, RTL, glassmorphism)
+description: "~30 Atlas design-system drift findings across storefront pages (contrast, currency-mad, JIT, RTL, glassmorphism)"
 type: source
+tags: [tailwind, css, checkout, atlas, design-system, rtl]
 sources: [raw/gemini/2026-06-02-storefront-pages-drift-sweep.txt]
-created: 2026-06-03
-updated: 2026-06-03
+created: "2026-06-03"
+updated: "2026-06-03"
 ---
-
 # Gemini drift sweep — storefront pages
 
 ## Summary

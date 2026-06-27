@@ -2,11 +2,11 @@
 name: Open Souk Feature
 description: Community reverse-marketplace renamed to "Open Souk / السوق المفتوح" with full Darija localization and a seller-side Freelancer-style browse/bid/track UX
 type: concept
+tags: [laravel, php, blade, response, nextjs, state, seller, buyer, category, atlas]
 sources: [daily/2026-05-21.md, daily/2026-05-24.md]
-created: 2026-05-21
-updated: 2026-05-24
+created: "2026-05-21"
+updated: "2026-05-24"
 ---
-
 # Open Souk Feature
 
 ## Overview

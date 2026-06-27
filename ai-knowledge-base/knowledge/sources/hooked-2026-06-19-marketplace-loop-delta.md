@@ -1,12 +1,12 @@
 ---
-name: Hooked Audit (Delta) — Beldify Marketplace Loop, 2026-06-19
-description: Delta Hooked audit ten days after the 06-09 pass — 6 packets survived, the PWA install modal regressed (P0), the wishlist merge silently dropped notify flags (P1), and two i18n correctness bugs; all four fixed and committed (19e13cb)
+name: "Hooked Audit (Delta) — Beldify Marketplace Loop, 2026-06-19"
+description: "Delta Hooked audit ten days after the 06-09 pass — 6 packets survived, the PWA install modal regressed (P0), the wishlist merge silently dropped notify flags (P1), and two i18n correctness bugs; all four fixed and committed (19e13cb)"
 type: source
+tags: [event, gate, model, query, buyer, shop, product, auth, arabic, i18n]
 sources: [raw/hooked/2026-06-19-marketplace-loop-delta.md]
-created: 2026-06-19
-updated: 2026-06-19
+created: "2026-06-19"
+updated: "2026-06-19"
 ---
-
 # Hooked Audit (Delta) — Beldify Marketplace Loop, 2026-06-19
 
 ## Summary

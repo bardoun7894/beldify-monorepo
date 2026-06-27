@@ -2,11 +2,11 @@
 name: Production Database Reset
 description: Safe workflow for wiping and reseeding the Beldify production MySQL database
 type: concept
+tags: [laravel, php, migration, seeder, state, docker, mysql, seller, pattern, multi-seller]
 sources: [daily/2026-05-14.md]
-created: 2026-05-15
-updated: 2026-05-15
+created: "2026-05-15"
+updated: "2026-05-15"
 ---
-
 # Production Database Reset
 
 ## Overview

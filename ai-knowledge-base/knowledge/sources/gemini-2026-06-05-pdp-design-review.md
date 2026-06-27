@@ -1,12 +1,12 @@
 ---
 name: Gemini review — PDP info pane design (2026-06-05)
-description: Gemini 2.5 Pro design review of the PDP info pane (products/[id]/page.tsx lines 1370-1766) with Claude synthesis — seller-card void, RTL description direction, spacing hierarchy, empty-rating noise
+description: "Gemini 2.5 Pro design review of the PDP info pane (products/[id]/page.tsx lines 1370-1766) with Claude synthesis — seller-card void, RTL description direction, spacing hierarchy, empty-rating noise"
 type: source
+tags: [migration, seller, shop, cart, product, atlas, design-system, rtl, i18n]
 sources: [raw/gemini/2026-06-05-pdp-design-review.md]
-created: 2026-06-10
-updated: 2026-06-10
+created: "2026-06-10"
+updated: "2026-06-10"
 ---
-
 # Gemini review — PDP info pane design (2026-06-05)
 
 ## Summary

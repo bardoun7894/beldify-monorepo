@@ -2,11 +2,11 @@
 name: Docker Local Production Mirror
 description: Multi-step pattern for replicating the Beldify Contabo production server to a local Docker stack — server tarball + mysqldump + named volume — enabling fast local iteration without touching prod
 type: concept
+tags: [laravel, php, artisan, migration, html, state, docker, docker-compose, nginx, mysql]
 sources: [daily/2026-05-29.md]
-created: 2026-05-29
-updated: 2026-05-29
+created: "2026-05-29"
+updated: "2026-05-29"
 ---
-
 # Docker Local Production Mirror
 
 ## Overview

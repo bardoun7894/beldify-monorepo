@@ -1,12 +1,12 @@
 ---
 name: Admin audit + sellers-on-prod + jewelry + full deploy (2026-06-10 evening)
-description: Three backend fix packets (seller, admin routes, accounting/R10) deployed via git-archive-over-ssh; prod data fixes (jewelry seeded, seller roles); commission R10 closed incl. duplicate-OrderObserver P0; admin UI sweep + 4 fix packets; nightly DB backups added
+description: "Three backend fix packets (seller, admin routes, accounting/R10) deployed via git-archive-over-ssh; prod data fixes (jewelry seeded, seller roles); commission R10 closed incl. duplicate-OrderObserver P0; admin UI sweep + 4 fix packets; nightly DB backups added"
 type: source
+tags: [laravel, php, artisan, migration, request, route, model, tailwind, css, nginx]
 sources: [raw/2026-06-10-admin-audit-sellers-jewelry-deploy.md]
-created: 2026-06-10
-updated: 2026-06-10
+created: "2026-06-10"
+updated: "2026-06-10"
 ---
-
 # Admin audit + sellers-on-prod + jewelry + full deploy (2026-06-10 evening)
 
 ## Summary

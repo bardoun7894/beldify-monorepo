@@ -1,12 +1,12 @@
 ---
 name: Home Merchandising Roadmap
-description: Phased plan to give the Beldify home page Homzmart-grade merchandising (promo surfaces, mini-PDP cards, campaign banners, occasion zones) without losing Atlas colors or the OpenSouk identity
+description: "Phased plan to give the Beldify home page Homzmart-grade merchandising (promo surfaces, mini-PDP cards, campaign banners, occasion zones) without losing Atlas colors or the OpenSouk identity"
 type: concept
+tags: [request, model, shop, product, category, atlas, design-system]
 sources: [sources/2026-06-10-homzmart-vs-beldify-home-analysis]
-created: 2026-06-10
-updated: 2026-06-10
+created: "2026-06-10"
+updated: "2026-06-10"
 ---
-
 # Home Merchandising Roadmap
 
 The Beldify home page adopts marketplace merchandising structure from the Homzmart analysis in phases, explicitly preserving brand identity: the neutral near-white canvas with indigo brand bands and amber accents stays, and OpenSouk remains the only indigo full-bleed band, made more distinct rather than flattened.

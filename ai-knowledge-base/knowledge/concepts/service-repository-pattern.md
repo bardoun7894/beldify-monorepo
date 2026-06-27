@@ -2,11 +2,11 @@
 name: Service-Repository Pattern
 description: Architectural pattern separating business logic from data access in Laravel
 type: concept
+tags: [laravel, redis, fcm, pattern]
 sources: [sources/backend-claude]
-created: 2026-05-08
-updated: 2026-05-08
+created: "2026-05-08"
+updated: "2026-05-08"
 ---
-
 # Service-Repository Pattern
 
 ## Overview

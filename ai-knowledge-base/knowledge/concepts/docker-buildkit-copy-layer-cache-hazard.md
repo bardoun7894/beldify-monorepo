@@ -1,12 +1,12 @@
 ---
 name: Docker BuildKit COPY-layer cache hazard
-description: BuildKit can false-hit the `COPY . .` layer cache after a single-file change lands in the build context — the fresh-looking image silently ships old code; verify an in-image content marker before deploying, and force --no-cache when stale
+description: "BuildKit can false-hit the `COPY . .` layer cache after a single-file change lands in the build context — the fresh-looking image silently ships old code; verify an in-image content marker before deploying, and force --no-cache when stale"
 type: concept
+tags: [docker, deploy, ci, shipping, cache]
 sources: [sources/2026-06-11-prod-console-errors-fix]
-created: 2026-06-11
-updated: 2026-06-11
+created: "2026-06-11"
+updated: "2026-06-11"
 ---
-
 # Docker BuildKit COPY-layer cache hazard
 
 A multi-stage image rebuild can produce a brand-new image tag, take full build time, and still ship code compiled from a **stale build context snapshot**. On 2026-06-11 the Beldify frontend image was rebuilt minutes after a changed `src/app/sw.ts` was scp'd into the live tree (mtime, size, and md5 all verified server-side before the build) — yet the resulting image's `public/sw.js` was compiled from the old source. BuildKit had reused the `COPY . .` layer (and everything after it) from a build made earlier the same evening.

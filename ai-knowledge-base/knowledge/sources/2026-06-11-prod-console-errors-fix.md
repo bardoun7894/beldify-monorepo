@@ -2,11 +2,11 @@
 name: Prod console errors fixed — SW beacon noise + dead unsplash product images (2026-06-11)
 description: Both 2026-06-10 prod console errors closed — serwist defaultCache catch-alls stripped (CF beacon no-response) and 8 product_images rows with fabricated unsplash IDs replaced in the prod DB; BuildKit stale-layer deploy caught by an in-image grep marker
 type: source
+tags: [php, artisan, response, tinker, typescript, html, fetch, docker, cloudflare, deploy]
 sources: [raw/2026-06-11-prod-console-errors-fix.md]
-created: 2026-06-11
-updated: 2026-06-11
+created: "2026-06-11"
+updated: "2026-06-11"
 ---
-
 # Prod console errors fixed — SW beacon noise + dead unsplash product images
 
 ## Summary

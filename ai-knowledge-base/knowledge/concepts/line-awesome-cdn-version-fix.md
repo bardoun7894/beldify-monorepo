@@ -2,11 +2,11 @@
 name: Line Awesome CDN Version Mismatch (seller_shell)
 description: seller_shell loaded Line Awesome 1.1.0 from a dead CDN causing blank KPI icons; fix was upgrading to 1.3.0 matching the admin layout
 type: concept
+tags: [php, blade, migration, request, css, html, cloudflare, volume, seller, auth]
 sources: [daily/2026-05-31.md]
-created: 2026-05-31
-updated: 2026-05-31
+created: "2026-05-31"
+updated: "2026-05-31"
 ---
-
 # Line Awesome CDN Version Mismatch
 
 ## Overview

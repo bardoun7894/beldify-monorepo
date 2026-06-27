@@ -1,12 +1,15 @@
 ---
 name: Beldify Retention Loop Closure (Hooked Model)
-description: Closing the marketplace return loop ethically — re-aimed web push, contextual opt-ins, follow-a-shop, and reorder shipped 2026-06-09; the loop stays inert until VAPID keys, a queue worker, and the hourly cron run in prod
+description: "Closing the marketplace return loop ethically — re-aimed web push, contextual opt-ins, follow-a-shop, and reorder shipped 2026-06-09; the loop stays inert until VAPID keys, a queue worker, and the hourly cron run in prod"
 type: concept
-sources: [raw/hooked/2026-06-09-opensouk-marketplace-loop.md, raw/2026-06-10-admin-audit-sellers-jewelry-deploy.md, raw/hooked/2026-06-19-marketplace-loop-delta.md]
-created: 2026-06-10
-updated: 2026-06-19
+tags: [laravel, php, queue, event, notification, gate, model, query, docker, docker-compose]
+sources:
+  - raw/hooked/2026-06-09-opensouk-marketplace-loop.md
+  - raw/2026-06-10-admin-audit-sellers-jewelry-deploy.md
+  - raw/hooked/2026-06-19-marketplace-loop-delta.md
+created: "2026-06-10"
+updated: "2026-06-19"
 ---
-
 # Beldify Retention Loop Closure (Hooked Model)
 
 ## Overview

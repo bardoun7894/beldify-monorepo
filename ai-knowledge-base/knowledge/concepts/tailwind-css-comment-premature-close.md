@@ -1,12 +1,12 @@
 ---
-title: Tailwind / PostCSS CSS Comment Premature-Close Bug
+name: Tailwind / PostCSS CSS Comment Premature-Close Bug
+description: ""
+type: concept
 tags: [tailwind, postcss, css, debugging, build]
-created: 2026-06-02
-updated: 2026-06-02
-sources:
-  - daily/2026-06-02.md
+sources: []
+created: "2026-06-02"
+updated: "2026-06-02"
 ---
-
 # Tailwind / PostCSS CSS Comment Premature-Close Bug
 
 ## Problem

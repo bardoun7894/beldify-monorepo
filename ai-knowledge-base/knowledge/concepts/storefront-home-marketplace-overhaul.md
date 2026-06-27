@@ -1,12 +1,15 @@
 ---
-name: Storefront Home & Marketplace Overhaul (2026-06-10)
-description: AliExpress-style mobile-first overhaul of home, products listing, and bottom navigation — compressed hero, category chips rail, DiscoverFeed and products infinite scroll, 5-tab nav, and the product-feed API contract
+name: "Storefront Home & Marketplace Overhaul (2026-06-10)"
+description: "AliExpress-style mobile-first overhaul of home, products listing, and bottom navigation — compressed hero, category chips rail, DiscoverFeed and products infinite scroll, 5-tab nav, and the product-feed API contract"
 type: concept
-sources: [raw/2026-06-10-home-marketplace-overhaul.md, raw/2026-06-10-i18n-7-locale-expansion.md, raw/2026-06-10-frontend-completeness-audit.md]
-created: 2026-06-10
-updated: 2026-06-10
+tags: [migration, policy, typescript, state, cart, checkout, product, category, shipping, pattern]
+sources:
+  - raw/2026-06-10-home-marketplace-overhaul.md
+  - raw/2026-06-10-i18n-7-locale-expansion.md
+  - raw/2026-06-10-frontend-completeness-audit.md
+created: "2026-06-10"
+updated: "2026-06-10"
 ---
-
 # Storefront Home & Marketplace Overhaul (2026-06-10)
 
 ## Overview

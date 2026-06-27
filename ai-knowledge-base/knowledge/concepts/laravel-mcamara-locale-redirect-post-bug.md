@@ -2,11 +2,11 @@
 name: Laravel mcamara Locale-Redirect POST→GET 405 Bug
 description: POSTing to a locale-less route triggers mcamara localeSessionRedirect → 302 → browser replays as GET → MethodNotAllowedHttpException (405) on POST-only routes; fix is GET links that swap the locale segment in the current URL
 type: concept
+tags: [laravel, php, blade, middleware, request, route, tinker, pattern, architecture, i18n]
 sources: [daily/2026-06-02.md]
-created: 2026-06-02
-updated: 2026-06-02
+created: "2026-06-02"
+updated: "2026-06-02"
 ---
-
 # Laravel mcamara Locale-Redirect POST→GET 405 Bug
 
 ## Problem

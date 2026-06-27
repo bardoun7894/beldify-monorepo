@@ -1,12 +1,16 @@
 ---
-name: Beldify Dormant Features & Activation Steps
-description: Features built but switched off pending external credentials or decisions — Stripe, CMI, SMS OTP, Google sign-in, shipping methods, MegaOffer countdowns — and the exact steps to activate each
+name: "Beldify Dormant Features & Activation Steps"
+description: "Features built but switched off pending external credentials or decisions — Stripe, CMI, SMS OTP, Google sign-in, shipping methods, MegaOffer countdowns — and the exact steps to activate each"
 type: concept
-sources: [raw/2026-06-10-backlog-make-later.md, raw/2026-06-10-feature-007-seller-ai-credits.md, raw/2026-06-10-admin-audit-sellers-jewelry-deploy.md, raw/marketplace-frontend-ai-review/2026-06-19-full-frontend-ai-review.md]
-created: 2026-06-10
-updated: 2026-06-19
+tags: [laravel, blade, migration, model, html, state, mysql, deploy, seller, cart]
+sources:
+  - raw/2026-06-10-backlog-make-later.md
+  - raw/2026-06-10-feature-007-seller-ai-credits.md
+  - raw/2026-06-10-admin-audit-sellers-jewelry-deploy.md
+  - raw/marketplace-frontend-ai-review/2026-06-19-full-frontend-ai-review.md
+created: "2026-06-10"
+updated: "2026-06-19"
 ---
-
 # Beldify Dormant Features & Activation Steps
 
 ## Overview

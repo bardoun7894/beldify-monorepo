@@ -2,11 +2,11 @@
 name: beldify-ecommerce-ui Skill
 description: Custom Claude Code skill enforcing Atlas design + frontend-engineer/impeccable/gemini toolchain for all Beldify UI changes — stored at .claude/skills/beldify-ecommerce-ui/SKILL.md; first real execution on 2026-06-02 covering 7 surfaces
 type: concept
+tags: [laravel, php, blade, artisan, migration, route, tailwind, css, html, query]
 sources: [daily/2026-05-31.md, daily/2026-06-02.md]
-created: 2026-05-31
-updated: 2026-06-02
+created: "2026-05-31"
+updated: "2026-06-02"
 ---
-
 # beldify-ecommerce-ui Skill
 
 ## Overview

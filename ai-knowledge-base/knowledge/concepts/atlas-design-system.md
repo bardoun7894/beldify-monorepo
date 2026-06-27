@@ -2,11 +2,11 @@
 name: Beldify Atlas Design System
 description: Editorial Moroccan-marketplace design system for the Beldify frontend — Atlas Indigo + Saffron Amber palette
 type: concept
+tags: [laravel, php, nextjs, react, tailwind, html, component, state, cloudflare, seller]
 sources: [daily/2026-05-14.md, daily/2026-05-21.md]
-created: 2026-05-15
-updated: 2026-05-21
+created: "2026-05-15"
+updated: "2026-05-21"
 ---
-
 # Beldify Atlas Design System
 
 ## Overview

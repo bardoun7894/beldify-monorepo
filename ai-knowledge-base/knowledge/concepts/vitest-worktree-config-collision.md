@@ -1,12 +1,12 @@
 ---
 name: Vitest Worktree Config Collision
-description: Vitest walks parent directories for vite.config.ts — in a git worktree the parent may be the monorepo root with a config that lacks vitest as a dependency, causing test runs to crash
+description: "Vitest walks parent directories for vite.config.ts — in a git worktree the parent may be the monorepo root with a config that lacks vitest as a dependency, causing test runs to crash"
 type: concept
+tags: [migration, ci, checkout, atlas]
 sources: [daily/2026-05-24.md]
-created: 2026-05-24
-updated: 2026-05-24
+created: "2026-05-24"
+updated: "2026-05-24"
 ---
-
 # Vitest Worktree Config Collision
 
 ## The Problem

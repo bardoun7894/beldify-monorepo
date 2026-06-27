@@ -1,12 +1,12 @@
 ---
 name: Next.js i18n Lint
-description: Custom static-analysis script (scripts/i18n-lint.mjs) that scans JSX text nodes and HTML attribute values for untranslated literals, with known gap for JS string arrays
+description: "Custom static-analysis script (scripts/i18n-lint.mjs) that scans JSX text nodes and HTML attribute values for untranslated literals, with known gap for JS string arrays"
 type: concept
+tags: [migration, html, pattern, atlas, i18n, ui]
 sources: [daily/2026-05-24.md]
-created: 2026-05-25
-updated: 2026-05-25
+created: "2026-05-25"
+updated: "2026-05-25"
 ---
-
 # Next.js i18n Lint
 
 `scripts/i18n-lint.mjs` is a project-local static analyser that walks the Next.js `src/` tree and reports JSX text nodes and HTML attribute values (`title`, `aria-label`, `placeholder`, `alt`) that appear to be untranslated English literals.

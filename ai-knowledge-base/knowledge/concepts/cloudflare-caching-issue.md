@@ -2,11 +2,11 @@
 name: Cloudflare CDN Caching Issue
 description: Long-lived Cloudflare edge cache pinning stale Next.js chunks and how to resolve it
 type: concept
+tags: [nextjs, docker, cloudflare, cache, atlas, design-system]
 sources: [daily/2026-05-14.md]
-created: 2026-05-15
-updated: 2026-05-15
+created: "2026-05-15"
+updated: "2026-05-15"
 ---
-
 # Cloudflare CDN Caching Issue
 
 ## Overview

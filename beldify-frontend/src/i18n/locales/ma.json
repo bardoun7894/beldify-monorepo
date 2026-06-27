@@ -400,7 +400,8 @@
     "messages": "الرسائل",
     "register": "سجّل دابا",
     "login_short": "دخول",
-    "openSouk": "السوق المفتوح"
+    "openSouk": "السوق المفتوح",
+    "seller_dashboard": "لوحة التحكم ديالي البايع"
   },
   "megaOffers": {
     "title": "عروض كبار",
@@ -4465,6 +4466,9 @@
     "previewBestOffer": "أحسن عرض"
   },
   "seller": {
+    "shortcut_title": "لوحة التحكم ديالي البايع",
+    "shortcut_body": "أدّر المتجر ديالك والمنتجات والطلبات",
+    "shortcut_cta": "افتح اللوحة",
     "register": {
       "already_seller_body": "تقدر تدخل لوحتك ديال التحكم باش تخدم المنتوجات والطلبات والفلوس.",
       "already_seller_title": "عندك حساب بائع بحال",

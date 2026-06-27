@@ -2,8 +2,11 @@
 name: prod-local-git-drift
 description: CSS cache-buster bumps applied directly on prod without committing create a divergence that breaks rsync and hides regressions
 type: concept
+tags: [php, blade, css, html, state, query, docker, deploy, pattern, cache]
+sources: []
+created: ""
+updated: ""
 ---
-
 # Prod-Local Git Drift
 
 ## Problem

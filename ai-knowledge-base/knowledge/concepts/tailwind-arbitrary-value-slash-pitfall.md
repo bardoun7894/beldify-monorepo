@@ -1,16 +1,12 @@
 ---
-title: Tailwind v3 Arbitrary-Value Internal Slash Pitfall
+name: Tailwind v3 Arbitrary-Value Internal Slash Pitfall
+description: ""
+type: concept
 tags: [tailwind, css, tokens, atlas, build]
-created: 2026-06-02
-updated: 2026-06-02
-sources:
-  - daily/2026-06-02.md
-related:
-  - "[[concepts/tailwind-jit-dynamic-class-pitfalls]]"
-  - "[[concepts/tailwind-css-comment-premature-close]]"
-  - "[[concepts/beldify-tailwind-atlas-token-collision]]"
+sources: []
+created: "2026-06-02"
+updated: "2026-06-02"
 ---
-
 # Tailwind v3 Arbitrary-Value Internal Slash Pitfall
 
 ## Problem

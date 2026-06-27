@@ -1,12 +1,12 @@
 ---
 name: Stitch Design Generation
-description: Using the Stitch MCP to generate editorial UI screens for Beldify, then porting them to React
+description: "Using the Stitch MCP to generate editorial UI screens for Beldify, then porting them to React"
 type: concept
+tags: [gate, route, model, nextjs, react, typescript, css, html, state, docker]
 sources: [daily/2026-05-14.md]
-created: 2026-05-15
-updated: 2026-05-15
+created: "2026-05-15"
+updated: "2026-05-15"
 ---
-
 # Stitch Design Generation
 
 ## Overview

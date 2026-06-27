@@ -1,12 +1,12 @@
 ---
 name: Seeder NOT NULL FK pre-resolution
-description: When a Laravel seeder fails on NOT NULL foreign-key columns, pre-resolve the referenced IDs and inject them explicitly into each row before insert
+description: "When a Laravel seeder fails on NOT NULL foreign-key columns, pre-resolve the referenced IDs and inject them explicitly into each row before insert"
 type: concept
+tags: [laravel, php, artisan, seeder, state, fetch, docker, auth, pattern]
 sources: [sources/sessions-2026-05-14-7f3c17d0]
-created: 2026-05-21
-updated: 2026-05-21
+created: "2026-05-21"
+updated: "2026-05-21"
 ---
-
 # Seeder NOT NULL FK pre-resolution
 
 ## Summary

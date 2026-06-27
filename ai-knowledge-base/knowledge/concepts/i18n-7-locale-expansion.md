@@ -1,12 +1,12 @@
 ---
-name: i18n 7-Locale Expansion & Content-Locale Rule
-description: Storefront grew to 7 UI locales (ar, ma, en, fr, es, nl, de) at exact key parity via a Haiku-agent translation pipeline; bilingual catalog content follows the rule "ar content for ar+ma, en content for everything else" via LanguageService::contentLocale + ApiLocaleMiddleware
+name: "i18n 7-Locale Expansion & Content-Locale Rule"
+description: "Storefront grew to 7 UI locales (ar, ma, en, fr, es, nl, de) at exact key parity via a Haiku-agent translation pipeline; bilingual catalog content follows the rule \"ar content for ar+ma, en content for everything else\" via LanguageService::contentLocale + ApiLocaleMiddleware"
 type: concept
+tags: [laravel, blade, gate, validation, nextjs, axios, shop, order, product, category]
 sources: [raw/2026-06-10-i18n-7-locale-expansion.md]
-created: 2026-06-10
-updated: 2026-06-10
+created: "2026-06-10"
+updated: "2026-06-10"
 ---
-
 # i18n 7-Locale Expansion & Content-Locale Rule
 
 On 2026-06-10 the Beldify storefront expanded from 5 to 7 UI locales by adding Dutch (informal je/jouw) and German (informal du, Zalando register), and — more importantly — reached exact locale parity: a normalized union of 3628 leaf keys with 0 missing keys in every locale. Getting there required resolving long-standing leaf/branch collisions to their code-canonical shapes (`orders.payment_status.*` and `community.category.*` are branches used via dynamic `t()`; `footer.newsletter/shop/returns` are leaves) and fixing latent bugs the parity work exposed: the Arabic footer rendering a raw key, and fr/es order labels showing literal `{{color}}`/`{{size}}` placeholders.

@@ -1,0 +1,114 @@
+description: "Bug fix pipeline: diagnose → fix → verify → docs"
+maxTransitions: 8
+
+phases:
+  - id: diagnose
+    thinking: high
+    tools:
+      - read
+      - bash
+      - grep
+      - find
+      - ls
+    output:
+      type: text
+      description: "Root cause analysis with reproduction steps."
+    prompt: |
+      Bug report:
+      {{input}}
+
+      Systematically debug this issue:
+      1. Read relevant source files (frontend: beldify-frontend/, backend: beldify-backend/)
+      2. Check logs, error messages, and stack traces
+      3. Identify root cause with file:line references
+      4. Propose a targeted fix (what to change, where, and why)
+
+  - id: fix
+    thinking: medium
+    tools:
+      - read
+      - edit
+      - write
+      - bash
+      - grep
+      - find
+      - ls
+    output:
+      type: text
+      description: "Fix applied summary listing files changed."
+    prompt: |
+      Bug report:
+      {{input}}
+
+      Diagnosis:
+      {{phase.diagnose.output}}
+
+      Apply the fix. Be minimal — change only what's needed to resolve the root cause. Do not refactor or add features.
+
+  - id: verify
+    thinking: medium
+    tools:
+      - read
+      - bash
+      - grep
+      - find
+      - ls
+    output:
+      type: structured
+      status:
+        enum: [PASS, FAIL]
+        description: "PASS when verification confirms the fix; FAIL when it doesn't."
+      report: "Verification results."
+      data:
+        fields:
+          checksPassed:
+            type: integer
+            description: "Number of verification checks that passed."
+    next:
+      - if:
+          status: FAIL
+        goto: diagnose
+      - if:
+          status: PASS
+        goto: docs
+      - end: true
+    prompt: |
+      Bug report:
+      {{input}}
+
+      Diagnosis:
+      {{phase.diagnose.output}}
+
+      Fix applied:
+      {{phase.fix.output}}
+
+      Verify the fix:
+      1. Run frontend lint: cd beldify-frontend && npm run lint
+      2. Run backend tests: cd beldify-backend && php artisan test 2>&1 | tail -20
+      3. Check that the original bug scenario no longer applies
+      4. If relevant, run build: cd beldify-frontend && npm run build:dev 2>&1 | tail -10
+
+  - id: docs
+    thinking: low
+    tools:
+      - read
+      - edit
+      - write
+      - bash
+      - grep
+      - find
+      - ls
+    prompt: |
+      Bug report:
+      {{input}}
+
+      Diagnosis:
+      {{phase.diagnose.output}}
+
+      Fix:
+      {{phase.fix.output}}
+
+      Verification:
+      {{phase.verify.output}}
+
+      Update docs/changelog/ with a bug fix entry. If the bug involved config/environment changes, update .env.example and relevant docs.

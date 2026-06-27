@@ -1,12 +1,12 @@
 ---
 name: Beldify Admin V3 Sidebar
-description: Clean V3 sidebar for the Beldify Laravel admin — indigo gradient surface, collapse rail, Cmd+K palette, dynamic badge counts, simplified 17-item menu; no PixInvent conflicts
+description: "Clean V3 sidebar for the Beldify Laravel admin — indigo gradient surface, collapse rail, Cmd+K palette, dynamic badge counts, simplified 17-item menu; no PixInvent conflicts"
 type: concept
+tags: [php, blade, migration, notification, route, css, html, component, hook, state]
 sources: [daily/2026-05-23.md, daily/2026-05-24.md, daily/2026-05-28.md]
-created: 2026-05-23
-updated: 2026-05-28
+created: "2026-05-23"
+updated: "2026-05-28"
 ---
-
 # Beldify Admin V3 Sidebar
 
 ## Overview

@@ -1,12 +1,12 @@
 ---
 name: Feature 007 — Seller AI tools + credit billing (2026-06-10)
-description: Implementation log for feat/ai-seller-credits — per-store credit wallets with append-only ledger, four credit-charged seller AI endpoints, admin credits console, and the /seller/credits frontend; QA gate PASS, unmerged at time of writing
+description: "Implementation log for feat/ai-seller-credits — per-store credit wallets with append-only ledger, four credit-charged seller AI endpoints, admin credits console, and the /seller/credits frontend; QA gate PASS, unmerged at time of writing"
 type: source
+tags: [queue, notification, gate, state, docker, deploy, seller, checkout, product, whatsapp]
 sources: [raw/2026-06-10-feature-007-seller-ai-credits.md]
-created: 2026-06-10
-updated: 2026-06-10
+created: "2026-06-10"
+updated: "2026-06-10"
 ---
-
 # Feature 007 — Seller AI tools + credit billing (2026-06-10)
 
 ## Summary

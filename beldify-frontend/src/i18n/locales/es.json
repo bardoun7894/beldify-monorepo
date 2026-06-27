@@ -381,7 +381,8 @@
     "login": "Iniciar sesión",
     "community": "Open Souk",
     "login_short": "Entrar",
-    "openSouk": "Zoco Abierto"
+    "openSouk": "Zoco Abierto",
+    "seller_dashboard": "Panel del Vendedor"
   },
   "category": {
     "popularCategories": "Categorías populares",
@@ -4543,6 +4544,9 @@
     "previewBestOffer": "Mejor oferta"
   },
   "seller": {
+    "shortcut_title": "Panel del Vendedor",
+    "shortcut_body": "Gestiona tu tienda, productos y pedidos",
+    "shortcut_cta": "Abrir el panel",
     "register": {
       "already_seller_body": "Accede a tu panel de vendedor para gestionar productos, pedidos y ganancias.",
       "already_seller_title": "Ya tienes una cuenta de vendedor",

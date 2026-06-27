@@ -1,12 +1,12 @@
 ---
 name: Gemini plan — seller dual-mode dashboard (reference apply)
-description: Plan to apply Simple/Advanced seller dashboard reference UI — Alpine mode-switch dropdown, profile preferences, light home
+description: "Plan to apply Simple/Advanced seller dashboard reference UI — Alpine mode-switch dropdown, profile preferences, light home"
 type: source
+tags: [php, blade, component, seller, order, rtl, i18n, ui]
 sources: [raw/gemini/2026-05-31-seller-dual-mode-reference-apply.md]
-created: 2026-06-03
-updated: 2026-06-03
+created: "2026-06-03"
+updated: "2026-06-03"
 ---
-
 # Gemini plan — seller dual-mode dashboard (reference apply)
 
 ## Summary

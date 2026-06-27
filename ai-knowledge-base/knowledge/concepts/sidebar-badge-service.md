@@ -1,12 +1,12 @@
 ---
 name: Sidebar Badge Service
-description: Laravel service injecting live badge counts (pending sales, orders, carts, store requests) into the V3 admin sidebar via ViewComposer and Redis-per-user cache
+description: "Laravel service injecting live badge counts (pending sales, orders, carts, store requests) into the V3 admin sidebar via ViewComposer and Redis-per-user cache"
 type: concept
+tags: [laravel, php, blade, event, request, state, redis, cart, order, auth]
 sources: [daily/2026-05-24.md]
-created: 2026-05-24
-updated: 2026-05-24
+created: "2026-05-24"
+updated: "2026-05-24"
 ---
-
 # Sidebar Badge Service
 
 ## Overview

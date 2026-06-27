@@ -2,11 +2,11 @@
 name: Caching Strategy
 description: Redis-based caching approach in Beldify Laravel backend
 type: concept
+tags: [laravel, php, redis, service-repository, repository, pattern, performance, cache]
 sources: [sources/backend-claude]
-created: 2026-05-08
-updated: 2026-05-08
+created: "2026-05-08"
+updated: "2026-05-08"
 ---
-
 # Caching Strategy
 
 ## Overview

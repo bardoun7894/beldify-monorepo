@@ -1,12 +1,12 @@
 ---
 name: Admin Login Redirect Fix
-description: Fixing the post-login 404 in the Beldify Laravel admin — RouteServiceProvider::HOME mismatch, LoginController::redirectTo() path, and stale session "intended" URL artifacts
+description: "Fixing the post-login 404 in the Beldify Laravel admin — RouteServiceProvider::HOME mismatch, LoginController::redirectTo() path, and stale session \"intended\" URL artifacts"
 type: concept
+tags: [laravel, php, blade, middleware, migration, route, docker, auth, atlas]
 sources: [daily/2026-05-21.md]
-created: 2026-05-21
-updated: 2026-05-21
+created: "2026-05-21"
+updated: "2026-05-21"
 ---
-
 # Admin Login Redirect Fix
 
 ## Overview

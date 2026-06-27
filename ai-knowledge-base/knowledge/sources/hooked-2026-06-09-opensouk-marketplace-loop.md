@@ -1,12 +1,12 @@
 ---
 name: Hooked audit — Beldify/OpenSouk marketplace loop and conversion (2026-06-09)
-description: Nir Eyal Hooked-model audit of the marketplace return loop (triggers, actions, variable rewards, investment) plus the same-day implementation log — 5 packets shipped on feat/hooked-loop-closure
+description: "Nir Eyal Hooked-model audit of the marketplace return loop (triggers, actions, variable rewards, investment) plus the same-day implementation log — 5 packets shipped on feat/hooked-loop-closure"
 type: source
+tags: [laravel, php, artisan, queue, event, notification, model, redis, seller, buyer]
 sources: [raw/hooked/2026-06-09-opensouk-marketplace-loop.md]
-created: 2026-06-10
-updated: 2026-06-10
+created: "2026-06-10"
+updated: "2026-06-10"
 ---
-
 # Hooked audit — Beldify/OpenSouk marketplace loop and conversion (2026-06-09)
 
 ## Summary

@@ -1,12 +1,12 @@
 ---
 name: Dual-Mode Seller Dashboard (Simple/Advanced)
-description: Binance Lite-vs-Pro progressive disclosure pattern adapted for the Beldify seller dashboard — Simple mode shows essentials (Products, Orders, Messages), Advanced reveals analytics and power tools
+description: "Binance Lite-vs-Pro progressive disclosure pattern adapted for the Beldify seller dashboard — Simple mode shows essentials (Products, Orders, Messages), Advanced reveals analytics and power tools"
 type: concept
+tags: [php, blade, migration, css, html, seller, shop, checkout, order, product]
 sources: [daily/2026-05-31.md]
-created: 2026-05-31
-updated: 2026-05-31
+created: "2026-05-31"
+updated: "2026-05-31"
 ---
-
 # Dual-Mode Seller Dashboard (Simple/Advanced)
 
 ## Overview

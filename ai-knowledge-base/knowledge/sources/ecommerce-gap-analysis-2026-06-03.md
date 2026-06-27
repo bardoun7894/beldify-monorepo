@@ -1,12 +1,12 @@
 ---
 name: E-commerce completeness gap analysis (2026-06-03)
-description: Ground-truth code audit of what was missing for a full e-commerce platform — funnel worked E2E; P0s were no real payment gateway, a crashing payment-proof upload, and a 404 search bar
+description: "Ground-truth code audit of what was missing for a full e-commerce platform — funnel worked E2E; P0s were no real payment gateway, a crashing payment-proof upload, and a 404 search bar"
 type: source
+tags: [php, queue, route, model, seller, cart, checkout, payment, order, category]
 sources: [raw/ecommerce-gap-analysis-2026-06-03.md]
-created: 2026-06-10
-updated: 2026-06-10
+created: "2026-06-10"
+updated: "2026-06-10"
 ---
-
 # E-commerce completeness gap analysis (2026-06-03)
 
 ## Summary

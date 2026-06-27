@@ -1,12 +1,12 @@
 ---
 name: Seller Experience Spec Suite (006)
-description: Five-slice professional spec for the Beldify seller experience — register wizard, products CRUD, order detail v3, analytics/reports, storefront preview; Slice C implemented 2026-05-24
+description: "Five-slice professional spec for the Beldify seller experience — register wizard, products CRUD, order detail v3, analytics/reports, storefront preview; Slice C implemented 2026-05-24"
 type: concept
+tags: [php, blade, middleware, migration, route, controller, seller, order, product, auth]
 sources: [daily/2026-05-24.md]
-created: 2026-05-24
-updated: 2026-05-24
+created: "2026-05-24"
+updated: "2026-05-24"
 ---
-
 # Seller Experience Spec Suite (006)
 
 ## Overview

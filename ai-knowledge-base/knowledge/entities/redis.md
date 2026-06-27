@@ -2,11 +2,11 @@
 name: Redis
 description: In-memory data store used for caching in Beldify backend
 type: entity
+tags: [laravel, redis, pattern, cache]
 sources: [sources/backend-claude]
-created: 2026-05-08
-updated: 2026-05-08
+created: "2026-05-08"
+updated: "2026-05-08"
 ---
-
 # Redis
 
 ## What it is

@@ -2,11 +2,11 @@
 name: Gemini review — storefront Atlas redesign (stable surfaces)
 description: Design-system drift review of storefront PDP/profile/wishlist/tailoring/community with Claude synthesis
 type: source
+tags: [migration, tailwind, css, atlas, design-system, rtl]
 sources: [raw/gemini/2026-06-02-storefront-atlas-redesign-review.md]
-created: 2026-06-03
-updated: 2026-06-03
+created: "2026-06-03"
+updated: "2026-06-03"
 ---
-
 # Gemini review — storefront Atlas redesign (stable surfaces)
 
 ## Summary

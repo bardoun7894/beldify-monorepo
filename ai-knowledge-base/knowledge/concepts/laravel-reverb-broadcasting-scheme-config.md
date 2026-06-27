@@ -1,12 +1,12 @@
 ---
 name: Laravel Broadcasting WebSocket Scheme Configuration
-description: config/broadcasting.php must derive http/https from the WS scheme (ws→http, wss→https) for the server-side Pusher HTTP client; passing REVERB_SCHEME=ws directly causes cURL "Protocol ws disabled"; Laravel 10 requires an external WS server (soketi), not laravel/reverb which requires L11
+description: "config/broadcasting.php must derive http/https from the WS scheme (ws→http, wss→https) for the server-side Pusher HTTP client; passing REVERB_SCHEME=ws directly causes cURL \"Protocol ws disabled\"; Laravel 10 requires an external WS server (soketi), not laravel/reverb which requires L11"
 type: concept
+tags: [laravel, php, event, request, seller, buyer, auth]
 sources: [daily/2026-06-02.md]
-created: 2026-06-02
-updated: 2026-06-02
+created: "2026-06-02"
+updated: "2026-06-02"
 ---
-
 # Laravel Broadcasting WebSocket Scheme Configuration
 
 ## Problem

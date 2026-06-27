@@ -2,11 +2,11 @@
 name: Docker Production Deployment
 description: Docker Compose setup and container management patterns for Beldify on MyContabo
 type: concept
+tags: [laravel, php, artisan, nextjs, html, state, effect, docker, docker-compose, nginx]
 sources: [daily/2026-05-14.md, daily/2026-05-21.md]
-created: 2026-05-15
-updated: 2026-05-21
+created: "2026-05-15"
+updated: "2026-05-21"
 ---
-
 # Docker Production Deployment
 
 ## Overview

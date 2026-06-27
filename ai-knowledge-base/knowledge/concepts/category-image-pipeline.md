@@ -1,12 +1,12 @@
 ---
 name: Category Image Pipeline
-description: How category images are seeded, stored, and served in Beldify — from Unsplash download to storefront render
+description: "How category images are seeded, stored, and served in Beldify — from Unsplash download to storefront render"
 type: concept
+tags: [laravel, nextjs, html, docker, mysql, cloudflare, category, service-repository, repository, pattern]
 sources: [daily/2026-05-14.md]
-created: 2026-05-15
-updated: 2026-05-15
+created: "2026-05-15"
+updated: "2026-05-15"
 ---
-
 # Category Image Pipeline
 
 ## Overview

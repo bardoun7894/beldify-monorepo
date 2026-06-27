@@ -2,11 +2,11 @@
 name: Next.js Image Hostname Whitelist
 description: Configuring allowed remote hostnames for next/image to prevent broken product and category images
 type: concept
+tags: [php, validation, request, response, nextjs, component, effect, docker, cloudflare, product]
 sources: [daily/2026-05-14.md]
-created: 2026-05-15
-updated: 2026-05-15
+created: "2026-05-15"
+updated: "2026-05-15"
 ---
-
 # Next.js Image Hostname Whitelist
 
 ## Overview

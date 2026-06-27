@@ -1,0 +1,127 @@
+description: "Frontend page/component pipeline: plan → build → verify → polish"
+maxTransitions: 8
+
+phases:
+  - id: plan
+    thinking: high
+    tools:
+      - read
+      - find
+      - ls
+      - grep
+    output:
+      type: text
+      description: "Component/page plan with file structure, data flow, and UI breakdown."
+    prompt: |
+      Task:
+      {{input}}
+
+      You are building a Next.js 15 page or component in the Beldify frontend (beldify-frontend/).
+      Read existing pages and components to match patterns.
+
+      Plan:
+      - Route path (App Router in src/app/)
+      - Components to create/modify
+      - Data fetching strategy (server vs client vs SWR)
+      - State management (Context API)
+      - i18n strings (Arabic, French, English)
+      - TypeScript types/interfaces
+      - Responsive layout (Tailwind CSS)
+
+  - id: build
+    thinking: medium
+    tools:
+      - read
+      - edit
+      - write
+      - bash
+      - grep
+      - find
+      - ls
+    output:
+      type: text
+      description: "Build summary listing files created/modified and any issues."
+    prompt: |
+      Original task:
+      {{input}}
+
+      Plan:
+      {{phase.plan.output}}
+
+      Build the frontend component/page:
+      - Follow existing patterns in the codebase
+      - TypeScript strict mode, PascalCase for components
+      - Tailwind CSS for styling
+      - Support i18n (use existing i18n system)
+      - Handle loading, empty, error states
+      - Responsive: mobile-first
+
+      After building, run lint:
+      cd beldify-frontend && npm run lint
+
+  - id: verify
+    thinking: medium
+    tools:
+      - read
+      - bash
+      - grep
+      - find
+      - ls
+    output:
+      type: structured
+      status:
+        enum: [PASS, CHANGES_REQUESTED]
+        description: "PASS when page builds and looks correct; CHANGES_REQUESTED when issues found."
+      report: "Build verification report."
+    next:
+      - if:
+          status: CHANGES_REQUESTED
+        goto: build
+      - if:
+          status: PASS
+        goto: polish
+      - end: true
+    prompt: |
+      Original task:
+      {{input}}
+
+      Plan:
+      {{phase.plan.output}}
+
+      Build output:
+      {{phase.build.output}}
+
+      Verify the implementation:
+      1. cd beldify-frontend && npm run lint
+      2. cd beldify-frontend && npm run build:dev 2>&1 | tail -30
+      3. Check for missing i18n keys
+      4. Check TypeScript strict compliance
+      5. Verify responsive behavior assumptions
+
+  - id: polish
+    thinking: low
+    tools:
+      - read
+      - edit
+      - write
+      - bash
+      - grep
+      - find
+      - ls
+    prompt: |
+      Original task:
+      {{input}}
+
+      Build output:
+      {{phase.build.output}}
+
+      Verification:
+      {{phase.verify.output}}
+
+      Polish the component:
+      - Add micro-interactions / hover states
+      - Ensure consistent spacing (Tailwind spacing scale)
+      - Add loading skeletons
+      - Add error boundaries
+      - Check accessibility (aria labels, roles, keyboard nav)
+      - Run lint one final time: cd beldify-frontend && npm run lint

@@ -1,12 +1,12 @@
 ---
 name: Atlas Frontend Migration (Next.js)
-description: Parallel agent fan-out methodology for migrating the Beldify Next.js storefront to Atlas design tokens — Phase 1 audit, Phase 2 chrome workers, Phase 3 page-cluster workers, Phase 4 QA triangulation, Phase 5 remaining screens + P0 palette fixes + PRs merged to main
+description: "Parallel agent fan-out methodology for migrating the Beldify Next.js storefront to Atlas design tokens — Phase 1 audit, Phase 2 chrome workers, Phase 3 page-cluster workers, Phase 4 QA triangulation, Phase 5 remaining screens + P0 palette fixes + PRs merged to main"
 type: concept
+tags: [blade, artisan, migration, route, nextjs, tailwind, css, state, ci, seller]
 sources: [daily/2026-05-24.md, daily/2026-06-02.md]
-created: 2026-05-24
-updated: 2026-06-02
+created: "2026-05-24"
+updated: "2026-06-02"
 ---
-
 # Atlas Frontend Migration (Next.js)
 
 ## Overview

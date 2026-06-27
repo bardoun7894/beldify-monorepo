@@ -2,11 +2,11 @@
 name: Development Workflow
 description: Standard process for making changes in the Beldify project
 type: concept
+tags: [php, artisan, cd, refactor]
 sources: [sources/beldify-claude]
-created: 2026-05-08
-updated: 2026-05-08
+created: "2026-05-08"
+updated: "2026-05-08"
 ---
-
 # Development Workflow
 
 ## Overview

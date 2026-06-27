@@ -1,12 +1,12 @@
 ---
-name: Seller AI Tools & Credit Billing
-description: Beldify sellers buy credits (bank-transfer receipt → admin approval) and spend them on AI tools — listing writer, store-profile writer, listing translation, marketing copy — charged atomically before the AI call with idempotent refunds on failure
+name: "Seller AI Tools & Credit Billing"
+description: "Beldify sellers buy credits (bank-transfer receipt → admin approval) and spend them on AI tools — listing writer, store-profile writer, listing translation, marketing copy — charged atomically before the AI call with idempotent refunds on failure"
 type: concept
+tags: [laravel, seller, checkout, payment, product, whatsapp, ai, multi-seller, bank-transfer]
 sources: [raw/2026-06-10-feature-007-seller-ai-credits.md]
-created: 2026-06-10
-updated: 2026-06-10
+created: "2026-06-10"
+updated: "2026-06-10"
 ---
-
 # Seller AI Tools & Credit Billing
 
 Feature 007 monetizes Beldify's DB-backed AI infrastructure as a seller-facing product. Each store has a `credit_wallets` row whose balance is mirrored by an append-only `credit_transactions` ledger (signed amounts, `balance_after`, with the invariant that the ledger sum equals the balance). Credits are purchased offline-first, in keeping with the platform's payment posture: the seller picks a `credit_pack`, transfers to the platform RIB, uploads a receipt (`credit_purchases`), and an admin approves or rejects from `/admin/credits/*` — the same PaymentProof shape used by checkout bank transfers. Instant top-up via CMI/Stripe is deferred to the dormant payment-gateway foundation. A configurable welcome bonus (default 10 credits) is granted once per store.

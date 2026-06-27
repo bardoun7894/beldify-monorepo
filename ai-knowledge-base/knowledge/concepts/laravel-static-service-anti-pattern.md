@@ -1,9 +1,12 @@
 ---
 name: laravel-static-service-anti-pattern
-description: Calling instance service methods with :: static syntax causes white-screen 500s; fix is app(ClassName::class)->method()
+description: "Calling instance service methods with :: static syntax causes white-screen 500s; fix is app(ClassName::class)->method()"
 type: concept
+tags: [laravel, php, request, state, repository, pattern]
+sources: []
+created: ""
+updated: ""
 ---
-
 # Laravel Static Service Anti-Pattern
 
 ## Problem

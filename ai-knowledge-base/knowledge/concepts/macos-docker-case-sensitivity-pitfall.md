@@ -1,12 +1,12 @@
 ---
 name: macOS Docker Bind-Mount Case-Sensitivity Pitfall
-description: macOS APFS/HFS+ case-insensitive filesystem bleeds through Docker bind mounts, breaking Laravel translator group lookups, PSR-4 autoloading, and Blade view resolution — fix is a Linux named volume
+description: "macOS APFS/HFS+ case-insensitive filesystem bleeds through Docker bind mounts, breaking Laravel translator group lookups, PSR-4 autoloading, and Blade view resolution — fix is a Linux named volume"
 type: concept
+tags: [laravel, php, blade, html, docker, volume, pattern, named-volume]
 sources: [daily/2026-05-29.md]
-created: 2026-05-29
-updated: 2026-05-29
+created: "2026-05-29"
+updated: "2026-05-29"
 ---
-
 # macOS Docker Bind-Mount Case-Sensitivity Pitfall
 
 ## Overview

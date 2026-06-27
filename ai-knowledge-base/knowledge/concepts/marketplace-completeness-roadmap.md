@@ -1,12 +1,18 @@
 ---
-name: Marketplace Completeness Audit & Roadmap
-description: Where Beldify stands against full-marketplace feature checklists and what to build next — synthesis of the 2026-06-03 gap analysis, the 2026-06-10 38-section audit, and the resulting priority roadmap
+name: "Marketplace Completeness Audit & Roadmap"
+description: "Where Beldify stands against full-marketplace feature checklists and what to build next — synthesis of the 2026-06-03 gap analysis, the 2026-06-10 38-section audit, and the resulting priority roadmap"
 type: concept
-sources: [raw/ecommerce-gap-analysis-2026-06-03.md, raw/2026-06-10-completeness-audit.md, raw/2026-06-10-backlog-make-later.md, raw/2026-06-10-frontend-completeness-audit.md, raw/2026-06-10-admin-audit-sellers-jewelry-deploy.md, raw/marketplace-frontend-ai-review/2026-06-19-full-frontend-ai-review.md]
-created: 2026-06-10
-updated: 2026-06-19
+tags: [laravel, queue, gate, route, model, deploy, seller, buyer, cart, checkout]
+sources:
+  - raw/ecommerce-gap-analysis-2026-06-03.md
+  - raw/2026-06-10-completeness-audit.md
+  - raw/2026-06-10-backlog-make-later.md
+  - raw/2026-06-10-frontend-completeness-audit.md
+  - raw/2026-06-10-admin-audit-sellers-jewelry-deploy.md
+  - raw/marketplace-frontend-ai-review/2026-06-19-full-frontend-ai-review.md
+created: "2026-06-10"
+updated: "2026-06-19"
 ---
-
 # Marketplace Completeness Audit & Roadmap
 
 ## Overview

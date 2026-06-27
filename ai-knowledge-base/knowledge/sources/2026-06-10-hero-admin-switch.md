@@ -1,12 +1,12 @@
 ---
 name: Hero admin switch — hybrid carousel implementation log
-description: Admin-switchable home hero shipped on feat/hero-admin-switch — hero.mode setting, /api/hero-config endpoint, hybrid Swiper carousel, banner uploads moved to local disk
+description: "Admin-switchable home hero shipped on feat/hero-admin-switch — hero.mode setting, /api/hero-config endpoint, hybrid Swiper carousel, banner uploads moved to local disk"
 type: source
+tags: [laravel, migration, model, nextjs, fetch, deploy, category, rtl, ux, search]
 sources: [raw/2026-06-10-hero-admin-switch.md]
-created: 2026-06-10
-updated: 2026-06-10
+created: "2026-06-10"
+updated: "2026-06-10"
 ---
-
 # Hero admin switch — hybrid carousel implementation log
 
 ## Summary

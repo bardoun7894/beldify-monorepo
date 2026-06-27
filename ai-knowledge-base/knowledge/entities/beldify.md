@@ -2,11 +2,11 @@
 name: Beldify
 description: Multi-seller e-commerce platform with tailoring services and community features
 type: entity
+tags: [laravel, nextjs, seller, buyer, sanctum, architecture, ux, ai, multi-seller, tailoring-service]
 sources: [sources/beldify-claude]
-created: 2026-05-08
-updated: 2026-05-08
+created: "2026-05-08"
+updated: "2026-05-08"
 ---
-
 # Beldify
 
 ## What it is

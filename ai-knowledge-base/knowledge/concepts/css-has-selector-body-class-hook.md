@@ -1,9 +1,12 @@
 ---
 name: css-has-selector-body-class-hook
-description: CSS :has() pseudo-class is unreliable in some browsers for scoping admin skin — use plain body class hook instead
+description: "CSS :has() pseudo-class is unreliable in some browsers for scoping admin skin — use plain body class hook instead"
 type: concept
+tags: [php, blade, css, html, docker, cache, atlas, color]
+sources: []
+created: ""
+updated: ""
 ---
-
 # CSS `:has()` Selector — Body Class Hook Pattern
 
 ## Problem

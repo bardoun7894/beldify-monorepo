@@ -1,9 +1,12 @@
 ---
 name: pixinvent-rtl-data-textdirection
-description: PixInvent sets data-textdirection="rtl" on <body>, NOT dir="rtl" on <html> — CSS selectors must match this non-standard attribute
+description: "PixInvent sets data-textdirection=\"rtl\" on <body>, NOT dir=\"rtl\" on <html> — CSS selectors must match this non-standard attribute"
 type: concept
+tags: [css, html, cache, rtl, arabic]
+sources: []
+created: ""
+updated: ""
 ---
-
 # PixInvent RTL — `data-textdirection` vs `dir` Attribute
 
 ## Problem

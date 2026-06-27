@@ -2,11 +2,11 @@
 name: Multi-seller E-commerce
 description: E-commerce platform allowing multiple vendors to sell products
 type: concept
+tags: [laravel, model, seller, order, product, service-repository, repository, pattern, multi-seller, tailoring-service]
 sources: [sources/backend-claude]
-created: 2026-05-08
-updated: 2026-05-08
+created: "2026-05-08"
+updated: "2026-05-08"
 ---
-
 # Multi-seller E-commerce
 
 ## Overview

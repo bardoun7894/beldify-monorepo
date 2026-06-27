@@ -1,12 +1,12 @@
 ---
 name: Admin Asset URL Misconfiguration (APP_URL)
-description: APP_URL pointing to a raw IP over HTTP causes all Laravel asset() calls to generate wrong URLs, producing MIME-type errors that silently block every CSS and JS file on the admin dashboard
+description: "APP_URL pointing to a raw IP over HTTP causes all Laravel asset() calls to generate wrong URLs, producing MIME-type errors that silently block every CSS and JS file on the admin dashboard"
 type: concept
+tags: [laravel, php, artisan, migration, listener, notification, request, tinker, javascript, css]
 sources: [daily/2026-05-21.md]
-created: 2026-05-21
-updated: 2026-05-21
+created: "2026-05-21"
+updated: "2026-05-21"
 ---
-
 # Admin Asset URL Misconfiguration (APP_URL)
 
 ## Overview

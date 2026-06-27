@@ -1,0 +1,118 @@
+description: "Pre-deploy readiness pipeline: build → lint → test → audit"
+maxTransitions: 8
+
+phases:
+  - id: build-frontend
+    thinking: low
+    tools:
+      - read
+      - bash
+      - grep
+      - find
+      - ls
+    output:
+      type: text
+      description: "Frontend build output with warnings/errors."
+    prompt: |
+      Task:
+      {{input}}
+
+      Build the Beldify frontend (beldify-frontend/) for deployment:
+      1. cd beldify-frontend && npm run build:dev 2>&1 | tail -40
+      2. Report any errors, warnings, or size issues
+
+  - id: build-backend
+    thinking: low
+    tools:
+      - read
+      - bash
+      - grep
+      - find
+      - ls
+    output:
+      type: text
+      description: "Backend readiness check."
+    prompt: |
+      Task:
+      {{input}}
+
+      Check the Beldify backend (beldify-backend/) deployment readiness:
+      1. cd beldify-backend && php artisan config:cache --pretend 2>&1 | head -20
+      2. cd beldify-backend && php artisan route:list 2>&1 | head -5
+      3. Check composer.json for any missing dependencies
+      4. Check .env.example for any new config vars
+
+  - id: test
+    thinking: low
+    tools:
+      - read
+      - bash
+      - grep
+      - find
+      - ls
+    output:
+      type: text
+      description: "Test results."
+    prompt: |
+      Original task:
+      {{input}}
+
+      Frontend build:
+      {{phase.build-frontend.output}}
+
+      Backend check:
+      {{phase.build-backend.output}}
+
+      Run tests:
+      1. cd beldify-backend && php artisan test 2>&1 | tail -30
+      2. Check frontend lint: cd beldify-frontend && npm run lint
+
+  - id: report
+    thinking: medium
+    tools:
+      - read
+      - bash
+      - grep
+      - find
+      - ls
+    output:
+      type: structured
+      status:
+        enum: [READY, BLOCKED]
+        description: "READY when all checks pass; BLOCKED when issues must be resolved first."
+      report: "Deploy readiness report."
+      data:
+        fields:
+          frontendBuildOk:
+            type: boolean
+            description: "Frontend build succeeded."
+          backendCheckOk:
+            type: boolean
+            description: "Backend checks passed."
+          testsPassed:
+            type: boolean
+            description: "All tests passed."
+    next:
+      - if:
+          status: BLOCKED
+        goto: build-frontend
+      - end: true
+    prompt: |
+      Original task:
+      {{input}}
+
+      Frontend build:
+      {{phase.build-frontend.output}}
+
+      Backend check:
+      {{phase.build-backend.output}}
+
+      Test results:
+      {{phase.test.output}}
+
+      Compile a deploy readiness report:
+      - Frontend: build passed? warnings?
+      - Backend: config valid? routes OK? migrations pending?
+      - Tests: all green? coverage areas?
+      - Security checklist: secrets in .env? debug mode off?
+      - Is there anything that needs human attention before deploy?

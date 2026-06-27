@@ -1,12 +1,12 @@
 ---
 name: Frontend completeness audit (2026-06-10 evening sweep)
-description: Three parallel read-only auditors swept every storefront surface producing a 38-item P0–P2 worklist — all items closed the same evening, including the three backend-dependent gaps; gate tsc 0 (was 252), vitest 1895/1895, lint 0
+description: "Three parallel read-only auditors swept every storefront surface producing a 38-item P0–P2 worklist — all items closed the same evening, including the three backend-dependent gaps; gate tsc 0 (was 252), vitest 1895/1895, lint 0"
 type: source
+tags: [artisan, event, gate, route, nextjs, typescript, seller, cart, checkout, payment]
 sources: [raw/2026-06-10-frontend-completeness-audit.md]
-created: 2026-06-10
-updated: 2026-06-10
+created: "2026-06-10"
+updated: "2026-06-10"
 ---
-
 # Frontend completeness audit (2026-06-10 evening sweep)
 
 ## Summary

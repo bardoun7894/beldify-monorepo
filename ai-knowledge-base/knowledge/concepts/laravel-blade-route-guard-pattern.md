@@ -1,9 +1,12 @@
 ---
 name: laravel-blade-route-guard-pattern
-description: Wrapping route() calls in @if(Route::has()) guards prevents 500s when routes are renamed or not yet registered
+description: "Wrapping route() calls in @if(Route::has()) guards prevents 500s when routes are renamed or not yet registered"
 type: concept
+tags: [php, blade, route, pattern]
+sources: []
+created: ""
+updated: ""
 ---
-
 # Laravel Blade Route Guard Pattern
 
 ## Problem

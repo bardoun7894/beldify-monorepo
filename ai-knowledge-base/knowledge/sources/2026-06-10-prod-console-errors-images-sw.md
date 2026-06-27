@@ -1,12 +1,12 @@
 ---
 name: Prod console errors fixed — category image 400s + sw.js evaluation failure
-description: 2026-06-10 morning prod fixes — category images 400ing via /_next/image (wiped storage symlink + raw-IP ASSET_URL) and service-worker registration dead from a serwist defaultCache mis-import
+description: "2026-06-10 morning prod fixes — category images 400ing via /_next/image (wiped storage symlink + raw-IP ASSET_URL) and service-worker registration dead from a serwist defaultCache mis-import"
 type: source
+tags: [laravel, php, artisan, nextjs, typescript, html, docker, docker-compose, nginx, cloudflare]
 sources: [raw/2026-06-10-prod-console-errors-images-sw.md]
-created: 2026-06-10
-updated: 2026-06-10
+created: "2026-06-10"
+updated: "2026-06-10"
 ---
-
 # Prod console errors fixed — category image 400s + sw.js evaluation failure
 
 ## Summary

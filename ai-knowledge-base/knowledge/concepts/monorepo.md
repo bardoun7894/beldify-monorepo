@@ -2,11 +2,11 @@
 name: Monorepo Architecture
 description: Single repository containing multiple projects with shared tooling
 type: concept
+tags: [laravel, nextjs, repository, pattern]
 sources: [sources/beldify-claude]
-created: 2026-05-08
-updated: 2026-05-08
+created: "2026-05-08"
+updated: "2026-05-08"
 ---
-
 # Monorepo Architecture
 
 ## Overview

@@ -1,12 +1,12 @@
 ---
 name: Docker bind-mount over rebuild
-description: When source is bind-mounted into a container, the image only needs to be rebuilt for OS/composer/npm dependency changes — pure source-code edits arrive on container start via the volume mount
+description: "When source is bind-mounted into a container, the image only needs to be rebuilt for OS/composer/npm dependency changes — pure source-code edits arrive on container start via the volume mount"
 type: concept
+tags: [php, blade, artisan, docker, docker-compose, cloudflare, bind-mount, cache]
 sources: [sources/sessions-2026-05-14-7f3c17d0]
-created: 2026-05-21
-updated: 2026-05-21
+created: "2026-05-21"
+updated: "2026-05-21"
 ---
-
 # Docker bind-mount over rebuild
 
 ## Summary

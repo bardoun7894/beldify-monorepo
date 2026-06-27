@@ -2,11 +2,14 @@
 name: Serwist
 description: Service-worker library (workbox successor) with a Next.js integration — powers the Beldify PWA service worker and web push delivery surface
 type: entity
-sources: [raw/2026-06-10-prod-console-errors-images-sw.md, raw/2026-06-10-home-marketplace-overhaul.md, raw/2026-06-11-prod-console-errors-fix.md]
-created: 2026-06-10
-updated: 2026-06-11
+tags: [policy, nextjs, typescript, fetch, docker, docker-compose, ci, auth, cache, integration]
+sources:
+  - raw/2026-06-10-prod-console-errors-images-sw.md
+  - raw/2026-06-10-home-marketplace-overhaul.md
+  - raw/2026-06-11-prod-console-errors-fix.md
+created: "2026-06-10"
+updated: "2026-06-11"
 ---
-
 # Serwist
 
 ## What it is

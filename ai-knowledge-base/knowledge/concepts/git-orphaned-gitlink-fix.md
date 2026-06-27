@@ -2,11 +2,11 @@
 name: Git Orphaned Gitlink Fix
 description: Converting a mode-160000 gitlink with no .gitmodules and no inner .git into a normal tracked subdirectory — the pattern that unblocked all Beldify worktrees
 type: concept
+tags: [migration, docker, ci, bind-mount, pattern, atlas]
 sources: [daily/2026-05-24.md]
-created: 2026-05-25
-updated: 2026-05-25
+created: "2026-05-25"
+updated: "2026-05-25"
 ---
-
 # Git Orphaned Gitlink Fix
 
 A **gitlink** (mode `160000`) is Git's internal marker for a submodule entry. When a directory is recorded as mode 160000 in the tree but has no corresponding entry in `.gitmodules` and no `.git` directory inside it, it becomes an *orphaned gitlink* — effectively invisible to Git.

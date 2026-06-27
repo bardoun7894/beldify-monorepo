@@ -2,11 +2,11 @@
 name: Missing Views Git Restore Pattern
 description: How to recover admin views that exist in git origin/main but were never deployed (or were deleted without commit) to the Contabo production server
 type: concept
+tags: [laravel, php, blade, artisan, migration, request, route, controller, state, fetch]
 sources: [daily/2026-05-21.md]
-created: 2026-05-21
-updated: 2026-05-21
+created: "2026-05-21"
+updated: "2026-05-21"
 ---
-
 # Missing Views Git Restore Pattern
 
 ## Overview

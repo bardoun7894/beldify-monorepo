@@ -1,12 +1,12 @@
 ---
 name: Seller Shell Layout
-description: Dedicated mobile-first seller dashboard layout with 5-tab bottom nav and desktop horizontal pill nav — separate from the admin shell, no PixInvent, RTL-aware, iOS safe-area aware
+description: "Dedicated mobile-first seller dashboard layout with 5-tab bottom nav and desktop horizontal pill nav — separate from the admin shell, no PixInvent, RTL-aware, iOS safe-area aware"
 type: concept
+tags: [php, blade, request, route, css, state, seller, pattern, atlas, design-system]
 sources: [daily/2026-05-24.md]
-created: 2026-05-24
-updated: 2026-06-01
+created: "2026-05-24"
+updated: "2026-06-01"
 ---
-
 # Seller Shell Layout
 
 ## Overview

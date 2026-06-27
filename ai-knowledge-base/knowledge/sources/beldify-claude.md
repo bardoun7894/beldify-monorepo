@@ -2,11 +2,11 @@
 name: Beldify Project CLAUDE.md
 description: Monorepo with Next.js frontend and Laravel backend - project rules and workflow
 type: source
+tags: [laravel, php, artisan, nextjs, seller, architecture, refactor, multi-seller]
 sources: [raw/CLAUDE.md]
-created: 2026-05-08
-updated: 2026-05-08
+created: "2026-05-08"
+updated: "2026-05-08"
 ---
-
 # Beldify Project CLAUDE.md
 
 ## Summary

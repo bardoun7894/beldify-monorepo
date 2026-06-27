@@ -2,11 +2,11 @@
 name: API Versioning
 description: Strategy for managing API changes without breaking existing clients
 type: concept
+tags: [laravel, request, response, seller, service-repository, repository, pattern]
 sources: [sources/backend-claude]
-created: 2026-05-08
-updated: 2026-05-08
+created: "2026-05-08"
+updated: "2026-05-08"
 ---
-
 # API Versioning
 
 ## Overview

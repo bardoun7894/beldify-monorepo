@@ -2,11 +2,15 @@
 name: Panel round-1 drafts — product-management backend (Claude/Codex/Gemini/OpenCode)
 description: The four independent round-1 reviewer drafts behind the 2026-05-30 product-management panel — convergent verdict on JSON-canonical variant attributes; OpenCode draft failed to run
 type: source
-sources: [raw/panel/r1-claude.md, raw/panel/r1-codex.txt, raw/panel/r1-gemini.txt, raw/panel/r1-opencode.txt]
-created: 2026-06-10
-updated: 2026-06-10
+tags: [php, artisan, queue, model, state, deploy, seller, product, architecture, cache]
+sources:
+  - raw/panel/r1-claude.md
+  - raw/panel/r1-codex.txt
+  - raw/panel/r1-gemini.txt
+  - raw/panel/r1-opencode.txt
+created: "2026-06-10"
+updated: "2026-06-10"
 ---
-
 # Panel round-1 drafts — product-management backend (Claude/Codex/Gemini/OpenCode)
 
 ## Summary

@@ -1,12 +1,12 @@
 ---
 name: Seller No-Store Gating
-description: EnsureSellerHasStore middleware gates the seller route group — sellers without an approved store are redirected to store.request.create instead of reaching Products, Open Souk, or Messages
+description: "EnsureSellerHasStore middleware gates the seller route group — sellers without an approved store are redirected to store.request.create instead of reaching Products, Open Souk, or Messages"
 type: concept
+tags: [laravel, php, blade, middleware, request, route, model, seller, auth, atlas]
 sources: [daily/2026-06-01.md]
-created: 2026-06-01
-updated: 2026-06-01
+created: "2026-06-01"
+updated: "2026-06-01"
 ---
-
 # Seller No-Store Gating
 
 ## Overview

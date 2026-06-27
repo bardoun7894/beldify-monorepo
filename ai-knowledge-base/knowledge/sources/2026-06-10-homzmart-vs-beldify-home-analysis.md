@@ -2,11 +2,11 @@
 name: Homzmart vs Beldify home page — competitive design analysis
 description: Live-browse comparison of homzmart.com vs beldify.com home pages — imagery is the real gap; phased merchandising adoption plan keeping Atlas colors and OpenSouk identity
 type: source
+tags: [migration, request, effect, shop, product, category, atlas, design-system, theme, color]
 sources: [raw/2026-06-10-homzmart-vs-beldify-home-analysis.md]
-created: 2026-06-10
-updated: 2026-06-10
+created: "2026-06-10"
+updated: "2026-06-10"
 ---
-
 # Homzmart vs Beldify home page — competitive design analysis
 
 ## Summary
