@@ -19,6 +19,7 @@ function fetchBackendHealth(url: string): Promise<Record<string, unknown>> {
       method: 'GET',
       headers: { Accept: 'application/json' },
       timeout: 10000,
+      family: 4, // Force IPv4 — Docker containers may lack IPv6 connectivity
     };
 
     const req = https.request(options, (res) => {
