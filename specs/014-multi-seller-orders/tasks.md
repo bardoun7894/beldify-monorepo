@@ -20,7 +20,7 @@ Paths: backend = `beldify-backend/`, frontend = `beldify-frontend/`.
 
 ## Phase 1: Setup
 
-- [x] T001 [BE] Create branch `014-multi-seller-orders` off current head in **both** repos (monorepo + nested `beldify-backend` git repo — commit separately, see [[memory: beldify-nested-backend-git-repo]]).
+- [x] T001 [BE] Create branch `014-multi-seller-orders` off current head in **both** repos (monorepo + nested beldify-backend git repo — commit separately).
 
 ---
 
@@ -101,5 +101,5 @@ Paths: backend = `beldify-backend/`, frontend = `beldify-frontend/`.
 
 - Money-correctness is the gate: never claim done without T006–T013 + T028 green with real output.
 - Backward-compat (SC-004) is non-negotiable — single-seller baskets must not change a single MAD.
-- Commit BE (nested repo) and monorepo separately ([[memory: beldify-nested-backend-git-repo]]).
+- Commit BE (nested repo) and monorepo separately.
 - T029 (docs) and T031 (review) are the only remaining tasks — implementation + tests complete.
