@@ -59,7 +59,7 @@ def check_drift():
     print("\n📦 beldify-backend (submodule):")
     try:
         ls = get_git_info("beldify-backend"); ss = get_server_git_info("beldify-backend")
-    except:
+    except Exception:
         print("   ❌ Cannot check submodule"); return drift
     ss2 = "✅ SYNCED" if ls["sha"]==ss["sha"] else "❌ DRIFT"
     print(f"   Local:  {ls['branch']} @ {ls['sha']}  ({ls['modified_count']} modified)")
