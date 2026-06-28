@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'sonner'
 import { useAuth } from '@/hooks/useAuth';
 import {
   LayoutDashboard,
@@ -19,6 +20,7 @@ import {
   Sparkles,
   Wallet,
   MoreHorizontal,
+  LogOut,
 } from 'lucide-react';
 import { getSellerUnreadCount } from '@/services/messagingService';
 import { getSellerCredits } from '@/services/sellerCreditService';
@@ -126,7 +128,7 @@ export default function SellerLayout({ children }: { children: React.ReactNode }
   const { t, i18n } = useTranslation();
   const pathname = usePathname();
   const router = useRouter();
-  const { isAuthenticated, user, loading } = useAuth();
+  const { isAuthenticated, user, loading, logout } = useAuth();
   const isRTL = i18n.language === 'ar' || i18n.language === 'ma';
   const sellerUnreadCount = useSellerUnreadCount();
   const creditBalance = useSellerCreditBalance();
@@ -225,6 +227,22 @@ export default function SellerLayout({ children }: { children: React.ReactNode }
             >
               {t('seller.layout.storefront_link', '← Back to storefront')}
             </Link>
+            <button
+              type="button"
+              onClick={async () => {
+                try {
+                  await logout();
+                  toast.success(t('auth.logout_success', 'Signed out successfully'));
+                } catch {
+                  toast.error(t('auth.logout_error', 'Failed to sign out'));
+                }
+              }}
+              aria-label={t('seller.layout.logout_aria', 'Sign out')}
+              className="inline-flex items-center gap-1 text-xs text-gray-400 hover:text-rose-600 transition-colors ms-3"
+            >
+              <LogOut className="w-3.5 h-3.5" aria-hidden="true" />
+              {t('navigation.logout', 'Sign out')}
+            </button>
           </div>
         </div>
       </header>
@@ -267,6 +285,25 @@ export default function SellerLayout({ children }: { children: React.ReactNode }
             );
           })}
         </nav>
+
+        {/* Sidebar logout */}
+        <div className="hidden md:flex flex-col gap-1 w-52 shrink-0 mt-auto">
+          <button
+            type="button"
+            onClick={async () => {
+              try {
+                await logout();
+                toast.success(t('auth.logout_success', 'Signed out successfully'));
+              } catch {
+                toast.error(t('auth.logout_error', 'Failed to sign out'));
+              }
+            }}
+            className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-gray-400 hover:text-rose-600 hover:bg-rose-50 transition-colors"
+          >
+            <LogOut className="w-4 h-4 shrink-0" aria-hidden="true" />
+            <span>{t('navigation.logout', 'Sign out')}</span>
+          </button>
+        </div>
 
         {/* ── Mobile tab bar — 5 primary tabs + a "More" sheet trigger ──────── */}
         <nav
@@ -313,7 +350,6 @@ export default function SellerLayout({ children }: { children: React.ReactNode }
           )}
         </nav>
 
-        {/* ── Mobile "More" sheet ──────────────────────────────────────────── */}
         <Dialog
           open={moreOpen}
           onClose={() => setMoreOpen(false)}
