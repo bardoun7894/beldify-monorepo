@@ -7,6 +7,7 @@ import { useAuth } from "@/hooks/useAuth";
 import {
 	getSellerEarnings,
 	SellerEarningsData,
+	EarningsByDay,
 	SellerOrderSummary,
 	getSellerOrders,
 } from "@/services/sellerDashboardService";
@@ -25,16 +26,12 @@ import {
 	XCircle,
 	Clock,
 	Plus,
+	Package,
+	MessageSquare,
+	
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import {
-	Table,
-	TableHeader,
-	TableBody,
-	TableRow,
-	TableHead,
-	TableCell,
-} from "@/components/ui/table";
+// Table import removed — using inline HTML table for simpler responsive layout
 import {
 	orderStatusVariant,
 	ORDER_STATUS_LABEL,
@@ -60,6 +57,35 @@ function StatusBadge({ status }: { status: string }) {
 	);
 }
 
+// ── Quick action button ───────────────────────────────────────────────────────
+function QuickAction({
+	label,
+	href,
+	icon: Icon,
+	accent,
+}: {
+	label: string;
+	href: string;
+	icon: React.ElementType;
+	accent: string;
+}) {
+	return (
+		<Link
+			href={href}
+			className="inline-flex flex-col items-center gap-2 min-w-[80px] snap-center py-3 px-4 bg-white rounded-2xl ring-1 ring-gray-200 shadow-sm hover:shadow-md transition-all active:scale-95 active:duration-75"
+		>
+			<div
+				className={`w-10 h-10 rounded-xl flex items-center justify-center ${accent}`}
+			>
+				<Icon className="w-5 h-5" aria-hidden="true" />
+			</div>
+			<span className="text-[11px] font-medium text-gray-700 text-center leading-tight">
+				{label}
+			</span>
+		</Link>
+	);
+}
+
 // ── Mobile order card (replaces table rows on small screens) ─────────────────
 function OrderCard({ order }: { order: SellerOrderSummary }) {
 	return (
@@ -82,6 +108,95 @@ function OrderCard({ order }: { order: SellerOrderSummary }) {
 				</span>
 			</div>
 		</Link>
+	);
+}
+
+// ── Sales trend mini-chart (from by_day data) ─────────────────────────────────
+function SalesTrendMini({
+	byDay,
+}: {
+	byDay: EarningsByDay[];
+}) {
+	const { t } = useTranslation();
+	const maxRevenue = Math.max(...byDay.map((d) => d.revenue), 1);
+	const recentDays = byDay.slice(-7);
+
+	return (
+		<div className="bg-white rounded-2xl ring-1 ring-gray-200 shadow-sm p-4">
+			<div className="flex items-center justify-between mb-3">
+				<h3 className="text-xs font-semibold text-gray-900">
+					{t(
+						"seller.dashboard.sales_trend",
+						"Sales trend (last {{n}} days)",
+						{ n: recentDays.length },
+					)}
+				</h3>
+				<span className="text-[10px] text-gray-400">
+					{fmtMAD(maxRevenue)} DH
+				</span>
+			</div>
+			<div className="flex items-end gap-1.5 h-16">
+				{recentDays.map((day, i) => {
+					const pct = (day.revenue / maxRevenue) * 100;
+					return (
+						<div
+							key={day.date ?? i}
+							className="flex-1 flex flex-col items-center gap-1"
+						>
+							<div
+								className="w-full rounded-md bg-gradient-to-t from-indigo-600/80 to-indigo-400/60 transition-all duration-300"
+								style={{ height: `${Math.max(pct, 4)}%` }}
+								aria-label={`${day.revenue} DH`}
+							/>
+						</div>
+					);
+				})}
+			</div>
+			<div className="flex items-center justify-between mt-2">
+				<span className="text-[10px] text-gray-400">
+					{recentDays[0]?.date?.slice(5) ?? ""}
+				</span>
+				<span className="text-[10px] text-gray-400">
+					{recentDays[recentDays.length - 1]?.date?.slice(5) ?? ""}
+				</span>
+			</div>
+		</div>
+	);
+}
+
+// ── Today's snapshot ──────────────────────────────────────────────────────────
+function TodaySnapshot({
+	earnings,
+}: {
+	earnings: SellerEarningsData;
+}) {
+	const { t } = useTranslation();
+	// Derive today's revenue from by_day if available
+	const today = earnings.by_day?.length
+		? earnings.by_day[earnings.by_day.length - 1]
+		: null;
+
+	if (!today || today.revenue <= 0) return null;
+
+	return (
+		<div className="flex items-center justify-between bg-gradient-to-r from-indigo-50 to-indigo-100/50 rounded-2xl px-4 py-3 ring-1 ring-indigo-200">
+			<div className="flex items-center gap-3">
+				<div className="w-8 h-8 rounded-lg bg-indigo-100 flex items-center justify-center">
+					<TrendingUp className="w-4 h-4 text-indigo-700" aria-hidden="true" />
+				</div>
+				<div>
+					<p className="text-[11px] text-indigo-600 font-medium">
+						{t("seller.dashboard.today", "Today")}
+					</p>
+					<p className="text-sm font-bold text-indigo-900 tabular-nums">
+						{fmtMAD(today.revenue)} DH
+					</p>
+				</div>
+			</div>
+			<span className="text-[10px] text-indigo-500">
+				{t("seller.dashboard.today_label", "Revenue")}
+			</span>
+		</div>
 	);
 }
 
@@ -129,7 +244,6 @@ function OnboardingBanner({ status }: { status: OnboardingStatusData }) {
 		);
 	}
 
-	// Onboarding nudge — active store with incomplete profile OR pending application
 	const pct = status.overall_percentage ?? 0;
 	const isPending = status.store_status === "pending";
 
@@ -185,16 +299,18 @@ function KpiCard({
 	accent: string;
 }) {
 	return (
-		<div className="bg-white rounded-2xl ring-1 ring-gray-200 shadow-sm p-5 flex flex-col gap-3">
+		<div className="bg-white rounded-2xl ring-1 ring-gray-200 shadow-sm p-4 flex flex-col gap-2.5 active:scale-[0.97] active:duration-75 transition-all">
 			<div
-				className={`w-9 h-9 rounded-xl flex items-center justify-center ${accent}`}
+				className={`w-8 h-8 rounded-xl flex items-center justify-center ${accent}`}
 			>
 				<Icon className="w-4 h-4" aria-hidden="true" />
 			</div>
 			<div>
-				<p className="text-xs text-gray-400 uppercase tracking-wide">{label}</p>
-				<p className="text-2xl font-bold text-gray-900 mt-0.5">{value}</p>
-				{sub && <p className="text-xs text-gray-400 mt-0.5">{sub}</p>}
+				<p className="text-[10px] text-gray-400 uppercase tracking-wide">
+					{label}
+				</p>
+				<p className="text-xl font-bold text-gray-900 mt-[1px]">{value}</p>
+				{sub && <p className="text-[10px] text-gray-400 mt-[1px]">{sub}</p>}
 			</div>
 		</div>
 	);
@@ -226,30 +342,26 @@ export default function SellerDashboardPage() {
 	useEffect(() => {
 		if (!isAuthenticated) return;
 
-		// Independent parallel fetches — each degrades gracefully on failure
 		getSellerEarnings(30)
 			.then((res) => setEarnings(res.data))
-			.catch(() => {
-				/* earnings stays null — handled in render */
-			})
+			.catch(() => {})
 			.finally(() => setEarningsLoading(false));
 
 		getSellerOrders({ page: 1 })
 			.then((res) => setOrders(res.data.slice(0, 5)))
-			.catch(() => {
-				/* orders stays empty */
-			})
+			.catch(() => {})
 			.finally(() => setOrdersLoading(false));
 
 		getOnboardingStatus()
 			.then((res) => setOnboarding(res.data))
-			.catch(() => {
-				/* onboarding stays null — silent */
-			});
+			.catch(() => {});
 	}, [isAuthenticated]);
 
+	const hasByDayData =
+		earnings?.by_day && earnings.by_day.length > 1;
+
 	return (
-		<div className="space-y-6">
+		<div className="space-y-5 sm:space-y-6">
 			{/* Page title */}
 			<div>
 				<p className="text-xs uppercase tracking-[0.18em] text-amber-600 font-medium mb-1">
@@ -260,18 +372,49 @@ export default function SellerDashboardPage() {
 				</h1>
 			</div>
 
+			{/* Quick actions — horizontal scroll on mobile, grid on desktop */}
+			<div className="flex gap-3 overflow-x-auto pb-1 snap-x snap-mandatory scrollbar-none md:grid md:grid-cols-4 md:overflow-visible md:pb-0">
+				<QuickAction
+					label={t("seller.dashboard.quick_add_product", "Add Product")}
+					href="/seller/products/new"
+					icon={Plus}
+					accent="bg-indigo-100 text-indigo-700"
+				/>
+				<QuickAction
+					label={t("seller.dashboard.quick_orders", "Orders")}
+					href="/seller/orders"
+					icon={ShoppingBag}
+					accent="bg-amber-100 text-amber-700"
+				/>
+				<QuickAction
+					label={t("seller.dashboard.quick_messages", "Messages")}
+					href="/seller/messages"
+					icon={MessageSquare}
+					accent="bg-emerald-100 text-emerald-700"
+				/>
+				<QuickAction
+					label={t("seller.dashboard.quick_products", "Products")}
+					href="/seller/products"
+					icon={Package}
+					accent="bg-rose-100 text-rose-700"
+				/>
+			</div>
+
 			{/* Onboarding banner */}
 			{onboarding && <OnboardingBanner status={onboarding} />}
 
+			{/* Today's snapshot */}
+			{earnings && !earningsLoading && <TodaySnapshot earnings={earnings} />}
+
 			{/* KPI grid */}
 			{earningsLoading ? (
-				<div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+				<div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
 					{[1, 2, 3, 4].map((i) => (
-						<Skeleton key={i} className="h-28" />
+						<Skeleton key={i} className="h-24" />
 					))}
 				</div>
 			) : earnings ? (
-				<div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+				<div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
 					<KpiCard
 						label={t("seller.dashboard.kpi_gross", "Gross Revenue")}
 						value={`${fmtMAD(earnings.gross_revenue)} DH`}
@@ -321,6 +464,11 @@ export default function SellerDashboardPage() {
 						"Could not load earnings data.",
 					)}
 				</div>
+			)}
+
+			{/* Sales trend mini-chart */}
+			{hasByDayData && earnings && (
+				<SalesTrendMini byDay={earnings.by_day} />
 			)}
 
 			{/* Recent orders */}
@@ -379,50 +527,50 @@ export default function SellerDashboardPage() {
 								<OrderCard key={order.id} order={order} />
 							))}
 						</div>
-						<div className="hidden md:block">
-							<Table>
-								<TableHeader>
-									<TableRow className="bg-gray-50">
-										<TableHead>
+						<div className="hidden md:block overflow-x-auto">
+							<table className="w-full text-sm">
+								<thead>
+									<tr className="border-b border-gray-100 bg-gray-50">
+										<th className="px-5 py-3 font-medium text-xs uppercase tracking-wide text-gray-400 text-start">
 											{t("seller.orders.col_number", "Order")}
-										</TableHead>
-										<TableHead>
+										</th>
+										<th className="px-5 py-3 font-medium text-xs uppercase tracking-wide text-gray-400 text-start">
 											{t("seller.orders.col_customer", "Customer")}
-										</TableHead>
-										<TableHead>
+										</th>
+										<th className="px-5 py-3 font-medium text-xs uppercase tracking-wide text-gray-400 text-start">
 											{t("seller.orders.col_status", "Status")}
-										</TableHead>
-										<TableHead numeric>
+										</th>
+										<th className="px-5 py-3 font-medium text-xs uppercase tracking-wide text-gray-400 text-end tabular-nums">
 											{t("seller.orders.col_total", "Total")}
-										</TableHead>
-									</TableRow>
-								</TableHeader>
-								<TableBody>
+										</th>
+									</tr>
+								</thead>
+								<tbody className="divide-y divide-gray-100">
 									{orders.map((order) => (
-										<TableRow key={order.id} className="hover:bg-gray-50">
-											<TableCell>
+										<tr key={order.id} className="hover:bg-gray-50 transition-colors">
+											<td className="px-5 py-3 text-start">
 												<Link
 													href={`/seller/orders/${order.id}`}
 													className="font-medium text-indigo-700 hover:underline"
 												>
 													{order.order_number}
 												</Link>
-											</TableCell>
-											<TableCell className="text-gray-700">
+											</td>
+											<td className="px-5 py-3 text-start text-gray-700">
 												{order.customer_name}
-											</TableCell>
-											<TableCell>
+											</td>
+											<td className="px-5 py-3 text-start">
 												<StatusBadge status={order.status} />
-											</TableCell>
-											<TableCell numeric className="font-medium text-gray-900">
+											</td>
+											<td className="px-5 py-3 text-end tabular-nums font-medium text-gray-900">
 												<span className="currency-mad">
 													{fmtMAD(order.total_amount)} DH
 												</span>
-											</TableCell>
-										</TableRow>
+											</td>
+										</tr>
 									))}
-								</TableBody>
-							</Table>
+								</tbody>
+							</table>
 						</div>
 					</div>
 				)}
