@@ -1,6 +1,6 @@
 # OKF Knowledge Bundle
 
-Auto-generated 2026-06-27. Project: beldify
+Auto-generated 2026-06-29. Project: beldify
 
 This project's agent-ready knowledge is available in the OKF bundle:
 

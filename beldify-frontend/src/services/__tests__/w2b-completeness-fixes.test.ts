@@ -59,79 +59,10 @@ describe('Fix 3 — seller register payload includes store_name', () => {
 // Fix 4 — handleVerticalSave catch block must NOT set verticalSaved on error
 // ─────────────────────────────────────────────────────────────────────────────
 
-describe('Fix 4 — handleVerticalSave error path correctness', () => {
-  it('handleVerticalSave catch must not apply optimistic update on API failure', () => {
-    // This is a behavioural test documented as a source-code assertion.
-    // We check that the fixed catch block only calls toast.error and resets
-    // saving state, without calling setStoreType(pendingVertical) or
-    // setVerticalSaved(true).
-    //
-    // The runtime contract: if updateStoreProfile throws, verticalSaved stays false
-    // and storeType stays at its original value.
-    //
-    // We verify the fix by reading the source of the page module and asserting
-    // the catch block does NOT contain setVerticalSaved(true) after the fix.
-    // (Pre-fix it does contain it; post-fix it must not.)
-    const fs = require('fs');
-    const src: string = fs.readFileSync(
-      require('path').resolve(
-        __dirname,
-        '../../app/seller/store-settings/page.tsx'
-      ),
-      'utf8'
-    );
-
-    // Extract ONLY the catch block body of handleVerticalSave (the previous
-    // pattern also captured the try body, whose success path legitimately
-    // calls setVerticalSaved(true))
-    const catchMatch = src.match(
-      /handleVerticalSave[\s\S]*?catch\s*(?:\([^)]*\))?\s*\{([\s\S]*?)\}\s*finally/
-    );
-    if (catchMatch) {
-      const catchBlock = catchMatch[1];
-      // After fix: catch block must NOT set verticalSaved(true)
-      expect(catchBlock).not.toContain('setVerticalSaved(true)');
-      // After fix: catch block must NOT call setStoreType(pendingVertical)
-      expect(catchBlock).not.toContain('setStoreType(pendingVertical)');
-    }
-    // If catch block not found pattern will still detect the bad state
-    // via the broader source check below.
-    const catchGross = src.indexOf('catch {');
-    if (catchGross !== -1) {
-      const catchSnippet = src.slice(catchGross, catchGross + 300);
-      expect(catchSnippet).not.toContain('setVerticalSaved(true)');
-    }
-  });
-});
-
-// ─────────────────────────────────────────────────────────────────────────────
-// Fix 5 — sellerProductService exposes deleteSellerProduct
-// ─────────────────────────────────────────────────────────────────────────────
-
-describe('Fix 5 — sellerProductService has deleteSellerProduct', () => {
-  it('deleteSellerProduct is exported from sellerProductService', async () => {
-    const mod = await import('../sellerProductService');
-    expect(typeof (mod as any).deleteSellerProduct).toBe('function');
-  });
-
-  it('deleteSellerProduct calls DELETE /api/seller/products/:id', async () => {
-    const apiModule = await import('@/lib/api');
-    const calls: Array<{ method: string; url: string }> = [];
-    const origDelete = apiModule.default.delete.bind(apiModule.default);
-    apiModule.default.delete = (async (url: string) => {
-      calls.push({ method: 'DELETE', url });
-      return { data: { success: true }, status: 200 };
-    }) as any;
-
-    const mod = await import('../sellerProductService');
-    await (mod as any).deleteSellerProduct(42);
-
-    apiModule.default.delete = origDelete;
-
-    expect(calls).toHaveLength(1);
-    expect(calls[0].url).toContain('/api/seller/products/42');
-  });
-});
+// Fix 4 (handleVerticalSave) and Fix 5 (sellerProductService.deleteSellerProduct)
+// removed — they covered the Next.js seller store-settings page and
+// sellerProductService, both deleted in the seller dashboard consolidation
+// (seller dashboard now lives in the Laravel Blade app).
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Fix 6 — terms-of-service Seller Terms anchor points to internal section
