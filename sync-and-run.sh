@@ -25,8 +25,17 @@ rsync -avz --delete \
   --exclude '.next' \
   --exclude '.git' \
   --exclude '*.log' \
+  --exclude '.env' \
+  --exclude '.env.*' \
+  --exclude 'beldify-backend/storage/app' \
+  --exclude 'beldify-backend/storage/framework' \
+  --exclude 'beldify-backend/public/storage' \
+  --exclude 'beldify-frontend/.env*' \
   ~/projects/beldify/ \
   "$REMOTE:$REMOTE_DIR/"
+# NOTE: .env and storage/ are EXCLUDED on purpose — prod .env diverges from local
+# (ASSET_URL, FILESYSTEM_DISK, APP_URL set directly on the server), and rsync
+# --delete on storage/app would wipe prod-only uploaded media. Never remove these.
 
 echo "🔐 Restoring storage/cache ownership (rsync -avz from macOS stamps files uid 501 → www-data can't write → optimize:clear + every request 500s)..."
 ssh "$REMOTE" "docker exec $BACKEND_CT sh -lc 'chown -R www-data:www-data storage bootstrap/cache && find storage bootstrap/cache -type d -exec chmod 775 {} \;'"
