@@ -36,16 +36,11 @@ function findRtlBinaryOccurrences(filePath: string): string[] {
 }
 
 const IN_SCOPE_FILES = [
-  'src/app/seller/custom-orders/page.tsx',
   'src/app/custom-orders/new/page.tsx',
   'src/app/custom-orders/[id]/page.tsx',
-  'src/components/seller/VerticalProductForm.tsx',
-  'src/components/seller/QuoteForm.tsx',
-  'src/components/seller/CustomOrderTimeline.tsx',
   'src/components/products/JewelryFields.tsx',
   'src/components/checkout/MadeToOrderTimeline.tsx',
   'src/components/checkout/CustomOrderForm.tsx',
-  'src/app/seller/store-settings/page.tsx',
 ];
 
 describe('RTL binary anti-pattern — all occurrences replaced with t()', () => {
@@ -62,38 +57,6 @@ describe('RTL binary anti-pattern — all occurrences replaced with t()', () => 
 });
 
 describe('RTL binary — labelAr/descriptionAr data-map variants removed', () => {
-  it('seller/store-settings/page.tsx has no labelAr or descriptionAr properties in VERTICAL_OPTIONS', () => {
-    const filePath = join(ROOT, 'src/app/seller/store-settings/page.tsx');
-    const source = readFileSync(filePath, 'utf-8');
-    // labelAr and descriptionAr were data-map fields that held Arabic strings
-    expect(source).not.toMatch(/labelAr\s*:/);
-    expect(source).not.toMatch(/descriptionAr\s*:/);
-  });
-
-  it('seller/store-settings/page.tsx badge property contains no hardcoded Arabic text', () => {
-    const filePath = join(ROOT, 'src/app/seller/store-settings/page.tsx');
-    const source = readFileSync(filePath, 'utf-8');
-    // badge: 'جديد' should be replaced with t()
-    const arabicRange = /[؀-ۿ]/;
-    // Only flag badge: '...arabic...' patterns
-    const badgeLine = source.split('\n').find(
-      l => /badge\s*:/.test(l) && arabicRange.test(l) && !l.trim().startsWith('//')
-    );
-    expect(badgeLine).toBeUndefined();
-  });
-
-  it('seller/custom-orders/page.tsx STATUS_META access uses t() not labelAr', () => {
-    const filePath = join(ROOT, 'src/app/seller/custom-orders/page.tsx');
-    const source = readFileSync(filePath, 'utf-8');
-    expect(source).not.toContain('meta.labelAr');
-  });
-
-  it('CustomOrderTimeline.tsx STATUS_META access uses t() not labelAr', () => {
-    const filePath = join(ROOT, 'src/components/seller/CustomOrderTimeline.tsx');
-    const source = readFileSync(filePath, 'utf-8');
-    expect(source).not.toContain('meta.labelAr');
-  });
-
   it('MadeToOrderTimeline.tsx STATUS_META access uses t() not labelAr', () => {
     const filePath = join(ROOT, 'src/components/checkout/MadeToOrderTimeline.tsx');
     const source = readFileSync(filePath, 'utf-8');

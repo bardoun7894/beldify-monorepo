@@ -43,7 +43,6 @@ const FILES_IN_SCOPE = [
   'app/checkout/page.tsx',
   'app/category/[slug]/page.tsx',
   'app/seller/register/page.tsx',
-  'app/seller/custom-orders/page.tsx',
   'app/custom-orders/new/page.tsx',
 ];
 

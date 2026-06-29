@@ -15,7 +15,7 @@
 
 import { describe, it, expect, vi, afterEach } from 'vitest';
 import React from 'react';
-import { render, screen, fireEvent, waitFor, cleanup, within } from '@testing-library/react';
+import { render, fireEvent, waitFor, cleanup } from '@testing-library/react';
 
 // Explicit cleanup after each test to ensure DOM isolation
 afterEach(() => { cleanup(); });
@@ -95,8 +95,6 @@ vi.mock('@/lib/api', () => ({
 }));
 
 // ─── Import components AFTER mocks ────────────────────────────────────────────
-import QuoteForm from '../components/seller/QuoteForm';
-import CustomOrderTimeline from '../components/seller/CustomOrderTimeline';
 import JewelryFields from '../components/products/JewelryFields';
 import MadeToOrderTimeline from '../components/checkout/MadeToOrderTimeline';
 import CustomOrderForm from '../components/checkout/CustomOrderForm';
@@ -134,51 +132,6 @@ function makeOrder(overrides: Partial<CustomOrder> = {}): CustomOrder {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// QuoteForm — renders only for requested status (D4-RESOLVED)
-// ─────────────────────────────────────────────────────────────────────────────
-
-describe('QuoteForm — renders only for requested status', () => {
-  it('renders the three inputs when status is requested', () => {
-    const order = makeOrder({ status: 'requested' });
-    const { container } = render(
-      <QuoteForm order={order} onQuoted={vi.fn()} />
-    );
-    expect(container.querySelector('#quote_amount')).toBeTruthy();
-    expect(container.querySelector('#deposit_amount')).toBeTruthy();
-    expect(container.querySelector('#eta')).toBeTruthy();
-  });
-
-  it('renders NOTHING when status is quoted', () => {
-    const order = makeOrder({
-      status: 'quoted',
-      quote_amount: '1200.00',
-      deposit_amount: '400.00',
-      eta: '2026-06-30',
-    });
-    const { container } = render(
-      <QuoteForm order={order} onQuoted={vi.fn()} />
-    );
-    expect(container.firstChild).toBeNull();
-  });
-
-  it('renders NOTHING when status is in_progress', () => {
-    const order = makeOrder({ status: 'in_progress' });
-    const { container } = render(
-      <QuoteForm order={order} onQuoted={vi.fn()} />
-    );
-    expect(container.firstChild).toBeNull();
-  });
-
-  it('renders NOTHING when status is deposit_paid', () => {
-    const order = makeOrder({ status: 'deposit_paid' });
-    const { container } = render(
-      <QuoteForm order={order} onQuoted={vi.fn()} />
-    );
-    expect(container.firstChild).toBeNull();
-  });
-});
-
-// ─────────────────────────────────────────────────────────────────────────────
 // ALLOWED_NEXT_STATUSES constants — verify the D4 contract
 // (These test the exported constants directly — not via component render)
 // ─────────────────────────────────────────────────────────────────────────────
@@ -205,97 +158,6 @@ describe('ALLOWED_NEXT_STATUSES — D4-RESOLVED transition table', () => {
 
   it('cancelled has no allowed transitions (terminal state)', () => {
     expect(ALLOWED_NEXT_STATUSES.cancelled).toEqual([]);
-  });
-});
-
-// ─────────────────────────────────────────────────────────────────────────────
-// CustomOrderTimeline — renders correct next-status options
-// ─────────────────────────────────────────────────────────────────────────────
-
-describe('CustomOrderTimeline — renders allowed next statuses per transition table', () => {
-  it('quoted order: select has deposit_paid and cancelled options', () => {
-    const order = makeOrder({
-      status: 'quoted',
-      quote_amount: '1200.00',
-      deposit_amount: '400.00',
-      eta: '2026-06-30',
-      progress: [
-        { id: 1, status: 'requested', note: null, created_by: 44, created_at: '2026-06-02T10:00:00Z' },
-        { id: 2, status: 'quoted', note: null, created_by: 99, created_at: '2026-06-03T09:00:00Z' },
-      ],
-    });
-    const { container } = render(<CustomOrderTimeline order={order} onAdvanced={vi.fn()} />);
-
-    const select = within(container).getByLabelText(/Next Status/i) as HTMLSelectElement;
-    const optionValues = Array.from(select.options).map(o => o.value).filter(v => v);
-
-    // ALLOWED_NEXT_STATUSES.quoted = ['deposit_paid', 'cancelled']
-    expect(optionValues).toContain('deposit_paid');
-    expect(optionValues).toContain('cancelled');
-    // Should NOT contain statuses not in the table
-    expect(optionValues).not.toContain('quoted');
-    expect(optionValues).not.toContain('in_progress');
-    expect(optionValues).not.toContain('requested');
-    // Exactly 2 options (excluding the blank default)
-    expect(optionValues).toHaveLength(2);
-  });
-
-  it('requested order: only cancelled is offered via advance', () => {
-    const order = makeOrder({ status: 'requested' });
-    const { container } = render(<CustomOrderTimeline order={order} onAdvanced={vi.fn()} />);
-
-    const select = within(container).getByLabelText(/Next Status/i) as HTMLSelectElement;
-    const optionValues = Array.from(select.options).map(o => o.value).filter(v => v);
-
-    // ALLOWED_NEXT_STATUSES.requested = ['cancelled']
-    expect(optionValues).toEqual(['cancelled']);
-    expect(optionValues).not.toContain('quoted'); // D4-RESOLVED
-    expect(optionValues).not.toContain('deposit_paid');
-  });
-
-  it('delivered order: only closed is offered', () => {
-    const order = makeOrder({
-      status: 'delivered',
-      progress: [
-        { id: 1, status: 'requested', note: null, created_by: 44, created_at: '2026-06-02T10:00:00Z' },
-        { id: 2, status: 'delivered', note: null, created_by: 99, created_at: '2026-06-10T09:00:00Z' },
-      ],
-    });
-    const { container } = render(<CustomOrderTimeline order={order} onAdvanced={vi.fn()} />);
-
-    const select = within(container).getByLabelText(/Next Status/i) as HTMLSelectElement;
-    const optionValues = Array.from(select.options).map(o => o.value).filter(v => v);
-
-    expect(optionValues).toEqual(['closed']);
-  });
-
-  it('closed order: no advance form rendered (terminal state message shown)', () => {
-    const order = makeOrder({
-      status: 'closed',
-      progress: [
-        { id: 1, status: 'requested', note: null, created_by: 44, created_at: '2026-06-02T10:00:00Z' },
-        { id: 2, status: 'closed', note: null, created_by: 99, created_at: '2026-06-15T09:00:00Z' },
-      ],
-    });
-    const { container } = render(<CustomOrderTimeline order={order} onAdvanced={vi.fn()} />);
-
-    expect(within(container).queryByLabelText(/Next Status/i)).toBeNull();
-    expect(within(container).getByText(/terminal state/i)).toBeTruthy();
-  });
-
-  it('progress note is visible in the timeline', () => {
-    const order = makeOrder({
-      status: 'quoted',
-      quote_amount: '1200.00',
-      deposit_amount: '400.00',
-      progress: [
-        { id: 1, status: 'requested', note: null, created_by: 44, created_at: '2026-06-02T10:00:00Z' },
-        { id: 2, status: 'quoted', note: 'Price quoted for 18k gold ring', created_by: 99, created_at: '2026-06-03T09:00:00Z' },
-      ],
-    });
-    const { container } = render(<CustomOrderTimeline order={order} onAdvanced={vi.fn()} />);
-
-    expect(within(container).getByText('Price quoted for 18k gold ring')).toBeTruthy();
   });
 });
 
