@@ -34,6 +34,9 @@ ssh "$REMOTE" "docker exec $BACKEND_CT sh -lc 'chown -R www-data:www-data storag
 echo "🔗 Repairing backend API->Api case-sensitivity symlink (rsync --delete wipes it)..."
 ssh "$REMOTE" "docker exec $BACKEND_CT sh -lc 'cd app/Http/Controllers && ln -sfn Api API; cd /var/www/html && composer dump-autoload -o >/dev/null 2>&1 && php artisan optimize:clear >/dev/null 2>&1'"
 
+echo "🖼️  Recreating public/storage symlink (rsync --delete wipes it → every /storage/* image 404s, e.g. category photos)..."
+ssh "$REMOTE" "docker exec $BACKEND_CT php artisan storage:link >/dev/null 2>&1 || true"
+
 echo "🗃️  Running pending backend migrations (non-interactive)..."
 ssh "$REMOTE" "docker exec $BACKEND_CT php artisan migrate --force" || {
   echo "⚠️  Migration step failed — check backend logs before trusting the deploy."; exit 1;
