@@ -122,6 +122,16 @@ const nextConfig = {
       { source: '/journal', destination: '/about', permanent: false },
     ]
   },
+
+  // Serve backend-stored media (category/product images, banners) under the
+  // www origin so the browser never has to reach pro.beldify.com directly.
+  // The Next server proxies /storage/* to the backend; ASSET_URL is set to
+  // https://www.beldify.com so the API emits www URLs that land here.
+  async rewrites() {
+    return [
+      { source: '/storage/:path*', destination: 'https://pro.beldify.com/storage/:path*' },
+    ]
+  },
 }
 
 module.exports = withBundleAnalyzer(withSerwist(nextConfig))

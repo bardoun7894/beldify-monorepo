@@ -156,6 +156,13 @@ const nextConfig = {
     ];
   },
 
+  // Proxy backend-stored media under the www origin (see next.config.prod.js).
+  async rewrites() {
+    return [
+      { source: '/storage/:path*', destination: 'https://pro.beldify.com/storage/:path*' },
+    ];
+  },
+
   // NOTE: A second `async headers()` used to live here and silently overrode the
   // comprehensive one above (duplicate object key — last one wins), disabling the
   // security headers, `/api` no-store, and `/_next/static` immutable caching. It
