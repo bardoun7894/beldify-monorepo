@@ -42,6 +42,9 @@ ssh "$REMOTE" "docker exec $BACKEND_CT php artisan migrate --force" || {
   echo "⚠️  Migration step failed — check backend logs before trusting the deploy."; exit 1;
 }
 
+echo "♻️  Restarting backend to flush PHP-FPM opcache (optimize:clear does NOT clear opcache → new controllers/routes/views keep serving STALE until restart)..."
+ssh "$REMOTE" "docker restart $BACKEND_CT >/dev/null 2>&1 && sleep 3 && docker exec $BACKEND_CT sh -lc 'php artisan storage:link >/dev/null 2>&1; php artisan config:cache >/dev/null 2>&1; php artisan route:cache >/dev/null 2>&1; php artisan view:cache >/dev/null 2>&1' || true"
+
 echo "🔨 Building & starting PROD frontend (real next build/start, port 4987)..."
 # Stop the stale dev container if it exists (wrong port 3001, dev mode).
 ssh "$REMOTE" "docker rm -f beldify-frontend >/dev/null 2>&1 || true"
