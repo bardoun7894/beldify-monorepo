@@ -26,6 +26,7 @@ import {
 	Store,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { enterSellerDashboard } from "@/services/sellerBridgeService";
 import { useCart } from "@/contexts/CartContext";
 import { useAuth } from "@/contexts/AuthContext";
 import { useTranslation } from "react-i18next";
@@ -594,10 +595,11 @@ export default function Navbar() {
 												{user?.is_seller && (
 													<Menu.Item>
 														{({ active }) => (
-															<Link
-																href="/seller"
+															<button
+																type="button"
+																onClick={() => void enterSellerDashboard()}
 																className={cn(
-																	"flex items-center gap-2 px-4 py-2 text-sm transition",
+																	"flex w-full items-center gap-2 px-4 py-2 text-left text-sm transition",
 																	active
 																		? "bg-indigo-50 text-indigo-700"
 																		: "text-gray-700",
@@ -608,7 +610,7 @@ export default function Navbar() {
 																	"navigation.seller_dashboard",
 																	"Seller Dashboard",
 																)}
-															</Link>
+															</button>
 														)}
 													</Menu.Item>
 												)}
@@ -844,14 +846,17 @@ export default function Navbar() {
 												</div>
 											</div>
 											{user.is_seller && (
-												<Link
-													href="/seller"
-													onClick={() => setMobileMenuOpen(false)}
-													className="mb-2 flex items-center justify-center gap-1.5 py-2 px-3 bg-amber-50 rounded-xl text-sm font-semibold text-amber-800 hover:bg-amber-100 border border-amber-200 transition"
+												<button
+													type="button"
+													onClick={() => {
+														setMobileMenuOpen(false);
+														void enterSellerDashboard();
+													}}
+													className="mb-2 flex w-full items-center justify-center gap-1.5 py-2 px-3 bg-amber-50 rounded-xl text-sm font-semibold text-amber-800 hover:bg-amber-100 border border-amber-200 transition"
 												>
 													<Store className="h-4 w-4" aria-hidden="true" />
 													{t("navigation.seller_dashboard", "Seller Dashboard")}
-												</Link>
+												</button>
 											)}
 											<div className="grid grid-cols-2 gap-2">
 												<Link

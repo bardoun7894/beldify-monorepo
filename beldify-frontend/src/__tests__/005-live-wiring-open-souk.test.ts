@@ -15,7 +15,6 @@ const exists = (rel: string) => existsSync(join(ROOT, rel));
 
 const CUSTOM_SVC  = 'src/services/customOrderService.ts';
 const VERTICAL_SVC = 'src/services/verticalService.ts';
-const SELLER_PAGE  = 'src/app/seller/custom-orders/page.tsx';
 const POST_PAGE    = 'src/app/community/posts/[id]/page.tsx';
 const FOOTER       = 'src/components/layout/Footer.tsx';
 
@@ -82,43 +81,6 @@ describe('F2 — fetchSellerCustomOrders in customOrderService', () => {
   it('customOrderService exports object includes fetchSellerCustomOrders', () => {
     const src = read(CUSTOM_SVC);
     expect(src).toMatch(/fetchSellerCustomOrders/);
-  });
-});
-
-describe('F2 — seller custom-orders page wired to real API', () => {
-  it('imports fetchSellerCustomOrders from customOrderService', () => {
-    const src = read(SELLER_PAGE);
-    expect(src).toMatch(/fetchSellerCustomOrders/);
-  });
-
-  it('no longer uses hardcoded MOCK_SELLER_ORDERS as initial state', () => {
-    const src = read(SELLER_PAGE);
-    // The initial state should be empty array, not MOCK_SELLER_ORDERS
-    expect(src).not.toMatch(/useState\s*\(\s*MOCK_SELLER_ORDERS\s*\)/);
-  });
-
-  it('has a useEffect that loads orders via fetchSellerCustomOrders', () => {
-    const src = read(SELLER_PAGE);
-    expect(src).toMatch(/useEffect/);
-    expect(src).toMatch(/fetchSellerCustomOrders/);
-  });
-
-  it('has loading state', () => {
-    const src = read(SELLER_PAGE);
-    expect(src).toMatch(/isLoading|loading/);
-  });
-
-  it('has error state', () => {
-    const src = read(SELLER_PAGE);
-    expect(src).toMatch(/error/);
-  });
-
-  it('detail pane calls fetchCustomOrder(id) for spec+progress (list is lean)', () => {
-    // The seller list response is detailed=false (no spec/progress/customer).
-    // When a seller selects an order, the page must call fetchCustomOrder(id)
-    // to load the full detail.
-    const src = read(SELLER_PAGE);
-    expect(src).toMatch(/fetchCustomOrder/);
   });
 });
 
