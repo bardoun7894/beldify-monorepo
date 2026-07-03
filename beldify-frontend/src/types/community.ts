@@ -154,6 +154,22 @@ export interface CommunityResponse {
   isMine?: boolean;
   // Set on the ACCEPTED proposal — the bridged custom_order id (Contact-after-accept).
   customOrderId?: string | number | null;
+  // Full custom-order summary for the accepted proposal (status drives review gating).
+  customOrder?: {
+    id: string | number;
+    status: string;
+    quote_amount?: number | null;
+    deposit_amount?: number | null;
+    deposit_paid?: boolean;
+  } | null;
+  // Buyer's review of this seller once the deal is delivered (trust flywheel).
+  review?: {
+    id: string | number;
+    rating: number;
+    comment?: string | null;
+    userName?: string;
+    createdAt?: string;
+  } | null;
 }
 
 export interface MessageAttachment {

@@ -346,6 +346,29 @@ export const updateResponseStatus = async (postId: string, responseId: string, s
 };
 
 /**
+ * Buyer submits (or updates) a review of the seller after the deal is delivered.
+ * POST /community/posts/{postId}/responses/{responseId}/review — one review per
+ * accepted proposal; re-submitting overwrites. Feeds the seller's avgRating.
+ */
+export const submitSellerReview = async (
+  postId: string,
+  responseId: string,
+  rating: number,
+  comment?: string
+): Promise<{ id: string | number; rating: number; comment?: string | null }> => {
+  try {
+    const response = await axiosInstance.post(
+      `/community/posts/${postId}/responses/${responseId}/review`,
+      { rating, comment: comment ?? null }
+    );
+    return response.data.data;
+  } catch (error) {
+    logger.error(`Error submitting review for response ${responseId}:`, error);
+    throw error;
+  }
+};
+
+/**
  * Update an existing response
  * NOTE: The backend does not currently have a generic update endpoint for responses.
  * Seller responses are created via POST /api/v1/seller/community/posts/{post}/respond.
