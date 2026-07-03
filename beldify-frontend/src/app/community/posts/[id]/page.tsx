@@ -61,6 +61,22 @@ function nameToGradient(name: string): string {
   return GRADIENTS[code % GRADIENTS.length];
 }
 
+/**
+ * Ownership check for the winner-selection flow. The backend serializes ids as
+ * strings (e.g. "4") while `user.id` is a number, so a strict `===` would always
+ * be false for the real owner and hide the Accept/Decline buttons. Coerce both
+ * sides to Number before comparing. Returns false when either id is missing.
+ */
+export function isPostOwnedBy(
+  ownerId: string | number | null | undefined,
+  userId: string | number | null | undefined
+): boolean {
+  if (ownerId == null || userId == null) return false;
+  const owner = Number(ownerId);
+  const viewer = Number(userId);
+  return !Number.isNaN(owner) && !Number.isNaN(viewer) && owner === viewer;
+}
+
 function timeAgo(dateString: string, isRTL: boolean): string {
   try {
     return formatDistanceToNow(new Date(dateString), {
@@ -171,8 +187,7 @@ export default function PostDetailPage() {
   };
 
   const handleAcceptResponse = async (responseId: number) => {
-    const postUserId = post?.userId || post?.user?.id;
-    if (!post || postUserId !== Number(user?.id)) {
+    if (!post || !isPostOwnedBy(post.userId ?? post.user?.id, user?.id)) {
       toast.error(t('community.not_authorized', 'You are not authorized to perform this action'));
       return;
     }
@@ -200,8 +215,7 @@ export default function PostDetailPage() {
   };
 
   const handleRejectResponse = async (responseId: number) => {
-    const postUserId = post?.userId || post?.user?.id;
-    if (!post || postUserId !== Number(user?.id)) {
+    if (!post || !isPostOwnedBy(post.userId ?? post.user?.id, user?.id)) {
       toast.error(t('community.not_authorized', 'You are not authorized to perform this action'));
       return;
     }
@@ -261,7 +275,7 @@ export default function PostDetailPage() {
     );
   }
 
-  const isMyPost = Number(user?.id) === (post.userId || post.user?.id);
+  const isMyPost = isPostOwnedBy(post.userId ?? post.user?.id, user?.id);
   const postIsOpen = post.status === 'open';
 
   // hasMyProposal guard — backend 422s a second submit, so hide the form
