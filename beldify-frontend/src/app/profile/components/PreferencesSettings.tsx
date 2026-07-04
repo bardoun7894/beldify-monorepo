@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import toast from '@/utils/toast';
-import { Bell, Globe, Mail, Smartphone } from 'lucide-react';
+import { Bell, Globe, Mail, Smartphone, Shield, Phone, Circle } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import logger from '@/utils/consoleLogger';
 import { Button } from '@/components/ui/button';
@@ -113,6 +113,9 @@ export default function PreferencesSettings() {
     newsletter: user?.preferences?.newsletter ?? false,
     language: user?.preferences?.language ?? 'en',
     timezone: user?.preferences?.timezone ?? Intl.DateTimeFormat().resolvedOptions().timeZone,
+    profile_visible_to_buyers: user?.preferences?.profile_visible_to_buyers ?? true,
+    phone_visible_to_buyers: user?.preferences?.phone_visible_to_buyers ?? false,
+    show_online_status: user?.preferences?.show_online_status ?? true,
   });
 
   const handleToggle = (name: string) => {
@@ -197,6 +200,46 @@ export default function PreferencesSettings() {
               }}
             />
           )}
+        </div>
+      </section>
+
+      {/* ── Privacy ── */}
+      <section>
+        <SectionHeading icon={Shield} label={t('preferences.privacy_settings', 'Privacy')} />
+        <div className="rounded-2xl border border-gray-100 bg-gray-50 divide-y divide-gray-100 px-4">
+          <ToggleRow
+            id="pref-profile-visible-to-buyers"
+            icon={Shield}
+            title={t('preferences.profile_visible_to_buyers.title', 'Show my profile to other buyers')}
+            description={t(
+              'preferences.profile_visible_to_buyers.description',
+              'Other buyers can see your public profile details.'
+            )}
+            checked={preferences.profile_visible_to_buyers}
+            onToggle={() => handleToggle('profile_visible_to_buyers')}
+          />
+          <ToggleRow
+            id="pref-phone-visible-to-buyers"
+            icon={Phone}
+            title={t('preferences.phone_visible_to_buyers.title', 'Show my phone number to sellers I message')}
+            description={t(
+              'preferences.phone_visible_to_buyers.description',
+              'Sellers you contact can see your phone number.'
+            )}
+            checked={preferences.phone_visible_to_buyers}
+            onToggle={() => handleToggle('phone_visible_to_buyers')}
+          />
+          <ToggleRow
+            id="pref-show-online-status"
+            icon={Circle}
+            title={t('preferences.show_online_status.title', 'Show online status')}
+            description={t(
+              'preferences.show_online_status.description',
+              'Let others see when you are online.'
+            )}
+            checked={preferences.show_online_status}
+            onToggle={() => handleToggle('show_online_status')}
+          />
         </div>
       </section>
 
