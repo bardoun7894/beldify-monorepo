@@ -116,9 +116,12 @@ const TYPE_CONFIG: Record<string, TypeConfig> = {
   },
 };
 
-const getConfig = (type: string): TypeConfig | null => {
+const getConfig = (type: string, dataType?: string): TypeConfig | null => {
+  // Match against the data.type slug (e.g. "community_response") first — the API returns
+  // `type` as the PHP class name, which doesn't always textually contain the slug.
+  const needle = (dataType || type).toLowerCase();
   const key = Object.keys(TYPE_CONFIG).find(
-    (k) => type === k || type.toLowerCase().includes(k.replace(/_/g, ''))
+    (k) => needle === k || needle.includes(k.replace(/_/g, ''))
   );
   return key ? TYPE_CONFIG[key] : null;
 };
@@ -164,7 +167,7 @@ function NotificationRow({
   onDelete: (id: string) => void;
 }) {
   const { t, i18n } = useTranslation();
-  const config = getConfig(notification.type);
+  const config = getConfig(notification.type, notification.data?.type);
   const Icon = config?.icon ?? Bell;
   const href = config?.href(notification.data) ?? '/notifications';
   const label = config
