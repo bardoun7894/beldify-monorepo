@@ -3686,7 +3686,13 @@
     "send": "Senden",
     "error_loading": "Fehler beim Laden der Konversation",
     "error_sending": "Fehler beim Senden der Nachricht",
-    "typing_aria": "Die andere Person schreibt"
+    "typing_aria": "Die andere Person schreibt",
+    "quick": {
+      "price": "Was ist Ihr bester Preis?",
+      "timeline": "Wie lange wird es dauern?",
+      "photos": "Können Sie mehr Fotos teilen?",
+      "customize": "Können Sie es für mich anpassen?"
+    }
   },
   "seller": {
     "shortcut_title": "Verkäufer-Dashboard",

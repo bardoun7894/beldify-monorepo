@@ -4494,7 +4494,13 @@
     "sign_in_required": "Inicia sesión para ver mensajes",
     "start_conversation_hint": "Inicia la conversación, saluda al taller.",
     "type_a_message": "Escribe un mensaje…",
-    "typing_aria": "La otra persona está escribiendo"
+    "typing_aria": "La otra persona está escribiendo",
+    "quick": {
+      "price": "¿Cuál es tu mejor precio?",
+      "timeline": "¿Cuánto tiempo tomará?",
+      "photos": "¿Puedes compartir más fotos?",
+      "customize": "¿Puedes personalizarlo para mí?"
+    }
   },
   "openSouk": {
     "browseCta": "Explorar solicitudes",

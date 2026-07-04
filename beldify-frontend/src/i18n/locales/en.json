@@ -3694,7 +3694,13 @@
     "send": "Send",
     "error_loading": "Failed to load conversation",
     "error_sending": "Failed to send message",
-    "typing_aria": "The other person is typing"
+    "typing_aria": "The other person is typing",
+    "quick": {
+      "price": "What's your best price?",
+      "timeline": "How long will it take?",
+      "photos": "Can you share more photos?",
+      "customize": "Can you customize it for me?"
+    }
   },
   "seller": {
     "shortcut_title": "Seller Dashboard",

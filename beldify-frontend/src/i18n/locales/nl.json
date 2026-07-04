@@ -3686,7 +3686,13 @@
     "send": "Verzenden",
     "error_loading": "Laden van gesprek mislukt",
     "error_sending": "Verzenden van bericht mislukt",
-    "typing_aria": "De ander is aan het typen"
+    "typing_aria": "De ander is aan het typen",
+    "quick": {
+      "price": "Wat is je beste prijs?",
+      "timeline": "Hoe lang gaat het duren?",
+      "photos": "Kun je meer foto's delen?",
+      "customize": "Kun je het voor mij aanpassen?"
+    }
   },
   "seller": {
     "shortcut_title": "Verkopersdashboard",

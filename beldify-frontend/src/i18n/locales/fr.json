@@ -3841,7 +3841,13 @@
     "send": "Envoyer",
     "error_loading": "Échec du chargement de la conversation",
     "error_sending": "Échec de l'envoi du message",
-    "typing_aria": "L'autre personne écrit"
+    "typing_aria": "L'autre personne écrit",
+    "quick": {
+      "price": "Quel est votre meilleur prix ?",
+      "timeline": "Combien de temps cela prendra-t-il ?",
+      "photos": "Pouvez-vous partager plus de photos ?",
+      "customize": "Pouvez-vous le personnaliser pour moi ?"
+    }
   },
   "security": {
     "change_password": "Modifier le mot de passe",

@@ -268,7 +268,7 @@ export default function ConversationPage() {
           role="log"
           aria-live="polite"
           aria-label={t('messages.conversation') || 'Conversation'}
-          className="flex-1 space-y-2.5 overflow-y-auto px-4 py-6"
+          className="flex-1 overflow-y-auto px-4 py-6"
         >
           {loading ? (
             /* Loading skeleton */
@@ -319,30 +319,44 @@ export default function ConversationPage() {
               {groupMessagesByDay(messages).map((group) => (
                 <React.Fragment key={group.dateKey}>
                   <ConversationDateDivider label={group.label} />
-                  {group.messages.map((m) => {
+                  {group.messages.map((m, i) => {
                     const mine = isMine(m);
                     const timestamp = formatTime((m as any).created_at ?? (m as any).createdAt);
+                    // Group consecutive messages from the same sender: avatar +
+                    // timestamp only on the LAST bubble of a run, and the "tail"
+                    // corner only there too — so a burst reads as one unit.
+                    const prev = group.messages[i - 1];
+                    const next = group.messages[i + 1];
+                    const sameAsPrev = prev && isMine(prev) === mine;
+                    const sameAsNext = next && isMine(next) === mine;
                     return (
                       <div
                         key={String(m.id)}
-                        className={`flex items-end gap-2 ${mine ? 'justify-end' : 'justify-start'}`}
+                        className={`flex items-end gap-2 ${mine ? 'justify-end' : 'justify-start'} ${
+                          sameAsPrev ? 'mt-0.5' : 'mt-3'
+                        }`}
                       >
-                        {/* Other user avatar — only on theirs */}
-                        {!mine && (
-                          <div className="mb-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-atlas-secondary text-[11px] font-bold text-on-secondary">
-                            {initial}
-                          </div>
-                        )}
+                        {/* Other user avatar — only on the last of their run */}
+                        {!mine &&
+                          (sameAsNext ? (
+                            <div className="w-7 shrink-0" aria-hidden="true" />
+                          ) : (
+                            <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-atlas-secondary text-[11px] font-bold text-on-secondary shadow-atlas-sm">
+                              {initial}
+                            </div>
+                          ))}
 
                         <div
                           className={`max-w-[78%] break-words rounded-2xl px-3.5 py-2.5 text-sm shadow-atlas-sm ${
                             mine
-                              ? 'rounded-ee-md bg-atlas-primary text-white'
-                              : 'rounded-es-md bg-card text-on-surface ring-1 ring-outline/15'
+                              ? `bg-atlas-primary text-white ${sameAsNext ? '' : 'rounded-ee-md'}`
+                              : `bg-card text-on-surface ring-1 ring-outline/15 ${
+                                  sameAsNext ? '' : 'rounded-es-md'
+                                }`
                           }`}
                         >
                           <p className="whitespace-pre-wrap leading-relaxed">{m.content}</p>
-                          {timestamp && (
+                          {timestamp && !sameAsNext && (
                             <span
                               className={`mt-1 block text-[10px] tabular-nums ${
                                 mine ? 'text-[#a8a7e1] text-end' : 'text-on-surface-variant/70'
@@ -365,41 +379,78 @@ export default function ConversationPage() {
         </div>
 
         {/* ── Composer ────────────────────────────────────────────────────── */}
-        <form
-          onSubmit={handleSend}
-          className="sticky bottom-0 flex items-end gap-2 border-t border-outline/12 bg-card px-3 py-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] shadow-[0_-2px_8px_0_hsl(240_39%_24%/0.06)]"
-        >
-          <textarea
-            value={input}
-            onChange={(e) => {
-              setInput(e.target.value);
-              // Emit typing indicator on every keystroke; the context debounces.
-              sendTypingIndicator(shopId, e.target.value.length > 0);
-            }}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter' && !e.shiftKey) {
-                e.preventDefault();
-                handleSend(e as unknown as React.FormEvent);
-              }
-            }}
-            rows={1}
-            placeholder={t('messages.type_a_message') || 'Type a message…'}
-            aria-label={t('messages.type_a_message') || 'Type a message…'}
-            className="max-h-32 min-h-[44px] flex-1 resize-none rounded-2xl bg-background px-4 py-3 text-sm text-on-surface ring-1 ring-outline/25 transition placeholder:text-on-surface-variant/70 focus:outline-none focus:ring-2 focus:ring-atlas-primary"
-          />
-          <button
-            type="submit"
-            disabled={sending || !input.trim()}
-            aria-label={t('messages.send') || 'Send'}
-            className="flex h-11 w-11 min-h-[44px] min-w-[44px] shrink-0 items-center justify-center rounded-full bg-atlas-secondary text-on-secondary transition-colors duration-200 hover:bg-atlas-secondary/90 disabled:cursor-not-allowed disabled:opacity-40 focus:outline-none focus-visible:ring-2 focus-visible:ring-atlas-primary focus-visible:ring-offset-2"
+        <div className="sticky bottom-0 border-t border-outline/12 bg-card pb-[max(0.75rem,env(safe-area-inset-bottom))] shadow-[0_-2px_8px_0_hsl(240_39%_24%/0.06)]">
+          {/* Quick-reply starters — help the buyer know how to respond. Shown
+              only while the input is empty; tapping one drops it into the box. */}
+          {!input.trim() && !loading && !error && (
+            <div className="flex gap-2 overflow-x-auto px-3 pt-3 pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+              {[
+                { key: 'price', fallback: 'What is your best price?' },
+                { key: 'timeline', fallback: 'How long will it take?' },
+                { key: 'photos', fallback: 'Can you share more photos?' },
+                { key: 'customize', fallback: 'Can you customize it for me?' },
+              ].map((q) => {
+                const label = t(`messages.quick.${q.key}`, q.fallback);
+                return (
+                  <button
+                    key={q.key}
+                    type="button"
+                    onClick={() => {
+                      setInput(label);
+                      sendTypingIndicator(shopId, true);
+                    }}
+                    className="shrink-0 whitespace-nowrap rounded-full bg-atlas-primary/8 px-3.5 py-1.5 text-[13px] font-medium text-atlas-primary ring-1 ring-atlas-primary/15 transition-colors duration-150 hover:bg-atlas-primary/15 focus:outline-none focus-visible:ring-2 focus-visible:ring-atlas-primary"
+                  >
+                    {label}
+                  </button>
+                );
+              })}
+            </div>
+          )}
+
+          <form
+            onSubmit={handleSend}
+            className="flex items-end gap-2 px-3 py-3"
           >
-            {sending ? (
-              <Loader2 className="h-5 w-5 animate-spin" aria-hidden="true" />
-            ) : (
-              <Send className="h-5 w-5 rtl:rotate-180" aria-hidden="true" />
-            )}
-          </button>
-        </form>
+            {/* Unified input pill: textarea + inline send, reads as one control. */}
+            <div className="flex flex-1 items-end gap-1.5 rounded-3xl bg-background px-2 py-1 ring-1 ring-outline/25 transition focus-within:ring-2 focus-within:ring-atlas-primary">
+              <textarea
+                value={input}
+                onChange={(e) => {
+                  setInput(e.target.value);
+                  // Emit typing indicator on every keystroke; the context debounces.
+                  sendTypingIndicator(shopId, e.target.value.length > 0);
+                }}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    handleSend(e as unknown as React.FormEvent);
+                  }
+                }}
+                rows={1}
+                placeholder={t('messages.type_a_message') || 'Type a message…'}
+                aria-label={t('messages.type_a_message') || 'Type a message…'}
+                className="max-h-32 min-h-[40px] flex-1 resize-none border-0 bg-transparent px-2.5 py-2.5 text-sm text-on-surface placeholder:text-on-surface-variant/70 focus:outline-none focus:ring-0"
+              />
+              <button
+                type="submit"
+                disabled={sending || !input.trim()}
+                aria-label={t('messages.send') || 'Send'}
+                className={`mb-0.5 flex h-9 w-9 min-h-[36px] min-w-[36px] shrink-0 items-center justify-center rounded-full transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-atlas-primary focus-visible:ring-offset-2 ${
+                  input.trim() && !sending
+                    ? 'bg-atlas-secondary text-on-secondary hover:bg-atlas-secondary/90 scale-100'
+                    : 'bg-outline/20 text-on-surface-variant/60 scale-95 cursor-not-allowed'
+                }`}
+              >
+                {sending ? (
+                  <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
+                ) : (
+                  <Send className="h-4 w-4 rtl:rotate-180" aria-hidden="true" />
+                )}
+              </button>
+            </div>
+          </form>
+        </div>
 
       </div>
     </div>
