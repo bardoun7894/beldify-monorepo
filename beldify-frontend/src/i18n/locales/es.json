@@ -3202,7 +3202,13 @@
     "view_custom_order": "Ver tu encargo personalizado",
     "view_image": "Ver imagen",
     "view_portfolio": "Ver portafolio",
-    "your_bid": "Tu Oferta"
+    "your_bid": "Tu Oferta",
+    "edit_proposal": "Editar propuesta",
+    "edits_left": "Queda {{count}} edición",
+    "edits_left_plural": "Quedan {{count}} ediciones",
+    "edit_cap_reached": "Ya no se puede editar esta propuesta",
+    "error_updating_response": "No se pudo actualizar tu propuesta. Inténtalo de nuevo.",
+    "update_proposal": "Actualizar propuesta"
   },
   "pwa": {
     "banner": {

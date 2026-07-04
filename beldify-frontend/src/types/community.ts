@@ -147,8 +147,9 @@ export interface CommunityResponse {
   createdAt?: string;
   updatedAt?: string;
   accepted?: boolean;
-  // Open Souk edit-cap (Laravel-only feature; surfaced for parity — the storefront
-  // never calls an updateResponse endpoint, editing happens in the seller dashboard).
+  // Open Souk edit-cap: the owning seller may edit a PENDING proposal a limited
+  // number of times via PATCH /api/v1/seller/community/responses/{response}.
+  // editsRemaining reaches 0 once the cap is hit (backend enforces via 422).
   editCount?: number;
   editsRemaining?: number;
   isMine?: boolean;

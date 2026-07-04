@@ -2781,7 +2781,13 @@
     "view_custom_order": "شوف الطلب ديالك",
     "view_image": "شوف الصورة",
     "view_portfolio": "شوف الأعمال",
-    "your_bid": "العرض ديالك"
+    "your_bid": "العرض ديالك",
+    "edit_proposal": "بدّل العرض",
+    "edits_left": "باقي ليك {{count}} تبديل",
+    "edits_left_plural": "باقي ليك {{count}} تبديلات",
+    "edit_cap_reached": "ما بقاتش تقدر تبدّل هاد العرض",
+    "error_updating_response": "ما قدرناش نبدّلو العرض ديالك. حاول مرة أخرى.",
+    "update_proposal": "بدّل العرض"
   },
   "newsletter": {
     "title": "بقا على بال بالجديد",

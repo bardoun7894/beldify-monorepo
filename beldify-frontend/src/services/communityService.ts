@@ -368,22 +368,56 @@ export const submitSellerReview = async (
   }
 };
 
+/** Payload accepted by the seller proposal-update endpoint. */
+export interface UpdateResponsePayload {
+  description: string;
+  price?: number | null;
+  delivery_days?: number | null;
+  seller_skills?: string[] | null;
+}
+
 /**
- * Update an existing response
- * NOTE: The backend does not currently have a generic update endpoint for responses.
- * Seller responses are created via POST /api/v1/seller/community/posts/{post}/respond.
- * This function is a placeholder for future backend support.
+ * Seller updates their own PENDING proposal (edit-cap enforced server-side).
+ *
+ * Endpoint: PATCH /api/v1/seller/community/responses/{response}
+ * Auth: sanctum + role:store_owner, must own the response.
+ * Errors: 403 (not owner), 422 (not pending / edit-cap reached).
  */
-export const updateCommunityResponse = async (postId: string, responseId: string, formData: FormData): Promise<CommunityResponse> => {
+export const updateResponse = async (
+  responseId: string,
+  payload: UpdateResponsePayload
+): Promise<CommunityResponse> => {
   try {
-    // Backend does not have a direct update endpoint for responses.
-    // For now, log a warning and throw an informative error.
-    logger.warn(`updateCommunityResponse called for response ${responseId} on post ${postId}, but no backend endpoint exists for this operation.`);
-    throw new Error('Updating responses is not currently supported by the backend API.');
+    const response = await axiosInstance.patch<{ success: boolean; data: CommunityResponse }>(
+      `/community/responses/${responseId}`,
+      payload
+    );
+    return response.data.data;
   } catch (error) {
     logger.error(`Error updating response ${responseId}:`, error);
     throw error;
   }
+};
+
+/**
+ * @deprecated Use {@link updateResponse} instead — the backend now exposes a
+ * real PATCH endpoint for editing a seller's own pending proposal.
+ */
+export const updateCommunityResponse = async (
+  _postId: string,
+  responseId: string,
+  formData: FormData
+): Promise<CommunityResponse> => {
+  const payload: UpdateResponsePayload = {
+    description: String(formData.get('description') || ''),
+  };
+  const price = formData.get('price');
+  if (price != null) payload.price = Number(price);
+  const deliveryDays = formData.get('delivery_days');
+  if (deliveryDays != null) payload.delivery_days = Number(deliveryDays);
+  const skills = formData.getAll('seller_skills[]').map(String);
+  if (skills.length > 0) payload.seller_skills = skills;
+  return updateResponse(responseId, payload);
 };
 
 /**

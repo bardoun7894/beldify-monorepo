@@ -3252,7 +3252,13 @@
     "view_custom_order": "عرض طلبك المخصص",
     "view_image": "عرض الصورة",
     "view_portfolio": "عرض المحفظة",
-    "your_bid": "عرضك"
+    "your_bid": "عرضك",
+    "edit_proposal": "تعديل العرض",
+    "edits_left": "{{count}} تعديل متبقٍ",
+    "edits_left_plural": "{{count}} تعديلات متبقية",
+    "edit_cap_reached": "لا يمكن تعديل هذا العرض بعد الآن",
+    "error_updating_response": "تعذّر تحديث عرضك. حاول مرة أخرى.",
+    "update_proposal": "تحديث العرض"
   },
   "hero": {
     "welcomeBadge": "🌙 عيد مبارك سعيد في سوقنا!",

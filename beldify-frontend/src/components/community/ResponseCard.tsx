@@ -28,6 +28,8 @@ import LoadingSpinner from '@/components/common/LoadingSpinner';
 import logger from '@/utils/consoleLogger';
 import { submitSellerReview } from '@/services/communityService';
 import toast from '@/utils/toast';
+import ResponseForm from './ResponseForm';
+import { Pencil } from 'lucide-react';
 
 // Inline seller mini-profile shape from PostResponseResource.buildSellerProfile()
 interface SellerProfile {
@@ -53,6 +55,8 @@ interface ResponseCardProps {
   isPostOwner?: boolean;
   onAccept?: (responseId: string) => void;
   onReject?: (responseId: string) => void;
+  /** Seller edits their own pending proposal — PATCH /seller/community/responses/{id} */
+  onUpdate?: (responseId: string, formData: FormData) => Promise<void>;
   postId?: string | number;
   isSubmitting?: boolean;
 }
@@ -83,6 +87,7 @@ export default function ResponseCard({
   isPostOwner,
   onAccept,
   onReject,
+  onUpdate,
   postId,
   isSubmitting = false,
 }: ResponseCardProps) {
@@ -95,6 +100,8 @@ export default function ResponseCard({
   const [showImages, setShowImages] = useState(false);
   const [msgExpanded, setMsgExpanded] = useState(false);
   const [logoLoadError, setLogoLoadError] = useState(false);
+  const [showEditForm, setShowEditForm] = useState(false);
+  const [isUpdating, setIsUpdating] = useState(false);
 
   // ── Seller review (trust flywheel) ─────────────────────────────────────────
   const [reviewStars, setReviewStars] = useState<number>(response.review?.rating ?? 0);
@@ -174,6 +181,29 @@ export default function ResponseCard({
 
   // Delivery days from response
   const deliveryDays = response.delivery_days ?? response.deliveryDays ?? null;
+
+  // Edit affordance: the OWNING seller may edit their own PENDING proposal
+  // while editsRemaining > 0. `editsRemaining` is undefined for legacy
+  // responses (pre-edit-cap) — treat missing as unlimited (no cap enforced).
+  const isMine = Boolean(response.isMine);
+  const editsRemaining = response.editsRemaining;
+  const canEdit = Boolean(
+    isMine && response.status === 'pending' && (editsRemaining == null || editsRemaining > 0)
+  );
+
+  const handleUpdateSubmit = async (formData: FormData) => {
+    if (!onUpdate) return;
+    setIsUpdating(true);
+    try {
+      await onUpdate(response.id.toString(), formData);
+      setShowEditForm(false);
+    } catch (err) {
+      logger.error('Error updating response:', err);
+      toast.error(t('community.error_updating_response', 'Could not update your proposal. Please try again.'));
+    } finally {
+      setIsUpdating(false);
+    }
+  };
 
   const handleAccept = () => {
     if (
@@ -468,7 +498,44 @@ export default function ResponseCard({
               </button>
             </>
           )}
+
+          {/* Edit proposal — owning seller only, while pending + edits remain */}
+          {canEdit && !showEditForm && (
+            <div className="flex items-center gap-2">
+              {editsRemaining != null && (
+                <span className="text-[11px] text-gray-400">
+                  {t('community.edits_left', '{{count}} edits left', { count: editsRemaining })}
+                </span>
+              )}
+              <button
+                onClick={() => setShowEditForm(true)}
+                className="inline-flex items-center gap-1.5 px-4 py-2 min-h-[40px] rounded-full border border-indigo-200 text-xs font-semibold text-indigo-700 bg-white hover:bg-indigo-50 transition-colors duration-200"
+              >
+                <Pencil size={13} />
+                {t('community.edit_proposal', 'Edit proposal')}
+              </button>
+            </div>
+          )}
         </div>
+
+        {/* ── Edit proposal form (inline) ───────────────────────────────── */}
+        {canEdit && showEditForm && (
+          <div className="mt-4 -mx-5 -mb-5 rounded-b-2xl overflow-hidden">
+            <ResponseForm
+              mode="edit"
+              isLoading={isUpdating}
+              onCancel={() => setShowEditForm(false)}
+              onSubmit={handleUpdateSubmit}
+              initialData={{
+                description: response.description,
+                price: response.price,
+                currency: response.currency,
+                delivery_days: response.delivery_days ?? response.deliveryDays,
+                sellerSkills: response.sellerSkills ?? response.seller_skills,
+              }}
+            />
+          </div>
+        )}
 
         {/* ── Seller review (buyer, post-delivery) ──────────────────────── */}
         {isPostOwner && isAccepted && (reviewDone || canReview) && (

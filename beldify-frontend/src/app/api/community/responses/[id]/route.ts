@@ -74,3 +74,55 @@ export async function PUT(
     );
   }
 }
+
+// Seller edits their own PENDING proposal.
+// Backend: PATCH /api/v1/seller/community/responses/{response}
+// Auth: sanctum + role:store_owner, must own the response.
+// Errors surfaced as-is: 403 (not owner), 422 (not pending / edit-cap reached).
+export async function PATCH(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  const { id: responseId } = await params;
+  try {
+    const authToken = await getAuthToken();
+
+    if (!authToken) {
+      return NextResponse.json(
+        { error: 'Authentication required' },
+        { status: 401 }
+      );
+    }
+
+    const body = await request.json();
+
+    const response = await fetch(
+      `${API_URL}/api/v1/seller/community/responses/${responseId}`,
+      {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${authToken}`,
+        },
+        body: JSON.stringify(body),
+      }
+    );
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      return NextResponse.json(
+        { error: data.message || `Failed to update response ${responseId}`, errors: data.errors },
+        { status: response.status }
+      );
+    }
+
+    return NextResponse.json(data);
+  } catch (error) {
+    logger.error(`Error in PATCH /api/community/responses/${responseId}:`, error);
+    return NextResponse.json(
+      { error: 'An unexpected error occurred' },
+      { status: 500 }
+    );
+  }
+}

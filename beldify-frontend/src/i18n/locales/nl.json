@@ -3055,7 +3055,13 @@
     "view_custom_order": "Bekijk je aangepaste bestelling",
     "view_image": "Afbeelding weergeven",
     "view_portfolio": "Bekijk portfolio",
-    "your_bid": "Jouw bod"
+    "your_bid": "Jouw bod",
+    "edit_proposal": "Voorstel bewerken",
+    "edits_left": "Nog {{count}} bewerking over",
+    "edits_left_plural": "Nog {{count}} bewerkingen over",
+    "edit_cap_reached": "Dit voorstel kan niet meer worden bewerkt",
+    "error_updating_response": "Kon je voorstel niet bijwerken. Probeer het opnieuw.",
+    "update_proposal": "Voorstel bijwerken"
   },
   "pwa": {
     "banner": {

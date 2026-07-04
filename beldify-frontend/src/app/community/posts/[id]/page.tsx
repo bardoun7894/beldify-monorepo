@@ -33,6 +33,7 @@ import {
   fetchCommunityPost,
   fetchPostResponses,
   updateResponseStatus,
+  updateResponse,
 } from '@/services/communityService';
 import { CommunityPost, CommunityResponse, CommunityImage } from '@/types/community';
 import { S3_CONFIG, API_BASE_URL } from '@/config/constants';
@@ -232,6 +233,24 @@ export default function PostDetailPage() {
       toast.error(t('community.error_rejecting_response', 'Could not reject the response. Please try again.'));
     } finally {
       setIsSubmitting(false);
+    }
+  };
+
+  const handleUpdateResponse = async (responseId: string, formData: FormData) => {
+    try {
+      await updateResponse(responseId, {
+        description: String(formData.get('description') || ''),
+        price: formData.get('price') != null ? Number(formData.get('price')) : null,
+        delivery_days:
+          formData.get('delivery_days') != null ? Number(formData.get('delivery_days')) : null,
+        seller_skills: formData.getAll('seller_skills[]').map(String),
+      });
+      const updatedResponsesData = await fetchPostResponses(postId);
+      setResponses(updatedResponsesData || []);
+    } catch (err) {
+      logger.error('Error updating response:', err);
+      toast.error(t('community.error_updating_response', 'Could not update your proposal. Please try again.'));
+      throw err;
     }
   };
 
@@ -860,6 +879,7 @@ export default function PostDetailPage() {
                         isPostOwner={isMyPost}
                         onAccept={() => handleAcceptResponse(Number(response.id))}
                         onReject={() => handleRejectResponse(Number(response.id))}
+                        onUpdate={handleUpdateResponse}
                         postId={postId}
                         isSubmitting={isSubmitting}
                       />

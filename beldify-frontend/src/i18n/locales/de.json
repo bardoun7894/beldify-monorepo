@@ -3055,7 +3055,13 @@
     "view_custom_order": "Zeige deine Bestellung",
     "view_image": "Bild anzeigen",
     "view_portfolio": "Portfolio anzeigen",
-    "your_bid": "Dein Angebot"
+    "your_bid": "Dein Angebot",
+    "edit_proposal": "Angebot bearbeiten",
+    "edits_left": "Noch {{count}} Bearbeitung übrig",
+    "edits_left_plural": "Noch {{count}} Bearbeitungen übrig",
+    "edit_cap_reached": "Dieses Angebot kann nicht mehr bearbeitet werden",
+    "error_updating_response": "Dein Angebot konnte nicht aktualisiert werden. Bitte versuche es erneut.",
+    "update_proposal": "Angebot aktualisieren"
   },
   "pwa": {
     "banner": {

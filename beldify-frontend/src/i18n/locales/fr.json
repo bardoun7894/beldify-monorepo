@@ -3039,7 +3039,13 @@
     "view_custom_order": "Voir votre commande personnalisée",
     "view_image": "Voir l'image",
     "view_portfolio": "Voir le portfolio",
-    "your_bid": "Votre proposition"
+    "your_bid": "Votre proposition",
+    "edit_proposal": "Modifier l'offre",
+    "edits_left": "{{count}} modification restante",
+    "edits_left_plural": "{{count}} modifications restantes",
+    "edit_cap_reached": "Plus aucune modification possible pour cette offre",
+    "error_updating_response": "Impossible de mettre à jour votre offre. Veuillez réessayer.",
+    "update_proposal": "Mettre à jour l'offre"
   },
   "pwa": {
     "banner": {

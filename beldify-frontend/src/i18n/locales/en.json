@@ -3063,7 +3063,13 @@
     "view_custom_order": "View your custom order",
     "view_image": "View image",
     "view_portfolio": "View portfolio",
-    "your_bid": "Your Bid"
+    "your_bid": "Your Bid",
+    "edit_proposal": "Edit proposal",
+    "edits_left": "{{count}} edit left",
+    "edits_left_plural": "{{count}} edits left",
+    "edit_cap_reached": "No edits left for this proposal",
+    "error_updating_response": "Could not update your proposal. Please try again.",
+    "update_proposal": "Update proposal"
   },
   "pwa": {
     "banner": {
