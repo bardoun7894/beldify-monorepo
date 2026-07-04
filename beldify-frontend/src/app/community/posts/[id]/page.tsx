@@ -39,6 +39,7 @@ import { CommunityPost, CommunityResponse, CommunityImage } from '@/types/commun
 import { S3_CONFIG, API_BASE_URL } from '@/config/constants';
 import LoadingSpinner from '@/components/common/LoadingSpinner';
 import ResponseCard from '@/components/community/ResponseCard';
+import ProposalChatPanel from '@/components/community/ProposalChatPanel';
 import { ProposalAiRanking } from '@/components/community/ProposalAiRanking';
 import { formatDistanceToNow } from 'date-fns';
 import { ar } from 'date-fns/locale';
@@ -118,6 +119,11 @@ export default function PostDetailPage() {
   const [buyerAvatarError, setBuyerAvatarError] = useState(false);
   // F5: once accept is called, show a "View your custom order" CTA
   const [acceptedCustomOrderId, setAcceptedCustomOrderId] = useState<number | null>(null);
+  // Inline proposal chat drawer — opened by a ResponseCard's Discuss/Message button.
+  const [discussTarget, setDiscussTarget] = useState<{
+    shopId: string;
+    response: CommunityResponse;
+  } | null>(null);
 
   useEffect(() => {
     if (!postId) return;
@@ -880,6 +886,7 @@ export default function PostDetailPage() {
                         onAccept={() => handleAcceptResponse(Number(response.id))}
                         onReject={() => handleRejectResponse(Number(response.id))}
                         onUpdate={handleUpdateResponse}
+                        onDiscuss={(shopId, resp) => setDiscussTarget({ shopId, response: resp })}
                         postId={postId}
                         isSubmitting={isSubmitting}
                       />
@@ -917,6 +924,24 @@ export default function PostDetailPage() {
             {t('community.respond_in_dashboard', 'Reply in your seller dashboard')}
           </a>
         </div>
+      )}
+
+      {/* ── Inline proposal chat drawer (single-page Discuss) ──────────────── */}
+      {discussTarget && (
+        <ProposalChatPanel
+          shopId={discussTarget.shopId}
+          postId={String(postId)}
+          response={discussTarget.response}
+          shopName={
+            (discussTarget.response as any).seller?.shop?.name ??
+            discussTarget.response.shop?.name ??
+            discussTarget.response.shopName ??
+            discussTarget.response.userName ??
+            t('community.seller', 'Seller')
+          }
+          isAccepted={discussTarget.response.status === 'accepted'}
+          onClose={() => setDiscussTarget(null)}
+        />
       )}
     </div>
   );

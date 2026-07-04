@@ -57,6 +57,8 @@ interface ResponseCardProps {
   onReject?: (responseId: string) => void;
   /** Seller edits their own pending proposal — PATCH /seller/community/responses/{id} */
   onUpdate?: (responseId: string, formData: FormData) => Promise<void>;
+  /** Open the inline chat drawer for this proposal (shopId + the proposal itself). */
+  onDiscuss?: (shopId: string, response: CommunityResponse & { seller?: SellerProfile }) => void;
   postId?: string | number;
   isSubmitting?: boolean;
 }
@@ -88,6 +90,7 @@ export default function ResponseCard({
   onAccept,
   onReject,
   onUpdate,
+  onDiscuss,
   postId,
   isSubmitting = false,
 }: ResponseCardProps) {
@@ -460,15 +463,28 @@ export default function ResponseCard({
               Acceptance stays the final step. Stays in-app (backend gate allows contact
               once a proposal exists). Hidden on rejected proposals and for non-owners. */}
           {isPostOwner && !isRejected && shopId && (
-            <Link
-              href={`/community/messages/${shopId}?postId=${currentPostId}`}
-              className="inline-flex items-center gap-1.5 px-4 py-2 min-h-[40px] min-w-[40px] rounded-full bg-white ring-1 ring-indigo-200 text-indigo-700 text-xs font-semibold hover:bg-indigo-50 transition-colors duration-200"
-            >
-              <MessagesSquare size={13} />
-              {isAccepted
-                ? t('community.contact_seller', 'Message')
-                : t('community.discuss_proposal', 'Discuss')}
-            </Link>
+            onDiscuss ? (
+              <button
+                type="button"
+                onClick={() => onDiscuss(String(shopId), response)}
+                className="inline-flex items-center gap-1.5 px-4 py-2 min-h-[40px] min-w-[40px] rounded-full bg-white ring-1 ring-indigo-200 text-indigo-700 text-xs font-semibold hover:bg-indigo-50 transition-colors duration-200"
+              >
+                <MessagesSquare size={13} />
+                {isAccepted
+                  ? t('community.contact_seller', 'Message')
+                  : t('community.discuss_proposal', 'Discuss')}
+              </button>
+            ) : (
+              <Link
+                href={`/community/messages/${shopId}?postId=${currentPostId}`}
+                className="inline-flex items-center gap-1.5 px-4 py-2 min-h-[40px] min-w-[40px] rounded-full bg-white ring-1 ring-indigo-200 text-indigo-700 text-xs font-semibold hover:bg-indigo-50 transition-colors duration-200"
+              >
+                <MessagesSquare size={13} />
+                {isAccepted
+                  ? t('community.contact_seller', 'Message')
+                  : t('community.discuss_proposal', 'Discuss')}
+              </Link>
+            )
           )}
 
           {/* Accept / Reject — only post owner on pending responses */}
