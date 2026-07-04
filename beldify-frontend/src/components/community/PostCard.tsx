@@ -163,6 +163,14 @@ export default function PostCard({ post, isUserPost = false }: PostCardProps) {
   const postedAt = post.created_at || post.createdAt;
   const { pill: statusPill, dot: statusDot } = statusConfig(post.status);
 
+  // Freshness + liquidity signals — make the marketplace feel alive.
+  const isNew = (() => {
+    if (!postedAt) return false;
+    const ts = new Date(postedAt).getTime();
+    return !isNaN(ts) && Date.now() - ts < 24 * 60 * 60 * 1000; // < 24h
+  })();
+  const openNoBids = post.status === 'open' && (proposalCount ?? 0) === 0;
+
   return (
     <div className="relative h-full">
     <Link href={`/community/posts/${post.id}`} className="block group focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700 rounded-2xl">
@@ -184,13 +192,18 @@ export default function PostCard({ post, isUserPost = false }: PostCardProps) {
             </div>
           )}
 
-          {/* Status pill — top-start */}
+          {/* Status pill (+ NEW badge) — top-start */}
           {post.status && (
-            <div className="absolute top-2.5 start-2.5">
+            <div className="absolute top-2.5 start-2.5 flex items-center gap-1.5">
               <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-semibold ${statusPill}`}>
                 <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${statusDot}`} />
                 {t(`community.status.${post.status}`, post.status)}
               </span>
+              {isNew && (
+                <span className="inline-flex items-center px-2 py-1 rounded-full bg-emerald-600 text-white text-[10px] font-bold uppercase tracking-wide shadow-sm">
+                  {t('community.badge_new', 'New')}
+                </span>
+              )}
             </div>
           )}
 
@@ -271,6 +284,11 @@ export default function PostCard({ post, isUserPost = false }: PostCardProps) {
               <span className="inline-flex items-center gap-1 text-xs text-gray-500">
                 <Clock size={11} className="shrink-0 text-gray-400" />
                 {post.timeline}
+              </span>
+            )}
+            {openNoBids && (
+              <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-emerald-700 bg-emerald-50 ring-1 ring-emerald-200 rounded-full px-2 py-0.5">
+                {t('community.be_first_to_bid', 'Be the first to bid')}
               </span>
             )}
           </div>
