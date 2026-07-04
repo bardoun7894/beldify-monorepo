@@ -33,7 +33,7 @@ export default function ConversationPage() {
   const postId = searchParams?.get('postId') || undefined;
 
   const [messages, setMessages] = useState<Message[]>([]);
-  const [otherUser, setOtherUser] = useState<{ name?: string; logo?: string | null; avatar?: string | null }>({});
+  const [otherUser, setOtherUser] = useState<{ name?: string; logo?: string | null; avatar?: string | null; user?: { id?: string | number } }>({});
   const [loading, setLoading] = useState(true);
   const [sending, setSending] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -210,8 +210,8 @@ export default function ConversationPage() {
     : t('messages.offline') || 'Offline';
 
   return (
-    <div className="flex min-h-screen flex-col bg-background">
-      <div className="mx-auto flex w-full max-w-2xl flex-1 flex-col">
+    <div className="fixed inset-0 z-[60] flex flex-col bg-background md:static md:inset-auto md:z-auto md:min-h-screen">
+      <div className="mx-auto flex w-full min-h-0 max-w-2xl flex-1 flex-col">
 
         {/* ── Sticky Header — Atlas indigo ────────────────────────────────── */}
         <header className="sticky top-0 z-20 flex items-center gap-3 border-b border-white/10 bg-atlas-primary px-3 py-3 text-white shadow-atlas-md">
@@ -268,7 +268,7 @@ export default function ConversationPage() {
           role="log"
           aria-live="polite"
           aria-label={t('messages.conversation') || 'Conversation'}
-          className="flex-1 overflow-y-auto px-4 py-6"
+          className="min-h-0 flex-1 overflow-y-auto px-4 py-6"
         >
           {loading ? (
             /* Loading skeleton */
@@ -397,7 +397,7 @@ export default function ConversationPage() {
                     type="button"
                     onClick={() => {
                       setInput(label);
-                      sendTypingIndicator(shopId, true);
+                      if (otherUser.user?.id) sendTypingIndicator(otherUser.user.id, shopId, true);
                     }}
                     className="shrink-0 whitespace-nowrap rounded-full bg-atlas-primary/8 px-3.5 py-1.5 text-[13px] font-medium text-atlas-primary ring-1 ring-atlas-primary/15 transition-colors duration-150 hover:bg-atlas-primary/15 focus:outline-none focus-visible:ring-2 focus-visible:ring-atlas-primary"
                   >
@@ -419,7 +419,7 @@ export default function ConversationPage() {
                 onChange={(e) => {
                   setInput(e.target.value);
                   // Emit typing indicator on every keystroke; the context debounces.
-                  sendTypingIndicator(shopId, e.target.value.length > 0);
+                  if (otherUser.user?.id) sendTypingIndicator(otherUser.user.id, shopId, e.target.value.length > 0);
                 }}
                 onKeyDown={(e) => {
                   if (e.key === 'Enter' && !e.shiftKey) {
