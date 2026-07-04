@@ -103,7 +103,8 @@ export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({ 
       try {
         setIsLoading(true);
         const result = await getNotifications(page);
-        setNotifications(result.data ?? []);
+        // Guard: never let a non-array reach the bell (.slice) or list (.filter).
+        setNotifications(Array.isArray(result.data) ? result.data : []);
       } catch (error) {
         logger.error('NotificationContext: fetchNotifications error:', error);
       } finally {

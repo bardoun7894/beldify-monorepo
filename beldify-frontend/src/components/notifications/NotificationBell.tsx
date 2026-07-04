@@ -195,7 +195,10 @@ export default function NotificationBell() {
   };
 
   const MAX_PREVIEW = 8;
-  const preview = notifications.slice(0, MAX_PREVIEW);
+  // Guard against a non-array slipping through — a bad API shape must never crash the header.
+  const preview = Array.isArray(notifications)
+    ? notifications.slice(0, MAX_PREVIEW)
+    : [];
 
   return (
     <Menu as="div" className="relative">

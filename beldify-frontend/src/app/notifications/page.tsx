@@ -285,7 +285,7 @@ export default function NotificationsPage() {
       setIsError(false);
       try {
         const res = await getNotifications(page);
-        setItems(res.data ?? []);
+        setItems(Array.isArray(res.data) ? res.data : []);
         setCurrentPage(res.current_page ?? 1);
         setLastPage(res.last_page ?? 1);
         setTotal(res.total ?? 0);
