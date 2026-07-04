@@ -455,17 +455,19 @@ export default function ResponseCard({
 
         {/* ── Action buttons ────────────────────────────────────── */}
         <div className="mt-4 pt-4 border-t border-gray-100 flex flex-wrap justify-end gap-2.5">
-          {/* F4 — Contact Seller: messaging unlocks ONLY after the buyer ACCEPTS a
-              proposal (Open Souk locked rule). The affordance therefore renders only
-              for the post owner on the accepted proposal — never before acceptance,
-              and never for non-owners. */}
-          {isPostOwner && isAccepted && shopId && (
+          {/* Discuss the proposal: the post owner can chat with any seller who has
+              SUBMITTED a proposal (pending or accepted), Upwork-style, before agreeing.
+              Acceptance stays the final step. Stays in-app (backend gate allows contact
+              once a proposal exists). Hidden on rejected proposals and for non-owners. */}
+          {isPostOwner && !isRejected && shopId && (
             <Link
               href={`/community/messages/${shopId}?postId=${currentPostId}`}
               className="inline-flex items-center gap-1.5 px-4 py-2 min-h-[40px] min-w-[40px] rounded-full bg-white ring-1 ring-indigo-200 text-indigo-700 text-xs font-semibold hover:bg-indigo-50 transition-colors duration-200"
             >
               <MessagesSquare size={13} />
-              {t('community.contact_seller', 'Message')}
+              {isAccepted
+                ? t('community.contact_seller', 'Message')
+                : t('community.discuss_proposal', 'Discuss')}
             </Link>
           )}
 
