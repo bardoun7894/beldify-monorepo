@@ -202,3 +202,21 @@ Append-only log of compile and ingest operations.
 - Concepts updated: [[concepts/marketplace-completeness-roadmap]] (returns flow exists — stale "missing" line corrected), [[concepts/beldify-dormant-features-activation]] (500-MAD free-shipping threshold exists — stale claim corrected)
 - Entities updated: [[entities/beldify]]
 - Contradictions with existing articles: corrected 2 stale facts — (1) "returns/refunds Missing" in marketplace-completeness-roadmap is wrong (full returns flow ships end-to-end); (2) "no free-shipping rule" implied by dormant-features is wrong (real 500-MAD threshold exists in shippingService + checkout + tests)
+
+## [2026-07-06T13:19:48Z] docs-sync
+- New:      8 → [[sources/specs-018-address-book-recently-viewed-spec]], [[sources/specs-018-address-book-recently-viewed-plan]], [[sources/specs-018-address-book-recently-viewed-tasks]], [[sources/specs-018-address-book-recently-viewed-research]], [[sources/specs-018-address-book-recently-viewed-data-model]], [[sources/specs-018-address-book-recently-viewed-quickstart]], [[sources/specs-018-address-book-recently-viewed-contracts-addresses-api]], [[sources/specs-018-address-book-recently-viewed-checklists-requirements]]
+- Updated:  0
+- Deleted:  0
+- Scope:    specs/018-address-book-recently-viewed/**/*.md only (first-ever docs-sync run, scoped — full-project sync of 122 spec files + repo READMEs/CLAUDE.md deferred pending user decision)
+
+## [2026-07-06T14:50:00Z] docs-sync
+- New:      0
+- Updated:  2 → [[sources/specs-018-address-book-recently-viewed-tasks]], [[sources/specs-018-address-book-recently-viewed-research]]
+- Deleted:  0
+- Patterns: CLAUDE.md, README.md, docs/**/*.md, specs/**/*.md, plans/**/*.md
+
+## [2026-07-06T15:05:00Z] docs-sync
+- New:      0
+- Updated:  1 → [[sources/specs-018-address-book-recently-viewed-tasks]]
+- Deleted:  0
+- Note:     T007 (frontend cap toast) + T017 (manual smoke test, backend leg verified live) closed out
