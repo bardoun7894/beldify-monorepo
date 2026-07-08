@@ -3422,7 +3422,9 @@
       "location": "Standort",
       "reviews": "Bewertungen",
       "viewProfile": "Profil anschauen",
-      "viewDetails": "Details anschauen"
+      "viewDetails": "Details anschauen",
+      "emptyTitle": "Unser Atelier-Netzwerk öffnet bald",
+      "emptyBody": "Wir nehmen gerade verifizierte marokkanische Schneider auf. Schauen Sie bald wieder vorbei, um Ihre Maßanfertigung zu starten."
     },
     "tailorDetail": {
       "breadcrumbLabel": "Brotkrumen",
@@ -4548,7 +4550,7 @@
       "no_reviews": "Noch keine Bewertungen"
     },
     "stepsCta": "Schneiderei-Auftrag starten",
-    "sub": "Unsere 120+ verifizierten Ateliers fertigen maßgeschneiderte marokkanische Kleidungsstücke nach deinen genauen Maßen — versandt weltweit. Keine Anprobe erforderlich.",
+    "sub": "Unsere verifizierten Ateliers fertigen maßgeschneiderte marokkanische Kleidungsstücke nach Ihren exakten Maßen — weltweit versandt. Keine Umkleidekabine nötig.",
     "services": {
       "alterations": {
         "price": "Ab 49 MAD",
@@ -4615,6 +4617,20 @@
         }
       },
       "title": "Warum unsere Schneiderei-Services wählen"
+    },
+    "steps": {
+      "0": {
+        "title": "Wählen Sie Ihren Schneider",
+        "body": "Durchstöbern Sie verifizierte Ateliers in Fès, Marrakesch, Casablanca und Tétouan. Jeder Eintrag zeigt Spezialitäten, Bewertungen und aktuelle Verfügbarkeit."
+      },
+      "1": {
+        "title": "Senden Sie Ihre Maße",
+        "body": "Nutzen Sie unser geführtes Maßformular — keine Erfahrung mit dem Maßband nötig. Oder buchen Sie einen 15-minütigen Videoanruf mit Ihrem Schneider für eine begleitete Sitzung."
+      },
+      "2": {
+        "title": "Erhalten Sie Ihr Kleidungsstück",
+        "body": "Ihr Kleidungsstück wird von Hand fertiggestellt und weltweit versandt. Die meisten Maßanfertigungen treffen in 2 bis 4 Wochen ein. Eine kostenlose Änderungsrunde ist inbegriffen."
+      }
     }
   },
   "sellers": {

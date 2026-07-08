@@ -3577,7 +3577,9 @@
       "location": "Lieu",
       "reviews": "avis",
       "viewProfile": "Voir le profil",
-      "viewDetails": "Voir les détails"
+      "viewDetails": "Voir les détails",
+      "emptyTitle": "Notre réseau d'ateliers ouvre bientôt",
+      "emptyBody": "Nous intégrons des tailleurs marocains vérifiés en ce moment. Revenez bientôt pour lancer votre commande sur mesure."
     },
     "tailorDetail": {
       "breadcrumbLabel": "Fil d'Ariane",
@@ -4331,7 +4333,7 @@
       "no_reviews": "Pas encore d'avis"
     },
     "stepsCta": "Commencer une commande sur mesure",
-    "sub": "Nos 120+ ateliers vérifiés créent des vêtements marocains sur mesure selon vos mensurations exactes — livrés partout dans le monde. Aucun cabine d'essayage nécessaire.",
+    "sub": "Nos ateliers vérifiés créent des vêtements marocains sur mesure selon vos mensurations exactes — livrés partout dans le monde. Aucune cabine d'essayage nécessaire.",
     "services": {
       "alterations": {
         "price": "À partir de 49 DH",
@@ -4398,6 +4400,20 @@
         }
       },
       "title": "Pourquoi choisir nos services de retouche"
+    },
+    "steps": {
+      "0": {
+        "title": "Choisissez votre tailleur",
+        "body": "Parcourez des ateliers vérifiés à Fès, Marrakech, Casablanca et Tétouan. Chaque fiche indique les spécialités, les avis et la disponibilité actuelle."
+      },
+      "1": {
+        "title": "Envoyez vos mesures",
+        "body": "Utilisez notre formulaire de mesures guidé — aucune expérience du mètre ruban requise. Ou réservez un appel vidéo de 15 minutes avec votre tailleur pour une séance guidée."
+      },
+      "2": {
+        "title": "Recevez votre pièce",
+        "body": "Votre vêtement est fini à la main et expédié dans le monde entier. La plupart des commandes sur mesure arrivent en 2 à 4 semaines. Une retouche gratuite est incluse."
+      }
     }
   },
   "preferences": {

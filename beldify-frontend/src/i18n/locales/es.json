@@ -3616,7 +3616,9 @@
       "location": "Ubicación",
       "reviews": "reseñas",
       "viewProfile": "Ver perfil",
-      "viewDetails": "Ver detalles"
+      "viewDetails": "Ver detalles",
+      "emptyTitle": "Nuestra red de talleres abre pronto",
+      "emptyBody": "Estamos incorporando sastres marroquíes verificados ahora mismo. Vuelve pronto para iniciar tu pedido a medida."
     },
     "tailorDetail": {
       "breadcrumbLabel": "Ruta de navegación",
@@ -4342,7 +4344,7 @@
       "no_reviews": "Sin opiniones aún"
     },
     "stepsCta": "Iniciar un pedido de confección",
-    "sub": "Más de 120 talleres verificados crean prendas marroquíes a medida según tus medidas exactas — enviadas a cualquier parte del mundo. Sin probador necesario.",
+    "sub": "Nuestros talleres verificados crean prendas marroquíes a medida según tus medidas exactas — enviadas a cualquier parte del mundo. No necesitas probador.",
     "services": {
       "alterations": {
         "price": "Comenzando desde 49 DH",
@@ -4409,6 +4411,20 @@
         }
       },
       "title": "Por qué elegir nuestros servicios de confección"
+    },
+    "steps": {
+      "0": {
+        "title": "Elige tu sastre",
+        "body": "Explora talleres verificados en Fez, Marrakech, Casablanca y Tetuán. Cada ficha muestra especialidades, reseñas y disponibilidad actual."
+      },
+      "1": {
+        "title": "Envía tus medidas",
+        "body": "Usa nuestro formulario de medidas guiado — no necesitas experiencia con la cinta métrica. O reserva una videollamada de 15 minutos con tu sastre para una sesión guiada."
+      },
+      "2": {
+        "title": "Recibe tu prenda",
+        "body": "Tu prenda se termina a mano y se envía a todo el mundo. La mayoría de los pedidos a medida llegan en 2 a 4 semanas. Incluye una ronda de ajustes gratuita."
+      }
     }
   },
   "preferences": {
