@@ -5,7 +5,9 @@
  * link pattern, and 7-locale parity for recentlyViewed keys.
  */
 
-import { describe, it, expect, beforeAll } from 'vitest';
+import { describe, it, expect, beforeAll, vi, afterEach } from 'vitest';
+import { render, screen, waitFor, cleanup } from '@testing-library/react';
+import React from 'react';
 import { readFileSync } from 'fs';
 import { join } from 'path';
 
@@ -121,4 +123,72 @@ describe('i18n — recentlyViewed keys in all 7 locales', () => {
       }
     });
   }
+});
+
+// ── FR-011: availability filtering at render time ───────────────────────────
+
+vi.mock('@/services/api', () => ({
+  productService: {
+    getProduct: vi.fn(),
+  },
+}));
+
+vi.mock('react-i18next', () => ({
+  useTranslation: () => ({ t: (_key: string, fallback?: string) => fallback ?? _key }),
+  initReactI18next: { type: '3rdParty', init: () => {} },
+}));
+
+vi.mock('next/image', () => ({
+  default: (props: Record<string, unknown>) =>
+    React.createElement('img', { ...props, alt: (props.alt as string) ?? '' }),
+}));
+
+vi.mock('next/link', () => ({
+  default: ({ children, href }: { children: React.ReactNode; href: string }) =>
+    React.createElement('a', { href }, children),
+}));
+
+vi.mock('@/utils/recentlyViewed', async () => {
+  const actual = await vi.importActual<typeof import('@/utils/recentlyViewed')>(
+    '@/utils/recentlyViewed'
+  );
+  return {
+    ...actual,
+    getRecentlyViewed: vi.fn(),
+  };
+});
+
+describe('RecentlyViewedRail — availability filter (FR-011)', () => {
+  afterEach(() => {
+    cleanup();
+    vi.clearAllMocks();
+  });
+
+  it('omits an item whose product is unavailable/deleted', async () => {
+    const { getRecentlyViewed } = await import('@/utils/recentlyViewed');
+    const { productService } = await import('@/services/api');
+    const RecentlyViewedRail = (await import('@/components/home/RecentlyViewedRail')).default;
+
+    (getRecentlyViewed as unknown as ReturnType<typeof vi.fn>).mockReturnValue([
+      { id: 1, name: 'Available Item', image: '', price: 100, viewedAt: 1 },
+      { id: 2, name: 'Deleted Item', image: '', price: 200, viewedAt: 2 },
+    ]);
+
+    (productService.getProduct as unknown as ReturnType<typeof vi.fn>).mockImplementation(
+      (id: string | number) => {
+        if (String(id) === '2') {
+          return Promise.reject(new Error('Not Found'));
+        }
+        return Promise.resolve({ id, name: 'Available Item' });
+      }
+    );
+
+    render(React.createElement(RecentlyViewedRail));
+
+    await waitFor(() => {
+      expect(screen.getByText('Available Item')).toBeTruthy();
+    });
+
+    expect(screen.queryByText('Deleted Item')).toBeNull();
+  });
 });

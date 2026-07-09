@@ -6,11 +6,11 @@
  *
  * Storage key: 'beldify_recently_viewed'
  * Format: JSON-serialised array of RecentlyViewedItem, newest first.
- * Capped at MAX_ITEMS (12).
+ * Capped at MAX_ITEMS (20).
  */
 
 export const STORAGE_KEY = 'beldify_recently_viewed';
-export const MAX_ITEMS = 12;
+export const MAX_ITEMS = 20;
 
 export interface RecentlyViewedItem {
   id: number;

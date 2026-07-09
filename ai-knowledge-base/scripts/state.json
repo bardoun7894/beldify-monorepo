@@ -51,7 +51,58 @@
       "cost_usd": 1.34788125
     }
   },
-  "query_count": 62,
+  "query_count": 69,
   "last_lint": "2026-06-19T22:17:44+01:00",
-  "total_cost": 35.583014049999996
+  "total_cost": 39.775620249999996,
+  "docs_sync": {
+    "patterns": [
+      "CLAUDE.md",
+      "README.md",
+      "docs/**/*.md",
+      "specs/**/*.md",
+      "plans/**/*.md"
+    ],
+    "files": {
+      "specs/018-address-book-recently-viewed/spec.md": {
+        "slug": "specs-018-address-book-recently-viewed-spec",
+        "hash": "cfdb1f7cdea3dda6",
+        "synced_at": "2026-07-06T13:19:42.290841Z"
+      },
+      "specs/018-address-book-recently-viewed/plan.md": {
+        "slug": "specs-018-address-book-recently-viewed-plan",
+        "hash": "29d790a4fcb14e28",
+        "synced_at": "2026-07-06T13:19:42.290841Z"
+      },
+      "specs/018-address-book-recently-viewed/tasks.md": {
+        "slug": "specs-018-address-book-recently-viewed-tasks",
+        "hash": "731dee1c6100b1bf",
+        "synced_at": "2026-07-06T15:05:00Z"
+      },
+      "specs/018-address-book-recently-viewed/research.md": {
+        "slug": "specs-018-address-book-recently-viewed-research",
+        "hash": "1b684bdc4a1f99e2",
+        "synced_at": "2026-07-06T14:50:00Z"
+      },
+      "specs/018-address-book-recently-viewed/data-model.md": {
+        "slug": "specs-018-address-book-recently-viewed-data-model",
+        "hash": "b89304486ba650e3",
+        "synced_at": "2026-07-06T13:19:42.290841Z"
+      },
+      "specs/018-address-book-recently-viewed/quickstart.md": {
+        "slug": "specs-018-address-book-recently-viewed-quickstart",
+        "hash": "6a2e4e33ea70de40",
+        "synced_at": "2026-07-06T13:19:42.290841Z"
+      },
+      "specs/018-address-book-recently-viewed/contracts/addresses-api.md": {
+        "slug": "specs-018-address-book-recently-viewed-contracts-addresses-api",
+        "hash": "078bb560f14dd9b5",
+        "synced_at": "2026-07-06T13:19:42.290841Z"
+      },
+      "specs/018-address-book-recently-viewed/checklists/requirements.md": {
+        "slug": "specs-018-address-book-recently-viewed-checklists-requirements",
+        "hash": "3fbf28b2d9d96c13",
+        "synced_at": "2026-07-06T13:19:42.290841Z"
+      }
+    }
+  }
 }

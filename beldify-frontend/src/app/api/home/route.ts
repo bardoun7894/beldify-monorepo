@@ -6,6 +6,13 @@ import logger from '@/utils/consoleLogger';
 // API URL
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL!;
 
+// Mock fallbacks are dev-only fixtures. In production an empty backend list
+// must NOT be silently replaced with fabricated English entities (e.g. the
+// "Modern Stitch" / "Elite Fashion Studio" tailors or Gucci/Nike/Zara sellers)
+// — that leaks fake shops to real buyers. When false we return [] instead so
+// the UI shows its curated Moroccan editorial fallbacks / proper empty states.
+const ALLOW_MOCKS = process.env.NODE_ENV !== 'production';
+
 // Helper function to transform product data
 const transformProductData = (products: any[]) => {
   return products.map((product: any) => ({
@@ -392,11 +399,11 @@ export async function getHomeDataPayload() {
       .get(`${API_BASE_URL}/api/recommended-tailors`)
       .then((r) => {
         const items = r.data?.data ?? r.data?.tailors ?? (Array.isArray(r.data) ? r.data : []);
-        return Array.isArray(items) && items.length > 0 ? items : mockRecommendedTailors;
+        return Array.isArray(items) && items.length > 0 ? items : (ALLOW_MOCKS ? mockRecommendedTailors : []);
       })
       .catch((error) => {
         logger.error('Failed to fetch recommended tailors:', error);
-        return mockRecommendedTailors;
+        return ALLOW_MOCKS ? mockRecommendedTailors : [];
       });
 
     // Fetch recommended sellers from live backend endpoint.
@@ -405,11 +412,11 @@ export async function getHomeDataPayload() {
       .get(`${API_BASE_URL}/api/recommended-sellers`)
       .then((r) => {
         const items = r.data?.data ?? r.data?.sellers ?? (Array.isArray(r.data) ? r.data : []);
-        return Array.isArray(items) && items.length > 0 ? items : mockRecommendedSellers;
+        return Array.isArray(items) && items.length > 0 ? items : (ALLOW_MOCKS ? mockRecommendedSellers : []);
       })
       .catch((error) => {
         logger.error('Failed to fetch recommended sellers:', error);
-        return mockRecommendedSellers;
+        return ALLOW_MOCKS ? mockRecommendedSellers : [];
       });
 
     // Fetch hero-config — admin-switchable between brand and campaign carousel.

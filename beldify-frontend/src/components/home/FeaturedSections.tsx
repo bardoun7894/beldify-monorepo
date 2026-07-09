@@ -2,6 +2,7 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
+import { useState } from 'react';
 import { ArrowRight, Sparkles } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import WishlistButton from '@/components/products/WishlistButton';
@@ -9,6 +10,7 @@ import WishlistButton from '@/components/products/WishlistButton';
 interface IncomingProduct {
   id: number;
   name: string;
+  name_ar?: string | null;
   price: number;
   image?: string;
   main_image?: string;
@@ -43,6 +45,7 @@ interface FeaturedSectionsProps {
 interface NormalizedProduct {
   id: number;
   name: string;
+  nameAr: string | null;
   price: number;
   comparePrice: number | null;
   image: string;
@@ -89,6 +92,7 @@ function normalize(items?: IncomingProduct[]): NormalizedProduct[] {
     return {
       id: p.id,
       name: p.name,
+      nameAr: p.name_ar ?? null,
       price: currentPrice,
       comparePrice: resolvedCompare,
       image: p.image || p.main_image || p.images?.[0] || PLACEHOLDER,
@@ -209,13 +213,26 @@ function SectionSpinner() {
 }
 
 export default function FeaturedSections(props: FeaturedSectionsProps) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  // Arabic-script locales (MSA + Darija) prefer the Arabic name, falling back
+  // to the base name so a card never renders blank. Matches ProductHeroSlides.
+  const lang = i18n.language || 'en';
+  const isArabicScript = lang.startsWith('ar') || lang === 'ma';
+  const displayName = (p: NormalizedProduct) =>
+    isArabicScript ? p.nameAr || p.name : p.name;
   // SectionSpinner is available for Suspense fallback consumers — referenced to
   // prevent tree-shaking and satisfy Atlas token compliance tests.
   void SectionSpinner;
 
   const bestSellers = normalize(props.bestSellers);
   const newArrivals = normalize(props.newArrivals);
+
+  // Tracks product image URLs that failed to load at runtime (e.g. a stale
+  // path pointing at a file no longer on disk) so we can swap to the SVG
+  // placeholder instead of leaving Next/Image's native broken-icon showing.
+  const [failedImages, setFailedImages] = useState<Set<string>>(new Set());
+  const markFailed = (key: string) =>
+    setFailedImages((prev) => (prev.has(key) ? prev : new Set(prev).add(key)));
 
   const EmptyState = ({ heading }: { heading: string }) => (
     <div className="rounded-2xl bg-background ring-1 ring-gray-200 px-6 py-16 text-center shadow-atlas-sm">
@@ -295,11 +312,12 @@ export default function FeaturedSections(props: FeaturedSectionsProps) {
               >
                 <div className="relative aspect-[3/4] overflow-hidden">
                   <Image
-                    src={product.image}
-                    alt={product.name}
+                    src={failedImages.has(`best-${product.id}`) ? PLACEHOLDER : product.image}
+                    alt={displayName(product)}
                     fill
                     sizes="(min-width:1024px) 25vw, (min-width:640px) 33vw, 50vw"
                     className="object-cover object-center transition-transform duration-500 ease-out group-hover:scale-105"
+                    onError={() => markFailed(`best-${product.id}`)}
                   />
                   {/* Wishlist heart — top-end corner, non-blocking absolute layer */}
                   <div className="absolute top-2 end-2 z-10">
@@ -322,7 +340,7 @@ export default function FeaturedSections(props: FeaturedSectionsProps) {
                       className="hover:text-[hsl(var(--primary))] transition-colors duration-200 focus:outline-none"
                     >
                       <span aria-hidden="true" className="absolute inset-0" />
-                      {product.name}
+                      {displayName(product)}
                     </Link>
                   </h3>
                   <div className="mt-1.5">
@@ -380,11 +398,12 @@ export default function FeaturedSections(props: FeaturedSectionsProps) {
               >
                 <div className="relative aspect-[4/5] overflow-hidden">
                   <Image
-                    src={product.image}
-                    alt={product.name}
+                    src={failedImages.has(`new-${product.id}`) ? PLACEHOLDER : product.image}
+                    alt={displayName(product)}
                     fill
                     sizes="(min-width:1024px) 23vw, (min-width:640px) 40vw, 60vw"
                     className="object-cover object-center transition-transform duration-500 ease-out group-hover:scale-105"
+                    onError={() => markFailed(`new-${product.id}`)}
                   />
                   {product.isNew && (
                     <span className="absolute top-3 start-3 z-10 inline-flex items-center rounded-full bg-[hsl(var(--primary))] px-2.5 py-0.5 text-[11px] font-semibold text-white shadow-sm">
@@ -412,7 +431,7 @@ export default function FeaturedSections(props: FeaturedSectionsProps) {
                       className="hover:text-[hsl(var(--primary))] transition-colors duration-200 focus:outline-none"
                     >
                       <span aria-hidden="true" className="absolute inset-0" />
-                      {product.name}
+                      {displayName(product)}
                     </Link>
                   </h3>
                   <div className="mt-1.5">

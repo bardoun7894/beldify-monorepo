@@ -3422,7 +3422,9 @@
       "location": "Locatie",
       "reviews": "beoordelingen",
       "viewProfile": "Bekijk Profiel",
-      "viewDetails": "Bekijk Details"
+      "viewDetails": "Bekijk Details",
+      "emptyTitle": "Ons ateliernetwerk opent binnenkort",
+      "emptyBody": "We nemen op dit moment geverifieerde Marokkaanse kleermakers op. Kom binnenkort terug om uw maatwerkbestelling te starten."
     },
     "tailorDetail": {
       "breadcrumbLabel": "Breadcrumb",
@@ -4230,7 +4232,8 @@
       "art_slide2_cta": "Kledingmaatbestelling starten",
       "art_slide3_headline": "Open Souk — plaats je brief en laat ateliers concurreren",
       "art_slide3_subline": "Onze ambachtslieden strijden om jouw project",
-      "art_slide3_cta": "Plaats nu een brief"
+      "art_slide3_cta": "Plaats nu een brief",
+      "product_eyebrow": "Handgemaakt in Marokko"
     },
     "trust": {
       "verified_sellers": "Geverifieerde verkopers",
@@ -4548,7 +4551,7 @@
       "no_reviews": "Nog geen beoordelingen"
     },
     "stepsCta": "Start een kleermaakbewerking",
-    "sub": "Onze 120+ geverifieerde ateliers maken maatwerk Marokkaanse kledingstukken naar jouw exacte maten — verzonden overal ter wereld. Geen paskamer nodig.",
+    "sub": "Onze geverifieerde ateliers maken op maat gemaakte Marokkaanse kledingstukken volgens uw exacte maten — wereldwijd verzonden. Geen paskamer nodig.",
     "services": {
       "alterations": {
         "price": "Vanaf 49 MAD",
@@ -4615,6 +4618,20 @@
         }
       },
       "title": "Waarom Kiest voor Onze Kleermaakservices"
+    },
+    "steps": {
+      "0": {
+        "title": "Kies uw kleermaker",
+        "body": "Blader door geverifieerde ateliers in Fez, Marrakech, Casablanca en Tétouan. Elke vermelding toont specialiteiten, beoordelingen en huidige beschikbaarheid."
+      },
+      "1": {
+        "title": "Stuur uw maten",
+        "body": "Gebruik ons begeleide matenformulier — geen ervaring met een meetlint nodig. Of boek een videogesprek van 15 minuten met uw kleermaker voor een begeleide sessie."
+      },
+      "2": {
+        "title": "Ontvang uw kledingstuk",
+        "body": "Uw kledingstuk wordt met de hand afgewerkt en wereldwijd verzonden. De meeste maatwerkbestellingen komen binnen 2 tot 4 weken aan. Eén gratis vermaakronde is inbegrepen."
+      }
     }
   },
   "sellers": {

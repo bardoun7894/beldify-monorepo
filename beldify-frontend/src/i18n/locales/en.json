@@ -3430,7 +3430,9 @@
       "location": "Location",
       "reviews": "reviews",
       "viewProfile": "View Profile",
-      "viewDetails": "View Details"
+      "viewDetails": "View Details",
+      "emptyTitle": "Our atelier network is opening soon",
+      "emptyBody": "We're onboarding verified Moroccan tailors right now. Check back shortly to start your bespoke order."
     },
     "tailorDetail": {
       "breadcrumbLabel": "Breadcrumb",
@@ -4238,7 +4240,8 @@
       "art_slide2_cta": "Start a tailoring order",
       "art_slide3_headline": "Open Souk — post your brief and let ateliers compete",
       "art_slide3_subline": "Our artisans compete for your project",
-      "art_slide3_cta": "Post a brief now"
+      "art_slide3_cta": "Post a brief now",
+      "product_eyebrow": "Handcrafted in Morocco"
     },
     "trust": {
       "verified_sellers": "Verified sellers",
@@ -4561,7 +4564,7 @@
       "no_reviews": "No reviews yet"
     },
     "stepsCta": "Start a tailoring order",
-    "sub": "Our 120+ verified ateliers create bespoke Moroccan garments to your exact measurements — shipped anywhere in the world. No fitting room required.",
+    "sub": "Our verified ateliers create bespoke Moroccan garments to your exact measurements — shipped anywhere in the world. No fitting room required.",
     "services": {
       "alterations": {
         "price": "Starting from 49 MAD",
@@ -4628,6 +4631,20 @@
         }
       },
       "title": "Why Choose Our Tailoring Services"
+    },
+    "steps": {
+      "0": {
+        "title": "Pick your tailor",
+        "body": "Browse verified ateliers in Fez, Marrakech, Casablanca and Tetouan. Each listing shows specialities, reviews, and current availability."
+      },
+      "1": {
+        "title": "Send your measurements",
+        "body": "Use our guided measurement form — no tape-measure experience needed. Or book a 15-minute video call with your tailor for a guided session."
+      },
+      "2": {
+        "title": "Receive your piece",
+        "body": "Your garment is hand-finished and shipped worldwide. Most bespoke orders arrive in 2–4 weeks. One free alteration round is included."
+      }
     }
   },
   "sellers": {
