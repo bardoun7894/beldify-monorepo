@@ -56,6 +56,18 @@ interface RecommendedTailor {
   is_verified?: boolean;
 }
 
+// RecommendedController::getRecommendedSellers shape — real Store rows. Used as
+// the ateliers-rail fallback when the (separate) Tailor table is empty on prod,
+// so the rail shows genuine shops instead of static editorial placeholders.
+interface RecommendedSeller {
+  id: number;
+  name: string;
+  rating?: number;
+  profile_image?: string | null;
+  products_count?: number;
+  followers?: number;
+}
+
 interface HomeData {
   bestSellers?: unknown[];
   newArrivals?: unknown[];
@@ -127,7 +139,26 @@ export default function HomeContent({ categories, departments, data, openSoukPos
     verified: Boolean(tailor.is_verified),
   }));
 
-  const ateliers = liveAteliers.length > 0 ? liveAteliers : staticAteliers;
+  // Fallback source — real Store rows from recommendedSellers. The ateliers rail
+  // is Tailor-table-driven, but on prod that table is often empty while stores
+  // exist, so surface real shops before dropping to static editorial cards.
+  const liveSellersAsAteliers = ((data.recommendedSellers ?? []) as RecommendedSeller[])
+    .filter((s) => s && s.name)
+    .map((s) => ({
+      name: s.name,
+      city: '',
+      img: s.profile_image || '/images/placeholder-product.svg',
+      specialty: '',
+      rating: typeof s.rating === 'number' ? s.rating : 0,
+      verified: false,
+    }));
+
+  const ateliers =
+    liveAteliers.length > 0
+      ? liveAteliers
+      : liveSellersAsAteliers.length > 0
+      ? liveSellersAsAteliers
+      : staticAteliers;
 
   // NOTE: `journal` is intentionally static. There is no backend /journal or
   // /blog endpoint. These are editorial placeholders. When a CMS or blog API is
