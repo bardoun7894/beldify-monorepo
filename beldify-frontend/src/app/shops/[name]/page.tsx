@@ -315,6 +315,12 @@ export default function ShopPage() {
   const rawCity = shop ? extractCity(shop) : 'Morocco';
   const city = rawCity === 'Morocco' ? t('shop.city.default', 'Morocco') : rawCity;
 
+  const displayName = shop
+    ? isRTL
+      ? shop.name_ar || shop.profile?.store_name_ar || shop.profile?.store_name || shop.name
+      : shop.profile?.store_name || shop.name
+    : '';
+
   const rawDescription = shop?.description ?? shop?.profile?.description ?? '';
   const descParagraphs = rawDescription
     ? rawDescription.split(/\n\n+/).filter(Boolean)
@@ -368,7 +374,7 @@ export default function ShopPage() {
       <section className="relative h-72 sm:h-[28rem] overflow-hidden bg-indigo-950">
         <Image
           src={getImageUrl(shop.cover_image || shop.profile?.cover_image, '/images/hero-atelier.jpg')}
-          alt={t('shop.cover_alt', 'Atelier cover — {{name}}', { name: shop.name })}
+          alt={t('shop.cover_alt', 'Atelier cover — {{name}}', { name: displayName })}
           fill
           priority
           sizes="100vw"
@@ -402,10 +408,10 @@ export default function ShopPage() {
               <span className="text-xs font-medium uppercase tracking-[0.14em]">{city}</span>
             </div>
             <h1
-              className="text-white text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight drop-shadow-sm"
+              className="text-white text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight drop-shadow-sm break-words"
               style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
             >
-              {shop.name}
+              {displayName}
             </h1>
             <p className="mt-2 text-indigo-100 text-base sm:text-lg max-w-xl leading-snug">
               {(shop as any).tagline || t('shop.tagline_default', "Hand-stitched caftans & traditional men's wear")}
@@ -481,7 +487,7 @@ export default function ShopPage() {
             className="text-3xl sm:text-4xl font-bold text-gray-900"
             style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
           >
-            {t('shop.about_heading', 'Inside {{name}}', { name: shop.name })}
+            {t('shop.about_heading', 'Inside {{name}}', { name: displayName })}
           </h2>
           <div className="mt-6 space-y-4 max-w-prose">
             {descParagraphs.map((para, i) => (
@@ -493,7 +499,7 @@ export default function ShopPage() {
 
           {/* Follow CTA — investment framing per hooked §1 ethics spec */}
           <FollowShopButton
-            shopName={shop.name}
+            shopName={displayName}
             isFollowing={isFollowing}
             isLoading={isFollowActionLoading}
             onToggle={handleFollow}
@@ -573,7 +579,7 @@ export default function ShopPage() {
                 key={pill.id}
                 onClick={() => toggleFilter(pill.id)}
                 aria-pressed={activeFilters.has(pill.id)}
-                className={`whitespace-nowrap rounded-full px-4 py-1.5 text-sm transition font-medium focus-visible:ring-2 focus-visible:ring-indigo-700 focus-visible:ring-offset-1 ${
+                className={`whitespace-nowrap rounded-full px-4 py-1.5 min-h-[44px] inline-flex items-center text-sm transition font-medium focus-visible:ring-2 focus-visible:ring-indigo-700 focus-visible:ring-offset-1 ${
                   activeFilters.has(pill.id)
                     ? 'bg-indigo-700 text-white'
                     : 'bg-amber-50 ring-1 ring-amber-200 text-gray-900 hover:bg-amber-100'
@@ -586,7 +592,7 @@ export default function ShopPage() {
           <select
             value={sortBy}
             onChange={(e) => { setSortBy(e.target.value as SortBy); setVisibleCount(8); }}
-            className="shrink-0 rounded-full bg-white ring-1 ring-gray-200 px-4 py-2 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-700"
+            className="shrink-0 rounded-full bg-white ring-1 ring-gray-200 px-4 py-2 min-h-[44px] text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-700"
             aria-label={t('shop.sort_label', 'Sort products')}
           >
             <option value="featured">{t('shop.sort.featured', 'Featured')}</option>
@@ -771,7 +777,7 @@ export default function ShopPage() {
                   aria-hidden="true"
                 >
                   <span className="text-lg font-bold text-amber-800">
-                    {atelier.name.charAt(0)}
+                    {atelier.name?.charAt(0)?.toUpperCase() || '?'}
                   </span>
                 </div>
                 <h4
