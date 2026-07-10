@@ -41,6 +41,7 @@ import logger from "@/utils/consoleLogger";
 import NotificationBell from "@/components/notifications/NotificationBell";
 import { LOCALES, type Locale } from "@/middleware";
 import SearchSuggestions from "@/components/search/SearchSuggestions";
+import CurrencySwitcher from "@/components/layout/CurrencySwitcher";
 
 interface FeaturedProduct {
 	id: number;
@@ -434,6 +435,9 @@ export default function Navbar() {
 								</>
 							)}
 						</Menu>
+
+						{/* Currency switcher (display-only) */}
+						<CurrencySwitcher />
 
 						{/* Account-only icons — Messages, Notifications, Orders, Wishlist */}
 						{user && (

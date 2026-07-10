@@ -9,6 +9,7 @@ import { formatPrice } from '@/utils/formatters';
 import { getImageUrl, DEFAULT_PLACEHOLDER_IMAGE } from '@/utils/imageUtils';
 import { useDirection } from '@/hooks/useDirection';
 import { useCart } from '@/contexts/CartContext';
+import { useCurrency } from '@/contexts/CurrencyContext';
 import toast from '@/utils/toast';
 import {
   ShoppingCart,
@@ -51,6 +52,7 @@ const ProductCard = memo(function ProductCard({
   const { t } = useTranslation();
   const { isRTL } = useDirection();
   const { addToCart } = useCart();
+  const { currency, format } = useCurrency();
 
   const [isHovering, setIsHovering] = useState(false);
   const [isAddingToCart, setIsAddingToCart] = useState(false);
@@ -323,6 +325,11 @@ const ProductCard = memo(function ProductCard({
             </span>
             {hasDiscount && (
               <span className="price-original text-[10px] tabular-nums">{formatPrice(price)}</span>
+            )}
+            {currency.code !== 'MAD' && (
+              <span className="text-[10px] text-gray-400 tabular-nums leading-none">
+                ≈ {format(Number(displayPrice))}
+              </span>
             )}
           </div>
 

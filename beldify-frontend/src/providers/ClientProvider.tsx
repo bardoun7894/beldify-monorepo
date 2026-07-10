@@ -7,6 +7,7 @@ import { CartProvider } from '@/contexts/CartContext';
 import { I18nProvider } from '@/providers/i18n-provider';
 import { ThemeProvider } from '@/providers/ThemeProvider';
 import { WishlistProvider } from '@/contexts/WishlistContext';
+import { CurrencyProvider } from '@/contexts/CurrencyContext';
 import { NavigationProvider } from '@/providers/NavigationProvider';
 import RootLayoutClient from '@/app/layout-client';
 import i18nInstance from '@/i18n/config';
@@ -189,11 +190,13 @@ export default function ClientProvider({ children }: ClientProviderProps) {
             <NavigationProvider>
               <CartProvider>
                 <WishlistProvider>
-                  <SilentErrorBoundary name="DeferredProviders" fallback={coreContent}>
-                    <DeferredProviders>
-                      {coreContent}
-                    </DeferredProviders>
-                  </SilentErrorBoundary>
+                  <CurrencyProvider>
+                    <SilentErrorBoundary name="DeferredProviders" fallback={coreContent}>
+                      <DeferredProviders>
+                        {coreContent}
+                      </DeferredProviders>
+                    </SilentErrorBoundary>
+                  </CurrencyProvider>
                 </WishlistProvider>
               </CartProvider>
             </NavigationProvider>

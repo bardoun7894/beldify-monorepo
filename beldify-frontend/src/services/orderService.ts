@@ -511,6 +511,8 @@ class OrderService {
     tax_amount: number;
     discount_amount: number;
     coupon_code?: string | null;
+    /** Loyalty points the buyer chose to redeem at checkout (optional). */
+    redeem_points?: number;
   }) {
     try {
       logger.log('Creating guest checkout order:', payload);

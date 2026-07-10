@@ -87,6 +87,27 @@ describe('orderService.createCheckoutOrder', () => {
     expect(result).toEqual(expected);
   });
 
+  it('passes redeem_points through to the checkout payload when provided', async () => {
+    mockPost.mockResolvedValueOnce({
+      data: { success: true, data: { order_number: 'ORD-002' } },
+    });
+
+    await (orderService as any).createCheckoutOrder({
+      items: [{ stock_id: 42, quantity: 1, unit_price: 350 }],
+      shipping_info: { first_name: 'Hassan' },
+      payment_method: 'cod',
+      subtotal: 350,
+      total_amount: 340,
+      shipping_amount: 30,
+      tax_amount: 0,
+      discount_amount: 0,
+      redeem_points: 100,
+    });
+
+    const [, body] = mockPost.mock.calls[0];
+    expect(body.redeem_points).toBe(100);
+  });
+
   it('throws a human-readable Error on axios failure', async () => {
     const axiosError = Object.assign(new Error('Network Error'), {
       isAxiosError: true,
