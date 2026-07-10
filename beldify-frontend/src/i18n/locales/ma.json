@@ -775,11 +775,7 @@
   "products": {
     "title": "المنتوجات",
     "results": "{{count}} منتوج",
-    "results_zero": "ما لقينا حتى منتوج",
-    "results_one": "منتوج واحد",
-    "results_two": "جوج منتوجات",
-    "results_few": "{{count}} منتوجات",
-    "results_many": "{{count}} منتوج",
+    "results_one": "منتوج {{count}}",
     "results_other": "{{count}} منتوج",
     "no_results": "ما لقينا حتى منتوج",
     "add_to_cart": "زيد فلقفة",
@@ -5549,5 +5545,26 @@
   },
   "languages": {
     "en": "إنجليزية"
+  },
+  "facet_filters": {
+    "stores": "محل / بائع",
+    "verticals": "نوع / تخصص",
+    "show_more": "وري أكثر",
+    "show_less": "وري أقل",
+    "vertical": {
+      "jewelry": "مجوهرات",
+      "tailor": "خياطة",
+      "fabric": "أقمشة",
+      "caftan": "قفطان",
+      "djellaba": "جلابة",
+      "accessory": "إكسسوارات"
+    }
+  },
+  "search_typeahead": {
+    "suggestions_label": "اقتراحات البحث",
+    "products": "المنتوجات",
+    "categories": "الفئات",
+    "trending": "الرائج",
+    "recent": "اللي قلبتي عليه قبل"
   }
 }

@@ -1,9 +1,9 @@
 # Progress — 2026-07-10
-- **Current task:** pending
-- **Completed:** pending
-- **Next step:** 1 tool calls made this turn — review and continue
-- **Blockers:** pending
-- **Tests to run:** pending
+- **Current task:** i18n gap audit (what is still not translated)
+- **Completed:** locale key parity scan across 7 locales + 5 dirty-component hardcode check
+- **Next step:** 0 tool calls made this turn — review and continue
+- **Blockers:** none
+- **Tests to run:** none yet — audit is read-only
 
 ## Review — 2026-07-10
 - **Verdict:** ✅ PASSED (5/5 criteria)

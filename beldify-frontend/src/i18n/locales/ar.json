@@ -127,7 +127,9 @@
     "show_more": "عرض المزيد",
     "need_help": "هل تحتاج مساعدة؟",
     "call_us": "اتصل بنا",
-    "email": "البريد الإلكتروني"
+    "email": "البريد الإلكتروني",
+    "filters": "فلاتر",
+    "placeholderImage": "صورة افتراضية"
   },
   "validation": {
     "required": "هذا الحقل مطلوب",
@@ -340,7 +342,8 @@
     "rate_limit": "طلبات كثيرة. الرجاء الانتظار قليلاً.",
     "resend_failed": "فشل الإرسال. حاول مجدداً.",
     "verify_email_banner": "الرجاء تأكيد بريدك الإلكتروني للوصول لكل الميزات.",
-    "signInRequired": "سجّل الدخول لرؤية طلباتك"
+    "signInRequired": "سجّل الدخول لرؤية طلباتك",
+    "account_benefits": "مزايا الحساب"
   },
   "navigation": {
     "home": "الرئيسية",
@@ -772,12 +775,8 @@
   "products": {
     "title": "المنتجات",
     "results": "{{count}} منتج",
-    "results_zero": "لا توجد منتجات",
-    "results_one": "منتج واحد",
-    "results_two": "منتجان",
-    "results_few": "{{count}} منتجات",
-    "results_many": "{{count}} منتجًا",
-    "results_other": "{{count}} منتج",
+    "results_one": "منتوج {{count}}",
+    "results_other": "{{count}} منتوج",
     "no_results": "لم يتم العثور على منتجات",
     "add_to_cart": "أضف إلى السلة",
     "customize": "تخصيص",
@@ -1269,7 +1268,8 @@
       "group_ref": "رقم المجموعة:",
       "seller_label": "البائع {{n}}",
       "seller_order": "طلب"
-    }
+    },
+    "loading": "جاري تحميل تفاصيل الطلب"
   },
   "checkout": {
     "title": "الدفع",
@@ -1664,7 +1664,8 @@
         "street": "عنوان الشارع",
         "apartment": "شقة، جناح، إلخ."
       }
-    }
+    },
+    "nav_aria": "تنقل الملف الشخصي"
   },
   "errors": {
     "general": "حدث خطأ",
@@ -4620,6 +4621,14 @@
       "subtitle": "وصل جديد من الورشات التي حفظتها",
       "empty": "لا جديد بعد من المتاجر التي تتابعها",
       "loginPrompt": "سجّل دخولك لتطلع على الوافد الجديد من الورشات التي تتابعها"
+    },
+    "featuredProducts": {
+      "title": "المنتجات المميزة",
+      "subtitle": "اكتشف أكثر الملابس المغربية التقليدية شعبية"
+    },
+    "specialOffers": {
+      "title": "العروض الخاصة",
+      "loading": "جاري تحميل العروض الخاصة..."
     }
   },
   "journal": {
@@ -5551,5 +5560,11 @@
       "unknown_store": "غير معروف",
       "not_applicable": "—"
     }
+  },
+  "languages": {
+    "en": "الإنجليزية"
+  },
+  "track": {
+    "order_number_placeholder": "ORD-XXXXXX"
   }
 }
