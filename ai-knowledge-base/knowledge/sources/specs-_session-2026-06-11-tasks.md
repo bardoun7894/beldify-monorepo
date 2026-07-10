@@ -1,0 +1,29 @@
+---
+name: specs/_session/2026-06-11-tasks.md
+description: Auto-synced from specs/_session/2026-06-11-tasks.md
+type: source
+sync_origin: specs/_session/2026-06-11-tasks.md
+sync_hash: a24fd1b8b5299e22
+created: 2026-07-06
+updated: 2026-07-06
+---
+
+<!-- This page is auto-synced from specs/_session/2026-06-11-tasks.md by /kb-docs-sync.
+     Edits below this line will be overwritten on the next sync. Do not modify. -->
+
+# Session task log — 2026-06-11
+
+<!-- Auto-managed by /kb-spec log. Every entry is either pending [ ] or done [x].
+     Do not hand-edit the checkbox syntax — use /kb-spec log done to flip state. -->
+
+## Pending
+- [ ] 00:32 — merge all to main (both repos) + push, verify nothing stranded on branches
+- [ ] 00:32 — auto-product-hero: when no admin campaign banners, hero renders slides from live bestsellers/offers WITH real images (name+price+discount+deep link) instead of art-only fallback; then deploy all
+- [ ] 21:19 — BE: explicit product.vertical field in product API payloads (jewelry detection hardening)
+- [ ] 21:19 — FE P2 batch: home card mini-PDP upgrades (ratings/discount/starts-from), sticky mobile category chips, OpenSouk rail empty-state treatment
+- [x] 00:05 — PROD DEPLOY (user: "deploy all this to prod"): monorepo main HEAD 237408b (i18n sweep ff5d619 + campaign-art hero e09cb44 + home fixes 0dc2f59 + jewelry PDP 237408b) ✓ 00:25 (LIVE: QA gate at HEAD 2217/2217 + tsc 0 + build:prod clean; main already pushed; live tree already rsynced-current (concurrent session); image was the stale piece — compose prod rebuild swapped container, BUILD_ID mNJExdOj9M5bRqpVDnoJe → Rma7E8uy6xBo2TtC-cwh9; smokes: home 200, /products 200, sw.js 200 68KB, hero-config 200; BACKEND i18n live-verified pre-deploy: /api/products/all?locale=ma → قلادة المرجان واللؤلؤ (Arabic ✓), locale=nl → Coral & Pearl Necklace (English ✓), bare Accept-Language:de-DE → English ✓; note concurrent session deployed backend 6b7fc0a9 + its own frontend rebuild in same window — converged on same tree state)
+
+## Done
+- [x] 00:23 — SHIPPED batch live (carried from 06-10 log): campaign-art hero e09cb44 + home P1 fixes 0dc2f59 (grid images/trust copy/RTL/Journal i18n) + jewelry PDP 237408b + BE image-filter 6b7fc0a9; merged FF to mains (mono 237408b, BE 6b7fc0a9) + pushed; deployed backend (rsync+restart, no new migrations) + frontend (prod compose rebuild); smokes 200; LIVE-VERIFIED in browser: art hero rendering, category grid full photos, distinct trust copy ✓ 00:23
+- [ ] 00:23 — follow-ups: 2 stranded git stashes in monorepo (stash@{0} ai-seller-credits WIP — owner must recover); backend should add explicit product.vertical='jewelry' field; few category chips still image-less; 48 raw KB files await ingest/compile
+

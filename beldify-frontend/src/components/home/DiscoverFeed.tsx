@@ -6,6 +6,7 @@ import Link from 'next/link';
 import useSWRInfinite from 'swr/infinite';
 import { useTranslation } from 'react-i18next';
 import { ArrowRight } from 'lucide-react';
+import { formatPrice } from '@/utils/formatters';
 import '@/i18n/config';
 import WishlistButton from '@/components/products/WishlistButton';
 
@@ -120,9 +121,7 @@ function MarketCard({ product, isArabicScript }: MarketCardProps) {
           </h3>
           <div className="mt-1.5 flex items-baseline gap-1.5">
             <span className="text-sm font-bold text-indigo-700 tabular-nums">
-              <span className="currency-mad">
-                {price.toLocaleString('ar-MA')} {t('common.currency', 'درهم')}
-              </span>
+              <span className="currency-mad">{formatPrice(price)}</span>
             </span>
             {originalPrice && (
               <span className="text-[10px] text-gray-400 line-through tabular-nums">

@@ -92,7 +92,7 @@ function TrackOrderContent() {
             type="text"
             value={orderNumber}
             onChange={(e) => setOrderNumber(e.target.value)}
-            placeholder="ORD-XXXXXX"
+            placeholder={t('track.order_number_placeholder', 'ORD-XXXXXX')}
             className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary dark:border-gray-700 dark:bg-gray-900 dark:text-white"
             required
           />

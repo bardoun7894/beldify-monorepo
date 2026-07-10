@@ -46,8 +46,17 @@ check('tab strip sticky top-16', /sticky top-16/.test(shopDetail));
 check('no colliding mt-0.5 + mt-1.5 on bullet', !/mt-0\.5 h-2 w-2 rounded-full bg-amber-\d+ shrink-0 mt-1\.5/.test(shopDetail));
 // P3: About paragraphs capped to comfortable measure
 check('About paragraphs capped with max-w', /max-w-prose|max-w-\[65ch\]/.test(shopDetail));
-// P2: fake reviews gated behind real-data check
-check('static reviews gated behind reviewsCount', /reviewsCount > 0[\s\S]{0,400}STATIC_REVIEWS\.map/.test(shopDetail) || /hasReviews[\s\S]{0,200}STATIC_REVIEWS/.test(shopDetail));
+// P2: no fabricated/static review cards rendered; honest empty state instead
+// (The page no longer ships a STATIC_REVIEWS array — the previous assertion
+// required it to be gated, but the correct state is for it to not exist at
+// all, with a designed empty state when reviewsCount === 0.)
+const hasFakeReviewMap = /STATIC_REVIEWS[\s\S]{0,400}\.map/.test(shopDetail);
+const hasDesignedEmptyState =
+  /Designed empty state/.test(shopDetail) && /shop\.no_reviews_title/.test(shopDetail);
+check(
+  'no fabricated reviews rendered; empty state present',
+  !hasFakeReviewMap && hasDesignedEmptyState
+);
 // P2: sort <select> is functional (wired to state + onChange)
 check('sort select is wired (value + onChange)', /<select[\s\S]{0,200}value=\{sortBy\}[\s\S]{0,200}onChange/.test(shopDetail));
 // P2: no fabricated/non-mappable filter pills left (festival/new/sale removed)

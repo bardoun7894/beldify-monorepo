@@ -14,6 +14,7 @@ import { Product } from '@/lib/types';
 import { partitionShelves } from './partitionShelves';
 import { useDirection } from '@/hooks/useDirection';
 import { formatPrice } from '@/utils/formatters';
+import { useCurrency } from '@/contexts/CurrencyContext';
 import { getColorName, useLazyColorName } from '@/utils/colorNamer';
 import { buildImageUrl, cn } from '@/lib/utils';
 import { getImageUrl } from '@/utils/imageUtils';
@@ -190,6 +191,9 @@ export default function ProductDetailsPage() {
   const [activeTab, setActiveTab] = useState<'description' | 'specs' | 'sizing' | 'reviews'>('description');
   // Click-to-zoom lightbox state
   const [isZoomed, setIsZoomed] = useState(false);
+  const [mainImageFailed, setMainImageFailed] = useState(false);
+  const [failedThumbIds, setFailedThumbIds] = useState<Set<string | number>>(new Set());
+  const [shopLogoFailed, setShopLogoFailed] = useState(false);
   // "كيفاش نشري؟" how-to-buy sheet
   const [isHowToBuyOpen, setIsHowToBuyOpen] = useState(false);
   // Virtual try-on modal
@@ -221,6 +225,7 @@ export default function ProductDetailsPage() {
   const { isInWishlist, addToWishlist, removeFromWishlist } = useWishlist();
   const { t, i18n } = useTranslation();
   const { isRTL } = useDirection();
+  const { currency, format } = useCurrency();
   // AI feature flags — defaults to all-false; hides AI UI until backend confirms enabled
   const { tryon: tryonEnabled, buyer_ai: buyerAiEnabled } = useAiFeatures();
   const router = useRouter();
@@ -460,6 +465,12 @@ export default function ProductDetailsPage() {
     }
     return '/placeholder-product.svg'; // Ultimate fallback
   };
+
+  // Reset the broken-image flag whenever the resolved image changes so a
+  // newly selected thumbnail/variant gets a fresh load attempt.
+  useEffect(() => {
+    setMainImageFailed(false);
+  }, [selectedImage, product?.main_image]);
 
   // Enhanced variant selection logic with debugging
   const updateSelectedVariant = useCallback(() => {
@@ -1506,7 +1517,7 @@ export default function ProductDetailsPage() {
             tabIndex={0}
             onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); getCurrentImageUrl() && setIsZoomed(true); } }}
           >
-            {getCurrentImageUrl() ? (
+            {getCurrentImageUrl() && !mainImageFailed ? (
               <Image
                 src={getCurrentImageUrl()}
                 alt={displayName}
@@ -1514,6 +1525,7 @@ export default function ProductDetailsPage() {
                 priority
                 className="object-cover transition-transform duration-700 group-hover:scale-[1.03]"
                 sizes="(max-width: 1024px) 100vw, 50vw"
+                onError={() => setMainImageFailed(true)}
               />
             ) : (
               <div className="w-full h-full bg-amber-100 flex items-center justify-center rounded-2xl">
@@ -1576,13 +1588,20 @@ export default function ProductDetailsPage() {
                       : 'ring-gray-200 opacity-60 hover:opacity-90 hover:ring-gray-300 focus-visible:ring-indigo-700/50'
                   )}
                 >
+                  {failedThumbIds.has(img.id) ? (
+                    <div className="w-full h-full bg-amber-100 flex items-center justify-center">
+                      <span className="text-amber-400 text-[10px] font-medium">{idx + 1}</span>
+                    </div>
+                  ) : (
                   <Image
                     src={buildImageUrl(img.url)}
                     alt={`${displayName} ${idx + 1}`}
                     fill
                     className="object-cover"
                     sizes="80px"
+                    onError={() => setFailedThumbIds((prev) => new Set(prev).add(img.id))}
                   />
+                  )}
                 </button>
               ))}
             </div>
@@ -1623,6 +1642,11 @@ export default function ProductDetailsPage() {
             {hasDiscount && discountPercentage > 0 && (
               <span className="inline-flex items-center rounded-full bg-rose-700 px-2.5 py-0.5 text-xs font-bold text-white">
                 −{discountPercentage}%
+              </span>
+            )}
+            {currency.code !== 'MAD' && (
+              <span className="text-sm text-gray-400 tabular-nums">
+                ≈ {format(Number(displayPrice))}
               </span>
             )}
           </div>
@@ -1716,13 +1740,14 @@ export default function ProductDetailsPage() {
                 <div className="flex items-center gap-3 min-w-0">
                   {/* Shop logo / monogram */}
                   <div className="shrink-0 h-11 w-11 rounded-full bg-indigo-700 flex items-center justify-center shadow-atlas-sm overflow-hidden">
-                    {product.shop?.logo ? (
+                    {product.shop?.logo && !shopLogoFailed ? (
                       <Image
                         src={buildImageUrl(product.shop.logo)}
                         alt={shopName}
                         width={44}
                         height={44}
                         className="rounded-full object-cover"
+                        onError={() => setShopLogoFailed(true)}
                       />
                     ) : (
                       <span className="text-white font-semibold text-sm">

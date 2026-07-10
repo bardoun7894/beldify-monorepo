@@ -1,4 +1,7 @@
+'use client';
+
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 interface PlaceholderImageProps {
   className?: string;
@@ -11,8 +14,10 @@ export const PlaceholderImage = ({
   className = "w-full h-full text-gray-300",
   width = "100%",
   height = "100%",
-  alt = "Placeholder image"
+  alt
 }: PlaceholderImageProps) => {
+  const { t } = useTranslation();
+  const resolvedAlt = alt ?? t('common.placeholderImage', 'Placeholder image');
   return (
     <svg
       className={className}
@@ -22,7 +27,7 @@ export const PlaceholderImage = ({
       viewBox="0 0 24 24"
       xmlns="http://www.w3.org/2000/svg"
       style={{ maxWidth: '100%', maxHeight: '100%' }}
-      aria-label={alt}
+      aria-label={resolvedAlt}
       role="img"
     >
       <rect width="24" height="24" fill="#f3f4f6" />

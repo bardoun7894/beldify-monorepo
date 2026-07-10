@@ -252,7 +252,7 @@ export default function PreferencesSettings() {
               {t('preferences.language.title')}
             </label>
             <AtlasSelect id="language" name="language" value={preferences.language} onChange={handleChange}>
-              <option value="en">English</option>
+              <option value="en">{t('languages.en', 'English')}</option>
               <option value="fr">Français</option>
               <option value="ar">العربية</option>
               <option value="ma">الدارجة المغربية</option>

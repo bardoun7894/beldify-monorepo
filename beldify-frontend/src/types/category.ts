@@ -7,6 +7,8 @@ export interface Category {
   slug: string;
   parent_id: number | null;
   store_id: number;
+  /** Returned by getAllCategories on each leaf category; departments are not returned standalone. */
+  parent?: { id: number; name_en: string; name_ar: string } | null;
   sub_categories?: Category[];
   productCount?: number;
   itemCount?: number;

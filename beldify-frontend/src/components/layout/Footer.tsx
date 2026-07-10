@@ -127,6 +127,8 @@ const Footer = () => {
               <form onSubmit={handleNewsletterSubmit} className="flex gap-2">
                 <input
                   type="email"
+                  id="newsletter-email-footer"
+                  name="email"
                   value={newsletterEmail}
                   onChange={(e) => setNewsletterEmail(e.target.value)}
                   placeholder={t('newsletter.placeholder', 'Your email address')}

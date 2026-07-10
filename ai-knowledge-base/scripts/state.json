@@ -51,9 +51,9 @@
       "cost_usd": 1.34788125
     }
   },
-  "query_count": 69,
+  "query_count": 70,
   "last_lint": "2026-06-19T22:17:44+01:00",
-  "total_cost": 39.775620249999996,
+  "total_cost": 40.08118945,
   "docs_sync": {
     "patterns": [
       "CLAUDE.md",
@@ -102,6 +102,661 @@
         "slug": "specs-018-address-book-recently-viewed-checklists-requirements",
         "hash": "3fbf28b2d9d96c13",
         "synced_at": "2026-07-06T13:19:42.290841Z"
+      },
+      "CLAUDE.md": {
+        "slug": "claude",
+        "hash": "8a921f2458eda62e",
+        "synced_at": "2026-07-06T18:06:39.887602"
+      },
+      "docs/MARKETPLACE_GAP_ANALYSIS.md": {
+        "slug": "docs-marketplace_gap_analysis",
+        "hash": "6cf3c27212c14ed5",
+        "synced_at": "2026-07-06T18:06:39.887602"
+      },
+      "docs/NOTIFICATIONS_RESUME.md": {
+        "slug": "docs-notifications_resume",
+        "hash": "2599a1fbd0eb635a",
+        "synced_at": "2026-07-06T18:06:39.887602"
+      },
+      "docs/README.md": {
+        "slug": "docs-readme",
+        "hash": "bdb7ff9e48b4c9fc",
+        "synced_at": "2026-07-06T18:06:39.887602"
+      },
+      "docs/admin/messages.md": {
+        "slug": "docs-admin-messages",
+        "hash": "a44ba49bdd465394",
+        "synced_at": "2026-07-06T18:06:39.887602"
+      },
+      "docs/api/frontend-backend-alignment.md": {
+        "slug": "docs-api-frontend-backend-alignment",
+        "hash": "e1500705eb51c15b",
+        "synced_at": "2026-07-06T18:06:39.887602"
+      },
+      "docs/api/open-souk-proposals.md": {
+        "slug": "docs-api-open-souk-proposals",
+        "hash": "ac7dfbace42abad6",
+        "synced_at": "2026-07-06T18:06:39.887602"
+      },
+      "docs/api/seller-dashboard.md": {
+        "slug": "docs-api-seller-dashboard",
+        "hash": "89d838435b4b7d16",
+        "synced_at": "2026-07-06T18:06:39.887602"
+      },
+      "docs/audit/ecommerce-expert-review.md": {
+        "slug": "docs-audit-ecommerce-expert-review",
+        "hash": "9dd84bc32cd0d219",
+        "synced_at": "2026-07-06T18:06:39.887602"
+      },
+      "docs/backendplan.md": {
+        "slug": "docs-backendplan",
+        "hash": "d1f8451191812df0",
+        "synced_at": "2026-07-06T18:06:39.887602"
+      },
+      "docs/changelog/2026-06-10-overnight-deploy-runbook.md": {
+        "slug": "docs-changelog-2026-06-10-overnight-deploy-runbook",
+        "hash": "3ae16d2a1f3f0bdd",
+        "synced_at": "2026-07-06T18:06:39.887602"
+      },
+      "docs/changelog/2026-06-24-deployment-drift-fix.md": {
+        "slug": "docs-changelog-2026-06-24-deployment-drift-fix",
+        "hash": "a16df7406d245f52",
+        "synced_at": "2026-07-06T18:06:39.887602"
+      },
+      "docs/guides/ai-suite-deploy.md": {
+        "slug": "docs-guides-ai-suite-deploy",
+        "hash": "08f080871d7cc6f7",
+        "synced_at": "2026-07-06T18:06:39.887602"
+      },
+      "docs/guides/google-oauth-setup.md": {
+        "slug": "docs-guides-google-oauth-setup",
+        "hash": "b91948430401738c",
+        "synced_at": "2026-07-06T18:06:39.887602"
+      },
+      "docs/i18n-hardcoded-strings.md": {
+        "slug": "docs-i18n-hardcoded-strings",
+        "hash": "d45ab2c0af379d75",
+        "synced_at": "2026-07-06T18:06:39.887602"
+      },
+      "docs/marketing/growth-plan-2026-06-05.md": {
+        "slug": "docs-marketing-growth-plan-2026-06-05",
+        "hash": "908a5e9c489dcad6",
+        "synced_at": "2026-07-06T18:06:39.887602"
+      },
+      "plans/app-analysis.md": {
+        "slug": "plans-app-analysis",
+        "hash": "ea98858e324f8d62",
+        "synced_at": "2026-07-06T18:06:39.887602"
+      },
+      "specs/001-api-alignment/checklists/requirements.md": {
+        "slug": "specs-001-api-alignment-checklists-requirements",
+        "hash": "80886784cc037882",
+        "synced_at": "2026-07-06T18:06:39.887602"
+      },
+      "specs/001-api-alignment/data-model.md": {
+        "slug": "specs-001-api-alignment-data-model",
+        "hash": "57b2d725ac2894a0",
+        "synced_at": "2026-07-06T18:06:39.887602"
+      },
+      "specs/001-api-alignment/plan.md": {
+        "slug": "specs-001-api-alignment-plan",
+        "hash": "01cb3034dc8d67ea",
+        "synced_at": "2026-07-06T18:06:39.887602"
+      },
+      "specs/001-api-alignment/quickstart.md": {
+        "slug": "specs-001-api-alignment-quickstart",
+        "hash": "ba332b7d45c3f087",
+        "synced_at": "2026-07-06T18:06:39.887602"
+      },
+      "specs/001-api-alignment/research.md": {
+        "slug": "specs-001-api-alignment-research",
+        "hash": "2679b3b3794d115a",
+        "synced_at": "2026-07-06T18:06:39.887602"
+      },
+      "specs/001-api-alignment/spec.md": {
+        "slug": "specs-001-api-alignment-spec",
+        "hash": "983a25924a73adb4",
+        "synced_at": "2026-07-06T18:06:39.887602"
+      },
+      "specs/001-api-alignment/tasks.md": {
+        "slug": "specs-001-api-alignment-tasks",
+        "hash": "c5ee6d65f33424c6",
+        "synced_at": "2026-07-06T18:06:39.887602"
+      },
+      "specs/001-brownfield-improvement-sprint/contracts/README.md": {
+        "slug": "specs-001-brownfield-improvement-sprint-contracts-readme",
+        "hash": "7a310161f02f234d",
+        "synced_at": "2026-07-06T18:06:39.887602"
+      },
+      "specs/001-brownfield-improvement-sprint/data-model.md": {
+        "slug": "specs-001-brownfield-improvement-sprint-data-model",
+        "hash": "36cb3f2387717e30",
+        "synced_at": "2026-07-06T18:06:39.887602"
+      },
+      "specs/001-brownfield-improvement-sprint/plan.md": {
+        "slug": "specs-001-brownfield-improvement-sprint-plan",
+        "hash": "ff5db2f0664ccff9",
+        "synced_at": "2026-07-06T18:06:39.887602"
+      },
+      "specs/001-brownfield-improvement-sprint/quickstart.md": {
+        "slug": "specs-001-brownfield-improvement-sprint-quickstart",
+        "hash": "995a7370830a7605",
+        "synced_at": "2026-07-06T18:06:39.887602"
+      },
+      "specs/001-brownfield-improvement-sprint/research.md": {
+        "slug": "specs-001-brownfield-improvement-sprint-research",
+        "hash": "8f0dfa79b3cc5aed",
+        "synced_at": "2026-07-06T18:06:39.887602"
+      },
+      "specs/001-brownfield-improvement-sprint/spec.md": {
+        "slug": "specs-001-brownfield-improvement-sprint-spec",
+        "hash": "6e47d7a946ab15d5",
+        "synced_at": "2026-07-06T18:06:39.887602"
+      },
+      "specs/001-brownfield-improvement-sprint/tasks.md": {
+        "slug": "specs-001-brownfield-improvement-sprint-tasks",
+        "hash": "ca4100ea4d041809",
+        "synced_at": "2026-07-06T18:06:39.887602"
+      },
+      "specs/002-testing-code-quality/checklists/requirements.md": {
+        "slug": "specs-002-testing-code-quality-checklists-requirements",
+        "hash": "e8b756794b13f821",
+        "synced_at": "2026-07-06T18:06:39.887602"
+      },
+      "specs/002-testing-code-quality/contracts/README.md": {
+        "slug": "specs-002-testing-code-quality-contracts-readme",
+        "hash": "11a8ca18bc656dba",
+        "synced_at": "2026-07-06T18:06:39.887602"
+      },
+      "specs/002-testing-code-quality/data-model.md": {
+        "slug": "specs-002-testing-code-quality-data-model",
+        "hash": "c3000618f57e034c",
+        "synced_at": "2026-07-06T18:06:39.887602"
+      },
+      "specs/002-testing-code-quality/plan.md": {
+        "slug": "specs-002-testing-code-quality-plan",
+        "hash": "5098a72779163f85",
+        "synced_at": "2026-07-06T18:06:39.887602"
+      },
+      "specs/002-testing-code-quality/quickstart.md": {
+        "slug": "specs-002-testing-code-quality-quickstart",
+        "hash": "077ffaf6a20b4650",
+        "synced_at": "2026-07-06T18:06:39.887602"
+      },
+      "specs/002-testing-code-quality/research.md": {
+        "slug": "specs-002-testing-code-quality-research",
+        "hash": "a538569948862ba1",
+        "synced_at": "2026-07-06T18:06:39.887602"
+      },
+      "specs/002-testing-code-quality/spec.md": {
+        "slug": "specs-002-testing-code-quality-spec",
+        "hash": "278fc3ce23e17249",
+        "synced_at": "2026-07-06T18:06:39.887602"
+      },
+      "specs/002-testing-code-quality/tasks.md": {
+        "slug": "specs-002-testing-code-quality-tasks",
+        "hash": "b5a8a8f37722dfc7",
+        "synced_at": "2026-07-06T18:06:39.887602"
+      },
+      "specs/003-backend-cleanup/contracts/README.md": {
+        "slug": "specs-003-backend-cleanup-contracts-readme",
+        "hash": "0d7288e524da50aa",
+        "synced_at": "2026-07-06T18:06:39.887602"
+      },
+      "specs/003-backend-cleanup/data-model.md": {
+        "slug": "specs-003-backend-cleanup-data-model",
+        "hash": "d9518c1d1b433fef",
+        "synced_at": "2026-07-06T18:06:39.887602"
+      },
+      "specs/003-backend-cleanup/plan.md": {
+        "slug": "specs-003-backend-cleanup-plan",
+        "hash": "1009196a4531dbb2",
+        "synced_at": "2026-07-06T18:06:39.887602"
+      },
+      "specs/003-backend-cleanup/quickstart.md": {
+        "slug": "specs-003-backend-cleanup-quickstart",
+        "hash": "3c2520d3655d2f79",
+        "synced_at": "2026-07-06T18:06:39.887602"
+      },
+      "specs/003-backend-cleanup/research.md": {
+        "slug": "specs-003-backend-cleanup-research",
+        "hash": "564561d8b3c9dc63",
+        "synced_at": "2026-07-06T18:06:39.887602"
+      },
+      "specs/003-backend-cleanup/spec.md": {
+        "slug": "specs-003-backend-cleanup-spec",
+        "hash": "f591ff8a055293f3",
+        "synced_at": "2026-07-06T18:06:39.887602"
+      },
+      "specs/004-frontend-improvements/dashboard-atlas-light-plan.md": {
+        "slug": "specs-004-frontend-improvements-dashboard-atlas-light-plan",
+        "hash": "4efc3c724f6b1e1b",
+        "synced_at": "2026-07-06T18:06:39.887602"
+      },
+      "specs/004-frontend-improvements/landing-atlas-plan.md": {
+        "slug": "specs-004-frontend-improvements-landing-atlas-plan",
+        "hash": "f2f5f269009d732e",
+        "synced_at": "2026-07-06T18:06:39.887602"
+      },
+      "specs/004-frontend-improvements/research.md": {
+        "slug": "specs-004-frontend-improvements-research",
+        "hash": "d8cfe9c647da4100",
+        "synced_at": "2026-07-06T18:06:39.887602"
+      },
+      "specs/004-frontend-improvements/spec.md": {
+        "slug": "specs-004-frontend-improvements-spec",
+        "hash": "f1fc618b0990cc26",
+        "synced_at": "2026-07-06T18:06:39.887602"
+      },
+      "specs/005-seller-verticals-jewelry/contracts.md": {
+        "slug": "specs-005-seller-verticals-jewelry-contracts",
+        "hash": "c27111288c3ba606",
+        "synced_at": "2026-07-06T18:06:39.887602"
+      },
+      "specs/005-seller-verticals-jewelry/gap-analysis-custom-opensouk.md": {
+        "slug": "specs-005-seller-verticals-jewelry-gap-analysis-custom-opensouk",
+        "hash": "69ecc7a914f15e5e",
+        "synced_at": "2026-07-06T18:06:39.887602"
+      },
+      "specs/005-seller-verticals-jewelry/plan.md": {
+        "slug": "specs-005-seller-verticals-jewelry-plan",
+        "hash": "82f0ada9b1a114f2",
+        "synced_at": "2026-07-06T18:06:39.887602"
+      },
+      "specs/005-seller-verticals-jewelry/research.md": {
+        "slug": "specs-005-seller-verticals-jewelry-research",
+        "hash": "c5fed4863835a273",
+        "synced_at": "2026-07-06T18:06:39.887602"
+      },
+      "specs/005-seller-verticals-jewelry/spec.md": {
+        "slug": "specs-005-seller-verticals-jewelry-spec",
+        "hash": "d9062f79c0d0ef55",
+        "synced_at": "2026-07-06T18:06:39.887602"
+      },
+      "specs/005-seller-verticals-jewelry/tasks.md": {
+        "slug": "specs-005-seller-verticals-jewelry-tasks",
+        "hash": "cf4783a773ea8519",
+        "synced_at": "2026-07-06T18:06:39.887602"
+      },
+      "specs/006-pwa-native-app/plan.md": {
+        "slug": "specs-006-pwa-native-app-plan",
+        "hash": "c2dc16cdec7f33de",
+        "synced_at": "2026-07-06T18:06:39.887602"
+      },
+      "specs/007-ai-seller-credits/research.md": {
+        "slug": "specs-007-ai-seller-credits-research",
+        "hash": "371c1e0714bf7038",
+        "synced_at": "2026-07-06T18:06:39.887602"
+      },
+      "specs/007-ai-seller-credits/spec.md": {
+        "slug": "specs-007-ai-seller-credits-spec",
+        "hash": "acf078104016f5ae",
+        "synced_at": "2026-07-06T18:06:39.887602"
+      },
+      "specs/008-buyer-ai/research.md": {
+        "slug": "specs-008-buyer-ai-research",
+        "hash": "3cae13ba4c314692",
+        "synced_at": "2026-07-06T18:06:39.887602"
+      },
+      "specs/008-buyer-ai/spec.md": {
+        "slug": "specs-008-buyer-ai-spec",
+        "hash": "3293c9a6402a9e30",
+        "synced_at": "2026-07-06T18:06:39.887602"
+      },
+      "specs/009-seller-payouts/research.md": {
+        "slug": "specs-009-seller-payouts-research",
+        "hash": "686e9325fdd5faec",
+        "synced_at": "2026-07-06T18:06:39.887602"
+      },
+      "specs/009-seller-payouts/spec.md": {
+        "slug": "specs-009-seller-payouts-spec",
+        "hash": "466750653c4c9204",
+        "synced_at": "2026-07-06T18:06:39.887602"
+      },
+      "specs/010-dual-role-seller-i18n/plan.md": {
+        "slug": "specs-010-dual-role-seller-i18n-plan",
+        "hash": "d6c801d11cc9694b",
+        "synced_at": "2026-07-06T18:06:39.887602"
+      },
+      "specs/010-dual-role-seller-i18n/spec.md": {
+        "slug": "specs-010-dual-role-seller-i18n-spec",
+        "hash": "f30aaabb0271005a",
+        "synced_at": "2026-07-06T18:06:39.887602"
+      },
+      "specs/010-dual-role-seller-i18n/tasks.md": {
+        "slug": "specs-010-dual-role-seller-i18n-tasks",
+        "hash": "b4088f85a94e5697",
+        "synced_at": "2026-07-06T18:06:39.887602"
+      },
+      "specs/010-search-fixes/research.md": {
+        "slug": "specs-010-search-fixes-research",
+        "hash": "1cfcbc51c7f05b1b",
+        "synced_at": "2026-07-06T18:06:39.887602"
+      },
+      "specs/010-search-fixes/spec.md": {
+        "slug": "specs-010-search-fixes-spec",
+        "hash": "6b82a134323a6d09",
+        "synced_at": "2026-07-06T18:06:39.887602"
+      },
+      "specs/010-search-fixes/tasks.md": {
+        "slug": "specs-010-search-fixes-tasks",
+        "hash": "31a4cd068e38af17",
+        "synced_at": "2026-07-06T18:06:39.887602"
+      },
+      "specs/011-checkout-integrity/spec.md": {
+        "slug": "specs-011-checkout-integrity-spec",
+        "hash": "611d22dadbdd5401",
+        "synced_at": "2026-07-06T18:06:39.887602"
+      },
+      "specs/011-checkout-integrity/tasks.md": {
+        "slug": "specs-011-checkout-integrity-tasks",
+        "hash": "2fbcbb5a557be0ef",
+        "synced_at": "2026-07-06T18:06:39.887602"
+      },
+      "specs/011-darija-shopping-assistant/plan.md": {
+        "slug": "specs-011-darija-shopping-assistant-plan",
+        "hash": "fda54f2c237667fc",
+        "synced_at": "2026-07-06T18:06:39.887602"
+      },
+      "specs/011-darija-shopping-assistant/spec.md": {
+        "slug": "specs-011-darija-shopping-assistant-spec",
+        "hash": "9fedd104e464d21f",
+        "synced_at": "2026-07-06T18:06:39.887602"
+      },
+      "specs/011-darija-shopping-assistant/tasks.md": {
+        "slug": "specs-011-darija-shopping-assistant-tasks",
+        "hash": "c1804eb38b80722a",
+        "synced_at": "2026-07-06T18:06:39.887602"
+      },
+      "specs/012-ai-listing-intelligence/plan.md": {
+        "slug": "specs-012-ai-listing-intelligence-plan",
+        "hash": "8cf29c8e7e4e1e7a",
+        "synced_at": "2026-07-06T18:06:39.887602"
+      },
+      "specs/012-ai-listing-intelligence/spec.md": {
+        "slug": "specs-012-ai-listing-intelligence-spec",
+        "hash": "355a8e59cd9ccc35",
+        "synced_at": "2026-07-06T18:06:39.887602"
+      },
+      "specs/012-ai-listing-intelligence/tasks.md": {
+        "slug": "specs-012-ai-listing-intelligence-tasks",
+        "hash": "0127dc7891012420",
+        "synced_at": "2026-07-06T18:06:39.887602"
+      },
+      "specs/013-opensouk-matchmaker/spec.md": {
+        "slug": "specs-013-opensouk-matchmaker-spec",
+        "hash": "e87a8ce85cdc8bcb",
+        "synced_at": "2026-07-06T18:06:39.887602"
+      },
+      "specs/013-opensouk-matchmaker/tasks.md": {
+        "slug": "specs-013-opensouk-matchmaker-tasks",
+        "hash": "5fd6b086b2066c44",
+        "synced_at": "2026-07-06T18:06:39.887602"
+      },
+      "specs/014-multi-seller-orders/plan.md": {
+        "slug": "specs-014-multi-seller-orders-plan",
+        "hash": "5fd3c95410e5aee2",
+        "synced_at": "2026-07-06T18:06:39.887602"
+      },
+      "specs/014-multi-seller-orders/research.md": {
+        "slug": "specs-014-multi-seller-orders-research",
+        "hash": "46c594220457ae53",
+        "synced_at": "2026-07-06T18:06:39.887602"
+      },
+      "specs/014-multi-seller-orders/spec.md": {
+        "slug": "specs-014-multi-seller-orders-spec",
+        "hash": "51b3b1d28357625f",
+        "synced_at": "2026-07-06T18:06:39.887602"
+      },
+      "specs/014-multi-seller-orders/tasks.md": {
+        "slug": "specs-014-multi-seller-orders-tasks",
+        "hash": "f3553126bb1ff8f4",
+        "synced_at": "2026-07-06T18:06:39.887602"
+      },
+      "specs/015-personalization/plan.md": {
+        "slug": "specs-015-personalization-plan",
+        "hash": "24a344956c17da61",
+        "synced_at": "2026-07-06T18:06:39.887602"
+      },
+      "specs/015-personalization/research.md": {
+        "slug": "specs-015-personalization-research",
+        "hash": "3a16540a1daeb088",
+        "synced_at": "2026-07-06T18:06:39.887602"
+      },
+      "specs/015-personalization/spec.md": {
+        "slug": "specs-015-personalization-spec",
+        "hash": "e6e7ed82c70c93a6",
+        "synced_at": "2026-07-06T18:06:39.887602"
+      },
+      "specs/015-personalization/tasks.md": {
+        "slug": "specs-015-personalization-tasks",
+        "hash": "fe3c36d00c7f6317",
+        "synced_at": "2026-07-06T18:06:39.887602"
+      },
+      "specs/016-deployment-drift-fix/plan.md": {
+        "slug": "specs-016-deployment-drift-fix-plan",
+        "hash": "6a54cb0b9f122e0f",
+        "synced_at": "2026-07-06T18:06:39.887602"
+      },
+      "specs/016-deployment-drift-fix/spec.md": {
+        "slug": "specs-016-deployment-drift-fix-spec",
+        "hash": "a17c04a662963a30",
+        "synced_at": "2026-07-06T18:06:39.887602"
+      },
+      "specs/016-deployment-drift-fix/tasks.md": {
+        "slug": "specs-016-deployment-drift-fix-tasks",
+        "hash": "753b46b8b0250f3d",
+        "synced_at": "2026-07-06T18:06:39.887602"
+      },
+      "specs/017-opensouk-escrow/research.md": {
+        "slug": "specs-017-opensouk-escrow-research",
+        "hash": "12f0d9bfa8ed080b",
+        "synced_at": "2026-07-06T18:06:39.887602"
+      },
+      "specs/017-opensouk-escrow/spec.md": {
+        "slug": "specs-017-opensouk-escrow-spec",
+        "hash": "bcd465671be636df",
+        "synced_at": "2026-07-06T18:06:39.887602"
+      },
+      "specs/_session/2026-05-14-tasks.md": {
+        "slug": "specs-_session-2026-05-14-tasks",
+        "hash": "90d0c2a8099170d2",
+        "synced_at": "2026-07-06T18:06:39.887602"
+      },
+      "specs/_session/2026-05-20-beldi-ai-refresh-briefs.md": {
+        "slug": "specs-_session-2026-05-20-beldi-ai-refresh-briefs",
+        "hash": "e27282dfa9a5dda1",
+        "synced_at": "2026-07-06T18:06:39.887602"
+      },
+      "specs/_session/2026-05-20-tasks.md": {
+        "slug": "specs-_session-2026-05-20-tasks",
+        "hash": "c6d53d4be7ca2988",
+        "synced_at": "2026-07-06T18:06:39.887602"
+      },
+      "specs/_session/2026-05-24-tasks.md": {
+        "slug": "specs-_session-2026-05-24-tasks",
+        "hash": "b1babdf9ee52814f",
+        "synced_at": "2026-07-06T18:06:39.887602"
+      },
+      "specs/_session/2026-05-29-tasks.md": {
+        "slug": "specs-_session-2026-05-29-tasks",
+        "hash": "83a04361413b500b",
+        "synced_at": "2026-07-06T18:06:39.887602"
+      },
+      "specs/_session/2026-05-30-tasks.md": {
+        "slug": "specs-_session-2026-05-30-tasks",
+        "hash": "f5015e1b4be3e389",
+        "synced_at": "2026-07-06T18:06:39.887602"
+      },
+      "specs/_session/2026-05-31-tasks.md": {
+        "slug": "specs-_session-2026-05-31-tasks",
+        "hash": "60ee36e39bfbf64e",
+        "synced_at": "2026-07-06T18:06:39.887602"
+      },
+      "specs/_session/2026-06-02-tasks.md": {
+        "slug": "specs-_session-2026-06-02-tasks",
+        "hash": "9b34e8e030bf43bb",
+        "synced_at": "2026-07-06T18:06:39.887602"
+      },
+      "specs/_session/2026-06-03-tasks.md": {
+        "slug": "specs-_session-2026-06-03-tasks",
+        "hash": "76affe8cf2f4a991",
+        "synced_at": "2026-07-06T18:06:39.887602"
+      },
+      "specs/_session/2026-06-05-tasks.md": {
+        "slug": "specs-_session-2026-06-05-tasks",
+        "hash": "c06ce05993a4ca89",
+        "synced_at": "2026-07-06T18:06:39.887602"
+      },
+      "specs/_session/2026-06-09-tasks.md": {
+        "slug": "specs-_session-2026-06-09-tasks",
+        "hash": "10644222fd8a9038",
+        "synced_at": "2026-07-06T18:06:39.887602"
+      },
+      "specs/_session/2026-06-10-tasks.md": {
+        "slug": "specs-_session-2026-06-10-tasks",
+        "hash": "fa78a2c7e4d7486e",
+        "synced_at": "2026-07-06T18:06:39.887602"
+      },
+      "specs/_session/2026-06-11-tasks.md": {
+        "slug": "specs-_session-2026-06-11-tasks",
+        "hash": "a24fd1b8b5299e22",
+        "synced_at": "2026-07-06T18:06:39.887602"
+      },
+      "specs/_session/2026-06-12-tasks.md": {
+        "slug": "specs-_session-2026-06-12-tasks",
+        "hash": "8281dbc788a76d3d",
+        "synced_at": "2026-07-06T18:06:39.887602"
+      },
+      "specs/_session/2026-06-13-tasks.md": {
+        "slug": "specs-_session-2026-06-13-tasks",
+        "hash": "957e477b6b7515fd",
+        "synced_at": "2026-07-06T18:06:39.887602"
+      },
+      "specs/_session/2026-06-14-tasks.md": {
+        "slug": "specs-_session-2026-06-14-tasks",
+        "hash": "374983cdc0c01f60",
+        "synced_at": "2026-07-06T18:06:39.887602"
+      },
+      "specs/_session/2026-06-15-tasks.md": {
+        "slug": "specs-_session-2026-06-15-tasks",
+        "hash": "fb2b6877ec964b2e",
+        "synced_at": "2026-07-06T18:06:39.887602"
+      },
+      "specs/_session/2026-06-16-tasks.md": {
+        "slug": "specs-_session-2026-06-16-tasks",
+        "hash": "19d2dd7ce98e32fe",
+        "synced_at": "2026-07-06T18:06:39.887602"
+      },
+      "specs/_session/2026-06-19-tasks.md": {
+        "slug": "specs-_session-2026-06-19-tasks",
+        "hash": "46fe4475cc57801b",
+        "synced_at": "2026-07-06T18:06:39.887602"
+      },
+      "specs/_session/2026-06-20-tasks.md": {
+        "slug": "specs-_session-2026-06-20-tasks",
+        "hash": "747b0591366beeb4",
+        "synced_at": "2026-07-06T18:06:39.887602"
+      },
+      "specs/_session/2026-06-21-tasks.md": {
+        "slug": "specs-_session-2026-06-21-tasks",
+        "hash": "9d5fa472198c05e2",
+        "synced_at": "2026-07-06T18:06:39.887602"
+      },
+      "specs/_session/2026-06-24-tasks.md": {
+        "slug": "specs-_session-2026-06-24-tasks",
+        "hash": "774236bbc3981d01",
+        "synced_at": "2026-07-06T18:06:39.887602"
+      },
+      "specs/_session/2026-06-26-tasks.md": {
+        "slug": "specs-_session-2026-06-26-tasks",
+        "hash": "ea85f463d393e677",
+        "synced_at": "2026-07-06T18:06:39.887602"
+      },
+      "specs/_session/2026-06-27-tasks.md": {
+        "slug": "specs-_session-2026-06-27-tasks",
+        "hash": "3a22af53d539f3d7",
+        "synced_at": "2026-07-06T18:06:39.887602"
+      },
+      "specs/_session/2026-06-28-tasks.md": {
+        "slug": "specs-_session-2026-06-28-tasks",
+        "hash": "2a574797079e376d",
+        "synced_at": "2026-07-06T18:06:39.887602"
+      },
+      "specs/_session/2026-07-04-tasks.md": {
+        "slug": "specs-_session-2026-07-04-tasks",
+        "hash": "ca4c9108af90a49b",
+        "synced_at": "2026-07-06T18:06:39.887602"
+      },
+      "specs/_session/2026-07-06-tasks.md": {
+        "slug": "specs-_session-2026-07-06-tasks",
+        "hash": "ec8260df95afe684",
+        "synced_at": "2026-07-06T18:06:39.887602"
+      },
+      "specs/_session/ai-provider-routing-execution-reference.md": {
+        "slug": "specs-_session-ai-provider-routing-execution-reference",
+        "hash": "7c0dc41318c87ef0",
+        "synced_at": "2026-07-06T18:06:39.887602"
+      },
+      "specs/_session/ai-provider-routing/plan.md": {
+        "slug": "specs-_session-ai-provider-routing-plan",
+        "hash": "7ec3415d0c4713f2",
+        "synced_at": "2026-07-06T18:06:39.887602"
+      },
+      "specs/_session/ai-provider-routing/research.md": {
+        "slug": "specs-_session-ai-provider-routing-research",
+        "hash": "506bc78763509fb0",
+        "synced_at": "2026-07-06T18:06:39.887602"
+      },
+      "specs/_session/orchestrator-dispatch-2026-06-26-dual-role-i18n.md": {
+        "slug": "specs-_session-orchestrator-dispatch-2026-06-26-dual-role-i18n",
+        "hash": "5512b2f8c1785ed7",
+        "synced_at": "2026-07-06T18:06:39.887602"
+      },
+      "specs/_session/orchestrator-dispatch-2026-06-27-admin-i18n.md": {
+        "slug": "specs-_session-orchestrator-dispatch-2026-06-27-admin-i18n",
+        "hash": "4868cff1f95fcd3c",
+        "synced_at": "2026-07-06T18:06:39.887602"
+      },
+      "specs/_session/orchestrator-dispatch-2026-06-28-ai-provider-routing.md": {
+        "slug": "specs-_session-orchestrator-dispatch-2026-06-28-ai-provider-routing",
+        "hash": "d6997cf3100132bc",
+        "synced_at": "2026-07-06T18:06:39.887602"
+      },
+      "specs/_session/research.md": {
+        "slug": "specs-_session-research",
+        "hash": "9e5a1175e43ba6b4",
+        "synced_at": "2026-07-06T18:06:39.887602"
+      },
+      "specs/_session/task-ai-provider-routing.md": {
+        "slug": "specs-_session-task-ai-provider-routing",
+        "hash": "6627d1d17c3773e8",
+        "synced_at": "2026-07-06T18:06:39.887602"
+      },
+      "specs/fix-admin-i18n/fix-summary.md": {
+        "slug": "specs-fix-admin-i18n-fix-summary",
+        "hash": "12bd3942352ff32e",
+        "synced_at": "2026-07-06T18:06:39.887602"
+      },
+      "specs/fix-admin-i18n/plan.md": {
+        "slug": "specs-fix-admin-i18n-plan",
+        "hash": "21e6f7dc508de97f",
+        "synced_at": "2026-07-06T18:06:39.887602"
+      },
+      "specs/fix-admin-i18n/research.md": {
+        "slug": "specs-fix-admin-i18n-research",
+        "hash": "f7e9262d9f87fb1a",
+        "synced_at": "2026-07-06T18:06:39.887602"
+      },
+      "specs/fix-admin-i18n/tasks.md": {
+        "slug": "specs-fix-admin-i18n-tasks",
+        "hash": "3e6244a7c6e08059",
+        "synced_at": "2026-07-06T18:06:39.887602"
+      },
+      "specs/guest-cart-and-image-urls/spec.md": {
+        "slug": "specs-guest-cart-and-image-urls-spec",
+        "hash": "f062c5fca7870e6d",
+        "synced_at": "2026-07-06T18:06:39.887602"
       }
     }
   }

@@ -1,6 +1,6 @@
 # OKF Knowledge Bundle
 
-Auto-generated 2026-06-29. Project: beldify
+Auto-generated 2026-07-08. Project: beldify
 
 This project's agent-ready knowledge is available in the OKF bundle:
 
@@ -13,6 +13,6 @@ Types available:
 - connections: 1 file(s)
 - entities: 9 file(s)
 - memory-sync: 2 file(s)
-- sources: 25 file(s)
+- sources: 164 file(s)
 
 Start with okf/index.md for progressive knowledge discovery.

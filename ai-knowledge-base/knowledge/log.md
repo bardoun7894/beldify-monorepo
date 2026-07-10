@@ -220,3 +220,10 @@ Append-only log of compile and ingest operations.
 - Updated:  1 → [[sources/specs-018-address-book-recently-viewed-tasks]]
 - Deleted:  0
 - Note:     T007 (frontend cap toast) + T017 (manual smoke test, backend leg verified live) closed out
+
+## [2026-07-06T00:00:00] docs-sync
+- New:      131 files mirrored (CLAUDE.md, README.md, docs/**/*.md, specs/**/*.md, plans/**/*.md)
+- Updated:  0
+- Deleted:  0
+- Patterns: CLAUDE.md, README.md, docs/**/*.md, specs/**/*.md, plans/**/*.md
+- Note: first full backlog sync — KB previously tracked only 8 files

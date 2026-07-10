@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { fetchSpecialOffers } from '@/lib/api';
 
 interface SpecialOffer {
@@ -15,6 +16,7 @@ interface SpecialOffer {
 }
 
 export default function SpecialOffers() {
+  const { t } = useTranslation();
   const [offers, setOffers] = useState<SpecialOffer[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -34,7 +36,7 @@ export default function SpecialOffers() {
     loadOffers();
   }, []);
 
-  if (loading) return <div>Loading special offers...</div>;
+  if (loading) return <div>{t('home.specialOffers.loading', 'Loading special offers...')}</div>;
   if (error) return <div>{error}</div>;
 
   return (
@@ -45,7 +47,7 @@ export default function SpecialOffers() {
             className="text-2xl font-bold text-gray-900"
             style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
           >
-            Special Offers
+            {t('home.specialOffers.title', 'Special Offers')}
           </h2>
 
           <div className="mt-6 space-y-12 lg:grid lg:grid-cols-3 lg:gap-x-6 lg:space-y-0">

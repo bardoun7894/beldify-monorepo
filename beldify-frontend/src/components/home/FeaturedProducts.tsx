@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { useTranslation } from 'react-i18next';
 
 const products = [
   {
@@ -42,10 +43,10 @@ export default function FeaturedProducts() {
             className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl"
             style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
           >
-            Featured Products
+            {t('home.featuredProducts.title', 'Featured Products')}
           </h2>
           <p className="mt-4 text-lg text-gray-500">
-            Discover our most popular traditional Moroccan clothing
+            {t('home.featuredProducts.subtitle', 'Discover our most popular traditional Moroccan clothing')}
           </p>
 
           <div className="mt-16 space-y-12 lg:grid lg:grid-cols-4 lg:gap-x-8 lg:space-y-0">
