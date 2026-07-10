@@ -170,6 +170,8 @@ export interface OrderData {
   coupon_code: string | null;
   // Allow optional customer_id to be included when available
   customer_id?: number;
+  // Loyalty points to redeem (server validates + caps; auth-only).
+  redeem_points?: number;
 }
 
 class OrderService {
@@ -447,6 +449,11 @@ class OrderService {
         total_amount: toNumber(orderData.total_amount),
         coupon_code: orderData.coupon_code ?? null,
       };
+
+      // Forward loyalty redemption when present (server validates + caps).
+      if (orderData.redeem_points && orderData.redeem_points > 0) {
+        payload.redeem_points = orderData.redeem_points;
+      }
 
       // Include customer_id if user is authenticated
       if (userId) {
