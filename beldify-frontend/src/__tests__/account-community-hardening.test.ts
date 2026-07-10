@@ -169,8 +169,9 @@ describe('FIX 7 — mock files: preserved because communityService imports them'
     expect(exists('src/mocks/mockMessagingData.ts')).toBe(true);
   });
 
-  it('mockReviewsData.ts still exists (imported by mockReviewService)', () => {
-    expect(exists('src/mocks/mockReviewsData.ts')).toBe(true);
+  it('mockReviewsData + mockReviewService are removed (reviews use the real backend)', () => {
+    expect(exists('src/mocks/mockReviewsData.ts')).toBe(false);
+    expect(exists('src/services/mockReviewService.ts')).toBe(false);
   });
 
   it('communityService.ts still imports from mockMessagingData', () => {

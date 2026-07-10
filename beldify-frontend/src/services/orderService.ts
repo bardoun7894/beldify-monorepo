@@ -3,6 +3,34 @@ import axios from 'axios';
 import api from '@/lib/api';
 import logger from '@/utils/consoleLogger';
 
+export interface GuestTrackingTimelineStep {
+  key: 'placed' | 'processing' | 'shipped' | 'delivered';
+  at: string | null;
+  completed: boolean;
+  current: boolean;
+}
+
+export interface GuestTracking {
+  order_number: string;
+  status: string;
+  payment_status: string;
+  payment_method: string;
+  tracking_number: string | null;
+  carrier: string | null;
+  placed_at: string | null;
+  shipped_at: string | null;
+  delivered_at: string | null;
+  item_count: number;
+  total_amount: number;
+  events: Array<{
+    status: string;
+    description: string | null;
+    location: string | null;
+    happened_at: string | null;
+  }>;
+  timeline: GuestTrackingTimelineStep[];
+}
+
 export interface OrderItem {
   id: string;
   product_name: string;
@@ -277,12 +305,38 @@ class OrderService {
   }
 
   /**
+   * Public guest order tracking. No auth — ownership is proven by the shipping
+   * email supplied at checkout. Backend: GET /api/orders/track?number=&email=.
+   * Throws 'order_not_found' on 404 so the UI can show a friendly message.
+   */
+  async trackGuestOrder(orderNumber: string, email: string): Promise<GuestTracking> {
+    try {
+      const response = await api.get('/api/orders/track', {
+        params: { number: orderNumber.trim(), email: email.trim() },
+      });
+      if (response.data?.status === 'success' && response.data.data) {
+        return response.data.data as GuestTracking;
+      }
+      throw new Error(response.data?.message || 'order_not_found');
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        if (error.response?.status === 404) throw new Error('order_not_found');
+        if (error.response?.status === 422) throw new Error('invalid_input');
+        throw new Error(error.response?.data?.message || error.message);
+      }
+      throw error;
+    }
+  }
+
+  /**
    * Public quote endpoint — resolves authoritative totals + COD eligibility.
    * No auth required (guest-safe). POST /api/orders/quote
    */
   async getCheckoutQuote(payload: {
     items: Array<{ stock_id?: number; quantity: number }>;
     country?: string;
+    city?: string;
+    state?: string;
     coupon_code?: string | null;
   }): Promise<{
     subtotal: number;

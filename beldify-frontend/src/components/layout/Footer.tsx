@@ -49,6 +49,7 @@ const Footer = () => {
         { label: t('footer.faq', 'FAQ'), href: '/faqs' },
         { label: t('footer.shipping', 'Shipping'), href: '/shipping' },
         { label: t('footer.returns', 'Returns'), href: '/returns' },
+        { label: t('footer.trackOrder', 'Track order'), href: '/track' },
         { label: t('footer.privacy', 'Privacy'), href: '/privacy-policy' },
       ],
     },
