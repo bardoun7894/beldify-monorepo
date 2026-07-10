@@ -74,6 +74,7 @@ const ProductCard = memo(function ProductCard({
     category_ar,
     stock_status,
     stock_quantity: rawStockQuantity,
+    in_stock: rawInStock,
     ends_at,
   } = product;
 
@@ -81,6 +82,17 @@ const ProductCard = memo(function ProductCard({
   const rating = rawRating ?? 0;
   const reviews_count = rawReviewsCount ?? 0;
   const stock_quantity = rawStockQuantity ?? 0;
+
+  // Availability is a BOOLEAN decision, not a number. Trust the backend's
+  // `in_stock` (which already accounts for made-to-order = null quantity).
+  // Fall back to stock_status, then to quantity semantics where null/undefined
+  // means made-to-order (sellable), only 0 means sold out.
+  const isAvailable =
+    typeof rawInStock === 'boolean'
+      ? rawInStock
+      : stock_status
+        ? stock_status !== 'out_of_stock'
+        : rawStockQuantity == null || rawStockQuantity > 0;
 
   const displayName = isRTL ? name_ar || name : name;
   const displayCategory = isRTL ? category_ar || category : category;
@@ -93,7 +105,7 @@ const ProductCard = memo(function ProductCard({
 
   const getStockStatusText = () => {
     // "Out of Stock" if 0 or less, "In Stock" otherwise
-    return stock_quantity <= 0 ? t('stock.out_of_stock') : t('stock.in_stock_simple');
+    return !isAvailable ? t('stock.out_of_stock') : t('stock.in_stock_simple');
   };
 
   // Use getImageUrl from imageUtils to handle image paths
@@ -111,7 +123,7 @@ const ProductCard = memo(function ProductCard({
     e.preventDefault();
     e.stopPropagation();
 
-    if (stock_quantity <= 0) return;
+    if (!isAvailable) return;
 
     setIsAddingToCart(true);
 
@@ -236,7 +248,7 @@ const ProductCard = memo(function ProductCard({
           </div>
 
           {/* Out-of-stock frosted overlay over image */}
-          {stock_quantity <= 0 && (
+          {!isAvailable && (
             <div className="absolute inset-0 bg-white/60 backdrop-blur-[1px] z-10 flex items-end pointer-events-none" aria-hidden="true">
               <div className="w-full px-3 pb-2.5">
                 <span className="badge-stock badge-stock-out w-fit">
@@ -334,7 +346,7 @@ const ProductCard = memo(function ProductCard({
           </div>
 
           {/* Add to Cart — amber CTA, amber-950 text for WCAG AA contrast */}
-          {stock_quantity > 0 ? (
+          {isAvailable ? (
             <button
               onClick={handleAddToCart}
               disabled={isAddingToCart}

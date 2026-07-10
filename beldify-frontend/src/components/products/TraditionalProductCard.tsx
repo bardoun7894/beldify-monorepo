@@ -60,15 +60,30 @@ export default function TraditionalProductCard({
     images,
     has_discount,
     discount_price,
-    rating,
-    reviews_count,
+    rating: rawRating,
+    reviews_count: rawReviewsCount,
     category,
     category_ar,
     stock_status,
     stock: stockRaw,
+    stock_quantity: stockQuantityRaw,
+    in_stock: rawInStock,
   } = product;
 
-  const stock = stockRaw ?? 0;
+  const rating = rawRating ?? 0;
+  const reviews_count = rawReviewsCount ?? 0;
+
+  // Boolean availability — most listing endpoints emit `in_stock`/`stock_quantity`,
+  // NOT `stock`. Trust in_stock first (handles made-to-order), then stock_status,
+  // then any numeric quantity where null = made-to-order = sellable.
+  const isAvailable =
+    typeof rawInStock === 'boolean'
+      ? rawInStock
+      : stock_status
+        ? stock_status !== 'out_of_stock'
+        : stockQuantityRaw != null
+          ? stockQuantityRaw > 0
+          : stockRaw == null || stockRaw > 0;
 
   const displayName = isRTL ? name_ar || name : name;
   const displayCategory = isRTL ? category_ar || category : category;
@@ -81,11 +96,11 @@ export default function TraditionalProductCard({
 
   // Stock status indicator based on quantity
   const getStockStatusColor = () => {
-    return stock <= 0 ? 'bg-red-500' : 'bg-green-500';
+    return !isAvailable ? 'bg-red-500' : 'bg-green-500';
   };
 
   const getStockStatusText = () => {
-    return stock <= 0 ? t('stock.out_of_stock') : t('stock.in_stock_simple');
+    return !isAvailable ? t('stock.out_of_stock') : t('stock.in_stock_simple');
   };
 
   // Use getImageUrl from imageUtils to handle image paths
@@ -97,7 +112,7 @@ export default function TraditionalProductCard({
     e.preventDefault();
     e.stopPropagation();
     
-    if (stock <= 0) return;
+    if (!isAvailable) return;
     
     setIsAddingToCart(true);
     
@@ -231,7 +246,7 @@ export default function TraditionalProductCard({
           </div>
 
           {/* Stock Status Indicator - Only show for out of stock */}
-          {stock <= 0 && (
+          {!isAvailable && (
             <div className="absolute bottom-3 start-3 z-10">
               <div className="badge-stock badge-stock-out flex items-center gap-1">
                 <XCircle className="h-3 w-3" aria-hidden="true" />
@@ -277,13 +292,13 @@ export default function TraditionalProductCard({
                 <span className="price-original text-[10px] currency-mad">{formatPrice(price)}</span>
               )}
             </div>
-            {stock <= 0 && (
+            {!isAvailable && (
               <span className="text-[10px] text-rose-700 font-semibold mt-0.5">{t('stock.out_of_stock')}</span>
             )}
           </div>
 
           {/* Add to Cart Quick Button — Atlas amber accent for add-to-cart */}
-          {stock > 0 && (
+          {isAvailable && (
             <button
               onClick={handleAddToCart}
               disabled={isAddingToCart}
