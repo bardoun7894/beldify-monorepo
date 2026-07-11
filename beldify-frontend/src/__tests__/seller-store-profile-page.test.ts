@@ -1,10 +1,12 @@
 /**
  * Seller store-profile Next.js page (TDD, source-reading)
  *
- * Previously there was no Next.js page for sellers to edit their own shop
- * profile — only a legacy Blade view existed on the backend. This adds
- * src/app/seller/store-profile/page.tsx wired to the real
- * GET/PUT /api/seller/store-profile endpoints (SellerStoreProfileController).
+ * HISTORY: this page was first added as a full in-Next store-profile editor
+ * wired to GET/PUT /api/seller/store-profile. After the 2026-06-29 seller
+ * dashboard consolidation the Blade dashboard owns store-profile editing;
+ * keeping a second editor here risked divergent data (2026-07-12 audit).
+ * The route now permanently redirects to /seller/register, which bridges
+ * sellers into the Blade dashboard via the /seller/enter SSO handoff.
  */
 
 import { describe, it, expect } from 'vitest';
@@ -17,26 +19,18 @@ const read = (p: string) => readFileSync(join(SRC, p), 'utf-8');
 const page = read('src/app/seller/store-profile/page.tsx');
 
 describe('seller store-profile page', () => {
-  it('is a client component', () => {
-    expect(page).toMatch(/^"use client";/);
+  it('permanently redirects to the consolidated seller entry', () => {
+    expect(page).toMatch(/permanentRedirect\(['"]\/seller\/register['"]\)/);
+    expect(page).toMatch(/from ['"]next\/navigation['"]/);
   });
 
-  it('fetches the store profile from the real backend endpoint', () => {
-    expect(page).toContain('/api/seller/store-profile');
+  it('is no longer a duplicate in-Next profile editor (no API calls, no client state)', () => {
+    expect(page).not.toMatch(/use client/);
+    expect(page).not.toMatch(/api\/seller\/store-profile/);
+    expect(page).not.toMatch(/useState|useEffect/);
   });
 
-  it('saves via a real PUT request (not a fake setTimeout)', () => {
-    expect(page).toMatch(/axios\.put\(['"]\/api\/seller\/store-profile['"]/);
-    expect(page).not.toContain('setTimeout');
-  });
-
-  it('supports RTL layout (locale-aware dir attribute, not hardcoded ltr)', () => {
-    expect(page).toMatch(/dir=\{?.*(rtl|isRtl|dir)/i);
-  });
-
-  it('includes logo and banner upload fields', () => {
-    expect(page).toMatch(/type=["']file["']/);
-    expect(page).toContain('logo');
-    expect(page).toContain('banner');
+  it('documents why (Blade dashboard owns store-profile editing)', () => {
+    expect(page).toMatch(/Blade seller dashboard/i);
   });
 });
