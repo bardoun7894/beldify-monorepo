@@ -72,7 +72,7 @@ describe('A — Category Rail: view-all CTA', () => {
     // Must use the full "All categories" fallback — the categories link in the rail
     // should call t('home.categories.viewAll', 'All categories') not just 'All'
     // The rail's view-all link must now show the full label
-    expect(content).toContain("'All categories'");
+    expect(content).toMatch(/['"]All categories['"]/);
   });
 
   it('view-all link has hover indigo fill or ring (visible affordance)', () => {
