@@ -151,8 +151,8 @@ describe('F5 — Post-accept CTA links to custom order tracking', () => {
 // ─────────────────────────────────────────────────────────────────────────────
 
 describe('F6 — Seller nav link to /seller/custom-orders', () => {
-  it('Footer (seller section) has a link to /seller/custom-orders', () => {
+  it('Footer (seller section) links sellers to their dashboard (Blade SSO, hosts custom orders since the 2026-06-29 consolidation)', () => {
     const src = read(FOOTER);
-    expect(src).toMatch(/\/seller\/custom-orders/);
+    expect(src).toMatch(/\/seller\/enter/);
   });
 });

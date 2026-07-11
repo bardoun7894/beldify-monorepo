@@ -1810,14 +1810,19 @@ export default function ProductDetailsPage() {
                 {t('product.color', 'Color')}
               </legend>
               <div className="flex flex-wrap gap-2" role="radiogroup">
-                {availableColors.map((color) => (
+                {availableColors.map((color) => {
+                  const colorLabel =
+                    (isRTL ? color.name_ar : color.name) ||
+                    color.name ||
+                    getColorName(color.hex_code);
+                  return (
                   // Option 1: 44×44 hit area wraps 32×32 visual swatch — preserves tight-row layout rhythm
                   <button
                     type="button"
                     key={color.id}
                     onClick={() => handleColorSelection(color)}
-                    title={color.name}
-                    aria-label={`${t('product.select_color', 'Select')} ${color.name}`}
+                    title={colorLabel}
+                    aria-label={`${t('product.select_color', 'Select')} ${colorLabel}`}
                     role="radio"
                     aria-checked={selectedColor?.id === color.id}
                     className="relative flex items-center justify-center w-11 h-11 rounded-full transition focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 focus-visible:ring-offset-2"
@@ -1833,7 +1838,8 @@ export default function ProductDetailsPage() {
                       style={{ backgroundColor: color.hex_code }}
                     />
                   </button>
-                ))}
+                  );
+                })}
               </div>
             </fieldset>
           )}

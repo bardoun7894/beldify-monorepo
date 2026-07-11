@@ -219,11 +219,14 @@ export default function ShopPage() {
         const response = await shopService.getShopByName(storeName);
         if (response.error) { setError(response.error.message); return; }
         if (response.data?.store) {
+          const store = response.data.store as any;
+          // Merge real backend data over safe defaults — never overwrite
+          // nested profile/store_type the API actually returned.
           const shopData: Shop = {
-            ...response.data.store,
-            created_at: (response.data.store as any).created_at || new Date().toISOString(),
-            updated_at: (response.data.store as any).updated_at || new Date().toISOString(),
-            store_type: { id: 0, name: '', name_ar: undefined, slug: '', capabilities: [] },
+            ...store,
+            created_at: store.created_at || new Date().toISOString(),
+            updated_at: store.updated_at || new Date().toISOString(),
+            store_type: store.store_type ?? { id: 0, name: '', name_ar: undefined, slug: '', capabilities: [] },
             profile: {
               store_name: '',
               store_name_ar: undefined,
@@ -243,16 +246,17 @@ export default function ShopPage() {
               shipping_policy: null,
               is_verified: false,
               is_featured: undefined,
-              status: 'suspended',
+              status: 'active',
               social_media: {},
               business_categories: [],
               rating: 0,
               total_reviews: 0,
               total_sales: 0,
               store_locations: [],
+              ...(store.profile ?? {}),
             },
-            status: '',
-            is_active: false,
+            status: store.status ?? '',
+            is_active: store.is_active ?? true,
           };
           setShop(shopData);
           if (response.data.store.id) await checkFollowStatus(response.data.store.id);

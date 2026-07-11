@@ -93,7 +93,18 @@ export default function RequestCustomPieceForm() {
   useEffect(() => {
     categoryService
       .getAllCategories()
-      .then((data) => setCategories(Array.isArray(data) ? data : []))
+      .then((data) => {
+        const list = Array.isArray(data) ? data : [];
+        setCategories(list);
+        // Material is the only required field — pre-select a category so the
+        // buyer can post with a single tap. Jewelry first (the flagship
+        // custom-piece vertical), else the first available category.
+        setCategoryId((prev) => {
+          if (prev !== '') return prev;
+          const jewelry = list.find((c) => isJewelryCategory(c));
+          return (jewelry ?? list[0])?.id ?? '';
+        });
+      })
       .catch(() => setCategories([]));
   }, []);
 

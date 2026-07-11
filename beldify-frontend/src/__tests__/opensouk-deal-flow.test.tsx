@@ -140,6 +140,7 @@ describe('DepositPaymentPanel', () => {
 
     vi.doMock('@/services/customOrderService', () => ({
       payDeposit: payDepositMock,
+      fetchDepositBankDetails: vi.fn().mockResolvedValue(null),
       STATUS_META: {
         quoted: { label: 'Quoted', labelAr: 'مُسعَّر', pillClass: 'bg-indigo-100 text-indigo-800 ring-indigo-300' },
         deposit_paid: { label: 'Deposit Paid', labelAr: 'العربون مدفوع', pillClass: 'bg-teal-100 text-teal-800 ring-teal-300' },

@@ -183,7 +183,7 @@ describe('B7 — Add-to-cart animation (Navbar.tsx)', () => {
   });
 
   it('listens to cart:refresh event to bump the animation key', () => {
-    expect(navbar).toContain("'cart:refresh'");
+    expect(navbar).toMatch(/['"]cart:refresh['"]/);
   });
 });
 

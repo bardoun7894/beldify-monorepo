@@ -124,10 +124,17 @@ export function CurrencyProvider({ children }: { children: React.ReactNode }) {
   return <CurrencyContext.Provider value={value}>{children}</CurrencyContext.Provider>;
 }
 
+// Display-only feature: components rendered outside the provider fall back to
+// MAD passthrough instead of crashing the page.
+const FALLBACK_CONTEXT: CurrencyContextType = {
+  currencies: [DEFAULT_CURRENCY],
+  currency: DEFAULT_CURRENCY,
+  loading: false,
+  setCurrencyCode: () => {},
+  convert: (madAmount) => madAmount,
+  format: (madAmount) => `${DEFAULT_CURRENCY.symbol} ${madAmount.toFixed(0)}`,
+};
+
 export function useCurrency(): CurrencyContextType {
-  const ctx = useContext(CurrencyContext);
-  if (!ctx) {
-    throw new Error('useCurrency must be used within a CurrencyProvider');
-  }
-  return ctx;
+  return useContext(CurrencyContext) ?? FALLBACK_CONTEXT;
 }
