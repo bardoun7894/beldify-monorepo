@@ -365,24 +365,24 @@ export async function getHomeDataPayload() {
     const newArrivals = newArrivalsRaw.length > 0 ? newArrivalsRaw.map(product => ({
       ...product,
       image: product.main_image || (product.images && product.images[0]) || '',
-    })) : mockHomeData.newArrivals;
+    })) : (ALLOW_MOCKS ? mockHomeData.newArrivals : []);
 
     // Fetch men's traditional clothes
     const mensTraditional = await fetchMensTraditional().catch((error) => {
       logger.error('Failed to fetch men\'s traditional clothes:', error);
-      return mockHomeData.mensTraditional; // Use mock data as fallback
+      return ALLOW_MOCKS ? mockHomeData.mensTraditional : [];
     });
 
     // Fetch women's traditional clothes
     const womensTraditional = await fetchWomensTraditional().catch((error) => {
       logger.error('Failed to fetch women\'s traditional clothes:', error);
-      return mockHomeData.womensTraditional; // Use mock data as fallback
+      return ALLOW_MOCKS ? mockHomeData.womensTraditional : [];
     });
 
     // Fetch children's traditional clothes
     const childrensTraditional = await fetchChildrensTraditional().catch((error) => {
       logger.error('Failed to fetch children\'s traditional clothes:', error);
-      return mockHomeData.childrensTraditional; // Use mock data as fallback
+      return ALLOW_MOCKS ? mockHomeData.childrensTraditional : [];
     });
 
     // Fetch mega product offers
