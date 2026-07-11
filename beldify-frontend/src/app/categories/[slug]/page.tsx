@@ -41,6 +41,14 @@ interface ProductFiltersState {
   inStock?: boolean;
 }
 
+// ── Client-side pagination fallback ────────────────────────────────────────
+// `/api/categories/{slug}` (CategoryController::getCategoryBySlug) returns the
+// FULL products array in one response — no page/per_page params, no pagination
+// meta. True infinite scroll (useSWRInfinite + IntersectionObserver, the
+// /products pattern) is not possible without a backend change, so we cap the
+// initial render and reveal more via a "Load more" button instead.
+const PAGE_SIZE = 12;
+
 export default function CategoryDetailPage() {
   const { t, i18n } = useTranslation();
   const params = useParams();
@@ -57,6 +65,7 @@ export default function CategoryDetailPage() {
   });
   const [sortBy, setSortBy] = useState<string>('newest');
   const [isMobileFiltersOpen, setIsMobileFiltersOpen] = useState(false);
+  const [visibleCount, setVisibleCount] = useState<number>(PAGE_SIZE);
 
   // OpenSouk nudge — invite buyers to post a request when they hit a dead-end
   // (no products & no subcategories) or browse a long time without finding.
@@ -89,6 +98,8 @@ export default function CategoryDetailPage() {
 
         const response = await axios.get(`/api/categories/${slug}?${qs.toString()}`);
         setCategoryData(response.data);
+        // New fetch (filters/sort/slug changed) — reset the client-side page cap.
+        setVisibleCount(PAGE_SIZE);
       } catch (err: any) {
         logger.error('Error fetching category data:', err);
         let errorMessage = t('errors.failed_to_fetch_categories', 'تعذّر تحميل التصنيف');
@@ -182,6 +193,11 @@ export default function CategoryDetailPage() {
                 onChange={handleFilters}
                 isMobileOpen={isMobileFiltersOpen}
                 onMobileClose={() => setIsMobileFiltersOpen(false)}
+                // Store/vertical facets are not available from this endpoint —
+                // getCategoryBySlug's product payload carries no store_id/store_name
+                // and returns no `facets` key, so we surface an honest "unavailable"
+                // state instead of fabricating a facet from partial data.
+                facets={undefined}
               />
             </div>
           </motion.aside>
@@ -261,7 +277,7 @@ export default function CategoryDetailPage() {
                       exit={{ opacity: 0 }}
                       className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4"
                     >
-                      {categoryData.products.map((product, index) => (
+                      {categoryData.products.slice(0, visibleCount).map((product, index) => (
                         <motion.div
                           key={product.id}
                           initial={{ opacity: 0, y: 16 }}
@@ -358,6 +374,28 @@ export default function CategoryDetailPage() {
                     </motion.div>
                   )}
                 </AnimatePresence>
+
+                {/* ── Client-side "load more" — see PAGE_SIZE note above ── */}
+                {!loading && categoryData?.products && visibleCount < categoryData.products.length && (
+                  <div className="mt-6 flex justify-center">
+                    <button
+                      type="button"
+                      data-testid="category-load-more"
+                      onClick={() => setVisibleCount((prev) => prev + PAGE_SIZE)}
+                      className="inline-flex items-center gap-2 px-6 py-2.5 min-h-[44px] bg-white text-indigo-700 ring-1 ring-indigo-200 rounded-full text-sm font-semibold hover:bg-indigo-50 transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-700/30"
+                    >
+                      {t('products.load_more', 'تحميل المزيد')}
+                    </button>
+                  </div>
+                )}
+                {!loading &&
+                  categoryData?.products &&
+                  categoryData.products.length > 0 &&
+                  visibleCount >= categoryData.products.length && (
+                    <p className="mt-6 text-center text-sm text-gray-500 font-medium">
+                      {t('products.end_of_list', 'تم تحميل كل المنتجات')}
+                    </p>
+                  )}
               </div>
             </div>
           </motion.main>
