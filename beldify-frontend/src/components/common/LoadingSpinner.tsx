@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 interface LoadingSpinnerProps {
   className?: string;
@@ -15,6 +16,7 @@ function LoadingSpinner({
   size = 'md',
   variant = 'primary'
 }: LoadingSpinnerProps) {
+  const { t } = useTranslation();
 
   const sizeClasses = {
     sm: 'h-4 w-4',
@@ -44,7 +46,7 @@ function LoadingSpinner({
             <div className="animate-spin rounded-full h-12 w-12 border-2 border-indigo-600 border-t-transparent absolute top-0 left-0"></div>
           </div>
           <div className="flex flex-col items-center gap-2">
-            <span className="text-indigo-600 font-medium">Loading...</span>
+            <span className="text-indigo-600 font-medium">{t('common.loading', 'Loading...')}</span>
             <div className="flex gap-1">
               <div className="w-2 h-2 bg-indigo-600 rounded-full animate-pulse"></div>
               <div className="w-2 h-2 bg-indigo-600 rounded-full animate-pulse" style={{ animationDelay: '0.1s' }}></div>
@@ -65,7 +67,7 @@ function LoadingSpinner({
       </div>
       {showText && (
         <span className={`font-medium text-sm ${textClasses[variant]}`}>
-          Loading...
+          {t('common.loading', 'Loading...')}
         </span>
       )}
     </div>

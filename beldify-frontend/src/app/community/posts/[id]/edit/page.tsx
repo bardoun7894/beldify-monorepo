@@ -84,7 +84,7 @@ function ApiErrorBanner({ error, onDismiss }: { error: string; onDismiss?: () =>
         <button
           onClick={onDismiss}
           className="text-rose-400 hover:text-rose-700 transition-colors shrink-0"
-          aria-label="Dismiss"
+          aria-label={t('common.dismiss', 'Dismiss')}
         >
           <X size={14} />
         </button>

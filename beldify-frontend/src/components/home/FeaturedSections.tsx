@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { ArrowRight, Sparkles } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import { formatPrice } from '@/utils/formatters';
 import WishlistButton from '@/components/products/WishlistButton';
 
 interface IncomingProduct {
@@ -139,7 +140,7 @@ function PriceTag({
         </span>
       )}
       <p className="text-sm font-semibold text-[hsl(var(--primary))]">
-        <span className="currency-mad">{Number(price).toLocaleString('ar-MA')} درهم</span>
+        <span className="currency-mad">{formatPrice(price)}</span>
       </p>
       {comparePrice && comparePrice > price && (
         <span className="text-[10px] text-gray-400 line-through tabular-nums">

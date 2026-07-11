@@ -61,15 +61,18 @@ export const shopService = {
   }) {
     try {
       const response = await axiosInstance.get('/api/shops', { params });
-      // Transform API response to match expected structure
+      // Transform API response to match expected structure.
+      // Backend envelopes the page info as `pagination` (older builds used `meta`).
+      const shops = response.data.data ?? [];
+      const meta = response.data.pagination ?? response.data.meta ?? {};
       return {
         data: {
-          shops: response.data.data,
+          shops,
           pagination: {
-            current_page: response.data.meta.current_page,
-            last_page: response.data.meta.last_page,
-            per_page: response.data.meta.per_page,
-            total: response.data.meta.total
+            current_page: meta.current_page ?? 1,
+            last_page: meta.last_page ?? 1,
+            per_page: meta.per_page ?? shops.length,
+            total: meta.total ?? shops.length
           }
         },
         error: null,

@@ -153,6 +153,11 @@ const nextConfig = {
     return [
       { source: '/tailoring', destination: '/services/tailoring', permanent: true },
       { source: '/journal', destination: '/about', permanent: false },
+      // Canonicalize category routes: /category/* → /categories/* (the plural form
+      // is what the homepage/nav links emit; /category/* is a legacy alias).
+      { source: '/category/:slug*', destination: '/categories/:slug*', permanent: true },
+      // Legacy transliterated "men" alias used on the homepage CTA.
+      { source: '/categories/rgal', destination: '/categories/men', permanent: true },
     ];
   },
 

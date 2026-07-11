@@ -89,7 +89,7 @@ describe('HomeContent — missing keys referenced with fallback', () => {
 
   it("references 'home.trust.free_delivery' somewhere in the file as a string literal", () => {
     // May be in a data array (labelKey: 'home.trust.free_delivery') with separate t(labelKey, labelFallback)
-    expect(homeContent).toContain("'home.trust.free_delivery'");
+    expect(homeContent).toMatch(/['"]home\.trust\.free_delivery['"]/);
   });
 
   it("references 'home.seller.stat_sellers_value' with a fallback in t()", () => {

@@ -20,13 +20,12 @@
 - [x] All caches cleared and re-cached
 - [x] `/var/local/beldify-backend-auto` — checked out `main` + pulled + migrated
 
-## [ ] 4. Switch server frontend to main (partially done)
-- [x] Frontend container `beldify-auto-frontend-1` still running, HTTP 200
-- [ ] `/var/local/beldify-auto/` was removed by git worktree prune — needs rebuild
-- [ ] Run production build: `docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d --build frontend`
+## [x] 4. Switch server frontend to main (superseded, verified 2026-07-02)
+- [x] `/var/local/beldify-auto/` container/worktree no longer exists on server — deploy strategy moved off the `beldify-auto` worktree entirely
+- [x] Prod frontend now served by `beldify-monorepo-frontend-1` (checked out `main`, currently at `ada31a9`, 2026-06-29) via direct rsync deploy (see c9dc184/2c3fb5c fixes) — no separate build step needed, task is moot
 
-## [ ] 5. Fix deploy pipeline (auto-improve)
-- [ ] Update auto-improve workflow to rebase onto `main` before PR generation
+## [ ] 5. Fix deploy pipeline (auto-improve) — no local hook found, external to this repo
+- [ ] Update auto-improve workflow to rebase onto `main` before PR generation (workflow config not present in `beldify-backend/.github/workflows/` or this repo — likely lives in the external Hermes bot config; needs the bot's own repo/config to fix, out of scope for this codebase)
 
 ## [x] 6. Documentation (docs phase)
 - [x] Changelog entry created: `docs/changelog/2026-06-24-deployment-drift-fix.md`

@@ -21,7 +21,7 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useTranslation } from 'react-i18next';
 import toast from '@/utils/toast';
-import { ChevronDown, ImagePlus, Loader2, X, AlertCircle, Gem } from 'lucide-react';
+import { ChevronDown, ImagePlus, Loader2, X, AlertCircle, Gem, LayoutGrid } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -29,25 +29,33 @@ import { categoryService } from '@/services/categoryService';
 import { createCommunityPost } from '@/services/communityService';
 import type { Category } from '@/types/category';
 
-const MATERIALS = ['gold', 'silver', 'copper', 'brass', 'mixed'] as const;
-type Material = (typeof MATERIALS)[number];
+type MaterialOption = { value: string; en: string; ar: string; swatch: string };
 
-const MATERIAL_LABELS: Record<Material, { en: string; ar: string }> = {
-  gold: { en: 'Gold', ar: 'ذهب' },
-  silver: { en: 'Silver', ar: 'فضة' },
-  copper: { en: 'Copper', ar: 'نحاس' },
-  brass: { en: 'Brass', ar: 'نحاس أصفر' },
-  mixed: { en: 'Mixed', ar: 'مختلط' },
-};
+/** Metals — offered when the request is for a jewelry category. */
+const JEWELRY_MATERIALS: MaterialOption[] = [
+  { value: 'gold', en: 'Gold', ar: 'ذهب', swatch: '#f59e0b' },
+  { value: 'silver', en: 'Silver', ar: 'فضة', swatch: '#d1d5db' },
+  { value: 'copper', en: 'Copper', ar: 'نحاس', swatch: '#b45309' },
+  { value: 'brass', en: 'Brass', ar: 'نحاس أصفر', swatch: '#92400e' },
+  { value: 'mixed', en: 'Mixed', ar: 'مختلط', swatch: '#6b7280' },
+];
 
-/** CSS swatch color for each material — renders consistently on all platforms */
-const MATERIAL_SWATCH: Record<Material, string> = {
-  gold: '#f59e0b',   // amber-500
-  silver: '#d1d5db', // gray-300
-  copper: '#b45309', // amber-700
-  brass: '#92400e',  // amber-900
-  mixed: '#6b7280',  // gray-500
-};
+/** Fabrics — offered for clothing, kaftans, tailoring and every other vertical. */
+const FABRIC_MATERIALS: MaterialOption[] = [
+  { value: 'cotton', en: 'Cotton', ar: 'قطن', swatch: '#f5f5f4' },
+  { value: 'wool', en: 'Wool', ar: 'صوف', swatch: '#a8a29e' },
+  { value: 'silk', en: 'Silk', ar: 'حرير', swatch: '#fbcfe8' },
+  { value: 'linen', en: 'Linen', ar: 'كتان', swatch: '#e7e5e4' },
+  { value: 'leather', en: 'Leather', ar: 'جلد', swatch: '#78350f' },
+  { value: 'velvet', en: 'Velvet', ar: 'مخمل', swatch: '#5b21b6' },
+  { value: 'other', en: 'Other', ar: 'أخرى', swatch: '#6b7280' },
+];
+
+const JEWELRY_RE = /jewel|bijou|مجوهرات|حلي|مجوهر/i;
+
+/** A category is "jewelry" when its slug or any of its names match. */
+const isJewelryCategory = (c?: Category | null): boolean =>
+  !!c && JEWELRY_RE.test(`${c.slug ?? ''} ${c.name ?? ''} ${c.name_en ?? ''} ${c.name_ar ?? ''}`);
 
 const ACCEPTED = ['image/jpeg', 'image/png', 'image/jpg', 'image/gif'];
 const MAX_BYTES = 2048 * 1024; // 2 MB — matches backend images.* max:2048
@@ -58,7 +66,8 @@ export default function RequestCustomPieceForm() {
   const router = useRouter();
   const { isAuthenticated, loading: authLoading } = useAuth();
 
-  const [material, setMaterial] = useState<Material | ''>('');
+  const [categoryId, setCategoryId] = useState<number | ''>('');
+  const [material, setMaterial] = useState('');
   const [notes, setNotes] = useState('');
   const [budgetMin, setBudgetMin] = useState('');
   const [budgetMax, setBudgetMax] = useState('');
@@ -84,7 +93,18 @@ export default function RequestCustomPieceForm() {
   useEffect(() => {
     categoryService
       .getAllCategories()
-      .then((data) => setCategories(Array.isArray(data) ? data : []))
+      .then((data) => {
+        const list = Array.isArray(data) ? data : [];
+        setCategories(list);
+        // Material is the only required field — pre-select a category so the
+        // buyer can post with a single tap. Jewelry first (the flagship
+        // custom-piece vertical), else the first available category.
+        setCategoryId((prev) => {
+          if (prev !== '') return prev;
+          const jewelry = list.find((c) => isJewelryCategory(c));
+          return (jewelry ?? list[0])?.id ?? '';
+        });
+      })
       .catch(() => setCategories([]));
   }, []);
 
@@ -144,22 +164,46 @@ export default function RequestCustomPieceForm() {
   };
 
   /**
-   * Resolve the Jewelry category id.
+   * getAllCategories returns only leaf categories (Caftan, Takchita, Jewelry…) — the
+   * departments themselves are never in the payload, they only appear as each leaf's
+   * `parent`. So every returned category is selectable; we group them by department
+   * for scanability. Leaves without a parent (Jewelry) get their own trailing group.
    */
-  const resolveCategoryId = (): { id: number | null; loaded: boolean } => {
-    if (categories.length === 0) return { id: null, loaded: false };
-    const jewelry = categories.find(
-      (c) =>
-        /jewel/i.test(c.slug ?? '') ||
-        /jewel|مجوهرات|حلي/i.test(`${c.name ?? ''} ${c.name_en ?? ''} ${c.name_ar ?? ''}`)
-    );
-    return { id: jewelry ? Number(jewelry.id) : null, loaded: true };
-  };
+  const groupedCategories = (() => {
+    const groups = new Map<string, { label: string; items: Category[] }>();
+    categories.forEach((c) => {
+      const parent = c.parent;
+      const key = parent ? String(parent.id) : '_ungrouped';
+      const label = parent ? (isRTL ? parent.name_ar : parent.name_en) || '' : '';
+      if (!groups.has(key)) groups.set(key, { label, items: [] });
+      groups.get(key)!.items.push(c);
+    });
+    // Ungrouped last so departments read first.
+    return [...groups.entries()]
+      .sort(([a], [b]) => (a === '_ungrouped' ? 1 : b === '_ungrouped' ? -1 : 0))
+      .map(([key, g]) => ({ key, ...g }));
+  })();
+
+  const selectedCategory = categories.find((c) => Number(c.id) === Number(categoryId)) ?? null;
+  const isJewelry = isJewelryCategory(selectedCategory);
+  const materialOptions = isJewelry ? JEWELRY_MATERIALS : FABRIC_MATERIALS;
+  const categoryLabel = (c: Category) =>
+    (isRTL ? c.name_ar : c.name_en) || c.name || c.slug;
+
+  // A material chosen for one vertical is meaningless in another.
+  useEffect(() => {
+    setMaterial('');
+    setPurity('');
+  }, [categoryId]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!categoryId) {
+      setError(t('Please choose a category.', 'يرجى اختيار الفئة.'));
+      return;
+    }
     if (!material) {
-      setError(t("Please choose a material — it's the only required field.", "يرجى اختيار المادة — إنه الحقل المطلوب الوحيد."));
+      setError(t('Please choose a material.', 'يرجى اختيار المادة.'));
       return;
     }
 
@@ -172,31 +216,20 @@ export default function RequestCustomPieceForm() {
       }
     }
 
-    const { id: categoryId, loaded: categoriesLoaded } = resolveCategoryId();
-    if (!categoryId) {
-      setError(
-        categoriesLoaded
-          ? t(
-              'No jewelry category found — please contact support.',
-              'لم يُعثر على فئة مجوهرات — يرجى التواصل مع الدعم.',
-            )
-          : t(
-              'Categories are still loading — please try again in a moment.',
-              'لا تزال الفئات قيد التحميل — يرجى المحاولة مرة أخرى بعد لحظة.',
-            )
-      );
-      return;
-    }
-
-    const materialLabel = MATERIAL_LABELS[material][isRTL ? 'ar' : 'en'];
-    const title = t(`Custom piece — ${materialLabel}`, `قطعة مخصصة — ${materialLabel}`);
+    const opt = materialOptions.find((m) => m.value === material);
+    const materialLabel = opt ? (isRTL ? opt.ar : opt.en) : material;
+    const catLabel = selectedCategory ? categoryLabel(selectedCategory) : '';
+    const title = t(
+      `Custom ${catLabel} — ${materialLabel}`,
+      `${catLabel} مخصص — ${materialLabel}`,
+    );
     const trimmed = notes.trim();
     const description =
       trimmed.length >= 20
         ? trimmed
         : t(
-            `${trimmed ? trimmed + ' — ' : ''}Looking for a custom ${material} piece. Reference image(s) attached if provided.`,
-            `${trimmed ? trimmed + ' — ' : ''}أبحث عن قطعة ${materialLabel} مخصصة. الصور المرجعية مرفقة إن وُجدت.`
+            `${trimmed ? trimmed + ' — ' : ''}Looking for a custom ${catLabel} in ${materialLabel}. Reference image(s) attached if provided.`,
+            `${trimmed ? trimmed + ' — ' : ''}أبحث عن ${catLabel} مخصص من ${materialLabel}. الصور المرجعية مرفقة إن وُجدت.`
           );
 
     const fd = new FormData();
@@ -245,35 +278,81 @@ export default function RequestCustomPieceForm() {
         )}
       </AnimatePresence>
 
-      {/* Material — the only required field, displayed as visual chips */}
+      {/* Category — what kind of piece; drives the material options below */}
       <div>
         <label className="block text-sm font-semibold text-gray-900 mb-2">
           <span className="flex items-center gap-1.5">
-            <Gem size={14} className="text-amber-600" />
+            <LayoutGrid size={14} className="text-amber-600" aria-hidden />
+            {t('What are you looking for?', 'ماذا تريد؟')}
+            <span className="text-rose-600 text-xs">*</span>
+          </span>
+        </label>
+        {categories.length === 0 ? (
+          <p className="text-xs text-gray-400 py-2">
+            {t('Loading categories…', 'جارٍ تحميل الفئات…')}
+          </p>
+        ) : (
+          <div className="space-y-3">
+            {groupedCategories.map((group) => (
+              <div key={group.key}>
+                {group.label && (
+                  <p className="text-[11px] uppercase tracking-wider text-gray-400 font-medium mb-1.5">
+                    {group.label}
+                  </p>
+                )}
+                <div className="flex flex-wrap gap-2">
+                  {group.items.map((c) => (
+                    <button
+                      key={c.id}
+                      type="button"
+                      onClick={() => setCategoryId(Number(c.id))}
+                      aria-pressed={Number(categoryId) === Number(c.id)}
+                      className={[
+                        'rounded-full border-2 px-3.5 py-2 text-xs font-semibold transition-all duration-150',
+                        Number(categoryId) === Number(c.id)
+                          ? 'border-indigo-700 bg-indigo-50 text-indigo-800'
+                          : 'border-gray-200 bg-white text-gray-700 hover:border-indigo-300 hover:bg-indigo-50/30',
+                      ].join(' ')}
+                    >
+                      {categoryLabel(c)}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* Material — options depend on the selected category */}
+      <div>
+        <label className="block text-sm font-semibold text-gray-900 mb-2">
+          <span className="flex items-center gap-1.5">
+            <Gem size={14} className="text-amber-600" aria-hidden />
             {t('Material', 'المادة')}
             <span className="text-rose-600 text-xs">*</span>
           </span>
         </label>
         <div className="grid grid-cols-3 sm:grid-cols-5 gap-2">
-          {MATERIALS.map((m) => (
+          {materialOptions.map((m) => (
             <button
-              key={m}
+              key={m.value}
               type="button"
-              onClick={() => setMaterial(m)}
-              aria-pressed={material === m}
+              onClick={() => setMaterial(m.value)}
+              aria-pressed={material === m.value}
               className={[
                 'flex flex-col items-center gap-1.5 p-2.5 rounded-xl border-2 text-xs font-semibold transition-all duration-150',
-                material === m
+                material === m.value
                   ? 'border-indigo-700 bg-indigo-50 text-indigo-800'
                   : 'border-gray-200 bg-white text-gray-700 hover:border-indigo-300 hover:bg-indigo-50/30',
               ].join(' ')}
             >
               <span
                 className="w-5 h-5 rounded-full ring-1 ring-black/10 shrink-0"
-                style={{ background: MATERIAL_SWATCH[m] }}
+                style={{ background: m.swatch }}
                 aria-hidden
               />
-              {MATERIAL_LABELS[m][isRTL ? 'ar' : 'en']}
+              {isRTL ? m.ar : m.en}
             </button>
           ))}
         </div>
@@ -290,7 +369,11 @@ export default function RequestCustomPieceForm() {
           rows={3}
           value={notes}
           onChange={(e) => setNotes(e.target.value)}
-          placeholder={t('e.g. a thin engraved ring, size 7…', 'مثال: خاتم رفيع منقوش، مقاس 7…')}
+          placeholder={
+            isJewelry
+              ? t('e.g. a thin engraved ring, size 7…', 'مثال: خاتم رفيع منقوش، مقاس 7…')
+              : t('e.g. an embroidered kaftan, sleeves to the wrist…', 'مثال: قفطان مطرز، أكمام حتى المعصم…')
+          }
           className="w-full rounded-2xl border border-gray-200 bg-white px-4 py-3 text-sm text-gray-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30 focus-visible:border-indigo-700 transition-all resize-none leading-relaxed"
         />
       </div>
@@ -387,18 +470,21 @@ export default function RequestCustomPieceForm() {
                   </div>
                 </div>
                 <div className="grid grid-cols-2 gap-3">
-                  <div>
-                    <label className="block text-xs font-medium text-gray-700 mb-1.5">
-                      {t('Purity', 'العيار')}
-                    </label>
-                    <input
-                      type="text"
-                      value={purity}
-                      onChange={(e) => setPurity(e.target.value)}
-                      placeholder={t('e.g. 18k, 925', 'مثال: 18 قيراط، 925')}
-                      className="w-full rounded-xl border border-gray-200 px-3 py-2.5 text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30 focus-visible:border-indigo-700 transition-all bg-white"
-                    />
-                  </div>
+                  {/* Purity is a metals concept — meaningless for fabrics */}
+                  {isJewelry && (
+                    <div>
+                      <label className="block text-xs font-medium text-gray-700 mb-1.5">
+                        {t('Purity', 'العيار')}
+                      </label>
+                      <input
+                        type="text"
+                        value={purity}
+                        onChange={(e) => setPurity(e.target.value)}
+                        placeholder={t('e.g. 18k, 925', 'مثال: 18 قيراط، 925')}
+                        className="w-full rounded-xl border border-gray-200 px-3 py-2.5 text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30 focus-visible:border-indigo-700 transition-all bg-white"
+                      />
+                    </div>
+                  )}
                   <div>
                     <label className="block text-xs font-medium text-gray-700 mb-1.5">
                       {t('Size', 'المقاس')}
@@ -407,7 +493,11 @@ export default function RequestCustomPieceForm() {
                       type="text"
                       value={size}
                       onChange={(e) => setSize(e.target.value)}
-                      placeholder={t('e.g. ring 7, 45cm', 'مثال: خاتم 7، 45سم')}
+                      placeholder={
+                        isJewelry
+                          ? t('e.g. ring 7, 45cm', 'مثال: خاتم 7، 45سم')
+                          : t('e.g. M, 42, 160cm', 'مثال: M، 42، 160سم')
+                      }
                       className="w-full rounded-xl border border-gray-200 px-3 py-2.5 text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30 focus-visible:border-indigo-700 transition-all bg-white"
                     />
                   </div>

@@ -51,14 +51,28 @@ export default function ProductQuickView({
     images,
     has_discount,
     discount_price,
-    rating,
-    reviews_count,
+    rating: rawRating,
+    reviews_count: rawReviewsCount,
     category,
     category_ar,
     stock_quantity,
+    stock_status,
+    in_stock: rawInStock,
     description,
     description_ar
   } = product;
+
+  // Boolean availability (handles made-to-order = null quantity). Only show a
+  // numeric "N available" + a bounded quantity max when the count is finite.
+  const isAvailable =
+    typeof rawInStock === 'boolean'
+      ? rawInStock
+      : stock_status
+        ? stock_status !== 'out_of_stock'
+        : stock_quantity == null || stock_quantity > 0;
+  const hasFiniteStock = typeof stock_quantity === 'number' && stock_quantity > 0;
+  const rating = rawRating ?? 0;
+  const reviews_count = rawReviewsCount ?? 0;
 
   const displayName = isRTL ? name_ar || name : name;
   const displayCategory = isRTL ? category_ar || category : category;
@@ -303,15 +317,17 @@ export default function ProductQuickView({
                       {/* Stock Status */}
                       <div className="mb-6">
                         <div className="flex items-center gap-2">
-                          {stock_quantity > 0 ? (
+                          {isAvailable ? (
                             <>
                               <CheckCircleIcon className="h-5 w-5 text-green-500" aria-hidden="true" />
                               <span className="text-sm font-medium text-green-600">
                                 {t('stock.in_stock')}
                               </span>
-                              <span className="text-sm text-gray-500" aria-label={`${stock_quantity} items available`}>
-                                ({stock_quantity} {t('stock.available') || 'available'})
-                              </span>
+                              {hasFiniteStock && (
+                                <span className="text-sm text-gray-500" aria-label={`${stock_quantity} items available`}>
+                                  ({stock_quantity} {t('stock.available') || 'available'})
+                                </span>
+                              )}
                             </>
                           ) : (
                             <>
@@ -325,7 +341,7 @@ export default function ProductQuickView({
                       </div>
 
                       {/* Quantity Selector */}
-                      {stock_quantity > 0 && (
+                      {isAvailable && (
                         <div className="mb-6">
                           <label id="quantity-label" className="block text-sm font-medium text-gray-700 mb-2">
                             {t('product.quantity')}
@@ -341,14 +357,14 @@ export default function ProductQuickView({
                             <input
                               type="number"
                               min="1"
-                              max={stock_quantity}
+                              max={hasFiniteStock ? stock_quantity : undefined}
                               value={quantity}
                               onChange={(e) => setQuantity(Math.max(1, parseInt(e.target.value) || 1))}
                               className="w-16 p-2 border-t border-b border-gray-300 text-center focus:outline-none focus:ring-2 focus:ring-indigo-500"
                               aria-label={t('product.quantity') || 'Quantity'}
                             />
                             <button
-                              onClick={() => setQuantity(Math.min(stock_quantity, quantity + 1))}
+                              onClick={() => setQuantity(hasFiniteStock ? Math.min(stock_quantity!, quantity + 1) : quantity + 1)}
                               className="p-2 border border-gray-300 rounded-r-lg hover:bg-gray-50"
                               aria-label={t('cart.quantity.increase') || 'Increase quantity'}
                             >
@@ -360,7 +376,7 @@ export default function ProductQuickView({
 
                       {/* Action Buttons */}
                       <div className="flex gap-3 mb-4">
-                        {stock_quantity > 0 && (
+                        {isAvailable && (
                           <button
                             onClick={handleAddToCart}
                             disabled={isAddingToCart}

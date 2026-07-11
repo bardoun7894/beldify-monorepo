@@ -1,3 +1,7 @@
+'use client';
+
+import { useTranslation } from 'react-i18next';
+
 interface ErrorMessageProps {
   message: string;
   action?: {
@@ -7,6 +11,7 @@ interface ErrorMessageProps {
 }
 
 export default function ErrorMessage({ message, action }: ErrorMessageProps) {
+  const { t } = useTranslation();
   return (
     <div className="min-h-screen bg-gray-50 p-4 flex items-center justify-center">
       <div className="text-center max-w-md mx-auto">
@@ -25,7 +30,7 @@ export default function ErrorMessage({ message, action }: ErrorMessageProps) {
             />
           </svg>
         </div>
-        <h2 className="text-2xl font-bold text-gray-800 mb-2">Error</h2>
+        <h2 className="text-2xl font-bold text-gray-800 mb-2">{t('common.error', 'Error')}</h2>
         <p className="text-gray-600 mb-4">{message}</p>
         {action && (
           <button

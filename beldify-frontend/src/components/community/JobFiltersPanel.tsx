@@ -305,7 +305,7 @@ export default function JobFiltersPanel({
             className="fixed bottom-0 start-0 end-0 z-50 bg-white rounded-t-3xl shadow-atlas-md max-h-[85vh] overflow-y-auto"
             role="dialog"
             aria-modal="true"
-            aria-label="Filters"
+            aria-label={t('common.filters', 'Filters')}
           >
             {/* Handle */}
             <div className="flex justify-center pt-3 pb-1">

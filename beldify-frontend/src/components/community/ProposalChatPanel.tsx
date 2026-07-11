@@ -381,7 +381,7 @@ export default function ProposalChatPanel({
               value={input}
               onChange={(e) => {
                 setInput(e.target.value);
-                sendTypingIndicator(shopId, e.target.value.length > 0);
+                sendTypingIndicator(response.userId, shopId, e.target.value.length > 0);
               }}
               onKeyDown={(e) => {
                 if (e.key === 'Enter' && !e.shiftKey) {

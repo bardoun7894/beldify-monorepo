@@ -59,6 +59,8 @@ const Newsletter: React.FC = () => {
             <div className="flex flex-col sm:flex-row gap-3">
               <input
                 type="email"
+                id="newsletter-email"
+                name="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder={t('newsletter.placeholder')}

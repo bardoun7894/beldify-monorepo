@@ -127,7 +127,9 @@
     "show_more": "Show more",
     "need_help": "Need Help?",
     "call_us": "Call us",
-    "email": "Email"
+    "email": "Email",
+    "filters": "Filters",
+    "placeholderImage": "Placeholder image"
   },
   "validation": {
     "required": "This field is required",
@@ -340,7 +342,8 @@
     "rate_limit": "Too many requests. Please wait a moment.",
     "resend_failed": "Failed to send. Please try again.",
     "verify_email_banner": "Please verify your email address to unlock all features.",
-    "signInRequired": "Sign in to see your requests"
+    "signInRequired": "Sign in to see your requests",
+    "account_benefits": "Account benefits"
   },
   "navigation": {
     "home": "Home",
@@ -1265,7 +1268,8 @@
       "group_ref": "Group ref:",
       "seller_label": "Seller {{n}}",
       "seller_order": "Order"
-    }
+    },
+    "loading": "Loading order details"
   },
   "checkout": {
     "title": "Checkout",
@@ -1660,7 +1664,8 @@
         "street": "Street address",
         "apartment": "Apartment, suite, etc."
       }
-    }
+    },
+    "nav_aria": "Profile navigation"
   },
   "errors": {
     "general": "An error occurred",
@@ -4376,6 +4381,14 @@
       "subtitle": "New arrivals from ateliers you saved",
       "empty": "Nothing new from your followed shops yet",
       "loginPrompt": "Sign in to see new arrivals from ateliers you follow"
+    },
+    "featuredProducts": {
+      "title": "Featured Products",
+      "subtitle": "Discover our most popular traditional Moroccan clothing"
+    },
+    "specialOffers": {
+      "title": "Special Offers",
+      "loading": "Loading special offers..."
     }
   },
   "journal": {
@@ -5547,5 +5560,11 @@
       "unknown_store": "Unknown",
       "not_applicable": "—"
     }
+  },
+  "track": {
+    "order_number_placeholder": "ORD-XXXXXX"
+  },
+  "languages": {
+    "en": "English"
   }
 }

@@ -140,10 +140,10 @@ describe('[P3] hierarchy — exactly one active affordance on a tab', () => {
 describe('[P3] hierarchy — shared Breadcrumbs wayfinding', () => {
   it('wishlist renders Breadcrumbs', () => {
     expect(wishlist).toContain('Breadcrumbs');
-    expect(wishlist).toContain("from '@/components/navigation/Breadcrumbs'");
+    expect(wishlist).toMatch(/from ['"]@\/components\/navigation\/Breadcrumbs['"]/);
   });
   it('profile renders Breadcrumbs', () => {
     expect(profilePage).toContain('Breadcrumbs');
-    expect(profilePage).toContain("from '@/components/navigation/Breadcrumbs'");
+    expect(profilePage).toMatch(/from ['"]@\/components\/navigation\/Breadcrumbs['"]/);
   });
 });

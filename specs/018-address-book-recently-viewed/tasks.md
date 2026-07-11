@@ -78,7 +78,7 @@ No blocking foundational work — the schema, models, controllers, and component
 - [X] T016 Run `npm run lint` (frontend) per project CLAUDE.md verification step — no ESLint warnings or errors
 - [X] T017 Manual smoke test per quickstart.md step 4 — 11th-address rejection verified LIVE against the running API (seeded a real user with 10 addresses via tinker, POST to `/api/user/addresses` returned HTTP 422 "You have reached the maximum of 10 saved addresses...", smoke data cleaned up after); 21-product rail truncation and unavailable-product filtering are covered by automated component tests only (no browser session available in this pass) — recommend one manual browser check before merge to confirm visual behavior
 - [X] T018 Sync to local Docker mirror via `sync-local.sh` run from **repo root** (not from `beldify-backend/`) per KB guidance, then `docker restart beldify-local-app` to flush opcache — done, re-verified 19/19 green post-restart
-- [ ] T019 `/kb-spec post` → `/kb-docs-sync` to mirror spec.md/plan.md/tasks.md/research.md into the KB, correcting the KB's prior blind spot on these two features — pending, run after this report
+- [X] T019 `/kb-spec post` → `/kb-docs-sync` to mirror spec.md/plan.md/tasks.md/research.md into the KB, correcting the KB's prior blind spot on these two features — done: full 131-file backlog sync run (KB had only 8 files tracked), all specs/docs now mirrored to `ai-knowledge-base/knowledge/sources/`
 
 ## Dependencies
 

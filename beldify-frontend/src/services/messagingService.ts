@@ -570,3 +570,28 @@ export const checkNewMessages = async (shopId: string, lastMessageId?: string): 
     };
   }
 };
+
+/**
+ * Notify the other party that the current user is typing (or stopped).
+ * Hits POST /api/v1/community/messages/typing — the backend broadcasts a
+ * TypingIndicator event on PrivateChannel("user.{recipientId}"), the same
+ * channel both buyer and seller already subscribe to for message delivery.
+ * Best-effort — never throws (a failed typing ping shouldn't disrupt chat).
+ */
+export const sendTypingIndicator = async (
+  recipientId: string | number,
+  storeId: string | number,
+  isTyping: boolean
+): Promise<void> => {
+  try {
+    const authToken = localStorage.getItem('token');
+    if (!authToken) return;
+    await axios.post(
+      `${MESSAGING_ENDPOINTS.community}/typing`,
+      { recipient_id: recipientId, store_id: storeId, is_typing: isTyping },
+      { headers: getAuthHeaders(), withCredentials: true }
+    );
+  } catch (error) {
+    logger.warn('sendTypingIndicator: failed to send', error);
+  }
+};
