@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '@/hooks/useAuth';
 import { submitStoreRequest, StoreRequestPayload } from '@/services/sellerService';
+import StoreTypePicker from '@/components/seller/StoreTypePicker';
 import {
   Store,
   ArrowRight,
@@ -15,13 +16,6 @@ import {
   Star,
   Globe,
 } from 'lucide-react';
-
-// Map business_type strings to backend store_type_id values
-const BUSINESS_TYPE_TO_STORE_TYPE: Record<string, number> = {
-  individual: 1,
-  company: 2,
-  cooperative: 3,
-};
 
 const COUNTRIES = [
   { code: 'MA', name: 'Morocco' },
@@ -39,6 +33,7 @@ const COUNTRIES = [
 interface FormState {
   store_name: string;
   business_type: string;
+  store_type_id: number | null;
   country: string;
   contact_email: string;
   contact_phone: string;
@@ -49,6 +44,7 @@ interface FormState {
 const initialForm: FormState = {
   store_name: '',
   business_type: '',
+  store_type_id: null,
   country: 'MA',
   contact_email: '',
   contact_phone: '',
@@ -88,12 +84,20 @@ export default function SellerRegisterPage() {
     setForm((prev) => ({ ...prev, logo: file }));
   };
 
+  const handleStoreTypeChange = (storeTypeId: number) => {
+    setForm((prev) => ({ ...prev, store_type_id: storeTypeId }));
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setErrorMsg(null);
 
     if (!form.business_type) {
       setErrorMsg(t('seller.register.validation_business_type', 'Please select a business type'));
+      return;
+    }
+    if (!form.store_type_id) {
+      setErrorMsg(t('seller.register.validation_store_type', 'Please select what you sell'));
       return;
     }
     if (!form.country) {
@@ -105,7 +109,7 @@ export default function SellerRegisterPage() {
     try {
       const payload: StoreRequestPayload = {
         store_name: form.store_name || undefined,
-        store_type_id: BUSINESS_TYPE_TO_STORE_TYPE[form.business_type] ?? 1,
+        store_type_id: form.store_type_id,
         business_type: form.business_type,
         country: form.country,
         contact_email: form.contact_email || undefined,
@@ -318,6 +322,15 @@ export default function SellerRegisterPage() {
                 <option value="company">{t('seller.register.business_type_company', 'Registered company')}</option>
                 <option value="cooperative">{t('seller.register.business_type_cooperative', 'Cooperative')}</option>
               </select>
+            </div>
+
+            {/* Store type — what do you sell? */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                {t('seller.register.store_type_label', 'What do you sell?')}
+                <span className="text-rose-500 ms-1" aria-hidden="true">*</span>
+              </label>
+              <StoreTypePicker value={form.store_type_id} onChange={handleStoreTypeChange} />
             </div>
 
             {/* Country */}
