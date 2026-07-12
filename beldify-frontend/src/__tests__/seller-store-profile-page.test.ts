@@ -1,36 +1,31 @@
 /**
- * Seller store-profile Next.js page (TDD, source-reading)
+ * /seller/store-profile — config-level permanent redirect (TDD, source-reading)
  *
- * HISTORY: this page was first added as a full in-Next store-profile editor
- * wired to GET/PUT /api/seller/store-profile. After the 2026-06-29 seller
- * dashboard consolidation the Blade dashboard owns store-profile editing;
- * keeping a second editor here risked divergent data (2026-07-12 audit).
- * The route now permanently redirects to /seller/register, which bridges
- * sellers into the Blade dashboard via the /seller/enter SSO handoff.
+ * HISTORY: first shipped as a full in-Next store-profile editor, then the
+ * 2026-06-29 consolidation made the Blade dashboard the owner of profile
+ * editing. A page-level permanentRedirect() prerendered to a 200 HTML page
+ * in the standalone prod build (no 308), so the redirect now lives in
+ * next.config.js/next.config.prod.js redirects() — same mechanism as the
+ * /category → /categories canonicalization — and the page file is deleted.
  */
 
 import { describe, it, expect } from 'vitest';
-import { readFileSync } from 'fs';
+import { readFileSync, existsSync } from 'fs';
 import { join } from 'path';
 
-const SRC = join(__dirname, '..', '..');
-const read = (p: string) => readFileSync(join(SRC, p), 'utf-8');
+const ROOT = join(__dirname, '..', '..');
+const read = (p: string) => readFileSync(join(ROOT, p), 'utf-8');
 
-const page = read('src/app/seller/store-profile/page.tsx');
-
-describe('seller store-profile page', () => {
-  it('permanently redirects to the consolidated seller entry', () => {
-    expect(page).toMatch(/permanentRedirect\(['"]\/seller\/register['"]\)/);
-    expect(page).toMatch(/from ['"]next\/navigation['"]/);
+describe('seller store-profile redirect', () => {
+  it('page file is deleted (no duplicate in-Next editor)', () => {
+    expect(existsSync(join(ROOT, 'src/app/seller/store-profile/page.tsx'))).toBe(false);
   });
 
-  it('is no longer a duplicate in-Next profile editor (no API calls, no client state)', () => {
-    expect(page).not.toMatch(/use client/);
-    expect(page).not.toMatch(/api\/seller\/store-profile/);
-    expect(page).not.toMatch(/useState|useEffect/);
-  });
-
-  it('documents why (Blade dashboard owns store-profile editing)', () => {
-    expect(page).toMatch(/Blade seller dashboard/i);
-  });
+  for (const cfg of ['next.config.js', 'next.config.prod.js']) {
+    it(`${cfg} permanently redirects /seller/store-profile to /seller/register`, () => {
+      const src = read(cfg);
+      expect(src).toMatch(/source:\s*['"]\/seller\/store-profile['"]/);
+      expect(src).toMatch(/destination:\s*['"]\/seller\/register['"]/);
+    });
+  }
 });
