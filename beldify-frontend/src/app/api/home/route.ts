@@ -439,12 +439,15 @@ export async function getHomeDataPayload() {
       });
 
     // Create the response data
+    // newArrivals & the three shelves already fall back to mocks (dev only)
+    // upstream — no second ungated fallback here or the ALLOW_MOCKS gate is
+    // defeated in production whenever the backend returns an empty list.
     return {
-      ...mockHomeData,
-      newArrivals: newArrivals.length > 0 ? newArrivals : mockHomeData.newArrivals,
-      mensTraditional: mensTraditional.length > 0 ? mensTraditional : mockHomeData.mensTraditional,
-      womensTraditional: womensTraditional.length > 0 ? womensTraditional : mockHomeData.womensTraditional,
-      childrensTraditional: childrensTraditional.length > 0 ? childrensTraditional : mockHomeData.childrensTraditional,
+      newArrivals,
+      mensTraditional,
+      womensTraditional,
+      childrensTraditional,
+      specialOffers: ALLOW_MOCKS ? mockHomeData.specialOffers : [],
       megaOffers,
       bestSellers,
       recommendedTailors,
@@ -453,11 +456,27 @@ export async function getHomeDataPayload() {
     };
   } catch (error) {
     logger.error('Error building home data payload:', error);
+    if (ALLOW_MOCKS) {
+      return {
+        bestSellers: [],
+        megaOffers: [],
+        hero: { mode: 'brand' as const, banners: [] },
+        ...mockHomeData,
+        recommendedTailors: mockRecommendedTailors,
+        recommendedSellers: mockRecommendedSellers,
+      };
+    }
     return {
+      newArrivals: [],
+      mensTraditional: [],
+      womensTraditional: [],
+      childrensTraditional: [],
+      specialOffers: [],
+      megaOffers: [],
       bestSellers: [],
-      ...mockHomeData,
-      recommendedTailors: mockRecommendedTailors,
-      recommendedSellers: mockRecommendedSellers,
+      recommendedTailors: [],
+      recommendedSellers: [],
+      hero: { mode: 'brand' as const, banners: [] },
     };
   }
 }
