@@ -1,9 +1,7 @@
 import { useTranslation } from 'react-i18next';
-import { useSearchParams } from 'next/navigation';
 
 export function useLocalizedHref() {
   const { i18n } = useTranslation();
-  const searchParams = useSearchParams();
 
   return (href: string) => {
     const [path, existingQuery] = href.split('?');
