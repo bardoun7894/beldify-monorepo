@@ -51,9 +51,9 @@
       "cost_usd": 1.34788125
     }
   },
-  "query_count": 70,
+  "query_count": 71,
   "last_lint": "2026-06-19T22:17:44+01:00",
-  "total_cost": 40.08118945,
+  "total_cost": 40.50565494999999,
   "docs_sync": {
     "patterns": [
       "CLAUDE.md",

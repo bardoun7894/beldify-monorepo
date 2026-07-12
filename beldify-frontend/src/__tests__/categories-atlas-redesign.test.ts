@@ -129,9 +129,9 @@ describe('Category detail page /categories/[slug] — Atlas bar', () => {
 
 // ─── Category detail (category/[slug]) ──────────────────────────────────────
 
-describe('Category detail page /category/[slug] — Atlas bar', () => {
+describe('Category detail page /categories/[slug] — Atlas bar', () => {
   let page: string;
-  try { page = read('src/app/category/[slug]/page.tsx'); } catch { page = ''; }
+  try { page = read('src/app/categories/[slug]/page.tsx'); } catch { page = ''; }
 
   it('uses Playfair Display for category title in hero', () => {
     expect(page).toContain('Playfair Display');

@@ -1,42 +1,31 @@
 /**
- * Seller store-profile Next.js page (TDD, source-reading)
+ * /seller/store-profile — config-level permanent redirect (TDD, source-reading)
  *
- * Previously there was no Next.js page for sellers to edit their own shop
- * profile — only a legacy Blade view existed on the backend. This adds
- * src/app/seller/store-profile/page.tsx wired to the real
- * GET/PUT /api/seller/store-profile endpoints (SellerStoreProfileController).
+ * HISTORY: first shipped as a full in-Next store-profile editor, then the
+ * 2026-06-29 consolidation made the Blade dashboard the owner of profile
+ * editing. A page-level permanentRedirect() prerendered to a 200 HTML page
+ * in the standalone prod build (no 308), so the redirect now lives in
+ * next.config.js/next.config.prod.js redirects() — same mechanism as the
+ * /category → /categories canonicalization — and the page file is deleted.
  */
 
 import { describe, it, expect } from 'vitest';
-import { readFileSync } from 'fs';
+import { readFileSync, existsSync } from 'fs';
 import { join } from 'path';
 
-const SRC = join(__dirname, '..', '..');
-const read = (p: string) => readFileSync(join(SRC, p), 'utf-8');
+const ROOT = join(__dirname, '..', '..');
+const read = (p: string) => readFileSync(join(ROOT, p), 'utf-8');
 
-const page = read('src/app/seller/store-profile/page.tsx');
-
-describe('seller store-profile page', () => {
-  it('is a client component', () => {
-    expect(page).toMatch(/^"use client";/);
+describe('seller store-profile redirect', () => {
+  it('page file is deleted (no duplicate in-Next editor)', () => {
+    expect(existsSync(join(ROOT, 'src/app/seller/store-profile/page.tsx'))).toBe(false);
   });
 
-  it('fetches the store profile from the real backend endpoint', () => {
-    expect(page).toContain('/api/seller/store-profile');
-  });
-
-  it('saves via a real PUT request (not a fake setTimeout)', () => {
-    expect(page).toMatch(/axios\.put\(['"]\/api\/seller\/store-profile['"]/);
-    expect(page).not.toContain('setTimeout');
-  });
-
-  it('supports RTL layout (locale-aware dir attribute, not hardcoded ltr)', () => {
-    expect(page).toMatch(/dir=\{?.*(rtl|isRtl|dir)/i);
-  });
-
-  it('includes logo and banner upload fields', () => {
-    expect(page).toMatch(/type=["']file["']/);
-    expect(page).toContain('logo');
-    expect(page).toContain('banner');
-  });
+  for (const cfg of ['next.config.js', 'next.config.prod.js']) {
+    it(`${cfg} permanently redirects /seller/store-profile to /seller/register`, () => {
+      const src = read(cfg);
+      expect(src).toMatch(/source:\s*['"]\/seller\/store-profile['"]/);
+      expect(src).toMatch(/destination:\s*['"]\/seller\/register['"]/);
+    });
+  }
 });

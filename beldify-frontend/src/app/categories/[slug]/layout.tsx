@@ -13,7 +13,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const canonical = `${SITE_URL}/category/${slug}`;
+  const canonical = `${SITE_URL}/categories/${slug}`;
 
   try {
     const res = await fetch(`${API_ORIGIN}/api/categories/${slug}`, {

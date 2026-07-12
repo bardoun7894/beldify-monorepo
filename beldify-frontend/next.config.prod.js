@@ -120,6 +120,10 @@ const nextConfig = {
     return [
       { source: '/tailoring', destination: '/services/tailoring', permanent: true },
       { source: '/journal', destination: '/about', permanent: false },
+      { source: '/category/:slug*', destination: '/categories/:slug*', permanent: true },
+      { source: '/categories/rgal', destination: '/categories/men', permanent: true },
+      // Blade seller dashboard owns store-profile editing; bridge via register.
+      { source: '/seller/store-profile', destination: '/seller/register', permanent: true },
     ]
   },
 

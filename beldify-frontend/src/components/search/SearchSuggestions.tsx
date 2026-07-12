@@ -16,6 +16,7 @@ import { useTranslation } from 'react-i18next';
 import { useAuth } from '@/contexts/AuthContext';
 import { useDirection } from '@/hooks/useDirection';
 import { cn } from '@/lib/utils';
+import { API_BASE_URL } from '@/config/constants';
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
@@ -95,7 +96,7 @@ export default function SearchSuggestions({
     abortRef.current = controller;
 
     try {
-      const res = await fetch(`/api/search/suggestions?q=${encodeURIComponent(q)}`, {
+      const res = await fetch(`${API_BASE_URL}/api/search/suggestions?q=${encodeURIComponent(q)}`, {
         signal: controller.signal,
       });
       if (!res.ok) {
