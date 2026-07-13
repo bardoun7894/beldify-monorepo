@@ -46,10 +46,31 @@ ssh "$REMOTE" "docker exec $BACKEND_CT sh -lc 'cd app/Http/Controllers && ln -sf
 echo "🖼️  Recreating public/storage symlink (rsync --delete wipes it → every /storage/* image 404s, e.g. category photos)..."
 ssh "$REMOTE" "docker exec $BACKEND_CT php artisan storage:link >/dev/null 2>&1 || true"
 
-echo "🗃️  Running pending backend migrations (non-interactive)..."
-ssh "$REMOTE" "docker exec $BACKEND_CT php artisan migrate --force" || {
-  echo "⚠️  Migration step failed — check backend logs before trusting the deploy."; exit 1;
-}
+echo "🗃️  Checking pending backend migrations..."
+# 2026-07-12: a bare `migrate --force` here silently shipped FIVE unrelated
+# migrations (loyalty tables, shipping zones, exchange rates) that had been
+# sitting pending on prod from unmerged branches. Deploying a one-line fix must
+# never create tables nobody asked for. Now we show them and require consent.
+PENDING=$(ssh "$REMOTE" "docker exec $BACKEND_CT sh -lc 'php artisan migrate:status 2>/dev/null | grep -i pending'" || true)
+
+if [ -n "$PENDING" ]; then
+  echo "⚠️  PENDING MIGRATIONS ON PROD:"
+  echo "$PENDING" | sed 's/^/     /'
+  echo
+  if [ "${MIGRATE:-}" = "yes" ]; then
+    echo "   MIGRATE=yes → running all of the above."
+    ssh "$REMOTE" "docker exec $BACKEND_CT php artisan migrate --force" || {
+      echo "⚠️  Migration step failed — check backend logs before trusting the deploy."; exit 1;
+    }
+  else
+    echo "   NOT running them. Re-run with MIGRATE=yes to apply ALL of the above,"
+    echo "   or apply just the one you mean:"
+    echo "     ssh $REMOTE \"docker exec $BACKEND_CT php artisan migrate --force --path=database/migrations/<file>.php\""
+    echo "   Continuing deploy without migrating."
+  fi
+else
+  echo "   none pending."
+fi
 
 echo "♻️  Restarting backend to flush PHP-FPM opcache (optimize:clear does NOT clear opcache → new controllers/routes/views keep serving STALE until restart)..."
 ssh "$REMOTE" "docker restart $BACKEND_CT >/dev/null 2>&1 && sleep 3 && docker exec $BACKEND_CT sh -lc 'php artisan storage:link >/dev/null 2>&1; php artisan config:cache >/dev/null 2>&1; php artisan route:cache >/dev/null 2>&1; php artisan view:cache >/dev/null 2>&1' || true"
