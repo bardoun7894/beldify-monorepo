@@ -37,7 +37,7 @@ T9 (review, last)
 - New route group `auth:sanctum` + `role:store_owner`, prefix `seller/quick-listing` (matches `routes/api.php:448` conventions): `POST draft`, `GET fabrics`, `POST publish`.
 - `QuickListingController@draft` — photos (2-3) + optional audio + optional caption (at least one of audio/caption required) → AI-drafted `{title_en, title_ar, description_en, description_ar, suggested_category_id (grounded to real leaf categories, invented→null), extracted_color (via ColorExtractor — confirm its contract with the owning workstream first, degrade to null on failure/unavailability), price_range_hint (simple min/max/percentile query over comparable active stocks, null under a comparables floor)}`. Photos staged, not yet linked to a `Stock`.
 - `QuickListingController@fabrics` — `GET ?category_id=` → `VariantFabric` list (check for an existing endpoint before adding a duplicate route); empty list is valid. Zero AI involvement.
-- `QuickListingController@publish` — final structured payload → `StockCreationService::create()` → `Stock` (status `pending`) + `ProductImage`, moving staged images to final path. No `CreditService` call anywhere — add an explicit code comment at the would-be charge point.
+- `QuickListingController@publish` — final structured payload → `StockCreationService::create()` → `Stock` (`is_active = 1` — LIVE immediately, no approval queue) + `ProductImage`, moving staged images to final path. No `CreditService` call anywhere — add an explicit code comment at the would-be charge point.
 - TDD first: `StockCreationService` parity unit test vs. pre-extraction `ProductController::store()` output; `draft` feature tests (photo+caption happy path, category-fallback-to-null, color-extraction-failure degrades gracefully, price-hint-null-under-floor); `fabrics` (populated + empty); `publish` (Stock+ProductImage created, status=pending, grep-verify no `CreditService` import in the slice). `php artisan test` green.
 
 ## T3 — [frontend-engineer] Voice-note input + typed-caption fallback  (P1; BLOCKED until T0 delivers its recommendation)
@@ -65,7 +65,7 @@ T9 (review, last)
 
 ## T7 — [frontend-engineer] One-screen review + publish + install-prompt  (P0; needs T1+T2+T5+T6, and T3 if voice shipped)
 - Single editable review screen assembling all prior state; every field independently correctable.
-- نشر (Publish) → `POST .../publish`; success → clear local draft, honest "submitted for review" copy (never "live now"), then post-publish install-to-home-screen prompt (never a pre-flow gate), framed around order-alert push value (note iOS-requires-install / Android-doesn't asymmetry).
+- نشر (Publish) → `POST .../publish`; success → clear local draft, copy says "تم النشر" / published — the listing IS live (no product approval queue), then post-publish install-to-home-screen prompt (never a pre-flow gate), framed around order-alert push value (note iOS-requires-install / Android-doesn't asymmetry).
 - Failure → draft state preserved, not cleared.
 - Full 7-locale i18n parity pass (en/ar/fr/es/ma/nl/de) for all `quickListing.*` keys. Atlas tokens, RTL, mobile-first audit.
 - TDD: `npm run test` — assembled review renders all fields, publish success clears draft + shows honest copy + triggers install-prompt logic, publish failure preserves draft, 7-locale i18n parity check (reuse existing project convention/test). Lint + `build:prod` clean.
@@ -77,3 +77,6 @@ T9 (review, last)
 
 ## T9 — [reviewer] Spec compliance + contract review  (last)
 - Diff vs FR1–FR16. Confirm no phone-identity/webhook/chat-session artifacts leaked in from the superseded chat-bot design; `StockCreationService` extraction preserves the dashboard contract; `ColorExtractor` integration degrades gracefully and matches the confirmed real contract (not a guessed one); fabric has zero AI code path anywhere; price-hint never auto-fills; free/no-credit honored in code; approval-queue honesty reflected in actual shipped UI copy. Report P0–P3; no edits.
+
+
+> **CORRECTION 2026-07-13 — there is NO product approval queue.** Earlier drafts said listings land `pending` and required "submitted for review" copy plus an auto-approve fast-follow. Verified against code and the live prod schema: `stocks` has no approval column, and `Seller/ProductController::store()` sets `is_active = 1` on create (`:170`). A published listing is LIVE. The "approval bottleneck" in older notes refers to **store** approval, not products.
