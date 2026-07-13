@@ -119,47 +119,6 @@ export default function HomeContent({
 		Record<number, boolean>
 	>({});
 
-	// Static fallback ateliers — used when the API returns an empty array.
-	// Backend shape confirmed: RecommendedController returns { id, name, rating,
-	// profile_image, speciality, experience_years }. The live data replaces this
-	// when /api/recommended-tailors responds successfully.
-	// verified:false — these are editorial placeholders, not vetted sellers, so they
-	// never claim verification (storefront audit P1-C).
-	const staticAteliers = [
-		{
-			name: "Maison Tetouan",
-			city: "Tetouan",
-			img: "https://pro.beldify.com/storage/categories/category_7_jabador.png",
-			specialty: "Tarz-tetouani",
-			rating: 4.9,
-			verified: false,
-		},
-		{
-			name: "Dar Fes Atelier",
-			city: "Fez",
-			img: "/images/hero-atelier.jpg",
-			specialty: "Brocade & gold thread",
-			rating: 4.8,
-			verified: false,
-		},
-		{
-			name: "Casablanca Couture",
-			city: "Casablanca",
-			img: "https://pro.beldify.com/storage/categories/category_14_wedding-dresses.png",
-			specialty: "Wedding & bespoke",
-			rating: 4.7,
-			verified: false,
-		},
-		{
-			name: "Dar Marrakech",
-			city: "Marrakech",
-			img: "https://pro.beldify.com/storage/categories/category_4_caftan.png",
-			specialty: "Caftan & takchita",
-			rating: 4.8,
-			verified: false,
-		},
-	];
-
 	// Map live recommended-tailors to atelier card shape. profile_image is the
 	// atelier's photo, speciality maps to specialty. City is not provided by the
 	// endpoint; omit it (empty string) until a location field is available.
@@ -174,7 +133,7 @@ export default function HomeContent({
 
 	// Fallback source — real Store rows from recommendedSellers. The ateliers rail
 	// is Tailor-table-driven, but on prod that table is often empty while stores
-	// exist, so surface real shops before dropping to static editorial cards.
+	// exist, so surface real shops before dropping through.
 	const liveSellersAsAteliers = (
 		(data.recommendedSellers ?? []) as RecommendedSeller[]
 	)
@@ -188,23 +147,29 @@ export default function HomeContent({
 			verified: false,
 		}));
 
+	// No static fallback: when neither the Tailor table nor Store table has
+	// real data, the rail renders an honest "coming soon" empty state below
+	// rather than fabricating named businesses with fake ratings/photos
+	// (mock-data-sweep fix — this previously showed invented atelier brand
+	// names, with generic category art presented as that atelier's own photo).
 	const ateliers =
-		liveAteliers.length > 0
-			? liveAteliers
-			: liveSellersAsAteliers.length > 0
-				? liveSellersAsAteliers
-				: staticAteliers;
+		liveAteliers.length > 0 ? liveAteliers : liveSellersAsAteliers;
 
 	// NOTE: `journal` is intentionally static. There is no backend /journal or
 	// /blog endpoint. These are editorial placeholders. When a CMS or blog API is
 	// available, replace this array with a dynamic fetch. Do not add a backend
 	// call here without an actual endpoint to target.
+	// author: no CMS means there is no real bylined writer behind these cards —
+	// attribute to the brand, not a fabricated named person (mock-data-sweep
+	// fix; this previously used invented full names as if a real staff writer
+	// authored content that doesn't exist).
+	const journalByline = t("home.journal.byline", "Beldify Editorial");
 	const journal = [
 		{
 			tag: t("home.journal.article1_tag"),
 			title: t("home.journal.article1_title"),
 			excerpt: t("home.journal.article1_excerpt"),
-			author: "Imane Bennani",
+			author: journalByline,
 			readTime: "6",
 			img: "https://pro.beldify.com/storage/categories/category_4_caftan.png",
 		},
@@ -212,7 +177,7 @@ export default function HomeContent({
 			tag: t("home.journal.article2_tag"),
 			title: t("home.journal.article2_title"),
 			excerpt: t("home.journal.article2_excerpt"),
-			author: "Salma El Aoud",
+			author: journalByline,
 			readTime: "8",
 			img: "https://pro.beldify.com/storage/categories/category_14_wedding-dresses.png",
 		},
@@ -220,7 +185,7 @@ export default function HomeContent({
 			tag: t("home.journal.article3_tag"),
 			title: t("home.journal.article3_title"),
 			excerpt: t("home.journal.article3_excerpt"),
-			author: "Karim Lahlou",
+			author: journalByline,
 			readTime: "5",
 			img: "https://pro.beldify.com/storage/categories/category_5_womens-djellaba.png",
 		},
@@ -843,7 +808,19 @@ export default function HomeContent({
 					</Link>
 				</div>
 
-				{/* 4-col desktop; 2-col mobile */}
+				{ateliers.length === 0 ? (
+					/* Honest empty state — no real tailors/sellers yet. Never backfill
+					 * this rail with fabricated business names/ratings/photos. */
+					<div className="rounded-2xl border border-dashed border-gray-300 bg-gray-50 px-6 py-12 text-center">
+						<p className="text-sm font-medium text-gray-600">
+							{t(
+								"home.ateliers.empty",
+								"New ateliers are joining Beldify — check back soon.",
+							)}
+						</p>
+					</div>
+				) : (
+				/* 4-col desktop; 2-col mobile */
 				<div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
 					{ateliers.map((a) => (
 						<Link
@@ -902,6 +879,7 @@ export default function HomeContent({
 						</Link>
 					))}
 				</div>
+				)}
 			</section>
 
 			{/* ── THE JOURNAL ───────────────────────────────────────────────────── */}

@@ -4508,7 +4508,9 @@
     "trustFree": "بلاش",
     "trustNoCommitment": "بلا التزام",
     "trustCod": "الخلاص عند التوصيل",
-    "previewBestOffer": "أحسن عرض"
+    "previewBestOffer": "أحسن عرض",
+    "exampleSeller": "خياط {{n}}",
+    "previewIsExample": "مثال — كيفاش كيخدم"
   },
   "seller": {
     "shortcut_title": "لوحة التحكم ديالي البايع",

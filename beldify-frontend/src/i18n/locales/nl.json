@@ -3271,7 +3271,9 @@
     "trustFree": "Gratis plaatsen",
     "trustNoCommitment": "Vrijblijvend",
     "trustCod": "Betalen bij levering",
-    "previewBestOffer": "Beste aanbod"
+    "previewBestOffer": "Beste aanbod",
+    "exampleSeller": "Atelier {{n}}",
+    "previewIsExample": "Voorbeeld — zo werkt het"
   },
   "catalog": {
     "categories": {

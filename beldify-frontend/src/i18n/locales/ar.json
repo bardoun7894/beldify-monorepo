@@ -3504,7 +3504,9 @@
     "trustFree": "مجاني",
     "trustNoCommitment": "بدون التزام",
     "trustCod": "الدفع عند التوصيل",
-    "previewBestOffer": "أفضل عرض"
+    "previewBestOffer": "أفضل عرض",
+    "exampleSeller": "خياط {{n}}",
+    "previewIsExample": "مثال — كيفاش كيخدم"
   },
   "brand": {
     "name": "بيلديفاي",

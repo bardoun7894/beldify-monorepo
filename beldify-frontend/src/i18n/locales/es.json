@@ -4577,7 +4577,9 @@
     "trustFree": "Gratis",
     "trustNoCommitment": "Sin compromiso",
     "trustCod": "Pago contra entrega",
-    "previewBestOffer": "Mejor oferta"
+    "previewBestOffer": "Mejor oferta",
+    "exampleSeller": "Taller {{n}}",
+    "previewIsExample": "Ejemplo — cómo funciona"
   },
   "seller": {
     "shortcut_title": "Panel del Vendedor",

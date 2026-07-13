@@ -3271,7 +3271,9 @@
     "trustFree": "Kostenlos",
     "trustNoCommitment": "Unverbindlich",
     "trustCod": "Zahlung bei Lieferung",
-    "previewBestOffer": "Bestes Angebot"
+    "previewBestOffer": "Bestes Angebot",
+    "exampleSeller": "Atelier {{n}}",
+    "previewIsExample": "Beispiel — so funktioniert es"
   },
   "catalog": {
     "categories": {

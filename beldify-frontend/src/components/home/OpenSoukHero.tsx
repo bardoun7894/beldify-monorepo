@@ -25,11 +25,18 @@ export default function OpenSoukHero() {
     ? undefined
     : { fontFamily: '"Playfair Display", ui-serif, Georgia, serif' as const };
 
-  // Illustrative incoming offers (the reverse auction, made visible).
+  // An ILLUSTRATION of the reverse auction, not live data.
+  //
+  // This used to name three plausible-sounding ateliers ("Atelier Andaloussi",
+  // "Dar Soraya", "Khyata Tetouan") with verified badges and 4.7–4.9 ratings,
+  // under a pulsing "live" dot. On a marketplace with one seller that reads as
+  // three real verified ateliers bidding right now — a claim we cannot make.
+  // Generic labels + no verified badge + an explicit "example" caption keep the
+  // explainer without inventing sellers.
   const offers = [
-    { initials: 'AA', name: 'Atelier Andaloussi', price: '1 180', days: 6, rating: '4.9', best: true },
-    { initials: 'DS', name: 'Dar Soraya', price: '1 350', days: 4, rating: '4.7' },
-    { initials: 'KT', name: 'Khyata Tetouan', price: '1 090', days: 8, rating: '4.8' },
+    { initials: '١', name: t('openSouk.exampleSeller', 'Atelier {{n}}', { n: 1 }), price: '1 180', days: 6, best: true },
+    { initials: '٢', name: t('openSouk.exampleSeller', 'Atelier {{n}}', { n: 2 }), price: '1 350', days: 4 },
+    { initials: '٣', name: t('openSouk.exampleSeller', 'Atelier {{n}}', { n: 3 }), price: '1 090', days: 8 },
   ];
 
   const container = {
@@ -161,6 +168,13 @@ export default function OpenSoukHero() {
                 {t('openSouk.previewReplied', { n: 5, defaultValue: '{{n}} ateliers replied' })}
               </motion.div>
 
+              {/* This whole card is a mockup of the mechanic, not live data.
+                  Say so, plainly and visibly — the counts, prices and offers
+                  below are illustrative. */}
+              <p className="mt-3 text-[10px] font-semibold uppercase tracking-[0.14em] text-indigo-300/80">
+                {t('openSouk.previewIsExample', 'Example — how it works')}
+              </p>
+
               {/* Offer rows */}
               <div className="mt-3 space-y-2">
                 {offers.map((o) => (
@@ -173,19 +187,15 @@ export default function OpenSoukHero() {
                       {o.initials}
                     </span>
                     <div className="min-w-0 flex-1">
+                      {/* No verified badge and no star rating here: this is an
+                          illustration, and a fake ✓ or a fake 4.9 is a claim. */}
                       <p className="flex items-center gap-1 text-[13px] font-semibold text-white">
                         <span className="min-w-0 truncate">{o.name}</span>
-                        <BadgeCheck className="h-3.5 w-3.5 shrink-0 text-amber-300" />
                       </p>
                       <p className="mt-0.5 flex items-center gap-1.5 text-[11px] text-indigo-200">
                         <span className="flex items-center gap-1">
                           <Clock className="h-3 w-3 shrink-0" />
                           {o.days} {t('openSouk.previewDaysShort', 'd')}
-                        </span>
-                        <span className="text-indigo-400/70" aria-hidden>·</span>
-                        <span className="flex items-center gap-0.5">
-                          <Star className="h-3 w-3 shrink-0 fill-amber-300 text-amber-300" />
-                          {o.rating}
                         </span>
                       </p>
                     </div>
