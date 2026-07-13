@@ -1502,6 +1502,9 @@
       "bag": "Panier",
       "confirm": "Confirmation",
       "info": "Informations"
+    },
+    "mobileBar": {
+      "label": "Total de la commande et confirmation"
     }
   },
   "profile": {
@@ -4160,7 +4163,7 @@
   "shop": {
     "about_heading": "Dans {{name}}",
     "all_reviews": "Lire les {{count}} avis",
-    "atelier_image_alt": "Intérieur de l'atelier {{n}}",
+    "atelier_image_alt": "Pièce de {{name}}",
     "bespoke_heading": "Vous avez quelque chose de précis en tête ?",
     "bespoke_sub": "Commandez une pièce sur mesure selon vos mensurations, confectionnée avec des techniques ancestrales.",
     "cover_alt": "Couverture de l'atelier — {{name}}",

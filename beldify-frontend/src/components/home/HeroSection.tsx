@@ -181,11 +181,23 @@ export default function HeroSection({ hero, products = [] }: HeroSectionProps) {
       {/* Navigation arrow override — hidden on mobile, shown on lg+ */}
       <style>{`
         .hero-swiper .swiper-pagination-bullet {
+          position: relative;
           background: rgba(255,255,255,0.4);
           opacity: 1;
           width: 8px;
           height: 8px;
           transition: background 200ms, transform 200ms;
+        }
+        /* Visual dot stays 8px (Atlas), but the tap target grows to 44px —
+           WCAG 2.5.5 target size on a real device without changing the look. */
+        .hero-swiper .swiper-pagination-bullet::before {
+          content: '';
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          width: 44px;
+          height: 44px;
+          transform: translate(-50%, -50%);
         }
         .hero-swiper .swiper-pagination-bullet-active {
           background: rgb(245 158 11); /* amber-500 */

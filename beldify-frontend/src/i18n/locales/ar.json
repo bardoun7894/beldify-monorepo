@@ -1533,6 +1533,9 @@
       "bag": "السلة",
       "confirm": "التأكيد",
       "info": "المعلومات"
+    },
+    "mobileBar": {
+      "label": "إجمالي الطلب والتأكيد"
     }
   },
   "profile": {
@@ -4647,7 +4650,7 @@
   "shop": {
     "about_heading": "داخل {{name}}",
     "all_reviews": "اقرأ جميع {{count}} تقييمات",
-    "atelier_image_alt": "صورة الورشة {{n}}",
+    "atelier_image_alt": "قطعة من {{name}}",
     "bespoke_heading": "هل لديك شيء محدد في ذهنك؟",
     "bespoke_sub": "اطلب قطعة مخصصة تُصنع وفق مقاساتك ورؤيتك بأساليب الأجداد.",
     "cover_alt": "صورة الغلاف — {{name}}",

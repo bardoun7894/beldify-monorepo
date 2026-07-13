@@ -162,7 +162,7 @@ export default function ShopsPage() {
             {t('shops.error.title', 'Something went wrong')}
           </h2>
           <p className="text-sm text-gray-600">{error}</p>
-          <Button onClick={fetchShops} className="rounded-full bg-indigo-700 hover:bg-indigo-800 text-white px-6">
+          <Button onClick={fetchShops} className="rounded-full bg-indigo-700 hover:bg-indigo-800 text-white px-6 min-h-[44px]">
             {t('common.actions.tryAgain', 'Try again')}
           </Button>
         </div>
@@ -219,13 +219,13 @@ export default function ShopsPage() {
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     placeholder={t('shops.search.placeholder', 'Search sellers...')}
-                    className="ps-9 w-full text-sm"
+                    className="ps-9 w-full text-sm min-h-[44px]"
                     aria-label={t('shops.search.label', 'Search sellers')}
                   />
                 </div>
                 <Button
                   type="submit"
-                  className="ms-2 bg-indigo-700 hover:bg-indigo-800 text-white px-3 sm:px-4 py-2 rounded-full text-sm"
+                  className="ms-2 bg-indigo-700 hover:bg-indigo-800 text-white px-3 sm:px-4 py-2 rounded-full text-sm min-h-[44px]"
                   aria-label={t('common.actions.search', 'Search')}
                 >
                   <span className="hidden sm:inline">{t('common.actions.search', 'Search')}</span>
@@ -290,7 +290,7 @@ export default function ShopsPage() {
                 <Button
                   onClick={() => router.push('/shops')}
                   variant="outline"
-                  className="mt-6 rounded-full border-indigo-700 text-indigo-700 hover:bg-indigo-50 px-6"
+                  className="mt-6 rounded-full border-indigo-700 text-indigo-700 hover:bg-indigo-50 px-6 min-h-[44px]"
                 >
                   {t('common.actions.clearFilters', 'Clear filters')}
                 </Button>
@@ -306,7 +306,7 @@ export default function ShopsPage() {
                 <div className="flex items-center justify-center gap-2">
                   <Button
                     variant="outline"
-                    className="rounded-full border-indigo-200 text-indigo-700 hover:bg-indigo-50 px-5 disabled:opacity-40 disabled:cursor-not-allowed"
+                    className="rounded-full border-indigo-200 text-indigo-700 hover:bg-indigo-50 px-5 min-h-[44px] disabled:opacity-40 disabled:cursor-not-allowed"
                     disabled={pagination.current_page === 1}
                     onClick={() => handlePageChange(pagination.current_page - 1)}
                     aria-label={t('common.pagination.previous', 'Previous page')}
@@ -331,7 +331,7 @@ export default function ShopsPage() {
                           aria-current={entry === pagination.current_page ? 'page' : undefined}
                           aria-label={t('common.pagination.goToPage', 'Go to page {{page}}', { page: entry })}
                           onClick={() => handlePageChange(entry as number)}
-                          className={`w-10 h-10 rounded-full text-sm font-medium transition focus-visible:ring-2 focus-visible:ring-indigo-700 focus-visible:ring-offset-1 ${
+                          className={`w-11 h-11 min-w-[44px] min-h-[44px] rounded-full text-sm font-medium transition focus-visible:ring-2 focus-visible:ring-indigo-700 focus-visible:ring-offset-1 ${
                             entry === pagination.current_page
                               ? 'bg-indigo-700 text-white shadow-atlas-sm'
                               : 'ring-1 ring-amber-200 text-gray-700 hover:bg-amber-50'
@@ -354,7 +354,7 @@ export default function ShopsPage() {
 
                   <Button
                     variant="outline"
-                    className="rounded-full border-indigo-200 text-indigo-700 hover:bg-indigo-50 px-5 disabled:opacity-40 disabled:cursor-not-allowed"
+                    className="rounded-full border-indigo-200 text-indigo-700 hover:bg-indigo-50 px-5 min-h-[44px] disabled:opacity-40 disabled:cursor-not-allowed"
                     disabled={pagination.current_page === pagination.last_page}
                     onClick={() => handlePageChange(pagination.current_page + 1)}
                     aria-label={t('common.pagination.next', 'Next page')}

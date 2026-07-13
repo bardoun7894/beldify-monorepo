@@ -1521,6 +1521,9 @@
       "bag": "Winkelwagen",
       "confirm": "Bevestiging",
       "info": "Informatie"
+    },
+    "mobileBar": {
+      "label": "Totaalbedrag bestelling en bevestigen"
     }
   },
   "profile": {
@@ -4381,7 +4384,7 @@
   "shop": {
     "about_heading": "In {{name}}",
     "all_reviews": "Lees alle {{count}} beoordelingen",
-    "atelier_image_alt": "Atelierbinnenland {{n}}",
+    "atelier_image_alt": "Stuk van {{name}}",
     "bespoke_heading": "Heb je iets specifieks in gedachten?",
     "bespoke_sub": "Bestel een aangepast stuk dat exact op maat is gesneden naar je afmetingen en visie, vervaardigd met voorouderse technieken.",
     "cover_alt": "Atelierkaft — {{name}}",

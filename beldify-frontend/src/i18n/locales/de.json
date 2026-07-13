@@ -1521,6 +1521,9 @@
       "bag": "Warenkorb",
       "confirm": "Bestätigung",
       "info": "Informationen"
+    },
+    "mobileBar": {
+      "label": "Bestellsumme und Bestätigung"
     }
   },
   "profile": {
@@ -4381,7 +4384,7 @@
   "shop": {
     "about_heading": "Hier geht's rein in {{name}}",
     "all_reviews": "Lese alle {{count}} Bewertungen",
-    "atelier_image_alt": "Atelier-Interieur {{n}}",
+    "atelier_image_alt": "Stück von {{name}}",
     "bespoke_heading": "Hast du etwas Spezielles im Sinn?",
     "bespoke_sub": "Bestelle ein maßgeschneidertes Stück, das genau zu deinen Maßen und Vorstellungen passt, handgefertigt mit traditionellen Techniken.",
     "cover_alt": "Atelier-Cover – {{name}}",

@@ -1502,6 +1502,9 @@
       "bag": "Carrito",
       "confirm": "Confirmación",
       "info": "Información"
+    },
+    "mobileBar": {
+      "label": "Total del pedido y confirmación"
     }
   },
   "profile": {
@@ -4171,7 +4174,7 @@
   "shop": {
     "about_heading": "Dentro de {{name}}",
     "all_reviews": "Ver las {{count}} reseñas",
-    "atelier_image_alt": "Interior del taller {{n}}",
+    "atelier_image_alt": "Pieza de {{name}}",
     "bespoke_heading": "¿Tienes algo específico en mente?",
     "bespoke_sub": "Encarga una pieza hecha a medida según tus dimensiones, elaborada con técnicas ancestrales.",
     "cover_alt": "Portada del taller — {{name}}",

@@ -44,12 +44,11 @@ function extractCity(shop: Shop): string {
   return raw.split(',')[0].trim() || 'Morocco';
 }
 
-const ATELIER_IMAGES = [
-  'https://pro.beldify.com/storage/categories/category_4_caftan.png',
-  'https://pro.beldify.com/storage/categories/category_7_jabador.png',
-  'https://pro.beldify.com/storage/categories/category_14_wedding-dresses.png',
-  'https://pro.beldify.com/storage/categories/category_8_mens-kandora.png',
-];
+// NOTE: this used to be a hardcoded array of four generic *category* images
+// rendered with alt="Atelier interior" on EVERY shop page — i.e. we showed stock
+// catalogue art as if it were photos of that specific seller's workshop. That is
+// fabricated content about a real business. The grid now shows the shop's own
+// product photos, and renders nothing at all when the shop has none.
 
 
 const TABS = [
@@ -332,6 +331,13 @@ export default function ShopPage() {
   const hasCoverImage = Boolean(shop?.cover_image || shop?.profile?.cover_image);
   const hasAnyProducts = allProducts.length > 0;
 
+  // The About section's image grid shows the shop's OWN product photos — never
+  // stock art. A shop with no photos shows no grid.
+  const atelierImages = allProducts
+    .map((p) => p.main_image)
+    .filter((src): src is string => Boolean(src))
+    .slice(0, 4);
+
   const rawDescription = shop?.description ?? shop?.profile?.description ?? '';
   const descParagraphs = rawDescription
     ? rawDescription.split(/\n\n+/).filter(Boolean)
@@ -509,7 +515,11 @@ export default function ShopPage() {
       </div>
 
       {/* ── 3. About / atelier story ───────────────────────────────────────── */}
-      <section className="max-w-7xl mx-auto px-6 py-16 grid lg:grid-cols-2 gap-12 items-start">
+      <section
+        className={`max-w-7xl mx-auto px-6 py-16 grid gap-12 items-start ${
+          atelierImages.length > 0 ? 'lg:grid-cols-2' : 'lg:grid-cols-1'
+        }`}
+      >
         {/* Left: text */}
         <div>
           <h2
@@ -544,9 +554,12 @@ export default function ShopPage() {
           />
         </div>
 
-        {/* Right: 2×2 staggered image grid */}
+        {/* Right: 2×2 staggered grid of the shop's OWN product photos.
+            Renders nothing when the shop has none — a brand-new seller gets a
+            clean single-column About section rather than someone else's photos. */}
+        {atelierImages.length > 0 && (
         <div className="grid grid-cols-2 gap-4">
-          {ATELIER_IMAGES.map((src, i) => (
+          {atelierImages.map((src, i) => (
             <div
               key={i}
               className={`relative overflow-hidden rounded-2xl ring-1 ring-gray-200 shadow-atlas-sm ${
@@ -556,7 +569,7 @@ export default function ShopPage() {
             >
               <Image
                 src={src}
-                alt={t('shop.atelier_image_alt', 'Atelier interior {{n}}', { n: i + 1 })}
+                alt={t('shop.atelier_image_alt', 'Piece by {{name}}', { name: displayName })}
                 fill
                 sizes="(max-width: 768px) 50vw, 25vw"
                 className="object-cover"
@@ -565,6 +578,7 @@ export default function ShopPage() {
             </div>
           ))}
         </div>
+        )}
       </section>
 
       {/* ── 4. Tab strip ──────────────────────────────────────────────────── */}

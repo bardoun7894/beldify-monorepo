@@ -38,6 +38,7 @@ import {
   ChevronRight,
 } from 'lucide-react';
 import { CheckoutProgressBar } from '@/components/checkout/CheckoutProgressBar';
+import { CheckoutMobileBar } from '@/components/checkout/CheckoutMobileBar';
 import { track } from '@/lib/analytics';
 
 // ── Playfair inline style token ───────────────────────────────────────────────
@@ -1441,7 +1442,7 @@ export default function CheckoutPage() {
                   touchedFields.email && validationErrors.email
                     ? 'ring-rose-400 focus:ring-rose-500'
                     : 'ring-gray-200 focus:ring-indigo-700/40'
-                } ps-10 pe-4 py-2.5 text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 transition-all duration-150`}
+                } ps-10 pe-4 py-3 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 transition-all duration-150 min-h-[48px]`}
                 aria-invalid={touchedFields.email && !!validationErrors.email}
                 aria-describedby={touchedFields.email && validationErrors.email ? 'email-error' : undefined}
               />
@@ -2161,7 +2162,7 @@ export default function CheckoutPage() {
   const progressStep = step === 1 ? 2 : 3;
 
   return (
-    <div className={`min-h-screen bg-canvas ${isRTL ? 'rtl' : 'ltr'}`}>
+    <div className={`min-h-screen bg-canvas pb-24 md:pb-0 ${isRTL ? 'rtl' : 'ltr'}`}>
       {/* ── 3-step progress bar (السلة ← المعلومات ← التأكيد) ──────────────── */}
       <div className="bg-white border-b border-gray-100 py-2">
         <div className="max-w-7xl mx-auto px-6 flex items-center justify-between gap-4">
@@ -2209,6 +2210,21 @@ export default function CheckoutPage() {
 
       {/* ── Bespoke strip ─────────────────────────────────────────────────── */}
       <BespokeStrip t={t} />
+
+      {/* ── Mobile sticky action bar — keeps the primary CTA reachable without
+           scrolling past the contact/address/shipping cards on a phone. ──── */}
+      <CheckoutMobileBar
+        totalLabel={`${formatAmount(effectiveTotal)} MAD`}
+        ctaLabel={
+          step === 1
+            ? t('checkout.actions.continue_to_confirm', 'كمّل للتأكيد')
+            : t('checkout.actions.confirm_order', 'أكّد الطلب')
+        }
+        step={step === 1 ? 1 : 2}
+        formId="checkout-delivery"
+        onSubmitStep2={handlePaymentSubmit}
+        isProcessing={isProcessing}
+      />
     </div>
   );
 }

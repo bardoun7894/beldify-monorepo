@@ -1533,6 +1533,9 @@
       "bag": "Cart",
       "confirm": "Confirm",
       "info": "Information"
+    },
+    "mobileBar": {
+      "label": "Order total and confirm"
     }
   },
   "profile": {
@@ -4407,7 +4410,7 @@
   "shop": {
     "about_heading": "Inside {{name}}",
     "all_reviews": "Read all {{count}} reviews",
-    "atelier_image_alt": "Atelier interior {{n}}",
+    "atelier_image_alt": "Piece by {{name}}",
     "bespoke_heading": "Have something specific in mind?",
     "bespoke_sub": "Commission a custom piece tailored exactly to your measurements and vision, crafted with ancestral techniques.",
     "cover_alt": "Atelier cover — {{name}}",
