@@ -23,7 +23,7 @@ A **one-screen, camera-first "Quick Add" (إضافة منتج سريعة)** flow
 6. **Price**: seller types the number; AI shows a **suggested range** from comparable listings as a hint, never auto-fills.
 7. **Quantity + sizes**: tap-to-select chips, not free text.
 8. Seller reviews the entire draft on one screen and taps **نشر** (Publish).
-9. Stock (+ ProductImage) is created via the same shared write logic `ProductController::store()` uses — status `pending`, identical approval-queue behavior to the dashboard form.
+9. Stock (+ ProductImage) is created via the same shared write logic `ProductController::store()` uses. **It goes live immediately** — see the correction below.
 
 ## Identity / auth (why this is simple now)
 The Next.js frontend already has an authenticated seller-facing JSON API surface distinct from the Blade dashboard: `POST /api/seller/listing-ai/analyze` (feature 012, `SellerListingAiController`) is called from the frontend today via `src/services/listingAiService.ts` using the shared `api` client (`@/lib/api`), which attaches the seller's Sanctum Bearer token from `useAuth`. Quick Listing follows the **exact same pattern** — a new `/api/seller/quick-listing/*` route group, `auth:sanctum` + `role:store_owner` middleware (matching `routes/api.php:448`'s existing seller group), no new auth mechanism, no session bridge, no handoff ticket (the handoff/SSO ticket dance in `sellerBridgeService.ts` is only for entering the *Blade* dashboard — irrelevant here since Quick Add is a native Next.js page, not a Blade view).
@@ -60,7 +60,12 @@ Quick Listing must work fully in an **uninstalled** mobile browser tab (Safari i
 
 ## What's kept from the superseded chat-bot design
 - **Channel-agnostic core write path**: `ProductController::store()`'s Stock+ProductImage persistence logic is still extracted into a shared `App\Services\Seller\StockCreationService`, called by the existing Blade controller AND the new Quick Listing endpoint. Any future channel (PWA now, WhatsApp later) calls the same service — this is the one piece of the original design that was never chat-bot-specific.
-- **Approval-queue honesty**: Quick-Listing-created listings land `status = pending`, in the same admin approval queue as dashboard-created listings (`[[beldify-seller-listing-completeness-audit]]`). The publish-confirmation UI must say "submitted for review," not "live now." Auto-approve-for-trusted-sellers remains an explicit, deferred fast-follow (not v1 scope), gated behind a DB-backed feature setting defaulted OFF.
+- **CORRECTION (2026-07-13) — THERE IS NO PRODUCT APPROVAL QUEUE.** Earlier drafts of this spec claimed listings land `status = pending` and required "submitted for review" copy plus an auto-approve-trusted-sellers fast-follow. **That was wrong.** Verified against code and the live prod schema:
+  - `stocks` has **no approval column** — only `is_active` and `status` (which defaults to `in_stock`, a stock-level state, not moderation).
+  - `Seller/ProductController::store()` sets `is_active = 1` on create (`:170`), and the storefront filters on `is_active`.
+  - The "approval bottleneck" in prior notes refers to **store** approval (`stores.status`), not products. bardstore is already approved.
+
+  So a seller listing **goes live the moment it is published**. The publish-confirmation UI must say **"published / تم النشر"** — saying "submitted for review" would be a lie in the other direction. No auto-approve work is needed; that scope is dropped.
 - **Free / no credit charge**: Quick Listing does not call `CreditService`. Same rationale as before — this is friction removal for acquisition/retention, not a billed power-tool.
 - **AI grounding discipline**: category suggestions are validated server-side against the real leaf-category set (`[[beldify-getallcategories-leaf-only]]`), reusing `ListingIntelligenceService`'s grounding pattern — an invented/non-leaf category is never accepted, the seller is shown a real picklist instead.
 
@@ -80,10 +85,10 @@ This spec's plan.md keeps the `ChatChannel` contract shape documented as a forwa
 - **FR5** — Category: AI suggestion is validated server-side against the real leaf-category set; invented/non-leaf → `suggested_category_id: null` + the frontend shows a category picker instead of a pre-filled chip.
 - **FR6** — Price range hint: `GET /api/seller/quick-listing/price-hint?category_id=&attrs=` (or folded into FR2's draft response) — simple query over active `stocks` in the same category (min/max or a percentile band), advisory only, never auto-fills the price input.
 - **FR7** — Fabric: **no AI involvement whatsoever**. `GET /api/seller/quick-listing/fabrics?category_id=` (or reuse an existing fabric-list endpoint if one exists — check before adding a new one) returns the tap-list options sourced from `VariantFabric`; empty list is a valid, non-blocking response.
-- **FR8** — `POST /api/seller/quick-listing/publish` — final payload (title_en/ar, description_en/ar, category_id, color, fabric_id?, price, quantity, sizes[]?, image references from the draft step) → calls the shared `StockCreationService::create()` → `Stock` (status `pending`) + `ProductImage` rows. Response mirrors what the dashboard form's success response would look like (or as close as reasonably reusable).
+- **FR8** — `POST /api/seller/quick-listing/publish` — final payload (title_en/ar, description_en/ar, category_id, color, fabric_id?, price, quantity, sizes[]?, image references from the draft step) → calls the shared `StockCreationService::create()` → `Stock` (`is_active = 1`, LIVE immediately) + `ProductImage` rows. Response mirrors what the dashboard form's success response would look like (or as close as reasonably reusable).
 - **FR9** — **`StockCreationService` extraction**: `ProductController::store()`'s Stock+ProductImage persistence (~lines 140-225) is extracted into `App\Services\Seller\StockCreationService::create(Store $store, array $data, array $imagePaths, ?int $userId = null): Stock`, called by both the refactored `ProductController::store()` (dashboard, unchanged behavior/contract) and the new `quick-listing/publish` endpoint. **Byte-identical dashboard behavior is a hard requirement**, verified by existing `ProductController` feature tests staying green untouched.
 - **FR10** — No `CreditService` call anywhere in this flow — explicit code comment at the would-be charge point, matching the FR13-style discipline from the superseded spec.
-- **FR11** — Approval-queue honesty: publish-success UI copy explicitly says "تم الإرسال للمراجعة" (submitted for review)/"pending," never "live now" or "منشور" (published) without qualification.
+- **FR11** — Publish-success copy says **"تم النشر" (published)** — the listing IS live. There is no approval queue for products (see the correction above); telling the seller it is "under review" would be false.
 - **FR12** — Draft resilience: the in-progress draft (photos already uploaded + AI-drafted fields + any seller edits) survives an accidental tab close/reload via `localStorage` persistence on the client, cleared on successful publish or explicit seller-initiated discard. No server-side session table (contrast with the superseded chat-bot's `chat_listing_sessions`) — this is deliberately client-only since there's no cross-device/cross-session continuity requirement in Phase 1.
 - **FR13** — Uninstalled-browser support: camera capture and voice recording work without PWA installation, tested against mobile Safari (iOS) and Chrome (Android) specifically — these are the two engines that matter for Morocco's device mix.
 - **FR14** — Install prompt: triggered only after a successful `publish`, framed around push-notification value, never gating the Quick Add flow itself.
@@ -101,11 +106,10 @@ This spec's plan.md keeps the `ChatChannel` contract shape documented as a forwa
 - `npm run test` (never bare vitest, `[[beldify-vitest-dual-config-hazard]]`) + `php artisan test` + lint + build all green.
 
 ## Scope (v1) / deferrals
-- **v1 IN**: PWA Quick Add screen (photo capture, typed-caption + voice-note input with spike-gated rollout, AI title/description/category draft, auto color extraction with one-tap override, manual fabric tap-list, AI price-range hint with manual price entry, chip-based quantity, chip-based sizes where applicable, one-screen review + publish), shared `StockCreationService` extraction, free/no-credit, pending-approval-honest UI, uninstalled-browser support, post-publish install prompt.
+- **v1 IN**: PWA Quick Add screen (photo capture, typed-caption + voice-note input with spike-gated rollout, AI title/description/category draft, auto color extraction with one-tap override, manual fabric tap-list, AI price-range hint with manual price entry, chip-based quantity, chip-based sizes where applicable, one-screen review + publish), shared `StockCreationService` extraction, free/no-credit, live-on-publish confirmation UI, uninstalled-browser support, post-publish install prompt.
 - **v1 OUT / deferred**:
   - Phase 3 WhatsApp adapter (notifications AND photo-drop listing) — entirely future work; phone-normalization bug fix is bundled with this deferral, not fixed now.
   - Full multi-variant (per-size stock counts) — v1 produces a single default variant equivalent to today's non-variant `Stock` row.
-  - Auto-approve-trusted-sellers — explicit fast-follow.
   - Any server-side draft session persistence (cross-device continuation) — client-`localStorage` only in v1.
   - Editing an already-published listing via Quick Add — v1 is create-only; edits still go through the existing dashboard form.
   - Multi-language voice input beyond Darija (MSA/French voice notes) — out of scope unless the spike naturally reveals they work equally well, not a v1 requirement to test separately.
@@ -113,11 +117,11 @@ This spec's plan.md keeps the `ChatChannel` contract shape documented as a forwa
 ## Acceptance
 - Spike (T0) produces a documented go/secondary/defer recommendation for Darija ASR before any voice-input frontend UI is built for real use (a throwaway record/upload harness for the spike itself doesn't count as "the voice UI").
 - A seller can complete photo capture → (voice or typed) → AI draft → color pre-filled (or gracefully empty) → fabric tap-pick → price entered with a range hint shown → quantity/sizes via chips → publish, entirely inside an uninstalled mobile browser tab, on both iOS Safari and Android Chrome.
-- Publish creates a `Stock` (status `pending`) + `ProductImage` row(s) via `StockCreationService`, matching what `ProductController::store()` would produce for equivalent structured input; existing dashboard `ProductController` feature tests remain green untouched.
+- Publish creates a `Stock` (`is_active = 1`, live) + `ProductImage` row(s) via `StockCreationService`, matching what `ProductController::store()` would produce for equivalent structured input; existing dashboard `ProductController` feature tests remain green untouched.
 - Category is always a real leaf category id or the seller is shown a real picker — never invented.
 - Fabric is never AI-suggested in any code path.
 - Price is never auto-filled by AI — only a range hint is shown.
 - No credits are charged.
-- Publish-success copy is honest about pending review.
+- Publish-success copy says the listing is **live** ("تم النشر") — because it is. There is no product approval queue.
 - Install prompt appears only post-first-publish, never as a gate.
 - `npm run test` + `php artisan test` + lint + build all green.
