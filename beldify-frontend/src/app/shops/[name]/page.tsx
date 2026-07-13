@@ -19,6 +19,7 @@ import {
   MessageCircle,
   ArrowRight,
   Filter,
+  ShoppingBag,
 } from 'lucide-react';
 import logger from '@/utils/consoleLogger';
 import toast from '@/utils/toast';
@@ -125,6 +126,9 @@ export default function ShopPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [isFollowActionLoading, setIsFollowActionLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  // Cover image failed to load (dangling URL) → fall through to the designed
+  // gradient rather than a stock photo of someone else's atelier.
+  const [coverFailed, setCoverFailed] = useState(false);
   const [visibleCount, setVisibleCount] = useState(8);
   const [otherShops, setOtherShops] = useState<{ name: string; subtitle: string }[]>([]);
 
@@ -325,6 +329,9 @@ export default function ShopPage() {
       : shop.profile?.store_name || shop.name
     : '';
 
+  const hasCoverImage = Boolean(shop?.cover_image || shop?.profile?.cover_image);
+  const hasAnyProducts = allProducts.length > 0;
+
   const rawDescription = shop?.description ?? shop?.profile?.description ?? '';
   const descParagraphs = rawDescription
     ? rawDescription.split(/\n\n+/).filter(Boolean)
@@ -376,15 +383,33 @@ export default function ShopPage() {
 
       {/* ── 1. Cover Hero ──────────────────────────────────────────────────── */}
       <section className="relative h-72 sm:h-[28rem] overflow-hidden bg-indigo-950">
-        <Image
-          src={getImageUrl(shop.cover_image || shop.profile?.cover_image, '/images/hero-atelier.jpg')}
-          alt={t('shop.cover_alt', 'Atelier cover — {{name}}', { name: displayName })}
-          fill
-          priority
-          sizes="100vw"
-          className="object-cover"
-          onError={handleImageError}
-        />
+        {hasCoverImage && !coverFailed ? (
+          <Image
+            src={getImageUrl(shop.cover_image || shop.profile?.cover_image)}
+            alt={t('shop.cover_alt', 'Atelier cover — {{name}}', { name: displayName })}
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover"
+            // A dangling cover URL must NOT fall back to a stock atelier photo —
+            // that renders someone else's workshop as this seller's storefront.
+            // Prod has had dangling image rows, so degrade to the same designed
+            // gradient the coverless case gets.
+            onError={() => setCoverFailed(true)}
+          />
+        ) : (
+          /* Designed Atlas-token gradient fallback — new sellers (day-one
+             reality: store_cover is null) get an intentional cover instead
+             of a broken image or grey void. */
+          <div
+            aria-hidden="true"
+            className="absolute inset-0"
+            style={{
+              background:
+                'radial-gradient(ellipse 70% 65% at 8% 90%, hsl(38 92% 50% / 0.22) 0%, transparent 60%), radial-gradient(ellipse 60% 55% at 92% 10%, hsl(243 75% 51% / 0.30) 0%, transparent 55%)',
+            }}
+          />
+        )}
         {/* Gradient overlay — bottom-up indigo wash */}
         <div
           className="absolute inset-0 pointer-events-none"
@@ -513,7 +538,7 @@ export default function ShopPage() {
           {/* Share the atelier — sellers paste this into their bio/Status to
               funnel their own audience into Beldify. */}
           <ShareButton
-            className="mt-8 ltr:ml-3 rtl:mr-3 align-top"
+            className="mt-8 ms-3 align-top"
             title={shop?.name}
             label={t('share.share_shop', 'Share atelier')}
           />
@@ -616,7 +641,28 @@ export default function ShopPage() {
                 <ProductCard key={product.id} product={product} />
               ))}
             </div>
+          ) : !hasAnyProducts ? (
+            /* Brand-new shop, zero products total (day-one reality) —
+               distinct, welcoming empty state; never a bare/filtered message. */
+            <div className="flex flex-col items-center justify-center py-20 bg-white ring-1 ring-gray-200 rounded-2xl shadow-atlas-sm text-center px-6">
+              <div
+                className="h-14 w-14 rounded-full bg-indigo-50 ring-1 ring-indigo-100 flex items-center justify-center mb-5"
+                aria-hidden="true"
+              >
+                <ShoppingBag className="h-7 w-7 text-indigo-700" aria-hidden="true" />
+              </div>
+              <p
+                className="text-lg font-semibold text-gray-900"
+                style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
+              >
+                {t('shop.no_products_yet_title', 'No products yet')}
+              </p>
+              <p className="mt-2 max-w-xs text-sm text-gray-600">
+                {t('shop.no_products_yet_sub', "This atelier hasn't added any products yet. Check back soon.")}
+              </p>
+            </div>
           ) : (
+            /* Tab/filter narrowed real inventory down to zero */
             <div className="flex flex-col items-center justify-center py-20 bg-white ring-1 ring-gray-200 rounded-2xl shadow-atlas-sm text-center px-6">
               <p className="text-gray-600 text-sm">
                 {t('shop.no_products_found', 'No products found in this category.')}
