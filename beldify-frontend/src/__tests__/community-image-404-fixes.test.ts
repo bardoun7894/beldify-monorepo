@@ -157,9 +157,13 @@ describe('HomeContent.tsx — category images use slug-suffixed filenames', () =
     expect(content).not.toContain('category_5.jpg');
   });
 
-  it('uses category_7_jabador.png', () => {
-    expect(content).toContain('category_7_jabador.png');
-  });
+  // NOTE: category_7_jabador.png is intentionally NOT asserted here anymore.
+  // Its only prior use in this file was as the photo for a fabricated
+  // "Maison Tetouan" atelier card in the ateliers rail static fallback
+  // (mock-data-sweep fix) — generic category art presented as a specific,
+  // named business's own photo. That fallback was removed; the rail now
+  // renders an honest empty state when there is no live tailor/seller data,
+  // so this file has no remaining legitimate use for that filename.
 
   it('uses category_14_wedding-dresses.png', () => {
     expect(content).toContain('category_14_wedding-dresses.png');

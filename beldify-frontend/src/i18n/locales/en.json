@@ -3284,7 +3284,9 @@
     "trustFree": "Free to post",
     "trustNoCommitment": "No commitment",
     "trustCod": "Cash on delivery",
-    "previewBestOffer": "Best offer"
+    "previewBestOffer": "Best offer",
+    "exampleSeller": "Atelier {{n}}",
+    "previewIsExample": "Example — how it works"
   },
   "catalog": {
     "categories": {

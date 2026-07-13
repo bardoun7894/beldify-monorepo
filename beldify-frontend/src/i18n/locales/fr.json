@@ -3305,7 +3305,9 @@
     "trustFree": "Gratuit",
     "trustNoCommitment": "Sans engagement",
     "trustCod": "Paiement à la livraison",
-    "previewBestOffer": "Meilleure offre"
+    "previewBestOffer": "Meilleure offre",
+    "exampleSeller": "Atelier {{n}}",
+    "previewIsExample": "Exemple — comment ça marche"
   },
   "brand": {
     "name": "Beldify",
