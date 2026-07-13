@@ -1533,6 +1533,9 @@
       "bag": "Cart",
       "confirm": "Confirm",
       "info": "Information"
+    },
+    "mobileBar": {
+      "label": "Order total and confirm"
     }
   },
   "profile": {
@@ -4407,7 +4410,7 @@
   "shop": {
     "about_heading": "Inside {{name}}",
     "all_reviews": "Read all {{count}} reviews",
-    "atelier_image_alt": "Atelier interior {{n}}",
+    "atelier_image_alt": "Piece by {{name}}",
     "bespoke_heading": "Have something specific in mind?",
     "bespoke_sub": "Commission a custom piece tailored exactly to your measurements and vision, crafted with ancestral techniques.",
     "cover_alt": "Atelier cover — {{name}}",
@@ -4417,7 +4420,10 @@
     "load_more": "Load more",
     "message_atelier": "Message the atelier",
     "no_image": "No image",
+    "no_logo_alt": "{{name}} — no logo yet",
     "no_products_found": "No products found in this category.",
+    "no_products_yet_sub": "This atelier hasn't added any products yet. Check back soon.",
+    "no_products_yet_title": "No products yet",
     "no_reviews_sub": "Be the first to share your experience with this atelier.",
     "no_reviews_title": "No reviews yet",
     "reviews_heading": "Voices from our shoppers",

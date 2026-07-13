@@ -1521,6 +1521,9 @@
       "bag": "Winkelwagen",
       "confirm": "Bevestiging",
       "info": "Informatie"
+    },
+    "mobileBar": {
+      "label": "Totaalbedrag bestelling en bevestigen"
     }
   },
   "profile": {
@@ -4381,7 +4384,7 @@
   "shop": {
     "about_heading": "In {{name}}",
     "all_reviews": "Lees alle {{count}} beoordelingen",
-    "atelier_image_alt": "Atelierbinnenland {{n}}",
+    "atelier_image_alt": "Stuk van {{name}}",
     "bespoke_heading": "Heb je iets specifieks in gedachten?",
     "bespoke_sub": "Bestel een aangepast stuk dat exact op maat is gesneden naar je afmetingen en visie, vervaardigd met voorouderse technieken.",
     "cover_alt": "Atelierkaft — {{name}}",
@@ -4391,7 +4394,10 @@
     "load_more": "Laad meer",
     "message_atelier": "Bericht het atelier",
     "no_image": "Geen afbeelding",
+    "no_logo_alt": "{{name}} — nog geen logo",
     "no_products_found": "Geen producten gevonden in deze categorie.",
+    "no_products_yet_sub": "Dit atelier heeft nog geen producten toegevoegd. Kom snel terug.",
+    "no_products_yet_title": "Nog geen producten",
     "no_reviews_sub": "Wees de eerste die je ervaring met dit atelier deelt.",
     "no_reviews_title": "Nog geen beoordelingen",
     "reviews_heading": "Stemmen van onze shoppers",

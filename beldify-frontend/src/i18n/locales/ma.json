@@ -1448,6 +1448,9 @@
       "bag": "السلة",
       "confirm": "التأكيد",
       "info": "المعلومات"
+    },
+    "mobileBar": {
+      "label": "مجموع الطلب والتأكيد"
     }
   },
   "profile": {
@@ -4125,7 +4128,7 @@
   "shop": {
     "about_heading": "داخل {{name}}",
     "all_reviews": "شوف جميع {{count}} تقييمات",
-    "atelier_image_alt": "صورة الورشة {{n}}",
+    "atelier_image_alt": "قطعة من {{name}}",
     "bespoke_heading": "عندك شي معين في بالك؟",
     "bespoke_sub": "طلب قطعة على قياسك بالضبط، مصنوعة بالتقنيات التقليدية.",
     "cover_alt": "صورة الغلاف — {{name}}",
@@ -4135,7 +4138,10 @@
     "load_more": "حمّل المزيد",
     "message_atelier": "راسل الورشة",
     "no_image": "ما كاينش صورة",
+    "no_logo_alt": "{{name}} — ما كاينش لوگو بعد",
     "no_products_found": "ما لقينا والو في هاد الصنف.",
+    "no_products_yet_sub": "هاد المتجر مازال ما زادش منتوجات. عاود شوف من بعد.",
+    "no_products_yet_title": "ما كاينش منتوجات بعد",
     "no_reviews_sub": "كن أول واحد يشارك تجربتو مع هاد الورشة.",
     "no_reviews_title": "ما كاينش تقييمات بعد",
     "reviews_heading": "شهادات الزبائن",

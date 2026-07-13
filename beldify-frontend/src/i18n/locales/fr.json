@@ -1502,6 +1502,9 @@
       "bag": "Panier",
       "confirm": "Confirmation",
       "info": "Informations"
+    },
+    "mobileBar": {
+      "label": "Total de la commande et confirmation"
     }
   },
   "profile": {
@@ -4160,7 +4163,7 @@
   "shop": {
     "about_heading": "Dans {{name}}",
     "all_reviews": "Lire les {{count}} avis",
-    "atelier_image_alt": "Intérieur de l'atelier {{n}}",
+    "atelier_image_alt": "Pièce de {{name}}",
     "bespoke_heading": "Vous avez quelque chose de précis en tête ?",
     "bespoke_sub": "Commandez une pièce sur mesure selon vos mensurations, confectionnée avec des techniques ancestrales.",
     "cover_alt": "Couverture de l'atelier — {{name}}",
@@ -4170,7 +4173,10 @@
     "load_more": "Charger plus",
     "message_atelier": "Contacter l'atelier",
     "no_image": "Pas d'image",
+    "no_logo_alt": "{{name}} — pas encore de logo",
     "no_products_found": "Aucun produit dans cette catégorie.",
+    "no_products_yet_sub": "Cet atelier n'a pas encore ajouté de produits. Revenez bientôt.",
+    "no_products_yet_title": "Pas encore de produits",
     "no_reviews_sub": "Soyez le premier à partager votre expérience avec cet atelier.",
     "no_reviews_title": "Pas encore d'avis",
     "reviews_heading": "Ce que disent nos clients",

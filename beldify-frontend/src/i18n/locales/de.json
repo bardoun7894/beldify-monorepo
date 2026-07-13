@@ -1521,6 +1521,9 @@
       "bag": "Warenkorb",
       "confirm": "Bestätigung",
       "info": "Informationen"
+    },
+    "mobileBar": {
+      "label": "Bestellsumme und Bestätigung"
     }
   },
   "profile": {
@@ -4381,7 +4384,7 @@
   "shop": {
     "about_heading": "Hier geht's rein in {{name}}",
     "all_reviews": "Lese alle {{count}} Bewertungen",
-    "atelier_image_alt": "Atelier-Interieur {{n}}",
+    "atelier_image_alt": "Stück von {{name}}",
     "bespoke_heading": "Hast du etwas Spezielles im Sinn?",
     "bespoke_sub": "Bestelle ein maßgeschneidertes Stück, das genau zu deinen Maßen und Vorstellungen passt, handgefertigt mit traditionellen Techniken.",
     "cover_alt": "Atelier-Cover – {{name}}",
@@ -4391,7 +4394,10 @@
     "load_more": "Mehr laden",
     "message_atelier": "Schreib dem Atelier",
     "no_image": "Kein Bild",
+    "no_logo_alt": "{{name}} — noch kein Logo",
     "no_products_found": "Keine Produkte in dieser Kategorie gefunden.",
+    "no_products_yet_sub": "Dieses Atelier hat noch keine Produkte hinzugefügt. Schau bald wieder vorbei.",
+    "no_products_yet_title": "Noch keine Produkte",
     "no_reviews_sub": "Sei der Erste, der deine Erfahrung mit diesem Atelier teilt.",
     "no_reviews_title": "Noch keine Bewertungen",
     "reviews_heading": "Stimmen unserer Käufer",
