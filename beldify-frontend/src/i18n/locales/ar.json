@@ -127,7 +127,9 @@
     "show_more": "عرض المزيد",
     "need_help": "هل تحتاج مساعدة؟",
     "call_us": "اتصل بنا",
-    "email": "البريد الإلكتروني"
+    "email": "البريد الإلكتروني",
+    "filters": "فلاتر",
+    "placeholderImage": "صورة افتراضية"
   },
   "validation": {
     "required": "هذا الحقل مطلوب",
@@ -340,7 +342,8 @@
     "rate_limit": "طلبات كثيرة. الرجاء الانتظار قليلاً.",
     "resend_failed": "فشل الإرسال. حاول مجدداً.",
     "verify_email_banner": "الرجاء تأكيد بريدك الإلكتروني للوصول لكل الميزات.",
-    "signInRequired": "سجّل الدخول لرؤية طلباتك"
+    "signInRequired": "سجّل الدخول لرؤية طلباتك",
+    "account_benefits": "مزايا الحساب"
   },
   "navigation": {
     "home": "الرئيسية",
@@ -772,12 +775,8 @@
   "products": {
     "title": "المنتجات",
     "results": "{{count}} منتج",
-    "results_zero": "لا توجد منتجات",
-    "results_one": "منتج واحد",
-    "results_two": "منتجان",
-    "results_few": "{{count}} منتجات",
-    "results_many": "{{count}} منتجًا",
-    "results_other": "{{count}} منتج",
+    "results_one": "منتوج {{count}}",
+    "results_other": "{{count}} منتوج",
     "no_results": "لم يتم العثور على منتجات",
     "add_to_cart": "أضف إلى السلة",
     "customize": "تخصيص",
@@ -996,6 +995,7 @@
       "view_details": "عرض التفاصيل",
       "back_to_orders": "العودة إلى الطلبات",
       "contact_seller": "تواصل مع البائع",
+      "discuss_proposal": "ناقش",
       "contact_support": "تواصل مع الدعم",
       "write_review": "اكتب تقييماً",
       "download_invoice": "تحميل الفاتورة",
@@ -1268,7 +1268,8 @@
       "group_ref": "رقم المجموعة:",
       "seller_label": "البائع {{n}}",
       "seller_order": "طلب"
-    }
+    },
+    "loading": "جاري تحميل تفاصيل الطلب"
   },
   "checkout": {
     "title": "الدفع",
@@ -1532,6 +1533,9 @@
       "bag": "السلة",
       "confirm": "التأكيد",
       "info": "المعلومات"
+    },
+    "mobileBar": {
+      "label": "إجمالي الطلب والتأكيد"
     }
   },
   "profile": {
@@ -1663,7 +1667,8 @@
         "street": "عنوان الشارع",
         "apartment": "شقة، جناح، إلخ."
       }
-    }
+    },
+    "nav_aria": "تنقل الملف الشخصي"
   },
   "errors": {
     "general": "حدث خطأ",
@@ -2850,7 +2855,7 @@
       "waist": "الخصر"
     },
     "stepsCta": "ابدأ طلب خياطة",
-    "sub": "أكثر من 120 ورشة موثوقة لدينا تصنع لك ملابس مغربية بمقاسك الدقيق — تُشحن إلى أي مكان في العالم. لا حاجة لغرفة القياس.",
+    "sub": "ورشاتنا الموثوقة تصنع لك ملابس مغربية بمقاسك الدقيق — تُشحن إلى أي مكان في العالم. لا حاجة لغرفة القياس.",
     "reviews": {
       "mock": {
         "1": {
@@ -2861,6 +2866,20 @@
           "comment": "اهتمام كبير بالتفاصيل. خدمة احترافية جداً.",
           "service": "تعديلات خياطة"
         }
+      }
+    },
+    "steps": {
+      "0": {
+        "title": "اختر خياطك",
+        "body": "تصفح ورشات موثوقة في فاس ومراكش والدار البيضاء وتطوان. تعرض كل صفحة التخصصات والتقييمات والتوفر الحالي."
+      },
+      "1": {
+        "title": "أرسل قياساتك",
+        "body": "استخدم نموذج القياس الموجَّه لدينا — دون الحاجة إلى خبرة في شريط القياس. أو احجز مكالمة فيديو مدتها 15 دقيقة مع خياطك لجلسة موجَّهة."
+      },
+      "2": {
+        "title": "استلم قطعتك",
+        "body": "تُنجَز قطعتك يدوياً وتُشحن إلى جميع أنحاء العالم. تصل معظم الطلبات المُفصّلة خلال أسبوعين إلى أربعة أسابيع. تشمل جولة تعديل مجانية واحدة."
       }
     }
   },
@@ -3252,7 +3271,13 @@
     "view_custom_order": "عرض طلبك المخصص",
     "view_image": "عرض الصورة",
     "view_portfolio": "عرض المحفظة",
-    "your_bid": "عرضك"
+    "your_bid": "عرضك",
+    "edit_proposal": "تعديل العرض",
+    "edits_left": "{{count}} تعديل متبقٍ",
+    "edits_left_plural": "{{count}} تعديلات متبقية",
+    "edit_cap_reached": "لا يمكن تعديل هذا العرض بعد الآن",
+    "error_updating_response": "تعذّر تحديث عرضك. حاول مرة أخرى.",
+    "update_proposal": "تحديث العرض"
   },
   "hero": {
     "welcomeBadge": "🌙 عيد مبارك سعيد في سوقنا!",
@@ -3479,7 +3504,9 @@
     "trustFree": "مجاني",
     "trustNoCommitment": "بدون التزام",
     "trustCod": "الدفع عند التوصيل",
-    "previewBestOffer": "أفضل عرض"
+    "previewBestOffer": "أفضل عرض",
+    "exampleSeller": "خياط {{n}}",
+    "previewIsExample": "مثال — كيفاش كيخدم"
   },
   "brand": {
     "name": "بيلديفاي",
@@ -3653,7 +3680,9 @@
       "location": "الموقع",
       "reviews": "مراجعة",
       "viewProfile": "عرض الملف الشخصي",
-      "viewDetails": "عرض التفاصيل"
+      "viewDetails": "عرض التفاصيل",
+      "emptyTitle": "شبكة ورشاتنا تُفتح قريباً",
+      "emptyBody": "نعمل حالياً على ضم خياطين مغاربة موثوقين. عُد بعد قليل لتبدأ طلبك المُفصّل."
     },
     "tailorDetail": {
       "breadcrumbLabel": "مسار التنقل",
@@ -3917,7 +3946,13 @@
     "send": "إرسال",
     "error_loading": "تعذّر تحميل المحادثة",
     "error_sending": "تعذّر إرسال الرسالة",
-    "typing_aria": "الطرف الآخر يكتب"
+    "typing_aria": "الطرف الآخر يكتب",
+    "quick": {
+      "price": "ما هو أفضل سعر لديك؟",
+      "timeline": "كم من الوقت سيستغرق؟",
+      "photos": "هل يمكنك مشاركة المزيد من الصور؟",
+      "customize": "هل يمكنك تخصيصه لي؟"
+    }
   },
   "seller": {
     "shortcut_title": "لوحة تحكم البائع",
@@ -3937,6 +3972,10 @@
       "business_type_individual": "فرد / مستقل",
       "business_type_company": "شركة مسجلة",
       "business_type_cooperative": "تعاونية",
+      "store_type_label": "ماذا تبيع؟",
+      "store_type_loading": "جارٍ تحميل فئات المتجر...",
+      "store_type_load_error": "تعذّر تحميل فئات المتجر. يرجى المحاولة مرة أخرى.",
+      "validation_store_type": "يرجى اختيار ما تبيعه",
       "country_label": "الدولة",
       "contact_email_label": "البريد الإلكتروني للتواصل",
       "contact_email_placeholder": "contact@yourbusiness.com",
@@ -4455,7 +4494,8 @@
       "art_slide2_cta": "ابدأ طلب الخياطة",
       "art_slide3_headline": "السوق المفتوح — انشر طلبك ودع الورشات تتنافس",
       "art_slide3_subline": "خياطونا يتنافسون على مشروعك",
-      "art_slide3_cta": "انشر طلبًا الآن"
+      "art_slide3_cta": "انشر طلبًا الآن",
+      "product_eyebrow": "صناعة يدوية مغربية"
     },
     "trust": {
       "verified_sellers": "بائعون موثوقون",
@@ -4590,6 +4630,14 @@
       "subtitle": "وصل جديد من الورشات التي حفظتها",
       "empty": "لا جديد بعد من المتاجر التي تتابعها",
       "loginPrompt": "سجّل دخولك لتطلع على الوافد الجديد من الورشات التي تتابعها"
+    },
+    "featuredProducts": {
+      "title": "المنتجات المميزة",
+      "subtitle": "اكتشف أكثر الملابس المغربية التقليدية شعبية"
+    },
+    "specialOffers": {
+      "title": "العروض الخاصة",
+      "loading": "جاري تحميل العروض الخاصة..."
     }
   },
   "journal": {
@@ -4604,7 +4652,7 @@
   "shop": {
     "about_heading": "داخل {{name}}",
     "all_reviews": "اقرأ جميع {{count}} تقييمات",
-    "atelier_image_alt": "صورة الورشة {{n}}",
+    "atelier_image_alt": "قطعة من {{name}}",
     "bespoke_heading": "هل لديك شيء محدد في ذهنك؟",
     "bespoke_sub": "اطلب قطعة مخصصة تُصنع وفق مقاساتك ورؤيتك بأساليب الأجداد.",
     "cover_alt": "صورة الغلاف — {{name}}",
@@ -4614,7 +4662,10 @@
     "load_more": "تحميل المزيد",
     "message_atelier": "راسل الورشة",
     "no_image": "لا توجد صورة",
+    "no_logo_alt": "{{name}} — لا يوجد شعار بعد",
     "no_products_found": "لا توجد منتجات في هذا التصنيف.",
+    "no_products_yet_sub": "هذا المتجر لم يضف منتجات بعد. تفقد الصفحة قريبًا.",
+    "no_products_yet_title": "لا توجد منتجات بعد",
     "no_reviews_sub": "كن أول من يشارك تجربته مع هذه الورشة.",
     "no_reviews_title": "لا توجد تقييمات بعد",
     "reviews_heading": "آراء عملائنا",
@@ -5521,5 +5572,11 @@
       "unknown_store": "غير معروف",
       "not_applicable": "—"
     }
+  },
+  "languages": {
+    "en": "الإنجليزية"
+  },
+  "track": {
+    "order_number_placeholder": "ORD-XXXXXX"
   }
 }

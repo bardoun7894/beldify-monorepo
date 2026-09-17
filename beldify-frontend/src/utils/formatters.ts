@@ -2,33 +2,31 @@ import i18n from '@/i18n/config';
 
 export const formatPrice = (price: string | number) => {
   if (price === undefined || price === null) return '';
-  
+
   const numericPrice = typeof price === 'string' ? parseFloat(price) : price;
-  
+
   // Get current language
   const currentLang = i18n.language || 'ma';
-  
-  // Define locale and currency format based on language
+
+  // Define locale and currency word based on language.
+  // We deliberately avoid `Intl.NumberFormat({ style: 'currency', currency: 'MAD' })`
+  // because for ar-MA that emits the "د.م.‏" abbreviation (with U+200F), which
+  // drifts from the explicit "درهم" word used elsewhere on the site (cards,
+  // checkout, orders). Keep a single canonical rendering site-wide.
   const localeMap: Record<string, string> = {
     'en': 'en-US',
     'fr': 'fr-FR',
     'ar': 'ar-MA',
     'ma': 'ar-MA',
-    'es': 'es-ES'
+    'es': 'es-ES',
   };
-  
-  // Use the appropriate locale or fallback to fr-MA
   const locale = localeMap[currentLang] || 'fr-MA';
-  
-  // Always use the ISO currency code 'MAD' for Moroccan Dirham
-  const currencyCode = 'MAD';
-  
-  return new Intl.NumberFormat(locale, {
-    style: 'currency',
-    currency: currencyCode,
+  const currencyWord = currentLang === 'en' || currentLang === 'fr' || currentLang === 'es' ? 'MAD' : 'درهم';
+
+  return `${numericPrice.toLocaleString(locale, {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
-  }).format(numericPrice);
+  })} ${currencyWord}`;
 };
 
 export const formatDate = (date: Date) => {

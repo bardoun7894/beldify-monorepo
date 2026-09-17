@@ -174,18 +174,30 @@ export default function HeroSection({ hero, products = [] }: HeroSectionProps) {
   // Path 3: no banners, <2 products → art slides only (last-resort fallback)
   return (
     <section
-      className="relative h-[300px] sm:h-[400px] lg:h-[480px]"
+      className="relative h-[380px] sm:h-[480px] lg:h-[560px]"
       aria-label={t('home.hero.section_label', 'Hero')}
     >
       {/* Atlas dot styling — override default swiper blue with brand tokens */}
       {/* Navigation arrow override — hidden on mobile, shown on lg+ */}
       <style>{`
         .hero-swiper .swiper-pagination-bullet {
+          position: relative;
           background: rgba(255,255,255,0.4);
           opacity: 1;
           width: 8px;
           height: 8px;
           transition: background 200ms, transform 200ms;
+        }
+        /* Visual dot stays 8px (Atlas), but the tap target grows to 44px —
+           WCAG 2.5.5 target size on a real device without changing the look. */
+        .hero-swiper .swiper-pagination-bullet::before {
+          content: '';
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          width: 44px;
+          height: 44px;
+          transform: translate(-50%, -50%);
         }
         .hero-swiper .swiper-pagination-bullet-active {
           background: rgb(245 158 11); /* amber-500 */

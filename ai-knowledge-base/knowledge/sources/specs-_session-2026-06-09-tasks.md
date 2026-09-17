@@ -1,0 +1,39 @@
+---
+name: specs/_session/2026-06-09-tasks.md
+description: Auto-synced from specs/_session/2026-06-09-tasks.md
+type: source
+sync_origin: specs/_session/2026-06-09-tasks.md
+sync_hash: 10644222fd8a9038
+created: 2026-07-06
+updated: 2026-07-06
+---
+
+<!-- This page is auto-synced from specs/_session/2026-06-09-tasks.md by /kb-docs-sync.
+     Edits below this line will be overwritten on the next sync. Do not modify. -->
+
+# Session task log — 2026-06-09
+
+## Pending
+
+## Done
+- [x] 21:49 — Gap audit (post-deploy): blind-bidding verified LIVE (anon sees 0 of real 1800/2400 bids), edit route+model live, contact gate on correct route, community-route gate hits only dead code; wrote docs/api/open-souk-proposals.md ✓
+- [x] 21:39 — Deploy Open Souk to prod (MyContabo) via sync-and-run.sh: API->Api symlink repaired, edit_count migration ran, frontend rebuilt; api/pro/storefront all 200, contact gate live ✓
+- [x] 21:29 — fix prod 500: admin marketplace/opensouk dashboard — route admin.marketplace.stores.show undefined (MarketplaceController:186) ✓ 21:30
+- [x] 20:32 — Merge Open Souk → main: backend 7b9fc8f9 (+a41ac756-style drop of 6 uppercase API/ dupes to unblock) & monorepo 07477bc, both pushed to origin/main; tests 18/67 green on merged main ✓
+- [x] 19:45 — PROD DEPLOY: VAPID env + scheduler cron + deploy feat/hooked-loop-closure frontend ✓ 20:16 (incident recovered: rsync storage-perms)
+- [x] 15:34 — DECISION NEEDED: contact-after-accept is UI-gated only; decide whether to server-gate messaging scoped to an accepted proposal (buyer↔seller pair) ✓ 18:45 → scoped server gate shipped on /buyer/messages/send + community route; committed 0f61dc13
+- [x] 14:49 — Open Souk blind bidding (mostaql): L1/L2/L3 leaks closed, edit-own-proposal max 3 (Laravel), proposalCount count fix, inline seller form removed from Next.js PDP ✓ 15:35 (core verified green; contact server-gate still open)
+- [x] 14:45 — hooked loop-closure: activate push engine + post-order push + follow-shop FE + reorder + PWA install triggers ✓ 15:17
+
+
+- [x] 00:25 — admin batch (8 pages/17 undefined routes) + seller.orders.update: DEPLOYED to prod, route:list clean, pages render ✓ 00:25
+- [ ] 00:25 — CLEANUP: resolve 9 conflicted sibling files (agent git-stash mishap) + commit route fixes (currently deployed-but-uncommitted)
+
+## 2026-06-10 overnight completeness-fix batch (orchestrator)
+- [ ] BE-1 storefront API: forgot/reset-password, contact, order cancel, return-request, fetchFeatured/featuredSections
+- [ ] BE-2 growth engine: scheduler wiring (cart-recovery/price-drop/back-in-stock), general Coupon model+service+admin CRUD, cart discount TODO fix
+- [ ] FE-1 storefront quick wins: search route, dead links, wishlist id fix, MegaOffers real data, jewelry real data, Google guard+env, SEO sitemap/robots/JSON-LD
+- [ ] FE-2 (wave2) auth+trust flows: reset-password page, contact wiring, returns request UI, cancel/return buttons
+- [ ] FE-3 seller dashboard: product edit page, store-settings real save, messages entry, dashboard polish
+- [ ] ADMIN-1 admin dashboard Blade: KPI correctness + v3 polish
+

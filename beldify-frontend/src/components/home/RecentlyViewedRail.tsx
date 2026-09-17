@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { useTranslation } from 'react-i18next';
 import { getRecentlyViewed, type RecentlyViewedItem } from '@/utils/recentlyViewed';
 import { formatPrice } from '@/utils/formatters';
+import { productService } from '@/services/api';
 
 /**
  * RecentlyViewedRail — FE-only, localStorage-backed shelf.
@@ -13,13 +14,35 @@ import { formatPrice } from '@/utils/formatters';
  * Reads viewed products on mount. Renders nothing when the list is empty
  * (no layout shift, no nag). Snap-rail markup mirrors FeaturedSections.tsx.
  * Ethics: calm descriptive heading, no urgency copy.
+ *
+ * FR-011: items whose product is no longer available (deleted / fetch fails)
+ * are filtered out at render time, since localStorage can go stale.
  */
 export default function RecentlyViewedRail() {
   const { t } = useTranslation();
   const [items, setItems] = useState<RecentlyViewedItem[]>([]);
 
   useEffect(() => {
-    setItems(getRecentlyViewed());
+    const stored = getRecentlyViewed();
+    if (stored.length === 0) return;
+
+    let cancelled = false;
+
+    Promise.all(
+      stored.map((item) =>
+        productService
+          .getProduct(item.id)
+          .then(() => true)
+          .catch(() => false)
+      )
+    ).then((availability) => {
+      if (cancelled) return;
+      setItems(stored.filter((_, index) => availability[index]));
+    });
+
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   // Silent degradation — render nothing when list is empty

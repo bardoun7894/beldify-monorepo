@@ -201,7 +201,7 @@ describe('UNIT 4 — Homepage i18n extraction', () => {
 
   it('HomeContent.tsx imports useTranslation from react-i18next', () => {
     const content = read(homeContentPath);
-    expect(content).toContain("from 'react-i18next'");
+    expect(content).toMatch(/from ['"]react-i18next['"]/);
     expect(content).toMatch(/useTranslation/);
   });
 

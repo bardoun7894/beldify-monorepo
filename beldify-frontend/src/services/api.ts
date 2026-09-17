@@ -28,12 +28,32 @@ api.interceptors.request.use(request => {
   return request;
 });
 
-// Add request interceptor for auth token
+const getGuestToken = () => (typeof window !== 'undefined' ? localStorage.getItem('guest_token') : null);
+const setGuestToken = (t: string) => {
+  if (typeof window !== 'undefined') localStorage.setItem('guest_token', t);
+};
+
+// Add request interceptor for auth token / guest token
 api.interceptors.request.use(
   async (config) => {
     const token = localStorage.getItem('token');
     if (token) {
       config.headers['Authorization'] = `Bearer ${token}`;
+    } else {
+      // Guests must send the SAME stable X-Guest-Token used across the app
+      // (minted in src/lib/api.ts) so this axios instance's cart calls land
+      // on the same backend guest cart. Without this the cart always mints a
+      // fresh anonymous cart per request and appears empty.
+      let guestToken = getGuestToken();
+      if (!guestToken && typeof window !== 'undefined') {
+        guestToken = (window.crypto && typeof window.crypto.randomUUID === 'function')
+          ? window.crypto.randomUUID()
+          : `g-${Date.now()}-${Math.random().toString(36).slice(2, 12)}`;
+        setGuestToken(guestToken);
+      }
+      if (guestToken) {
+        config.headers['X-Guest-Token'] = guestToken;
+      }
     }
     return config;
   },
@@ -44,7 +64,13 @@ api.interceptors.request.use(
 
 // Add response interceptor for error handling
 api.interceptors.response.use(
-  (response) => response,
+  (response) => {
+    const backendGuestToken = response.headers?.['x-guest-token'];
+    if (backendGuestToken && !localStorage.getItem('token') && !getGuestToken()) {
+      setGuestToken(backendGuestToken);
+    }
+    return response;
+  },
   async (error) => {
     if (error.response?.status === 401) {
       // Only force a re-login when an actual auth session existed and is now
@@ -212,13 +238,9 @@ export const cartService = {
   async getCart() {
     try {
       debugLog('Fetching cart...');
-      // Check if token exists before making the API call
-      const token = localStorage.getItem('token');
-      if (!token) {
-        debugLog('No authentication token found when fetching cart');
-        return { status: 'error', message: 'Authentication required' };
-      }
-
+      // Guests fetch their cart via X-Guest-Token (attached by the request
+      // interceptor) — do not gate this on an auth token, or guest carts
+      // never load and always render empty.
       const response = await api.get('/cart');
       debugLog('Cart API Response:', response.data);
       return response.data;

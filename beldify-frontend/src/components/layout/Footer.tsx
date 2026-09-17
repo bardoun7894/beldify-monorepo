@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { MapPin, Phone, Mail, Instagram, Facebook, Twitter } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import { API_URL } from '@/config/constants';
 
 const Footer = () => {
   const { t } = useTranslation();
@@ -29,9 +30,10 @@ const Footer = () => {
       title: t('footer.headingSellers', 'Sellers'),
       links: [
         { label: t('footer.becomeSeller', 'Become a seller'), href: '/seller/register' },
-        { label: t('footer.sellerDashboard', 'Seller dashboard'), href: '/seller' },
-        { label: t('footer.sellerCustomOrders', 'Custom orders'), href: '/seller/custom-orders' },
-        { label: t('footer.sellerEarnings', 'Earnings'), href: '/seller/earnings' },
+        // Seller dashboard is a Laravel Blade app reached via the /seller/enter SSO
+        // handoff on the backend host — not a Next.js route. Must be a full-page nav
+        // (external), otherwise Next tries to prefetch/render it and 404s.
+        { label: t('footer.sellerDashboard', 'Seller dashboard'), href: `${API_URL}/seller/enter`, external: true },
       ],
     },
     {
@@ -47,6 +49,7 @@ const Footer = () => {
         { label: t('footer.faq', 'FAQ'), href: '/faqs' },
         { label: t('footer.shipping', 'Shipping'), href: '/shipping' },
         { label: t('footer.returns', 'Returns'), href: '/returns' },
+        { label: t('footer.trackOrder', 'Track order'), href: '/track' },
         { label: t('footer.privacy', 'Privacy'), href: '/privacy-policy' },
       ],
     },
@@ -124,6 +127,8 @@ const Footer = () => {
               <form onSubmit={handleNewsletterSubmit} className="flex gap-2">
                 <input
                   type="email"
+                  id="newsletter-email-footer"
+                  name="email"
                   value={newsletterEmail}
                   onChange={(e) => setNewsletterEmail(e.target.value)}
                   placeholder={t('newsletter.placeholder', 'Your email address')}
@@ -150,12 +155,21 @@ const Footer = () => {
               <ul className="space-y-2.5">
                 {col.links.map((l) => (
                   <li key={l.href}>
-                    <Link
-                      href={l.href}
-                      className="text-sm text-indigo-100/75 hover:text-white transition-colors duration-150 focus-visible:outline-none focus-visible:underline"
-                    >
-                      {l.label}
-                    </Link>
+                    {'external' in l && l.external ? (
+                      <a
+                        href={l.href}
+                        className="text-sm text-indigo-100/75 hover:text-white transition-colors duration-150 focus-visible:outline-none focus-visible:underline"
+                      >
+                        {l.label}
+                      </a>
+                    ) : (
+                      <Link
+                        href={l.href}
+                        className="text-sm text-indigo-100/75 hover:text-white transition-colors duration-150 focus-visible:outline-none focus-visible:underline"
+                      >
+                        {l.label}
+                      </Link>
+                    )}
                   </li>
                 ))}
               </ul>

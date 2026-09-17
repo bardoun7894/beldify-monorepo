@@ -13,7 +13,7 @@ const APP = path.join(process.cwd(), 'src/app');
 describe('P1-E — route-level loading.tsx skeletons exist', () => {
   const routes = [
     'products/[id]/loading.tsx',
-    'category/[slug]/loading.tsx',
+    'categories/[slug]/loading.tsx',
     'products/loading.tsx',
     'cart/loading.tsx',
     'wishlist/loading.tsx',
@@ -32,8 +32,8 @@ describe('P1-E — route-level loading.tsx skeletons exist', () => {
 });
 
 describe('P1-E — category pages get server-side metadata (SEO)', () => {
-  it('category/[slug]/layout.tsx exports generateMetadata with canonical + OG', () => {
-    const src = fs.readFileSync(path.join(APP, 'category/[slug]/layout.tsx'), 'utf8');
+  it('categories/[slug]/layout.tsx exports generateMetadata with canonical + OG', () => {
+    const src = fs.readFileSync(path.join(APP, 'categories/[slug]/layout.tsx'), 'utf8');
     expect(src).toMatch(/export async function generateMetadata/);
     expect(src).toContain('alternates');
     expect(src).toContain('openGraph');

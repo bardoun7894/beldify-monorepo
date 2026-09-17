@@ -13,7 +13,7 @@
  * i18n: all string literals go through t() with English fallbacks.
  */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   CheckCircle2,
@@ -22,8 +22,9 @@ import {
   FileText,
   Loader2,
   Banknote,
+  Landmark,
 } from 'lucide-react';
-import { CustomOrder, payDeposit } from '@/services/customOrderService';
+import { CustomOrder, payDeposit, fetchDepositBankDetails } from '@/services/customOrderService';
 import { formatPrice } from '@/utils/formatters';
 import toast from '@/utils/toast';
 import logger from '@/utils/consoleLogger';
@@ -48,6 +49,15 @@ export default function DepositPaymentPanel({ order, isBuyer, onSuccess }: Depos
   const [reference, setReference] = useState('');
   const [file, setFile] = useState<File | null>(null);
   const [submitting, setSubmitting] = useState(false);
+  const [bankDetails, setBankDetails] = useState<string | null>(null);
+
+  // Lazy-load the platform bank/RIB details the first time the buyer opens the
+  // bank-transfer path — so they know where to send the deposit.
+  useEffect(() => {
+    if (selectedMethod === 'bank_transfer' && bankDetails === null) {
+      fetchDepositBankDetails().then(setBankDetails);
+    }
+  }, [selectedMethod, bankDetails]);
 
   // ── Guard: not the buyer ───────────────────────────────────────────────────
   if (!isBuyer) return null;
@@ -214,6 +224,21 @@ export default function DepositPaymentPanel({ order, isBuyer, onSuccess }: Depos
                 'Transfer the deposit amount and upload your payment receipt below.'
               )}
             </p>
+
+            {/* Where to transfer — platform bank/RIB details */}
+            {bankDetails && bankDetails.trim() !== '' && (
+              <div className="rounded-xl bg-indigo-50 ring-1 ring-indigo-100 p-3.5">
+                <div className="flex items-center gap-1.5 mb-1.5">
+                  <Landmark className="h-3.5 w-3.5 text-indigo-700" aria-hidden />
+                  <span className="text-xs font-semibold text-indigo-800">
+                    {t('customOrders.deposit.bank_details_label', 'Transfer to')}
+                  </span>
+                </div>
+                <pre className="text-sm text-gray-800 whitespace-pre-wrap font-sans leading-relaxed" dir="ltr">
+                  {bankDetails}
+                </pre>
+              </div>
+            )}
 
             {/* Reference input */}
             <div>

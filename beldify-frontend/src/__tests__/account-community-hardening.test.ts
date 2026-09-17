@@ -162,19 +162,20 @@ describe('FIX 6 — wishlist/page.tsx: handleAddToCart via useCart', () => {
 });
 
 // ─────────────────────────────────────────────────────────────────────────────
-// FIX 7 — mock files: not deleted because communityService imports mockMessagingData
+// FIX 7 — mock files: all removed (messaging now uses the real backend in dev too)
 // ─────────────────────────────────────────────────────────────────────────────
-describe('FIX 7 — mock files: preserved because communityService imports them', () => {
-  it('mockMessagingData.ts still exists (imported by communityService)', () => {
-    expect(exists('src/mocks/mockMessagingData.ts')).toBe(true);
+describe('FIX 7 — mock files: removed, services hit the real backend', () => {
+  it('mockMessagingData.ts is removed (communityService no longer mocks in dev)', () => {
+    expect(exists('src/mocks/mockMessagingData.ts')).toBe(false);
   });
 
-  it('mockReviewsData.ts still exists (imported by mockReviewService)', () => {
-    expect(exists('src/mocks/mockReviewsData.ts')).toBe(true);
+  it('mockReviewsData + mockReviewService are removed (reviews use the real backend)', () => {
+    expect(exists('src/mocks/mockReviewsData.ts')).toBe(false);
+    expect(exists('src/services/mockReviewService.ts')).toBe(false);
   });
 
-  it('communityService.ts still imports from mockMessagingData', () => {
+  it('communityService.ts no longer imports from mockMessagingData', () => {
     const svc = read('src/services/communityService.ts');
-    expect(svc).toContain('mockMessagingData');
+    expect(svc).not.toContain('mockMessagingData');
   });
 });

@@ -92,7 +92,33 @@ export const getNotifications = async (page: number = 1): Promise<PaginatedNotif
       withCredentials: true,
     });
 
-    return response.data as PaginatedNotifications;
+    // Normalize the backend shape into a flat PaginatedNotifications. The live
+    // endpoint (API\Mobile\NotificationController@index) returns:
+    //   { success, data: { notifications: [...], pagination: { current_page, last_page, per_page, total } } }
+    // Older/other shapes also seen: a flat Laravel paginator ({ data: [...], current_page, ... })
+    // or a bare array. A blind cast let the object envelope through as `data`,
+    // so consumers doing notifications.slice()/items.filter() crashed the whole
+    // app. Always return `data` as a real array.
+    const raw: any = response.data;
+    const env: any = raw?.data ?? raw; // unwrap the { success, data } envelope
+    const list: Notification[] = Array.isArray(env?.notifications)
+      ? env.notifications // live mobile shape: data.notifications
+      : Array.isArray(env?.data)
+      ? env.data // flat paginator nested under data
+      : Array.isArray(env)
+      ? env // envelope's data IS the array
+      : Array.isArray(raw)
+      ? raw // bare array response
+      : [];
+    const pag: any = env?.pagination ?? env ?? {};
+
+    return {
+      data: list,
+      current_page: pag.current_page ?? 1,
+      last_page: pag.last_page ?? 1,
+      total: pag.total ?? list.length,
+      per_page: pag.per_page ?? 15,
+    };
   } catch (error) {
     logger.error('notificationService: getNotifications error:', error);
     return { data: [], current_page: 1, last_page: 1, total: 0, per_page: 15 };
@@ -116,7 +142,11 @@ export const getUnreadCount = async (): Promise<UnreadCountResponse> => {
       withCredentials: true,
     });
 
-    return response.data as UnreadCountResponse;
+    // The endpoint nests the count under a { success, data } envelope
+    // ({ data: { unread_count } }); tolerate a flat shape too.
+    const raw: any = response.data;
+    const count = raw?.data?.unread_count ?? raw?.unread_count ?? 0;
+    return { unread_count: count };
   } catch (error) {
     logger.error('notificationService: getUnreadCount error:', error);
     return { unread_count: 0 };

@@ -966,6 +966,7 @@
       "view_details": "Voir les détails",
       "back_to_orders": "Retour aux commandes",
       "contact_seller": "Contacter le vendeur",
+      "discuss_proposal": "Discuter",
       "contact_support": "Contacter le support",
       "write_review": "Écrire un avis",
       "download_invoice": "Télécharger la facture",
@@ -1501,6 +1502,9 @@
       "bag": "Panier",
       "confirm": "Confirmation",
       "info": "Informations"
+    },
+    "mobileBar": {
+      "label": "Total de la commande et confirmation"
     }
   },
   "profile": {
@@ -3039,7 +3043,13 @@
     "view_custom_order": "Voir votre commande personnalisée",
     "view_image": "Voir l'image",
     "view_portfolio": "Voir le portfolio",
-    "your_bid": "Votre proposition"
+    "your_bid": "Votre proposition",
+    "edit_proposal": "Modifier l'offre",
+    "edits_left": "{{count}} modification restante",
+    "edits_left_plural": "{{count}} modifications restantes",
+    "edit_cap_reached": "Plus aucune modification possible pour cette offre",
+    "error_updating_response": "Impossible de mettre à jour votre offre. Veuillez réessayer.",
+    "update_proposal": "Mettre à jour l'offre"
   },
   "pwa": {
     "banner": {
@@ -3295,7 +3305,9 @@
     "trustFree": "Gratuit",
     "trustNoCommitment": "Sans engagement",
     "trustCod": "Paiement à la livraison",
-    "previewBestOffer": "Meilleure offre"
+    "previewBestOffer": "Meilleure offre",
+    "exampleSeller": "Atelier {{n}}",
+    "previewIsExample": "Exemple — comment ça marche"
   },
   "brand": {
     "name": "Beldify",
@@ -3570,7 +3582,9 @@
       "location": "Lieu",
       "reviews": "avis",
       "viewProfile": "Voir le profil",
-      "viewDetails": "Voir les détails"
+      "viewDetails": "Voir les détails",
+      "emptyTitle": "Notre réseau d'ateliers ouvre bientôt",
+      "emptyBody": "Nous intégrons des tailleurs marocains vérifiés en ce moment. Revenez bientôt pour lancer votre commande sur mesure."
     },
     "tailorDetail": {
       "breadcrumbLabel": "Fil d'Ariane",
@@ -3834,7 +3848,13 @@
     "send": "Envoyer",
     "error_loading": "Échec du chargement de la conversation",
     "error_sending": "Échec de l'envoi du message",
-    "typing_aria": "L'autre personne écrit"
+    "typing_aria": "L'autre personne écrit",
+    "quick": {
+      "price": "Quel est votre meilleur prix ?",
+      "timeline": "Combien de temps cela prendra-t-il ?",
+      "photos": "Pouvez-vous partager plus de photos ?",
+      "customize": "Pouvez-vous le personnaliser pour moi ?"
+    }
   },
   "security": {
     "change_password": "Modifier le mot de passe",
@@ -3995,7 +4015,8 @@
       "art_slide2_cta": "Commencer une commande sur-mesure",
       "art_slide3_headline": "Souk Ouvert — publiez votre demande et laissez les ateliers concourir",
       "art_slide3_subline": "Nos artisans se disputent votre projet",
-      "art_slide3_cta": "Publier une demande"
+      "art_slide3_cta": "Publier une demande",
+      "product_eyebrow": "Fait main au Maroc"
     },
     "trust": {
       "verified_sellers": "Vendeurs vérifiés",
@@ -4144,7 +4165,7 @@
   "shop": {
     "about_heading": "Dans {{name}}",
     "all_reviews": "Lire les {{count}} avis",
-    "atelier_image_alt": "Intérieur de l'atelier {{n}}",
+    "atelier_image_alt": "Pièce de {{name}}",
     "bespoke_heading": "Vous avez quelque chose de précis en tête ?",
     "bespoke_sub": "Commandez une pièce sur mesure selon vos mensurations, confectionnée avec des techniques ancestrales.",
     "cover_alt": "Couverture de l'atelier — {{name}}",
@@ -4154,7 +4175,10 @@
     "load_more": "Charger plus",
     "message_atelier": "Contacter l'atelier",
     "no_image": "Pas d'image",
+    "no_logo_alt": "{{name}} — pas encore de logo",
     "no_products_found": "Aucun produit dans cette catégorie.",
+    "no_products_yet_sub": "Cet atelier n'a pas encore ajouté de produits. Revenez bientôt.",
+    "no_products_yet_title": "Pas encore de produits",
     "no_reviews_sub": "Soyez le premier à partager votre expérience avec cet atelier.",
     "no_reviews_title": "Pas encore d'avis",
     "reviews_heading": "Ce que disent nos clients",
@@ -4318,7 +4342,7 @@
       "no_reviews": "Pas encore d'avis"
     },
     "stepsCta": "Commencer une commande sur mesure",
-    "sub": "Nos 120+ ateliers vérifiés créent des vêtements marocains sur mesure selon vos mensurations exactes — livrés partout dans le monde. Aucun cabine d'essayage nécessaire.",
+    "sub": "Nos ateliers vérifiés créent des vêtements marocains sur mesure selon vos mensurations exactes — livrés partout dans le monde. Aucune cabine d'essayage nécessaire.",
     "services": {
       "alterations": {
         "price": "À partir de 49 DH",
@@ -4385,6 +4409,20 @@
         }
       },
       "title": "Pourquoi choisir nos services de retouche"
+    },
+    "steps": {
+      "0": {
+        "title": "Choisissez votre tailleur",
+        "body": "Parcourez des ateliers vérifiés à Fès, Marrakech, Casablanca et Tétouan. Chaque fiche indique les spécialités, les avis et la disponibilité actuelle."
+      },
+      "1": {
+        "title": "Envoyez vos mesures",
+        "body": "Utilisez notre formulaire de mesures guidé — aucune expérience du mètre ruban requise. Ou réservez un appel vidéo de 15 minutes avec votre tailleur pour une séance guidée."
+      },
+      "2": {
+        "title": "Recevez votre pièce",
+        "body": "Votre vêtement est fini à la main et expédié dans le monde entier. La plupart des commandes sur mesure arrivent en 2 à 4 semaines. Une retouche gratuite est incluse."
+      }
     }
   },
   "preferences": {
@@ -4467,6 +4505,10 @@
       "benefit_secure": "Paiements sécurisés et protection de l'acheteur",
       "business_type_company": "Entreprise enregistrée",
       "business_type_cooperative": "Coopérative",
+      "store_type_label": "Que vendez-vous ?",
+      "store_type_loading": "Chargement des catégories de boutique...",
+      "store_type_load_error": "Impossible de charger les catégories de boutique. Veuillez réessayer.",
+      "validation_store_type": "Veuillez sélectionner ce que vous vendez",
       "business_type_individual": "Indépendant / Travailleur autonome",
       "business_type_label": "Type d'entreprise",
       "contact_email_label": "E-mail de contact",

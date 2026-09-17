@@ -120,6 +120,20 @@ const nextConfig = {
     return [
       { source: '/tailoring', destination: '/services/tailoring', permanent: true },
       { source: '/journal', destination: '/about', permanent: false },
+      { source: '/category/:slug*', destination: '/categories/:slug*', permanent: true },
+      { source: '/categories/rgal', destination: '/categories/men', permanent: true },
+      // Blade seller dashboard owns store-profile editing; bridge via register.
+      { source: '/seller/store-profile', destination: '/seller/register', permanent: true },
+    ]
+  },
+
+  // Serve backend-stored media (category/product images, banners) under the
+  // www origin so the browser never has to reach pro.beldify.com directly.
+  // The Next server proxies /storage/* to the backend; ASSET_URL is set to
+  // https://www.beldify.com so the API emits www URLs that land here.
+  async rewrites() {
+    return [
+      { source: '/storage/:path*', destination: 'https://pro.beldify.com/storage/:path*' },
     ]
   },
 }

@@ -81,7 +81,7 @@ export default function TailoringPage() {
                 )}
               </p>
               <Button asChild variant="accent" size="lg" className="mt-8 rounded-full">
-                <Link href="/shops?type=tailor">
+                <Link href="/services/tailoring/tailors">
                   {t('tailoring.heroCta', 'Start a tailoring order')}
                 </Link>
               </Button>
@@ -166,7 +166,7 @@ export default function TailoringPage() {
 
           <div className="mt-12">
             <Button asChild variant="accent" size="lg" className="rounded-full">
-              <Link href="/shops?type=tailor">
+              <Link href="/services/tailoring/tailors">
                 {t('tailoring.stepsCta', 'Start a tailoring order')}
               </Link>
             </Button>
@@ -220,7 +220,7 @@ export default function TailoringPage() {
             )}
           </p>
           <Button asChild variant="default" size="lg" className="mt-6 rounded-full">
-            <Link href="/shops?type=tailor">
+            <Link href="/services/tailoring/tailors">
               {t('tailoring.finalCta.cta', 'Start a tailoring order')}
             </Link>
           </Button>

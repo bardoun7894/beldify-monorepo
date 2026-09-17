@@ -999,6 +999,7 @@
       "contact_support": "Neem Contact op met Ondersteuning",
       "write_review": "Schrijf een Recensie",
       "contact_seller": "Neem Contact op met Verkoper",
+      "discuss_proposal": "Bespreken",
       "cancel_order": "Bestelling Annuleren",
       "request_return": "Retourverzoek Indienen",
       "return_request": "Retourverzoek",
@@ -1520,6 +1521,9 @@
       "bag": "Winkelwagen",
       "confirm": "Bevestiging",
       "info": "Informatie"
+    },
+    "mobileBar": {
+      "label": "Totaalbedrag bestelling en bevestigen"
     }
   },
   "profile": {
@@ -3055,7 +3059,13 @@
     "view_custom_order": "Bekijk je aangepaste bestelling",
     "view_image": "Afbeelding weergeven",
     "view_portfolio": "Bekijk portfolio",
-    "your_bid": "Jouw bod"
+    "your_bid": "Jouw bod",
+    "edit_proposal": "Voorstel bewerken",
+    "edits_left": "Nog {{count}} bewerking over",
+    "edits_left_plural": "Nog {{count}} bewerkingen over",
+    "edit_cap_reached": "Dit voorstel kan niet meer worden bewerkt",
+    "error_updating_response": "Kon je voorstel niet bijwerken. Probeer het opnieuw.",
+    "update_proposal": "Voorstel bijwerken"
   },
   "pwa": {
     "banner": {
@@ -3261,7 +3271,9 @@
     "trustFree": "Gratis plaatsen",
     "trustNoCommitment": "Vrijblijvend",
     "trustCod": "Betalen bij levering",
-    "previewBestOffer": "Beste aanbod"
+    "previewBestOffer": "Beste aanbod",
+    "exampleSeller": "Atelier {{n}}",
+    "previewIsExample": "Voorbeeld — zo werkt het"
   },
   "catalog": {
     "categories": {
@@ -3415,7 +3427,9 @@
       "location": "Locatie",
       "reviews": "beoordelingen",
       "viewProfile": "Bekijk Profiel",
-      "viewDetails": "Bekijk Details"
+      "viewDetails": "Bekijk Details",
+      "emptyTitle": "Ons ateliernetwerk opent binnenkort",
+      "emptyBody": "We nemen op dit moment geverifieerde Marokkaanse kleermakers op. Kom binnenkort terug om uw maatwerkbestelling te starten."
     },
     "tailorDetail": {
       "breadcrumbLabel": "Breadcrumb",
@@ -3679,7 +3693,13 @@
     "send": "Verzenden",
     "error_loading": "Laden van gesprek mislukt",
     "error_sending": "Verzenden van bericht mislukt",
-    "typing_aria": "De ander is aan het typen"
+    "typing_aria": "De ander is aan het typen",
+    "quick": {
+      "price": "Wat is je beste prijs?",
+      "timeline": "Hoe lang gaat het duren?",
+      "photos": "Kun je meer foto's delen?",
+      "customize": "Kun je het voor mij aanpassen?"
+    }
   },
   "seller": {
     "shortcut_title": "Verkopersdashboard",
@@ -3699,6 +3719,10 @@
       "business_type_individual": "Zelfstandige / Freelancer",
       "business_type_company": "Geregistreerd bedrijf",
       "business_type_cooperative": "Coöperatief",
+      "store_type_label": "Wat verkoop je?",
+      "store_type_loading": "Winkelcategorieën laden...",
+      "store_type_load_error": "We konden de winkelcategorieën niet laden. Probeer het opnieuw.",
+      "validation_store_type": "Selecteer wat je verkoopt",
       "country_label": "Land",
       "contact_email_label": "Contactmail",
       "contact_email_placeholder": "contact@jouwbedrijf.com",
@@ -4217,7 +4241,8 @@
       "art_slide2_cta": "Kledingmaatbestelling starten",
       "art_slide3_headline": "Open Souk — plaats je brief en laat ateliers concurreren",
       "art_slide3_subline": "Onze ambachtslieden strijden om jouw project",
-      "art_slide3_cta": "Plaats nu een brief"
+      "art_slide3_cta": "Plaats nu een brief",
+      "product_eyebrow": "Handgemaakt in Marokko"
     },
     "trust": {
       "verified_sellers": "Geverifieerde verkopers",
@@ -4361,7 +4386,7 @@
   "shop": {
     "about_heading": "In {{name}}",
     "all_reviews": "Lees alle {{count}} beoordelingen",
-    "atelier_image_alt": "Atelierbinnenland {{n}}",
+    "atelier_image_alt": "Stuk van {{name}}",
     "bespoke_heading": "Heb je iets specifieks in gedachten?",
     "bespoke_sub": "Bestel een aangepast stuk dat exact op maat is gesneden naar je afmetingen en visie, vervaardigd met voorouderse technieken.",
     "cover_alt": "Atelierkaft — {{name}}",
@@ -4371,7 +4396,10 @@
     "load_more": "Laad meer",
     "message_atelier": "Bericht het atelier",
     "no_image": "Geen afbeelding",
+    "no_logo_alt": "{{name}} — nog geen logo",
     "no_products_found": "Geen producten gevonden in deze categorie.",
+    "no_products_yet_sub": "Dit atelier heeft nog geen producten toegevoegd. Kom snel terug.",
+    "no_products_yet_title": "Nog geen producten",
     "no_reviews_sub": "Wees de eerste die je ervaring met dit atelier deelt.",
     "no_reviews_title": "Nog geen beoordelingen",
     "reviews_heading": "Stemmen van onze shoppers",
@@ -4535,7 +4563,7 @@
       "no_reviews": "Nog geen beoordelingen"
     },
     "stepsCta": "Start een kleermaakbewerking",
-    "sub": "Onze 120+ geverifieerde ateliers maken maatwerk Marokkaanse kledingstukken naar jouw exacte maten — verzonden overal ter wereld. Geen paskamer nodig.",
+    "sub": "Onze geverifieerde ateliers maken op maat gemaakte Marokkaanse kledingstukken volgens uw exacte maten — wereldwijd verzonden. Geen paskamer nodig.",
     "services": {
       "alterations": {
         "price": "Vanaf 49 MAD",
@@ -4602,6 +4630,20 @@
         }
       },
       "title": "Waarom Kiest voor Onze Kleermaakservices"
+    },
+    "steps": {
+      "0": {
+        "title": "Kies uw kleermaker",
+        "body": "Blader door geverifieerde ateliers in Fez, Marrakech, Casablanca en Tétouan. Elke vermelding toont specialiteiten, beoordelingen en huidige beschikbaarheid."
+      },
+      "1": {
+        "title": "Stuur uw maten",
+        "body": "Gebruik ons begeleide matenformulier — geen ervaring met een meetlint nodig. Of boek een videogesprek van 15 minuten met uw kleermaker voor een begeleide sessie."
+      },
+      "2": {
+        "title": "Ontvang uw kledingstuk",
+        "body": "Uw kledingstuk wordt met de hand afgewerkt en wereldwijd verzonden. De meeste maatwerkbestellingen komen binnen 2 tot 4 weken aan. Eén gratis vermaakronde is inbegrepen."
+      }
     }
   },
   "sellers": {

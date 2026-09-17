@@ -26,6 +26,10 @@ import { useAuth } from '@/contexts/AuthContext';
 import { useDirection } from '@/hooks/useDirection';
 import LoadingSpinner from '@/components/common/LoadingSpinner';
 import logger from '@/utils/consoleLogger';
+import { submitSellerReview } from '@/services/communityService';
+import toast from '@/utils/toast';
+import ResponseForm from './ResponseForm';
+import { Pencil } from 'lucide-react';
 
 // Inline seller mini-profile shape from PostResponseResource.buildSellerProfile()
 interface SellerProfile {
@@ -51,6 +55,10 @@ interface ResponseCardProps {
   isPostOwner?: boolean;
   onAccept?: (responseId: string) => void;
   onReject?: (responseId: string) => void;
+  /** Seller edits their own pending proposal — PATCH /seller/community/responses/{id} */
+  onUpdate?: (responseId: string, formData: FormData) => Promise<void>;
+  /** Open the inline chat drawer for this proposal (shopId + the proposal itself). */
+  onDiscuss?: (shopId: string, response: CommunityResponse & { seller?: SellerProfile }) => void;
   postId?: string | number;
   isSubmitting?: boolean;
 }
@@ -81,6 +89,8 @@ export default function ResponseCard({
   isPostOwner,
   onAccept,
   onReject,
+  onUpdate,
+  onDiscuss,
   postId,
   isSubmitting = false,
 }: ResponseCardProps) {
@@ -93,6 +103,15 @@ export default function ResponseCard({
   const [showImages, setShowImages] = useState(false);
   const [msgExpanded, setMsgExpanded] = useState(false);
   const [logoLoadError, setLogoLoadError] = useState(false);
+  const [showEditForm, setShowEditForm] = useState(false);
+  const [isUpdating, setIsUpdating] = useState(false);
+
+  // ── Seller review (trust flywheel) ─────────────────────────────────────────
+  const [reviewStars, setReviewStars] = useState<number>(response.review?.rating ?? 0);
+  const [reviewHover, setReviewHover] = useState<number>(0);
+  const [reviewComment, setReviewComment] = useState<string>(response.review?.comment ?? '');
+  const [reviewSubmitting, setReviewSubmitting] = useState(false);
+  const [reviewDone, setReviewDone] = useState<boolean>(!!response.review);
 
   const getImageUrl = (imagePath: string | null) => {
     if (!imagePath) return '/images/placeholder.jpg';
@@ -166,6 +185,29 @@ export default function ResponseCard({
   // Delivery days from response
   const deliveryDays = response.delivery_days ?? response.deliveryDays ?? null;
 
+  // Edit affordance: the OWNING seller may edit their own PENDING proposal
+  // while editsRemaining > 0. `editsRemaining` is undefined for legacy
+  // responses (pre-edit-cap) — treat missing as unlimited (no cap enforced).
+  const isMine = Boolean(response.isMine);
+  const editsRemaining = response.editsRemaining;
+  const canEdit = Boolean(
+    isMine && response.status === 'pending' && (editsRemaining == null || editsRemaining > 0)
+  );
+
+  const handleUpdateSubmit = async (formData: FormData) => {
+    if (!onUpdate) return;
+    setIsUpdating(true);
+    try {
+      await onUpdate(response.id.toString(), formData);
+      setShowEditForm(false);
+    } catch (err) {
+      logger.error('Error updating response:', err);
+      toast.error(t('community.error_updating_response', 'Could not update your proposal. Please try again.'));
+    } finally {
+      setIsUpdating(false);
+    }
+  };
+
   const handleAccept = () => {
     if (
       window.confirm(
@@ -176,6 +218,35 @@ export default function ResponseCard({
       )
     ) {
       onAccept && onAccept(response.id.toString());
+    }
+  };
+
+  // Review gating: the buyer may rate the seller once the deal is complete —
+  // no custom order, or the custom order reached delivered/closed.
+  const orderStatus = response.customOrder?.status;
+  const dealComplete = !response.customOrder || orderStatus === 'delivered' || orderStatus === 'closed';
+  const canReview = Boolean(isPostOwner && isAccepted && dealComplete);
+
+  const handleSubmitReview = async () => {
+    if (reviewStars < 1) {
+      toast.error(t('community.review_pick_rating', 'Please pick a star rating first.'));
+      return;
+    }
+    setReviewSubmitting(true);
+    try {
+      await submitSellerReview(
+        String(currentPostId),
+        response.id.toString(),
+        reviewStars,
+        reviewComment.trim() || undefined
+      );
+      setReviewDone(true);
+      toast.success(t('community.review_thanks', 'Thanks — your review helps other buyers.'));
+    } catch (err) {
+      logger.error('Error submitting seller review:', err);
+      toast.error(t('community.review_error', 'Could not submit your review. Please try again.'));
+    } finally {
+      setReviewSubmitting(false);
     }
   };
 
@@ -387,18 +458,33 @@ export default function ResponseCard({
 
         {/* ── Action buttons ────────────────────────────────────── */}
         <div className="mt-4 pt-4 border-t border-gray-100 flex flex-wrap justify-end gap-2.5">
-          {/* F4 — Contact Seller: messaging unlocks ONLY after the buyer ACCEPTS a
-              proposal (Open Souk locked rule). The affordance therefore renders only
-              for the post owner on the accepted proposal — never before acceptance,
-              and never for non-owners. */}
-          {isPostOwner && isAccepted && shopId && (
-            <Link
-              href={`/community/messages/${shopId}?postId=${currentPostId}`}
-              className="inline-flex items-center gap-1.5 px-4 py-2 min-h-[40px] min-w-[40px] rounded-full bg-white ring-1 ring-indigo-200 text-indigo-700 text-xs font-semibold hover:bg-indigo-50 transition-colors duration-200"
-            >
-              <MessagesSquare size={13} />
-              {t('community.contact_seller', 'Message')}
-            </Link>
+          {/* Discuss the proposal: the post owner can chat with any seller who has
+              SUBMITTED a proposal (pending or accepted), Upwork-style, before agreeing.
+              Acceptance stays the final step. Stays in-app (backend gate allows contact
+              once a proposal exists). Hidden on rejected proposals and for non-owners. */}
+          {isPostOwner && !isRejected && shopId && (
+            onDiscuss ? (
+              <button
+                type="button"
+                onClick={() => onDiscuss(String(shopId), response)}
+                className="inline-flex items-center gap-1.5 px-4 py-2 min-h-[40px] min-w-[40px] rounded-full bg-white ring-1 ring-indigo-200 text-indigo-700 text-xs font-semibold hover:bg-indigo-50 transition-colors duration-200"
+              >
+                <MessagesSquare size={13} />
+                {isAccepted
+                  ? t('community.contact_seller', 'Message')
+                  : t('community.discuss_proposal', 'Discuss')}
+              </button>
+            ) : (
+              <Link
+                href={`/community/messages/${shopId}?postId=${currentPostId}`}
+                className="inline-flex items-center gap-1.5 px-4 py-2 min-h-[40px] min-w-[40px] rounded-full bg-white ring-1 ring-indigo-200 text-indigo-700 text-xs font-semibold hover:bg-indigo-50 transition-colors duration-200"
+              >
+                <MessagesSquare size={13} />
+                {isAccepted
+                  ? t('community.contact_seller', 'Message')
+                  : t('community.discuss_proposal', 'Discuss')}
+              </Link>
+            )
           )}
 
           {/* Accept / Reject — only post owner on pending responses */}
@@ -430,7 +516,122 @@ export default function ResponseCard({
               </button>
             </>
           )}
+
+          {/* Edit proposal — owning seller only, while pending + edits remain */}
+          {canEdit && !showEditForm && (
+            <div className="flex items-center gap-2">
+              {editsRemaining != null && (
+                <span className="text-[11px] text-gray-400">
+                  {t('community.edits_left', '{{count}} edits left', { count: editsRemaining })}
+                </span>
+              )}
+              <button
+                onClick={() => setShowEditForm(true)}
+                className="inline-flex items-center gap-1.5 px-4 py-2 min-h-[40px] rounded-full border border-indigo-200 text-xs font-semibold text-indigo-700 bg-white hover:bg-indigo-50 transition-colors duration-200"
+              >
+                <Pencil size={13} />
+                {t('community.edit_proposal', 'Edit proposal')}
+              </button>
+            </div>
+          )}
         </div>
+
+        {/* ── Edit proposal form (inline) ───────────────────────────────── */}
+        {canEdit && showEditForm && (
+          <div className="mt-4 -mx-5 -mb-5 rounded-b-2xl overflow-hidden">
+            <ResponseForm
+              mode="edit"
+              isLoading={isUpdating}
+              onCancel={() => setShowEditForm(false)}
+              onSubmit={handleUpdateSubmit}
+              initialData={{
+                description: response.description,
+                price: response.price,
+                currency: response.currency,
+                delivery_days: response.delivery_days ?? response.deliveryDays,
+                sellerSkills: response.sellerSkills ?? response.seller_skills,
+              }}
+            />
+          </div>
+        )}
+
+        {/* ── Seller review (buyer, post-delivery) ──────────────────────── */}
+        {isPostOwner && isAccepted && (reviewDone || canReview) && (
+          <div className="mt-4 pt-4 border-t border-gray-100">
+            {reviewDone ? (
+              <div className="flex items-center gap-2">
+                <span className="text-xs font-semibold text-gray-700">
+                  {t('community.your_rating', 'Your rating')}:
+                </span>
+                <div className="flex items-center gap-0.5">
+                  {[1, 2, 3, 4, 5].map((n) => (
+                    <Star
+                      key={n}
+                      size={15}
+                      className={
+                        n <= reviewStars
+                          ? 'text-amber-500 fill-amber-500'
+                          : 'text-gray-300'
+                      }
+                    />
+                  ))}
+                </div>
+                <span className="text-[11px] text-emerald-700 font-medium ms-1">
+                  {t('community.review_submitted', 'Review submitted')}
+                </span>
+              </div>
+            ) : (
+              <div>
+                <p className="text-xs font-semibold text-gray-700 mb-2">
+                  {t('community.rate_seller_prompt', 'How was working with this seller?')}
+                </p>
+                <div className="flex items-center gap-1 mb-3" role="radiogroup" aria-label={t('community.rate_seller_prompt', 'Rate this seller')}>
+                  {[1, 2, 3, 4, 5].map((n) => (
+                    <button
+                      key={n}
+                      type="button"
+                      aria-label={`${n} ${t('community.stars', 'stars')}`}
+                      onClick={() => setReviewStars(n)}
+                      onMouseEnter={() => setReviewHover(n)}
+                      onMouseLeave={() => setReviewHover(0)}
+                      className="p-0.5 transition-transform hover:scale-110"
+                    >
+                      <Star
+                        size={22}
+                        className={
+                          n <= (reviewHover || reviewStars)
+                            ? 'text-amber-500 fill-amber-500'
+                            : 'text-gray-300'
+                        }
+                      />
+                    </button>
+                  ))}
+                </div>
+                <textarea
+                  value={reviewComment}
+                  onChange={(e) => setReviewComment(e.target.value)}
+                  rows={2}
+                  maxLength={2000}
+                  placeholder={t('community.review_comment_placeholder', 'Share a few words (optional)…')}
+                  dir={isRTL ? 'rtl' : 'ltr'}
+                  className="w-full text-sm rounded-xl bg-gray-50 ring-1 ring-gray-200 px-3 py-2 resize-none focus:outline-none focus:ring-2 focus:ring-indigo-400 mb-3"
+                />
+                <button
+                  onClick={handleSubmitReview}
+                  disabled={reviewSubmitting || reviewStars < 1}
+                  className="inline-flex items-center gap-1.5 px-5 py-2 min-h-[40px] rounded-full bg-indigo-700 text-white text-xs font-semibold hover:bg-indigo-800 transition-colors duration-200 disabled:opacity-50 shadow-sm"
+                >
+                  {reviewSubmitting ? (
+                    <LoadingSpinner className="h-3.5 w-3.5" />
+                  ) : (
+                    <Star size={13} />
+                  )}
+                  {t('community.submit_review', 'Submit review')}
+                </button>
+              </div>
+            )}
+          </div>
+        )}
       </div>
     </motion.div>
   );

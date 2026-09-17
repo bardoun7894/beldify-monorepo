@@ -15,20 +15,32 @@ interface ResponseFormProps {
   isLoading: boolean;
   /** When provided, shows the "Draft with AI" button for the given post */
   postId?: number;
+  /** Pre-fills the form fields — used when editing an existing proposal. */
+  initialData?: Partial<CommunityResponseFormData>;
+  /** 'edit' hides the AI-draft assist and swaps the submit button label. */
+  mode?: 'create' | 'edit';
 }
 
-export default function ResponseForm({ onSubmit, onCancel, isLoading, postId }: ResponseFormProps) {
+export default function ResponseForm({
+  onSubmit,
+  onCancel,
+  isLoading,
+  postId,
+  initialData,
+  mode = 'create',
+}: ResponseFormProps) {
   const { t } = useTranslation();
   const { isRTL } = useDirection();
+  const isEdit = mode === 'edit';
 
   const [formData, setFormData] = useState<CommunityResponseFormData>({
-    description: '',
+    description: initialData?.description ?? '',
     images: [],
-    price: 0,
-    currency: 'MAD',
-    delivery_days: undefined,
-    sellerSkills: [],
-    productSpecifications: [],
+    price: initialData?.price ?? 0,
+    currency: initialData?.currency ?? 'MAD',
+    delivery_days: initialData?.delivery_days,
+    sellerSkills: initialData?.sellerSkills ?? [],
+    productSpecifications: initialData?.productSpecifications ?? [],
   });
 
   const [previewImages, setPreviewImages] = useState<string[]>([]);
@@ -153,7 +165,9 @@ export default function ResponseForm({ onSubmit, onCancel, isLoading, postId }: 
       <div className="px-5 py-4 bg-indigo-950 flex items-center justify-between">
         <div>
           <h3 className="font-semibold text-white text-sm">
-            {t('community.submit_proposal', 'Submit Your Proposal')}
+            {isEdit
+              ? t('community.edit_proposal', 'Edit proposal')
+              : t('community.submit_proposal', 'Submit Your Proposal')}
           </h3>
           <p className="text-xs text-indigo-300 mt-0.5">
             {t('community.proposal_subtitle', 'Make a compelling offer to the buyer')}
@@ -182,8 +196,8 @@ export default function ResponseForm({ onSubmit, onCancel, isLoading, postId }: 
         )}
 
         <form onSubmit={handleSubmit} className="space-y-5">
-          {/* ── AI draft assist — shown only when postId is provided ── */}
-          {postId != null && (
+          {/* ── AI draft assist — shown only when postId is provided (create mode) ── */}
+          {postId != null && !isEdit && (
             <div className="flex items-center gap-3">
               <span className="text-xs text-gray-400">
                 {t('opensoukAi.draft_prelude', 'Need a head start?')}
@@ -414,7 +428,9 @@ export default function ResponseForm({ onSubmit, onCancel, isLoading, postId }: 
               ) : (
                 <>
                   <Send size={14} />
-                  {t('community.submit_response', 'Submit Proposal')}
+                  {isEdit
+                    ? t('community.update_proposal', 'Update proposal')
+                    : t('community.submit_response', 'Submit Proposal')}
                 </>
               )}
             </button>

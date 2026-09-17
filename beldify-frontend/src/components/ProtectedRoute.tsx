@@ -1,10 +1,12 @@
 'use client';
 
 import { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useAuth } from '@/contexts/AuthContext';
 import { useRouter } from 'next/navigation';
 
 export default function ProtectedRoute({ children }: { children: React.ReactNode }) {
+  const { t } = useTranslation();
   const { user, loading, isAuthenticated } = useAuth();
   const router = useRouter();
 
@@ -21,7 +23,7 @@ export default function ProtectedRoute({ children }: { children: React.ReactNode
           <div className="tw-flex tw-items-center tw-justify-center">
             <div className="tw-animate-spin tw-rounded-full tw-h-8 tw-w-8 tw-border-b-2 tw-border-gray-900"></div>
           </div>
-          <p className="tw-mt-4 tw-text-center tw-text-gray-600">Loading...</p>
+          <p className="tw-mt-4 tw-text-center tw-text-gray-600">{t('common.loading', 'Loading...')}</p>
         </div>
       </div>
     );

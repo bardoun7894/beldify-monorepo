@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 import type { Shop } from '@/lib/types/shop';
 import { S3_CONFIG } from '@/config/constants';
 import { useDirection } from '@/hooks/useDirection';
-import { ImageIcon, MapPin, Star, ShoppingBag, BadgeCheck } from 'lucide-react';
+import { MapPin, Star, ShoppingBag, BadgeCheck } from 'lucide-react';
 import api from '@/lib/api';
 import logger from '@/utils/consoleLogger';
 
@@ -47,6 +47,15 @@ export default function ShopCard({ shop }: ShopCardProps) {
 
   const logoUrl = shop.profile?.store_logo || shop.logo;
 
+  // Dignified monogram fallback — new sellers (day-one reality: store_logo is
+  // null) get an intentional-looking avatar instead of a "broken" placeholder.
+  const initials = (displayName || '?')
+    .trim()
+    .split(/\s+/)
+    .slice(0, 2)
+    .map((word) => word.charAt(0).toUpperCase())
+    .join('') || '?';
+
   return (
     <div className="group relative bg-white rounded-2xl ring-1 ring-gray-200 hover:shadow-md transition-all duration-300 w-full overflow-hidden hover:-translate-y-0.5">
       {/* Status Badge */}
@@ -83,12 +92,21 @@ export default function ShopCard({ shop }: ShopCardProps) {
           <div className="absolute inset-0">
             <div className="relative w-full h-full">
               {!logoUrl ? (
-                <div className="flex items-center justify-center w-full h-full bg-amber-50">
-                  <div className="text-center">
-                    <ImageIcon className="h-16 w-16 mx-auto text-amber-300" aria-hidden="true" />
-                    <span className="text-sm text-gray-500 mt-2 block">{t('shop.no_image')}</span>
-                    <span className="text-xs text-gray-400 block">{displayName}</span>
-                  </div>
+                <div
+                  role="img"
+                  aria-label={t('shop.no_logo_alt', '{{name}} — no logo yet', { name: displayName })}
+                  className="flex items-center justify-center w-full h-full"
+                  style={{
+                    background: 'linear-gradient(135deg, hsl(240 39% 24%) 0%, hsl(243 60% 38%) 100%)',
+                  }}
+                >
+                  <span
+                    aria-hidden="true"
+                    className="flex h-16 w-16 sm:h-20 sm:w-20 items-center justify-center rounded-full bg-white/10 ring-2 ring-white/30 text-2xl sm:text-3xl font-bold text-white"
+                    style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
+                  >
+                    {initials}
+                  </span>
                 </div>
               ) : (
                 <div className="relative w-full h-full">

@@ -27,7 +27,7 @@ export default function ProfileTabs({ activeTab, onTabChange }: ProfileTabsProps
   ];
 
   return (
-    <nav className="space-y-1" aria-label="Profile navigation">
+    <nav className="space-y-1" aria-label={t('profile.nav_aria', 'Profile navigation')}>
       {tabs.map((tab) => {
         const isActive = activeTab === tab.id;
         const Icon = tab.icon;

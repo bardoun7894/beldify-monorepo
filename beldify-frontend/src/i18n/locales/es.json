@@ -966,6 +966,7 @@
       "view_details": "Ver detalles",
       "back_to_orders": "Volver a pedidos",
       "contact_seller": "Contactar vendedor",
+      "discuss_proposal": "Conversar",
       "contact_support": "Contactar soporte",
       "write_review": "Escribir reseña",
       "download_invoice": "Descargar factura",
@@ -1501,6 +1502,9 @@
       "bag": "Carrito",
       "confirm": "Confirmación",
       "info": "Información"
+    },
+    "mobileBar": {
+      "label": "Total del pedido y confirmación"
     }
   },
   "profile": {
@@ -3202,7 +3206,13 @@
     "view_custom_order": "Ver tu encargo personalizado",
     "view_image": "Ver imagen",
     "view_portfolio": "Ver portafolio",
-    "your_bid": "Tu Oferta"
+    "your_bid": "Tu Oferta",
+    "edit_proposal": "Editar propuesta",
+    "edits_left": "Queda {{count}} edición",
+    "edits_left_plural": "Quedan {{count}} ediciones",
+    "edit_cap_reached": "Ya no se puede editar esta propuesta",
+    "error_updating_response": "No se pudo actualizar tu propuesta. Inténtalo de nuevo.",
+    "update_proposal": "Actualizar propuesta"
   },
   "pwa": {
     "banner": {
@@ -3609,7 +3619,9 @@
       "location": "Ubicación",
       "reviews": "reseñas",
       "viewProfile": "Ver perfil",
-      "viewDetails": "Ver detalles"
+      "viewDetails": "Ver detalles",
+      "emptyTitle": "Nuestra red de talleres abre pronto",
+      "emptyBody": "Estamos incorporando sastres marroquíes verificados ahora mismo. Vuelve pronto para iniciar tu pedido a medida."
     },
     "tailorDetail": {
       "breadcrumbLabel": "Ruta de navegación",
@@ -4017,7 +4029,8 @@
       "art_slide2_cta": "Iniciar pedido a medida",
       "art_slide3_headline": "Zoco Abierto — publica tu encargo y deja que los talleres compitan",
       "art_slide3_subline": "Nuestros artesanos compiten por tu proyecto",
-      "art_slide3_cta": "Publicar un encargo ahora"
+      "art_slide3_cta": "Publicar un encargo ahora",
+      "product_eyebrow": "Hecho a mano en Marruecos"
     },
     "trust": {
       "verified_sellers": "Vendedores verificados",
@@ -4161,7 +4174,7 @@
   "shop": {
     "about_heading": "Dentro de {{name}}",
     "all_reviews": "Ver las {{count}} reseñas",
-    "atelier_image_alt": "Interior del taller {{n}}",
+    "atelier_image_alt": "Pieza de {{name}}",
     "bespoke_heading": "¿Tienes algo específico en mente?",
     "bespoke_sub": "Encarga una pieza hecha a medida según tus dimensiones, elaborada con técnicas ancestrales.",
     "cover_alt": "Portada del taller — {{name}}",
@@ -4171,7 +4184,10 @@
     "load_more": "Cargar más",
     "message_atelier": "Enviar mensaje al taller",
     "no_image": "Sin imagen",
+    "no_logo_alt": "{{name}} — aún sin logo",
     "no_products_found": "No se encontraron productos en esta categoría.",
+    "no_products_yet_sub": "Este taller aún no ha añadido productos. Vuelve pronto.",
+    "no_products_yet_title": "Aún no hay productos",
     "no_reviews_sub": "Sé el primero en compartir tu experiencia con este taller.",
     "no_reviews_title": "Aún no hay reseñas",
     "reviews_heading": "Lo que dicen nuestros clientes",
@@ -4335,7 +4351,7 @@
       "no_reviews": "Sin opiniones aún"
     },
     "stepsCta": "Iniciar un pedido de confección",
-    "sub": "Más de 120 talleres verificados crean prendas marroquíes a medida según tus medidas exactas — enviadas a cualquier parte del mundo. Sin probador necesario.",
+    "sub": "Nuestros talleres verificados crean prendas marroquíes a medida según tus medidas exactas — enviadas a cualquier parte del mundo. No necesitas probador.",
     "services": {
       "alterations": {
         "price": "Comenzando desde 49 DH",
@@ -4402,6 +4418,20 @@
         }
       },
       "title": "Por qué elegir nuestros servicios de confección"
+    },
+    "steps": {
+      "0": {
+        "title": "Elige tu sastre",
+        "body": "Explora talleres verificados en Fez, Marrakech, Casablanca y Tetuán. Cada ficha muestra especialidades, reseñas y disponibilidad actual."
+      },
+      "1": {
+        "title": "Envía tus medidas",
+        "body": "Usa nuestro formulario de medidas guiado — no necesitas experiencia con la cinta métrica. O reserva una videollamada de 15 minutos con tu sastre para una sesión guiada."
+      },
+      "2": {
+        "title": "Recibe tu prenda",
+        "body": "Tu prenda se termina a mano y se envía a todo el mundo. La mayoría de los pedidos a medida llegan en 2 a 4 semanas. Incluye una ronda de ajustes gratuita."
+      }
     }
   },
   "preferences": {
@@ -4487,7 +4517,13 @@
     "sign_in_required": "Inicia sesión para ver mensajes",
     "start_conversation_hint": "Inicia la conversación, saluda al taller.",
     "type_a_message": "Escribe un mensaje…",
-    "typing_aria": "La otra persona está escribiendo"
+    "typing_aria": "La otra persona está escribiendo",
+    "quick": {
+      "price": "¿Cuál es tu mejor precio?",
+      "timeline": "¿Cuánto tiempo tomará?",
+      "photos": "¿Puedes compartir más fotos?",
+      "customize": "¿Puedes personalizarlo para mí?"
+    }
   },
   "openSouk": {
     "browseCta": "Explorar solicitudes",
@@ -4541,7 +4577,9 @@
     "trustFree": "Gratis",
     "trustNoCommitment": "Sin compromiso",
     "trustCod": "Pago contra entrega",
-    "previewBestOffer": "Mejor oferta"
+    "previewBestOffer": "Mejor oferta",
+    "exampleSeller": "Taller {{n}}",
+    "previewIsExample": "Ejemplo — cómo funciona"
   },
   "seller": {
     "shortcut_title": "Panel del Vendedor",
@@ -4555,6 +4593,10 @@
       "benefit_secure": "Pagos seguros y protección del comprador",
       "business_type_company": "Empresa registrada",
       "business_type_cooperative": "Cooperativa",
+      "store_type_label": "¿Qué vendes?",
+      "store_type_loading": "Cargando categorías de la tienda...",
+      "store_type_load_error": "No se pudieron cargar las categorías de la tienda. Inténtalo de nuevo.",
+      "validation_store_type": "Por favor selecciona lo que vendes",
       "business_type_individual": "Particular / Freelancer",
       "business_type_label": "Tipo de negocio",
       "contact_email_label": "Correo de contacto",

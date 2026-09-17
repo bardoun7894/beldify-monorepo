@@ -153,6 +153,21 @@ const nextConfig = {
     return [
       { source: '/tailoring', destination: '/services/tailoring', permanent: true },
       { source: '/journal', destination: '/about', permanent: false },
+      // Canonicalize category routes: /category/* → /categories/* (the plural form
+      // is what the homepage/nav links emit; /category/* is a legacy alias).
+      { source: '/category/:slug*', destination: '/categories/:slug*', permanent: true },
+      // Legacy transliterated "men" alias used on the homepage CTA.
+      { source: '/categories/rgal', destination: '/categories/men', permanent: true },
+      // Blade seller dashboard owns store-profile editing (2026-06-29
+      // consolidation); /seller/register bridges into it via /seller/enter SSO.
+      { source: '/seller/store-profile', destination: '/seller/register', permanent: true },
+    ];
+  },
+
+  // Proxy backend-stored media under the www origin (see next.config.prod.js).
+  async rewrites() {
+    return [
+      { source: '/storage/:path*', destination: 'https://pro.beldify.com/storage/:path*' },
     ];
   },
 

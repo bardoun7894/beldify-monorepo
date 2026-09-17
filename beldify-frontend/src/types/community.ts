@@ -147,13 +147,30 @@ export interface CommunityResponse {
   createdAt?: string;
   updatedAt?: string;
   accepted?: boolean;
-  // Open Souk edit-cap (Laravel-only feature; surfaced for parity — the storefront
-  // never calls an updateResponse endpoint, editing happens in the seller dashboard).
+  // Open Souk edit-cap: the owning seller may edit a PENDING proposal a limited
+  // number of times via PATCH /api/v1/seller/community/responses/{response}.
+  // editsRemaining reaches 0 once the cap is hit (backend enforces via 422).
   editCount?: number;
   editsRemaining?: number;
   isMine?: boolean;
   // Set on the ACCEPTED proposal — the bridged custom_order id (Contact-after-accept).
   customOrderId?: string | number | null;
+  // Full custom-order summary for the accepted proposal (status drives review gating).
+  customOrder?: {
+    id: string | number;
+    status: string;
+    quote_amount?: number | null;
+    deposit_amount?: number | null;
+    deposit_paid?: boolean;
+  } | null;
+  // Buyer's review of this seller once the deal is delivered (trust flywheel).
+  review?: {
+    id: string | number;
+    rating: number;
+    comment?: string | null;
+    userName?: string;
+    createdAt?: string;
+  } | null;
 }
 
 export interface MessageAttachment {

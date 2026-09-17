@@ -51,8 +51,46 @@ function JobCardSkeleton() {
 }
 
 // ── Empty state ───────────────────────────────────────────────────────────────
-function EmptyState({ isAuthenticated }: { isAuthenticated: boolean }) {
+function EmptyState({
+  isAuthenticated,
+  hasFilters,
+  onClear,
+}: {
+  isAuthenticated: boolean;
+  hasFilters?: boolean;
+  onClear?: () => void;
+}) {
   const { t } = useTranslation();
+
+  // Filtered-empty is a different problem from a genuinely empty souk: the buyer
+  // just over-narrowed. Offer to clear rather than "be the first to post".
+  if (hasFilters) {
+    return (
+      <div className="text-center py-20">
+        <div className="w-16 h-16 bg-gray-100 rounded-full ring-1 ring-gray-200 flex items-center justify-center mx-auto mb-4">
+          <MessagesSquare size={28} className="text-gray-300" />
+        </div>
+        <h3
+          className="text-lg font-semibold text-gray-900 mb-2"
+          style={{ fontFamily: '"Playfair Display", ui-serif, Georgia, serif' }}
+        >
+          {t('openSouk.feedNoMatchTitle', 'No jobs match your filters')}
+        </h3>
+        <p className="text-sm text-gray-500 mb-6 max-w-sm mx-auto leading-relaxed">
+          {t('openSouk.feedNoMatchBody', 'Try widening your budget, clearing a skill, or removing the search.')}
+        </p>
+        {onClear && (
+          <button
+            onClick={onClear}
+            className="inline-flex items-center gap-2 px-5 py-2.5 min-h-[44px] rounded-full bg-indigo-700 text-white text-sm font-semibold hover:bg-indigo-800 transition-colors duration-200"
+          >
+            {t('openSouk.clearFilters', 'Clear all filters')}
+          </button>
+        )}
+      </div>
+    );
+  }
+
   return (
     <div className="text-center py-20">
       <div className="w-16 h-16 bg-amber-50 rounded-full ring-1 ring-amber-200 flex items-center justify-center mx-auto mb-4">
@@ -217,6 +255,13 @@ export default function CommunityPage() {
     setCurrentPage(1);
   };
 
+  const clearFilters = useCallback(() => {
+    setFilters({});
+    setSearchQuery('');
+    setSort('latest');
+    setCurrentPage(1);
+  }, []);
+
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -366,7 +411,11 @@ export default function CommunityPage() {
               ) : error ? (
                 <ErrorState onRetry={loadPosts} />
               ) : posts.length === 0 ? (
-                <EmptyState isAuthenticated={isAuthenticated} />
+                <EmptyState
+                  isAuthenticated={isAuthenticated}
+                  hasFilters={activeFilterCount > 0 || !!searchQuery}
+                  onClear={clearFilters}
+                />
               ) : (
                 <>
                   <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5 mb-6">

@@ -82,7 +82,7 @@ export default function ShopFilters({
                           type="button"
                           onClick={onClose}
                           aria-label={t('actions.close', 'Close')}
-                          className="rounded-full p-2 text-white/70 hover:text-white hover:bg-white/10 transition focus-visible:ring-2 focus-visible:ring-white/40"
+                          className="rounded-full p-2 min-h-[44px] min-w-[44px] flex items-center justify-center text-white/70 hover:text-white hover:bg-white/10 transition focus-visible:ring-2 focus-visible:ring-white/40"
                         >
                           <XMarkIcon className="h-5 w-5" aria-hidden="true" />
                         </button>
@@ -101,7 +101,7 @@ export default function ShopFilters({
                             <Button
                               key={type.value}
                               variant={isActive ? 'default' : 'outline'}
-                              className={`w-full justify-start rounded-full transition-all duration-150 ${
+                              className={`w-full justify-start rounded-full transition-all duration-150 min-h-[44px] ${
                                 isActive
                                   ? 'bg-indigo-700 text-white hover:bg-indigo-800 shadow-atlas-sm'
                                   : 'ring-1 ring-amber-200 hover:ring-amber-300 hover:bg-amber-50 text-gray-700'
@@ -122,7 +122,7 @@ export default function ShopFilters({
                     <div className="shrink-0 px-6 py-4 border-t border-gray-200">
                       <Button
                         variant="ghost"
-                        className="w-full rounded-full text-indigo-700 hover:bg-indigo-50"
+                        className="w-full rounded-full text-indigo-700 hover:bg-indigo-50 min-h-[44px]"
                         onClick={() => {
                           onTypeChange('');
                           onClose();

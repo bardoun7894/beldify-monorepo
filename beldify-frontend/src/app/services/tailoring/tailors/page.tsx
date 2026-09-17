@@ -293,14 +293,30 @@ export default function TailorsPage() {
             </div>
           ) : paginatedTailors.length === 0 ? (
             <div className="text-center py-16 rounded-2xl ring-1 ring-gray-200 bg-white">
-              <p className="text-gray-500 text-base">{t('content.tailors.noResults', 'No tailors found matching your criteria.')}</p>
-              {hasActiveFilters && (
-                <button
-                  onClick={handleClearFilters}
-                  className="mt-4 rounded-full px-5 py-2.5 text-sm font-medium bg-amber-50 text-amber-800 ring-1 ring-amber-200 hover:ring-amber-400 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500"
-                >
-                  {t('content.tailors.clearFilters', 'Clear Filters')}
-                </button>
+              {tailors.length === 0 && !hasActiveFilters ? (
+                <>
+                  <p className="text-indigo-950 text-lg font-semibold">
+                    {t('content.tailors.emptyTitle', 'Our atelier network is opening soon')}
+                  </p>
+                  <p className="mt-2 text-gray-500 text-base max-w-md mx-auto">
+                    {t(
+                      'content.tailors.emptyBody',
+                      "We're onboarding verified Moroccan tailors right now. Check back shortly to start your bespoke order.",
+                    )}
+                  </p>
+                </>
+              ) : (
+                <>
+                  <p className="text-gray-500 text-base">{t('content.tailors.noResults', 'No tailors found matching your criteria.')}</p>
+                  {hasActiveFilters && (
+                    <button
+                      onClick={handleClearFilters}
+                      className="mt-4 rounded-full px-5 py-2.5 text-sm font-medium bg-amber-50 text-amber-800 ring-1 ring-amber-200 hover:ring-amber-400 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500"
+                    >
+                      {t('content.tailors.clearFilters', 'Clear Filters')}
+                    </button>
+                  )}
+                </>
               )}
             </div>
           ) : (

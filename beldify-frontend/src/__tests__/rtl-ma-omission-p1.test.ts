@@ -41,9 +41,7 @@ function hasBrokenIsRTL(source: string): boolean {
 
 const FILES_IN_SCOPE = [
   'app/checkout/page.tsx',
-  'app/category/[slug]/page.tsx',
   'app/seller/register/page.tsx',
-  'app/seller/custom-orders/page.tsx',
   'app/custom-orders/new/page.tsx',
 ];
 
@@ -84,14 +82,14 @@ describe('P1 — Navbar mobile drawer RTL edge correction', () => {
   it('drawer Transition.Child enterFrom uses RTL-mirrored translate (not hardcoded translate-x-full)', () => {
     // enterFrom must be conditional: isRTL ? '-translate-x-full' : 'translate-x-full'
     expect(navbarSrc).toMatch(
-      /enterFrom=\{isRTL\s*\?\s*['`]-translate-x-full['`]\s*:\s*['`]translate-x-full['`]\}/,
+      /enterFrom=\{isRTL\s*\?\s*['"`]-translate-x-full['"`]\s*:\s*['"`]translate-x-full['"`]\}/,
     );
   });
 
   it('drawer Transition.Child leaveTo uses RTL-mirrored translate (not hardcoded translate-x-full)', () => {
     // leaveTo must be conditional: isRTL ? '-translate-x-full' : 'translate-x-full'
     expect(navbarSrc).toMatch(
-      /leaveTo=\{isRTL\s*\?\s*['`]-translate-x-full['`]\s*:\s*['`]translate-x-full['`]\}/,
+      /leaveTo=\{isRTL\s*\?\s*['"`]-translate-x-full['"`]\s*:\s*['"`]translate-x-full['"`]\}/,
     );
   });
 

@@ -80,10 +80,14 @@ const TYPE_CONFIG: Record<
   },
 };
 
-const getConfig = (type: string) => {
-  // Normalise to last segment e.g. "App\\Notifications\\OrderPlaced" → try full key first
+const getConfig = (type: string, dataType?: string) => {
+  // The API returns `type` as the PHP class name (e.g. "App\\Notifications\\NewResponseNotification")
+  // while TYPE_CONFIG is keyed by the data.type slug (e.g. "community_response"). Match against the
+  // slug first so class names that don't textually contain the slug (NewResponse ≠ communityresponse)
+  // still resolve to their icon/label/deep-link.
+  const needle = (dataType || type).toLowerCase();
   const key = Object.keys(TYPE_CONFIG).find(
-    (k) => type === k || type.toLowerCase().includes(k.replace(/_/g, ''))
+    (k) => needle === k || needle.includes(k.replace(/_/g, ''))
   );
   return key ? TYPE_CONFIG[key] : null;
 };
@@ -106,7 +110,7 @@ function NotificationItem({
 }) {
   const { markAsRead } = useNotifications();
   const { t, i18n } = useTranslation();
-  const config = getConfig(notification.type);
+  const config = getConfig(notification.type, notification.data?.type);
   const Icon = config?.icon ?? Bell;
   const href = config?.href(notification.data) ?? '/notifications';
   const label = config ? t(config.labelKey, config.fallback) : notification.type;
@@ -191,7 +195,10 @@ export default function NotificationBell() {
   };
 
   const MAX_PREVIEW = 8;
-  const preview = notifications.slice(0, MAX_PREVIEW);
+  // Guard against a non-array slipping through — a bad API shape must never crash the header.
+  const preview = Array.isArray(notifications)
+    ? notifications.slice(0, MAX_PREVIEW)
+    : [];
 
   return (
     <Menu as="div" className="relative">

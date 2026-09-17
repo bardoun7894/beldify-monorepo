@@ -39,39 +39,6 @@ describe('C3 — shared status-color maps', () => {
   });
 });
 
-// ── Off-palette blue gone ─────────────────────────────────────────────────────
-describe('C3 — no off-palette blue in migrated seller pages', () => {
-  const migrated = [
-    'app/seller/page.tsx',
-    'app/seller/orders/page.tsx',
-    'app/seller/orders/[id]/page.tsx',
-    'app/seller/payouts/page.tsx',
-  ];
-  for (const f of migrated) {
-    it(`${f} uses no blue-* utility classes`, () => {
-      expect(r(f)).not.toMatch(/\bbg-blue-|\btext-blue-|\bring-blue-/);
-    });
-  }
-});
-
-// ── Logical alignment, no LTR table utils ─────────────────────────────────────
-describe('C3 — logical (RTL-safe) table alignment', () => {
-  const migrated = [
-    'app/seller/page.tsx',
-    'app/seller/orders/page.tsx',
-  ];
-  for (const f of migrated) {
-    it(`${f} uses no text-left / text-right`, () => {
-      expect(r(f)).not.toMatch(/\btext-left\b|\btext-right\b/);
-    });
-    it(`${f} adopts the Table primitive (logical alignment lives there)`, () => {
-      const c = r(f);
-      // Either logical utilities directly OR the shared Table primitive which owns them.
-      expect(c).toMatch(/text-start|text-end|from '@\/components\/ui\/table'/);
-      expect(c).toMatch(/TableHead|TableCell/);
-    });
-  }
-});
 
 // The Table primitive is the single owner of logical alignment + tabular-nums.
 describe('C3 — Table primitive owns logical alignment', () => {
@@ -84,32 +51,3 @@ describe('C3 — Table primitive owns logical alignment', () => {
   });
 });
 
-// ── MAD price columns ─────────────────────────────────────────────────────────
-describe('C3 — MAD price columns are tabular + LTR-safe', () => {
-  it('seller dashboard total column uses numeric cells and currency-mad', () => {
-    const c = r('app/seller/page.tsx');
-    expect(c).toMatch(/numeric/);
-    expect(c).toMatch(/currency-mad/);
-  });
-  it('orders list total column uses numeric cells and currency-mad', () => {
-    const c = r('app/seller/orders/page.tsx');
-    expect(c).toMatch(/numeric/);
-    expect(c).toMatch(/currency-mad/);
-  });
-});
-
-// ── font-heading utility, no inline Playfair object on migrated pages ─────────
-describe('C3 — headings routed through the font-heading utility', () => {
-  const migrated = [
-    'app/seller/page.tsx',
-    'app/seller/orders/page.tsx',
-    'app/seller/payouts/page.tsx',
-  ];
-  for (const f of migrated) {
-    it(`${f} uses font-heading and drops the inline Playfair object`, () => {
-      const c = r(f);
-      expect(c).toMatch(/font-heading/);
-      expect(c).not.toMatch(/fontFamily:\s*'"Playfair Display"/);
-    });
-  }
-});

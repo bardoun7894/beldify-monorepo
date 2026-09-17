@@ -25,8 +25,17 @@ rsync -avz --delete \
   --exclude '.next' \
   --exclude '.git' \
   --exclude '*.log' \
+  --exclude '.env' \
+  --exclude '.env.*' \
+  --exclude 'beldify-backend/storage/app' \
+  --exclude 'beldify-backend/storage/framework' \
+  --exclude 'beldify-backend/public/storage' \
+  --exclude 'beldify-frontend/.env*' \
   ~/projects/beldify/ \
   "$REMOTE:$REMOTE_DIR/"
+# NOTE: .env and storage/ are EXCLUDED on purpose — prod .env diverges from local
+# (ASSET_URL, FILESYSTEM_DISK, APP_URL set directly on the server), and rsync
+# --delete on storage/app would wipe prod-only uploaded media. Never remove these.
 
 echo "🔐 Restoring storage/cache ownership (rsync -avz from macOS stamps files uid 501 → www-data can't write → optimize:clear + every request 500s)..."
 ssh "$REMOTE" "docker exec $BACKEND_CT sh -lc 'chown -R www-data:www-data storage bootstrap/cache && find storage bootstrap/cache -type d -exec chmod 775 {} \;'"
@@ -34,10 +43,16 @@ ssh "$REMOTE" "docker exec $BACKEND_CT sh -lc 'chown -R www-data:www-data storag
 echo "🔗 Repairing backend API->Api case-sensitivity symlink (rsync --delete wipes it)..."
 ssh "$REMOTE" "docker exec $BACKEND_CT sh -lc 'cd app/Http/Controllers && ln -sfn Api API; cd /var/www/html && composer dump-autoload -o >/dev/null 2>&1 && php artisan optimize:clear >/dev/null 2>&1'"
 
+echo "🖼️  Recreating public/storage symlink (rsync --delete wipes it → every /storage/* image 404s, e.g. category photos)..."
+ssh "$REMOTE" "docker exec $BACKEND_CT php artisan storage:link >/dev/null 2>&1 || true"
+
 echo "🗃️  Running pending backend migrations (non-interactive)..."
 ssh "$REMOTE" "docker exec $BACKEND_CT php artisan migrate --force" || {
   echo "⚠️  Migration step failed — check backend logs before trusting the deploy."; exit 1;
 }
+
+echo "♻️  Restarting backend to flush PHP-FPM opcache (optimize:clear does NOT clear opcache → new controllers/routes/views keep serving STALE until restart)..."
+ssh "$REMOTE" "docker restart $BACKEND_CT >/dev/null 2>&1 && sleep 3 && docker exec $BACKEND_CT sh -lc 'php artisan storage:link >/dev/null 2>&1; php artisan config:cache >/dev/null 2>&1; php artisan route:cache >/dev/null 2>&1; php artisan view:cache >/dev/null 2>&1' || true"
 
 echo "🔨 Building & starting PROD frontend (real next build/start, port 4987)..."
 # Stop the stale dev container if it exists (wrong port 3001, dev mode).

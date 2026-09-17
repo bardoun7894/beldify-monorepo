@@ -15,6 +15,7 @@ import { usePWATriggers } from '@/hooks/usePWATriggers';
 import { getImageUrl } from '@/utils/imageUtils';
 import { shippingService, type ShippingMethod } from '@/services/shippingService';
 import { addressService, type SavedAddress } from '@/services/addressService';
+import { loyaltyService, type LoyaltyBalance } from '@/services/loyaltyService';
 import {
   ShoppingBag,
   ArrowRight,
@@ -37,6 +38,7 @@ import {
   ChevronRight,
 } from 'lucide-react';
 import { CheckoutProgressBar } from '@/components/checkout/CheckoutProgressBar';
+import { CheckoutMobileBar } from '@/components/checkout/CheckoutMobileBar';
 import { track } from '@/lib/analytics';
 
 // ── Playfair inline style token ───────────────────────────────────────────────
@@ -190,6 +192,10 @@ export default function CheckoutPage() {
   // boundary that useSearchParams requires in Next.js 15 App Router).
   const [isBuyNow, setIsBuyNow] = useState(false);
   const [buyNowItem, setBuyNowItem] = useState<BuyNowItem | null>(null);
+
+  // ── Loyalty redemption (authenticated buyers only, display-safe) ────────────
+  const [loyalty, setLoyalty] = useState<LoyaltyBalance | null>(null);
+  const [redeemLoyalty, setRedeemLoyalty] = useState(false);
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
@@ -799,6 +805,8 @@ export default function CheckoutPage() {
           total_amount: String(cartState!.total_amount),
           coupon_code: cartState!.coupon_code || null,
           marketing_opt_in: sendUpdates,
+          // Loyalty: server validates + caps and recomputes the discount.
+          ...(applyLoyalty ? { redeem_points: loyaltyRedeemPoints } : {}),
         };
         response = await orderService.createOrder(orderData);
       } else {
@@ -1060,6 +1068,16 @@ export default function CheckoutPage() {
     return () => { cancelled = true; };
   }, [isAuthenticated]); // eslint-disable-line react-hooks/exhaustive-deps
 
+  // ── Load loyalty balance for authenticated buyers (non-blocking) ───────────
+  useEffect(() => {
+    if (!isAuthenticated) { setLoyalty(null); return; }
+    let cancelled = false;
+    loyaltyService.getBalance()
+      .then((b) => { if (!cancelled) setLoyalty(b); })
+      .catch(() => { /* getBalance already degrades to null */ });
+    return () => { cancelled = true; };
+  }, [isAuthenticated]);
+
   // If COD becomes ineligible (cart > limit or shipping leaves Morocco) while it
   // is the selected method, fall back to the first transfer option.
   useEffect(() => {
@@ -1089,6 +1107,30 @@ export default function CheckoutPage() {
   const totalAmount = isBuyNow
     ? (quote ? quote.total_amount : buyNowSubtotalDerived)
     : (quote ? quote.total_amount : (cartState?.total_amount ?? 0));
+
+  // ── Loyalty redemption maths (auth only) ───────────────────────────────────
+  // Mirror the server cap (LoyaltyService): value ≤ 50% of the post-coupon
+  // subtotal, points ≥ min. The server re-validates; this is display + payload.
+  const loyaltyEligible =
+    !!loyalty &&
+    isAuthenticated &&
+    !isBuyNow &&
+    loyalty.points_balance >= loyalty.min_redeem_points &&
+    loyalty.redeem_value > 0;
+  const loyaltyBase = Math.max(0, subtotal - discountAmount);
+  const loyaltyMaxValue = loyaltyEligible
+    ? Math.min(loyalty!.max_redeem_value, +(loyaltyBase * 0.5).toFixed(2))
+    : 0;
+  const loyaltyRedeemPoints = loyaltyEligible
+    ? Math.floor(loyaltyMaxValue / loyalty!.redeem_value)
+    : 0;
+  const loyaltyCredit = loyaltyEligible
+    ? +(loyaltyRedeemPoints * loyalty!.redeem_value).toFixed(2)
+    : 0;
+  const applyLoyalty = redeemLoyalty && loyaltyEligible && loyaltyCredit > 0;
+  const effectiveTotal = applyLoyalty
+    ? Math.max(0, +(totalAmount - loyaltyCredit).toFixed(2))
+    : totalAmount;
 
   // ── Task 1: Load dynamic shipping methods ────────────────────────────────
   // Fetch whenever subtotal changes. On failure, dynamicShippingMethods stays []
@@ -1303,7 +1345,7 @@ export default function CheckoutPage() {
             <>
               <span>{t('checkout.actions.place_order', 'أكّد الطلب')}</span>
               <span className="text-xs font-medium opacity-80 tabular-nums currency-mad mt-0.5">
-                {formatAmount(totalAmount)} MAD
+                {formatAmount(effectiveTotal)} MAD
               </span>
             </>
           )}
@@ -1400,7 +1442,7 @@ export default function CheckoutPage() {
                   touchedFields.email && validationErrors.email
                     ? 'ring-rose-400 focus:ring-rose-500'
                     : 'ring-gray-200 focus:ring-indigo-700/40'
-                } ps-10 pe-4 py-2.5 text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 transition-all duration-150`}
+                } ps-10 pe-4 py-3 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 transition-all duration-150 min-h-[48px]`}
                 aria-invalid={touchedFields.email && !!validationErrors.email}
                 aria-describedby={touchedFields.email && validationErrors.email ? 'email-error' : undefined}
               />
@@ -1984,7 +2026,36 @@ export default function CheckoutPage() {
             <span className="text-amber-700 font-medium tabular-nums currency-mad">-{formatAmount(discountAmount)} MAD</span>
           </div>
         )}
+        {applyLoyalty && (
+          <div className="flex justify-between">
+            <span className="text-gray-600">{t('checkout.summary.loyalty', 'Loyalty credit')}</span>
+            <span className="text-emerald-700 font-medium tabular-nums currency-mad">-{formatAmount(loyaltyCredit)} MAD</span>
+          </div>
+        )}
       </div>
+
+      {/* Loyalty redemption — authenticated buyers with a redeemable balance */}
+      {loyaltyEligible && loyaltyCredit > 0 && (
+        <label className="mt-3 flex items-start gap-3 rounded-xl border border-emerald-200 bg-emerald-50 p-3 text-sm dark:border-emerald-900/40 dark:bg-emerald-950/20 cursor-pointer">
+          <input
+            type="checkbox"
+            checked={redeemLoyalty}
+            onChange={(e) => setRedeemLoyalty(e.target.checked)}
+            className="mt-0.5 h-4 w-4 rounded border-gray-300 text-emerald-600 focus:ring-emerald-500"
+          />
+          <span className="text-gray-700 dark:text-gray-200">
+            {t('checkout.summary.loyaltyRedeem', 'Use {{points}} points for {{value}} MAD off', {
+              points: loyaltyRedeemPoints,
+              value: formatAmount(loyaltyCredit),
+            })}
+            <span className="block text-xs text-gray-500">
+              {t('checkout.summary.loyaltyBalance', 'You have {{balance}} points', {
+                balance: loyalty!.points_balance,
+              })}
+            </span>
+          </span>
+        </label>
+      )}
 
       {/* Total */}
       <div className="flex items-baseline justify-between mt-4 mb-6 pt-4 border-t border-gray-200">
@@ -1995,7 +2066,7 @@ export default function CheckoutPage() {
           className="text-2xl font-bold text-indigo-700 tabular-nums currency-mad"
           style={playfair}
         >
-          {formatAmount(totalAmount)} MAD
+          {formatAmount(effectiveTotal)} MAD
         </span>
       </div>
 
@@ -2008,7 +2079,7 @@ export default function CheckoutPage() {
         >
           <span>{t('checkout.actions.continue_to_confirm', 'كمّل للتأكيد')}</span>
           <span className="text-xs font-medium opacity-80 tabular-nums currency-mad mt-0.5">
-            {formatAmount(totalAmount)} MAD
+            {formatAmount(effectiveTotal)} MAD
           </span>
         </button>
       ) : (
@@ -2030,7 +2101,7 @@ export default function CheckoutPage() {
             <>
               <span>{t('checkout.actions.confirm_order', 'أكّد الطلب')}</span>
               <span className="text-xs font-medium opacity-80 tabular-nums currency-mad mt-0.5">
-                {formatAmount(totalAmount)} MAD
+                {formatAmount(effectiveTotal)} MAD
               </span>
             </>
           )}
@@ -2091,7 +2162,7 @@ export default function CheckoutPage() {
   const progressStep = step === 1 ? 2 : 3;
 
   return (
-    <div className={`min-h-screen bg-canvas ${isRTL ? 'rtl' : 'ltr'}`}>
+    <div className={`min-h-screen bg-canvas pb-24 md:pb-0 ${isRTL ? 'rtl' : 'ltr'}`}>
       {/* ── 3-step progress bar (السلة ← المعلومات ← التأكيد) ──────────────── */}
       <div className="bg-white border-b border-gray-100 py-2">
         <div className="max-w-7xl mx-auto px-6 flex items-center justify-between gap-4">
@@ -2139,6 +2210,21 @@ export default function CheckoutPage() {
 
       {/* ── Bespoke strip ─────────────────────────────────────────────────── */}
       <BespokeStrip t={t} />
+
+      {/* ── Mobile sticky action bar — keeps the primary CTA reachable without
+           scrolling past the contact/address/shipping cards on a phone. ──── */}
+      <CheckoutMobileBar
+        totalLabel={`${formatAmount(effectiveTotal)} MAD`}
+        ctaLabel={
+          step === 1
+            ? t('checkout.actions.continue_to_confirm', 'كمّل للتأكيد')
+            : t('checkout.actions.confirm_order', 'أكّد الطلب')
+        }
+        step={step === 1 ? 1 : 2}
+        formId="checkout-delivery"
+        onSubmitStep2={handlePaymentSubmit}
+        isProcessing={isProcessing}
+      />
     </div>
   );
 }

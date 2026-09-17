@@ -94,7 +94,7 @@ describe('CategoryCard component — rich tile', () => {
   });
 
   it('uses next/image (not <img>)', () => {
-    expect(card).toContain("from 'next/image'");
+    expect(card).toMatch(/from ['"]next\/image['"]/);
     expect(card).not.toContain('<img ');
   });
 

@@ -349,6 +349,22 @@ export async function payDeposit(id: number, payload: DepositPaymentPayload): Pr
   return res.data.data;
 }
 
+/**
+ * Fetch the platform's manual bank-transfer instructions (RIB/IBAN) to show the
+ * buyer in the deposit panel. GET /api/v1/custom-orders/deposit-bank-details.
+ * Returns null when unset (or on any error) so the panel degrades gracefully.
+ */
+export async function fetchDepositBankDetails(): Promise<string | null> {
+  try {
+    const res = await api.get<{ data: { details: string | null } }>(
+      '/api/v1/custom-orders/deposit-bank-details'
+    );
+    return res.data?.data?.details ?? null;
+  } catch {
+    return null;
+  }
+}
+
 export const customOrderService = {
   submitCustomOrder,
   fetchCustomOrder,
@@ -357,4 +373,5 @@ export const customOrderService = {
   submitQuote,
   advanceCustomOrder,
   payDeposit,
+  fetchDepositBankDetails,
 };

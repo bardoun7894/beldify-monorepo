@@ -127,41 +127,16 @@ describe('services/tailoring/page.tsx — category images use slug-suffixed file
   });
 });
 
-describe('shops/[name]/page.tsx — ATELIER_IMAGES use slug-suffixed filenames', () => {
-  const page = read('app/shops/[name]/page.tsx');
-
-  it('no longer references category_4.jpg', () => {
-    expect(page).not.toContain('category_4.jpg');
-  });
-
-  it('no longer references category_7.jpg', () => {
-    expect(page).not.toContain('category_7.jpg');
-  });
-
-  it('no longer references category_14.jpg', () => {
-    expect(page).not.toContain('category_14.jpg');
-  });
-
-  it('no longer references category_8.jpg', () => {
-    expect(page).not.toContain('category_8.jpg');
-  });
-
-  it('uses category_4_caftan.png', () => {
-    expect(page).toContain('category_4_caftan.png');
-  });
-
-  it('uses category_7_jabador.png', () => {
-    expect(page).toContain('category_7_jabador.png');
-  });
-
-  it('uses category_14_wedding-dresses.png', () => {
-    expect(page).toContain('category_14_wedding-dresses.png');
-  });
-
-  it('uses category_8_mens-kandora.png', () => {
-    expect(page).toContain('category_8_mens-kandora.png');
-  });
-});
+// REMOVED: the block that asserted shops/[name]/page.tsx CONTAINS the four
+// category_*.png stock images. Those were rendered with alt="Atelier interior" on
+// every shop page — stock catalogue art presented as photos of that seller's own
+// workshop. This test was *pinning the fabrication in place*: deleting the mock
+// data broke the suite, so nobody deleted it. The shop page now derives that grid
+// from the shop's real product photos and renders nothing when it has none.
+// Enforced by src/app/shops/[name]/__tests__/NoFakeAtelierImages.test.ts.
+//
+// The about/, services/tailoring/ and HomeContent blocks above are LEGITIMATE:
+// category artwork on a marketing page is not a claim about anyone's business.
 
 describe('HomeContent.tsx — category images use slug-suffixed filenames', () => {
   const content = read('components/home/HomeContent.tsx');
@@ -182,9 +157,13 @@ describe('HomeContent.tsx — category images use slug-suffixed filenames', () =
     expect(content).not.toContain('category_5.jpg');
   });
 
-  it('uses category_7_jabador.png', () => {
-    expect(content).toContain('category_7_jabador.png');
-  });
+  // NOTE: category_7_jabador.png is intentionally NOT asserted here anymore.
+  // Its only prior use in this file was as the photo for a fabricated
+  // "Maison Tetouan" atelier card in the ateliers rail static fallback
+  // (mock-data-sweep fix) — generic category art presented as a specific,
+  // named business's own photo. That fallback was removed; the rail now
+  // renders an honest empty state when there is no live tailor/seller data,
+  // so this file has no remaining legitimate use for that filename.
 
   it('uses category_14_wedding-dresses.png', () => {
     expect(content).toContain('category_14_wedding-dresses.png');

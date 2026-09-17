@@ -189,7 +189,7 @@ describe('Checkout COD — behavioral tests', () => {
     fireEvent.change(stateInput, { target: { name: 'state', value: 'Grand Casablanca' } });
 
     // Continue to payment step via the summary CTA button (type=submit on the form)
-    const continueBtn = screen.getByRole('button', { name: /continue to confirmation/i });
+    const continueBtn = screen.getAllByRole('button', { name: /continue to confirmation/i })[0];
     fireEvent.click(continueBtn);
 
     await waitFor(() => {
@@ -206,7 +206,7 @@ describe('Checkout COD — behavioral tests', () => {
     fireEvent.change(cityInput, { target: { name: 'city', value: 'Casablanca' } });
     const stateInput = screen.getByLabelText(/region/i);
     fireEvent.change(stateInput, { target: { name: 'state', value: 'Grand Casablanca' } });
-    fireEvent.click(screen.getByRole('button', { name: /continue to confirmation/i }));
+    fireEvent.click(screen.getAllByRole('button', { name: /continue to confirmation/i })[0]);
 
     await waitFor(() => {
       expect(screen.queryByText('Payment method')).not.toBeNull();
@@ -235,7 +235,7 @@ describe('Checkout COD — behavioral tests', () => {
     });
 
     // Advance to step 2
-    fireEvent.click(screen.getByRole('button', { name: /continue to confirmation/i }));
+    fireEvent.click(screen.getAllByRole('button', { name: /continue to confirmation/i })[0]);
 
     await waitFor(() => {
       expect(screen.queryByText('Payment method')).not.toBeNull();
@@ -264,7 +264,7 @@ describe('Checkout COD — behavioral tests', () => {
       target: { name: 'state', value: 'Grand Casablanca' },
     });
 
-    fireEvent.click(screen.getByRole('button', { name: /continue to confirmation/i }));
+    fireEvent.click(screen.getAllByRole('button', { name: /continue to confirmation/i })[0]);
 
     await waitFor(() => {
       expect(screen.queryByText('Payment method')).not.toBeNull();

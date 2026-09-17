@@ -258,12 +258,6 @@ describe('getSellerStats — snake_case response mapped correctly', () => {
       default: { log: vi.fn(), error: vi.fn(), warn: vi.fn() },
     }));
 
-    vi.doMock('@/mocks/mockMessagingData', () => ({
-      getMockShop: vi.fn(),
-      getMockMessages: vi.fn(),
-      addMockMessage: vi.fn(),
-    }));
-
     const { getSellerStats } = await import('../services/communityService');
     const stats = await getSellerStats('42');
 

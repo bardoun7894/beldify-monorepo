@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { CommunityPost, CommunityResponse, CommunityPostFormData, CommunityResponseFormData, Shop, Message, SellerCommunityStats, JobFilters, JobSort } from '@/types/community';
-import { getMockShop, getMockMessages, addMockMessage } from '@/mocks/mockMessagingData';
 import logger from '@/utils/consoleLogger'; 
 
 import { API_BASE_URL } from '@/config/constants';
@@ -346,21 +345,78 @@ export const updateResponseStatus = async (postId: string, responseId: string, s
 };
 
 /**
- * Update an existing response
- * NOTE: The backend does not currently have a generic update endpoint for responses.
- * Seller responses are created via POST /api/v1/seller/community/posts/{post}/respond.
- * This function is a placeholder for future backend support.
+ * Buyer submits (or updates) a review of the seller after the deal is delivered.
+ * POST /community/posts/{postId}/responses/{responseId}/review — one review per
+ * accepted proposal; re-submitting overwrites. Feeds the seller's avgRating.
  */
-export const updateCommunityResponse = async (postId: string, responseId: string, formData: FormData): Promise<CommunityResponse> => {
+export const submitSellerReview = async (
+  postId: string,
+  responseId: string,
+  rating: number,
+  comment?: string
+): Promise<{ id: string | number; rating: number; comment?: string | null }> => {
   try {
-    // Backend does not have a direct update endpoint for responses.
-    // For now, log a warning and throw an informative error.
-    logger.warn(`updateCommunityResponse called for response ${responseId} on post ${postId}, but no backend endpoint exists for this operation.`);
-    throw new Error('Updating responses is not currently supported by the backend API.');
+    const response = await axiosInstance.post(
+      `/community/posts/${postId}/responses/${responseId}/review`,
+      { rating, comment: comment ?? null }
+    );
+    return response.data.data;
+  } catch (error) {
+    logger.error(`Error submitting review for response ${responseId}:`, error);
+    throw error;
+  }
+};
+
+/** Payload accepted by the seller proposal-update endpoint. */
+export interface UpdateResponsePayload {
+  description: string;
+  price?: number | null;
+  delivery_days?: number | null;
+  seller_skills?: string[] | null;
+}
+
+/**
+ * Seller updates their own PENDING proposal (edit-cap enforced server-side).
+ *
+ * Endpoint: PATCH /api/v1/seller/community/responses/{response}
+ * Auth: sanctum + role:store_owner, must own the response.
+ * Errors: 403 (not owner), 422 (not pending / edit-cap reached).
+ */
+export const updateResponse = async (
+  responseId: string,
+  payload: UpdateResponsePayload
+): Promise<CommunityResponse> => {
+  try {
+    const response = await axiosInstance.patch<{ success: boolean; data: CommunityResponse }>(
+      `/community/responses/${responseId}`,
+      payload
+    );
+    return response.data.data;
   } catch (error) {
     logger.error(`Error updating response ${responseId}:`, error);
     throw error;
   }
+};
+
+/**
+ * @deprecated Use {@link updateResponse} instead — the backend now exposes a
+ * real PATCH endpoint for editing a seller's own pending proposal.
+ */
+export const updateCommunityResponse = async (
+  _postId: string,
+  responseId: string,
+  formData: FormData
+): Promise<CommunityResponse> => {
+  const payload: UpdateResponsePayload = {
+    description: String(formData.get('description') || ''),
+  };
+  const price = formData.get('price');
+  if (price != null) payload.price = Number(price);
+  const deliveryDays = formData.get('delivery_days');
+  if (deliveryDays != null) payload.delivery_days = Number(deliveryDays);
+  const skills = formData.getAll('seller_skills[]').map(String);
+  if (skills.length > 0) payload.seller_skills = skills;
+  return updateResponse(responseId, payload);
 };
 
 /**
@@ -393,17 +449,6 @@ export const redirectToSellerResponse = (postId: string, language: string = 'en'
  */
 export const fetchShopDetails = async (shopId: string): Promise<Shop> => {
   try {
-    // In development, use mock data
-    if (process.env.NODE_ENV === 'development') {
-      logger.log('Using mock shop data for development');
-      const mockShop = getMockShop(shopId);
-      if (mockShop) {
-        return mockShop;
-      }
-      throw new Error('Shop not found');
-    }
-    
-    // In production, use the API
     const response = await axios.get(`/api/shops/${shopId}`);
     return response.data.data;
   } catch (error) {
@@ -426,13 +471,6 @@ export const sendMessage = async (
   attachments: File[] = []
 ): Promise<Message> => {
   try {
-    // In development, use mock data
-    if (process.env.NODE_ENV === 'development') {
-      logger.log('Using mock messaging data for development');
-      return addMockMessage(recipientId, content, postId);
-    }
-    
-    // In production, use the API
     const formData = new FormData();
     formData.append('recipient_id', recipientId);
     formData.append('content', content);
@@ -477,20 +515,6 @@ export const getMessages = async (userId: string, page: number = 1, perPage: num
   otherUser: any;
 }> => {
   try {
-    // In development, use mock data
-    if (process.env.NODE_ENV === 'development') {
-      logger.log('Using mock messaging data for development');
-      const mockMessages = getMockMessages(userId);
-      return {
-        messages: mockMessages,
-        currentPage: 1,
-        lastPage: 1,
-        total: mockMessages.length,
-        otherUser: getMockShop(userId)
-      };
-    }
-    
-    // In production, use the API
     const authToken = getAuthToken();
     const response = await axios.get(`${API_BASE_URL}/api/v1/community/messages/users/${userId}`, {
       params: { page, per_page: perPage },

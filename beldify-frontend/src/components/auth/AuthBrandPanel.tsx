@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 interface AuthBrandPanelProps {
   heading: string;
@@ -20,6 +21,7 @@ interface AuthBrandPanelProps {
  * Presentational only — no logic, no data fetching, no side effects.
  */
 export default function AuthBrandPanel({ heading, subtext, bullets }: AuthBrandPanelProps) {
+  const { t } = useTranslation();
   return (
     <div className="hidden lg:flex lg:w-5/12 xl:w-[46%] relative flex-col bg-indigo-950 text-white overflow-hidden">
       {/* Heritage background — atelier photography with indigo scrim */}
@@ -95,7 +97,7 @@ export default function AuthBrandPanel({ heading, subtext, bullets }: AuthBrandP
           </p>
 
           {bullets && bullets.length > 0 && (
-            <ul className="space-y-2.5" aria-label="Account benefits">
+            <ul className="space-y-2.5" aria-label={t('auth.account_benefits', 'Account benefits')}>
               {bullets.map((bullet, i) => (
                 <li
                   key={i}

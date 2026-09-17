@@ -185,7 +185,7 @@ export default function CartItemRow({
                 onClick={() => onRemove(item.id)}
                 disabled={loading}
                 aria-label={t('cart.items.remove', 'Remove item')}
-                className="mt-1 p-1.5 text-indigo-300 hover:text-rose-600 transition-colors rounded-lg hover:bg-rose-50 focus:outline-none focus:ring-2 focus:ring-rose-300/50 disabled:opacity-40"
+                className="mt-1 min-w-[44px] min-h-[44px] flex items-center justify-center text-indigo-300 hover:text-rose-600 transition-colors rounded-lg hover:bg-rose-50 focus:outline-none focus:ring-2 focus:ring-rose-300/50 disabled:opacity-40"
               >
                 <Trash2 className="w-3.5 h-3.5" aria-hidden="true" />
               </button>
@@ -194,6 +194,9 @@ export default function CartItemRow({
 
           {/* Qty stepper row */}
           <div className="mt-3 flex items-center gap-3 flex-wrap">
+            {/* min-w/min-h-[44px] on each button = WCAG 2.5.5 touch target;
+                the visible pill stays the same visual size via the smaller
+                icon + padding, only the hit area grows. */}
             <div
               className="inline-flex items-center bg-indigo-50 rounded-full px-1 py-1 gap-0.5"
               role="group"
@@ -203,7 +206,7 @@ export default function CartItemRow({
                 onClick={() => onQuantityChange(item.id, item.quantity - 1)}
                 disabled={loading}
                 aria-label={t('cart.quantity.decrease', 'Decrease quantity')}
-                className="w-7 h-7 flex items-center justify-center text-indigo-500 hover:text-indigo-700 transition-colors rounded-full hover:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-700/30 disabled:opacity-40"
+                className="min-w-[44px] min-h-[44px] flex items-center justify-center text-indigo-500 hover:text-indigo-700 transition-colors rounded-full hover:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-700/30 disabled:opacity-40"
               >
                 <Minus className="w-3 h-3" aria-hidden="true" />
               </button>
@@ -218,7 +221,7 @@ export default function CartItemRow({
                 onClick={() => onQuantityChange(item.id, item.quantity + 1)}
                 disabled={loading || atMax}
                 aria-label={t('cart.quantity.increase', 'Increase quantity')}
-                className="w-7 h-7 flex items-center justify-center text-indigo-500 hover:text-indigo-700 transition-colors rounded-full hover:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-700/30 disabled:opacity-40 disabled:cursor-not-allowed"
+                className="min-w-[44px] min-h-[44px] flex items-center justify-center text-indigo-500 hover:text-indigo-700 transition-colors rounded-full hover:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-700/30 disabled:opacity-40 disabled:cursor-not-allowed"
               >
                 <Plus className="w-3 h-3" aria-hidden="true" />
               </button>

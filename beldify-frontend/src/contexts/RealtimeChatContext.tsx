@@ -5,6 +5,7 @@ import Pusher from 'pusher-js';
 import { useAuth } from './AuthContext';
 import logger from '@/utils/consoleLogger';
 import { API_BASE_URL } from '@/config/constants';
+import { sendTypingIndicator as postTypingIndicator } from '@/services/messagingService';
 
 interface RealtimeChatContextType {
   isConnected: boolean;
@@ -15,7 +16,7 @@ interface RealtimeChatContextType {
   onMessageReceived: (callback: (message: any) => void) => void;
   onNotificationReceived: (callback: (data: any) => void) => void;
   onUserTyping: (callback: (data: { userId: string; isTyping: boolean }) => void) => void;
-  sendTypingIndicator: (roomId: string, isTyping: boolean) => void;
+  sendTypingIndicator: (recipientId: string | number, storeId: string | number, isTyping: boolean) => void;
   activeRooms: string[];
   pusher: Pusher | null;
 }
@@ -251,18 +252,13 @@ export const RealtimeChatProvider: React.FC<{ children: React.ReactNode }> = ({ 
     // The backend will broadcast the message via WebSocket after saving
   }, []);
 
-  // Send typing indicator
-  const sendTypingIndicator = useCallback((roomId: string, isTyping: boolean) => {
-    const channelName = `private-conversation.${roomId}`;
-    const channel = channelsRef.current.get(channelName);
-
-    if (channel && user) {
-      // Trigger client event for typing indicator
-      channel.trigger('client-typing', {
-        userId: user.id,
-        isTyping: isTyping
-      });
-    }
+  // Send typing indicator — posts to the backend, which broadcasts on the
+  // recipient's PrivateChannel("user.{recipientId}") as "typing-indicator".
+  // (A client-event on a "private-conversation.{roomId}" channel was tried
+  // previously, but nothing subscribes to that channel — it never delivered.)
+  const sendTypingIndicator = useCallback((recipientId: string | number, storeId: string | number, isTyping: boolean) => {
+    if (!user) return;
+    postTypingIndicator(recipientId, storeId, isTyping);
   }, [user]);
 
   // Set message received callback

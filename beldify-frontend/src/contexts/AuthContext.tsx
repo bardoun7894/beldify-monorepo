@@ -577,7 +577,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const updateProfile = async (data: any) => {
     try {
-      const response = await axios.post('/api/user/profile', data);
+      const response = await axios.put('/api/auth/profile', data);
 
       if (response.data.status === 'success') {
         setUser(response.data.user);
@@ -596,7 +596,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const updatePassword = async (data: any) => {
     try {
-      const response = await axios.post('/api/user/password', data);
+      const response = await axios.put('/api/auth/profile/password', data);
 
       if (response.data.status === 'success') {
         toast.success(response.data.message);
@@ -614,7 +614,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const updatePreferences = async (data: any) => {
     try {
-      const response = await axios.post('/api/user/preferences', data);
+      const response = await axios.put('/api/auth/profile/preferences', data);
 
       if (response.data.status === 'success') {
         setUser(response.data.user);

@@ -999,6 +999,7 @@
       "contact_support": "Support kontaktieren",
       "write_review": "Bewertung schreiben",
       "contact_seller": "Verkäufer kontaktieren",
+      "discuss_proposal": "Besprechen",
       "cancel_order": "Bestellung stornieren",
       "request_return": "Rückgabe anfragen",
       "return_request": "Rückgabeanfrage",
@@ -1520,6 +1521,9 @@
       "bag": "Warenkorb",
       "confirm": "Bestätigung",
       "info": "Informationen"
+    },
+    "mobileBar": {
+      "label": "Bestellsumme und Bestätigung"
     }
   },
   "profile": {
@@ -3055,7 +3059,13 @@
     "view_custom_order": "Zeige deine Bestellung",
     "view_image": "Bild anzeigen",
     "view_portfolio": "Portfolio anzeigen",
-    "your_bid": "Dein Angebot"
+    "your_bid": "Dein Angebot",
+    "edit_proposal": "Angebot bearbeiten",
+    "edits_left": "Noch {{count}} Bearbeitung übrig",
+    "edits_left_plural": "Noch {{count}} Bearbeitungen übrig",
+    "edit_cap_reached": "Dieses Angebot kann nicht mehr bearbeitet werden",
+    "error_updating_response": "Dein Angebot konnte nicht aktualisiert werden. Bitte versuche es erneut.",
+    "update_proposal": "Angebot aktualisieren"
   },
   "pwa": {
     "banner": {
@@ -3261,7 +3271,9 @@
     "trustFree": "Kostenlos",
     "trustNoCommitment": "Unverbindlich",
     "trustCod": "Zahlung bei Lieferung",
-    "previewBestOffer": "Bestes Angebot"
+    "previewBestOffer": "Bestes Angebot",
+    "exampleSeller": "Atelier {{n}}",
+    "previewIsExample": "Beispiel — so funktioniert es"
   },
   "catalog": {
     "categories": {
@@ -3415,7 +3427,9 @@
       "location": "Standort",
       "reviews": "Bewertungen",
       "viewProfile": "Profil anschauen",
-      "viewDetails": "Details anschauen"
+      "viewDetails": "Details anschauen",
+      "emptyTitle": "Unser Atelier-Netzwerk öffnet bald",
+      "emptyBody": "Wir nehmen gerade verifizierte marokkanische Schneider auf. Schauen Sie bald wieder vorbei, um Ihre Maßanfertigung zu starten."
     },
     "tailorDetail": {
       "breadcrumbLabel": "Brotkrumen",
@@ -3679,7 +3693,13 @@
     "send": "Senden",
     "error_loading": "Fehler beim Laden der Konversation",
     "error_sending": "Fehler beim Senden der Nachricht",
-    "typing_aria": "Die andere Person schreibt"
+    "typing_aria": "Die andere Person schreibt",
+    "quick": {
+      "price": "Was ist Ihr bester Preis?",
+      "timeline": "Wie lange wird es dauern?",
+      "photos": "Können Sie mehr Fotos teilen?",
+      "customize": "Können Sie es für mich anpassen?"
+    }
   },
   "seller": {
     "shortcut_title": "Verkäufer-Dashboard",
@@ -3699,6 +3719,10 @@
       "business_type_individual": "Einzelperson / Freiberufler",
       "business_type_company": "Registriertes Unternehmen",
       "business_type_cooperative": "Genossenschaft",
+      "store_type_label": "Was verkaufst du?",
+      "store_type_loading": "Shop-Kategorien werden geladen...",
+      "store_type_load_error": "Die Shop-Kategorien konnten nicht geladen werden. Bitte versuche es erneut.",
+      "validation_store_type": "Bitte wähle aus, was du verkaufst",
       "country_label": "Land",
       "contact_email_label": "Kontakt-E-Mail",
       "contact_email_placeholder": "kontakt@deingeschaeft.com",
@@ -4217,7 +4241,8 @@
       "art_slide2_cta": "Schneiderauftrag starten",
       "art_slide3_headline": "Open Souk — veröffentliche deine Anfrage und lass Ateliers konkurrieren",
       "art_slide3_subline": "Unsere Handwerker kämpfen um dein Projekt",
-      "art_slide3_cta": "Jetzt Anfrage veröffentlichen"
+      "art_slide3_cta": "Jetzt Anfrage veröffentlichen",
+      "product_eyebrow": "Handgefertigt in Marokko"
     },
     "trust": {
       "verified_sellers": "Verifizierte Verkäufer",
@@ -4361,7 +4386,7 @@
   "shop": {
     "about_heading": "Hier geht's rein in {{name}}",
     "all_reviews": "Lese alle {{count}} Bewertungen",
-    "atelier_image_alt": "Atelier-Interieur {{n}}",
+    "atelier_image_alt": "Stück von {{name}}",
     "bespoke_heading": "Hast du etwas Spezielles im Sinn?",
     "bespoke_sub": "Bestelle ein maßgeschneidertes Stück, das genau zu deinen Maßen und Vorstellungen passt, handgefertigt mit traditionellen Techniken.",
     "cover_alt": "Atelier-Cover – {{name}}",
@@ -4371,7 +4396,10 @@
     "load_more": "Mehr laden",
     "message_atelier": "Schreib dem Atelier",
     "no_image": "Kein Bild",
+    "no_logo_alt": "{{name}} — noch kein Logo",
     "no_products_found": "Keine Produkte in dieser Kategorie gefunden.",
+    "no_products_yet_sub": "Dieses Atelier hat noch keine Produkte hinzugefügt. Schau bald wieder vorbei.",
+    "no_products_yet_title": "Noch keine Produkte",
     "no_reviews_sub": "Sei der Erste, der deine Erfahrung mit diesem Atelier teilt.",
     "no_reviews_title": "Noch keine Bewertungen",
     "reviews_heading": "Stimmen unserer Käufer",
@@ -4535,7 +4563,7 @@
       "no_reviews": "Noch keine Bewertungen"
     },
     "stepsCta": "Schneiderei-Auftrag starten",
-    "sub": "Unsere 120+ verifizierten Ateliers fertigen maßgeschneiderte marokkanische Kleidungsstücke nach deinen genauen Maßen — versandt weltweit. Keine Anprobe erforderlich.",
+    "sub": "Unsere verifizierten Ateliers fertigen maßgeschneiderte marokkanische Kleidungsstücke nach Ihren exakten Maßen — weltweit versandt. Keine Umkleidekabine nötig.",
     "services": {
       "alterations": {
         "price": "Ab 49 MAD",
@@ -4602,6 +4630,20 @@
         }
       },
       "title": "Warum unsere Schneiderei-Services wählen"
+    },
+    "steps": {
+      "0": {
+        "title": "Wählen Sie Ihren Schneider",
+        "body": "Durchstöbern Sie verifizierte Ateliers in Fès, Marrakesch, Casablanca und Tétouan. Jeder Eintrag zeigt Spezialitäten, Bewertungen und aktuelle Verfügbarkeit."
+      },
+      "1": {
+        "title": "Senden Sie Ihre Maße",
+        "body": "Nutzen Sie unser geführtes Maßformular — keine Erfahrung mit dem Maßband nötig. Oder buchen Sie einen 15-minütigen Videoanruf mit Ihrem Schneider für eine begleitete Sitzung."
+      },
+      "2": {
+        "title": "Erhalten Sie Ihr Kleidungsstück",
+        "body": "Ihr Kleidungsstück wird von Hand fertiggestellt und weltweit versandt. Die meisten Maßanfertigungen treffen in 2 bis 4 Wochen ein. Eine kostenlose Änderungsrunde ist inbegriffen."
+      }
     }
   },
   "sellers": {

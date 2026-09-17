@@ -36,7 +36,7 @@ export default function ShopSort({ value, onChange }: ShopSortProps) {
       {/* Atlas-token styled select — indigo trigger, amber-500 checked accent */}
       <Select value={value} onValueChange={onChange}>
         <SelectTrigger
-          className="w-[180px] rounded-2xl border-indigo-200 hover:border-indigo-700 focus:ring-2 focus:ring-indigo-700/40 bg-white hover:bg-indigo-50 transition-all duration-200 shadow-atlas-sm"
+          className="w-[180px] min-h-[44px] rounded-2xl border-indigo-200 hover:border-indigo-700 focus:ring-2 focus:ring-indigo-700/40 bg-white hover:bg-indigo-50 transition-all duration-200 shadow-atlas-sm"
         >
           <SelectValue placeholder={t('shops.filters.sort.label')} />
         </SelectTrigger>

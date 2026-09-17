@@ -48,7 +48,7 @@ describe('Homepage Atlas redesign — page.tsx', () => {
 
   it('has currency in dirham format (درهم) via the locale-driven range key', () => {
     // The literal moved into the locale files (ar/ma show درهم, Latin locales MAD)
-    expect(homeContent).toContain("t('home.seller.stat_range_value'");
+    expect(homeContent).toMatch(/t\(['"]home\.seller\.stat_range_value['"]/);
     const ar = JSON.parse(
       readFileSync(join(process.cwd(), 'src/i18n/locales/ar.json'), 'utf8')
     );
@@ -78,7 +78,7 @@ describe('Homepage Atlas redesign — page.tsx', () => {
   });
 
   it('uses next/image for all imagery (not <img>)', () => {
-    expect(homeContent).toContain("from 'next/image'");
+    expect(homeContent).toMatch(/from ['"]next\/image['"]/);
     expect(homeContent).not.toContain('<img ');
   });
 

@@ -48,8 +48,8 @@ describe('recentlyViewed — constants', () => {
     expect(STORAGE_KEY).toBe('beldify_recently_viewed');
   });
 
-  it('exports MAX_ITEMS as 12', () => {
-    expect(MAX_ITEMS).toBe(12);
+  it('exports MAX_ITEMS as 20', () => {
+    expect(MAX_ITEMS).toBe(20);
   });
 });
 
@@ -106,17 +106,32 @@ describe('addRecentlyViewed', () => {
     expect(result[1].id).toBe(ITEM_B.id);
   });
 
-  it('caps at MAX_ITEMS (12) and drops the oldest', () => {
-    // Add 13 items — only 12 should survive
-    for (let i = 1; i <= 13; i++) {
+  it('caps at MAX_ITEMS (20) and drops the oldest', () => {
+    // Add 21 items — only 20 should survive
+    for (let i = 1; i <= 21; i++) {
       addRecentlyViewed({ id: i, name: `Item ${i}`, image: '', price: i * 100, viewedAt: i });
     }
     const result = getRecentlyViewed();
-    expect(result).toHaveLength(12);
+    expect(result).toHaveLength(20);
     // Item 1 (oldest) should have been evicted
     expect(result.find((r) => r.id === 1)).toBeUndefined();
-    // Item 13 (newest) should be at front
-    expect(result[0].id).toBe(13);
+    // Item 21 (newest) should be at front
+    expect(result[0].id).toBe(21);
+  });
+
+  it('evicts the oldest entry when a 21st distinct product is viewed', () => {
+    for (let i = 1; i <= 20; i++) {
+      addRecentlyViewed({ id: i, name: `Item ${i}`, image: '', price: i * 100, viewedAt: i });
+    }
+    // Item 1 is still the oldest surviving entry
+    expect(getRecentlyViewed().find((r) => r.id === 1)).toBeDefined();
+
+    addRecentlyViewed({ id: 21, name: 'Item 21', image: '', price: 2100, viewedAt: 21 });
+
+    const result = getRecentlyViewed();
+    expect(result).toHaveLength(20);
+    expect(result[0].id).toBe(21);
+    expect(result.find((r) => r.id === 1)).toBeUndefined();
   });
 
   it('stores items in localStorage under STORAGE_KEY', () => {

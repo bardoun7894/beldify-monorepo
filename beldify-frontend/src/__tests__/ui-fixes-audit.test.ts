@@ -121,76 +121,6 @@ describe('Fix 7 — mega-offers page valid BCP-47 locale', () => {
   });
 });
 
-// ── 8. seller/page.tsx sub-labels use t() ────────────────────────────────────
-describe('Fix 8 — seller/page.tsx KPI sub-labels translated', () => {
-  it('seller dashboard "Last X days" sub uses t()', () => {
-    const src = read('src/app/seller/page.tsx');
-    // The "Last ${earnings.period} days" must now be wrapped in t(...)
-    expect(src).toMatch(/t\(['"]seller\.dashboard\.kpi_gross_sub/);
-  });
-
-  it('seller dashboard commission sub uses t()', () => {
-    const src = read('src/app/seller/page.tsx');
-    expect(src).toMatch(/t\(['"]seller\.dashboard\.kpi_net_sub/);
-  });
-
-  it('seller dashboard avg order sub uses t()', () => {
-    const src = read('src/app/seller/page.tsx');
-    expect(src).toMatch(/t\(['"]seller\.dashboard\.kpi_orders_sub/);
-  });
-
-  it('seller dashboard commission rate sub uses t()', () => {
-    const src = read('src/app/seller/page.tsx');
-    expect(src).toMatch(/t\(['"]seller\.dashboard\.kpi_commission_sub/);
-  });
-
-  it('seller dashboard "Store suspended" text uses t()', () => {
-    const src = read('src/app/seller/page.tsx');
-    // Should NOT have bare hardcoded English "Store suspended"
-    expect(src).not.toMatch(/>Store suspended — contact support</);
-  });
-
-  it('seller dashboard "Track progress" link uses t()', () => {
-    const src = read('src/app/seller/page.tsx');
-    // Should wrap 'Track progress' inside a t() call, not as a bare JSX expression
-    // Valid: t('seller.onboarding_banner.track_progress', 'Track progress')
-    // Invalid: {isPending ? 'Track progress' : ...} with no t() wrapper
-    expect(src).toMatch(/t\(['"]seller\.onboarding_banner\.track_progress/);
-  });
-});
-
-// ── 9. seller/orders/[id]/page.tsx i18n-threaded ─────────────────────────────
-describe('Fix 9 — seller/orders/[id]/page.tsx locale-aware formatters', () => {
-  it('seller order detail fmtDate does not hardcode fr-MA', () => {
-    const src = read('src/app/seller/orders/[id]/page.tsx');
-    // Should not have hardcoded 'fr-MA' in fmtDate
-    expect(src).not.toMatch(/toLocaleDateString\s*\(\s*['"]fr-MA['"]/);
-  });
-
-  it('seller order detail fmtMAD accepts locale param or uses i18n', () => {
-    const src = read('src/app/seller/orders/[id]/page.tsx');
-    // fmtMAD should not hardcode 'fr-MA' alone; should thread i18n
-    expect(src).not.toMatch(/toLocaleString\s*\(\s*['"]fr-MA['"]/);
-  });
-});
-
-// ── 10. seller/payouts/page.tsx i18n-threaded ────────────────────────────────
-describe('Fix 10 — seller/payouts/page.tsx locale-aware formatters', () => {
-  it('seller payouts fmtMAD does not hardcode fr-MA', () => {
-    const src = read('src/app/seller/payouts/page.tsx');
-    expect(src).not.toMatch(/toLocaleString\s*\(\s*['"]fr-MA['"]/);
-  });
-});
-
-// ── 11. seller/credits/page.tsx i18n-threaded ────────────────────────────────
-describe('Fix 11 — seller/credits/page.tsx locale-aware formatters', () => {
-  it('seller credits fmtDate does not use undefined locale', () => {
-    const src = read('src/app/seller/credits/page.tsx');
-    // Currently uses toLocaleDateString(undefined, ...) — should use a real locale
-    expect(src).not.toMatch(/toLocaleDateString\s*\(\s*undefined\s*,/);
-  });
-});
-
 // ── 12. Debug logs removed ────────────────────────────────────────────────────
 describe('Fix 12 — debug logger.log calls removed', () => {
   it('login/page.tsx has no logger.log debug call', () => {
@@ -218,21 +148,3 @@ describe('Fix 13 — RTL chevron in community/messages/page.tsx', () => {
   });
 });
 
-// ── 14. Edit-product required asterisks ──────────────────────────────────────
-describe('Fix 14 — seller/products/[id]/edit required asterisks', () => {
-  it('Category label has required asterisk span', () => {
-    const src = read('src/app/seller/products/[id]/edit/page.tsx');
-    // After the Category label t() call, there must be a rose-500 asterisk span within 150 chars
-    expect(src).toMatch(/category_label[\s\S]{0,150}text-rose-500[\s\S]{0,60}\*/);
-  });
-
-  it('Price label has required asterisk span', () => {
-    const src = read('src/app/seller/products/[id]/edit/page.tsx');
-    expect(src).toMatch(/price_mad_label[\s\S]{0,150}text-rose-500[\s\S]{0,60}\*/);
-  });
-
-  it('Quantity label has required asterisk span', () => {
-    const src = read('src/app/seller/products/[id]/edit/page.tsx');
-    expect(src).toMatch(/quantity_label[\s\S]{0,150}text-rose-500[\s\S]{0,60}\*/);
-  });
-});

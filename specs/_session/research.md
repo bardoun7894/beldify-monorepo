@@ -1,5 +1,31 @@
 # Research — Drift Detection System (T002)
 
+---
+
+# Research — Per-Feature AI Provider Routing
+
+## Context
+
+Add per-feature AI provider routing to Beldify backend so lightweight features use OpenRouter free and paid features use DeepSeek.
+
+## Design
+
+- `config/ai.php`: Add `'provider'` field to feature entries. Features that use free OpenRouter: `buyer_assistant`, `buyer_ai`, `listing_ai`, `opensouk_matchmaker`. Features using default (DeepSeek): `seller_ai`, `product_description`. Flip default from `openrouter` to `deepseek`.
+- `AiManager.php`: New `forFeature(string $featureKey): ChatClient` method reads provider override from config and resolves via existing `provider()` resolver.
+- 5 service files: Inject `AiManager` instead of `ChatClient`, call `$this->ai->forFeature('feature_key')->json(...)`.
+
+## Files Changed
+
+| File | Change |
+|---|---|
+| `config/ai.php` | Add `provider` field to 4 features; flip default to `deepseek` |
+| `AiManager.php` | Add `forFeature()` method |
+| `ListingIntelligenceService.php` | `ChatClient` → `AiManager`; use `listing_ai` |
+| `SellerAiService.php` | `ChatClient` → `AiManager`; use `seller_ai` |
+| `BuyerAiService.php` | `ChatClient` → `AiManager`; `buyer_ai` (3 methods) + `buyer_assistant` (1 method) |
+| `OpenSoukMatchmakerService.php` | `ChatClient` → `AiManager`; use `opensouk_matchmaker` |
+| `AIDescriptionController.php` | Remove `ChatClient` dep; use `product_description` |
+
 ## KB Prior Art
 
 ### prod-local-git-drift ([[concepts/prod-local-git-drift]])

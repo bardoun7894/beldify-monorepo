@@ -215,6 +215,12 @@ Section title scale: `text-3xl sm:text-4xl font-bold`.
 
 When upgrading a new page, copy patterns from those reference files — do not invent new ones.
 
+### 10.1 Seller dashboard (pro.beldify.com) color variant
+
+The seller Blade shell (`beldify-backend/resources/views/layouts/seller_shell.blade.php` and `beldify-backend/public/css/seller-shell.css`) intentionally uses a deeper indigo (`#252555`, `--sshell-indigo`) and a warmer/more orange amber (`#fea619`, `--sshell-amber`) instead of the canonical Atlas Indigo `#4338ca` / Saffron Amber `#f59e0b`.
+
+This is a deliberate B2B/seller-surface differentiation from the buyer-facing storefront, not drift — future design audits should treat it as an approved variant and not re-flag it.
+
 ---
 
 ## 11. AI-assist chip patterns

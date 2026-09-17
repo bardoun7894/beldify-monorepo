@@ -65,6 +65,11 @@ function FieldLabel({ htmlFor, children }: { htmlFor: string; children: React.Re
   );
 }
 
+// ── LIMITS ────────────────────────────────────────────────────────────────────
+// Mirrors the server-side cap enforced in AddressController::store() (FR-006).
+// Client-side check is defense-in-depth only — the backend is the source of truth.
+const MAX_ADDRESSES = 10;
+
 // ── COUNTRIES LIST (mirrors checkout page) ───────────────────────────────────
 const COUNTRIES = [
   { code: 'MA', name: 'Morocco' },
@@ -580,6 +585,16 @@ export default function AddressBook() {
 
   // ── Handlers ────────────────────────────────────────────────────────────────
   const handleAdd = () => {
+    if (addresses.length >= MAX_ADDRESSES) {
+      toast.error(
+        t(
+          'profile:address_book.cap_reached',
+          'You can save up to {{max}} addresses. Delete one to add another.',
+          { max: MAX_ADDRESSES }
+        )
+      );
+      return;
+    }
     setEditingId(null);
     setFormInitial(EMPTY_FORM);
     setFormOpen(true);
@@ -696,7 +711,8 @@ export default function AddressBook() {
         <Button
           type="button"
           onClick={handleAdd}
-          className="inline-flex items-center gap-2 px-4 py-2 text-sm"
+          disabled={addresses.length >= MAX_ADDRESSES}
+          className="inline-flex items-center gap-2 px-4 py-2 text-sm disabled:opacity-50 disabled:cursor-not-allowed"
           aria-label={t('profile:address_book.add_new', 'Add new address')}
         >
           <Plus className="w-4 h-4" aria-hidden="true" />

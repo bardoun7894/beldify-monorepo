@@ -33,8 +33,9 @@ const playfair = { fontFamily: '"Playfair Display", ui-serif, Georgia, serif' };
 
 // ── Loading skeleton ──────────────────────────────────────────────────────────
 function OrderConfirmationSkeleton() {
+  const { t } = useTranslation();
   return (
-    <div className="min-h-screen bg-canvas py-12" aria-busy="true" aria-label="Loading order details">
+    <div className="min-h-screen bg-canvas py-12" aria-busy="true" aria-label={t('order.confirmation.loading', 'Loading order details')}>
       <div className="max-w-7xl mx-auto px-6">
         <div className="max-w-3xl mx-auto space-y-4">
           {/* Success hero skeleton */}

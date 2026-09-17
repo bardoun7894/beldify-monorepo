@@ -9,13 +9,8 @@ import {
 	registerSeller,
 	SellerRegisterPayload,
 } from "@/services/sellerService";
+import StoreTypePicker from "@/components/seller/StoreTypePicker";
 import { ArrowRight, CheckCircle, Upload, Eye, EyeOff } from "lucide-react";
-
-const BUSINESS_TYPE_TO_STORE_TYPE: Record<string, number> = {
-	individual: 1,
-	company: 2,
-	cooperative: 3,
-};
 
 const COUNTRIES = [
 	{ code: "MA", name: "Morocco" },
@@ -38,6 +33,7 @@ interface FormState {
 	password_confirmation: string;
 	store_name: string;
 	business_type: string;
+	store_type_id: number | null;
 	country: string;
 	contact_email: string;
 	contact_phone: string;
@@ -53,6 +49,7 @@ const initialForm: FormState = {
 	password_confirmation: "",
 	store_name: "",
 	business_type: "",
+	store_type_id: null,
 	country: "MA",
 	contact_email: "",
 	contact_phone: "",
@@ -90,6 +87,11 @@ export default function SellerSignupPage() {
 		setForm((prev) => ({ ...prev, logo: file }));
 	};
 
+	const handleStoreTypeChange = (storeTypeId: number) => {
+		setForm((prev) => ({ ...prev, store_type_id: storeTypeId }));
+		if (errorMsg) setErrorMsg(null);
+	};
+
 	const validate = (): boolean => {
 		if (!form.full_name_en.trim()) {
 			setErrorMsg(t("auth.full_name_required", "Full name is required"));
@@ -122,6 +124,15 @@ export default function SellerSignupPage() {
 			);
 			return true;
 		}
+		if (!form.store_type_id) {
+			setErrorMsg(
+				t(
+					"seller.register.validation_store_type",
+					"Please select what you sell",
+				),
+			);
+			return true;
+		}
 		if (!form.country) {
 			setErrorMsg(
 				t("seller.register.validation_country", "Please select a country"),
@@ -146,7 +157,7 @@ export default function SellerSignupPage() {
 				password: form.password,
 				password_confirmation: form.password_confirmation,
 				store_name: form.store_name.trim(),
-				store_type_id: BUSINESS_TYPE_TO_STORE_TYPE[form.business_type] ?? 1,
+				store_type_id: form.store_type_id as number,
 				business_type: form.business_type,
 				country: form.country,
 				contact_email: form.contact_email.trim() || undefined,
@@ -443,77 +454,88 @@ export default function SellerSignupPage() {
 							/>
 						</div>
 
-						<div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-							<div>
-								<label
-									htmlFor="business_type"
-									className="block text-sm font-medium text-gray-700 mb-1.5"
-								>
-									{t("seller.register.business_type_label", "Business type")}
-									<span className="text-rose-500 ms-1" aria-hidden="true">
-										*
-									</span>
-								</label>
-								<select
-									id="business_type"
-									name="business_type"
-									value={form.business_type}
-									onChange={handleChange}
-									required
-									className={`${inputClass} appearance-none`}
-								>
-									<option value="">
-										{t("common.select_option", "Select an option")}
-									</option>
-									<option value="individual">
-										{t(
-											"seller.register.business_type_individual",
-											"Individual / Freelancer",
-										)}
-									</option>
-									<option value="company">
-										{t(
-											"seller.register.business_type_company",
-											"Registered company",
-										)}
-									</option>
-									<option value="cooperative">
-										{t(
-											"seller.register.business_type_cooperative",
-											"Cooperative",
-										)}
-									</option>
-								</select>
-							</div>
+						<div>
+							<label
+								htmlFor="business_type"
+								className="block text-sm font-medium text-gray-700 mb-1.5"
+							>
+								{t("seller.register.business_type_label", "Business type")}
+								<span className="text-rose-500 ms-1" aria-hidden="true">
+									*
+								</span>
+							</label>
+							<select
+								id="business_type"
+								name="business_type"
+								value={form.business_type}
+								onChange={handleChange}
+								required
+								className={`${inputClass} appearance-none`}
+							>
+								<option value="">
+									{t("common.select_option", "Select an option")}
+								</option>
+								<option value="individual">
+									{t(
+										"seller.register.business_type_individual",
+										"Individual / Freelancer",
+									)}
+								</option>
+								<option value="company">
+									{t(
+										"seller.register.business_type_company",
+										"Registered company",
+									)}
+								</option>
+								<option value="cooperative">
+									{t(
+										"seller.register.business_type_cooperative",
+										"Cooperative",
+									)}
+								</option>
+							</select>
+						</div>
 
-							<div>
-								<label
-									htmlFor="country"
-									className="block text-sm font-medium text-gray-700 mb-1.5"
-								>
-									{t("seller.register.country_label", "Country")}
-									<span className="text-rose-500 ms-1" aria-hidden="true">
-										*
-									</span>
-								</label>
-								<select
-									id="country"
-									name="country"
-									value={form.country}
-									onChange={handleChange}
-									required
-									className={`${inputClass} appearance-none`}
-								>
-									<option value="">
-										{t("common.select_option", "Select an option")}
+						<div>
+							<label className="block text-sm font-medium text-gray-700 mb-1.5">
+								{t("seller.register.store_type_label", "What do you sell?")}
+								<span className="text-rose-500 ms-1" aria-hidden="true">
+									*
+								</span>
+							</label>
+							<StoreTypePicker
+								value={form.store_type_id}
+								onChange={handleStoreTypeChange}
+							/>
+						</div>
+
+						<div>
+							<label
+								htmlFor="country"
+								className="block text-sm font-medium text-gray-700 mb-1.5"
+							>
+								{t("seller.register.country_label", "Country")}
+								<span className="text-rose-500 ms-1" aria-hidden="true">
+									*
+								</span>
+							</label>
+							<select
+								id="country"
+								name="country"
+								value={form.country}
+								onChange={handleChange}
+								required
+								className={`${inputClass} appearance-none`}
+							>
+								<option value="">
+									{t("common.select_option", "Select an option")}
+								</option>
+								{COUNTRIES.map((c) => (
+									<option key={c.code} value={c.code}>
+										{c.name}
 									</option>
-									{COUNTRIES.map((c) => (
-										<option key={c.code} value={c.code}>
-											{c.name}
-										</option>
-									))}
-								</select>
-							</div>
+								))}
+							</select>
 						</div>
 
 						<div className="grid grid-cols-1 md:grid-cols-2 gap-5">

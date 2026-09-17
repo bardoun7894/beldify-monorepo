@@ -86,8 +86,10 @@ export default function CustomOrderTrackingPage() {
 
   const isJewelry = order.vertical === 'jewelry';
 
-  // Determine buyer ownership: compare auth user id with order.customer.id
-  const isBuyer = !!user && Number(user.id) === order.customer.id;
+  // Determine buyer ownership: compare auth user id with order.customer.id.
+  // Coerce both sides — the API may serialize ids as strings, and a strict
+  // number/string mismatch would silently hide the buyer-only deposit panel.
+  const isBuyer = !!user && Number(user.id) === Number(order.customer.id);
 
   // Back link — if order has a community_post_id, offer "Back to post" too
   const communityPostId = (order as CustomOrder & { community_post_id?: number | null }).community_post_id;

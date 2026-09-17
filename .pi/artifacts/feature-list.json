@@ -1,0 +1,48 @@
+{
+  "project": "Beldify — guest cart items added but not shown in frontend (guest_token cart lookup mismatch)",
+  "tasks": [
+    {
+      "id": "task-001",
+      "title": "Fix CartController::show() guest cart lookup to filter status=active + latest",
+      "status": "pending",
+      "files": ["beldify-backend/app/Http/Controllers/CartController.php"],
+      "acceptance": [
+        "show() resolves guest cart by guest_token AND status='active' (mirrors addItem firstOrCreate key)",
+        "When multiple carts exist for the same guest_token, the most recent active one is returned (->latest('id')->first())",
+        "show() still creates a new active cart only when NO active cart exists for the token",
+        "Existing GuestCartAccessTest::guest_can_view_cart_using_x_guest_token_header passes",
+        "New test: guest with an abandoned (non-active) cart + a newer active cart → show() returns the active one with items"
+      ],
+      "dependencies": [],
+      "estimatedSteps": 4
+    },
+    {
+      "id": "task-002",
+      "title": "Make frontend cart cache guest-safe (don't persist empty-stale state across reloads)",
+      "status": "pending",
+      "files": ["beldify-frontend/src/contexts/CartContext.tsx", "beldify-frontend/src/app/api/cache/index.ts"],
+      "acceptance": [
+        "fetchCart(false) never serves a stale empty cache for a guest whose backend cart now has items — invalidateCache path already refetches (verify, no regression)",
+        "Cart cache is memory-only (Map); confirm it is not persisted to localStorage (root cause is backend, not cache) — document in code comment",
+        "No regression in cart-atlas-redesign / guest-shopping-flow tests"
+      ],
+      "dependencies": ["task-001"],
+      "estimatedSteps": 2
+    },
+    {
+      "id": "task-003",
+      "title": "Commit fix via git and deploy to production (MyContabo)",
+      "status": "pending",
+      "files": [],
+      "acceptance": [
+        "Commit on a feature branch (no direct main push) with message fix(cart): resolve guest cart not displayed by pinning show() to active cart",
+        "git pull on server at /var/local/beldify-monorepo + backend cache:clear",
+        "Frontend rebuilt on host (Node 22) and restarted — not inside broken docker-compose",
+        "Smoke check: guest add-to-cart → GET /api/cart returns the item (X-Guest-Token stable)"
+      ],
+      "dependencies": ["task-001", "task-002"],
+      "estimatedSteps": 5
+    }
+  ],
+  "doneCondition": "Guest can add an item and see it in /cart without refresh. Existing Cart feature tests pass. Production smoke test green."
+}

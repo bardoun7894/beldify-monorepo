@@ -2,11 +2,11 @@
 /**
  * Open Souk blind bidding — buyer-side "Contact seller" gating (F4).
  *
- * Locked rule: buyer↔seller messaging unlocks ONLY after the buyer ACCEPTS a
- * proposal. The "Contact seller" affordance must therefore render ONLY for the
- * post owner on the ACCEPTED proposal — never before acceptance, never for
- * non-owners. ResponseCard already deep-links to /community/messages/{shopId};
- * this test proves the gating, not the link target.
+ * Current rule (relaxed from the original accept-gate): the post owner may
+ * contact any seller who has SUBMITTED a proposal — before or after acceptance —
+ * so buyers can clarify details pre-hire. Non-owners never see the affordance.
+ * ResponseCard deep-links to /community/messages/{shopId}; this test proves
+ * the gating, not the link target.
  */
 import { describe, it, expect, vi, afterEach } from 'vitest';
 import React from 'react';
@@ -48,9 +48,10 @@ const baseResponse = (overrides: Partial<CommunityResponse> = {}): CommunityResp
 });
 
 describe('Open Souk — Contact seller gating (F4)', () => {
-  it('hides "Contact seller" on a PENDING proposal even for the post owner', () => {
+  it('shows "Contact seller" to the post owner on a PENDING (submitted) proposal', () => {
     render(<ResponseCard response={baseResponse({ status: 'pending' })} isPostOwner postId="10" />);
-    expect(screen.queryByTestId('contact-seller')).toBeNull();
+    const link = screen.getByTestId('contact-seller');
+    expect(link.getAttribute('href')).toBe('/community/messages/77?postId=10');
   });
 
   it('hides "Contact seller" for a NON-owner viewer on an accepted proposal', () => {

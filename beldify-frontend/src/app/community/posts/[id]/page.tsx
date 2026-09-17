@@ -33,11 +33,13 @@ import {
   fetchCommunityPost,
   fetchPostResponses,
   updateResponseStatus,
+  updateResponse,
 } from '@/services/communityService';
 import { CommunityPost, CommunityResponse, CommunityImage } from '@/types/community';
 import { S3_CONFIG, API_BASE_URL } from '@/config/constants';
 import LoadingSpinner from '@/components/common/LoadingSpinner';
 import ResponseCard from '@/components/community/ResponseCard';
+import ProposalChatPanel from '@/components/community/ProposalChatPanel';
 import { ProposalAiRanking } from '@/components/community/ProposalAiRanking';
 import { formatDistanceToNow } from 'date-fns';
 import { ar } from 'date-fns/locale';
@@ -59,6 +61,22 @@ function nameToGradient(name: string): string {
   ];
   const code = name.charCodeAt(0) || 0;
   return GRADIENTS[code % GRADIENTS.length];
+}
+
+/**
+ * Ownership check for the winner-selection flow. The backend serializes ids as
+ * strings (e.g. "4") while `user.id` is a number, so a strict `===` would always
+ * be false for the real owner and hide the Accept/Decline buttons. Coerce both
+ * sides to Number before comparing. Returns false when either id is missing.
+ */
+export function isPostOwnedBy(
+  ownerId: string | number | null | undefined,
+  userId: string | number | null | undefined
+): boolean {
+  if (ownerId == null || userId == null) return false;
+  const owner = Number(ownerId);
+  const viewer = Number(userId);
+  return !Number.isNaN(owner) && !Number.isNaN(viewer) && owner === viewer;
 }
 
 function timeAgo(dateString: string, isRTL: boolean): string {
@@ -101,6 +119,11 @@ export default function PostDetailPage() {
   const [buyerAvatarError, setBuyerAvatarError] = useState(false);
   // F5: once accept is called, show a "View your custom order" CTA
   const [acceptedCustomOrderId, setAcceptedCustomOrderId] = useState<number | null>(null);
+  // Inline proposal chat drawer — opened by a ResponseCard's Discuss/Message button.
+  const [discussTarget, setDiscussTarget] = useState<{
+    shopId: string;
+    response: CommunityResponse;
+  } | null>(null);
 
   useEffect(() => {
     if (!postId) return;
@@ -171,8 +194,7 @@ export default function PostDetailPage() {
   };
 
   const handleAcceptResponse = async (responseId: number) => {
-    const postUserId = post?.userId || post?.user?.id;
-    if (!post || postUserId !== Number(user?.id)) {
+    if (!post || !isPostOwnedBy(post.userId ?? post.user?.id, user?.id)) {
       toast.error(t('community.not_authorized', 'You are not authorized to perform this action'));
       return;
     }
@@ -200,8 +222,7 @@ export default function PostDetailPage() {
   };
 
   const handleRejectResponse = async (responseId: number) => {
-    const postUserId = post?.userId || post?.user?.id;
-    if (!post || postUserId !== Number(user?.id)) {
+    if (!post || !isPostOwnedBy(post.userId ?? post.user?.id, user?.id)) {
       toast.error(t('community.not_authorized', 'You are not authorized to perform this action'));
       return;
     }
@@ -218,6 +239,24 @@ export default function PostDetailPage() {
       toast.error(t('community.error_rejecting_response', 'Could not reject the response. Please try again.'));
     } finally {
       setIsSubmitting(false);
+    }
+  };
+
+  const handleUpdateResponse = async (responseId: string, formData: FormData) => {
+    try {
+      await updateResponse(responseId, {
+        description: String(formData.get('description') || ''),
+        price: formData.get('price') != null ? Number(formData.get('price')) : null,
+        delivery_days:
+          formData.get('delivery_days') != null ? Number(formData.get('delivery_days')) : null,
+        seller_skills: formData.getAll('seller_skills[]').map(String),
+      });
+      const updatedResponsesData = await fetchPostResponses(postId);
+      setResponses(updatedResponsesData || []);
+    } catch (err) {
+      logger.error('Error updating response:', err);
+      toast.error(t('community.error_updating_response', 'Could not update your proposal. Please try again.'));
+      throw err;
     }
   };
 
@@ -261,7 +300,7 @@ export default function PostDetailPage() {
     );
   }
 
-  const isMyPost = Number(user?.id) === (post.userId || post.user?.id);
+  const isMyPost = isPostOwnedBy(post.userId ?? post.user?.id, user?.id);
   const postIsOpen = post.status === 'open';
 
   // hasMyProposal guard — backend 422s a second submit, so hide the form
@@ -846,6 +885,8 @@ export default function PostDetailPage() {
                         isPostOwner={isMyPost}
                         onAccept={() => handleAcceptResponse(Number(response.id))}
                         onReject={() => handleRejectResponse(Number(response.id))}
+                        onUpdate={handleUpdateResponse}
+                        onDiscuss={(shopId, resp) => setDiscussTarget({ shopId, response: resp })}
                         postId={postId}
                         isSubmitting={isSubmitting}
                       />
@@ -883,6 +924,24 @@ export default function PostDetailPage() {
             {t('community.respond_in_dashboard', 'Reply in your seller dashboard')}
           </a>
         </div>
+      )}
+
+      {/* ── Inline proposal chat drawer (single-page Discuss) ──────────────── */}
+      {discussTarget && (
+        <ProposalChatPanel
+          shopId={discussTarget.shopId}
+          postId={String(postId)}
+          response={discussTarget.response}
+          shopName={
+            (discussTarget.response as any).seller?.shop?.name ??
+            discussTarget.response.shop?.name ??
+            discussTarget.response.shopName ??
+            discussTarget.response.userName ??
+            t('community.seller', 'Seller')
+          }
+          isAccepted={discussTarget.response.status === 'accepted'}
+          onClose={() => setDiscussTarget(null)}
+        />
       )}
     </div>
   );

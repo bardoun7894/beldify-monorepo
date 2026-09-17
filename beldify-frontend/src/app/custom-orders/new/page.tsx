@@ -14,7 +14,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import Link from 'next/link';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, ShieldCheck, MessageCircle, BadgeCheck } from 'lucide-react';
 import RequestCustomPieceForm from '@/components/community/RequestCustomPieceForm';
 
 const playfair = { fontFamily: '"Playfair Display", ui-serif, Georgia, serif' };
@@ -29,7 +29,7 @@ export default function NewCustomOrderPage() {
       <header className="sticky top-0 z-20 bg-white/95 backdrop-blur-sm border-b border-gray-200 px-6 py-4">
         <div className="max-w-xl mx-auto flex items-center gap-3">
           <Link
-            href="/categories/jewelry"
+            href="/community"
             className="rounded-full p-1.5 hover:bg-amber-100 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700/30"
             aria-label={t('customOrders.back', 'Back')}
           >
@@ -49,7 +49,7 @@ export default function NewCustomOrderPage() {
       {/* ── Body ── */}
       <main className="max-w-xl mx-auto px-6 pt-8">
         <p className="text-sm text-gray-500 mb-6">
-          {t('customOrders.new_intro', 'Tell us what you want. The only required field is Material — everything else is optional. Artisans will see it and reply.')}
+          {t('customOrders.new_intro', 'Tell us what you want. Just pick a category and a material — everything else is optional. Artisans will see it and reply.')}
         </p>
 
         <div className="bg-white rounded-2xl ring-1 ring-gray-200 p-6 shadow-sm">
@@ -59,13 +59,13 @@ export default function NewCustomOrderPage() {
         {/* Trust signals */}
         <div className="mt-6 grid grid-cols-3 gap-3 text-center">
           {[
-            { icon: '🔒', key: 'customOrders.trust.secure', fallback: 'Secure' },
-            { icon: '💬', key: 'customOrders.trust.seen_by_artisans', fallback: 'Seen by artisans' },
-            { icon: '⭐', key: 'customOrders.trust.verified_artisans', fallback: 'Verified artisans' },
-          ].map(item => (
-            <div key={item.key} className="rounded-xl bg-white ring-1 ring-gray-200 px-3 py-4">
-              <div className="text-2xl mb-1">{item.icon}</div>
-              <p className="text-xs text-gray-500 font-medium">{t(item.key, item.fallback)}</p>
+            { Icon: ShieldCheck, key: 'customOrders.trust.secure', fallback: 'Secure' },
+            { Icon: MessageCircle, key: 'customOrders.trust.seen_by_artisans', fallback: 'Seen by artisans' },
+            { Icon: BadgeCheck, key: 'customOrders.trust.verified_artisans', fallback: 'Verified artisans' },
+          ].map(({ Icon, key, fallback }) => (
+            <div key={key} className="rounded-xl bg-white ring-1 ring-gray-200 px-3 py-4">
+              <Icon className="h-5 w-5 mx-auto mb-2 text-indigo-700" strokeWidth={1.75} aria-hidden />
+              <p className="text-xs text-gray-500 font-medium">{t(key, fallback)}</p>
             </div>
           ))}
         </div>

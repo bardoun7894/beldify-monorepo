@@ -61,7 +61,7 @@ export default function ShopFilterBar({
         <button
           onClick={() => scroll('start')}
           aria-label={t('common.scroll_start', 'Scroll start')}
-          className="relative z-10 flex h-8 w-8 items-center justify-center rounded-full bg-white ring-1 ring-amber-200 hover:bg-amber-50 transition ms-1 focus-visible:ring-2 focus-visible:ring-indigo-700/30"
+          className="relative z-10 flex h-11 w-11 min-h-[44px] min-w-[44px] items-center justify-center rounded-full bg-white ring-1 ring-amber-200 hover:bg-amber-50 transition ms-1 focus-visible:ring-2 focus-visible:ring-indigo-700/30"
         >
           <ChevronLeft className="w-4 h-4 text-indigo-700" aria-hidden="true" />
         </button>
@@ -78,7 +78,7 @@ export default function ShopFilterBar({
           size="sm"
           onClick={onOpenFilters}
           aria-label={t('common.actions.filters', 'Open filters')}
-          className="flex items-center gap-1 sm:gap-1.5 whitespace-nowrap border-gray-200 hover:border-indigo-300 hover:bg-indigo-50 shadow-atlas-sm text-xs sm:text-sm px-2.5 sm:px-3 py-1.5 rounded-full"
+          className="flex items-center gap-1 sm:gap-1.5 whitespace-nowrap border-gray-200 hover:border-indigo-300 hover:bg-indigo-50 shadow-atlas-sm text-xs sm:text-sm px-2.5 sm:px-3 py-1.5 rounded-full min-h-[44px]"
         >
           <span className="flex h-5 w-5 items-center justify-center rounded-full bg-indigo-700 shrink-0">
             <SlidersHorizontal className="w-2.5 h-2.5 text-white" aria-hidden="true" />
@@ -97,7 +97,7 @@ export default function ShopFilterBar({
               onClick={() => onTypeChange(filter.id)}
               aria-pressed={isActive}
               className={cn(
-                'flex items-center gap-1 sm:gap-1.5 whitespace-nowrap transition-all duration-150 text-xs sm:text-sm px-2.5 sm:px-3 py-1.5 rounded-full',
+                'flex items-center gap-1 sm:gap-1.5 whitespace-nowrap transition-all duration-150 text-xs sm:text-sm px-2.5 sm:px-3 py-1.5 rounded-full min-h-[44px]',
                 isActive
                   ? 'bg-indigo-700 text-white hover:bg-indigo-800 border-indigo-700 shadow-atlas-sm'
                   : 'border-amber-200 hover:border-gray-300 hover:bg-amber-50'
@@ -121,7 +121,7 @@ export default function ShopFilterBar({
         <button
           onClick={() => scroll('end')}
           aria-label={t('common.scroll_end', 'Scroll end')}
-          className="relative z-10 flex h-8 w-8 items-center justify-center rounded-full bg-white ring-1 ring-amber-200 hover:bg-amber-50 transition me-1 focus-visible:ring-2 focus-visible:ring-indigo-700/30"
+          className="relative z-10 flex h-11 w-11 min-h-[44px] min-w-[44px] items-center justify-center rounded-full bg-white ring-1 ring-amber-200 hover:bg-amber-50 transition me-1 focus-visible:ring-2 focus-visible:ring-indigo-700/30"
         >
           <ChevronRight className="w-4 h-4 text-indigo-700" aria-hidden="true" />
         </button>

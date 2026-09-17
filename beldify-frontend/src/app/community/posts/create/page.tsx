@@ -45,6 +45,105 @@ const AVAILABLE_SKILLS = [
   { key: 'djellaba', ar: 'الجلابة', en: 'Djellaba Making' },
 ];
 
+// ─── Quick-start request templates ───────────────────────────────────────────
+// Tapping one prefills the form for a common Moroccan custom-fashion request so
+// the buyer never faces a blank page. Everything stays editable afterwards.
+// `categoryKeywords` are matched (best-effort) against the live category list.
+interface RequestTemplate {
+  key: string;
+  emoji: string;
+  titleAr: string;
+  titleEn: string;
+  descAr: string;
+  descEn: string;
+  skills: string[];
+  budget: { min: number; max: number };
+  timelineValue: string;
+  timelineUnit: 'days' | 'weeks' | 'months';
+  categoryKeywords: string[];
+}
+
+const REQUEST_TEMPLATES: RequestTemplate[] = [
+  {
+    key: 'caftan',
+    emoji: '👗',
+    titleAr: 'قفطان مخصص على قياسي',
+    titleEn: 'Custom caftan made to measure',
+    descAr: 'بغيت قفطان مخصص على قياسي. عندي فكرة على اللون والتطريز اللي بغيت. غادي نوفر القياسات والتفاصيل. شنو تنصحوني وشحال الثمن؟',
+    descEn: "I'd like a custom caftan made to my measurements. I have a colour and embroidery style in mind and will share exact measurements. What do you recommend, and what's your price?",
+    skills: ['caftan', 'embroidery', 'tailoring'],
+    budget: { min: 800, max: 2500 },
+    timelineValue: '3',
+    timelineUnit: 'weeks',
+    categoryKeywords: ['caftan', 'قفطان', 'kaftan'],
+  },
+  {
+    key: 'takchita',
+    emoji: '💍',
+    titleAr: 'تكشيطة العرس',
+    titleEn: 'Wedding takchita',
+    descAr: 'كنقلب على تكشيطة للعرس، راقية ومطرزة. بغيت شي حاجة فريدة على قياسي فأجل العرس. عافاك عطيني اقتراحاتك مع تصاور ديال خدمتك السابقة.',
+    descEn: "Looking for an elegant, embroidered wedding takchita — something unique, made to measure, ready before the wedding date. Please share suggestions and photos of your past work.",
+    skills: ['caftan', 'embroidery', 'weaving'],
+    budget: { min: 2000, max: 6000 },
+    timelineValue: '4',
+    timelineUnit: 'weeks',
+    categoryKeywords: ['takchita', 'تكشيطة', 'caftan', 'قفطان'],
+  },
+  {
+    key: 'djellaba',
+    emoji: '🧥',
+    titleAr: 'جلابة رجالية على القياس',
+    titleEn: "Men's djellaba, tailored",
+    descAr: 'بغيت جلابة رجالية مخيطة على قياسي، بقماش جيد. نقدر نوفر القياسات واللون. شحال الثمن وشحال ياخد من الوقت؟',
+    descEn: "I want a men's djellaba tailored to my measurements in good fabric. I can provide measurements and colour. What's the price and how long does it take?",
+    skills: ['djellaba', 'tailoring', 'weaving'],
+    budget: { min: 500, max: 1500 },
+    timelineValue: '2',
+    timelineUnit: 'weeks',
+    categoryKeywords: ['djellaba', 'جلابة', 'jellaba'],
+  },
+  {
+    key: 'gandoura',
+    emoji: '🧵',
+    titleAr: 'قندورة/عبايا مطرزة',
+    titleEn: 'Embroidered gandoura / abaya',
+    descAr: 'كنقلب على قندورة مطرزة على قياسي. عندي فكرة على الطراز والألوان. شاركني اقتراحاتك.',
+    descEn: "Looking for an embroidered gandoura made to measure. I have a style and colours in mind — share your suggestions.",
+    skills: ['embroidery', 'tailoring'],
+    budget: { min: 600, max: 2000 },
+    timelineValue: '3',
+    timelineUnit: 'weeks',
+    categoryKeywords: ['gandoura', 'قندورة', 'abaya', 'عباية'],
+  },
+  {
+    key: 'babouche',
+    emoji: '👞',
+    titleAr: 'بلغة جلدية مخصصة',
+    titleEn: 'Custom leather babouche',
+    descAr: 'بغيت بلغة جلدية مخصصة، بلون وقياس معينين. واش تقدر تصاوبها ليا؟ شحال الثمن؟',
+    descEn: "I'd like a custom pair of leather babouche in a specific colour and size. Can you make them for me, and what's the price?",
+    skills: ['leather'],
+    budget: { min: 200, max: 600 },
+    timelineValue: '1',
+    timelineUnit: 'weeks',
+    categoryKeywords: ['babouche', 'بلغة', 'leather', 'جلد'],
+  },
+  {
+    key: 'jewelry',
+    emoji: '💎',
+    titleAr: 'مجوهرات مخصصة',
+    titleEn: 'Custom jewelry',
+    descAr: 'كنقلب على قطعة مجوهرات مخصصة (خاتم/عقد). عندي تصميم فبالي ونقدر نوفر تصاور. شنو تنصحوني؟',
+    descEn: "Looking for a custom jewelry piece (ring/necklace). I have a design in mind and can share references. What do you recommend?",
+    skills: ['jewelry'],
+    budget: { min: 500, max: 3000 },
+    timelineValue: '2',
+    timelineUnit: 'weeks',
+    categoryKeywords: ['jewelry', 'مجوهرات', 'jewellery'],
+  },
+];
+
 // ─── Section heading ──────────────────────────────────────────────────────────
 function SectionHeading({
   icon,
@@ -308,6 +407,32 @@ export default function CreatePostPage() {
       prev.includes(skillKey) ? prev.filter((s) => s !== skillKey) : [...prev, skillKey]
     );
   }, []);
+
+  const [activeTemplate, setActiveTemplate] = useState<string | null>(null);
+
+  // Prefill the form from a quick-start template. Everything stays editable, and
+  // the category is auto-matched to the live list on a best-effort basis.
+  const applyTemplate = useCallback(
+    (tpl: RequestTemplate) => {
+      const matched = categories.find((c) =>
+        tpl.categoryKeywords.some((kw) => (c.name || '').toLowerCase().includes(kw.toLowerCase()))
+      );
+      setFormData((prev) => ({
+        ...prev,
+        title: isRTL ? tpl.titleAr : tpl.titleEn,
+        description: isRTL ? tpl.descAr : tpl.descEn,
+        categoryId: matched ? String(matched.id) : prev.categoryId,
+        budget: { ...prev.budget, min: tpl.budget.min, max: tpl.budget.max },
+        timelineValue: tpl.timelineValue,
+        timelineUnit: tpl.timelineUnit,
+        timeline: `${tpl.timelineValue} ${tpl.timelineUnit}`,
+      }));
+      setRequiredSkills(tpl.skills);
+      setValidationErrors({});
+      setActiveTemplate(tpl.key);
+    },
+    [categories, isRTL]
+  );
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
@@ -631,6 +756,35 @@ export default function CreatePostPage() {
               </div>
 
               <form onSubmit={handleSubmit} className="divide-y divide-gray-100">
+
+                {/* ── SECTION: Quick-start templates ───────────────────── */}
+                <section className="px-6 py-6 bg-gradient-to-br from-indigo-50/60 to-amber-50/40">
+                  <SectionHeading
+                    icon={<Sparkles size={14} />}
+                    title={t('community.templates_title', 'Start from a template')}
+                    subtitle={t('community.templates_hint', 'Tap one to prefill the form — then edit anything you like')}
+                  />
+                  <div className="flex gap-2.5 overflow-x-auto pb-1 -mx-1 px-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                    {REQUEST_TEMPLATES.map((tpl) => {
+                      const active = activeTemplate === tpl.key;
+                      return (
+                        <button
+                          type="button"
+                          key={tpl.key}
+                          onClick={() => applyTemplate(tpl)}
+                          className={`shrink-0 inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium transition-colors duration-150 ${
+                            active
+                              ? 'bg-indigo-700 text-white ring-1 ring-indigo-700'
+                              : 'bg-white text-indigo-800 ring-1 ring-indigo-200 hover:bg-indigo-50 hover:ring-indigo-300'
+                          }`}
+                        >
+                          <span className="text-base leading-none">{tpl.emoji}</span>
+                          {isRTL ? tpl.titleAr : tpl.titleEn}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </section>
 
                 {/* ── SECTION: Reference Photos ────────────────────────── */}
                 <section className="px-6 py-6">

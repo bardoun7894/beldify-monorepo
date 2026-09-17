@@ -6,6 +6,13 @@ import logger from '@/utils/consoleLogger';
 // API URL
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL!;
 
+// Mock fallbacks are dev-only fixtures. In production an empty backend list
+// must NOT be silently replaced with fabricated English entities (e.g. the
+// "Modern Stitch" / "Elite Fashion Studio" tailors or Gucci/Nike/Zara sellers)
+// — that leaks fake shops to real buyers. When false we return [] instead so
+// the UI shows its curated Moroccan editorial fallbacks / proper empty states.
+const ALLOW_MOCKS = process.env.NODE_ENV !== 'production';
+
 // Helper function to transform product data
 const transformProductData = (products: any[]) => {
   return products.map((product: any) => ({
@@ -358,24 +365,24 @@ export async function getHomeDataPayload() {
     const newArrivals = newArrivalsRaw.length > 0 ? newArrivalsRaw.map(product => ({
       ...product,
       image: product.main_image || (product.images && product.images[0]) || '',
-    })) : mockHomeData.newArrivals;
+    })) : (ALLOW_MOCKS ? mockHomeData.newArrivals : []);
 
     // Fetch men's traditional clothes
     const mensTraditional = await fetchMensTraditional().catch((error) => {
       logger.error('Failed to fetch men\'s traditional clothes:', error);
-      return mockHomeData.mensTraditional; // Use mock data as fallback
+      return ALLOW_MOCKS ? mockHomeData.mensTraditional : [];
     });
 
     // Fetch women's traditional clothes
     const womensTraditional = await fetchWomensTraditional().catch((error) => {
       logger.error('Failed to fetch women\'s traditional clothes:', error);
-      return mockHomeData.womensTraditional; // Use mock data as fallback
+      return ALLOW_MOCKS ? mockHomeData.womensTraditional : [];
     });
 
     // Fetch children's traditional clothes
     const childrensTraditional = await fetchChildrensTraditional().catch((error) => {
       logger.error('Failed to fetch children\'s traditional clothes:', error);
-      return mockHomeData.childrensTraditional; // Use mock data as fallback
+      return ALLOW_MOCKS ? mockHomeData.childrensTraditional : [];
     });
 
     // Fetch mega product offers
@@ -392,11 +399,11 @@ export async function getHomeDataPayload() {
       .get(`${API_BASE_URL}/api/recommended-tailors`)
       .then((r) => {
         const items = r.data?.data ?? r.data?.tailors ?? (Array.isArray(r.data) ? r.data : []);
-        return Array.isArray(items) && items.length > 0 ? items : mockRecommendedTailors;
+        return Array.isArray(items) && items.length > 0 ? items : (ALLOW_MOCKS ? mockRecommendedTailors : []);
       })
       .catch((error) => {
         logger.error('Failed to fetch recommended tailors:', error);
-        return mockRecommendedTailors;
+        return ALLOW_MOCKS ? mockRecommendedTailors : [];
       });
 
     // Fetch recommended sellers from live backend endpoint.
@@ -405,11 +412,11 @@ export async function getHomeDataPayload() {
       .get(`${API_BASE_URL}/api/recommended-sellers`)
       .then((r) => {
         const items = r.data?.data ?? r.data?.sellers ?? (Array.isArray(r.data) ? r.data : []);
-        return Array.isArray(items) && items.length > 0 ? items : mockRecommendedSellers;
+        return Array.isArray(items) && items.length > 0 ? items : (ALLOW_MOCKS ? mockRecommendedSellers : []);
       })
       .catch((error) => {
         logger.error('Failed to fetch recommended sellers:', error);
-        return mockRecommendedSellers;
+        return ALLOW_MOCKS ? mockRecommendedSellers : [];
       });
 
     // Fetch hero-config — admin-switchable between brand and campaign carousel.
@@ -432,12 +439,15 @@ export async function getHomeDataPayload() {
       });
 
     // Create the response data
+    // newArrivals & the three shelves already fall back to mocks (dev only)
+    // upstream — no second ungated fallback here or the ALLOW_MOCKS gate is
+    // defeated in production whenever the backend returns an empty list.
     return {
-      ...mockHomeData,
-      newArrivals: newArrivals.length > 0 ? newArrivals : mockHomeData.newArrivals,
-      mensTraditional: mensTraditional.length > 0 ? mensTraditional : mockHomeData.mensTraditional,
-      womensTraditional: womensTraditional.length > 0 ? womensTraditional : mockHomeData.womensTraditional,
-      childrensTraditional: childrensTraditional.length > 0 ? childrensTraditional : mockHomeData.childrensTraditional,
+      newArrivals,
+      mensTraditional,
+      womensTraditional,
+      childrensTraditional,
+      specialOffers: ALLOW_MOCKS ? mockHomeData.specialOffers : [],
       megaOffers,
       bestSellers,
       recommendedTailors,
@@ -446,11 +456,27 @@ export async function getHomeDataPayload() {
     };
   } catch (error) {
     logger.error('Error building home data payload:', error);
+    if (ALLOW_MOCKS) {
+      return {
+        bestSellers: [],
+        megaOffers: [],
+        hero: { mode: 'brand' as const, banners: [] },
+        ...mockHomeData,
+        recommendedTailors: mockRecommendedTailors,
+        recommendedSellers: mockRecommendedSellers,
+      };
+    }
     return {
+      newArrivals: [],
+      mensTraditional: [],
+      womensTraditional: [],
+      childrensTraditional: [],
+      specialOffers: [],
+      megaOffers: [],
       bestSellers: [],
-      ...mockHomeData,
-      recommendedTailors: mockRecommendedTailors,
-      recommendedSellers: mockRecommendedSellers,
+      recommendedTailors: [],
+      recommendedSellers: [],
+      hero: { mode: 'brand' as const, banners: [] },
     };
   }
 }
