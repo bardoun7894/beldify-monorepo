@@ -35,6 +35,7 @@ services:
     volumes:
       - ./beldify-backend:/var/www/html
       - /var/www/html/vendor
+      - ./beldify-backend/docker/nginx/ssl:/etc/nginx/ssl:ro
     depends_on:
       - app
     restart: unless-stopped
