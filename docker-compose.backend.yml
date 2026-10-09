@@ -31,10 +31,11 @@ services:
       dockerfile: docker/nginx/Dockerfile
     container_name: beldify-nginx-backend
     ports:
-      - "7894:80"
+      - "127.0.0.1:7894:80"
     volumes:
       - ./beldify-backend:/var/www/html
       - /var/www/html/vendor
+      - ./beldify-backend/docker/nginx/ssl:/etc/nginx/ssl:ro
     depends_on:
       - app
     restart: unless-stopped
@@ -43,7 +44,7 @@ services:
     image: mysql:8.0
     container_name: beldify-mysql
     ports:
-      - "3307:3306"
+      - "127.0.0.1:3307:3306"
     environment:
       MYSQL_DATABASE: beldify
       MYSQL_USER: beldify_user
@@ -61,7 +62,7 @@ services:
     image: redis:7-alpine
     container_name: beldify-redis
     ports:
-      - "6381:6379"
+      - "127.0.0.1:6381:6379"
     command: redis-server --requirepass beldify_secure_password
     restart: unless-stopped
 
